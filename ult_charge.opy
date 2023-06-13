@@ -7,6 +7,10 @@ globalvar ow1_ult_cost
 playervar ult_points
 playervar allow_ult_charge
 
+def updateUltPercent():
+    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
+
+
 rule "initialize overwatch 1 ultimate costs":
     ow1_ult_cost[heroID(Hero.DVA)] = 1540
     ow1_ult_cost[heroID(Hero.REINHARDT)] = 1540
@@ -83,7 +87,7 @@ rule "damage ult charge":
     @Condition eventPlayer.getUltCharge() < 100
     
     eventPlayer.ult_points += eventDamage
-    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
+    updateUltPercent()
 
 
 rule "healing ult charge":
@@ -92,7 +96,7 @@ rule "healing ult charge":
     @Condition eventPlayer.getUltCharge() < 100
     
     eventPlayer.ult_points += eventHealing
-    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
+    updateUltPercent()
 
 
 rule "passive ult charge":
@@ -102,7 +106,7 @@ rule "passive ult charge":
     
     wait(1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.ult_points += 5
-    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
+    updateUltPercent()
     if RULE_CONDITION:
         goto RULE_START
 
@@ -110,14 +114,14 @@ rule "passive ult charge":
 rule "reset ult charge after using ult":
     @Event eachPlayer
     @Condition eventPlayer.isUsingUltimate() == true
-    
-    eventPlayer.setUltCharge(0)
+
     eventPlayer.ult_points = 0
+    updateUltPercent()
 
 
 rule "reset ult after switching hero":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
     
-    eventPlayer.setUltCharge(0)
     eventPlayer.ult_points = 0
+    updateUltPercent()

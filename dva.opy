@@ -26,9 +26,10 @@ rule "pilot dva ult cost":
     @Condition eventPlayer.is_pilot_dva == true
     @Condition eventPlayer.isUsingUltimate() == false
     
-    ow1_ult_cost[heroID(Hero.DVA)] = 280.9
     eventPlayer.meka_ult_points = eventPlayer.ult_points
     eventPlayer.ult_points = 0
+    ow1_ult_cost[heroID(Hero.DVA)] = 280.9
+    updateUltPercent()
 
 
 rule "regular dva ult cost":
@@ -36,5 +37,6 @@ rule "regular dva ult cost":
     @Hero dva
     @Condition eventPlayer.is_pilot_dva == false
     
-    ow1_ult_cost[heroID(Hero.DVA)] = 1540
     eventPlayer.ult_points = eventPlayer.meka_ult_points
+    ow1_ult_cost[heroID(Hero.DVA)] = 1540
+    updateUltPercent()
