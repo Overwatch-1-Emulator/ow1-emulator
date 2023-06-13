@@ -5,7 +5,6 @@ globalvar ow1_ult_cost
 
 #Player variables
 playervar ult_points
-playervar ult_points_backup
 playervar allow_ult_charge
 
 rule "initialize overwatch 1 ultimate costs":
@@ -39,27 +38,6 @@ rule "initialize overwatch 1 ultimate costs":
     ow1_ult_cost[heroID(Hero.MERCY)] = 1820
     ow1_ult_cost[heroID(Hero.MOIRA)] = 2800
     ow1_ult_cost[heroID(Hero.ZENYATTA)] = 2310
-
-
-rule "pilot dva ult cost":
-    @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.getMaxHealth() < 300
-    @Condition eventPlayer.isUsingUltimate() == false
-    
-    ow1_ult_cost[heroID(Hero.DVA)] = 280.9
-    eventPlayer.ult_points_backup = eventPlayer.ult_points
-    eventPlayer.ult_points = 0
-
-
-rule "regular dva ult cost":
-    @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.getMaxHealth() >= 300
-    
-    ow1_ult_cost[heroID(Hero.DVA)] = 1540
-    eventPlayer.ult_points = eventPlayer.ult_points_backup
-    eventPlayer.ult_points_backup = 0
 
 
 rule "allow ult charge by default":
@@ -143,6 +121,3 @@ rule "reset ult after switching hero":
     
     eventPlayer.setUltCharge(0)
     eventPlayer.ult_points = 0
-    eventPlayer.ult_points_backup = 0
-
-
