@@ -1,9 +1,10 @@
-#Useful function macros
-#!define heroID(h) getAllHeroes().index(h)
-
 #Player variables
 playervar last_hero_played
 playervar hero_switched
+
+
+#Useful function macros
+#!define heroID(h) getAllHeroes().index(h)
 
 
 rule "detect hero switch":
