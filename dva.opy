@@ -9,7 +9,6 @@ rule "detect pilot dva":
     @Event eachPlayer
     @Hero dva
     @Condition eventPlayer.getMaxHealth() <= 0.5*ow1_hero_health[heroID(Hero.DVA)]
-    @Condition eventPlayer.getMaxHealth() > 0
 
     eventPlayer.is_pilot_dva = true
 
@@ -25,11 +24,11 @@ rule "pilot dva ult cost":
     @Event eachPlayer
     @Hero dva
     @Condition eventPlayer.is_pilot_dva == true
+    @Condition eventPlayer.isUsingUltimate() == false
     
     ow1_ult_cost[heroID(Hero.DVA)] = 280.9
     eventPlayer.meka_ult_points = eventPlayer.ult_points
-    if eventPlayer.isUsingUltimate() == false:
-        eventPlayer.ult_points = 0
+    eventPlayer.ult_points = 0
 
 
 rule "regular dva ult cost":
