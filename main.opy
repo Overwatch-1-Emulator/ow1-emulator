@@ -1,7 +1,7 @@
 settings {
     "main": {
         "description": "ecksdee#11729's attempt to accurately recreate Overwatch 1 in Overwatch 2 using workshop. See https://workshop.codes/KHTG0 for details",
-        "modeName": "Overwatch 1 Emulator v0.0.1.a7"
+        "modeName": "Overwatch 1 Emulator v0.0.1.a8"
     },
     "lobby": {
         "enableMatchVoiceChat": true,
