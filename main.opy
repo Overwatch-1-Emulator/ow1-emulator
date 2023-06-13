@@ -123,18 +123,18 @@ settings {
 
 #Global variables
 
-globalvar ow1_hero_health 0
-globalvar ow2_hero_health 1
-globalvar ow1_ult_cost 2
+globalvar ow1_hero_health
+globalvar ow2_hero_health
+globalvar ow1_ult_cost
 
 
 #Player variables
 
-playervar ult_points 0
-playervar last_hero_played 1
-playervar hero_switched 2
-playervar allow_ult_charge 3
-playervar ult_points_backup 4
+playervar ult_points
+playervar last_hero_played
+playervar hero_switched
+playervar allow_ult_charge
+playervar ult_points_backup
 
 
 rule "detect hero switch":
