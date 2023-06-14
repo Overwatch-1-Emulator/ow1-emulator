@@ -1,44 +1,79 @@
 #!include "./utilities.opy"
+#!include "./constants.opy"
 
-#Global variables
+# Global variables
 globalvar ow1_ult_cost
+globalvar ow2_ult_cost
 
-#Player variables
+# Player variables
 playervar ult_points
 playervar ult_points_backup
 playervar allow_ult_charge
 
 rule "initialize overwatch 1 ultimate costs":
-    ow1_ult_cost[heroID(Hero.DVA)] = 1540
-    ow1_ult_cost[heroID(Hero.REINHARDT)] = 1540
-    ow1_ult_cost[heroID(Hero.ROADHOG)] = 2240
-    ow1_ult_cost[heroID(Hero.SIGMA)] = 1960
-    ow1_ult_cost[heroID(Hero.WINSTON)] = 1540
-    ow1_ult_cost[heroID(Hero.HAMMOND)] = 1540
-    ow1_ult_cost[heroID(Hero.ZARYA)] = 2100
-    ow1_ult_cost[heroID(Hero.ASHE)] = 2240
-    ow1_ult_cost[heroID(Hero.BASTION)] = 2310
-    ow1_ult_cost[heroID(Hero.MCCREE)] = 1680
-    ow1_ult_cost[heroID(Hero.ECHO)] = 2254
-    ow1_ult_cost[heroID(Hero.GENJI)] = 1932
-    ow1_ult_cost[heroID(Hero.HANZO)] = 1680
-    ow1_ult_cost[heroID(Hero.JUNKRAT)] = 1925
-    ow1_ult_cost[heroID(Hero.MEI)] = 1610
-    ow1_ult_cost[heroID(Hero.PHARAH)] = 2100
-    ow1_ult_cost[heroID(Hero.REAPER)] = 2100
-    ow1_ult_cost[heroID(Hero.SOLDIER)] = 2310
-    ow1_ult_cost[heroID(Hero.SOMBRA)] = 1400
-    ow1_ult_cost[heroID(Hero.SYMMETRA)] = 1680
-    ow1_ult_cost[heroID(Hero.TORBJORN)] = 2142
-    ow1_ult_cost[heroID(Hero.TRACER)] = 1260
-    ow1_ult_cost[heroID(Hero.WIDOWMAKER)] = 1540
-    ow1_ult_cost[heroID(Hero.ANA)] = 2100
-    ow1_ult_cost[heroID(Hero.BAPTISTE)] = 2310
-    ow1_ult_cost[heroID(Hero.BRIGITTE)] = 2800
-    ow1_ult_cost[heroID(Hero.LUCIO)] = 2940
-    ow1_ult_cost[heroID(Hero.MERCY)] = 1820
-    ow1_ult_cost[heroID(Hero.MOIRA)] = 2800
-    ow1_ult_cost[heroID(Hero.ZENYATTA)] = 2310
+    ow1_ult_cost[heroID(Hero.DVA)] = ow1_ult_cost_DVA
+    ow1_ult_cost[heroID(Hero.REINHARDT)] = ow1_ult_cost_REINHARDT
+    ow1_ult_cost[heroID(Hero.ROADHOG)] = ow1_ult_cost_ROADHOG
+    ow1_ult_cost[heroID(Hero.SIGMA)] = ow1_ult_cost_SIGMA
+    ow1_ult_cost[heroID(Hero.WINSTON)] = ow1_ult_cost_WINSTON
+    ow1_ult_cost[heroID(Hero.HAMMOND)] = ow1_ult_cost_HAMMOND
+    ow1_ult_cost[heroID(Hero.ZARYA)] = ow1_ult_cost_ZARYA
+    ow1_ult_cost[heroID(Hero.ASHE)] = ow1_ult_cost_ASHE
+    ow1_ult_cost[heroID(Hero.BASTION)] = ow1_ult_cost_BASTION
+    ow1_ult_cost[heroID(Hero.MCCREE)] = ow1_ult_cost_MCCREE
+    ow1_ult_cost[heroID(Hero.ECHO)] = ow1_ult_cost_ECHO
+    ow1_ult_cost[heroID(Hero.GENJI)] = ow1_ult_cost_GENJI
+    ow1_ult_cost[heroID(Hero.HANZO)] = ow1_ult_cost_HANZO
+    ow1_ult_cost[heroID(Hero.JUNKRAT)] = ow1_ult_cost_JUNKRAT
+    ow1_ult_cost[heroID(Hero.MEI)] = ow1_ult_cost_MEI
+    ow1_ult_cost[heroID(Hero.PHARAH)] = ow1_ult_cost_PHARAH
+    ow1_ult_cost[heroID(Hero.REAPER)] = ow1_ult_cost_REAPER
+    ow1_ult_cost[heroID(Hero.SOLDIER)] = ow1_ult_cost_SOLDIER
+    ow1_ult_cost[heroID(Hero.SOMBRA)] = ow1_ult_cost_SOMBRA
+    ow1_ult_cost[heroID(Hero.SYMMETRA)] = ow1_ult_cost_SYMMETRA
+    ow1_ult_cost[heroID(Hero.TORBJORN)] = ow1_ult_cost_TORBJORN
+    ow1_ult_cost[heroID(Hero.TRACER)] = ow1_ult_cost_TRACER
+    ow1_ult_cost[heroID(Hero.WIDOWMAKER)] = ow1_ult_cost_WIDOWMAKER
+    ow1_ult_cost[heroID(Hero.ANA)] = ow1_ult_cost_ANA
+    ow1_ult_cost[heroID(Hero.BAPTISTE)] = ow1_ult_cost_BAPTISTE
+    ow1_ult_cost[heroID(Hero.BRIGITTE)] = ow1_ult_cost_BRIGITTE
+    ow1_ult_cost[heroID(Hero.LUCIO)] = ow1_ult_cost_LUCIO
+    ow1_ult_cost[heroID(Hero.MERCY)] = ow1_ult_cost_MERCY
+    ow1_ult_cost[heroID(Hero.MOIRA)] = ow1_ult_cost_MOIRA
+    ow1_ult_cost[heroID(Hero.ZENYATTA)] = ow1_ult_cost_ZENYATTA
+
+
+rule "initialize overwatch 1 ultimate costs":
+    ow2_ult_cost[heroID(Hero.DVA)] = ow2_ult_cost_DVA
+    ow2_ult_cost[heroID(Hero.REINHARDT)] = ow2_ult_cost_REINHARDT
+    ow2_ult_cost[heroID(Hero.ROADHOG)] = ow2_ult_cost_ROADHOG
+    ow2_ult_cost[heroID(Hero.SIGMA)] = ow2_ult_cost_SIGMA
+    ow2_ult_cost[heroID(Hero.WINSTON)] = ow2_ult_cost_WINSTON
+    ow2_ult_cost[heroID(Hero.HAMMOND)] = ow2_ult_cost_HAMMOND
+    ow2_ult_cost[heroID(Hero.ZARYA)] = ow2_ult_cost_ZARYA
+    ow2_ult_cost[heroID(Hero.ASHE)] = ow2_ult_cost_ASHE
+    ow2_ult_cost[heroID(Hero.BASTION)] = ow2_ult_cost_BASTION
+    ow2_ult_cost[heroID(Hero.MCCREE)] = ow2_ult_cost_MCCREE
+    ow2_ult_cost[heroID(Hero.ECHO)] = ow2_ult_cost_ECHO
+    ow2_ult_cost[heroID(Hero.GENJI)] = ow2_ult_cost_GENJI
+    ow2_ult_cost[heroID(Hero.HANZO)] = ow2_ult_cost_HANZO
+    ow2_ult_cost[heroID(Hero.JUNKRAT)] = ow2_ult_cost_JUNKRAT
+    ow2_ult_cost[heroID(Hero.MEI)] = ow2_ult_cost_MEI
+    ow2_ult_cost[heroID(Hero.PHARAH)] = ow2_ult_cost_PHARAH
+    ow2_ult_cost[heroID(Hero.REAPER)] = ow2_ult_cost_REAPER
+    ow2_ult_cost[heroID(Hero.SOLDIER)] = ow2_ult_cost_SOLDIER
+    ow2_ult_cost[heroID(Hero.SOMBRA)] = ow2_ult_cost_SOMBRA
+    ow2_ult_cost[heroID(Hero.SYMMETRA)] = ow2_ult_cost_SYMMETRA
+    ow2_ult_cost[heroID(Hero.TORBJORN)] = ow2_ult_cost_TORBJORN
+    ow2_ult_cost[heroID(Hero.TRACER)] = ow2_ult_cost_TRACER
+    ow2_ult_cost[heroID(Hero.WIDOWMAKER)] = ow2_ult_cost_WIDOWMAKER
+    ow2_ult_cost[heroID(Hero.ANA)] = ow2_ult_cost_ANA
+    ow2_ult_cost[heroID(Hero.BAPTISTE)] = ow2_ult_cost_BAPTISTE
+    ow2_ult_cost[heroID(Hero.BRIGITTE)] = ow2_ult_cost_BRIGITTE
+    ow2_ult_cost[heroID(Hero.LUCIO)] = ow2_ult_cost_LUCIO
+    ow2_ult_cost[heroID(Hero.MERCY)] = ow2_ult_cost_MERCY
+    ow2_ult_cost[heroID(Hero.MOIRA)] = ow2_ult_cost_MOIRA
+    ow2_ult_cost[heroID(Hero.ZENYATTA)] = ow2_ult_cost_ZENYATTA
 
 
 rule "pilot dva ult cost":

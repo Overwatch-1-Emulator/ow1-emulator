@@ -1,3 +1,6 @@
+#!include "./utilities.opy"
+#!include "./constants.opy"
+
 settings {
     "main": {
         "description": "ecksdee#11729's attempt to accurately recreate Overwatch 1 in Overwatch 2 using workshop. See https://workshop.codes/KHTG0 for details",
@@ -40,7 +43,8 @@ settings {
             "ana": {
                 "ammoClipSize%": 80,
                 "damageDealt%": 93,
-                "ability1Cooldown%": 86
+                "ability1Cooldown%": 86,
+                "ultGen%": percent(ow1_ult_cost_ANA/ow2_ult_cost_ANA)
             },
             "baptiste": {
                 "ammoClipSize%": 87,
