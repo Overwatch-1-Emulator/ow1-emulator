@@ -1,5 +1,8 @@
-#Useful function macros
+# Macro function for retrieving id of hero
 #!define heroID(h) getAllHeroes().index(h)
+
+# Macro function for converting decimal to percent
+#!define percent(p) 100*p
 
 #Player variables
 playervar last_hero_played
