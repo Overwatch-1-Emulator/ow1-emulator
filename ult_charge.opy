@@ -2,77 +2,43 @@
 #!include "./constants.opy"
 
 # Global variables
-globalvar ow1_ult_cost
-globalvar ow2_ult_cost
+globalvar ult_cost
 
 # Player variables
 playervar missing_ult_points
 playervar ult_compensation
 
 rule "initialize overwatch 1 ultimate costs":
-    ow1_ult_cost[heroID(Hero.DVA)] = ow1_ult_cost_DVA
-    ow1_ult_cost[heroID(Hero.REINHARDT)] = ow1_ult_cost_REINHARDT
-    ow1_ult_cost[heroID(Hero.ROADHOG)] = ow1_ult_cost_ROADHOG
-    ow1_ult_cost[heroID(Hero.SIGMA)] = ow1_ult_cost_SIGMA
-    ow1_ult_cost[heroID(Hero.WINSTON)] = ow1_ult_cost_WINSTON
-    ow1_ult_cost[heroID(Hero.HAMMOND)] = ow1_ult_cost_HAMMOND
-    ow1_ult_cost[heroID(Hero.ZARYA)] = ow1_ult_cost_ZARYA
-    ow1_ult_cost[heroID(Hero.ASHE)] = ow1_ult_cost_ASHE
-    ow1_ult_cost[heroID(Hero.BASTION)] = ow1_ult_cost_BASTION
-    ow1_ult_cost[heroID(Hero.MCCREE)] = ow1_ult_cost_MCCREE
-    ow1_ult_cost[heroID(Hero.ECHO)] = ow1_ult_cost_ECHO
-    ow1_ult_cost[heroID(Hero.GENJI)] = ow1_ult_cost_GENJI
-    ow1_ult_cost[heroID(Hero.HANZO)] = ow1_ult_cost_HANZO
-    ow1_ult_cost[heroID(Hero.JUNKRAT)] = ow1_ult_cost_JUNKRAT
-    ow1_ult_cost[heroID(Hero.MEI)] = ow1_ult_cost_MEI
-    ow1_ult_cost[heroID(Hero.PHARAH)] = ow1_ult_cost_PHARAH
-    ow1_ult_cost[heroID(Hero.REAPER)] = ow1_ult_cost_REAPER
-    ow1_ult_cost[heroID(Hero.SOLDIER)] = ow1_ult_cost_SOLDIER
-    ow1_ult_cost[heroID(Hero.SOMBRA)] = ow1_ult_cost_SOMBRA
-    ow1_ult_cost[heroID(Hero.SYMMETRA)] = ow1_ult_cost_SYMMETRA
-    ow1_ult_cost[heroID(Hero.TORBJORN)] = ow1_ult_cost_TORBJORN
-    ow1_ult_cost[heroID(Hero.TRACER)] = ow1_ult_cost_TRACER
-    ow1_ult_cost[heroID(Hero.WIDOWMAKER)] = ow1_ult_cost_WIDOWMAKER
-    ow1_ult_cost[heroID(Hero.ANA)] = ow1_ult_cost_ANA
-    ow1_ult_cost[heroID(Hero.BAPTISTE)] = ow1_ult_cost_BAPTISTE
-    ow1_ult_cost[heroID(Hero.BRIGITTE)] = ow1_ult_cost_BRIGITTE
-    ow1_ult_cost[heroID(Hero.LUCIO)] = ow1_ult_cost_LUCIO
-    ow1_ult_cost[heroID(Hero.MERCY)] = ow1_ult_cost_MERCY
-    ow1_ult_cost[heroID(Hero.MOIRA)] = ow1_ult_cost_MOIRA
-    ow1_ult_cost[heroID(Hero.ZENYATTA)] = ow1_ult_cost_ZENYATTA
-
-
-rule "initialize overwatch 1 ultimate costs":
-    ow2_ult_cost[heroID(Hero.DVA)] = ow2_ult_cost_DVA
-    ow2_ult_cost[heroID(Hero.REINHARDT)] = ow2_ult_cost_REINHARDT
-    ow2_ult_cost[heroID(Hero.ROADHOG)] = ow2_ult_cost_ROADHOG
-    ow2_ult_cost[heroID(Hero.SIGMA)] = ow2_ult_cost_SIGMA
-    ow2_ult_cost[heroID(Hero.WINSTON)] = ow2_ult_cost_WINSTON
-    ow2_ult_cost[heroID(Hero.HAMMOND)] = ow2_ult_cost_HAMMOND
-    ow2_ult_cost[heroID(Hero.ZARYA)] = ow2_ult_cost_ZARYA
-    ow2_ult_cost[heroID(Hero.ASHE)] = ow2_ult_cost_ASHE
-    ow2_ult_cost[heroID(Hero.BASTION)] = ow2_ult_cost_BASTION
-    ow2_ult_cost[heroID(Hero.MCCREE)] = ow2_ult_cost_MCCREE
-    ow2_ult_cost[heroID(Hero.ECHO)] = ow2_ult_cost_ECHO
-    ow2_ult_cost[heroID(Hero.GENJI)] = ow2_ult_cost_GENJI
-    ow2_ult_cost[heroID(Hero.HANZO)] = ow2_ult_cost_HANZO
-    ow2_ult_cost[heroID(Hero.JUNKRAT)] = ow2_ult_cost_JUNKRAT
-    ow2_ult_cost[heroID(Hero.MEI)] = ow2_ult_cost_MEI
-    ow2_ult_cost[heroID(Hero.PHARAH)] = ow2_ult_cost_PHARAH
-    ow2_ult_cost[heroID(Hero.REAPER)] = ow2_ult_cost_REAPER
-    ow2_ult_cost[heroID(Hero.SOLDIER)] = ow2_ult_cost_SOLDIER
-    ow2_ult_cost[heroID(Hero.SOMBRA)] = ow2_ult_cost_SOMBRA
-    ow2_ult_cost[heroID(Hero.SYMMETRA)] = ow2_ult_cost_SYMMETRA
-    ow2_ult_cost[heroID(Hero.TORBJORN)] = ow2_ult_cost_TORBJORN
-    ow2_ult_cost[heroID(Hero.TRACER)] = ow2_ult_cost_TRACER
-    ow2_ult_cost[heroID(Hero.WIDOWMAKER)] = ow2_ult_cost_WIDOWMAKER
-    ow2_ult_cost[heroID(Hero.ANA)] = ow2_ult_cost_ANA
-    ow2_ult_cost[heroID(Hero.BAPTISTE)] = ow2_ult_cost_BAPTISTE
-    ow2_ult_cost[heroID(Hero.BRIGITTE)] = ow2_ult_cost_BRIGITTE
-    ow2_ult_cost[heroID(Hero.LUCIO)] = ow2_ult_cost_LUCIO
-    ow2_ult_cost[heroID(Hero.MERCY)] = ow2_ult_cost_MERCY
-    ow2_ult_cost[heroID(Hero.MOIRA)] = ow2_ult_cost_MOIRA
-    ow2_ult_cost[heroID(Hero.ZENYATTA)] = ow2_ult_cost_ZENYATTA
+    ult_cost[heroID(Hero.DVA)] = ow1_ult_cost_DVA
+    ult_cost[heroID(Hero.REINHARDT)] = ow1_ult_cost_REINHARDT
+    ult_cost[heroID(Hero.ROADHOG)] = ow1_ult_cost_ROADHOG
+    ult_cost[heroID(Hero.SIGMA)] = ow1_ult_cost_SIGMA
+    ult_cost[heroID(Hero.WINSTON)] = ow1_ult_cost_WINSTON
+    ult_cost[heroID(Hero.HAMMOND)] = ow1_ult_cost_HAMMOND
+    ult_cost[heroID(Hero.ZARYA)] = ow1_ult_cost_ZARYA
+    ult_cost[heroID(Hero.ASHE)] = ow1_ult_cost_ASHE
+    ult_cost[heroID(Hero.BASTION)] = ow1_ult_cost_BASTION
+    ult_cost[heroID(Hero.MCCREE)] = ow1_ult_cost_MCCREE
+    ult_cost[heroID(Hero.ECHO)] = ow1_ult_cost_ECHO
+    ult_cost[heroID(Hero.GENJI)] = ow1_ult_cost_GENJI
+    ult_cost[heroID(Hero.HANZO)] = ow1_ult_cost_HANZO
+    ult_cost[heroID(Hero.JUNKRAT)] = ow1_ult_cost_JUNKRAT
+    ult_cost[heroID(Hero.MEI)] = ow1_ult_cost_MEI
+    ult_cost[heroID(Hero.PHARAH)] = ow1_ult_cost_PHARAH
+    ult_cost[heroID(Hero.REAPER)] = ow1_ult_cost_REAPER
+    ult_cost[heroID(Hero.SOLDIER)] = ow1_ult_cost_SOLDIER
+    ult_cost[heroID(Hero.SOMBRA)] = ow1_ult_cost_SOMBRA
+    ult_cost[heroID(Hero.SYMMETRA)] = ow1_ult_cost_SYMMETRA
+    ult_cost[heroID(Hero.TORBJORN)] = ow1_ult_cost_TORBJORN
+    ult_cost[heroID(Hero.TRACER)] = ow1_ult_cost_TRACER
+    ult_cost[heroID(Hero.WIDOWMAKER)] = ow1_ult_cost_WIDOWMAKER
+    ult_cost[heroID(Hero.ANA)] = ow1_ult_cost_ANA
+    ult_cost[heroID(Hero.BAPTISTE)] = ow1_ult_cost_BAPTISTE
+    ult_cost[heroID(Hero.BRIGITTE)] = ow1_ult_cost_BRIGITTE
+    ult_cost[heroID(Hero.LUCIO)] = ow1_ult_cost_LUCIO
+    ult_cost[heroID(Hero.MERCY)] = ow1_ult_cost_MERCY
+    ult_cost[heroID(Hero.MOIRA)] = ow1_ult_cost_MOIRA
+    ult_cost[heroID(Hero.ZENYATTA)] = ow1_ult_cost_ZENYATTA
 
 rule "Remember missing ult charge from damaging tank":
     @Event playerDealtDamage
@@ -89,12 +55,12 @@ rule "Remember missing ult charge from healing tank":
 
 rule "Compensate missing ult charge":
     @Event eachPlayer
-    @Condition eventPlayer.missing_ult_points/ow1_ult_cost[heroID(eventPlayer.getCurrentHero())] >= 0.01
+    @Condition eventPlayer.missing_ult_points/ult_cost[heroID(eventPlayer.getCurrentHero())] >= 0.01
 
     do:
-        eventPlayer.ult_compensation = percent(eventPlayer.missing_ult_points/ow1_ult_cost[heroID(eventPlayer.getCurrentHero())])
+        eventPlayer.ult_compensation = percent(eventPlayer.missing_ult_points/ult_cost[heroID(eventPlayer.getCurrentHero())])
         eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_compensation)
-        eventPlayer.missing_ult_points = eventPlayer.missing_ult_points - round(eventPlayer.ult_compensation)/100*ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]
+        eventPlayer.missing_ult_points = eventPlayer.missing_ult_points - round(eventPlayer.ult_compensation)/100*ult_cost[heroID(eventPlayer.getCurrentHero())]
     while (RULE_CONDITION)
 
 rule "Reset ult compensation after using ult or switching hero":
