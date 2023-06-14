@@ -96,3 +96,10 @@ rule "Compensate missing ult charge":
         eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_compensation)
         eventPlayer.missing_ult_points = eventPlayer.missing_ult_points - round(eventPlayer.ult_compensation)/100*ow2_ult_cost[heroID(eventPlayer.getCurrentHero())]
     while (RULE_CONDITION)
+
+rule "Reset ult compensation after using ult or switching hero":
+    @Event eachPlayer
+    @Condition eventPlayer.isUsingUltimate() or eventPlayer.hero_switched
+
+    eventPlayer.missing_ult_points = 0
+    eventPlayer.ult_compensation = 0
