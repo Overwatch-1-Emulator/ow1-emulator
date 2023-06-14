@@ -6,7 +6,7 @@ globalvar ow1_ult_cost
 globalvar ow2_ult_cost
 
 # Player variables
-playervar ult_points_from_tanks
+playervar missing_ult_points
 playervar ult_compensation
 
 rule "initialize overwatch 1 ultimate costs":
@@ -79,18 +79,20 @@ rule "Remember missing ult charge from damaging tank":
     @Condition victim != eventPlayer
     @Condition any([victim.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
 
-    eventPlayer.ult_points_from_tanks += eventDamage
+    eventPlayer.missing_ult_points += 0.3*eventDamage
 
 rule "Remember missing ult charge from healing tank":
     @Event playerDealtHealing
     @Condition any([healee.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
 
-    eventPlayer.ult_points_from_tanks += eventHealing
+    eventPlayer.missing_ult_points += 0.3*eventHealing
 
 rule "Compensate missing ult charge":
     @Event eachPlayer
-    @Condition 0.3*eventPlayer.ult_points_from_tanks/ow2_ult_cost[heroID(eventPlayer.getCurrentHero())] >= 0.01
+    @Condition eventPlayer.missing_ult_points/ow2_ult_cost[heroID(eventPlayer.getCurrentHero())] >= 0.01
 
-    eventPlayer.ult_compensation = percent(0.3*eventPlayer.ult_points_from_tanks/ow2_ult_cost[heroID(eventPlayer.getCurrentHero())])
-    eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_compensation)
-    eventPlayer.ult_points_from_tanks = eventPlayer.ult_points_from_tanks - round(eventPlayer.ult_compensation)/100*ow2_ult_cost[heroID(eventPlayer.getCurrentHero())]
+    do:
+        eventPlayer.ult_compensation = percent(eventPlayer.missing_ult_points/ow2_ult_cost[heroID(eventPlayer.getCurrentHero())])
+        eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_compensation)
+        eventPlayer.missing_ult_points = eventPlayer.missing_ult_points - round(eventPlayer.ult_compensation)/100*ow2_ult_cost[heroID(eventPlayer.getCurrentHero())]
+    while (RULE_CONDITION)

@@ -59,7 +59,8 @@ settings {
             },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
-                "ability2Cooldown%": 114
+                "ability2Cooldown%": 114,
+                "ultGen%": percent(ow1_ult_cost_DVA/ow2_ult_cost_DVA)
             },
             "genji": {
                 "ammoClipSize%": 125,
