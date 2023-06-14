@@ -7,17 +7,6 @@ globalvar ow2_hero_health
 #Player variables
 playervar percent_hp_scalar
 
-
-rule "detect hero switch":
-    @Event eachPlayer
-    @Condition eventPlayer.last_hero_played != eventPlayer.getCurrentHero()
-    
-    eventPlayer.hero_switched = true
-    eventPlayer.last_hero_played = eventPlayer.getCurrentHero()
-    wait()
-    eventPlayer.hero_switched = false
-
-
 rule "initialize overwatch 1 hero healths":
     ow1_hero_health[heroID(Hero.DVA)] = 600
     ow1_hero_health[heroID(Hero.REINHARDT)] = 500
@@ -27,14 +16,23 @@ rule "initialize overwatch 1 hero healths":
     ow1_hero_health[heroID(Hero.HAMMOND)] = 600
     ow1_hero_health[heroID(Hero.ZARYA)] = 400
 
-
-rule "modify hero health to overwatch 1":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_switched == true
     
+def fixHealth():
     eventPlayer.setMaxHealth(100)
     wait()
     ow2_hero_health[heroID(eventPlayer.getCurrentHero())] = eventPlayer.getMaxHealth()
     if ow1_hero_health[heroID(eventPlayer.getCurrentHero())] != 0:
         eventPlayer.percent_hp_scalar = 100 * ow1_hero_health[heroID(eventPlayer.getCurrentHero())] / ow2_hero_health[heroID(eventPlayer.getCurrentHero())]
         eventPlayer.setMaxHealth(eventPlayer.percent_hp_scalar)
+
+
+rule "fix health on hero switch":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_switched == true
+
+    # Try fixing health once, then repeat if it didn't fix
+    # loop needed because dva takes a while to spawn compared to other heroes
+    do:
+        fixHealth()
+        wait()
+    while (ow1_hero_health[heroID(eventPlayer.getCurrentHero())] != 0 and abs(eventPlayer.getMaxHealth() - ow1_hero_health[heroID(eventPlayer.getCurrentHero())]) > 0.1)
