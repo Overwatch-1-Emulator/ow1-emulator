@@ -3,7 +3,6 @@
 #!include "./ult_charge.opy"
 
 playervar is_pilot_dva
-playervar meka_ult_points
 
 rule "detect pilot dva":
     @Event eachPlayer
@@ -20,23 +19,17 @@ rule "detect meka dva":
     eventPlayer.is_pilot_dva = false
 
 
-rule "pilot dva ult cost":
+rule "set pilot dva ult cost":
     @Event eachPlayer
     @Hero dva
     @Condition eventPlayer.is_pilot_dva == true
-    @Condition eventPlayer.isUsingUltimate() == false
     
-    eventPlayer.meka_ult_points = eventPlayer.ult_points
-    eventPlayer.ult_points = 0
-    ow1_ult_cost[heroID(Hero.DVA)] = 280.9
-    updateUltPercent()
+    ult_cost[heroID(Hero.DVA)] = 280.9
 
 
-rule "regular dva ult cost":
+rule "set meka dva ult cost":
     @Event eachPlayer
     @Hero dva
     @Condition eventPlayer.is_pilot_dva == false
     
-    eventPlayer.ult_points = eventPlayer.meka_ult_points
-    ow1_ult_cost[heroID(Hero.DVA)] = 1540
-    updateUltPercent()
+    ult_cost[heroID(Hero.DVA)] = 1540
