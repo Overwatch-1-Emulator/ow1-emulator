@@ -46,9 +46,16 @@ settings {
                 "ability1Cooldown%": 86,
                 "ultGen%": percent(ow1_ult_cost_ANA/ow2_ult_cost_ANA)
             },
+            "ashe": {
+                "ultGen%": percent(ow1_ult_cost_ASHE/ow2_ult_cost_ASHE)
+            },
             "baptiste": {
                 "ammoClipSize%": 87,
-                "ability2Cooldown%": 109
+                "ability2Cooldown%": 109,
+                "ultGen%": percent(ow1_ult_cost_BAPTISTE/ow2_ult_cost_BAPTISTE)
+            },
+            "bastion": {
+                "ultGen%": percent(ow1_ult_cost_BASTION/ow2_ult_cost_BASTION)
             },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
@@ -74,7 +81,8 @@ settings {
                 "ammoClipSize%": 70
             },
             "tracer": {
-                "damageDealt%": 109
+                "damageDealt%": 109,
+                "ultGen%": percent(ow1_ult_cost_TRACER/ow2_ult_cost_TRACER)
             },
             "winston": {
                 "ability2Cooldown%": 108,
@@ -93,10 +101,6 @@ settings {
                 "ramattra",
                 "sojourn"
             ],
-            "general": {
-                "combatUltGen%": 0,
-                "passiveUltGen%": 0
-            }
         }
     }
 }

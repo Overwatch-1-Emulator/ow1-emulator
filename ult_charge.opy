@@ -6,9 +6,8 @@ globalvar ow1_ult_cost
 globalvar ow2_ult_cost
 
 # Player variables
-playervar ult_points
-playervar ult_points_backup
-playervar allow_ult_charge
+playervar ult_points_from_tanks
+playervar ult_compensation
 
 rule "initialize overwatch 1 ultimate costs":
     ow1_ult_cost[heroID(Hero.DVA)] = ow1_ult_cost_DVA
@@ -75,109 +74,23 @@ rule "initialize overwatch 1 ultimate costs":
     ow2_ult_cost[heroID(Hero.MOIRA)] = ow2_ult_cost_MOIRA
     ow2_ult_cost[heroID(Hero.ZENYATTA)] = ow2_ult_cost_ZENYATTA
 
-
-rule "pilot dva ult cost":
-    @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.getMaxHealth() < 300
-    @Condition eventPlayer.isUsingUltimate() == false
-    
-    ow1_ult_cost[heroID(Hero.DVA)] = 280.9
-    eventPlayer.ult_points_backup = eventPlayer.ult_points
-    eventPlayer.ult_points = 0
-
-
-rule "regular dva ult cost":
-    @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.getMaxHealth() >= 300
-    
-    ow1_ult_cost[heroID(Hero.DVA)] = 1540
-    eventPlayer.ult_points = eventPlayer.ult_points_backup
-    eventPlayer.ult_points_backup = 0
-
-
-rule "allow ult charge by default":
-    @Event eachPlayer
-    
-    eventPlayer.allow_ult_charge = true
-
-
-rule "disable ult charge when entering ult":
-    @Event eachPlayer
-    @Condition eventPlayer.isUsingUltimate() == true
-    
-    eventPlayer.allow_ult_charge = false
-
-
-rule "allow ult charge when exiting ult":
-    @Event eachPlayer
-    @Condition eventPlayer.isUsingUltimate() == false
-    
-    wait(2)
-    eventPlayer.allow_ult_charge = true
-
-
-rule "disable ult charge before game begins":
-    @Event eachPlayer
-    @Condition isGameInProgress() == false
-    @Condition isWaitingForPlayers() == false
-    
-    eventPlayer.allow_ult_charge = false
-
-
-rule "enable ult charge after game begins":
-    @Event eachPlayer
-    @Condition (isGameInProgress() or isWaitingForPlayers()) == true
-    
-    eventPlayer.allow_ult_charge = true
-
-
-rule "damage ult charge":
+rule "Remember missing ult charge from damaging tank":
     @Event playerDealtDamage
     @Condition victim != eventPlayer
-    @Condition eventPlayer.allow_ult_charge == true
-    @Condition eventPlayer.getUltCharge() < 100
-    
-    eventPlayer.ult_points += eventDamage
-    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
+    @Condition any([victim.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
 
+    eventPlayer.ult_points_from_tanks += eventDamage
 
-rule "healing ult charge":
+rule "Remember missing ult charge from healing tank":
     @Event playerDealtHealing
-    @Condition eventPlayer.allow_ult_charge == true
-    @Condition eventPlayer.getUltCharge() < 100
-    
-    eventPlayer.ult_points += eventHealing
-    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
+    @Condition any([healee.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
 
+    eventPlayer.ult_points_from_tanks += eventHealing
 
-rule "passive ult charge":
+rule "Compensate missing ult charge":
     @Event eachPlayer
-    @Condition eventPlayer.allow_ult_charge == true
-    @Condition eventPlayer.getUltCharge() < 100
-    
-    wait(1, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.ult_points += 5
-    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
-    if RULE_CONDITION:
-        goto RULE_START
+    @Condition 0.3*eventPlayer.ult_points_from_tanks/ow2_ult_cost[heroID(eventPlayer.getCurrentHero())] >= 0.01
 
-
-rule "reset ult charge after using ult":
-    @Event eachPlayer
-    @Condition eventPlayer.isUsingUltimate() == true
-    
-    eventPlayer.setUltCharge(0)
-    eventPlayer.ult_points = 0
-
-
-rule "reset ult after switching hero":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_switched == true
-    
-    eventPlayer.setUltCharge(0)
-    eventPlayer.ult_points = 0
-    eventPlayer.ult_points_backup = 0
-
-
+    eventPlayer.ult_compensation = percent(0.3*eventPlayer.ult_points_from_tanks/ow2_ult_cost[heroID(eventPlayer.getCurrentHero())])
+    eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_compensation)
+    eventPlayer.ult_points_from_tanks = eventPlayer.ult_points_from_tanks - round(eventPlayer.ult_compensation)/100*ow2_ult_cost[heroID(eventPlayer.getCurrentHero())]
