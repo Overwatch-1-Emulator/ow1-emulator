@@ -15,20 +15,8 @@ settings {
             "enableCompetitiveRules": true,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
-        "bountyHunter": {
-            "enabled": false,
-            "tankPassiveHealthBonus": "alwaysEnabled"
-        },
-        "ctf": {
-            "enabled": false,
-            "tankPassiveHealthBonus": "alwaysEnabled"
-        },
         "control": {
             "enableCompetitiveRules": true,
-            "tankPassiveHealthBonus": "alwaysEnabled"
-        },
-        "ffa": {
-            "enabled": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "escort": {
@@ -41,18 +29,6 @@ settings {
         },
         "practiceRange": {
             "enabledMaps": [],
-            "tankPassiveHealthBonus": "alwaysEnabled"
-        },
-        "push": {
-            "enabled": false,
-            "tankPassiveHealthBonus": "alwaysEnabled"
-        },
-        "skirmish": {
-            "enabled": false,
-            "tankPassiveHealthBonus": "alwaysEnabled"
-        },
-        "tdm": {
-            "enabled": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "general": {
