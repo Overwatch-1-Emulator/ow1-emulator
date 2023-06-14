@@ -9,6 +9,10 @@ playervar last_hero_played
 playervar hero_switched
 
 
+#Useful function macros
+#!define heroID(h) getAllHeroes().index(h)
+
+
 rule "detect hero switch":
     @Event eachPlayer
     @Condition eventPlayer.last_hero_played != eventPlayer.getCurrentHero()
