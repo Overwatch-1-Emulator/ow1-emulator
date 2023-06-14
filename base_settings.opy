@@ -57,14 +57,48 @@ settings {
             "bastion": {
                 "ultGen%": percent(ow1_ult_cost_BASTION/ow2_ult_cost_BASTION)
             },
+            "brigitte": {
+                "ultGen%": percent(ow1_ult_cost_BRIGITTE/ow2_ult_cost_BRIGITTE)
+            },
+            "mccree": {
+                "ultGen%": percent(ow1_ult_cost_MCCREE/ow2_ult_cost_MCCREE)
+            },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
                 "ability2Cooldown%": 114,
                 "ultGen%": percent(ow1_ult_cost_DVA/ow2_ult_cost_DVA)
             },
+            "echo": {
+                "ultGen%": percent(ow1_ult_cost_ECHO/ow2_ult_cost_ECHO)
+            },
             "genji": {
                 "ammoClipSize%": 125,
-                "damageDealt%": 107
+                "damageDealt%": 107,
+                "ultGen%": percent(ow1_ult_cost_GENJI/ow2_ult_cost_GENJI)
+            },
+            "hanzo": {
+                "ultGen%": percent(ow1_ult_cost_HANZO/ow2_ult_cost_HANZO)
+            },
+            "junkrat": {
+                "ultGen%": percent(ow1_ult_cost_JUNKRAT/ow2_ult_cost_JUNKRAT)
+            },
+            "lucio": {
+                "ultGen%": percent(ow1_ult_cost_LUCIO/ow2_ult_cost_LUCIO)
+            },
+            "mei": {
+                "ultGen%": percent(ow1_ult_cost_MEI/ow2_ult_cost_MEI)
+            },
+            "mercy": {
+                "ultGen%": percent(ow1_ult_cost_MERCY/ow2_ult_cost_MERCY)
+            },
+            "moira": {
+                "ultGen%": percent(ow1_ult_cost_MOIRA/ow2_ult_cost_MOIRA)
+            },
+            "pharah": {
+                "ultGen%": percent(ow1_ult_cost_PHARAH/ow2_ult_cost_PHARAH)
+            },
+            "reaper": {
+                "ultGen%": percent(ow1_ult_cost_REAPER/ow2_ult_cost_REAPER)
             },
             "reinhardt": {
                 "secondaryFireRechargeRate%": 139,
@@ -78,20 +112,38 @@ settings {
             "sigma": {
                 "secondaryFireRechargeRate%": 80
             },
+            "soldier": {
+                "ultGen%": percent(ow1_ult_cost_SOLDIER/ow2_ult_cost_SOLDIER)
+            },
+            "sombra": {
+                "ultGen%": percent(ow1_ult_cost_SOMBRA/ow2_ult_cost_SOMBRA)
+            },
             "symmetra": {
                 "ammoClipSize%": 70
+            },
+            "torbjorn": {
+                "ultGen%": percent(ow1_ult_cost_TORBJORN/ow2_ult_cost_TORBJORN)
             },
             "tracer": {
                 "damageDealt%": 109,
                 "ultGen%": percent(ow1_ult_cost_TRACER/ow2_ult_cost_TRACER)
+            },
+            "widowmaker": {
+                "ultGen%": percent(ow1_ult_cost_WIDOWMAKER/ow2_ult_cost_WIDOWMAKER)
             },
             "winston": {
                 "ability2Cooldown%": 108,
                 "ability1Cooldown%": 120,
                 "enableSecondaryFire": false
             },
+            "hammond": {
+                "ultGen%": percent(ow1_ult_cost_HAMMOND/ow2_ult_cost_HAMMOND)
+            },
             "zarya": {
                 "ability2Cooldown%": 80
+            },
+            "zenyatta": {
+                "ultGen%": percent(ow1_ult_cost_ZENYATTA/ow2_ult_cost_ZENYATTA)
             },
             "disabledHeroes": [
                 "doomfist",
