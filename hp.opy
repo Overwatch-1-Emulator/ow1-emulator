@@ -20,7 +20,6 @@ rule "initialize overwatch 1 hero healths":
 def fixHealth():
     eventPlayer.setMaxHealth(100)
     wait()
-    wait()
     ow2_hero_health[heroID(eventPlayer.getCurrentHero())] = eventPlayer.getMaxHealth()
     if ow1_hero_health[heroID(eventPlayer.getCurrentHero())] != 0:
         eventPlayer.percent_hp_scalar = 100 * ow1_hero_health[heroID(eventPlayer.getCurrentHero())] / ow2_hero_health[heroID(eventPlayer.getCurrentHero())]
@@ -31,4 +30,9 @@ rule "fix health on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
 
-    fixHealth()
+    # Try fixing health once, then repeat if it didn't fix
+    # loop needed because dva takes a while to spawn compared to other heroes
+    do:
+        fixHealth()
+        wait()
+    while (ow1_hero_health[heroID(eventPlayer.getCurrentHero())] != 0 and abs(eventPlayer.getMaxHealth() - ow1_hero_health[heroID(eventPlayer.getCurrentHero())]) > 0.1)
