@@ -89,17 +89,18 @@ rule "Remember missing ult charge from healing tank":
 
 rule "Compensate missing ult charge":
     @Event eachPlayer
-    @Condition eventPlayer.missing_ult_points/ow2_ult_cost[heroID(eventPlayer.getCurrentHero())] >= 0.01
+    @Condition eventPlayer.missing_ult_points/ow1_ult_cost[heroID(eventPlayer.getCurrentHero())] >= 0.01
 
     do:
-        eventPlayer.ult_compensation = percent(eventPlayer.missing_ult_points/ow2_ult_cost[heroID(eventPlayer.getCurrentHero())])
+        eventPlayer.ult_compensation = percent(eventPlayer.missing_ult_points/ow1_ult_cost[heroID(eventPlayer.getCurrentHero())])
         eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_compensation)
-        eventPlayer.missing_ult_points = eventPlayer.missing_ult_points - round(eventPlayer.ult_compensation)/100*ow2_ult_cost[heroID(eventPlayer.getCurrentHero())]
+        eventPlayer.missing_ult_points = eventPlayer.missing_ult_points - round(eventPlayer.ult_compensation)/100*ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]
     while (RULE_CONDITION)
 
 rule "Reset ult compensation after using ult or switching hero":
     @Event eachPlayer
     @Condition eventPlayer.isUsingUltimate() or eventPlayer.hero_switched
 
+    eventPlayer.setUltCharge(0)
     eventPlayer.missing_ult_points = 0
     eventPlayer.ult_compensation = 0
