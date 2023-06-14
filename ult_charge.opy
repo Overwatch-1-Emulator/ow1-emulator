@@ -101,6 +101,12 @@ rule "Reset ult compensation after using ult or switching hero":
     @Event eachPlayer
     @Condition eventPlayer.isUsingUltimate() or eventPlayer.hero_switched
 
-    eventPlayer.setUltCharge(0)
     eventPlayer.missing_ult_points = 0
     eventPlayer.ult_compensation = 0
+
+rule "Reset ult charge on hero switch":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_switched
+
+    wait()
+    eventPlayer.setUltCharge(0)
