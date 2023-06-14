@@ -20,6 +20,7 @@ rule "initialize overwatch 1 hero healths":
 def fixHealth():
     eventPlayer.setMaxHealth(100)
     wait()
+    wait()
     ow2_hero_health[heroID(eventPlayer.getCurrentHero())] = eventPlayer.getMaxHealth()
     if ow1_hero_health[heroID(eventPlayer.getCurrentHero())] != 0:
         eventPlayer.percent_hp_scalar = 100 * ow1_hero_health[heroID(eventPlayer.getCurrentHero())] / ow2_hero_health[heroID(eventPlayer.getCurrentHero())]
