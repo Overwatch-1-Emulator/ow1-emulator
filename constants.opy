@@ -59,3 +59,6 @@
 #!define ow2_ult_cost_MERCY 1820
 #!define ow2_ult_cost_MOIRA 2660
 #!define ow2_ult_cost_ZENYATTA 2310
+
+#!define ow2_barrier_health_REIN 1200
+#!define ow1_barrier_health_REIN 1600

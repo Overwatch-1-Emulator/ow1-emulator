@@ -102,7 +102,8 @@ settings {
             },
             "reinhardt": {
                 "secondaryFireRechargeRate%": 139,
-                "ability1Cooldown%": 143
+                "ability1Cooldown%": 143,
+                "health%": percent(ow1_barrier_health_REIN/ow2_barrier_health_REIN)
             },
             "roadhog": {
                 "ammoClipSize%": 83,
