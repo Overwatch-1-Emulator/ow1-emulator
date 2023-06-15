@@ -1,4 +1,5 @@
 #!include "./utilities.opy"
+#!include "./custom_health_handler.opy"
 
 #Global variables
 globalvar ow1_hero_health
@@ -39,9 +40,9 @@ rule "fix health on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
 
-    # Try fixing health once, then repeat if it didn't fix
-    # loop needed because dva takes a while to spawn compared to other heroes
-    fixHealth()
+    # fixHealth()
+    wait(3)
+    setCustomHealth(200, 100, 50)
     # DVa special case:
     # updating her max health updates the pilot health, but not her mech health for some reason
     # her mech has to be respawned for health change to go in effect
