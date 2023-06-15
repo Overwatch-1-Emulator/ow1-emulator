@@ -1,5 +1,6 @@
 #!include "./utilities.opy"
-#!include "./constants.opy"
+#!include "./ow1_constants.opy"
+#!include "./ow2_constants.opy"
 
 settings {
     "main": {
@@ -103,7 +104,7 @@ settings {
             "reinhardt": {
                 "secondaryFireRechargeRate%": 139,
                 "ability1Cooldown%": 143,
-                "health%": percent(ow1_barrier_health_REIN/ow2_barrier_health_REIN)
+                "health%": percent(ow1_barrier_health_REINHARDT/ow2_barrier_health_REINHARDT)
             },
             "roadhog": {
                 "ammoClipSize%": 83,
@@ -111,7 +112,8 @@ settings {
                 "damageDealt%": 110
             },
             "sigma": {
-                "secondaryFireRechargeRate%": 80
+                "secondaryFireRechargeRate%": 80,
+                "health%": percent(ow1_barrier_health_SIGMA/ow2_barrier_health_SIGMA),
             },
             "soldier": {
                 "ultGen%": percent(ow1_ult_cost_SOLDIER/ow2_ult_cost_SOLDIER)
@@ -135,13 +137,15 @@ settings {
             "winston": {
                 "ability2Cooldown%": 108,
                 "ability1Cooldown%": 120,
-                "enableSecondaryFire": false
+                "enableSecondaryFire": false,
+                "health%": percent(ow1_barrier_health_WINSTON/ow2_barrier_health_WINSTON),
             },
             "hammond": {
                 "ultGen%": percent(ow1_ult_cost_HAMMOND/ow2_ult_cost_HAMMOND)
             },
             "zarya": {
-                "ability2Cooldown%": 80
+                "ability2Cooldown%": 80,
+                "health%": percent(ow1_barrier_health_ZARYA/ow2_barrier_health_ZARYA),
             },
             "zenyatta": {
                 "ultGen%": percent(ow1_ult_cost_ZENYATTA/ow2_ult_cost_ZENYATTA)
