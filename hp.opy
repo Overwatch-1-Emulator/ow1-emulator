@@ -2,38 +2,25 @@
 #!include "./custom_health_handler.opy"
 
 #Global variables
-globalvar ow1_hero_health
-globalvar ow2_hero_health
+globalvar hero_health
+globalvar hero_health_normal
+globalvar hero_health_armor
+globalvar hero_health_shields
 
-#Player variables
-playervar hp_scalar
+playervar total_health
 playervar last_position
 
 rule "initialize overwatch 1 hero healths":
-    ow1_hero_health[heroID(Hero.DVA)] = 600
-    ow1_hero_health[heroID(Hero.REINHARDT)] = 500
-    ow1_hero_health[heroID(Hero.ROADHOG)] = 600
-    ow1_hero_health[heroID(Hero.SIGMA)] = 400
-    ow1_hero_health[heroID(Hero.WINSTON)] = 500
-    ow1_hero_health[heroID(Hero.HAMMOND)] = 600
-    ow1_hero_health[heroID(Hero.ZARYA)] = 400
+    hero_health[heroID(Hero.DVA)] = 600
+    hero_health[heroID(Hero.REINHARDT)] = 500
+    hero_health[heroID(Hero.ROADHOG)] = 600
+    hero_health[heroID(Hero.SIGMA)] = 400
+    hero_health[heroID(Hero.WINSTON)] = 500
+    hero_health[heroID(Hero.HAMMOND)] = 600
+    hero_health[heroID(Hero.ZARYA)] = 400
 
-    
-def fixHealth():
-    # Cache default values for lookup
-    if ow2_hero_health[heroID(eventPlayer.getCurrentHero())] == 0:
-        # Reset health to default
-        eventPlayer.setMaxHealth(100)
-        wait() # Wait for health change to go in effect before reading max health value
-        ow2_hero_health[heroID(eventPlayer.getCurrentHero())] = eventPlayer.getMaxHealth()
-
-    if ow1_hero_health[heroID(eventPlayer.getCurrentHero())] == 0:
-        ow1_hero_health[heroID(eventPlayer.getCurrentHero())] = ow2_hero_health[heroID(eventPlayer.getCurrentHero())]
-    
-    # Calculate scalar to increase/decrease health
-    eventPlayer.hp_scalar = ow1_hero_health[heroID(eventPlayer.getCurrentHero())] / ow2_hero_health[heroID(eventPlayer.getCurrentHero())]
-    # then apply the scalar
-    eventPlayer.setMaxHealth(percent(eventPlayer.hp_scalar))
+    hero_health_normal[heroID(Hero.REINHARDT)] = 300
+    hero_health_armor[heroID(Hero.REINHARDT)] = 200
 
 
 rule "fix health on hero switch":
@@ -42,7 +29,7 @@ rule "fix health on hero switch":
 
     # fixHealth()
     wait(3)
-    setCustomHealth(200, 100, 50)
+    setCustomHealth(hero_health_normal[eventPlayer.hero_id], hero_health_armor[eventPlayer.hero_id], hero_health_shields[eventPlayer.hero_id])
     # DVa special case:
     # updating her max health updates the pilot health, but not her mech health for some reason
     # her mech has to be respawned for health change to go in effect
