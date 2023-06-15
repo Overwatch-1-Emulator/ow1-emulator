@@ -1,148 +1,78 @@
 #!include "./utilities.opy"
+#!include "./constants.opy"
 
-#Global variables
-globalvar ow1_ult_cost
+# Global variables
+globalvar ult_cost
 
-#Player variables
-playervar ult_points
-playervar ult_points_backup
-playervar allow_ult_charge
+# Player variables
+playervar missing_ult_points
+playervar ult_compensation
 
 rule "initialize overwatch 1 ultimate costs":
-    ow1_ult_cost[heroID(Hero.DVA)] = 1540
-    ow1_ult_cost[heroID(Hero.REINHARDT)] = 1540
-    ow1_ult_cost[heroID(Hero.ROADHOG)] = 2240
-    ow1_ult_cost[heroID(Hero.SIGMA)] = 1960
-    ow1_ult_cost[heroID(Hero.WINSTON)] = 1540
-    ow1_ult_cost[heroID(Hero.HAMMOND)] = 1540
-    ow1_ult_cost[heroID(Hero.ZARYA)] = 2100
-    ow1_ult_cost[heroID(Hero.ASHE)] = 2240
-    ow1_ult_cost[heroID(Hero.BASTION)] = 2310
-    ow1_ult_cost[heroID(Hero.MCCREE)] = 1680
-    ow1_ult_cost[heroID(Hero.ECHO)] = 2254
-    ow1_ult_cost[heroID(Hero.GENJI)] = 1932
-    ow1_ult_cost[heroID(Hero.HANZO)] = 1680
-    ow1_ult_cost[heroID(Hero.JUNKRAT)] = 1925
-    ow1_ult_cost[heroID(Hero.MEI)] = 1610
-    ow1_ult_cost[heroID(Hero.PHARAH)] = 2100
-    ow1_ult_cost[heroID(Hero.REAPER)] = 2100
-    ow1_ult_cost[heroID(Hero.SOLDIER)] = 2310
-    ow1_ult_cost[heroID(Hero.SOMBRA)] = 1400
-    ow1_ult_cost[heroID(Hero.SYMMETRA)] = 1680
-    ow1_ult_cost[heroID(Hero.TORBJORN)] = 2142
-    ow1_ult_cost[heroID(Hero.TRACER)] = 1260
-    ow1_ult_cost[heroID(Hero.WIDOWMAKER)] = 1540
-    ow1_ult_cost[heroID(Hero.ANA)] = 2100
-    ow1_ult_cost[heroID(Hero.BAPTISTE)] = 2310
-    ow1_ult_cost[heroID(Hero.BRIGITTE)] = 2800
-    ow1_ult_cost[heroID(Hero.LUCIO)] = 2940
-    ow1_ult_cost[heroID(Hero.MERCY)] = 1820
-    ow1_ult_cost[heroID(Hero.MOIRA)] = 2800
-    ow1_ult_cost[heroID(Hero.ZENYATTA)] = 2310
+    ult_cost[heroID(Hero.DVA)] = ow1_ult_cost_DVA
+    ult_cost[heroID(Hero.REINHARDT)] = ow1_ult_cost_REINHARDT
+    ult_cost[heroID(Hero.ROADHOG)] = ow1_ult_cost_ROADHOG
+    ult_cost[heroID(Hero.SIGMA)] = ow1_ult_cost_SIGMA
+    ult_cost[heroID(Hero.WINSTON)] = ow1_ult_cost_WINSTON
+    ult_cost[heroID(Hero.HAMMOND)] = ow1_ult_cost_HAMMOND
+    ult_cost[heroID(Hero.ZARYA)] = ow1_ult_cost_ZARYA
+    ult_cost[heroID(Hero.ASHE)] = ow1_ult_cost_ASHE
+    ult_cost[heroID(Hero.BASTION)] = ow1_ult_cost_BASTION
+    ult_cost[heroID(Hero.MCCREE)] = ow1_ult_cost_MCCREE
+    ult_cost[heroID(Hero.ECHO)] = ow1_ult_cost_ECHO
+    ult_cost[heroID(Hero.GENJI)] = ow1_ult_cost_GENJI
+    ult_cost[heroID(Hero.HANZO)] = ow1_ult_cost_HANZO
+    ult_cost[heroID(Hero.JUNKRAT)] = ow1_ult_cost_JUNKRAT
+    ult_cost[heroID(Hero.MEI)] = ow1_ult_cost_MEI
+    ult_cost[heroID(Hero.PHARAH)] = ow1_ult_cost_PHARAH
+    ult_cost[heroID(Hero.REAPER)] = ow1_ult_cost_REAPER
+    ult_cost[heroID(Hero.SOLDIER)] = ow1_ult_cost_SOLDIER
+    ult_cost[heroID(Hero.SOMBRA)] = ow1_ult_cost_SOMBRA
+    ult_cost[heroID(Hero.SYMMETRA)] = ow1_ult_cost_SYMMETRA
+    ult_cost[heroID(Hero.TORBJORN)] = ow1_ult_cost_TORBJORN
+    ult_cost[heroID(Hero.TRACER)] = ow1_ult_cost_TRACER
+    ult_cost[heroID(Hero.WIDOWMAKER)] = ow1_ult_cost_WIDOWMAKER
+    ult_cost[heroID(Hero.ANA)] = ow1_ult_cost_ANA
+    ult_cost[heroID(Hero.BAPTISTE)] = ow1_ult_cost_BAPTISTE
+    ult_cost[heroID(Hero.BRIGITTE)] = ow1_ult_cost_BRIGITTE
+    ult_cost[heroID(Hero.LUCIO)] = ow1_ult_cost_LUCIO
+    ult_cost[heroID(Hero.MERCY)] = ow1_ult_cost_MERCY
+    ult_cost[heroID(Hero.MOIRA)] = ow1_ult_cost_MOIRA
+    ult_cost[heroID(Hero.ZENYATTA)] = ow1_ult_cost_ZENYATTA
 
-
-rule "pilot dva ult cost":
-    @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.getMaxHealth() < 300
-    @Condition eventPlayer.isUsingUltimate() == false
-    
-    ow1_ult_cost[heroID(Hero.DVA)] = 280.9
-    eventPlayer.ult_points_backup = eventPlayer.ult_points
-    eventPlayer.ult_points = 0
-
-
-rule "regular dva ult cost":
-    @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.getMaxHealth() >= 300
-    
-    ow1_ult_cost[heroID(Hero.DVA)] = 1540
-    eventPlayer.ult_points = eventPlayer.ult_points_backup
-    eventPlayer.ult_points_backup = 0
-
-
-rule "allow ult charge by default":
-    @Event eachPlayer
-    
-    eventPlayer.allow_ult_charge = true
-
-
-rule "disable ult charge when entering ult":
-    @Event eachPlayer
-    @Condition eventPlayer.isUsingUltimate() == true
-    
-    eventPlayer.allow_ult_charge = false
-
-
-rule "allow ult charge when exiting ult":
-    @Event eachPlayer
-    @Condition eventPlayer.isUsingUltimate() == false
-    
-    wait(2)
-    eventPlayer.allow_ult_charge = true
-
-
-rule "disable ult charge before game begins":
-    @Event eachPlayer
-    @Condition isGameInProgress() == false
-    @Condition isWaitingForPlayers() == false
-    
-    eventPlayer.allow_ult_charge = false
-
-
-rule "enable ult charge after game begins":
-    @Event eachPlayer
-    @Condition (isGameInProgress() or isWaitingForPlayers()) == true
-    
-    eventPlayer.allow_ult_charge = true
-
-
-rule "damage ult charge":
+rule "Remember missing ult charge from damaging tank":
     @Event playerDealtDamage
     @Condition victim != eventPlayer
-    @Condition eventPlayer.allow_ult_charge == true
-    @Condition eventPlayer.getUltCharge() < 100
-    
-    eventPlayer.ult_points += eventDamage
-    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
+    @Condition any([victim.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
 
+    eventPlayer.missing_ult_points += 0.3*eventDamage
 
-rule "healing ult charge":
+rule "Remember missing ult charge from healing tank":
     @Event playerDealtHealing
-    @Condition eventPlayer.allow_ult_charge == true
-    @Condition eventPlayer.getUltCharge() < 100
-    
-    eventPlayer.ult_points += eventHealing
-    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
+    @Condition any([healee.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
 
+    eventPlayer.missing_ult_points += 0.3*eventHealing
 
-rule "passive ult charge":
+rule "Compensate missing ult charge":
     @Event eachPlayer
-    @Condition eventPlayer.allow_ult_charge == true
-    @Condition eventPlayer.getUltCharge() < 100
-    
-    wait(1, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.ult_points += 5
-    eventPlayer.setUltCharge(100 * (eventPlayer.ult_points / ow1_ult_cost[heroID(eventPlayer.getCurrentHero())]))
-    if RULE_CONDITION:
-        goto RULE_START
+    @Condition eventPlayer.missing_ult_points/ult_cost[heroID(eventPlayer.getCurrentHero())] >= 0.01
 
+    do:
+        eventPlayer.ult_compensation = percent(eventPlayer.missing_ult_points/ult_cost[heroID(eventPlayer.getCurrentHero())])
+        eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_compensation)
+        eventPlayer.missing_ult_points = eventPlayer.missing_ult_points - round(eventPlayer.ult_compensation)/100*ult_cost[heroID(eventPlayer.getCurrentHero())]
+    while (RULE_CONDITION)
 
-rule "reset ult charge after using ult":
+rule "Reset ult compensation after using ult or switching hero":
     @Event eachPlayer
-    @Condition eventPlayer.isUsingUltimate() == true
-    
+    @Condition eventPlayer.isUsingUltimate() or eventPlayer.hero_switched
+
+    eventPlayer.missing_ult_points = 0
+    eventPlayer.ult_compensation = 0
+
+rule "Reset ult charge on hero switch":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_switched
+
+    wait()
     eventPlayer.setUltCharge(0)
-    eventPlayer.ult_points = 0
-
-
-rule "reset ult after switching hero":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_switched == true
-    
-    eventPlayer.setUltCharge(0)
-    eventPlayer.ult_points = 0
-    eventPlayer.ult_points_backup = 0
-
-
