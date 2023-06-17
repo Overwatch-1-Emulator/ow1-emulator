@@ -4,7 +4,7 @@
 
 settings {
     "main": {
-        "description": "ecksdee#11729's attempt to accurately recreate 6v6 Overwatch 1 in Overwatch 2 using workshop.\r\n\r\nFor gamemode details, see https://workshop.codes/KHTG0\r\nFor latest updates, see https://github.com/MaxwellJung/ow1_emulator\r\n",
+        "description": "ecksdee#11729's attempt to accurately recreate 6v6 Overwatch 1 in Overwatch 2 using workshop.\r\n\r\nFor gamemode details, see https://workshop.codes/overwatch1-emulator\r\nFor latest updates, see https://github.com/MaxwellJung/ow1_emulator\r\n",
         "modeName": "Overwatch 1 Emulator (staging build)"
     },
     "lobby": {
