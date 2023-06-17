@@ -63,7 +63,7 @@ rule "fix health on hero switch":
     @Condition eventPlayer.hero_switched == true
 
     do:
-        wait(0.1)
+        wait(0.2)
         setCustomHealth(hero_health_normal[eventPlayer.hero_id], hero_health_armor[eventPlayer.hero_id], hero_health_shields[eventPlayer.hero_id])
     while (eventPlayer.getMaxHealth() != hero_health_normal[eventPlayer.hero_id] + hero_health_armor[eventPlayer.hero_id] + hero_health_shields[eventPlayer.hero_id])
     
