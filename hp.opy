@@ -62,13 +62,15 @@ rule "fix health on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
 
-    # fixHealth()
-    wait(0.25)
-    setCustomHealth(hero_health_normal[eventPlayer.hero_id], hero_health_armor[eventPlayer.hero_id], hero_health_shields[eventPlayer.hero_id])
-    # DVa special case:
-    # updating her max health updates the pilot health, but not her mech health for some reason
-    # her mech has to be respawned for health change to go in effect
-    if eventPlayer.getCurrentHero() == Hero.DVA:
-        eventPlayer.last_position = eventPlayer.getPosition()
-        eventPlayer.respawn()
-        eventPlayer.teleport(eventPlayer.last_position)
+    do:
+        wait(0.1)
+        setCustomHealth(hero_health_normal[eventPlayer.hero_id], hero_health_armor[eventPlayer.hero_id], hero_health_shields[eventPlayer.hero_id])
+    while (eventPlayer.getMaxHealth() != hero_health_normal[eventPlayer.hero_id] + hero_health_armor[eventPlayer.hero_id] + hero_health_shields[eventPlayer.hero_id])
+    
+    # # DVa special case:
+    # # updating her max health updates the pilot health, but not her mech health for some reason
+    # # her mech has to be respawned for health change to go in effect
+    # if eventPlayer.getCurrentHero() == Hero.DVA:
+    #     eventPlayer.last_position = eventPlayer.getPosition()
+    #     eventPlayer.respawn()
+    #     eventPlayer.teleport(eventPlayer.last_position)
