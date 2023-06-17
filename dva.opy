@@ -7,14 +7,14 @@ playervar is_pilot_dva
 rule "detect pilot dva":
     @Event eachPlayer
     @Hero dva
-    @Condition eventPlayer.getMaxHealth() <= 0.5*ow1_hero_health[heroID(Hero.DVA)]
+    @Condition eventPlayer.getMaxHealth() <= 0.5*hero_health[heroID(Hero.DVA)]
 
     eventPlayer.is_pilot_dva = true
 
 rule "detect meka dva":
     @Event eachPlayer
     @Hero dva
-    @Condition eventPlayer.getMaxHealth() > 0.5*ow1_hero_health[heroID(Hero.DVA)]
+    @Condition eventPlayer.getMaxHealth() > 0.5*hero_health[heroID(Hero.DVA)]
 
     eventPlayer.is_pilot_dva = false
 
