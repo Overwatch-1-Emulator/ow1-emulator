@@ -4,8 +4,8 @@
 
 settings {
     "main": {
-        "description": "ecksdee#11729's attempt to accurately recreate Overwatch 1 in Overwatch 2 using workshop. See https://workshop.codes/KHTG0 for details",
-        "modeName": "Overwatch 1 Emulator v0.0.1"
+        "description": "ecksdee#11729's attempt to accurately recreate 6v6 Overwatch 1 in Overwatch 2 using workshop.\r\n\r\nFor gamemode details, see https://workshop.codes/overwatch1-emulator\r\nFor latest updates, see https://github.com/MaxwellJung/ow1_emulator\r\n\r\nmain build: KHTG0\r\nstaging build: ESMXJ",
+        "modeName": "Overwatch 1 Emulator"
     },
     "lobby": {
         "enableMatchVoiceChat": true,
@@ -16,19 +16,19 @@ settings {
     },
     "gamemodes": {
         "assault": {
-            "enableCompetitiveRules": true,
+            "enableCompetitiveRules": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "control": {
-            "enableCompetitiveRules": true,
+            "enableCompetitiveRules": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "escort": {
-            "enableCompetitiveRules": true,
+            "enableCompetitiveRules": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "hybrid": {
-            "enableCompetitiveRules": true,
+            "enableCompetitiveRules": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "practiceRange": {
