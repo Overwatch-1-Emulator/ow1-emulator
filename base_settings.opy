@@ -16,19 +16,19 @@ settings {
     },
     "gamemodes": {
         "assault": {
-            "enableCompetitiveRules": true,
+            "enableCompetitiveRules": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "control": {
-            "enableCompetitiveRules": true,
+            "enableCompetitiveRules": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "escort": {
-            "enableCompetitiveRules": true,
+            "enableCompetitiveRules": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "hybrid": {
-            "enableCompetitiveRules": true,
+            "enableCompetitiveRules": false,
             "tankPassiveHealthBonus": "alwaysEnabled"
         },
         "practiceRange": {
