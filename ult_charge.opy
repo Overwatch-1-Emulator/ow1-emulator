@@ -45,8 +45,8 @@ rule "initialize overwatch 1 ultimate costs":
 def compensateUltPercent():
     @Name "[ult_charge.opy]: Compensate missing ultimate percentage"
     
-    while percent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id]) >= 1:
-        eventPlayer.ult_percent_compensated = roundedPercent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id])
+    if eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id] > 0:
+        eventPlayer.ult_percent_compensated = percent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id]) + 3 # add 3% extra to compensate for rounding error
         eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_percent_compensated)
         eventPlayer.ult_charge_compensated = percentOf(eventPlayer.ult_percent_compensated, ult_cost[eventPlayer.hero_id])
         eventPlayer.missing_ult_points -= eventPlayer.ult_charge_compensated
