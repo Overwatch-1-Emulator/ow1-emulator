@@ -16,27 +16,40 @@ settings {
     },
     "gamemodes": {
         "assault": {
-            "enableCompetitiveRules": false,
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "disabledMaps": [
+                "hanamuraWinter"
+            ],
+            "enableCompetitiveRules": false
         },
         "control": {
-            "enableCompetitiveRules": false,
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "disabledMaps": [
+                "lijiangTowerLny"
+            ],
+            "enableCompetitiveRules": false
         },
         "escort": {
-            "enableCompetitiveRules": false,
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "disabledMaps": [
+                "circuitRoyal",
+                "shambaliMonastery"
+            ],
+            "enableCompetitiveRules": false
         },
         "hybrid": {
-            "enableCompetitiveRules": false,
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "disabledMaps": [
+                "blizzWorldWinter",
+                "eichenwaldeHalloween",
+                "hollywoodHalloween",
+                "kingsRowWinter",
+                "midtown"
+            ],
+            "enableCompetitiveRules": false
         },
         "practiceRange": {
-            "enabledMaps": [],
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "enabledMaps": []
         },
         "general": {
-            "roleLimit": "2OfEachRolePerTeam"
+            "roleLimit": "2OfEachRolePerTeam",
+            "tankPassiveHealthBonus": "alwaysEnabled"
         }
     },
     "heroes": {
