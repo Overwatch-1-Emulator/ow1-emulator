@@ -4,6 +4,12 @@
 # Macro function for converting decimal to percent
 #!define percent(p) 100*p
 
+# Macro function for converting decimal to percent
+#!define roundedPercent(p) round(100*p)
+
+# Macro function for converting decimal to percent
+#!define percentOf(p, n) p/100*n
+
 #Useful function macros
 #!define heroID(h) getAllHeroes().index(h)
 

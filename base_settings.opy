@@ -117,16 +117,19 @@ settings {
             "reinhardt": {
                 "secondaryFireRechargeRate%": 139,
                 "ability1Cooldown%": 143,
-                "health%": percent(ow1_barrier_health_REINHARDT/ow2_barrier_health_REINHARDT)
+                "health%": percent(ow1_barrier_health_REINHARDT/ow2_barrier_health_REINHARDT),
+                "ultGen%": percent(ow1_ult_cost_REINHARDT/ow2_ult_cost_REINHARDT)
             },
             "roadhog": {
                 "ammoClipSize%": 83,
                 "ability1Cooldown%": 133,
-                "damageDealt%": 110
+                "damageDealt%": 110,
+                "ultGen%": percent(ow1_ult_cost_ROADHOG/ow2_ult_cost_ROADHOG)
             },
             "sigma": {
                 "secondaryFireRechargeRate%": 80,
                 "health%": percent(ow1_barrier_health_SIGMA/ow2_barrier_health_SIGMA),
+                "ultGen%": percent(ow1_ult_cost_SIGMA/ow2_ult_cost_SIGMA)
             },
             "soldier": {
                 "ultGen%": percent(ow1_ult_cost_SOLDIER/ow2_ult_cost_SOLDIER)
@@ -135,7 +138,8 @@ settings {
                 "ultGen%": percent(ow1_ult_cost_SOMBRA/ow2_ult_cost_SOMBRA)
             },
             "symmetra": {
-                "ammoClipSize%": 70
+                "ammoClipSize%": 70,
+                "ultGen%": percent(ow1_ult_cost_SYMMETRA/ow2_ult_cost_SYMMETRA)
             },
             "torbjorn": {
                 "ultGen%": percent(ow1_ult_cost_TORBJORN/ow2_ult_cost_TORBJORN)
