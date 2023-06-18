@@ -10,6 +10,7 @@
 #Player variables
 playervar last_hero_played
 playervar hero_switched
+playervar hero_id
 
 rule "detect hero switch":
     @Event eachPlayer
@@ -17,5 +18,6 @@ rule "detect hero switch":
     
     eventPlayer.hero_switched = true
     eventPlayer.last_hero_played = eventPlayer.getCurrentHero()
+    eventPlayer.hero_id = heroID(eventPlayer.last_hero_played)
     wait()
     eventPlayer.hero_switched = false

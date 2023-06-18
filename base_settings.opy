@@ -1,10 +1,11 @@
 #!include "./utilities.opy"
-#!include "./constants.opy"
+#!include "./ow1_constants.opy"
+#!include "./ow2_constants.opy"
 
 settings {
     "main": {
-        "description": "ecksdee#11729's attempt to accurately recreate Overwatch 1 in Overwatch 2 using workshop. See https://workshop.codes/KHTG0 for details",
-        "modeName": "Overwatch 1 Emulator v0.0.1"
+        "description": "ecksdee#11729's attempt to accurately recreate 6v6 Overwatch 1 in Overwatch 2 using workshop.\r\n\r\nFor gamemode details, see https://workshop.codes/overwatch1-emulator\r\nFor latest updates, see https://github.com/MaxwellJung/ow1_emulator\r\n\r\nmain build: KHTG0\r\nstaging build: ESMXJ",
+        "modeName": "Overwatch 1 Emulator"
     },
     "lobby": {
         "enableMatchVoiceChat": true,
@@ -15,27 +16,40 @@ settings {
     },
     "gamemodes": {
         "assault": {
-            "enableCompetitiveRules": true,
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "disabledMaps": [
+                "hanamuraWinter"
+            ],
+            "enableCompetitiveRules": false
         },
         "control": {
-            "enableCompetitiveRules": true,
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "disabledMaps": [
+                "lijiangTowerLny"
+            ],
+            "enableCompetitiveRules": false
         },
         "escort": {
-            "enableCompetitiveRules": true,
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "disabledMaps": [
+                "circuitRoyal",
+                "shambaliMonastery"
+            ],
+            "enableCompetitiveRules": false
         },
         "hybrid": {
-            "enableCompetitiveRules": true,
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "disabledMaps": [
+                "blizzWorldWinter",
+                "eichenwaldeHalloween",
+                "hollywoodHalloween",
+                "kingsRowWinter",
+                "midtown"
+            ],
+            "enableCompetitiveRules": false
         },
         "practiceRange": {
-            "enabledMaps": [],
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "enabledMaps": []
         },
         "general": {
-            "roleLimit": "2OfEachRolePerTeam"
+            "roleLimit": "2OfEachRolePerTeam",
+            "tankPassiveHealthBonus": "alwaysEnabled"
         }
     },
     "heroes": {
@@ -72,7 +86,7 @@ settings {
                 "ultGen%": percent(ow1_ult_cost_ECHO/ow2_ult_cost_ECHO)
             },
             "genji": {
-                "ammoClipSize%": 125,
+                "ammoClipSize%": percent(ow1_ammo_count_GENJI/ow2_ammo_count_GENJI),
                 "damageDealt%": 107,
                 "ultGen%": percent(ow1_ult_cost_GENJI/ow2_ult_cost_GENJI)
             },
@@ -102,7 +116,8 @@ settings {
             },
             "reinhardt": {
                 "secondaryFireRechargeRate%": 139,
-                "ability1Cooldown%": 143
+                "ability1Cooldown%": 143,
+                "health%": percent(ow1_barrier_health_REINHARDT/ow2_barrier_health_REINHARDT)
             },
             "roadhog": {
                 "ammoClipSize%": 83,
@@ -110,7 +125,8 @@ settings {
                 "damageDealt%": 110
             },
             "sigma": {
-                "secondaryFireRechargeRate%": 80
+                "secondaryFireRechargeRate%": 80,
+                "health%": percent(ow1_barrier_health_SIGMA/ow2_barrier_health_SIGMA),
             },
             "soldier": {
                 "ultGen%": percent(ow1_ult_cost_SOLDIER/ow2_ult_cost_SOLDIER)
@@ -134,13 +150,15 @@ settings {
             "winston": {
                 "ability2Cooldown%": 108,
                 "ability1Cooldown%": 120,
-                "enableSecondaryFire": false
+                "enableSecondaryFire": false,
+                "health%": percent(ow1_barrier_health_WINSTON/ow2_barrier_health_WINSTON),
             },
             "hammond": {
                 "ultGen%": percent(ow1_ult_cost_HAMMOND/ow2_ult_cost_HAMMOND)
             },
             "zarya": {
-                "ability2Cooldown%": 80
+                "ability2Cooldown%": 80,
+                "health%": percent(ow1_barrier_health_ZARYA/ow2_barrier_health_ZARYA),
             },
             "zenyatta": {
                 "ultGen%": percent(ow1_ult_cost_ZENYATTA/ow2_ult_cost_ZENYATTA)

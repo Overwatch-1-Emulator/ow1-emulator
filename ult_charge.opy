@@ -1,5 +1,5 @@
 #!include "./utilities.opy"
-#!include "./constants.opy"
+#!include "./ow1_constants.opy"
 
 # Global variables
 globalvar ult_cost
