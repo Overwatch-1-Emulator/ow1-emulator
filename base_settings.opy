@@ -73,7 +73,7 @@ settings {
                 "ultGen%": percent(ow1_ult_cost_ECHO/ow2_ult_cost_ECHO)
             },
             "genji": {
-                "ammoClipSize%": 125,
+                "ammoClipSize%": percent(ow1_ammo_count_GENJI/ow2_ammo_count_GENJI),
                 "damageDealt%": 107,
                 "ultGen%": percent(ow1_ult_cost_GENJI/ow2_ult_cost_GENJI)
             },

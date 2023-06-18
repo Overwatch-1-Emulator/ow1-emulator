@@ -95,3 +95,7 @@
 #!define ow1_barrier_health_SIGMA 700
 #!define ow1_barrier_health_WINSTON 700
 #!define ow1_barrier_health_ZARYA 200
+
+###################################
+# Ammo count
+#!define ow1_ammo_count_GENJI 30

@@ -1,3 +1,4 @@
+###################################
 # Ult Costs
 #!define ow2_ult_cost_DVA 1540
 #!define ow2_ult_cost_REINHARDT 1650
@@ -32,8 +33,13 @@
 #!define ow2_ult_cost_MOIRA 2660
 #!define ow2_ult_cost_ZENYATTA 2310
 
+###################################
 # Barrier Healths
 #!define ow2_barrier_health_REINHARDT 1200
 #!define ow2_barrier_health_SIGMA 700
 #!define ow2_barrier_health_WINSTON 650
 #!define ow2_barrier_health_ZARYA 200
+
+###################################
+# Ammo count
+#!define ow2_ammo_count_GENJI 30
