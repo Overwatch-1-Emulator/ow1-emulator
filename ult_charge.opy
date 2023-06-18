@@ -42,6 +42,15 @@ rule "initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.MOIRA)] = 1/(roundedPercent(ow2_ult_cost_MOIRA/ow1_ult_cost_MOIRA)/100)*ow2_ult_cost_MOIRA
     ult_cost[heroID(Hero.ZENYATTA)] = 1/(roundedPercent(ow2_ult_cost_ZENYATTA/ow1_ult_cost_ZENYATTA)/100)*ow2_ult_cost_ZENYATTA
 
+def compensateUltPercent():
+    @Name "[ult_charge.opy]: Compensate missing ultimate percentage"
+    
+    while percent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id]) >= 1:
+        eventPlayer.ult_percent_compensated = roundedPercent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id])
+        eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_percent_compensated)
+        eventPlayer.ult_charge_compensated = percentOf(eventPlayer.ult_percent_compensated, ult_cost[eventPlayer.hero_id])
+        eventPlayer.missing_ult_points -= eventPlayer.ult_charge_compensated
+
 rule "Remember missing ult charge from damaging tank":
     @Event playerDealtDamage
     @Condition victim != eventPlayer
@@ -49,6 +58,7 @@ rule "Remember missing ult charge from damaging tank":
     @Condition not eventPlayer.isUsingUltimate()
 
     eventPlayer.missing_ult_points += 0.3*eventDamage
+    compensateUltPercent()
 
 rule "Remember missing ult charge from healing tank":
     @Event playerDealtHealing
@@ -56,17 +66,7 @@ rule "Remember missing ult charge from healing tank":
     @Condition not eventPlayer.isUsingUltimate()
 
     eventPlayer.missing_ult_points += 0.3*eventHealing
-
-rule "Compensate missing ult charge":
-    @Event eachPlayer
-    @Condition percent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id]) >= 1
-
-    do:
-        eventPlayer.ult_percent_compensated = roundedPercent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id])
-        eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_percent_compensated)
-        eventPlayer.ult_charge_compensated = percentOf(eventPlayer.ult_percent_compensated, ult_cost[eventPlayer.hero_id])
-        eventPlayer.missing_ult_points -= eventPlayer.ult_charge_compensated
-    while (RULE_CONDITION)
+    compensateUltPercent()
 
 rule "Reset ult compensation after using ult or switching hero":
     @Event eachPlayer
