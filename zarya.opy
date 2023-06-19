@@ -9,8 +9,18 @@ rule "set bubble variables":
 
     eventPlayer.self_bubble_cooldown = 0
     eventPlayer.ally_bubble_cooldown = 0
-    hudHeader(eventPlayer, l"{0} {1}".format(ceil(eventPlayer.self_bubble_cooldown), ceil(eventPlayer.ally_bubble_cooldown)), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
-
+    # hudHeader(eventPlayer, l"{0} {1}".format(ceil(eventPlayer.self_bubble_cooldown), ceil(eventPlayer.ally_bubble_cooldown)), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
+    createInWorldText(eventPlayer, 
+                      "{0}            {1}".format(ceil(eventPlayer.self_bubble_cooldown), 
+                      ceil(eventPlayer.ally_bubble_cooldown)), 
+                      updateEveryTick(eventPlayer.getEyePosition() + (100 * (2.15 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-0.9 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+                      verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
+                      2, 
+                      Clip.NONE, 
+                      WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
+                      Color.RED, 
+                      SpecVisibility.DEFAULT)
+  
 rule "zarya self bubble":
     @Event eachPlayer
     @Hero zarya
