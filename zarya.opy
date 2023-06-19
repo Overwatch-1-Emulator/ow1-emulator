@@ -1,23 +1,27 @@
 #!include "ow1_constants.opy"
 
-playervar self_bubbble
-playervar ally_bubble
+playervar self_bubble_cooldown
+playervar ally_bubble_cooldown
 
 rule "set bubble variables":
     @Event eachPlayer
     @Hero zarya
 
-    eventPlayer.self_bubbble = 1
-    eventPlayer. ally_bubble = 1
+    eventPlayer.self_bubble_cooldown = 0
+    eventPlayer.ally_bubble_cooldown = 0
+    hudHeader(eventPlayer, l"{0} {1}".format(ceil(eventPlayer.self_bubble_cooldown), ceil(eventPlayer.ally_bubble_cooldown)), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
 
 rule "zarya self bubble":
     @Event eachPlayer
     @Hero zarya
     @Condition eventPlayer.isUsingAbility1()
     
+    eventPlayer.setAbilityCharge(Button.ABILITY_1, 2)
     eventPlayer.setAbility1Enabled(false)
-    waitUntil(not eventPlayer.isUsingAbility1(), 2)
-    wait(ow1_cooldown_ability1_ZARYA)
+    wait(2) # 2 second bubble duration
+    eventPlayer.self_bubble_cooldown = ow1_cooldown_ability1_ZARYA
+    chase(eventPlayer.self_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
+    waitUntil(eventPlayer.self_bubble_cooldown == 0, ow1_cooldown_ability1_ZARYA)
     eventPlayer.setAbility1Enabled(true)
 
 rule "zarya ally bubble":
@@ -25,7 +29,10 @@ rule "zarya ally bubble":
     @Hero zarya
     @Condition eventPlayer.isUsingAbility2()
 
+    eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
     eventPlayer.setAbility2Enabled(false)
-    waitUntil(not eventPlayer.isUsingAbility2(), 2)
-    wait(ow1_cooldown_ability2_ZARYA)
+    wait(2) # 2 second bubble duration
+    eventPlayer.ally_bubble_cooldown = ow1_cooldown_ability2_ZARYA
+    chase(eventPlayer.ally_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
+    waitUntil(eventPlayer.ally_bubble_cooldown == 0, ow1_cooldown_ability2_ZARYA)
     eventPlayer.setAbility2Enabled(true)
