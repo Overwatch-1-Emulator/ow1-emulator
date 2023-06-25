@@ -104,3 +104,4 @@
 # Ability cooldowns
 #!define ow1_cooldown_ability1_ZARYA 10
 #!define ow1_cooldown_ability2_ZARYA 8
+#!define ow1_cooldown_ability2_REINHARDT 6
