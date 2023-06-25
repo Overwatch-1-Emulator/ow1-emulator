@@ -255,11 +255,3 @@ rule "Bastion - Charge Self Heal Ammo":
             eventPlayer.BastionSelfHealUI = false
         else:
             eventPlayer.BastionSelfHealAmmo -= 0.6843424
-
-
-
-
-
-
- 
-    
