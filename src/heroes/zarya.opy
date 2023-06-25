@@ -1,5 +1,5 @@
-#!include "./utilities.opy"
-#!include "./ow1_constants.opy"
+#!include "utilities.opy"
+#!include "ow1_constants.opy"
 
 playervar self_bubble_cooldown
 playervar ally_bubble_cooldown

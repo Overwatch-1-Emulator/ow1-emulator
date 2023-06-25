@@ -1,3 +1,5 @@
+#!include "ow1_constants.opy"
+
 rule "Force single firestrike":
     @Event eachPlayer
     @Hero reinhardt
