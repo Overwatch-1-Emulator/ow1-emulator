@@ -1,6 +1,6 @@
-#!include "./utilities.opy"
-#!include "./ow1_constants.opy"
-#!include "./ow2_constants.opy"
+#!include "utilities.opy"
+#!include "ow1_constants.opy"
+#!include "ow2_constants.opy"
 
 settings {
     "main": {

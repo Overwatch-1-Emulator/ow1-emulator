@@ -1,6 +1,6 @@
-#!include "./utilities.opy"
-#!include "./ow1_constants.opy"
-#!include "./custom_health_handler.opy"
+#!include "utilities.opy"
+#!include "ow1_constants.opy"
+#!include "custom_health_handler.opy"
 
 #Global variables
 globalvar hero_health
