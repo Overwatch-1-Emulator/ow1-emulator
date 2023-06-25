@@ -64,9 +64,12 @@ rule "fix health on hero switch":
 
     do:
         wait(0.25)
+        if (hero_health_normal[eventPlayer.hero_id] + hero_health_armor[eventPlayer.hero_id] + hero_health_shields[eventPlayer.hero_id] == 0):
+            clearCustomHealth()
+            break
         setCustomHealth(hero_health_normal[eventPlayer.hero_id], hero_health_armor[eventPlayer.hero_id], hero_health_shields[eventPlayer.hero_id])
     while (eventPlayer.getMaxHealth() != hero_health_normal[eventPlayer.hero_id] + hero_health_armor[eventPlayer.hero_id] + hero_health_shields[eventPlayer.hero_id])
-    
+
     # # DVa special case:
     # # updating her max health updates the pilot health, but not her mech health for some reason
     # # her mech has to be respawned for health change to go in effect

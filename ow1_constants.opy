@@ -43,30 +43,30 @@
 #!define ow1_health_normal_HAMMOND 500
 #!define ow1_health_normal_ZARYA 200
 
-#!define ow1_health_normal_ASHE 200
-#!define ow1_health_normal_BASTION 200
+#!define ow1_health_normal_ASHE 0
+#!define ow1_health_normal_BASTION 0
 #!define ow1_health_normal_MCCREE 225
-#!define ow1_health_normal_ECHO 200
-#!define ow1_health_normal_GENJI 200
-#!define ow1_health_normal_HANZO 200
-#!define ow1_health_normal_JUNKRAT 200
-#!define ow1_health_normal_MEI 250
-#!define ow1_health_normal_PHARAH 200
-#!define ow1_health_normal_REAPER 250
-#!define ow1_health_normal_SOLDIER 200
-#!define ow1_health_normal_SOMBRA 200
-#!define ow1_health_normal_SYMMETRA 100
-#!define ow1_health_normal_TORBJORN 200
-#!define ow1_health_normal_TRACER 150
+#!define ow1_health_normal_ECHO 0
+#!define ow1_health_normal_GENJI 0
+#!define ow1_health_normal_HANZO 0
+#!define ow1_health_normal_JUNKRAT 0
+#!define ow1_health_normal_MEI 0
+#!define ow1_health_normal_PHARAH 0
+#!define ow1_health_normal_REAPER 0
+#!define ow1_health_normal_SOLDIER 0
+#!define ow1_health_normal_SOMBRA 0
+#!define ow1_health_normal_SYMMETRA 0
+#!define ow1_health_normal_TORBJORN 0
+#!define ow1_health_normal_TRACER 0
 #!define ow1_health_normal_WIDOWMAKER 175
 
-#!define ow1_health_normal_ANA 200
-#!define ow1_health_normal_BAPTISTE 200
-#!define ow1_health_normal_BRIGITTE 150
-#!define ow1_health_normal_LUCIO 200
-#!define ow1_health_normal_MERCY 200
-#!define ow1_health_normal_MOIRA 200
-#!define ow1_health_normal_ZENYATTA 50
+#!define ow1_health_normal_ANA 0
+#!define ow1_health_normal_BAPTISTE 0
+#!define ow1_health_normal_BRIGITTE 0
+#!define ow1_health_normal_LUCIO 0
+#!define ow1_health_normal_MERCY 0
+#!define ow1_health_normal_MOIRA 0
+#!define ow1_health_normal_ZENYATTA 0
 
 ###################################
 # Armor Healths
@@ -75,19 +75,19 @@
 #!define ow1_health_armor_WINSTON 150
 #!define ow1_health_armor_HAMMOND 100
 
-#!define ow1_health_armor_BASTION 100
-#!define ow1_health_armor_TORBJORN 50
+#!define ow1_health_armor_BASTION 0
+#!define ow1_health_armor_TORBJORN 0
 
-#!define ow1_health_armor_BRIGITTE 50
+#!define ow1_health_armor_BRIGITTE 0
 
 ###################################
 # Shields Healths
 #!define ow1_health_shields_SIGMA 100
 #!define ow1_health_shields_ZARYA 200
 
-#!define ow1_health_shields_SYMMETRA 125
+#!define ow1_health_shields_SYMMETRA 0
 
-#!define ow1_health_shields_ZENYATTA 150
+#!define ow1_health_shields_ZENYATTA 0
 
 ###################################
 # Barrier Healths
