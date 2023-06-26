@@ -1,6 +1,6 @@
-#!include "./utilities.opy"
-#!include "./ow1_constants.opy"
-#!include "./ow2_constants.opy"
+#!include "utilities.opy"
+#!include "ow1_constants.opy"
+#!include "ow2_constants.opy"
 
 settings {
     "main": {
@@ -72,6 +72,7 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_BASTION/ow1_ult_cost_BASTION)
             },
             "brigitte": {
+                "health%": percent(ow1_barrier_health_BRIGITTE/ow2_barrier_health_BRIGITTE),
                 "ultGen%": percent(ow2_ult_cost_BRIGITTE/ow1_ult_cost_BRIGITTE)
             },
             "mccree": {
