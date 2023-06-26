@@ -40,6 +40,8 @@
 #!define ow2_barrier_health_WINSTON 650
 #!define ow2_barrier_health_ZARYA 200
 
+#!define ow2_barrier_health_BRIGITTE 300
+
 ###################################
 # Ammo count
 #!define ow2_ammo_count_GENJI 30
