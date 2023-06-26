@@ -105,3 +105,8 @@
 #!define ow1_cooldown_ability1_ZARYA 10
 #!define ow1_cooldown_ability2_ZARYA 8
 #!define ow1_cooldown_ability2_REINHARDT 6
+
+###################################
+# misc
+#!define ow1_shield_bash_stun_duration 0.75
+#!define ow1_rally_speed_buff 1.3
