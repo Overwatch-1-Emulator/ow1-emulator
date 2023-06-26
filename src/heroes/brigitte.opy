@@ -1,4 +1,4 @@
-# Credit to oreoslurpee for Brigitte shield bash stun logic
+# Credit to oreoslurpee for Brigitte shield bash logic
 # see https://workshop.codes/MR5QJ for oreslurpee's 2018 brig implementation
 
 #!include "ow1_constants.opy"
@@ -18,12 +18,12 @@ rule "Reduce shield bash distance":
     @Condition eventPlayer.isFiringPrimaryFire() == true
     @Condition eventPlayer.isUsingUltimate() != true
     
-    eventPlayer.setMoveSpeed(60)
-    wait(0.3)
-    if not eventPlayer.isUsingUltimate():
-        eventPlayer.setMoveSpeed(100)
+    eventPlayer.setMoveSpeed(77.8) # arbitrarily decided based on trial and error
+    waitUntil(not eventPlayer.isFiringPrimaryFire(), 1)
+    if eventPlayer.isUsingUltimate():
+        eventPlayer.setMoveSpeed(percent(ow1_rally_speed_buff/ow2_rally_speed_buff))
     else:
-        eventPlayer.setMoveSpeed(113.043)
+        eventPlayer.setMoveSpeed(100)
 
 rule "Rally 30% speed boost":
     @Event eachPlayer
@@ -38,4 +38,4 @@ rule "debug":
     @Event eachPlayer
     @Hero brigitte
 
-    hudText(eventPlayer, "{0}".format(eventPlayer.getSpeed()), "", "", HudPosition.TOP, 0, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.STRING)
+    hudText(eventPlayer, "{0}".format(eventPlayer.getPosition()), "", "", HudPosition.TOP, 0, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.STRING)
