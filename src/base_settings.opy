@@ -72,6 +72,7 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_BASTION/ow1_ult_cost_BASTION)
             },
             "brigitte": {
+                "health%": percent(ow1_barrier_health_BRIGITTE/ow2_barrier_health_BRIGITTE),
                 "ultGen%": percent(ow2_ult_cost_BRIGITTE/ow1_ult_cost_BRIGITTE)
             },
             "mccree": {

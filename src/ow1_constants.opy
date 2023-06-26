@@ -62,7 +62,7 @@
 
 #!define ow1_health_normal_ANA 0
 #!define ow1_health_normal_BAPTISTE 0
-#!define ow1_health_normal_BRIGITTE 0
+#!define ow1_health_normal_BRIGITTE 150
 #!define ow1_health_normal_LUCIO 0
 #!define ow1_health_normal_MERCY 0
 #!define ow1_health_normal_MOIRA 0
@@ -78,7 +78,7 @@
 #!define ow1_health_armor_BASTION 0
 #!define ow1_health_armor_TORBJORN 0
 
-#!define ow1_health_armor_BRIGITTE 0
+#!define ow1_health_armor_BRIGITTE 50
 
 ###################################
 # Shields Healths
@@ -96,6 +96,8 @@
 #!define ow1_barrier_health_WINSTON 700
 #!define ow1_barrier_health_ZARYA 200
 
+#!define ow1_barrier_health_BRIGITTE 250
+
 ###################################
 # Ammo count
 #!define ow1_ammo_count_GENJI 30
@@ -105,3 +107,8 @@
 #!define ow1_cooldown_ability1_ZARYA 10
 #!define ow1_cooldown_ability2_ZARYA 8
 #!define ow1_cooldown_ability2_REINHARDT 6
+
+###################################
+# misc
+#!define ow1_shield_bash_stun_duration 0.75
+#!define ow1_rally_speed_buff 1.3
