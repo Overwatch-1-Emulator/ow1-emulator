@@ -7,6 +7,8 @@
 #!include "hp.opy"
 # custom ult charge logic
 #!include "ult_charge.opy"
+# remove support passive
+#!include "support_passive.opy"
 
 # hero specific logic
 #!include "heroes/dva.opy"
