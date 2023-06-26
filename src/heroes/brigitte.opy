@@ -33,9 +33,3 @@ rule "Rally 30% speed boost":
     eventPlayer.setMoveSpeed(percent(ow1_rally_speed_buff/ow2_rally_speed_buff)) # 30% movement speed buff during ralley
     waitUntil(not eventPlayer.isUsingUltimate(), 10)
     eventPlayer.setMoveSpeed(100)
-
-rule "debug":
-    @Event eachPlayer
-    @Hero brigitte
-
-    hudText(eventPlayer, "{0}".format(eventPlayer.getPosition()), "", "", HudPosition.TOP, 0, Color.WHITE, Color.WHITE, Color.WHITE, HudReeval.STRING)
