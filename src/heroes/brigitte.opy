@@ -1,5 +1,4 @@
-# credit to oreoslurpee
-# code referenced from https://workshop.codes/MR5QJ
+# credit to oreoslurpee for 2018 Release Brigitte: https://workshop.codes/MR5QJ
 
 playervar baseHealth 0
 playervar healingModification 1
