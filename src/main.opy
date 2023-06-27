@@ -10,8 +10,5 @@
 # remove support passive
 #!include "support_passive.opy"
 
-# hero specific logic
-#!include "heroes/dva.opy"
-#!include "heroes/reinhardt.opy"
-#!include "heroes/zarya.opy"
-#!include "heroes/brigitte.opy"
+# custom hero specific logic
+#!include "custom_heroes.opy"
