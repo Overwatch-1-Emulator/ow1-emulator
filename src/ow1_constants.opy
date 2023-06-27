@@ -111,4 +111,5 @@
 ###################################
 # misc
 #!define ow1_shield_bash_stun_duration 0.75
+#!define ow1_sleepdart_sleep_duration 5
 #!define ow1_rally_speed_buff 1.3
