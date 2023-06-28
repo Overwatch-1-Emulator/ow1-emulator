@@ -76,6 +76,7 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_BRIGITTE/ow1_ult_cost_BRIGITTE)
             },
             "mccree": {
+                "projectileSpeed%": percent(ow1_flashbang_speed/ow2_mag_grenade_speed),
                 "ultGen%": percent(ow2_ult_cost_MCCREE/ow1_ult_cost_MCCREE)
             },
             "dva": {

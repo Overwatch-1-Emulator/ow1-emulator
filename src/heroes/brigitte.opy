@@ -2,6 +2,7 @@
 # see https://workshop.codes/MR5QJ for oreslurpee's 2018 brig implementation
 
 #!include "ow1_constants.opy"
+#!include "ow2_constants.opy"
 
 rule "Add stun to shield bash":
     @Event playerDealtDamage
