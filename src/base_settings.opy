@@ -19,20 +19,20 @@ settings {
             "disabledMaps": [
                 "hanamuraWinter"
             ],
-            "enableCompetitiveRules": false
+            "enableCompetitiveRules": true
         },
         "control": {
             "disabledMaps": [
                 "lijiangTowerLny"
             ],
-            "enableCompetitiveRules": false
+            "enableCompetitiveRules": true
         },
         "escort": {
             "disabledMaps": [
                 "circuitRoyal",
                 "shambaliMonastery"
             ],
-            "enableCompetitiveRules": false
+            "enableCompetitiveRules": true
         },
         "hybrid": {
             "disabledMaps": [
@@ -42,7 +42,7 @@ settings {
                 "kingsRowWinter",
                 "midtown"
             ],
-            "enableCompetitiveRules": false
+            "enableCompetitiveRules": true
         },
         "practiceRange": {
             "enabledMaps": []
