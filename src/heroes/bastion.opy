@@ -1,7 +1,7 @@
-playervar BastionTracker 15
-playervar BastionSentryAmmoBar 16
-playervar BastionTankMode 17
-playervar BastionSentryAmmo 18
+playervar BastionTracker
+playervar BastionSentryAmmoBar
+playervar BastionTankMode
+playervar BastionSentryAmmo
 
 
 rule "Bastion - Technical Tracker":
