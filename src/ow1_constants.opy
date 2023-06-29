@@ -110,6 +110,13 @@
 
 ###################################
 # misc
+#!define ow1_flashbang_speed 30
+#!define ow1_flashbang_stun_duration 0.8
+# max range of flashbang is 10m (7m travel + 3m aoe)
+#!define ow1_flashbang_max_range 10
+#!define ow1_flashbang_damage 25
 #!define ow1_shield_bash_stun_duration 0.75
 #!define ow1_sleepdart_sleep_duration 5
 #!define ow1_rally_speed_buff 1.3
+# ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
+#!define ow1_ana_dart_damage 72
