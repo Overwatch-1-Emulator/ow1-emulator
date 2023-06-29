@@ -118,3 +118,5 @@
 #!define ow1_shield_bash_stun_duration 0.75
 #!define ow1_sleepdart_sleep_duration 5
 #!define ow1_rally_speed_buff 1.3
+# ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
+#!define ow1_ana_dart_damage 72

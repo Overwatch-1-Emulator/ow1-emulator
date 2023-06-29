@@ -56,7 +56,7 @@ settings {
         "allTeams": {
             "ana": {
                 "ammoClipSize%": 80,
-                "damageDealt%": 93,
+                "damageDealt%": percent(ow1_ana_dart_damage/ow2_ana_dart_damage),
                 "ability1Cooldown%": 86,
                 "ultGen%": percent(ow2_ult_cost_ANA/ow1_ult_cost_ANA)
             },
