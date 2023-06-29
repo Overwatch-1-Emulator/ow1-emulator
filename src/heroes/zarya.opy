@@ -3,7 +3,7 @@
 
 playervar self_bubble_cooldown
 playervar ally_bubble_cooldown
-playervar zarya_hud
+playervar zarya_hud_visibility
 
 rule "create bubble cooldown HUD":
     @Event eachPlayer
@@ -11,7 +11,8 @@ rule "create bubble cooldown HUD":
 
     eventPlayer.self_bubble_cooldown = 0
     eventPlayer.ally_bubble_cooldown = 0
-    createInWorldText(eventPlayer, 
+    eventPlayer.zarya_hud_visibility = eventPlayer
+    createInWorldText(eventPlayer.zarya_hud_visibility, 
                       "{0}    {1}".format(ceil(eventPlayer.self_bubble_cooldown), ceil(eventPlayer.ally_bubble_cooldown)), 
                       updateEveryTick(eventPlayer.getEyePosition() + (100 * (2.15 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.45 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
                       verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
@@ -20,14 +21,13 @@ rule "create bubble cooldown HUD":
                       WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
                       Color.WHITE, 
                       SpecVisibility.DEFAULT)
-    eventPlayer.zarya_hud = getLastCreatedText()
 
 rule "destroy bubble cooldown HUD":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
     @Condition eventPlayer.getCurrentHero() != Hero.ZARYA
 
-    destroyInWorldText(eventPlayer.zarya_hud)
+    eventPlayer.zarya_hud_visibility = null
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
   
