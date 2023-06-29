@@ -56,12 +56,7 @@ rule "initialize overwatch 1 hero healths":
     hero_health_shields[heroID(Hero.SYMMETRA)] = ow1_health_shields_SYMMETRA
     hero_health_shields[heroID(Hero.ZENYATTA)] = ow1_health_shields_ZENYATTA
 
-
-
-rule "fix health on hero switch":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_switched == true
-
+def fixHealth():
     wait(0.1)
     if (hero_health_normal[eventPlayer.hero_id] + hero_health_armor[eventPlayer.hero_id] + hero_health_shields[eventPlayer.hero_id] == 0):
         clearCustomHealth()
@@ -70,6 +65,19 @@ rule "fix health on hero switch":
     while (eventPlayer.getMaxHealth() != hero_health_normal[eventPlayer.hero_id] + hero_health_armor[eventPlayer.hero_id] + hero_health_shields[eventPlayer.hero_id]):
         wait(1)
         setCustomHealth(hero_health_normal[eventPlayer.hero_id], hero_health_armor[eventPlayer.hero_id], hero_health_shields[eventPlayer.hero_id])
+
+rule "fix health on hero switch":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_switched == true
+
+    fixHealth()
+
+rule "fix health on new control round":
+    @Event eachPlayer
+    @Condition isMatchBetweenRounds() == true
+
+    waitUntil(eventPlayer.isInSpawnRoom(), 60)
+    fixHealth()
 
     # # DVa special case:
     # # updating her max health updates the pilot health, but not her mech health for some reason
