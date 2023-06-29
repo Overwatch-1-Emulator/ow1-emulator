@@ -7,5 +7,7 @@ rule "Disable support self-healing passive":
     @Condition healee == eventPlayer
     # apply to passive healing (healing ability source = non-existent)
     @Condition eventAbility == 0
-
-    damage(eventPlayer, null, eventHealing)
+    
+    printLog("{}".format(eventHealing))
+    if (eventPlayer.getCurrentHero() not in [Hero.MERCY, Hero.ZENYATTA]):
+        damage(eventPlayer, null, eventHealing)
