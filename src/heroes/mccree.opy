@@ -40,6 +40,7 @@ rule "Remove all effects from magnetic grenade":
 rule "Stun flashed enemy":
     @Event playerTookDamage
     @Condition attacker.getCurrentHero() == Hero.MCCREE
+    @Condition victim != attacker
     @Condition eventAbility == Button.ABILITY_2
     @Condition attacker.flashbang_exploded == false # without this the enemy is stunned twice
     @Condition distance(eventPlayer.getPosition(), attacker.flashbang_origin_position) <= ow1_flashbang_max_range
