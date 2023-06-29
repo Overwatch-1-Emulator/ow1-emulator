@@ -28,9 +28,7 @@ rule "destroy bubble cooldown HUD":
     @Condition eventPlayer.getCurrentHero() != Hero.ZARYA
 
     eventPlayer.zarya_hud_visibility = null
-    eventPlayer.setAbility1Enabled(true)
-    eventPlayer.setAbility2Enabled(true)
-  
+
 rule "zarya self bubble":
     @Event eachPlayer
     @Hero zarya
