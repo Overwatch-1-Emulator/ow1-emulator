@@ -1,0 +1,155 @@
+playervar BastionTracker 15
+playervar BastionSentryAmmoBar 16
+playervar BastionTankMode 17
+playervar BastionSentryAmmo 18
+
+
+rule "Bastion - Technical Tracker":
+    @Event eachPlayer
+    @Condition eventPlayer.getCurrentHero() == Hero.BASTION
+    @Condition eventPlayer.hasStatusEffect(Status.HACKED) == false
+    
+    eventPlayer.BastionTracker = getLastCreatedText()
+    waitUntil(eventPlayer.getCurrentHero() != Hero.BASTION or eventPlayer.hasStatusEffect(Status.HACKED) == true, 99999)
+    destroyProgressBarHud(eventPlayer.BastionSentryAmmoBar)
+
+
+rule "Bastion - Continuous Sentry Mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.BastionTankMode == false
+    @Condition eventPlayer.isDummy() == false
+    
+    #wait(7.016)
+    waitUntil(eventPlayer.isInAlternateForm() == false, 7.016)
+    #if not RULE_CONDITION:
+    #        return
+    if eventPlayer.isHoldingButton(Button.ABILITY_1):
+        return
+    eventPlayer.cancelPrimaryAction()
+    wait()
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
+    wait(0.02)
+    stopChasingVariable(eventPlayer.BastionSentryAmmo)
+    wait(0.5)
+    #idk I put something here before it got deleted
+    wait(0.7)
+    if eventPlayer.isFiringPrimaryFire() == true:
+        chase(eventPlayer.BastionSentryAmmo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
+    if RULE_CONDITION:
+        goto RULE_START
+
+
+rule "Bastion - Start Chasing Sentry Ammo":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isFiringPrimaryFire() == true
+    @Condition eventPlayer.isUsingAbility1() == true
+    
+    chase(eventPlayer.BastionSentryAmmo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
+
+
+rule "Bastion - Stop Chasing Sentry Ammo":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition (eventPlayer.isFiringPrimaryFire() == false or eventPlayer.isUsingAbility1() == false) == true
+    
+    stopChasingVariable(eventPlayer.BastionSentryAmmo)
+
+
+rule "Bastion - Progress Bar":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isInAlternateForm() == true
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
+    
+    wait()
+    if eventPlayer.isHoldingButton(Button.ABILITY_1) == false:
+        return
+    wait(1)
+    progressBarHud(eventPlayer, eventPlayer.BastionSentryAmmo / 3, "{0} Sentry Ammo Remaining: {1}".format(abilityIconString(Hero.BASTION, Button.ABILITY_1), 300 - floor(eventPlayer.BastionSentryAmmo)), HudPosition.TOP, 0, Color.ORANGE, Color.ORANGE, ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, SpecVisibility.DEFAULT)
+    eventPlayer.BastionSentryAmmoBar = getLastCreatedText()
+
+
+rule "Bastion - Recon Mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == false
+    
+    stopChasingVariable(eventPlayer.BastionSentryAmmo)
+    wait(2, Wait.ABORT_WHEN_FALSE)
+    eventPlayer.BastionSentryAmmo = 0
+    destroyProgressBarHud(eventPlayer.BastionSentryAmmoBar)
+
+
+rule "Bastion - Reload":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition (eventPlayer.isUsingAbility1() and eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.BastionSentryAmmo >= 300) == true
+    
+    eventPlayer.setAmmo(1, 0)
+    stopChasingVariable(eventPlayer.BastionSentryAmmo)
+    wait(0.5)
+    waitUntil(eventPlayer.isReloading() == false, 1.5)
+    if eventPlayer.isReloading() == true:
+        eventPlayer.cancelPrimaryAction()
+    eventPlayer.BastionSentryAmmo = 0
+
+
+rule "Bastion - Turret Form Movement Speed":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isInAlternateForm() == true
+    @Condition eventPlayer.isUsingUltimate() == false
+    @Condition eventPlayer.isInSpawnRoom() == false
+    @Condition eventPlayer.BastionTankMode == false
+    
+    eventPlayer.setStatusEffect(null, Status.ROOTED, 50)
+    eventPlayer.setDamageDealt(150)
+    eventPlayer.setKnockbackReceived(0)
+    eventPlayer.setJumpEnabled(false)
+    eventPlayer.setSecondaryFireEnabled(false)
+
+
+rule "Bastion - Effects Remove Sentry Mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == true
+    #If the player has CC (Knocked Down, Slept, Frozen, Rooted, Stunned)
+    @Condition (eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.STUNNED)) == true
+    @Condition eventPlayer.BastionTankMode == false
+    
+    #If the player has CC (Knocked Down, Slept, Frozen, Rooted, Stunned)
+    waitUntil((eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.STUNNED)) == false, 99999)
+    wait()
+    if eventPlayer.isUsingAbility1() == false:
+        return
+    if eventPlayer.hasStatusEffect(Status.HACKED) == true:
+        goto lbl_0
+    wait(1.6)
+    lbl_0:
+    eventPlayer.startForcingButton(Button.ABILITY_1)
+    wait(0.05)
+    eventPlayer.stopForcingButton(Button.ABILITY_1)
+
+
+rule "Bastion - Recon Form Movement Speed":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isInAlternateForm() == false
+    
+    eventPlayer.clearStatusEffect(Status.ROOTED)
+    eventPlayer.setDamageDealt(100)
+    eventPlayer.setKnockbackReceived(100)
+    eventPlayer.setJumpEnabled(true)
+    eventPlayer.setSecondaryFireEnabled(true)
+
+
+
+
+
+
+ 
+    
