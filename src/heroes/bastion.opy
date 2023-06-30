@@ -1,7 +1,7 @@
-playervar BastionTracker 15
-playervar BastionSentryAmmoBar 16
-playervar BastionTankMode 17
-playervar BastionSentryAmmo 18
+playervar BastionTracker
+playervar BastionSentryAmmoBar
+playervar BastionTankMode
+playervar BastionSentryAmmo
 
 
 rule "Bastion - Technical Tracker":
@@ -21,10 +21,9 @@ rule "Bastion - Continuous Sentry Mode":
     @Condition eventPlayer.BastionTankMode == false
     @Condition eventPlayer.isDummy() == false
     
-    #wait(7.016)
+  
     waitUntil(eventPlayer.isInAlternateForm() == false, 7.016)
-    #if not RULE_CONDITION:
-    #        return
+
     if eventPlayer.isHoldingButton(Button.ABILITY_1):
         return
     eventPlayer.cancelPrimaryAction()
@@ -34,7 +33,7 @@ rule "Bastion - Continuous Sentry Mode":
     wait(0.02)
     stopChasingVariable(eventPlayer.BastionSentryAmmo)
     wait(0.5)
-    #idk I put something here before it got deleted
+    
     wait(0.7)
     if eventPlayer.isFiringPrimaryFire() == true:
         chase(eventPlayer.BastionSentryAmmo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
@@ -64,6 +63,7 @@ rule "Bastion - Progress Bar":
     @Hero bastion
     @Condition eventPlayer.isInAlternateForm() == true
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
+    @Condition eventPlayer.BastionTankMode == false
     
     wait()
     if eventPlayer.isHoldingButton(Button.ABILITY_1) == false:
@@ -78,6 +78,7 @@ rule "Bastion - Recon Mode":
     @Hero bastion
     @Condition eventPlayer.isUsingAbility1() == false
     
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     stopChasingVariable(eventPlayer.BastionSentryAmmo)
     wait(2, Wait.ABORT_WHEN_FALSE)
     eventPlayer.BastionSentryAmmo = 0
@@ -145,6 +146,66 @@ rule "Bastion - Recon Form Movement Speed":
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.setJumpEnabled(true)
     eventPlayer.setSecondaryFireEnabled(true)
+
+
+rule "Bastion - Tank Mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    eventPlayer.BastionTankMode = true
+    wait(0.5)
+    eventPlayer.cancelPrimaryAction()
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.setSecondaryFireEnabled(true)
+    wait(0.05)
+    destroyProgressBarHud(eventPlayer.BastionSentryAmmoBar)
+    stopChasingVariable(eventPlayer.BastionSentryAmmo)
+    eventPlayer.BastionSentryAmmo = 0
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
+    eventPlayer.setPrimaryFireEnabled(false)
+    eventPlayer.setMoveSpeed(153.9)
+    eventPlayer.setDamageDealt(180)
+    eventPlayer.setProjectileSpeed(150)
+    eventPlayer.setProjectileGravity(10)
+    eventPlayer.disallowButton(Button.ABILITY_1)
+    wait(0.05)
+    eventPlayer.clearStatusEffect(Status.ROOTED)
+    waitUntil(not eventPlayer.isUsingAbility1(), 8.5)
+    wait(0.05)
+    eventPlayer.BastionTankMode = false
+    eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.setMoveSpeed(100)
+    eventPlayer.setDamageDealt(100)
+    eventPlayer.setProjectileSpeed(100)
+    eventPlayer.setProjectileGravity(100)
+    eventPlayer.setUltCharge(0)
+    eventPlayer.allowButton(Button.ABILITY_1)
+    wait(0.05)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+
+
+rule "Bastion - Tank Mode Reload":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.BastionTankMode == true
+    @Condition eventPlayer.isFiringSecondaryFire() == true
+    
+    waitUntil(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) > 0.5, 3)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0.2)
+
+
+rule "Bastion - Disallow Primary":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.BastionTankMode == true
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
+    
+    eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
+    wait(0.1)
+    if RULE_CONDITION:
+        goto RULE_START
 
 
 
