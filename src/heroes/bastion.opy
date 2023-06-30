@@ -192,7 +192,16 @@ rule "Bastion - Disallow Primary":
     if RULE_CONDITION:
         goto RULE_START
 
+rule "Heal using ability 2/secondary fire":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
 
+    wait(0.5) # 0.5 second cast time
+    while eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE):
+        # Heal 1.44 hp every game tick (1 tick/0.016 seconds) to approximate 90 healing per second
+        wait()
+        heal(eventPlayer, eventPlayer, 1.44)
 
 
 
