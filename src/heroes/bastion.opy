@@ -2,11 +2,7 @@ playervar BastionTracker
 playervar BastionSentryAmmoBar
 playervar BastionTankMode
 playervar BastionSentryAmmo
-<<<<<<< Updated upstream
-
-=======
 #!include "ow2_constants.opy"
->>>>>>> Stashed changes
 
 rule "Bastion - Technical Tracker":
     @Event eachPlayer
@@ -26,27 +22,7 @@ rule "Bastion - Continuous Sentry Mode":
     @Condition eventPlayer.isDummy() == false
     
   
-<<<<<<< Updated upstream
-    waitUntil(eventPlayer.isInAlternateForm() == false, 7.016)
-
-    if eventPlayer.isHoldingButton(Button.ABILITY_1):
-        return
-    eventPlayer.cancelPrimaryAction()
-    wait()
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-    eventPlayer.forceButtonPress(Button.ABILITY_1)
-    wait(0.02)
-    stopChasingVariable(eventPlayer.BastionSentryAmmo)
-    wait(0.5)
-    
-    wait(0.7)
-    if eventPlayer.isFiringPrimaryFire() == true:
-        chase(eventPlayer.BastionSentryAmmo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
-    if RULE_CONDITION:
-        goto RULE_START
-=======
     waitUntil(eventPlayer.isInAlternateForm() == false, ow2_assault_form_bastion_length)
->>>>>>> Stashed changes
 
 
 rule "Bastion - Start Chasing Sentry Ammo":
@@ -86,16 +62,10 @@ rule "Bastion - Recon Mode":
     @Hero bastion
     @Condition eventPlayer.isUsingAbility1() == false
     
-<<<<<<< Updated upstream
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-    stopChasingVariable(eventPlayer.BastionSentryAmmo)
-    wait(2, Wait.ABORT_WHEN_FALSE)
-=======
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 1.5)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 1)
     stopChasingVariable(eventPlayer.BastionSentryAmmo)
     wait(1.5, Wait.ABORT_WHEN_FALSE)
->>>>>>> Stashed changes
     eventPlayer.BastionSentryAmmo = 0
     destroyProgressBarHud(eventPlayer.BastionSentryAmmoBar)
 
