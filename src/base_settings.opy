@@ -116,6 +116,14 @@ settings {
             "reaper": {
                 "ultGen%": percent(ow2_ult_cost_REAPER/ow1_ult_cost_REAPER)
             },
+            "doomfist": {
+                "ammoRegenerationTime%": 135,
+                "ultKb%": 300,
+                "ability1ChargeRate%": 10,
+                "secondaryFireKb%": 115,
+                "ultDuration%": 150,
+                "ultGen%": percent(ow2_ult_cost_DOOMFIST/ow1_ult_cost_DOOMFIST)
+            },
             "reinhardt": {
                 "secondaryFireRechargeRate%": 139,
                 "ability1Cooldown%": 143,
@@ -170,7 +178,6 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_ZENYATTA/ow1_ult_cost_ZENYATTA)
             },
             "disabledHeroes": [
-                "doomfist",
                 "junkerQueen",
                 "kiriko",
                 "lifeweaver",

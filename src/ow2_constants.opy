@@ -7,6 +7,7 @@
 #!define ow2_ult_cost_WINSTON 1850
 #!define ow2_ult_cost_HAMMOND 1675
 #!define ow2_ult_cost_ZARYA 2270
+#!define ow2_ult_cost_DOOMFIST 1680
 
 #!define ow2_ult_cost_ASHE 2240
 #!define ow2_ult_cost_BASTION 2310

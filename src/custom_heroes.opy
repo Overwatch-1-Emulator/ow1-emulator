@@ -7,6 +7,11 @@
 
 #!include "heroes/ana.opy"
 #!include "heroes/brigitte.opy"
+<<<<<<< Updated upstream
+=======
+#!include "heroes/bastion.opy"
+#!include "heroes/doomfist.opy"
+>>>>>>> Stashed changes
 
 rule "reset abilities on new round":
     @Event eachPlayer
