@@ -2,6 +2,11 @@ playervar BastionTracker
 playervar BastionSentryAmmoBar
 playervar BastionTankMode
 playervar BastionSentryAmmo
+playervar BastionSelfHealAmmo
+playervar BastionReparing
+playervar BastionSelfHealBar
+playervar BastionSelfHealUI
+playervar BastionSentryAmmoUI
 #!include "ow2_constants.opy"
 
 rule "Bastion - Technical Tracker":
@@ -21,8 +26,23 @@ rule "Bastion - Continuous Sentry Mode":
     @Condition eventPlayer.BastionTankMode == false
     @Condition eventPlayer.isDummy() == false
     
-  
+
     waitUntil(eventPlayer.isInAlternateForm() == false, ow2_assault_form_bastion_length)
+    if eventPlayer.isHoldingButton(Button.ABILITY_1):
+        return
+    eventPlayer.cancelPrimaryAction()
+    wait()
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
+    wait(0.02)
+    stopChasingVariable(eventPlayer.BastionSentryAmmo)
+    wait(0.5)
+    
+    wait(0.7)
+    if eventPlayer.isFiringPrimaryFire() == true:
+        chase(eventPlayer.BastionSentryAmmo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
+    if RULE_CONDITION:
+        goto RULE_START
 
 
 rule "Bastion - Start Chasing Sentry Ammo":
@@ -53,8 +73,10 @@ rule "Bastion - Progress Bar":
     if eventPlayer.isHoldingButton(Button.ABILITY_1) == false:
         return
     wait(1)
-    progressBarHud(eventPlayer, eventPlayer.BastionSentryAmmo / 3, "{0} Sentry Ammo Remaining: {1}".format(abilityIconString(Hero.BASTION, Button.ABILITY_1), 300 - floor(eventPlayer.BastionSentryAmmo)), HudPosition.TOP, 0, Color.ORANGE, Color.ORANGE, ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, SpecVisibility.DEFAULT)
-    eventPlayer.BastionSentryAmmoBar = getLastCreatedText()
+    if eventPlayer.BastionSentryAmmoUI == false:
+        progressBarHud(eventPlayer, eventPlayer.BastionSentryAmmo / 3, "{0} Sentry Ammo Remaining: {1}".format(abilityIconString(Hero.BASTION, Button.ABILITY_1), 300 - floor(eventPlayer.BastionSentryAmmo)), HudPosition.TOP, 0, Color.ORANGE, Color.ORANGE, ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, SpecVisibility.DEFAULT)
+        eventPlayer.BastionSentryAmmoBar = getLastCreatedText()
+        eventPlayer.BastionSentryAmmoUI = true
 
 
 rule "Bastion - Recon Mode":
@@ -63,11 +85,14 @@ rule "Bastion - Recon Mode":
     @Condition eventPlayer.isUsingAbility1() == false
     
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 1.5)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 1)
+    if eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) >= 1:
+    else:
+        eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 1)
     stopChasingVariable(eventPlayer.BastionSentryAmmo)
     wait(1.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.BastionSentryAmmo = 0
     destroyProgressBarHud(eventPlayer.BastionSentryAmmoBar)
+    eventPlayer.BastionSentryAmmoUI = false
 
 
 rule "Bastion - Reload":
@@ -145,6 +170,7 @@ rule "Bastion - Tank Mode":
     eventPlayer.setSecondaryFireEnabled(true)
     wait(0.05)
     destroyProgressBarHud(eventPlayer.BastionSentryAmmoBar)
+    eventPlayer.BastionSentryAmmoUI = false
     stopChasingVariable(eventPlayer.BastionSentryAmmo)
     eventPlayer.BastionSentryAmmo = 0
     eventPlayer.forceButtonPress(Button.ABILITY_1)
@@ -192,16 +218,45 @@ rule "Bastion - Disallow Primary":
     if RULE_CONDITION:
         goto RULE_START
 
-rule "Heal using ability 2/secondary fire":
+rule "Bastion - Use Self Heal":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true and eventPlayer.getHealth() < 299.5 and eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false
 
-    wait(0.5) # 0.5 second cast time
-    while eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE):
+
+    wait(0.5)
+    #floor(eventPlayer.BastionSelfHealAmmo))
+    if eventPlayer.BastionSelfHealUI == false:
+        progressBarHud(eventPlayer, eventPlayer.BastionSelfHealAmmo / 2.994, "{0} Self Healing".format(abilityIconString(Hero.BASTION, Button.ABILITY_1)), HudPosition.TOP, 0, Color.ORANGE, Color.ORANGE, ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, SpecVisibility.DEFAULT)
+        eventPlayer.BastionSelfHealBar = getLastCreatedText()
+        eventPlayer.BastionSelfHealUI = true
+    while eventPlayer.isHoldingButton(Button.ABILITY_2) and eventPlayer.BastionSelfHealAmmo <= 299.7 and eventPlayer.getHealth() < 299.5 and eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false:
         # Heal 1.44 hp every game tick (1 tick/0.016 seconds) to approximate 90 healing per second
         wait()
+        eventPlayer.BastionReparing = true
         heal(eventPlayer, eventPlayer, 1.44)
+        eventPlayer.BastionSelfHealAmmo += 1.44
+
+
+rule "Bastion - Charge Self Heal Ammo":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == false
+
+    if eventPlayer.BastionSelfHealAmmo == 0:
+        destroyProgressBarHud(eventPlayer.BastionSelfHealBar)
+        eventPlayer.BastionSelfHealUI = false
+    while eventPlayer.isHoldingButton(Button.ABILITY_2) == false and eventPlayer.BastionSelfHealAmmo > 0:
+        eventPlayer.BastionReparing = false
+        wait()
+        if eventPlayer.BastionSelfHealAmmo <= 0.684323:
+            eventPlayer.BastionSelfHealAmmo = 0
+            destroyProgressBarHud(eventPlayer.BastionSelfHealBar)
+            eventPlayer.BastionSelfHealUI = false
+        else:
+            eventPlayer.BastionSelfHealAmmo -= 0.6843424
+
+
 
 
 
