@@ -7,6 +7,7 @@
 
 #!include "heroes/ana.opy"
 #!include "heroes/brigitte.opy"
+#!include "heroes/mercy.opy"
 
 rule "reset abilities on new round":
     @Event eachPlayer

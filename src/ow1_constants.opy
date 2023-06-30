@@ -107,9 +107,11 @@
 #!define ow1_cooldown_ability1_ZARYA 10
 #!define ow1_cooldown_ability2_ZARYA 8
 #!define ow1_cooldown_ability2_REINHARDT 6
+#!define ow1_cooldown_ability1_MERCY 1.5
 
 ###################################
 # misc
+#!define jump_velocity vect(0, 5.44, 0)
 #!define ow1_flashbang_speed 30
 #!define ow1_flashbang_stun_duration 0.8
 # max range of flashbang is 10m (7m travel + 3m aoe)
@@ -120,3 +122,4 @@
 #!define ow1_rally_speed_buff 1.3
 # ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
 #!define ow1_ana_dart_damage 72
+#!define ow1_mercy_guardian_angel_recovery_time 1
