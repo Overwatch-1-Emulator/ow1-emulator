@@ -44,7 +44,7 @@
 #!define ow1_health_normal_ZARYA 200
 
 #!define ow1_health_normal_ASHE 0
-#!define ow1_health_normal_BASTION 0
+#!define ow1_health_normal_BASTION 200
 #!define ow1_health_normal_MCCREE 225
 #!define ow1_health_normal_ECHO 0
 #!define ow1_health_normal_GENJI 0
@@ -75,7 +75,7 @@
 #!define ow1_health_armor_WINSTON 150
 #!define ow1_health_armor_HAMMOND 100
 
-#!define ow1_health_armor_BASTION 0
+#!define ow1_health_armor_BASTION 100
 #!define ow1_health_armor_TORBJORN 0
 
 #!define ow1_health_armor_BRIGITTE 50
@@ -102,17 +102,18 @@
 # Ammo count
 #!define ow1_ammo_count_GENJI 30
 #!define ow1_max_sentry_ammo_BASTION 300
-#!define ow1_max_heal_duration_BASTION 3.33
+#!define ow1_max_self_repair_duration_BASTION (10/3)
 
 ###################################
-# Ability cooldowns
+# Ability cooldowns/delays/cast-time
 #!define ow1_cooldown_ability1_ZARYA 10
 #!define ow1_cooldown_ability2_ZARYA 8
 #!define ow1_cooldown_ability2_REINHARDT 6
 #!define ow1_sentry_reload_time_BASTION 1.984
 #!define ow1_cooldown_ability2_BASTION 1
-#!define ow1_heal_recharge_duration_BASTION 7
-#!define ow1_heal_cast_time_BASTION 0.5
+#!define ow1_self_repair_recharge_duration_BASTION 7
+#!define ow1_self_repair_cast_time_BASTION 0.5
+#!define ow1_self_repair_cooldown_time_BASTION 1
 #!define ow1_cooldown_ability1_MERCY 1.5
 
 ###################################
@@ -129,3 +130,5 @@
 # ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
 #!define ow1_ana_dart_damage 72
 #!define ow1_mercy_guardian_angel_recovery_time 1
+#!define ow1_bastion_self_repair_heal_increment 2
+#!define ow1_bastion_self_repair_healing_rate 90
