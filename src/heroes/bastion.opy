@@ -101,7 +101,7 @@ rule "[bastion.opy]: Update machine gun ammo when shooting":
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.isFiringPrimaryFire() == true
 
-    chase(eventPlayer.machine_gun_ammo, 0, rate=35, ChaseReeval.DESTINATION_AND_RATE)
+    chase(eventPlayer.machine_gun_ammo, 0, rate=ow1_bastion_machine_gun_fire_rate, ChaseReeval.DESTINATION_AND_RATE)
 
 
 rule "[bastion.opy]: Update machine gun ammo when not shooting":

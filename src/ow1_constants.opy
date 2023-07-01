@@ -135,3 +135,4 @@
 #!define ow1_bastion_tank_mode_duration 8
 #!define ow1_bastion_tank_mode_cast_time 1.5
 #!define ow1_bastion_tank_shell_reload_time 1
+#!define ow1_bastion_machine_gun_fire_rate 30
