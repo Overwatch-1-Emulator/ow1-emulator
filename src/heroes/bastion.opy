@@ -324,65 +324,11 @@ rule "[bastion.opy]: Enter tank mode":
     transformOutOfTank()
 
 
-rule "[bastion.opy]: Tank Mode Reload":
-    @Disabled
+rule "[bastion.opy]: Shoot tank shells":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.bastion_tank_mode == true
-    @Condition eventPlayer.isFiringSecondaryFire() == true
-    
-    waitUntil(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) > 0.5, 3)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0.2)
-
-
-rule "[bastion.opy]: Disallow Primary":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.bastion_tank_mode == true
+    @Condition eventPlayer.current_configuration == Configuration.TANK
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
     
     eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
-    wait(0.1)
-    if RULE_CONDITION:
-        goto RULE_START
-
-rule "[bastion.opy]: Use Self Heal":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true and eventPlayer.getHealth() < 299.5 and eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false
-
-
-    wait(0.5)
-    #floor(eventPlayer.bastion_self_heal_ammo))
-    if eventPlayer.bastion_self_heal_ui == false:
-        progressBarHud(eventPlayer, eventPlayer.bastion_self_heal_ammo / 2.994, "{0} Self Healing".format(abilityIconString(Hero.BASTION, Button.ABILITY_1)), HudPosition.TOP, 0, Color.ORANGE, Color.ORANGE, ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, SpecVisibility.DEFAULT)
-        eventPlayer.bastion_self_heal_bar = getLastCreatedText()
-        eventPlayer.bastion_self_heal_ui = true
-    while eventPlayer.isHoldingButton(Button.ABILITY_2) and eventPlayer.bastion_self_heal_ammo <= 299.7 and eventPlayer.getHealth() < 299.5 and eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false:
-        # Heal 1.44 hp every game tick (1 tick/0.016 seconds) to approximate 90 healing per second
-        wait()
-        eventPlayer.bastion_repairing = true
-        heal(eventPlayer, eventPlayer, 1.44)
-        eventPlayer.bastion_self_heal_ammo += 1.44
-
-
-rule "[bastion.opy]: Charge Self Heal Ammo":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == false
-
-    if eventPlayer.bastion_self_heal_ammo == 0:
-        destroyProgressBarHud(eventPlayer.bastion_self_heal_bar)
-        eventPlayer.bastion_self_heal_ui = false
-    while eventPlayer.isHoldingButton(Button.ABILITY_2) == false and eventPlayer.bastion_self_heal_ammo > 0:
-        eventPlayer.bastion_repairing = false
-        wait()
-        if eventPlayer.bastion_self_heal_ammo <= 0.684323:
-            eventPlayer.bastion_self_heal_ammo = 0
-            destroyProgressBarHud(eventPlayer.bastion_self_heal_bar)
-            eventPlayer.bastion_self_heal_ui = false
-        else:
-            eventPlayer.bastion_self_heal_ammo -= 0.6843424
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, ow1_bastion_tank_shell_reload_time) # Reload tank shell
