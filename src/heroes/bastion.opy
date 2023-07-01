@@ -1,26 +1,176 @@
 #!include "ow2_constants.opy"
 
 playervar bastion_tracker
-playervar bastion_sentry_ammo_bar
 playervar bastion_tank_mode
-playervar bastion_sentry_ammo
+playervar sentry_ammo
 playervar bastion_self_heal_ammo
 playervar bastion_repairing
-playervar bastion_self_heal_bar
 playervar bastion_self_heal_ui
 playervar bastion_sentry_ammo_ui
+playervar bastion_sentry_ammo_bar
+playervar bastion_self_heal_bar
 
-rule "[bastion.opy]: Technical Tracker":
+playervar sentry_gui_visibility
+playervar heal_gui_visibility
+playervar heal_resource
+playervar is_tank_mode
+playervar sentry_ready
+
+rule "[bastion.opy]: Initialize hero":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.hasStatusEffect(Status.HACKED) == false
+
+    eventPlayer.sentry_gui_visibility = null
+    eventPlayer.heal_gui_visibility = null
+    eventPlayer.heal_resource = ow1_max_heal_resource_BASTION
+    eventPlayer.sentry_ammo = ow1_max_sentry_ammo_BASTION
+    eventPlayer.sentry_ready = true
+    eventPlayer.is_tank_mode = false
+
+    progressBarHud(eventPlayer.sentry_gui_visibility, 
+                   roundedPercent(eventPlayer.sentry_ammo/ow1_max_sentry_ammo_BASTION), 
+                   "Ammo: {0}".format(ceil(eventPlayer.sentry_ammo)), 
+                   HudPosition.TOP, 
+                   0, 
+                   Color.ORANGE, 
+                   Color.ORANGE, 
+                   ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
+                   SpecVisibility.DEFAULT)
+
+    progressBarHud(eventPlayer.heal_gui_visibility, 
+                   roundedPercent(eventPlayer.heal_resource/ow1_max_heal_resource_BASTION), 
+                   "Self-Repair", 
+                   HudPosition.RIGHT, 
+                   0, 
+                   Color.YELLOW, 
+                   Color.YELLOW, 
+                   ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
+                   SpecVisibility.DEFAULT)
+
+
+rule "[bastion.opy]: Show sentry ammo gui when in turret mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.is_tank_mode == false
+
+    eventPlayer.sentry_gui_visibility = eventPlayer
+
+
+rule "[bastion.opy]: Hide sentry ammo gui when not in turret mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == false
+
+    eventPlayer.sentry_gui_visibility = null
+
+
+rule "[bastion.opy]: Deplete sentry ammo when shooting in turret mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.is_tank_mode == false
+    @Condition eventPlayer.isFiringPrimaryFire() == true
+
+    chase(eventPlayer.sentry_ammo, 0, rate=35, ChaseReeval.DESTINATION_AND_RATE)
+
+
+rule "[bastion.opy]: Stop depleting sentry ammo when not shooting in turret mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.is_tank_mode == false
+    @Condition eventPlayer.isFiringPrimaryFire() == false
+
+    stopChasingVariable(eventPlayer.sentry_ammo)
+
+
+rule "[bastion.opy]: Unlimited Sentry Mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == false
+
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     
-    eventPlayer.bastion_tracker = getLastCreatedText()
-    waitUntil(eventPlayer.getCurrentHero() != Hero.BASTION or eventPlayer.hasStatusEffect(Status.HACKED) == true, 99999)
-    destroyProgressBarHud(eventPlayer.bastion_sentry_ammo_bar)
+
+rule "[bastion.opy]: Prevent movement during Sentry Mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.is_tank_mode == false
+
+    wait(1) # sentry mode casting time
+    eventPlayer.setMoveSpeed(0)
+
+
+rule "[bastion.opy]: Allow movement outside Sentry Mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == false
+
+    eventPlayer.setMoveSpeed(100)
+
+
+def sentryGunReload():
+    eventPlayer.sentry_ready = false
+    wait(ow1_sentry_reload_time_BASTION)
+    eventPlayer.sentry_ammo = ow1_max_sentry_ammo_BASTION
+    eventPlayer.sentry_ready = true
+
+
+rule "[bastion.opy]: Reload on reload key":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+
+    sentryGunReload()
+
+
+rule "[bastion.opy]: Reload when no sentry ammo":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.sentry_ammo <= 0
+
+    sentryGunReload()
+
+
+rule "[bastion.opy]: Reload on recon mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition not eventPlayer.isUsingAbility1()
+
+    sentryGunReload()
+
+
+rule "[bastion.opy]: Allow shooting in Recon mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition not eventPlayer.isUsingAbility1()
+    
+    eventPlayer.setPrimaryFireEnabled(true)
+
+
+rule "[bastion.opy]: Allow turret shooting with ammo":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1()
+    @Condition eventPlayer.sentry_ready
+    @Condition eventPlayer.sentry_ammo > 0
+    
+    eventPlayer.setPrimaryFireEnabled(true)
+
+
+rule "[bastion.opy]: No turret shooting when reloading or with no ammo":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1()
+    @Condition eventPlayer.sentry_ammo <= 0 or not eventPlayer.sentry_ready
+    
+    eventPlayer.setPrimaryFireEnabled(false)
 
 
 rule "[bastion.opy]: Continuous Sentry Mode":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isUsingAbility1() == true
@@ -36,34 +186,18 @@ rule "[bastion.opy]: Continuous Sentry Mode":
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.forceButtonPress(Button.ABILITY_1)
     wait(0.02)
-    stopChasingVariable(eventPlayer.bastion_sentry_ammo)
+    stopChasingVariable(eventPlayer.sentry_ammo)
     wait(0.5)
     
     wait(0.7)
     if eventPlayer.isFiringPrimaryFire() == true:
-        chase(eventPlayer.bastion_sentry_ammo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
+        chase(eventPlayer.sentry_ammo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
     if RULE_CONDITION:
         goto RULE_START
 
 
-rule "[bastion.opy]: Start Chasing Sentry Ammo":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isFiringPrimaryFire() == true
-    @Condition eventPlayer.isUsingAbility1() == true
-    
-    chase(eventPlayer.bastion_sentry_ammo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
-
-
-rule "[bastion.opy]: Stop Chasing Sentry Ammo":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition (eventPlayer.isFiringPrimaryFire() == false or eventPlayer.isUsingAbility1() == false) == true
-    
-    stopChasingVariable(eventPlayer.bastion_sentry_ammo)
-
-
 rule "[bastion.opy]: Progress Bar":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isInAlternateForm() == true
@@ -75,12 +209,22 @@ rule "[bastion.opy]: Progress Bar":
         return
     wait(1)
     if eventPlayer.bastion_sentry_ammo_ui == false:
-        progressBarHud(eventPlayer, eventPlayer.bastion_sentry_ammo / 3, "{0} Sentry Ammo Remaining: {1}".format(abilityIconString(Hero.BASTION, Button.ABILITY_1), 300 - floor(eventPlayer.bastion_sentry_ammo)), HudPosition.TOP, 0, Color.ORANGE, Color.ORANGE, ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, SpecVisibility.DEFAULT)
+        progressBarHud(eventPlayer, 
+        eventPlayer.sentry_ammo / 3, 
+        "{0} Sentry Ammo Remaining: {1}".format(abilityIconString(Hero.BASTION, Button.ABILITY_1), 
+        300 - floor(eventPlayer.sentry_ammo)), 
+        HudPosition.TOP, 
+        0, 
+        Color.ORANGE, 
+        Color.ORANGE, 
+        ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
+        SpecVisibility.DEFAULT)
         eventPlayer.bastion_sentry_ammo_bar = getLastCreatedText()
         eventPlayer.bastion_sentry_ammo_ui = true
 
 
 rule "[bastion.opy]: Recon Mode":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isUsingAbility1() == false
@@ -89,28 +233,30 @@ rule "[bastion.opy]: Recon Mode":
     if eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) >= 1:
     else:
         eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 1)
-    stopChasingVariable(eventPlayer.bastion_sentry_ammo)
+    stopChasingVariable(eventPlayer.sentry_ammo)
     wait(1.5, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.bastion_sentry_ammo = 0
-    destroyProgressBarHud(eventPlayer.bastion_sentry_ammo_bar)
+    eventPlayer.sentry_ammo = 0
+    eventPlayer.sentry_gui_visibility = null
     eventPlayer.bastion_sentry_ammo_ui = false
 
 
 rule "[bastion.opy]: Reload":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
-    @Condition (eventPlayer.isUsingAbility1() and eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.bastion_sentry_ammo >= 300) == true
+    @Condition (eventPlayer.isUsingAbility1() and eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.sentry_ammo >= 300) == true
     
     eventPlayer.setAmmo(1, 0)
-    stopChasingVariable(eventPlayer.bastion_sentry_ammo)
+    stopChasingVariable(eventPlayer.sentry_ammo)
     wait(0.5)
     waitUntil(eventPlayer.isReloading() == false, 1.5)
     if eventPlayer.isReloading() == true:
         eventPlayer.cancelPrimaryAction()
-    eventPlayer.bastion_sentry_ammo = 0
+    eventPlayer.sentry_ammo = 0
 
 
 rule "[bastion.opy]: Turret Form Movement Speed":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isInAlternateForm() == true
@@ -126,6 +272,7 @@ rule "[bastion.opy]: Turret Form Movement Speed":
 
 
 rule "[bastion.opy]: Effects Remove Sentry Mode":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isUsingAbility1() == true
@@ -148,6 +295,7 @@ rule "[bastion.opy]: Effects Remove Sentry Mode":
 
 
 rule "[bastion.opy]: Recon Form Movement Speed":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isInAlternateForm() == false
@@ -160,6 +308,7 @@ rule "[bastion.opy]: Recon Form Movement Speed":
 
 
 rule "[bastion.opy]: Tank Mode":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isUsingUltimate() == true
@@ -170,10 +319,10 @@ rule "[bastion.opy]: Tank Mode":
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.setSecondaryFireEnabled(true)
     wait(0.05)
-    destroyProgressBarHud(eventPlayer.bastion_sentry_ammo_bar)
+    eventPlayer.sentry_gui_visibility = null
     eventPlayer.bastion_sentry_ammo_ui = false
-    stopChasingVariable(eventPlayer.bastion_sentry_ammo)
-    eventPlayer.bastion_sentry_ammo = 0
+    stopChasingVariable(eventPlayer.sentry_ammo)
+    eventPlayer.sentry_ammo = 0
     eventPlayer.forceButtonPress(Button.ABILITY_1)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setPrimaryFireEnabled(false)
@@ -199,6 +348,7 @@ rule "[bastion.opy]: Tank Mode":
 
 
 rule "[bastion.opy]: Tank Mode Reload":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.bastion_tank_mode == true
@@ -209,6 +359,7 @@ rule "[bastion.opy]: Tank Mode Reload":
 
 
 rule "[bastion.opy]: Disallow Primary":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.bastion_tank_mode == true
@@ -220,6 +371,7 @@ rule "[bastion.opy]: Disallow Primary":
         goto RULE_START
 
 rule "[bastion.opy]: Use Self Heal":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true and eventPlayer.getHealth() < 299.5 and eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false
@@ -240,6 +392,7 @@ rule "[bastion.opy]: Use Self Heal":
 
 
 rule "[bastion.opy]: Charge Self Heal Ammo":
+    @Disabled
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == false
