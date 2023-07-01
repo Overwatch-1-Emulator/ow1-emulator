@@ -31,7 +31,6 @@ rule "initialize overwatch 1 hero healths":
     hero_health_normal[heroID(Hero.REAPER)] = ow1_health_normal_REAPER
     hero_health_normal[heroID(Hero.SOLDIER)] = ow1_health_normal_SOLDIER
     hero_health_normal[heroID(Hero.SOMBRA)] = ow1_health_normal_SOMBRA
-    hero_health_normal[heroID(Hero.DOOMFIST)] = ow1_health_normal_DOOMFIST
     hero_health_normal[heroID(Hero.SYMMETRA)] = ow1_health_normal_SYMMETRA
     hero_health_normal[heroID(Hero.TORBJORN)] = ow1_health_normal_TORBJORN
     hero_health_normal[heroID(Hero.TRACER)] = ow1_health_normal_TRACER

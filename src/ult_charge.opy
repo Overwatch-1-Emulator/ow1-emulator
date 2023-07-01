@@ -21,7 +21,6 @@ rule "initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.ASHE)] = 1/(roundedPercent(ow2_ult_cost_ASHE/ow1_ult_cost_ASHE)/100)*ow2_ult_cost_ASHE
     ult_cost[heroID(Hero.BASTION)] = 1/(roundedPercent(ow2_ult_cost_BASTION/ow1_ult_cost_BASTION)/100)*ow2_ult_cost_BASTION
     ult_cost[heroID(Hero.MCCREE)] = 1/(roundedPercent(ow2_ult_cost_MCCREE/ow1_ult_cost_MCCREE)/100)*ow2_ult_cost_MCCREE
-    ult_cost[heroID(Hero.DOOMFIST)] = 1/(roundedPercent(ow2_ult_cost_DOOMFIST/ow1_ult_cost_DOOMFIST)/100)*ow2_ult_cost_DOOMFIST
     ult_cost[heroID(Hero.ECHO)] = 1/(roundedPercent(ow2_ult_cost_ECHO/ow1_ult_cost_ECHO)/100)*ow2_ult_cost_ECHO
     ult_cost[heroID(Hero.GENJI)] = 1/(roundedPercent(ow2_ult_cost_GENJI/ow1_ult_cost_GENJI)/100)*ow2_ult_cost_GENJI
     ult_cost[heroID(Hero.HANZO)] = 1/(roundedPercent(ow2_ult_cost_HANZO/ow1_ult_cost_HANZO)/100)*ow2_ult_cost_HANZO
