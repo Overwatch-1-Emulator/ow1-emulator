@@ -95,7 +95,7 @@ rule "[bastion.opy]: Hide sentry gui when not in sentry mode":
     eventPlayer.sentry_gui_visibility = null
 
 
-rule "[bastion.opy]: Update machine gun ammo when shooting":
+rule "[bastion.opy]: Consume machine gun ammo when shooting":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
@@ -104,7 +104,7 @@ rule "[bastion.opy]: Update machine gun ammo when shooting":
     chase(eventPlayer.machine_gun_ammo, 0, rate=ow1_bastion_machine_gun_fire_rate, ChaseReeval.DESTINATION_AND_RATE)
 
 
-rule "[bastion.opy]: Update machine gun ammo when not shooting":
+rule "[bastion.opy]: Stop machine gun ammo consumption when not shooting":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
@@ -278,7 +278,7 @@ rule "[bastion.opy]: Hide self-repair GUI":
     eventPlayer.heal_gui_visibility = null
 
 
-rule "[bastion.opy]: Deplete heal resource on self-repair":
+rule "[bastion.opy]: Consume heal resource on self-repair":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.self_repair == true
