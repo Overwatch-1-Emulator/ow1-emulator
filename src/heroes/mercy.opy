@@ -15,6 +15,7 @@ rule "[mercy.opy]: Disable jump and crouch while guardian angel":
 
 def startSlingshot():
     eventPlayer.setAbility1Enabled(false) # disable GA during slinshot
+    eventPlayer.allowButton(Button.JUMP)
     eventPlayer.startForcingButton(Button.JUMP) # start angelic descent
     eventPlayer.applyImpulse(eventPlayer.slingshot_initial_velocity, magnitude(eventPlayer.slingshot_initial_velocity), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), 10)
