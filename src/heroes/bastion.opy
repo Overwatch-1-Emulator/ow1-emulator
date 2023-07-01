@@ -29,6 +29,10 @@ rule "[bastion.opy]: Initialize hero":
     @Event eachPlayer
     @Hero bastion
 
+    # Initialize Abilities
+    eventPlayer.setAbility2Enabled(false)
+
+    # Initialize Variables
     eventPlayer.sentry_gui_visibility = null
     eventPlayer.heal_gui_visibility = null
     eventPlayer.self_repair_time_left = ow1_max_self_repair_duration_BASTION
@@ -36,6 +40,7 @@ rule "[bastion.opy]: Initialize hero":
     eventPlayer.sentry_gun_ready = true
     eventPlayer.current_configuration = Configuration.RECON
 
+    # Initialize GUI
     progressBarHud(eventPlayer.sentry_gui_visibility, 
                    roundedPercent(eventPlayer.sentry_ammo/ow1_max_sentry_ammo_BASTION), 
                    "Ammo: {0}".format(ceil(eventPlayer.sentry_ammo)), 
