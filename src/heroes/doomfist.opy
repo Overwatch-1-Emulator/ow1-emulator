@@ -1,22 +1,5 @@
 #!include "ow2_constants.opy"
 
-
-rule "Doom shields":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.getHealthOfType(Health.SHIELDS) == 100
-    
-    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, 9999)
-
-
-rule "Doom shields":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.getHealthOfType(Health.SHIELDS) < 100
-    
-    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
-
-
 rule "Speed":
     @Event playerDealtDamage
     @Hero doomfist
