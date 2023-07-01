@@ -130,7 +130,7 @@
 # ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
 #!define ow1_ana_dart_damage 72
 #!define ow1_mercy_guardian_angel_recovery_time 1
-#!define ow1_bastion_self_repair_heal_increment 2
+#!define ow1_bastion_self_repair_heal_increment 3
 #!define ow1_bastion_self_repair_healing_rate 90
 #!define ow1_bastion_tank_mode_duration 8
 #!define ow1_bastion_tank_mode_cast_time 1.5

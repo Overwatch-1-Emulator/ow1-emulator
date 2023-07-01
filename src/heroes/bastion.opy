@@ -256,7 +256,9 @@ rule "[bastion.opy]: Deplete heal resource on self-repair":
     @Condition eventPlayer.self_repair == true
 
     stopChasingVariable(eventPlayer.self_repair_time_left) # Stop any ongoing resource modification
-    wait(ow1_self_repair_cast_time_BASTION)
+    waitUntil(not eventPlayer.self_repair, ow1_self_repair_cast_time_BASTION) # wait self-repair animation casttime
+    if not eventPlayer.self_repair: # player interrupted self-repair
+        return
     chase(eventPlayer.self_repair_time_left, 0, rate=1, ChaseReeval.DESTINATION_AND_RATE) # Start depleting
 
 
@@ -266,7 +268,9 @@ rule "[bastion.opy]: Recharge heal resource when not self-repairing":
     @Condition eventPlayer.self_repair == false
 
     stopChasingVariable(eventPlayer.self_repair_time_left) # Stop any ongoing resource modification
-    wait(ow1_self_repair_cooldown_time_BASTION) # Wait 1 second cooldown before recharging heal resource
+    waitUntil(eventPlayer.self_repair, ow1_self_repair_cooldown_time_BASTION) # Wait 1 second cooldown before recharging heal resource
+    if eventPlayer.self_repair:  # player interrupted self-repair
+        return
     chase(eventPlayer.self_repair_time_left, ow1_max_self_repair_duration_BASTION, rate=ow1_max_self_repair_duration_BASTION/ow1_self_repair_recharge_duration_BASTION, ChaseReeval.DESTINATION_AND_RATE) # Start recharging
 
 
