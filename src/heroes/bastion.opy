@@ -107,8 +107,7 @@ rule "[bastion.opy]: Consume machine gun ammo when shooting":
 rule "[bastion.opy]: Stop machine gun ammo consumption when not shooting":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.current_configuration == Configuration.SENTRY
-    @Condition eventPlayer.isFiringPrimaryFire() == false
+    @Condition not (eventPlayer.current_configuration == Configuration.SENTRY and eventPlayer.isFiringPrimaryFire())
 
     stopChasingVariable(eventPlayer.machine_gun_ammo)
 
