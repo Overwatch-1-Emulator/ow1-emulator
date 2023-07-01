@@ -39,7 +39,7 @@ rule "[mercy.opy]: Execute slingshot":
 
     eventPlayer.slingshot_initial_velocity = eventPlayer.getVelocity() + jump_velocity
     if eventPlayer.isHoldingButton(Button.CROUCH): # add extra jump momentum for superjump
-        eventPlayer.slingshot_initial_velocity += 0.25*eventPlayer.getVelocity()
+        eventPlayer.slingshot_initial_velocity += eventPlayer.getVelocity()/3
     eventPlayer.forceButtonPress(Button.ABILITY_1) # interrupt GA
     wait() # wait for OW2 GA meter to clear
     startSlingshot()
