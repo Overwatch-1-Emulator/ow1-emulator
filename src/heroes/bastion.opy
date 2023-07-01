@@ -160,7 +160,7 @@ rule "[bastion.opy]: Always allow shooting on recon mode":
     eventPlayer.setPrimaryFireEnabled(true)
 
 
-def sentryGunReload():
+def reloadSentryGun():
     eventPlayer.sentry_gun_ready = false
     smallMessage(eventPlayer, "Reloading . . .")
     wait(ow1_sentry_reload_time_BASTION)
@@ -175,7 +175,7 @@ rule "[bastion.opy]: Reload sentry gun":
     @Condition (eventPlayer.isHoldingButton(Button.RELOAD)) or (eventPlayer.sentry_ammo <= 0)
     @Condition eventPlayer.sentry_ammo < ow1_max_sentry_ammo_BASTION
 
-    sentryGunReload()
+    reloadSentryGun()
 
 
 rule "[bastion.opy]: Start self-repair on ability 2":
