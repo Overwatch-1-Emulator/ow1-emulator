@@ -34,7 +34,7 @@ rule "[bastion.opy]: Initialize hero":
     progressBarHud(eventPlayer.sentry_gui_visibility, 
                    roundedPercent(eventPlayer.machine_gun_ammo/ow1_max_sentry_ammo_BASTION), 
                    "Ammo: {0}".format(ceil(eventPlayer.machine_gun_ammo)), 
-                   HudPosition.RIGHT, 
+                   HudPosition.TOP, 
                    0, 
                    Color.ORANGE, 
                    Color.ORANGE, 
@@ -44,8 +44,8 @@ rule "[bastion.opy]: Initialize hero":
     progressBarHud(eventPlayer.heal_gui_visibility, 
                    roundedPercent(eventPlayer.self_repair_time_left/ow1_max_self_repair_duration_BASTION), 
                    "Self-Repair", 
-                   HudPosition.TOP, 
-                   0, 
+                   HudPosition.RIGHT, 
+                   1, 
                    Color.YELLOW, 
                    Color.YELLOW, 
                    ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
@@ -167,16 +167,16 @@ rule "[bastion.opy]: Always allow shooting on recon mode":
 
 def reloadSentryGun():
     eventPlayer.sentry_gun_ready = false
-    smallMessage(eventPlayer, "Reloading . . .")
+    bigMessage(eventPlayer, "Reloading . . .")
     wait(ow1_sentry_reload_time_BASTION)
     eventPlayer.machine_gun_ammo = ow1_max_sentry_ammo_BASTION
     eventPlayer.sentry_gun_ready = true
-    smallMessage(eventPlayer, "Done")
 
 
 rule "[bastion.opy]: Reload sentry gun":
     @Event eachPlayer
     @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition (eventPlayer.isHoldingButton(Button.RELOAD)) or (eventPlayer.machine_gun_ammo <= 0)
     @Condition eventPlayer.machine_gun_ammo < ow1_max_sentry_ammo_BASTION
 
