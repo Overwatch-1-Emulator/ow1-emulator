@@ -127,8 +127,7 @@ rule "[bastion.opy]: Prevent movement during Sentry Mode":
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
 
-    waitUntil(eventPlayer.isOnGround(), 9999)
-    eventPlayer.setMoveSpeed(0)
+    eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
 
 
 rule "[bastion.opy]: Allow movement outside Sentry Mode":
@@ -136,7 +135,7 @@ rule "[bastion.opy]: Allow movement outside Sentry Mode":
     @Hero bastion
     @Condition eventPlayer.current_configuration != Configuration.SENTRY
 
-    eventPlayer.setMoveSpeed(100)
+    eventPlayer.clearStatusEffect(Status.ROOTED)
 
 
 rule "[bastion.opy]: Allow machine gun shooting when sentry gun ready":
