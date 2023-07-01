@@ -65,7 +65,7 @@ rule "[bastion.opy]: Define sentry mode":
     @Hero bastion
     @Condition eventPlayer.isInAlternateForm()
     @Condition eventPlayer.current_configuration == Configuration.RECON # Sentry mode can only be entered from recon mode
-    @Condition eventPlayer.current_configuration != Configuration.TANK # prevents incorrectly identifying sentry as tank mode
+    @Condition eventPlayer.current_configuration != Configuration.TANK # prevents incorrectly identifying tank as sentry
     @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer.current_configuration = Configuration.SENTRY
@@ -164,7 +164,8 @@ rule "[bastion.opy]: Always allow shooting on recon mode":
     eventPlayer.setPrimaryFireEnabled(true)
 
 
-def reloadSentryGun():
+def reloadMachineGun():
+    @Name "[bastion.opy]: Reload machine gun"
     eventPlayer.sentry_gun_ready = false
     bigMessage(eventPlayer, "Reloading . . .")
     wait(ow1_sentry_reload_time_BASTION)
@@ -179,10 +180,11 @@ rule "[bastion.opy]: Reload sentry gun":
     @Condition (eventPlayer.isHoldingButton(Button.RELOAD)) or (eventPlayer.machine_gun_ammo <= 0)
     @Condition eventPlayer.machine_gun_ammo < ow1_max_sentry_ammo_BASTION
 
-    reloadSentryGun()
+    reloadMachineGun()
 
 
 def selfRepair():
+    @Name "[bastion.opy]: Execute self-repair ability"
     wait(ow1_self_repair_cast_time_BASTION)
     while eventPlayer.self_repair == true: # Approximate 90 healing over time using discrete healing at high frequency
         heal(eventPlayer, eventPlayer, ow1_bastion_self_repair_heal_increment) 
