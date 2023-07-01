@@ -167,10 +167,11 @@ rule "[bastion.opy]: Always allow shooting on recon mode":
 def reloadMachineGun():
     @Name "[bastion.opy]: Reload machine gun"
     eventPlayer.sentry_gun_ready = false
-    bigMessage(eventPlayer, "Reloading . . .")
+    smallMessage(eventPlayer, "Reloading . . .")
     wait(ow1_sentry_reload_time_BASTION)
     eventPlayer.machine_gun_ammo = ow1_max_sentry_ammo_BASTION
     eventPlayer.sentry_gun_ready = true
+    smallMessage(eventPlayer, "Done")
 
 
 rule "[bastion.opy]: Reload sentry gun":
