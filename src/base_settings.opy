@@ -69,6 +69,7 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_BAPTISTE/ow1_ult_cost_BAPTISTE)
             },
             "bastion": {
+                "enableSecondaryFire": false,
                 "ultGen%": percent(ow2_ult_cost_BASTION/ow1_ult_cost_BASTION)
             },
             "brigitte": {
