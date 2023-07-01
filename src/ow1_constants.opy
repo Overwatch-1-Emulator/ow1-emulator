@@ -44,7 +44,7 @@
 #!define ow1_health_normal_ZARYA 200
 
 #!define ow1_health_normal_ASHE 0
-#!define ow1_health_normal_BASTION 200
+#!define ow1_health_normal_BASTION 0
 #!define ow1_health_normal_MCCREE 225
 #!define ow1_health_normal_ECHO 0
 #!define ow1_health_normal_GENJI 0
@@ -75,7 +75,7 @@
 #!define ow1_health_armor_WINSTON 150
 #!define ow1_health_armor_HAMMOND 100
 
-#!define ow1_health_armor_BASTION 100
+#!define ow1_health_armor_BASTION 0
 #!define ow1_health_armor_TORBJORN 0
 
 #!define ow1_health_armor_BRIGITTE 50

@@ -203,7 +203,7 @@ rule "[bastion.opy]: Start self-repair on ability 2":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
-    @Condition eventPlayer.getHealth() < ow1_health_normal_BASTION + ow1_health_armor_BASTION
+    @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
     
     eventPlayer.self_repair = true
 
@@ -227,7 +227,7 @@ rule "[bastion.opy]: Stop self-repair when no healing resource left":
 rule "[bastion.opy]: Stop self-repair when full hp":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.getHealth() >= ow1_health_normal_BASTION + ow1_health_armor_BASTION
+    @Condition eventPlayer.getHealth() >= eventPlayer.getMaxHealth()
 
     eventPlayer.self_repair = false
 
