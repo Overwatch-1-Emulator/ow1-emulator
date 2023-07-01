@@ -7,22 +7,12 @@ enum Configuration:
     SENTRY,
     TANK
 
-playervar bastion_tracker
-playervar bastion_tank_mode
-playervar sentry_ammo
-playervar bastion_self_heal_ammo
-playervar bastion_repairing
-playervar bastion_self_heal_ui
-playervar bastion_sentry_ammo_ui
-playervar bastion_sentry_ammo_bar
-playervar bastion_self_heal_bar
-
 playervar current_configuration
 playervar sentry_gui_visibility
 playervar heal_gui_visibility
 playervar self_repair_time_left
-playervar is_tank_mode
 playervar sentry_gun_ready
+playervar machine_gun_ammo
 playervar self_repair
 
 rule "[bastion.opy]: Initialize hero":
@@ -36,14 +26,14 @@ rule "[bastion.opy]: Initialize hero":
     eventPlayer.sentry_gui_visibility = null
     eventPlayer.heal_gui_visibility = null
     eventPlayer.self_repair_time_left = ow1_max_self_repair_duration_BASTION
-    eventPlayer.sentry_ammo = ow1_max_sentry_ammo_BASTION
+    eventPlayer.machine_gun_ammo = ow1_max_sentry_ammo_BASTION
     eventPlayer.sentry_gun_ready = true
     eventPlayer.current_configuration = Configuration.RECON
 
     # Initialize GUI
     progressBarHud(eventPlayer.sentry_gui_visibility, 
-                   roundedPercent(eventPlayer.sentry_ammo/ow1_max_sentry_ammo_BASTION), 
-                   "Ammo: {0}".format(ceil(eventPlayer.sentry_ammo)), 
+                   roundedPercent(eventPlayer.machine_gun_ammo/ow1_max_sentry_ammo_BASTION), 
+                   "Ammo: {0}".format(ceil(eventPlayer.machine_gun_ammo)), 
                    HudPosition.RIGHT, 
                    0, 
                    Color.ORANGE, 
@@ -105,22 +95,22 @@ rule "[bastion.opy]: Hide sentry gui when not in sentry mode":
     eventPlayer.sentry_gui_visibility = null
 
 
-rule "[bastion.opy]: Deplete sentry ammo when shooting in sentry mode":
+rule "[bastion.opy]: Update machine gun ammo when shooting":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.isFiringPrimaryFire() == true
 
-    chase(eventPlayer.sentry_ammo, 0, rate=35, ChaseReeval.DESTINATION_AND_RATE)
+    chase(eventPlayer.machine_gun_ammo, 0, rate=35, ChaseReeval.DESTINATION_AND_RATE)
 
 
-rule "[bastion.opy]: Stop depleting sentry ammo when not shooting in sentry mode":
+rule "[bastion.opy]: Update machine gun ammo when not shooting":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.isFiringPrimaryFire() == false
 
-    stopChasingVariable(eventPlayer.sentry_ammo)
+    stopChasingVariable(eventPlayer.machine_gun_ammo)
 
 
 rule "[bastion.opy]: No cooldown on reconfigure (ability 1)":
@@ -179,7 +169,7 @@ def reloadSentryGun():
     eventPlayer.sentry_gun_ready = false
     smallMessage(eventPlayer, "Reloading . . .")
     wait(ow1_sentry_reload_time_BASTION)
-    eventPlayer.sentry_ammo = ow1_max_sentry_ammo_BASTION
+    eventPlayer.machine_gun_ammo = ow1_max_sentry_ammo_BASTION
     eventPlayer.sentry_gun_ready = true
     smallMessage(eventPlayer, "Done")
 
@@ -187,8 +177,8 @@ def reloadSentryGun():
 rule "[bastion.opy]: Reload sentry gun":
     @Event eachPlayer
     @Hero bastion
-    @Condition (eventPlayer.isHoldingButton(Button.RELOAD)) or (eventPlayer.sentry_ammo <= 0)
-    @Condition eventPlayer.sentry_ammo < ow1_max_sentry_ammo_BASTION
+    @Condition (eventPlayer.isHoldingButton(Button.RELOAD)) or (eventPlayer.machine_gun_ammo <= 0)
+    @Condition eventPlayer.machine_gun_ammo < ow1_max_sentry_ammo_BASTION
 
     reloadSentryGun()
 
@@ -332,3 +322,5 @@ rule "[bastion.opy]: Shoot tank shells":
     
     eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, ow1_bastion_tank_shell_reload_time) # Reload tank shell
+    wait(ow1_bastion_tank_shell_reload_time)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0) # Reload tank shell
