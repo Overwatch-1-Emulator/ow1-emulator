@@ -277,144 +277,6 @@ rule "[bastion.opy]: Recharge heal resource when not self-repairing":
     chase(eventPlayer.self_repair_time_left, ow1_max_self_repair_duration_BASTION, rate=ow1_max_self_repair_duration_BASTION/ow1_self_repair_recharge_duration_BASTION, ChaseReeval.DESTINATION_AND_RATE) # Start recharging
 
 
-rule "[bastion.opy]: Continuous Sentry Mode":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isUsingAbility1() == true
-    @Condition eventPlayer.bastion_tank_mode == false
-    @Condition eventPlayer.isDummy() == false
-    
-
-    waitUntil(eventPlayer.isInAlternateForm() == false, ow2_assault_form_bastion_length)
-    if eventPlayer.isHoldingButton(Button.ABILITY_1):
-        return
-    eventPlayer.cancelPrimaryAction()
-    wait()
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-    eventPlayer.forceButtonPress(Button.ABILITY_1)
-    wait(0.02)
-    stopChasingVariable(eventPlayer.sentry_ammo)
-    wait(0.5)
-    
-    wait(0.7)
-    if eventPlayer.isFiringPrimaryFire() == true:
-        chase(eventPlayer.sentry_ammo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
-    if RULE_CONDITION:
-        goto RULE_START
-
-
-rule "[bastion.opy]: Progress Bar":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isInAlternateForm() == true
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
-    @Condition eventPlayer.bastion_tank_mode == false
-    
-    wait()
-    if eventPlayer.isHoldingButton(Button.ABILITY_1) == false:
-        return
-    wait(1)
-    if eventPlayer.bastion_sentry_ammo_ui == false:
-        progressBarHud(eventPlayer, 
-        eventPlayer.sentry_ammo / 3, 
-        "{0} Sentry Ammo Remaining: {1}".format(abilityIconString(Hero.BASTION, Button.ABILITY_1), 
-        300 - floor(eventPlayer.sentry_ammo)), 
-        HudPosition.TOP, 
-        0, 
-        Color.ORANGE, 
-        Color.ORANGE, 
-        ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
-        SpecVisibility.DEFAULT)
-        eventPlayer.bastion_sentry_ammo_bar = getLastCreatedText()
-        eventPlayer.bastion_sentry_ammo_ui = true
-
-
-rule "[bastion.opy]: Recon Mode":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isUsingAbility1() == false
-    
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 1.5)
-    if eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) >= 1:
-    else:
-        eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 1)
-    stopChasingVariable(eventPlayer.sentry_ammo)
-    wait(1.5, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.sentry_ammo = 0
-    eventPlayer.sentry_gui_visibility = null
-    eventPlayer.bastion_sentry_ammo_ui = false
-
-
-rule "[bastion.opy]: Reload":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition (eventPlayer.isUsingAbility1() and eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.sentry_ammo >= 300) == true
-    
-    eventPlayer.setAmmo(1, 0)
-    stopChasingVariable(eventPlayer.sentry_ammo)
-    wait(0.5)
-    waitUntil(eventPlayer.isReloading() == false, 1.5)
-    if eventPlayer.isReloading() == true:
-        eventPlayer.cancelPrimaryAction()
-    eventPlayer.sentry_ammo = 0
-
-
-rule "[bastion.opy]: Turret Form Movement Speed":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isInAlternateForm() == true
-    @Condition eventPlayer.isUsingUltimate() == false
-    @Condition eventPlayer.isInSpawnRoom() == false
-    @Condition eventPlayer.bastion_tank_mode == false
-    
-    eventPlayer.setStatusEffect(null, Status.ROOTED, 50)
-    eventPlayer.setDamageDealt(150)
-    eventPlayer.setKnockbackReceived(0)
-    eventPlayer.setJumpEnabled(false)
-    eventPlayer.setSecondaryFireEnabled(false)
-
-
-rule "[bastion.opy]: Effects Remove Sentry Mode":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isUsingAbility1() == true
-    #If the player has CC (Knocked Down, Slept, Frozen, Rooted, Stunned)
-    @Condition (eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.STUNNED)) == true
-    @Condition eventPlayer.bastion_tank_mode == false
-    
-    #If the player has CC (Knocked Down, Slept, Frozen, Rooted, Stunned)
-    waitUntil((eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.STUNNED)) == false, 99999)
-    wait()
-    if eventPlayer.isUsingAbility1() == false:
-        return
-    if eventPlayer.hasStatusEffect(Status.HACKED) == true:
-        goto lbl_0
-    wait(1.6)
-    lbl_0:
-    eventPlayer.startForcingButton(Button.ABILITY_1)
-    wait(0.05)
-    eventPlayer.stopForcingButton(Button.ABILITY_1)
-
-
-rule "[bastion.opy]: Recon Form Movement Speed":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isInAlternateForm() == false
-    
-    eventPlayer.clearStatusEffect(Status.ROOTED)
-    eventPlayer.setDamageDealt(100)
-    eventPlayer.setKnockbackReceived(100)
-    eventPlayer.setJumpEnabled(true)
-    eventPlayer.setSecondaryFireEnabled(true)
-
-
 def transformInToTank():
     @Name "[bastion.opy]: Transform into tank"
 
@@ -432,6 +294,7 @@ def transformInToTank():
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to turret mode
     eventPlayer.disallowButton(Button.ABILITY_1) # Disable reconfiguring out of turret mode
+
 
 def transformOutOfTank():
     @Name "[bastion.opy]: Transform out of tank"
@@ -459,45 +322,6 @@ rule "[bastion.opy]: Enter tank mode":
     transformInToTank()
     waitUntil(not eventPlayer.isUsingAbility1(), ow1_bastion_tank_mode_duration)
     transformOutOfTank()
-
-rule "[bastion.opy]: Tank Mode":
-    @Disabled
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isUsingUltimate() == true
-    
-    eventPlayer.bastion_tank_mode = true
-    wait(0.5)
-    eventPlayer.cancelPrimaryAction()
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-    eventPlayer.setSecondaryFireEnabled(true)
-    wait(0.05)
-    eventPlayer.sentry_gui_visibility = null
-    eventPlayer.bastion_sentry_ammo_ui = false
-    stopChasingVariable(eventPlayer.sentry_ammo)
-    eventPlayer.sentry_ammo = 0
-    eventPlayer.forceButtonPress(Button.ABILITY_1)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
-    eventPlayer.setPrimaryFireEnabled(false)
-    eventPlayer.setMoveSpeed(153.9)
-    eventPlayer.setDamageDealt(180)
-    eventPlayer.setProjectileSpeed(150)
-    eventPlayer.setProjectileGravity(10)
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    wait(0.05)
-    eventPlayer.clearStatusEffect(Status.ROOTED)
-    waitUntil(not eventPlayer.isUsingAbility1(), 8.5)
-    wait(0.05)
-    eventPlayer.bastion_tank_mode = false
-    eventPlayer.setPrimaryFireEnabled(true)
-    eventPlayer.setMoveSpeed(100)
-    eventPlayer.setDamageDealt(100)
-    eventPlayer.setProjectileSpeed(100)
-    eventPlayer.setProjectileGravity(100)
-    eventPlayer.setUltCharge(0)
-    eventPlayer.allowButton(Button.ABILITY_1)
-    wait(0.05)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
 
 
 rule "[bastion.opy]: Tank Mode Reload":
