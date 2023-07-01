@@ -18,7 +18,7 @@ def startSlingshot():
     eventPlayer.applyImpulse(eventPlayer.slingshot_initial_velocity, magnitude(eventPlayer.slingshot_initial_velocity), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.allowButton(Button.JUMP)
     eventPlayer.startForcingButton(Button.JUMP) # start angelic descent
-    waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), 10)
+    waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), 99999)
     eventPlayer.stopForcingButton(Button.JUMP)
     eventPlayer.slingshotting = false
 
