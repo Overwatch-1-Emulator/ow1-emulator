@@ -44,7 +44,7 @@ rule "[bastion.opy]: Initialize hero":
     progressBarHud(eventPlayer.heal_gui_visibility, 
                    roundedPercent(eventPlayer.self_repair_time_left/ow1_max_self_repair_duration_BASTION), 
                    "Self-Repair", 
-                   HudPosition.RIGHT, 
+                   HudPosition.LEFT, 
                    1, 
                    Color.YELLOW, 
                    Color.YELLOW, 
@@ -199,10 +199,11 @@ rule "[bastion.opy]: Activate self-repair":
     selfRepair()
 
 
-rule "[bastion.opy]: Start self-repair on ability 2":
+rule "[bastion.opy]: Start self-repair on ability 2 or secondary fire":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
+    @Condition not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
     
     eventPlayer.self_repair = true
@@ -211,7 +212,7 @@ rule "[bastion.opy]: Start self-repair on ability 2":
 rule "[bastion.opy]: Stop self-repair on ability 2 release":
     @Event eachPlayer
     @Hero bastion
-    @Condition not eventPlayer.isHoldingButton(Button.ABILITY_2)
+    @Condition not (eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE))
 
     eventPlayer.self_repair = false
 
@@ -275,8 +276,7 @@ def transformInToTank():
     eventPlayer.cancelPrimaryAction() # interrupt ultimate animation right before it completes
 
     eventPlayer.setPrimaryFireEnabled(false) # disable machine gun
-    eventPlayer.setSecondaryFireEnabled(true) # enable tank shells (geneade launcher)
-
+    
     eventPlayer.setMoveSpeed(153.9) # move faster in tank mode
     eventPlayer.setDamageDealt(180) # deal more damage in tank mode
     eventPlayer.setProjectileSpeed(150) # increase grenade travel speed (to mimic tank shells)
@@ -292,6 +292,7 @@ def transformOutOfTank():
 
     eventPlayer.setPrimaryFireEnabled(true)
     eventPlayer.setSecondaryFireEnabled(false)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
 
     eventPlayer.setMoveSpeed(100)
     eventPlayer.setDamageDealt(100)
@@ -315,13 +316,22 @@ rule "[bastion.opy]: Enter tank mode":
     transformOutOfTank()
 
 
-rule "[bastion.opy]: Shoot tank shells":
+rule "[bastion.opy]: Fire tank shells":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.TANK
-    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == true
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     
+    eventPlayer.setSecondaryFireEnabled(true)
     eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, ow1_bastion_tank_shell_reload_time) # Reload tank shell
-    wait(ow1_bastion_tank_shell_reload_time)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0) # Reload tank shell
+    eventPlayer.setSecondaryFireEnabled(false)
+
+rule "[bastion.opy]: Reload tank shells":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.TANK
+    @Condition eventPlayer.isFiringSecondaryFire()
+
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, ow1_bastion_tank_shell_reload_time) # modify cooldown for tank shell
+    wait(ow1_bastion_tank_shell_reload_time) # Wait tank shell reload time
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0) # Set tank shell as available
