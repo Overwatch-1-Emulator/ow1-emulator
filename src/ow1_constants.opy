@@ -7,6 +7,7 @@
 #!define ow1_ult_cost_WINSTON 1540
 #!define ow1_ult_cost_HAMMOND 1540
 #!define ow1_ult_cost_ZARYA 2100
+#!define ow1_ult_cost_DOOMFIST 1680
 
 #!define ow1_ult_cost_ASHE 2240
 #!define ow1_ult_cost_BASTION 2310
@@ -42,6 +43,7 @@
 #!define ow1_health_normal_WINSTON 350
 #!define ow1_health_normal_HAMMOND 500
 #!define ow1_health_normal_ZARYA 200
+#!define ow1_health_normal_DOOMFIST 250
 
 #!define ow1_health_normal_ASHE 0
 #!define ow1_health_normal_BASTION 0
