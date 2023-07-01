@@ -304,7 +304,7 @@ rule "[bastion.opy]: Recharge heal resource when not self-repairing":
 def transformInToTank():
     @Name "[bastion.opy]: Transform into tank"
 
-    wait(min(ow1_bastion_tank_mode_cast_time, ow2_bastion_artillery_mode_cast_time))
+    wait(OW1_BASTION_TANK_TRANSFORM_TIME-OW2_BASTION_SENTRY_MODE_TRANSFORM_TIME)
     eventPlayer.cancelPrimaryAction() # interrupt ultimate animation right before it completes
     eventPlayer.setPrimaryFireEnabled(false) # disable machine gun
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)

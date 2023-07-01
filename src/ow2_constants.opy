@@ -55,9 +55,7 @@
 # Bastion stuff
 #!define ow2_assault_form_bastion_length 7.016
 #!define ow2_bastion_artillery_mode_cast_time 0.5
-
-###################################
-# damage
+#!define OW2_BASTION_SENTRY_MODE_TRANSFORM_TIME 0.5
 #!define OW2_BASTION_MACHINE_GUN_DAMAGE 12
 #!define OW2_BASTION_RECON_GUN_DAMAGE 20
 #!define OW2_BASTION_GRENADE_DAMAGE 115

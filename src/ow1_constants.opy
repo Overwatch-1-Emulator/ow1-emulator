@@ -135,7 +135,6 @@
 #!define ow1_bastion_self_repair_heal_increment 7
 #!define ow1_bastion_self_repair_healing_rate 90
 #!define ow1_bastion_tank_mode_duration 8
-#!define ow1_bastion_tank_mode_cast_time 1.5
 #!define ow1_bastion_tank_shell_reload_time 1
 #!define ow1_bastion_machine_gun_fire_rate 30
 #!define ow1_max_sentry_ammo_BASTION 300
@@ -145,3 +144,4 @@
 #!define ow1_self_repair_recharge_duration_BASTION 7
 #!define ow1_self_repair_cast_time_BASTION 0.5
 #!define ow1_self_repair_cooldown_time_BASTION 1
+#!define OW1_BASTION_TANK_TRANSFORM_TIME 1
