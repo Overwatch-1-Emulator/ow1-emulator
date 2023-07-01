@@ -48,7 +48,7 @@
 #!define ow1_shield_bash_stun_duration 0.75
 #!define ow1_sleepdart_sleep_duration 5
 #!define ow1_rally_speed_buff 1.3
-#!define ow1_mercy_guardian_angel_recovery_time 1
+#!define OW1_JUMP_SPEED 5.44
 
 ###################################
 # Ana
@@ -128,6 +128,8 @@
 
 # Mercy
 #!define OW1_MERCY_CLIP_SIZE 20
+#!define OW1_MERCY_GUARDIAN_ANGEL_COOLDOWN 1.5
+#!define OW1_MERCY_GUARDIAN_ANGEL_RECOVERY_TIME 1
 
 # Reinhardt
 #!define OW1_REINHARDT_HEALTH 300
