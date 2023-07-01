@@ -14,13 +14,11 @@ rule "[mercy.opy]: Disable jump and crouch while guardian angel":
     eventPlayer.allowButton(Button.CROUCH)
 
 def startSlingshot():
-    eventPlayer.setAbility1Enabled(false) # disable GA during slinshot
+    eventPlayer.applyImpulse(eventPlayer.slingshot_initial_velocity, magnitude(eventPlayer.slingshot_initial_velocity), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.allowButton(Button.JUMP)
     eventPlayer.startForcingButton(Button.JUMP) # start angelic descent
-    eventPlayer.applyImpulse(eventPlayer.slingshot_initial_velocity, magnitude(eventPlayer.slingshot_initial_velocity), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), 10)
     eventPlayer.stopForcingButton(Button.JUMP)
-    eventPlayer.setAbility1Enabled(true)
 
 rule "[mercy.opy]: Custom GA + jump combo logic":
     @Event eachPlayer
@@ -33,16 +31,15 @@ rule "[mercy.opy]: Custom GA + jump combo logic":
     wait() # wait for GA meter to clear
     startSlingshot()
 
-# rule "[mercy.opy]: Force angelic descent when holding jump":
-#     @Event eachPlayer
-#     @Hero mercy
-#     @Condition eventPlayer.isHoldingButton(Button.JUMP) == true
+rule "[mercy.opy]: Slingshot GA cooldown logic":
+    @Event eachPlayer
+    @Hero mercy
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.isHoldingButton(Button.JUMP) == false
 
-#     eventPlayer.forceButtonPress(Button.JUMP)
-
-# rule "[mercy.opy]: Exit angelic descent when releasing jump":
-#     @Event eachPlayer
-#     @Hero mercy
-#     @Condition eventPlayer.isHoldingButton(Button.JUMP) == false
-
-#     eventPlayer.stopForcingButton(Button.JUMP)
+    waitUntil(eventPlayer.isHoldingButton(Button.JUMP), 10)
+    if eventPlayer.isHoldingButton(Button.JUMP):
+        eventPlayer.setAbility1Enabled(false)
+        waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), ow1_mercy_guardian_angel_recovery_time)
+        eventPlayer.setAbilityCooldown(Button.ABILITY_1, ow1_cooldown_ability1_MERCY)
+        eventPlayer.setAbility1Enabled(true)
