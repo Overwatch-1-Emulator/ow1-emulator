@@ -132,3 +132,5 @@
 #!define ow1_mercy_guardian_angel_recovery_time 1
 #!define ow1_bastion_self_repair_heal_increment 2
 #!define ow1_bastion_self_repair_healing_rate 90
+#!define ow1_bastion_tank_mode_duration 8
+#!define ow1_bastion_tank_mode_cast_time 1.5

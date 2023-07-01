@@ -30,7 +30,7 @@ rule "[bastion.opy]: Initialize hero":
     @Hero bastion
 
     # Initialize Abilities
-    eventPlayer.setAbility2Enabled(false)
+    eventPlayer.setSecondaryFireEnabled(false)
 
     # Initialize Variables
     eventPlayer.sentry_gui_visibility = null
@@ -65,7 +65,7 @@ rule "[bastion.opy]: Initialize hero":
 rule "[bastion.opy]: Define recon mode":
     @Event eachPlayer
     @Hero bastion
-    @Condition not eventPlayer.isInAlternateForm()
+    @Condition not eventPlayer.isInAlternateForm() # built in workshop function for detecting default hero form
 
     eventPlayer.current_configuration = Configuration.RECON
 
@@ -74,9 +74,19 @@ rule "[bastion.opy]: Define sentry mode":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isInAlternateForm()
+    @Condition eventPlayer.current_configuration == Configuration.RECON # Sentry mode can only be entered from recon mode
+    @Condition eventPlayer.current_configuration != Configuration.TANK # prevents incorrectly identifying sentry as tank mode
     @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer.current_configuration = Configuration.SENTRY
+
+
+rule "[bastion.opy]: Define tank mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingUltimate()
+
+    eventPlayer.current_configuration = Configuration.TANK
 
 
 rule "[bastion.opy]: Show sentry gui when in sentry mode":
@@ -139,7 +149,7 @@ rule "[bastion.opy]: Allow movement outside Sentry Mode":
     eventPlayer.setMoveSpeed(100)
 
 
-rule "[bastion.opy]: Allow turret shooting when sentry gun ready":
+rule "[bastion.opy]: Allow machine gun shooting when sentry gun ready":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
@@ -148,7 +158,7 @@ rule "[bastion.opy]: Allow turret shooting when sentry gun ready":
     eventPlayer.setPrimaryFireEnabled(true)
 
 
-rule "[bastion.opy]: Disallow turret shooting when sentry gun not ready":
+rule "[bastion.opy]: Disallow machine gun shooting when sentry gun not ready":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
@@ -404,6 +414,51 @@ rule "[bastion.opy]: Recon Form Movement Speed":
     eventPlayer.setJumpEnabled(true)
     eventPlayer.setSecondaryFireEnabled(true)
 
+
+def transformInToTank():
+    @Name "[bastion.opy]: Transform into tank"
+
+    wait(min(ow1_bastion_tank_mode_cast_time, ow2_bastion_artillery_mode_cast_time))
+    eventPlayer.cancelPrimaryAction() # interrupt ultimate animation right before it completes
+
+    eventPlayer.setPrimaryFireEnabled(false) # disable machine gun
+    eventPlayer.setSecondaryFireEnabled(true) # enable tank shells (geneade launcher)
+
+    eventPlayer.setMoveSpeed(153.9) # move faster in tank mode
+    eventPlayer.setDamageDealt(180) # deal more damage in tank mode
+    eventPlayer.setProjectileSpeed(150) # increase grenade travel speed (to mimic tank shells)
+    # eventPlayer.setProjectileGravity(10) # decrease gravity (to mimic straighter tank projectile)
+
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to turret mode
+    eventPlayer.disallowButton(Button.ABILITY_1) # Disable reconfiguring out of turret mode
+
+def transformOutOfTank():
+    @Name "[bastion.opy]: Transform out of tank"
+
+    eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.setSecondaryFireEnabled(false)
+
+    eventPlayer.setMoveSpeed(100)
+    eventPlayer.setDamageDealt(100)
+    eventPlayer.setProjectileSpeed(100)
+    eventPlayer.setProjectileGravity(100)
+    # eventPlayer.setUltCharge(0)
+
+    eventPlayer.allowButton(Button.ABILITY_1)
+    if eventPlayer.isUsingAbility1():
+        eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+        eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to recon mode
+
+
+rule "[bastion.opy]: Enter tank mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.TANK
+    
+    transformInToTank()
+    waitUntil(not eventPlayer.isUsingAbility1(), ow1_bastion_tank_mode_duration)
+    transformOutOfTank()
 
 rule "[bastion.opy]: Tank Mode":
     @Disabled

@@ -54,3 +54,4 @@
 ###################################
 # Bastion stuff
 #!define ow2_assault_form_bastion_length 7.016
+#!define ow2_bastion_artillery_mode_cast_time 0.5
