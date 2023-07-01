@@ -1,4 +1,5 @@
 # hero specific logic
+#!include "heroes/doomfist.opy"
 #!include "heroes/dva.opy"
 #!include "heroes/reinhardt.opy"
 #!include "heroes/zarya.opy"
@@ -7,6 +8,7 @@
 
 #!include "heroes/ana.opy"
 #!include "heroes/brigitte.opy"
+
 
 rule "reset abilities on new round":
     @Event eachPlayer
