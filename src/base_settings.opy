@@ -79,14 +79,6 @@ settings {
                 "projectileSpeed%": percent(ow1_flashbang_speed/ow2_mag_grenade_speed),
                 "ultGen%": percent(ow2_ult_cost_MCCREE/ow1_ult_cost_MCCREE)
             },
-            "doomfist": {
-                "ammoRegenerationTime%": 135,
-                "ultKb%": 300,
-                "ability1ChargeRate%": 10,
-                "secondaryFireKb%": 115,
-                "ultDuration%": 150,
-                "ultGen%": percent(ow2_ult_cost_DOOMFIST/ow1_ult_cost_DOOMFIST)
-            },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
                 "ability2Cooldown%": 114,
@@ -178,6 +170,7 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_ZENYATTA/ow1_ult_cost_ZENYATTA)
             },
             "disabledHeroes": [
+                "doomfist",
                 "junkerQueen",
                 "kiriko",
                 "lifeweaver",
