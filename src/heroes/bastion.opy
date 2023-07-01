@@ -213,7 +213,7 @@ rule "[bastion.opy]: Start self-repair on ability 2 or secondary fire":
 rule "[bastion.opy]: Stop self-repair on ability 2 release":
     @Event eachPlayer
     @Hero bastion
-    @Condition not (eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE))
+    @Condition not (eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)) or eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
 
     eventPlayer.self_repair = false
 
