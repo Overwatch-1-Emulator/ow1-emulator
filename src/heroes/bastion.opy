@@ -9,7 +9,7 @@ playervar BastionSelfHealUI
 playervar BastionSentryAmmoUI
 #!include "ow2_constants.opy"
 
-rule "Bastion - Technical Tracker":
+rule "[bastion.opy]: Technical Tracker":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.BASTION
     @Condition eventPlayer.hasStatusEffect(Status.HACKED) == false
@@ -19,7 +19,7 @@ rule "Bastion - Technical Tracker":
     destroyProgressBarHud(eventPlayer.BastionSentryAmmoBar)
 
 
-rule "Bastion - Continuous Sentry Mode":
+rule "[bastion.opy]: Continuous Sentry Mode":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isUsingAbility1() == true
@@ -45,7 +45,7 @@ rule "Bastion - Continuous Sentry Mode":
         goto RULE_START
 
 
-rule "Bastion - Start Chasing Sentry Ammo":
+rule "[bastion.opy]: Start Chasing Sentry Ammo":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isFiringPrimaryFire() == true
@@ -54,7 +54,7 @@ rule "Bastion - Start Chasing Sentry Ammo":
     chase(eventPlayer.BastionSentryAmmo, 300, rate=35, ChaseReeval.DESTINATION_AND_RATE)
 
 
-rule "Bastion - Stop Chasing Sentry Ammo":
+rule "[bastion.opy]: Stop Chasing Sentry Ammo":
     @Event eachPlayer
     @Hero bastion
     @Condition (eventPlayer.isFiringPrimaryFire() == false or eventPlayer.isUsingAbility1() == false) == true
@@ -62,7 +62,7 @@ rule "Bastion - Stop Chasing Sentry Ammo":
     stopChasingVariable(eventPlayer.BastionSentryAmmo)
 
 
-rule "Bastion - Progress Bar":
+rule "[bastion.opy]: Progress Bar":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isInAlternateForm() == true
@@ -79,7 +79,7 @@ rule "Bastion - Progress Bar":
         eventPlayer.BastionSentryAmmoUI = true
 
 
-rule "Bastion - Recon Mode":
+rule "[bastion.opy]: Recon Mode":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isUsingAbility1() == false
@@ -95,7 +95,7 @@ rule "Bastion - Recon Mode":
     eventPlayer.BastionSentryAmmoUI = false
 
 
-rule "Bastion - Reload":
+rule "[bastion.opy]: Reload":
     @Event eachPlayer
     @Hero bastion
     @Condition (eventPlayer.isUsingAbility1() and eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.BastionSentryAmmo >= 300) == true
@@ -109,7 +109,7 @@ rule "Bastion - Reload":
     eventPlayer.BastionSentryAmmo = 0
 
 
-rule "Bastion - Turret Form Movement Speed":
+rule "[bastion.opy]: Turret Form Movement Speed":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isInAlternateForm() == true
@@ -124,7 +124,7 @@ rule "Bastion - Turret Form Movement Speed":
     eventPlayer.setSecondaryFireEnabled(false)
 
 
-rule "Bastion - Effects Remove Sentry Mode":
+rule "[bastion.opy]: Effects Remove Sentry Mode":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isUsingAbility1() == true
@@ -146,7 +146,7 @@ rule "Bastion - Effects Remove Sentry Mode":
     eventPlayer.stopForcingButton(Button.ABILITY_1)
 
 
-rule "Bastion - Recon Form Movement Speed":
+rule "[bastion.opy]: Recon Form Movement Speed":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isInAlternateForm() == false
@@ -158,7 +158,7 @@ rule "Bastion - Recon Form Movement Speed":
     eventPlayer.setSecondaryFireEnabled(true)
 
 
-rule "Bastion - Tank Mode":
+rule "[bastion.opy]: Tank Mode":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isUsingUltimate() == true
@@ -197,7 +197,7 @@ rule "Bastion - Tank Mode":
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
 
 
-rule "Bastion - Tank Mode Reload":
+rule "[bastion.opy]: Tank Mode Reload":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.BastionTankMode == true
@@ -207,7 +207,7 @@ rule "Bastion - Tank Mode Reload":
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0.2)
 
 
-rule "Bastion - Disallow Primary":
+rule "[bastion.opy]: Disallow Primary":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.BastionTankMode == true
@@ -218,7 +218,7 @@ rule "Bastion - Disallow Primary":
     if RULE_CONDITION:
         goto RULE_START
 
-rule "Bastion - Use Self Heal":
+rule "[bastion.opy]: Use Self Heal":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true and eventPlayer.getHealth() < 299.5 and eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false
@@ -238,7 +238,7 @@ rule "Bastion - Use Self Heal":
         eventPlayer.BastionSelfHealAmmo += 1.44
 
 
-rule "Bastion - Charge Self Heal Ammo":
+rule "[bastion.opy]: Charge Self Heal Ammo":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == false
