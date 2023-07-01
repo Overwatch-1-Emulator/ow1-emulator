@@ -163,6 +163,34 @@ rule "[bastion.opy]: Always allow shooting on recon mode":
 
     eventPlayer.setPrimaryFireEnabled(true)
 
+rule "[bastion.opy]: Set stats for recon mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.RECON
+
+    eventPlayer.setMoveSpeed(100)
+    eventPlayer.setDamageDealt(100)
+    eventPlayer.setProjectileSpeed(100)
+    eventPlayer.setProjectileGravity(100)
+
+
+rule "[bastion.opy]: Set stats for sentry mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
+
+    eventPlayer.setDamageDealt(percent(OW1_BASTION_MACHINE_GUN_DAMAGE/OW2_BASTION_MACHINE_GUN_DAMAGE))
+
+
+rule "[bastion.opy]: Set stats for tank mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.TANK
+
+    eventPlayer.setMoveSpeed(percent(OW1_BASTION_TANK_MOVE_SPEED)) # move faster in tank mode
+    eventPlayer.setDamageDealt(percent(OW1_BASTION_TANK_DAMAGE/OW2_BASTION_GRENADE_DAMAGE)) # deal more damage in tank mode
+    eventPlayer.setProjectileSpeed(percent(OW1_BASTION_TANK_PROJECTILE_SPEED/OW2_BASTION_GRENADE_PROJECTILE_SPEED)) # increase grenade travel speed (to mimic tank shells)
+
 
 def reloadMachineGun():
     @Name "[bastion.opy]: Reload machine gun"
@@ -279,14 +307,8 @@ def transformInToTank():
 
     wait(min(ow1_bastion_tank_mode_cast_time, ow2_bastion_artillery_mode_cast_time))
     eventPlayer.cancelPrimaryAction() # interrupt ultimate animation right before it completes
-
     eventPlayer.setPrimaryFireEnabled(false) # disable machine gun
-    
-    eventPlayer.setMoveSpeed(153.9) # move faster in tank mode
-    eventPlayer.setDamageDealt(180) # deal more damage in tank mode
-    eventPlayer.setProjectileSpeed(150) # increase grenade travel speed (to mimic tank shells)
-    # eventPlayer.setProjectileGravity(10) # decrease gravity (to mimic straighter tank projectile)
-
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to turret mode
     eventPlayer.disallowButton(Button.ABILITY_1) # Disable reconfiguring out of turret mode
@@ -297,14 +319,6 @@ def transformOutOfTank():
 
     eventPlayer.setPrimaryFireEnabled(true)
     eventPlayer.setSecondaryFireEnabled(false)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
-
-    eventPlayer.setMoveSpeed(100)
-    eventPlayer.setDamageDealt(100)
-    eventPlayer.setProjectileSpeed(100)
-    eventPlayer.setProjectileGravity(100)
-    # eventPlayer.setUltCharge(0)
-
     eventPlayer.allowButton(Button.ABILITY_1)
     if eventPlayer.isUsingAbility1():
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)

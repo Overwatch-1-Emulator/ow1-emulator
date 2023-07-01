@@ -101,19 +101,12 @@
 ###################################
 # Ammo count
 #!define ow1_ammo_count_GENJI 30
-#!define ow1_max_sentry_ammo_BASTION 300
-#!define ow1_max_self_repair_duration_BASTION (10/3)
 
 ###################################
 # Ability cooldowns/delays/cast-time
 #!define ow1_cooldown_ability1_ZARYA 10
 #!define ow1_cooldown_ability2_ZARYA 8
 #!define ow1_cooldown_ability2_REINHARDT 6
-#!define ow1_sentry_reload_time_BASTION 1.984
-#!define ow1_cooldown_ability2_BASTION 1
-#!define ow1_self_repair_recharge_duration_BASTION 7
-#!define ow1_self_repair_cast_time_BASTION 0.5
-#!define ow1_self_repair_cooldown_time_BASTION 1
 #!define ow1_cooldown_ability1_MERCY 1.5
 
 ###################################
@@ -130,9 +123,25 @@
 # ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
 #!define ow1_ana_dart_damage 72
 #!define ow1_mercy_guardian_angel_recovery_time 1
+
+
+###################################
+# bastion
+#!define OW1_BASTION_RECON_GUN_DAMAGE 20
+#!define OW1_BASTION_MACHINE_GUN_DAMAGE 15
+#!define OW1_BASTION_TANK_MOVE_SPEED (1/0.65)
+#!define OW1_BASTION_TANK_DAMAGE 205
+#!define OW1_BASTION_TANK_PROJECTILE_SPEED 60
 #!define ow1_bastion_self_repair_heal_increment 7
 #!define ow1_bastion_self_repair_healing_rate 90
 #!define ow1_bastion_tank_mode_duration 8
 #!define ow1_bastion_tank_mode_cast_time 1.5
 #!define ow1_bastion_tank_shell_reload_time 1
 #!define ow1_bastion_machine_gun_fire_rate 30
+#!define ow1_max_sentry_ammo_BASTION 300
+#!define ow1_max_self_repair_duration_BASTION (10/3)
+#!define ow1_sentry_reload_time_BASTION 1.984
+#!define ow1_cooldown_ability2_BASTION 1
+#!define ow1_self_repair_recharge_duration_BASTION 7
+#!define ow1_self_repair_cast_time_BASTION 0.5
+#!define ow1_self_repair_cooldown_time_BASTION 1
