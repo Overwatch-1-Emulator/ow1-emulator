@@ -1,4 +1,11 @@
+#!include "utilities.opy"
+#!include "ow1_constants.opy"
 #!include "ow2_constants.opy"
+
+enum Configuration:
+    RECON,
+    SENTRY,
+    TANK
 
 playervar bastion_tracker
 playervar bastion_tank_mode
@@ -10,11 +17,12 @@ playervar bastion_sentry_ammo_ui
 playervar bastion_sentry_ammo_bar
 playervar bastion_self_heal_bar
 
+playervar current_configuration
 playervar sentry_gui_visibility
 playervar heal_gui_visibility
 playervar heal_resource
 playervar is_tank_mode
-playervar sentry_ready
+playervar sentry_gun_ready
 playervar self_repair
 
 rule "[bastion.opy]: Initialize hero":
@@ -25,13 +33,13 @@ rule "[bastion.opy]: Initialize hero":
     eventPlayer.heal_gui_visibility = null
     eventPlayer.heal_resource = ow1_max_heal_duration_BASTION
     eventPlayer.sentry_ammo = ow1_max_sentry_ammo_BASTION
-    eventPlayer.sentry_ready = true
-    eventPlayer.is_tank_mode = false
+    eventPlayer.sentry_gun_ready = true
+    eventPlayer.current_configuration = Configuration.RECON
 
     progressBarHud(eventPlayer.sentry_gui_visibility, 
                    roundedPercent(eventPlayer.sentry_ammo/ow1_max_sentry_ammo_BASTION), 
                    "Ammo: {0}".format(ceil(eventPlayer.sentry_ammo)), 
-                   HudPosition.TOP, 
+                   HudPosition.RIGHT, 
                    0, 
                    Color.ORANGE, 
                    Color.ORANGE, 
@@ -41,7 +49,7 @@ rule "[bastion.opy]: Initialize hero":
     progressBarHud(eventPlayer.heal_gui_visibility, 
                    roundedPercent(eventPlayer.heal_resource/ow1_max_heal_duration_BASTION), 
                    "Self-Repair", 
-                   HudPosition.RIGHT, 
+                   HudPosition.TOP, 
                    0, 
                    Color.YELLOW, 
                    Color.YELLOW, 
@@ -49,46 +57,61 @@ rule "[bastion.opy]: Initialize hero":
                    SpecVisibility.DEFAULT)
 
 
-rule "[bastion.opy]: Show sentry ammo gui when in turret mode":
+rule "[bastion.opy]: Define recon mode":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.isUsingAbility1() == true
-    @Condition eventPlayer.is_tank_mode == false
+    @Condition not eventPlayer.isInAlternateForm()
+
+    eventPlayer.current_configuration = Configuration.RECON
+
+
+rule "[bastion.opy]: Define sentry mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isInAlternateForm()
+    @Condition eventPlayer.isUsingAbility1()
+
+    eventPlayer.current_configuration = Configuration.SENTRY
+
+
+rule "[bastion.opy]: Show sentry gui when in sentry mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
 
     eventPlayer.sentry_gui_visibility = eventPlayer
 
 
-rule "[bastion.opy]: Hide sentry ammo gui when not in turret mode":
+rule "[bastion.opy]: Hide sentry gui when not in sentry mode":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.isUsingAbility1() == false
+    @Condition eventPlayer.current_configuration != Configuration.SENTRY
 
     eventPlayer.sentry_gui_visibility = null
 
 
-rule "[bastion.opy]: Deplete sentry ammo when shooting in turret mode":
+rule "[bastion.opy]: Deplete sentry ammo when shooting in sentry mode":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.isUsingAbility1() == true
-    @Condition eventPlayer.is_tank_mode == false
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.isFiringPrimaryFire() == true
 
     chase(eventPlayer.sentry_ammo, 0, rate=35, ChaseReeval.DESTINATION_AND_RATE)
 
 
-rule "[bastion.opy]: Stop depleting sentry ammo when not shooting in turret mode":
+rule "[bastion.opy]: Stop depleting sentry ammo when not shooting in sentry mode":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.isUsingAbility1() == true
-    @Condition eventPlayer.is_tank_mode == false
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.isFiringPrimaryFire() == false
 
     stopChasingVariable(eventPlayer.sentry_ammo)
 
 
-rule "[bastion.opy]: Unlimited Sentry Mode":
+rule "[bastion.opy]: No cooldown on reconfigure (ability 1)":
     @Event eachPlayer
     @Hero bastion
+    @Condition eventPlayer.current_configuration != Configuration.SENTRY
     @Condition eventPlayer.isUsingAbility1() == false
 
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
@@ -97,77 +120,62 @@ rule "[bastion.opy]: Unlimited Sentry Mode":
 rule "[bastion.opy]: Prevent movement during Sentry Mode":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.isUsingAbility1() == true
-    @Condition eventPlayer.is_tank_mode == false
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
 
-    wait(1) # sentry mode casting time
+    waitUntil(eventPlayer.isOnGround(), 9999)
     eventPlayer.setMoveSpeed(0)
 
 
 rule "[bastion.opy]: Allow movement outside Sentry Mode":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.isUsingAbility1() == false
+    @Condition eventPlayer.current_configuration != Configuration.SENTRY
 
     eventPlayer.setMoveSpeed(100)
 
 
+rule "[bastion.opy]: Allow turret shooting when sentry gun ready":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
+    @Condition eventPlayer.sentry_gun_ready == true # gun ready to shoot
+
+    eventPlayer.setPrimaryFireEnabled(true)
+
+
+rule "[bastion.opy]: Disallow turret shooting when sentry gun not ready":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
+    @Condition eventPlayer.sentry_gun_ready == false # gun ready not to shoot
+
+    eventPlayer.setPrimaryFireEnabled(false)
+
+
+rule "[bastion.opy]: Always allow shooting on recon mode":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.current_configuration == Configuration.RECON
+
+    eventPlayer.setPrimaryFireEnabled(true)
+
+
 def sentryGunReload():
-    eventPlayer.sentry_ready = false
+    eventPlayer.sentry_gun_ready = false
+    smallMessage(eventPlayer, "Reloading . . .")
     wait(ow1_sentry_reload_time_BASTION)
     eventPlayer.sentry_ammo = ow1_max_sentry_ammo_BASTION
-    eventPlayer.sentry_ready = true
+    eventPlayer.sentry_gun_ready = true
+    smallMessage(eventPlayer, "Done")
 
 
-rule "[bastion.opy]: Reload on reload key":
+rule "[bastion.opy]: Reload sentry gun":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition (eventPlayer.isHoldingButton(Button.RELOAD)) or (eventPlayer.sentry_ammo <= 0)
+    @Condition eventPlayer.sentry_ammo < ow1_max_sentry_ammo_BASTION
 
     sentryGunReload()
-
-
-rule "[bastion.opy]: Reload when no sentry ammo":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.sentry_ammo <= 0
-
-    sentryGunReload()
-
-
-rule "[bastion.opy]: Reload on recon mode":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition not eventPlayer.isUsingAbility1()
-
-    sentryGunReload()
-
-
-rule "[bastion.opy]: Allow shooting in Recon mode":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition not eventPlayer.isUsingAbility1()
-    
-    eventPlayer.setPrimaryFireEnabled(true)
-
-
-rule "[bastion.opy]: Allow turret shooting with ammo":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isUsingAbility1()
-    @Condition eventPlayer.sentry_ready
-    @Condition eventPlayer.sentry_ammo > 0
-    
-    eventPlayer.setPrimaryFireEnabled(true)
-
-
-rule "[bastion.opy]: No turret shooting when reloading or with no ammo":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isUsingAbility1()
-    @Condition eventPlayer.sentry_ammo <= 0 or not eventPlayer.sentry_ready
-    
-    eventPlayer.setPrimaryFireEnabled(false)
 
 
 rule "[bastion.opy]: Start self-repair on ability 2":
