@@ -15,6 +15,7 @@ playervar heal_gui_visibility
 playervar heal_resource
 playervar is_tank_mode
 playervar sentry_ready
+playervar self_repair
 
 rule "[bastion.opy]: Initialize hero":
     @Event eachPlayer
@@ -22,7 +23,7 @@ rule "[bastion.opy]: Initialize hero":
 
     eventPlayer.sentry_gui_visibility = null
     eventPlayer.heal_gui_visibility = null
-    eventPlayer.heal_resource = ow1_max_heal_resource_BASTION
+    eventPlayer.heal_resource = ow1_max_heal_duration_BASTION
     eventPlayer.sentry_ammo = ow1_max_sentry_ammo_BASTION
     eventPlayer.sentry_ready = true
     eventPlayer.is_tank_mode = false
@@ -38,7 +39,7 @@ rule "[bastion.opy]: Initialize hero":
                    SpecVisibility.DEFAULT)
 
     progressBarHud(eventPlayer.heal_gui_visibility, 
-                   roundedPercent(eventPlayer.heal_resource/ow1_max_heal_resource_BASTION), 
+                   roundedPercent(eventPlayer.heal_resource/ow1_max_heal_duration_BASTION), 
                    "Self-Repair", 
                    HudPosition.RIGHT, 
                    0, 
@@ -167,6 +168,80 @@ rule "[bastion.opy]: No turret shooting when reloading or with no ammo":
     @Condition eventPlayer.sentry_ammo <= 0 or not eventPlayer.sentry_ready
     
     eventPlayer.setPrimaryFireEnabled(false)
+
+
+rule "[bastion.opy]: Start self-repair on ability 2":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
+
+    wait(ow1_heal_cast_time_BASTION)
+    eventPlayer.self_repair = true
+
+
+rule "[bastion.opy]: Stop self-repair on ability 2 release":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition not eventPlayer.isHoldingButton(Button.ABILITY_2)
+
+    eventPlayer.self_repair = false
+
+
+rule "[bastion.opy]: Stop self-repair when no healing resource left":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.heal_resource <= 0
+
+    eventPlayer.self_repair = false
+
+
+rule "[bastion.opy]: Heal using self-repair":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.self_repair == true
+    @Condition eventPlayer.heal_resource > 0
+
+    do:
+        # Heal 1.44 hp every game tick (1 tick/0.016 seconds) to approximate 90 healing per second
+        heal(eventPlayer, eventPlayer, 1.44)
+        wait()
+    while (RULE_CONDITION)
+
+
+rule "[bastion.opy]: Show self-repair GUI":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.heal_resource < ow1_max_heal_duration_BASTION
+
+    eventPlayer.heal_gui_visibility = eventPlayer
+
+
+rule "[bastion.opy]: Hide self-repair GUI":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.heal_resource >= ow1_max_heal_duration_BASTION
+
+    eventPlayer.heal_gui_visibility = null
+
+
+rule "[bastion.opy]: Deplete heal resource on self-repair":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.self_repair == true
+
+    stopChasingVariable(eventPlayer.heal_resource)
+    chase(eventPlayer.heal_resource, 0, duration=ow1_max_heal_duration_BASTION, ChaseReeval.DESTINATION_AND_DURATION)
+
+
+rule "[bastion.opy]: Recharge heal resource on exiting self-repair":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.self_repair == false
+
+    stopChasingVariable(eventPlayer.heal_resource)
+    chase(eventPlayer.heal_resource, ow1_max_heal_duration_BASTION, duration=ow1_heal_recharge_duration_BASTION, ChaseReeval.DESTINATION_AND_DURATION)
+    if eventPlayer.heal_resource <= 0:
+        wait(ow1_cooldown_ability2_BASTION)
 
 
 rule "[bastion.opy]: Continuous Sentry Mode":

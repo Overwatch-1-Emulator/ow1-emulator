@@ -102,7 +102,7 @@
 # Ammo count
 #!define ow1_ammo_count_GENJI 30
 #!define ow1_max_sentry_ammo_BASTION 300
-#!define ow1_max_heal_resource_BASTION 3.33
+#!define ow1_max_heal_duration_BASTION 3.33
 
 ###################################
 # Ability cooldowns
@@ -110,6 +110,9 @@
 #!define ow1_cooldown_ability2_ZARYA 8
 #!define ow1_cooldown_ability2_REINHARDT 6
 #!define ow1_sentry_reload_time_BASTION 1.984
+#!define ow1_cooldown_ability2_BASTION 1
+#!define ow1_heal_recharge_duration_BASTION 7
+#!define ow1_heal_cast_time_BASTION 0.5
 #!define ow1_cooldown_ability1_MERCY 1.5
 
 ###################################
