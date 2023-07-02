@@ -154,12 +154,12 @@
 #!define OW1_GENJI_SHURIKEN_DAMAGE 29
 
 # Mccree
-#!define OW1_MCCREE_FLASHBANG_RADIUS 3
-#!define ow1_flashbang_speed 30
-#!define ow1_flashbang_stun_duration 0.8
-#!define ow1_flashbang_max_range 7
-#!define ow1_flashbang_damage 25
+#!define OW1_MCCREE_FLASHBANG_DAMAGE 25
+#!define OW1_MCCREE_FLASHBANG_AOE_RADIUS 3
+#!define OW1_MCCREE_FLASHBANG_SPEED 30
+#!define OW1_MCCREE_FLASHBANG_RANGE 7
 #!define OW1_MCCREE_FLASHBANG_COOLDOWN 10
+#!define OW1_MCCREE_FLASHBANG_STUN_DURATION 0.8
 
 # Mei
 #!define OW1_MEI_CLIP_SIZE 120
