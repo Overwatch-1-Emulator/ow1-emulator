@@ -158,6 +158,9 @@
 #!define OW1_GENJI_CLIP_SIZE 30
 #!define OW1_GENJI_SHURIKEN_DAMAGE 29
 
+# Mei
+#!define OW1_MEI_CLIP_SIZE 120
+
 # Mercy
 #!define OW1_MERCY_CLIP_SIZE 20
 
