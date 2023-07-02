@@ -12,6 +12,13 @@ rule "create bubble cooldown HUD":
     eventPlayer.self_bubble_cooldown = 0
     eventPlayer.ally_bubble_cooldown = 0
     eventPlayer.zarya_hud_visibility = eventPlayer
+    
+
+rule "[zarya.opy]: Initialize Zarya specific HUD for all players (invisible by default)":
+    @Event eachPlayer
+    
+    eventPlayer.zarya_hud_visibility = null
+
     createInWorldText(eventPlayer.zarya_hud_visibility, 
                       "{0}    {1}".format(ceil(eventPlayer.self_bubble_cooldown), ceil(eventPlayer.ally_bubble_cooldown)), 
                       updateEveryTick(eventPlayer.getEyePosition() + (100 * (2.15 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.45 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
@@ -22,7 +29,7 @@ rule "create bubble cooldown HUD":
                       Color.WHITE, 
                       SpecVisibility.DEFAULT)
 
-rule "destroy bubble cooldown HUD":
+rule "Hide bubble cooldown HUD on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
     @Condition eventPlayer.getCurrentHero() != Hero.ZARYA
