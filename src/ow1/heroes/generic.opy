@@ -6,6 +6,11 @@ def resetHero():
     eventPlayer.setSecondaryFireEnabled(true)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
+    
+    eventPlayer.setProjectileGravity(100)
+    eventPlayer.setProjectileSpeed(100)
+    eventPlayer.setDamageDealt(100)
+    eventPlayer.setDamageReceived(100)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
 
