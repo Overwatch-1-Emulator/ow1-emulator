@@ -1,3 +1,5 @@
+#!mainFile "../../main.opy"
+
 rule "Sleep tanks for longer duration":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() in getTankHeroes()

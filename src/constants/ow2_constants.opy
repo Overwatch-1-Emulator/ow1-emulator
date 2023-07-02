@@ -1,3 +1,5 @@
+#!mainFile "../main.opy"
+
 ###################################
 # Ult Costs
 #!define ow2_ult_cost_DVA 1540

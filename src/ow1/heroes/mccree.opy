@@ -1,4 +1,4 @@
-#!include "ow1_constants.opy"
+#!mainFile "../../main.opy"
 
 playervar flashbang_origin_position
 playervar flashbang_exploded
