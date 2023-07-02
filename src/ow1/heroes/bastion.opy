@@ -17,7 +17,7 @@ playervar self_repair
 rule "[bastion.opy]: Initialize hero":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.reset_flag == true
+    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after bastion initializes
 
     eventPlayer.reset_flag = false
     
