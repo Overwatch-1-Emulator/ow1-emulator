@@ -18,7 +18,7 @@ def initBastion():
     eventPlayer.self_repair_time_left = ow1_max_self_repair_duration_BASTION
     eventPlayer.machine_gun_ammo = OW1_MACHINE_GUN_CLIP_SIZE
     eventPlayer.machine_gun_reload_timer = 0
-    eventPlayer.current_configuration = Configuration.RECON
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
 rule "[bastion.opy]: Initialize Bastion":
     @Event eachPlayer
@@ -114,10 +114,11 @@ rule "[bastion.opy]: Initialize recon mode":
     eventPlayer.setDamageDealt(100)
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)
-    eventPlayer.setSecondaryFireEnabled(false)
+    
+    eventPlayer.allowButton(Button.PRIMARY_FIRE)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
-    eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.allowButton(Button.PRIMARY_FIRE)
 
 
 rule "[bastion.opy]: Define sentry mode":
@@ -137,8 +138,6 @@ rule "[bastion.opy]: Initialize sentry mode":
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
 
     eventPlayer.setDamageDealt(percent(OW1_BASTION_MACHINE_GUN_DAMAGE/OW2_BASTION_MACHINE_GUN_DAMAGE))
-    eventPlayer.setSecondaryFireEnabled(false)
-
     eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
 
     eventPlayer.machine_gun_ready = true
@@ -161,7 +160,9 @@ rule "[bastion.opy]: Initialize tank mode":
     eventPlayer.setMoveSpeed(percent(OW1_BASTION_TANK_MOVE_SPEED)) # move faster in tank mode
     eventPlayer.setDamageDealt(percent(OW1_BASTION_TANK_DAMAGE/OW2_BASTION_GRENADE_DAMAGE)) # deal more damage in tank mode
     eventPlayer.setProjectileSpeed(percent(OW1_BASTION_TANK_PROJECTILE_SPEED/OW2_BASTION_GRENADE_PROJECTILE_SPEED)) # increase grenade travel speed (to mimic tank shells)
-    eventPlayer.setSecondaryFireEnabled(false)
+    eventPlayer.setProjectileGravity(0)
+
+    eventPlayer.disallowButton(Button.PRIMARY_FIRE) # Disallow firing machine gun
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
 
@@ -231,7 +232,7 @@ rule "[bastion.opy]: Allow machine gun shooting when machine gun ready":
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.machine_gun_ready == true # gun ready to shoot
 
-    eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.allowButton(Button.PRIMARY_FIRE)
 
 
 rule "[bastion.opy]: Disallow machine gun shooting when machine gun not ready":
@@ -240,7 +241,7 @@ rule "[bastion.opy]: Disallow machine gun shooting when machine gun not ready":
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.machine_gun_ready == false # gun not ready to shoot
 
-    eventPlayer.setPrimaryFireEnabled(false)
+    eventPlayer.disallowButton(Button.PRIMARY_FIRE)
 
 
 def selfRepair():
@@ -263,7 +264,7 @@ rule "[bastion.opy]: Start self-repair on ability 2 or secondary fire":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
-    @Condition not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
+    @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
     
     eventPlayer.self_repair = true
@@ -272,7 +273,7 @@ rule "[bastion.opy]: Start self-repair on ability 2 or secondary fire":
 rule "[bastion.opy]: Stop self-repair on ability 2 release":
     @Event eachPlayer
     @Hero bastion
-    @Condition not (eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)) or eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
+    @Condition not (eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)) or eventPlayer.isFiringPrimaryFire()
 
     eventPlayer.self_repair = false
 
@@ -338,8 +339,6 @@ def transformInToTank():
 
     wait(OW1_BASTION_TANK_TRANSFORM_TIME-OW2_BASTION_SENTRY_MODE_TRANSFORM_TIME)
     eventPlayer.cancelPrimaryAction() # interrupt ultimate animation right before it completes
-    eventPlayer.setPrimaryFireEnabled(false) # disable machine gun
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to turret mode
     eventPlayer.disallowButton(Button.ABILITY_1) # Disable reconfiguring out of turret mode
@@ -348,12 +347,10 @@ def transformInToTank():
 def transformOutOfTank():
     @Name "[bastion.opy]: Transform out of tank"
 
-    eventPlayer.setPrimaryFireEnabled(true)
-    eventPlayer.setSecondaryFireEnabled(false)
-    eventPlayer.allowButton(Button.ABILITY_1)
     if eventPlayer.isUsingAbility1():
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
         eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to recon mode
+    eventPlayer.allowButton(Button.ABILITY_1)
 
 
 rule "[bastion.opy]: Enter tank mode":
@@ -372,9 +369,13 @@ rule "[bastion.opy]: Fire tank shells":
     @Condition eventPlayer.current_configuration == Configuration.TANK
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     
-    eventPlayer.setSecondaryFireEnabled(true)
-    eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
-    eventPlayer.setSecondaryFireEnabled(false)
+    do: 
+        eventPlayer.allowButton(Button.SECONDARY_FIRE)
+        eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
+        eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+        wait()
+        waitUntil(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0, 9999)
+    while RULE_CONDITION
 
 rule "[bastion.opy]: Reload tank shells":
     @Event eachPlayer
