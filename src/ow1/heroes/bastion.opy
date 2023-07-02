@@ -160,6 +160,7 @@ rule "[bastion.opy]: Initialize tank mode":
     eventPlayer.setMoveSpeed(percent(OW1_BASTION_TANK_MOVE_SPEED)) # move faster in tank mode
     eventPlayer.setDamageDealt(percent(OW1_BASTION_TANK_DAMAGE/OW2_BASTION_GRENADE_DAMAGE)) # deal more damage in tank mode
     eventPlayer.setProjectileSpeed(percent(OW1_BASTION_TANK_PROJECTILE_SPEED/OW2_BASTION_GRENADE_PROJECTILE_SPEED)) # increase grenade travel speed (to mimic tank shells)
+    eventPlayer.setProjectileGravity(0)
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE) # Disallow firing machine gun
 
@@ -338,7 +339,6 @@ def transformInToTank():
 
     wait(OW1_BASTION_TANK_TRANSFORM_TIME-OW2_BASTION_SENTRY_MODE_TRANSFORM_TIME)
     eventPlayer.cancelPrimaryAction() # interrupt ultimate animation right before it completes
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to turret mode
     eventPlayer.disallowButton(Button.ABILITY_1) # Disable reconfiguring out of turret mode

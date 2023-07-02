@@ -11,10 +11,12 @@ def resetHero():
     eventPlayer.setAbility2Enabled(true)
     eventPlayer.allowButton(Button.ABILITY_2)
     
-    eventPlayer.setProjectileGravity(100)
-    eventPlayer.setProjectileSpeed(100)
     eventPlayer.setDamageDealt(100)
     eventPlayer.setDamageReceived(100)
+    eventPlayer.setProjectileSpeed(100)
+    eventPlayer.setProjectileGravity(100)
+    eventPlayer.setHealingDealt(100)
+    eventPlayer.setHealingReceived(100)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
 
