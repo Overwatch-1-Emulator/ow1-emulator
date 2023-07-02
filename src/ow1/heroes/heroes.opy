@@ -22,3 +22,4 @@
 #!include "ow1/heroes/ana.opy"
 #!include "ow1/heroes/baptiste.opy"
 #!include "ow1/heroes/brigitte.opy"
+#!include "ow1/heroes/mercy.opy"

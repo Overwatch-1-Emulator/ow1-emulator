@@ -1,12 +1,12 @@
 #!mainFile "../../main.opy"
 
-def initBaptiste():
-    # [TODO]
-    pass
+def initMercy():
+    eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)
+    eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)
 
-rule "[ashe.opy]: Initialize Baptiste":
+rule "[mercy.opy]: Initialize mercy":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero mercy
     @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initMercy()

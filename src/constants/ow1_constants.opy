@@ -151,12 +151,15 @@
 #!define ow1_self_repair_cooldown_time_BASTION 1
 #!define OW1_BASTION_TANK_TRANSFORM_TIME 1
 
-# dva
+# Dva
 #!define OW1_DVA_MISSILE_COOLDOWN 8
 
 # Genji
 #!define OW1_GENJI_CLIP_SIZE 30
 #!define OW1_GENJI_SHURIKEN_DAMAGE 29
+
+# Mercy
+#!define OW1_MERCY_CLIP_SIZE 20
 
 # Reinhardt
 #!define OW1_REINHARDT_CHARGE_COOLDOWN 10
