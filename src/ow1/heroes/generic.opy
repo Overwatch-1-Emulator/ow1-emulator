@@ -3,9 +3,13 @@
 def resetHero():
     @Name "[generic.opy]: Reset hero stats"
     eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.setSecondaryFireEnabled(true)
+    eventPlayer.allowButton(Button.SECONDARY_FIRE)
     eventPlayer.setAbility1Enabled(true)
+    eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.setAbility2Enabled(true)
+    eventPlayer.allowButton(Button.ABILITY_2)
     
     eventPlayer.setProjectileGravity(100)
     eventPlayer.setProjectileSpeed(100)
