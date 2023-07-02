@@ -60,7 +60,6 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_ASHE/ow1_ult_cost_ASHE)
             },
             "baptiste": {
-                "ammoClipSize%": 87,
                 "ability2Cooldown%": 109,
                 "ultGen%": percent(ow2_ult_cost_BAPTISTE/ow1_ult_cost_BAPTISTE)
             },
@@ -72,7 +71,6 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_BRIGITTE/ow1_ult_cost_BRIGITTE)
             },
             "mccree": {
-                "projectileSpeed%": percent(ow1_flashbang_speed/ow2_mag_grenade_speed),
                 "ultGen%": percent(ow2_ult_cost_MCCREE/ow1_ult_cost_MCCREE)
             },
             "dva": {
@@ -84,8 +82,6 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_ECHO/ow1_ult_cost_ECHO)
             },
             "genji": {
-                "ammoClipSize%": percent(ow1_ammo_count_GENJI/ow2_ammo_count_GENJI),
-                "damageDealt%": 107,
                 "ultGen%": percent(ow2_ult_cost_GENJI/ow1_ult_cost_GENJI)
             },
             "hanzo": {
@@ -136,14 +132,12 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_SOMBRA/ow1_ult_cost_SOMBRA)
             },
             "symmetra": {
-                "ammoClipSize%": 70,
                 "ultGen%": percent(ow2_ult_cost_SYMMETRA/ow1_ult_cost_SYMMETRA)
             },
             "torbjorn": {
                 "ultGen%": percent(ow2_ult_cost_TORBJORN/ow1_ult_cost_TORBJORN)
             },
             "tracer": {
-                "damageDealt%": 109,
                 "ultGen%": percent(ow2_ult_cost_TRACER/ow1_ult_cost_TRACER)
             },
             "widowmaker": {

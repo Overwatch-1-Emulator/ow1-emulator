@@ -100,9 +100,6 @@
 
 #!define ow1_barrier_health_BRIGITTE 250
 
-###################################
-# Ammo count
-#!define ow1_ammo_count_GENJI 30
 
 ###################################
 # Ability cooldowns/delays/cast-time
@@ -129,6 +126,9 @@
 #!define OW1_ANA_CLIP_SIZE 12
 #!define OW1_ANA_SLEEP_COOLDOWN 12
 
+# Baptiste
+#!define OW1_BAPTISTE_CLIP1_SIZE 45
+#!define OW1_BAPTISTE_CLIP2_SIZE 10
 
 ###################################
 # Bastion
@@ -150,3 +150,13 @@
 #!define ow1_self_repair_cast_time_BASTION 0.5
 #!define ow1_self_repair_cooldown_time_BASTION 1
 #!define OW1_BASTION_TANK_TRANSFORM_TIME 1
+
+# Genji
+#!define OW1_GENJI_CLIP_SIZE 30
+#!define OW1_GENJI_SHURIKEN_DAMAGE 29
+
+# Symmetra
+#!define OW1_SYMMETRA_CLIP_SIZE 70
+
+# Tracer
+#!define OW1_TRACER_PISTOL_DAMAGE 6
