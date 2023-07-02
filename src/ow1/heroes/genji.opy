@@ -6,7 +6,7 @@ def initGenji():
 
     eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))
 
-rule "[ashe.opy]: Initialize Genji":
+rule "[genji.opy]: Initialize Genji":
     @Event eachPlayer
     @Hero genji
     @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
