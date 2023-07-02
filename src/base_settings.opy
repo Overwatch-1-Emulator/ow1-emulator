@@ -53,21 +53,19 @@ settings {
     "heroes": {
         "allTeams": {
             "ana": {
-                "ability1Cooldown%": percent(OW1_ANA_SLEEP_COOLDOWN/OW2_ANA_SLEEP_COOLDOWN),
                 "ultGen%": percent(ow2_ult_cost_ANA/ow1_ult_cost_ANA)
             },
             "ashe": {
                 "ultGen%": percent(ow2_ult_cost_ASHE/ow1_ult_cost_ASHE)
             },
             "baptiste": {
-                "ability2Cooldown%": 109,
                 "ultGen%": percent(ow2_ult_cost_BAPTISTE/ow1_ult_cost_BAPTISTE)
             },
             "bastion": {
                 "ultGen%": percent(ow2_ult_cost_BASTION/ow1_ult_cost_BASTION)
             },
             "brigitte": {
-                "health%": percent(ow1_barrier_health_BRIGITTE/ow2_barrier_health_BRIGITTE),
+                "health%": percent(ow1_barrier_health_BRIGITTE/ow2_barrier_health_BRIGITTE), # for barrier hp
                 "ultGen%": percent(ow2_ult_cost_BRIGITTE/ow1_ult_cost_BRIGITTE)
             },
             "mccree": {
@@ -144,14 +142,13 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_WIDOWMAKER/ow1_ult_cost_WIDOWMAKER)
             },
             "winston": {
-                "health%": percent(ow1_barrier_health_WINSTON/ow2_barrier_health_WINSTON), # adjust barrier hp
+                "health%": percent(ow1_barrier_health_WINSTON/ow2_barrier_health_WINSTON), # for barrier hp
                 "ultGen%": percent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST)
             },
             "hammond": {
                 "ultGen%": percent(ow2_ult_cost_HAMMOND/ow1_ult_cost_HAMMOND)
             },
             "zarya": {
-                "ability2Cooldown%": 80,
                 "health%": percent(ow1_barrier_health_ZARYA/ow2_barrier_health_ZARYA),
             },
             "zenyatta": {

@@ -14,6 +14,14 @@ rule "[ana.opy]: Initialize Ana":
 
     initAna()
 
+rule "[ana.opy]: Set default sleep dart cooldown":
+    @Event eachPlayer
+    @Hero ana
+    @Condition eventPlayer.isUsingAbility1()
+    
+    waitUntil(not eventPlayer.isUsingAbility1(), 9999)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_ANA_SLEEP_COOLDOWN)
+
 rule "[ana.opy]: Sleep tanks for longer duration":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() in getTankHeroes()

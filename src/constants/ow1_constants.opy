@@ -128,6 +128,7 @@
 # Baptiste
 #!define OW1_BAPTISTE_CLIP1_SIZE 45
 #!define OW1_BAPTISTE_CLIP2_SIZE 10
+#!define OW1_BAPTISTE_IMMORTALITY_COOLDOWN 25
 
 ###################################
 # Bastion
