@@ -108,11 +108,6 @@
 
 ###################################
 # misc
-#!define ow1_flashbang_speed 30
-#!define ow1_flashbang_stun_duration 0.8
-# max range of flashbang is 10m (7m travel + 3m aoe)
-#!define ow1_flashbang_max_range 10
-#!define ow1_flashbang_damage 25
 #!define ow1_shield_bash_stun_duration 0.75
 #!define ow1_sleepdart_sleep_duration 5
 #!define ow1_rally_speed_buff 1.3
@@ -157,6 +152,14 @@
 # Genji
 #!define OW1_GENJI_CLIP_SIZE 30
 #!define OW1_GENJI_SHURIKEN_DAMAGE 29
+
+# Mccree
+#!define OW1_MCCREE_FLASHBANG_RADIUS 3
+#!define ow1_flashbang_speed 30
+#!define ow1_flashbang_stun_duration 0.8
+#!define ow1_flashbang_max_range 7
+#!define ow1_flashbang_damage 25
+#!define OW1_MCCREE_FLASHBANG_COOLDOWN 10
 
 # Mei
 #!define OW1_MEI_CLIP_SIZE 120
