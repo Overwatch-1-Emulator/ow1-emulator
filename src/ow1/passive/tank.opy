@@ -1,6 +1,4 @@
-#!include "utilities.opy"
-#!include "ow1_constants.opy"
-#!include "ow2_constants.opy"
+#!mainFile "../../main.opy"
 
 # Global variables
 globalvar ult_cost
@@ -15,7 +13,7 @@ rule "initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.REINHARDT)] = 1/(roundedPercent(ow2_ult_cost_REINHARDT/ow1_ult_cost_REINHARDT)/100)*ow2_ult_cost_REINHARDT
     ult_cost[heroID(Hero.ROADHOG)] = 1/(roundedPercent(ow2_ult_cost_ROADHOG/ow1_ult_cost_ROADHOG)/100)*ow2_ult_cost_ROADHOG
     ult_cost[heroID(Hero.SIGMA)] = 1/(roundedPercent(ow2_ult_cost_SIGMA/ow1_ult_cost_SIGMA)/100)*ow2_ult_cost_SIGMA
-    ult_cost[heroID(Hero.WINSTON)] = 1/(roundedPercent(ow2_ult_cost_WINSTON/ow1_ult_cost_WINSTON)/100)*ow2_ult_cost_WINSTON
+    ult_cost[heroID(Hero.WINSTON)] = 1/(roundedPercent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST)/100)*OW2_WINSTON_ULT_COST
     ult_cost[heroID(Hero.HAMMOND)] = 1/(roundedPercent(ow2_ult_cost_HAMMOND/ow1_ult_cost_HAMMOND)/100)*ow2_ult_cost_HAMMOND
     ult_cost[heroID(Hero.ZARYA)] = 1/(roundedPercent(ow2_ult_cost_ZARYA/ow1_ult_cost_ZARYA)/100)*ow2_ult_cost_ZARYA
     ult_cost[heroID(Hero.ASHE)] = 1/(roundedPercent(ow2_ult_cost_ASHE/ow1_ult_cost_ASHE)/100)*ow2_ult_cost_ASHE

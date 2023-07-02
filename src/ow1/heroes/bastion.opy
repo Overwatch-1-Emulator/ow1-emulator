@@ -1,6 +1,4 @@
-#!include "utilities.opy"
-#!include "ow1_constants.opy"
-#!include "ow2_constants.opy"
+#!mainFile "../../main.opy"
 
 enum Configuration:
     RECON,
@@ -16,15 +14,20 @@ playervar machine_gun_reload_timer
 playervar machine_gun_ammo
 playervar self_repair
 
-rule "[bastion.opy]: Initialize hero":
-    @Event eachPlayer
-    @Hero bastion
-
-    # Initialize Variables
+def initBastion():
     eventPlayer.self_repair_time_left = ow1_max_self_repair_duration_BASTION
     eventPlayer.machine_gun_ammo = OW1_MACHINE_GUN_CLIP_SIZE
     eventPlayer.machine_gun_reload_timer = 0
     eventPlayer.current_configuration = Configuration.RECON
+
+rule "[bastion.opy]: Initialize Bastion":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+
+    eventPlayer.reset_flag = false
+    
+    initBastion()
 
 
 rule "[bastion.opy]: Initialize Bastion specific HUD for all players (invisible by default)":
@@ -62,6 +65,7 @@ rule "Hide Bastion HUD on hero switch":
 
     eventPlayer.sentry_gui_visibility = null
     eventPlayer.heal_gui_visibility = null
+
 
 rule "[bastion.opy]: No cooldown on reconfigure (ability 1)":
     @Event eachPlayer

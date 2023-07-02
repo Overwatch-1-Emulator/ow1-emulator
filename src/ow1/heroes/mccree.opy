@@ -1,7 +1,17 @@
-#!include "ow1_constants.opy"
+#!mainFile "../../main.opy"
 
 playervar flashbang_origin_position
 playervar flashbang_exploded
+
+def initMccree():
+    eventPlayer.setProjectileSpeed(percent(ow1_flashbang_speed/ow2_mag_grenade_speed))
+
+rule "[mccree.opy]: Initialize Mccree":
+    @Event eachPlayer
+    @Hero mccree
+    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+
+    initMccree()
 
 rule "Disable magnetic grenade":
     @Event eachPlayer

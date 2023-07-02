@@ -1,6 +1,4 @@
-#!include "utilities.opy"
-#!include "ow1_constants.opy"
-#!include "ow2_constants.opy"
+#!mainFile "main.opy"
 
 settings {
     "main": {
@@ -55,41 +53,32 @@ settings {
     "heroes": {
         "allTeams": {
             "ana": {
-                "ammoClipSize%": 80,
-                "damageDealt%": percent(ow1_ana_dart_damage/ow2_ana_dart_damage),
-                "ability1Cooldown%": 86,
                 "ultGen%": percent(ow2_ult_cost_ANA/ow1_ult_cost_ANA)
             },
             "ashe": {
                 "ultGen%": percent(ow2_ult_cost_ASHE/ow1_ult_cost_ASHE)
             },
             "baptiste": {
-                "ammoClipSize%": 87,
-                "ability2Cooldown%": 109,
                 "ultGen%": percent(ow2_ult_cost_BAPTISTE/ow1_ult_cost_BAPTISTE)
             },
             "bastion": {
                 "ultGen%": percent(ow2_ult_cost_BASTION/ow1_ult_cost_BASTION)
             },
             "brigitte": {
-                "health%": percent(ow1_barrier_health_BRIGITTE/ow2_barrier_health_BRIGITTE),
+                "health%": percent(ow1_barrier_health_BRIGITTE/ow2_barrier_health_BRIGITTE), # for barrier hp
                 "ultGen%": percent(ow2_ult_cost_BRIGITTE/ow1_ult_cost_BRIGITTE)
             },
             "mccree": {
-                "projectileSpeed%": percent(ow1_flashbang_speed/ow2_mag_grenade_speed),
                 "ultGen%": percent(ow2_ult_cost_MCCREE/ow1_ult_cost_MCCREE)
             },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
-                "ability2Cooldown%": 114,
                 "ultGen%": percent(ow2_ult_cost_DVA/ow1_ult_cost_DVA)
             },
             "echo": {
                 "ultGen%": percent(ow2_ult_cost_ECHO/ow1_ult_cost_ECHO)
             },
             "genji": {
-                "ammoClipSize%": percent(ow1_ammo_count_GENJI/ow2_ammo_count_GENJI),
-                "damageDealt%": 107,
                 "ultGen%": percent(ow2_ult_cost_GENJI/ow1_ult_cost_GENJI)
             },
             "hanzo": {
@@ -118,19 +107,15 @@ settings {
             },
             "reinhardt": {
                 "secondaryFireRechargeRate%": 139,
-                "ability1Cooldown%": 143,
-                "health%": percent(ow1_barrier_health_REINHARDT/ow2_barrier_health_REINHARDT),
+                "health%": percent(ow1_barrier_health_REINHARDT/ow2_barrier_health_REINHARDT), # for barrier
                 "ultGen%": percent(ow2_ult_cost_REINHARDT/ow1_ult_cost_REINHARDT)
             },
             "roadhog": {
-                "ammoClipSize%": 83,
-                "ability1Cooldown%": 133,
-                "damageDealt%": 110,
                 "ultGen%": percent(ow2_ult_cost_ROADHOG/ow1_ult_cost_ROADHOG)
             },
             "sigma": {
                 "secondaryFireRechargeRate%": 80,
-                "health%": percent(ow1_barrier_health_SIGMA/ow2_barrier_health_SIGMA),
+                "health%": percent(ow1_barrier_health_SIGMA/ow2_barrier_health_SIGMA),  # for barrier
                 "ultGen%": percent(ow2_ult_cost_SIGMA/ow1_ult_cost_SIGMA)
             },
             "soldier": {
@@ -140,30 +125,25 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_SOMBRA/ow1_ult_cost_SOMBRA)
             },
             "symmetra": {
-                "ammoClipSize%": 70,
                 "ultGen%": percent(ow2_ult_cost_SYMMETRA/ow1_ult_cost_SYMMETRA)
             },
             "torbjorn": {
                 "ultGen%": percent(ow2_ult_cost_TORBJORN/ow1_ult_cost_TORBJORN)
             },
             "tracer": {
-                "damageDealt%": 109,
                 "ultGen%": percent(ow2_ult_cost_TRACER/ow1_ult_cost_TRACER)
             },
             "widowmaker": {
                 "ultGen%": percent(ow2_ult_cost_WIDOWMAKER/ow1_ult_cost_WIDOWMAKER)
             },
             "winston": {
-                "ability2Cooldown%": 108,
-                "ability1Cooldown%": 120,
-                "enableSecondaryFire": false,
-                "health%": percent(ow1_barrier_health_WINSTON/ow2_barrier_health_WINSTON),
+                "health%": percent(ow1_barrier_health_WINSTON/ow2_barrier_health_WINSTON), # for barrier hp
+                "ultGen%": percent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST)
             },
             "hammond": {
                 "ultGen%": percent(ow2_ult_cost_HAMMOND/ow1_ult_cost_HAMMOND)
             },
             "zarya": {
-                "ability2Cooldown%": 80,
                 "health%": percent(ow1_barrier_health_ZARYA/ow2_barrier_health_ZARYA),
             },
             "zenyatta": {

@@ -1,3 +1,5 @@
+#!mainFile "../../main.opy"
+
 # Credit to https://discord.com/channels/570672959799164958/1095384108504465488
 # Base code written by CaptCaptain
 playervar HEALTH_NORMAL = 0

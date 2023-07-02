@@ -1,10 +1,11 @@
+#!mainFile "../main.opy"
+
 ###################################
 # Ult Costs
 #!define ow2_ult_cost_DVA 1540
 #!define ow2_ult_cost_REINHARDT 1650
 #!define ow2_ult_cost_ROADHOG 2420
 #!define ow2_ult_cost_SIGMA 2100
-#!define ow2_ult_cost_WINSTON 1850
 #!define ow2_ult_cost_HAMMOND 1675
 #!define ow2_ult_cost_ZARYA 2270
 
@@ -44,12 +45,14 @@
 
 ###################################
 # Ammo count
-#!define ow2_ammo_count_GENJI 30
 #!define ow2_mag_grenade_speed 20
 #!define ow2_rally_speed_buff 1.15
-#!define ow2_ana_dart_damage 75
 
 
+###################################
+# Ana
+#!define OW2_ANA_DART_DAMAGE 75
+#!define OW2_ANA_SLEEP_COOLDOWN 15
 
 ###################################
 # Bastion stuff
@@ -60,3 +63,14 @@
 #!define OW2_BASTION_RECON_GUN_DAMAGE 20
 #!define OW2_BASTION_GRENADE_DAMAGE 115
 #!define OW2_BASTION_GRENADE_PROJECTILE_SPEED 40
+
+# Genji
+#!define OW2_GENJI_CLIP_SIZE 30
+#!define OW2_GENJI_SHURIKEN_DAMAGE 27
+
+# Roadhog
+#!define OW2_ROADHOG_SHOTGUN_DAMAGE 150
+
+# Tracer
+#!define OW2_TRACER_PISTOL_DAMAGE 5.5
+#!define OW2_WINSTON_ULT_COST 1850

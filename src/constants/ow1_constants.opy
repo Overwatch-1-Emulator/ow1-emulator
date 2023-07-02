@@ -1,10 +1,11 @@
+#!mainFile "../main.opy"
+
 ###################################
 # Ult Costs
 #!define ow1_ult_cost_DVA 1540
 #!define ow1_ult_cost_REINHARDT 1540
 #!define ow1_ult_cost_ROADHOG 2240
 #!define ow1_ult_cost_SIGMA 1960
-#!define ow1_ult_cost_WINSTON 1540
 #!define ow1_ult_cost_HAMMOND 1540
 #!define ow1_ult_cost_ZARYA 2100
 
@@ -98,9 +99,6 @@
 
 #!define ow1_barrier_health_BRIGITTE 250
 
-###################################
-# Ammo count
-#!define ow1_ammo_count_GENJI 30
 
 ###################################
 # Ability cooldowns/delays/cast-time
@@ -118,10 +116,19 @@
 #!define ow1_shield_bash_stun_duration 0.75
 #!define ow1_sleepdart_sleep_duration 5
 #!define ow1_rally_speed_buff 1.3
-# ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
-#!define ow1_ana_dart_damage 72
 #!define ow1_mercy_guardian_angel_recovery_time 1
 
+###################################
+# Ana
+# ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
+#!define OW1_ANA_DART_DAMAGE 72
+#!define OW1_ANA_CLIP_SIZE 12
+#!define OW1_ANA_SLEEP_COOLDOWN 12
+
+# Baptiste
+#!define OW1_BAPTISTE_CLIP1_SIZE 45
+#!define OW1_BAPTISTE_CLIP2_SIZE 10
+#!define OW1_BAPTISTE_IMMORTALITY_COOLDOWN 25
 
 ###################################
 # Bastion
@@ -143,3 +150,31 @@
 #!define ow1_self_repair_cast_time_BASTION 0.5
 #!define ow1_self_repair_cooldown_time_BASTION 1
 #!define OW1_BASTION_TANK_TRANSFORM_TIME 1
+
+# Dva
+#!define OW1_DVA_MISSILE_COOLDOWN 8
+
+# Genji
+#!define OW1_GENJI_CLIP_SIZE 30
+#!define OW1_GENJI_SHURIKEN_DAMAGE 29
+
+# Mercy
+#!define OW1_MERCY_CLIP_SIZE 20
+
+# Reinhardt
+#!define OW1_REINHARDT_CHARGE_COOLDOWN 10
+
+# Roadhog
+#!define OW1_ROADHOG_CLIP_SIZE 5
+#!define OW1_ROADHOG_SHOTGUN_DAMAGE 165
+#!define OW1_ROADHOG_HOOK_COOLDOWN 8
+
+# Symmetra
+#!define OW1_SYMMETRA_CLIP_SIZE 70
+
+# Tracer
+#!define OW1_TRACER_PISTOL_DAMAGE 6
+
+# Winston
+#!define OW1_WINSTON_LEAP_COOLDOWN 6
+#!define OW1_WINSTON_ULT_COST 1540
