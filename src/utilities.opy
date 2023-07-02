@@ -1,3 +1,5 @@
+#!mainFile "main.opy"
+
 # Macro function for retrieving id of hero
 #!define heroID(h) getAllHeroes().index(h)
 
@@ -13,6 +15,7 @@
 playervar last_hero_played
 playervar hero_switched
 playervar hero_id
+playervar reset_flag
 
 rule "[utilities.opy]: Display server performance characteristics":
     @Disabled
@@ -30,26 +33,3 @@ rule "[utilities.opy]: detect hero switch":
     eventPlayer.hero_id = heroID(eventPlayer.last_hero_played)
     wait()
     eventPlayer.hero_switched = false
-
-
-def resetHero():
-    @Name "[utilities.opy]: Reset hero stats"
-    eventPlayer.setPrimaryFireEnabled(true)
-    eventPlayer.setSecondaryFireEnabled(true)
-    eventPlayer.setAbility1Enabled(true)
-    eventPlayer.setAbility2Enabled(true)
-
-    
-rule "[utilities.opy]: Reset hero on new round":
-    @Event eachPlayer
-    @Condition isMatchBetweenRounds() == true
-    
-    waitUntil(eventPlayer.isInSpawnRoom(), 60)
-    resetHero()
-
-
-rule "[utilities.opy]: Reset hero on hero switch":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_switched == true
-
-    resetHero()

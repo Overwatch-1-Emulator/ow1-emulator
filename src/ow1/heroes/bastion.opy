@@ -17,7 +17,10 @@ playervar self_repair
 rule "[bastion.opy]: Initialize hero":
     @Event eachPlayer
     @Hero bastion
+    @Condition eventPlayer.reset_flag == true
 
+    eventPlayer.reset_flag = false
+    
     # Initialize Variables
     eventPlayer.self_repair_time_left = ow1_max_self_repair_duration_BASTION
     eventPlayer.machine_gun_ammo = OW1_MACHINE_GUN_CLIP_SIZE
@@ -60,6 +63,7 @@ rule "Hide Bastion HUD on hero switch":
 
     eventPlayer.sentry_gui_visibility = null
     eventPlayer.heal_gui_visibility = null
+
 
 rule "[bastion.opy]: No cooldown on reconfigure (ability 1)":
     @Event eachPlayer
