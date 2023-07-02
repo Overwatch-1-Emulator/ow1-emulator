@@ -4,7 +4,7 @@ playervar flashbang_origin_position
 playervar flashbang_exploded
 
 def initMccree():
-    eventPlayer.setAbility2Enabled(false)
+    eventPlayer.disallowButton(Button.ABILITY_2)
 
 rule "[mccree.opy]: Initialize Mccree":
     @Event eachPlayer
