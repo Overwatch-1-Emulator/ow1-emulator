@@ -15,6 +15,7 @@
 #!include "ow1/heroes/bastion.opy"
 #!include "ow1/heroes/genji.opy"
 #!include "ow1/heroes/mccree.opy"
+#!include "ow1/heroes/mei.opy"
 #!include "ow1/heroes/symmetra.opy"
 #!include "ow1/heroes/tracer.opy"
 
