@@ -53,9 +53,7 @@ settings {
     "heroes": {
         "allTeams": {
             "ana": {
-                "ammoClipSize%": 80,
-                "damageDealt%": percent(ow1_ana_dart_damage/ow2_ana_dart_damage),
-                "ability1Cooldown%": 86,
+                "ability1Cooldown%": percent(OW1_ANA_SLEEP_COOLDOWN/OW2_ANA_SLEEP_COOLDOWN),
                 "ultGen%": percent(ow2_ult_cost_ANA/ow1_ult_cost_ANA)
             },
             "ashe": {

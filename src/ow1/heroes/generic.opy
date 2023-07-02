@@ -7,6 +7,8 @@ def resetHero():
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
 
+    eventPlayer.clearStatusEffect(Status.ROOTED)
+
     eventPlayer.reset_flag = true
 
     

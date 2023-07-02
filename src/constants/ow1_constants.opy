@@ -120,9 +120,14 @@
 #!define ow1_shield_bash_stun_duration 0.75
 #!define ow1_sleepdart_sleep_duration 5
 #!define ow1_rally_speed_buff 1.3
-# ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
-#!define ow1_ana_dart_damage 72
 #!define ow1_mercy_guardian_angel_recovery_time 1
+
+###################################
+# Ana
+# ana dart damage should be 70, but extra 2 dmg needed for shoot nade shoot combo
+#!define OW1_ANA_DART_DAMAGE 72
+#!define OW1_ANA_CLIP_SIZE 12
+#!define OW1_ANA_SLEEP_COOLDOWN 12
 
 
 ###################################

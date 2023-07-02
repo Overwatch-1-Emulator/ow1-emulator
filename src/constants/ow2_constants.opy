@@ -49,9 +49,12 @@
 #!define ow2_ammo_count_GENJI 30
 #!define ow2_mag_grenade_speed 20
 #!define ow2_rally_speed_buff 1.15
-#!define ow2_ana_dart_damage 75
 
 
+###################################
+# Ana
+#!define OW2_ANA_DART_DAMAGE 75
+#!define OW2_ANA_SLEEP_COOLDOWN 15
 
 ###################################
 # Bastion stuff
