@@ -7,7 +7,7 @@
 # Macro function for converting decimal to percent
 #!define roundedPercent(p) round(percent(p))
 
-# Macro function for converting decimal to percent
+# Macro function for computing a percent of number
 #!define percentOf(p, n) p/100*n
 
 #Useful function macros
