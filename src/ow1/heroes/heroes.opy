@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
-# hero specific logic
+# generic hero logic
+#!include "ow1/heroes/generic.opy"
+
+# specific hero logic
 #!include "ow1/heroes/reinhardt.opy"
 #!include "ow1/heroes/zarya.opy"
 
