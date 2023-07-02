@@ -369,9 +369,13 @@ rule "[bastion.opy]: Fire tank shells":
     @Condition eventPlayer.current_configuration == Configuration.TANK
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     
-    eventPlayer.setSecondaryFireEnabled(true)
-    eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
-    eventPlayer.setSecondaryFireEnabled(false)
+    do: 
+        eventPlayer.allowButton(Button.SECONDARY_FIRE)
+        eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
+        eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+        wait()
+        waitUntil(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0, 9999)
+    while RULE_CONDITION
 
 rule "[bastion.opy]: Reload tank shells":
     @Event eachPlayer
