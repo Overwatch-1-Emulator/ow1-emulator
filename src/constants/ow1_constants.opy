@@ -151,9 +151,20 @@
 #!define ow1_self_repair_cooldown_time_BASTION 1
 #!define OW1_BASTION_TANK_TRANSFORM_TIME 1
 
+# dva
+#!define OW1_DVA_MISSILE_COOLDOWN 8
+
 # Genji
 #!define OW1_GENJI_CLIP_SIZE 30
 #!define OW1_GENJI_SHURIKEN_DAMAGE 29
+
+# Reinhardt
+#!define OW1_REINHARDT_CHARGE_COOLDOWN 10
+
+# Roadhog
+#!define OW1_ROADHOG_CLIP_SIZE 5
+#!define OW1_ROADHOG_SHOTGUN_DAMAGE 165
+#!define OW1_ROADHOG_HOOK_COOLDOWN 8
 
 # Symmetra
 #!define OW1_SYMMETRA_CLIP_SIZE 70

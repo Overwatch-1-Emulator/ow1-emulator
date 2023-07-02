@@ -73,7 +73,6 @@ settings {
             },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
-                "ability2Cooldown%": 114,
                 "ultGen%": percent(ow2_ult_cost_DVA/ow1_ult_cost_DVA)
             },
             "echo": {
@@ -108,19 +107,15 @@ settings {
             },
             "reinhardt": {
                 "secondaryFireRechargeRate%": 139,
-                "ability1Cooldown%": 143,
-                "health%": percent(ow1_barrier_health_REINHARDT/ow2_barrier_health_REINHARDT),
+                "health%": percent(ow1_barrier_health_REINHARDT/ow2_barrier_health_REINHARDT), # for barrier
                 "ultGen%": percent(ow2_ult_cost_REINHARDT/ow1_ult_cost_REINHARDT)
             },
             "roadhog": {
-                "ammoClipSize%": 83,
-                "ability1Cooldown%": 133,
-                "damageDealt%": 110,
                 "ultGen%": percent(ow2_ult_cost_ROADHOG/ow1_ult_cost_ROADHOG)
             },
             "sigma": {
                 "secondaryFireRechargeRate%": 80,
-                "health%": percent(ow1_barrier_health_SIGMA/ow2_barrier_health_SIGMA),
+                "health%": percent(ow1_barrier_health_SIGMA/ow2_barrier_health_SIGMA),  # for barrier
                 "ultGen%": percent(ow2_ult_cost_SIGMA/ow1_ult_cost_SIGMA)
             },
             "soldier": {
