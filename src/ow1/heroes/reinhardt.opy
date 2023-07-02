@@ -1,4 +1,4 @@
-#!include "ow1_constants.opy"
+#!mainFile "../../main.opy"
 
 rule "Force single firestrike":
     @Event eachPlayer

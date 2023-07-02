@@ -1,15 +1,12 @@
 #!mainFile "main.opy"
 
-# custom lobby settings
+# Useful functions
+#!include "utilities.opy"
+# Useful constants
+#!include "constants/constants.opy"
+
+# Base custom games settings
 #!include "base_settings.opy"
 
-# custom health bar logic
-#!include "hp.opy"
-# custom ult charge logic
-#!include "ult_charge.opy"
-# remove support passive
-#!include "support_passive.opy"
-
-# custom hero specific logic
-#!include "custom_heroes.opy"
-
+# OW1 logic
+#!include "ow1/ow1.opy"

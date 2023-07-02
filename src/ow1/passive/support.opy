@@ -1,3 +1,5 @@
+#!mainFile "../../main.opy"
+
 rule "Disable support self-healing passive":
     @Event playerReceivedHealing
     # apply to only support heroes
