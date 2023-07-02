@@ -6,6 +6,7 @@
 # specific hero logic
 # Tanks
 #!include "ow1/heroes/reinhardt.opy"
+#!include "ow1/heroes/winston.opy"
 #!include "ow1/heroes/zarya.opy"
 
 # Damage

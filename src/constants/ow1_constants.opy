@@ -6,7 +6,6 @@
 #!define ow1_ult_cost_REINHARDT 1540
 #!define ow1_ult_cost_ROADHOG 2240
 #!define ow1_ult_cost_SIGMA 1960
-#!define ow1_ult_cost_WINSTON 1540
 #!define ow1_ult_cost_HAMMOND 1540
 #!define ow1_ult_cost_ZARYA 2100
 
@@ -160,3 +159,7 @@
 
 # Tracer
 #!define OW1_TRACER_PISTOL_DAMAGE 6
+
+# Winston
+#!define OW1_WINSTON_LEAP_COOLDOWN 6
+#!define OW1_WINSTON_ULT_COST 1540

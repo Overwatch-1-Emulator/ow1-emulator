@@ -1,12 +1,18 @@
 #!mainFile "../../main.opy"
 
-def initBaptiste():
-    # [TODO]
-    pass
+def initWinston():
+    eventPlayer.setSecondaryFireEnabled(false)
 
-rule "[ashe.opy]: Initialize Baptiste":
+rule "[winston.opy]: Initialize Winston":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero winston
     @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initWinston()
+
+rule "[winston.opy]: Set default leap cooldown":
+    @Event eachPlayer
+    @Hero winston
+    @Condition eventPlayer.isUsingAbility1()
+    
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_LEAP_COOLDOWN)

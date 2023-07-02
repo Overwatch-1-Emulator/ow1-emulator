@@ -144,10 +144,8 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_WIDOWMAKER/ow1_ult_cost_WIDOWMAKER)
             },
             "winston": {
-                "ability2Cooldown%": 108,
-                "ability1Cooldown%": 120,
-                "enableSecondaryFire": false,
-                "health%": percent(ow1_barrier_health_WINSTON/ow2_barrier_health_WINSTON),
+                "health%": percent(ow1_barrier_health_WINSTON/ow2_barrier_health_WINSTON), # adjust barrier hp
+                "ultGen%": percent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST)
             },
             "hammond": {
                 "ultGen%": percent(ow2_ult_cost_HAMMOND/ow1_ult_cost_HAMMOND)

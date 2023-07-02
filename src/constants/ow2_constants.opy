@@ -6,7 +6,6 @@
 #!define ow2_ult_cost_REINHARDT 1650
 #!define ow2_ult_cost_ROADHOG 2420
 #!define ow2_ult_cost_SIGMA 2100
-#!define ow2_ult_cost_WINSTON 1850
 #!define ow2_ult_cost_HAMMOND 1675
 #!define ow2_ult_cost_ZARYA 2270
 
@@ -71,3 +70,4 @@
 
 # Tracer
 #!define OW2_TRACER_PISTOL_DAMAGE 5.5
+#!define OW2_WINSTON_ULT_COST 1850
