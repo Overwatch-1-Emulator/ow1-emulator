@@ -113,7 +113,7 @@ rule "[bastion.opy]: Initialize recon mode":
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)
     
-    eventPlayer.allowButton(Button.PRIMARY_FIRE)
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
@@ -138,6 +138,8 @@ rule "[bastion.opy]: Initialize sentry mode":
     eventPlayer.setDamageDealt(percent(OW1_BASTION_MACHINE_GUN_DAMAGE/OW2_BASTION_MACHINE_GUN_DAMAGE))
     eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
 
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+
     eventPlayer.machine_gun_ready = true
     stopChasingVariable(eventPlayer.machine_gun_reload_timer)
 
@@ -161,6 +163,7 @@ rule "[bastion.opy]: Initialize tank mode":
     eventPlayer.setProjectileGravity(0)
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE) # Disallow firing machine gun
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
 
