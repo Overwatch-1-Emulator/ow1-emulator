@@ -12,9 +12,10 @@ def initReinhardt():
 rule "[reinhardt.opy]: Initialize Reinhardt":
     @Event eachPlayer
     @Hero reinhardt
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initReinhardt()
+    eventPlayer.initialized = true
 
 rule "[reinhardt.opy]: Set default charge cooldown":
     @Event eachPlayer

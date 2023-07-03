@@ -7,6 +7,7 @@ def initTracer():
 rule "[tracer.opy]: Initialize Tracer":
     @Event eachPlayer
     @Hero tracer
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initTracer()
+    eventPlayer.initialized = true

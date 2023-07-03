@@ -7,9 +7,10 @@ def initMei():
 rule "[mei.opy]: Initialize Mei":
     @Event eachPlayer
     @Hero mei
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initMei()
+    eventPlayer.initialized = true
 
 rule "[mei.opy] Freeze enemy": # credit to snappycreeper for this rule
     @Event playerDealtDamage

@@ -22,6 +22,8 @@ def resetHero():
     eventPlayer.setProjectileGravity(100)
     eventPlayer.setHealingDealt(100)
     eventPlayer.setHealingReceived(100)
+    eventPlayer.setKnockbackReceived(100)
+    clearCustomHealth()
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
 
@@ -35,7 +37,7 @@ def resetHero():
     eventPlayer.text_huds = []
     eventPlayer.progress_bar_huds = []
 
-    eventPlayer.reset_flag = true
+    eventPlayer.initialized = false
 
     
 rule "[generic.opy]: Reset hero on new round":

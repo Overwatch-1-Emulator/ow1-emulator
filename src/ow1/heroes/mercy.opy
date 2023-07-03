@@ -7,6 +7,7 @@ def initMercy():
 rule "[mercy.opy]: Initialize mercy":
     @Event eachPlayer
     @Hero mercy
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initMercy()
+    eventPlayer.initialized = true

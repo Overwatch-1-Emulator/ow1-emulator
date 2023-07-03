@@ -9,6 +9,7 @@ def initGenji():
 rule "[genji.opy]: Initialize Genji":
     @Event eachPlayer
     @Hero genji
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initGenji()
+    eventPlayer.initialized = true

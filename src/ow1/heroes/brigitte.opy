@@ -14,9 +14,10 @@ def initBrigitte():
 rule "[brigitte.opy]: Initialize Brigitte":
     @Event eachPlayer
     @Hero brigitte
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initBrigitte()
+    eventPlayer.initialized = true
 
 
 rule "[brigitte.opy]: Add stun to shield bash":
