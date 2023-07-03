@@ -2,8 +2,8 @@
 
 #####################################################
 # This DPS doomfist workshop script is sourced from
-# https://workshop.codes/dpsdoom
-# Credit to discord users: Bebel#5658 and Xponit#1474
+# https://workshop.codes/dpsdoom        code: ZXJB4
+# DPS Doomfist author discord: Bebel#5658 and Xponit#1474
 #####################################################
 
 playervar IndicatorSlam 0
