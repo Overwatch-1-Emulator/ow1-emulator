@@ -4,19 +4,10 @@ playervar self_bubble_cooldown
 playervar ally_bubble_cooldown
 playervar zarya_hud_visibility
 
-rule "create bubble cooldown HUD":
-    @Event eachPlayer
-    @Hero zarya
-
+def initZarya():
     eventPlayer.self_bubble_cooldown = 0
     eventPlayer.ally_bubble_cooldown = 0
     eventPlayer.zarya_hud_visibility = eventPlayer
-    
-
-rule "[zarya.opy]: Initialize Zarya specific HUD for all players (invisible by default)":
-    @Event eachPlayer
-    
-    eventPlayer.zarya_hud_visibility = null
 
     createInWorldText(eventPlayer.zarya_hud_visibility, 
                       "{0}    {1}".format(ceil(eventPlayer.self_bubble_cooldown), ceil(eventPlayer.ally_bubble_cooldown)), 
@@ -27,13 +18,21 @@ rule "[zarya.opy]: Initialize Zarya specific HUD for all players (invisible by d
                       WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
                       Color.WHITE, 
                       SpecVisibility.DEFAULT)
+    eventPlayer.text_huds.append(getLastCreatedText())
 
-rule "Hide bubble cooldown HUD on hero switch":
+rule "[zarya.opy]: Hide bubble cooldown HUD on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
     @Condition eventPlayer.getCurrentHero() != Hero.ZARYA
 
     eventPlayer.zarya_hud_visibility = null
+
+rule "[zarya.opy]: Initialize Zarya":
+    @Event eachPlayer
+    @Hero zarya
+    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+
+    initZarya()
 
 rule "zarya self bubble":
     @Event eachPlayer

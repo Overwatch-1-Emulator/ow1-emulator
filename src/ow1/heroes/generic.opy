@@ -1,7 +1,12 @@
 #!mainFile "../../main.opy"
 
+globalvar i
+
+playervar text_huds
+playervar progress_bar_huds
+
 def resetHero():
-    @Name "[generic.opy]: Reset hero stats"
+    @Name "[generic.opy]: Reset hero stats/gui"
     eventPlayer.setPrimaryFireEnabled(true)
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.setSecondaryFireEnabled(true)
@@ -19,6 +24,16 @@ def resetHero():
     eventPlayer.setHealingReceived(100)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
+
+    # Clear GUI
+    for i in range(len(eventPlayer.text_huds)):
+        destroyHudText(eventPlayer.text_huds[i])
+    for i in range(len(eventPlayer.progress_bar_huds)):
+        destroyProgressBarHud(eventPlayer.progress_bar_huds[i])
+    
+
+    eventPlayer.text_huds = []
+    eventPlayer.progress_bar_huds = []
 
     eventPlayer.reset_flag = true
 

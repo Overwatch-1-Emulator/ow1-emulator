@@ -20,19 +20,6 @@ def initBastion():
     eventPlayer.machine_gun_reload_timer = 0
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
-rule "[bastion.opy]: Initialize Bastion":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
-
-    eventPlayer.reset_flag = false
-    
-    initBastion()
-
-
-rule "[bastion.opy]: Initialize Bastion specific HUD for all players (invisible by default)":
-    @Event eachPlayer
-
     eventPlayer.sentry_gui_visibility = null
     eventPlayer.heal_gui_visibility = null
 
@@ -46,6 +33,7 @@ rule "[bastion.opy]: Initialize Bastion specific HUD for all players (invisible 
                    Color.ORANGE, 
                    ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
                    SpecVisibility.DEFAULT)
+    eventPlayer.progress_bar_huds.append(getLastCreatedText())
 
     progressBarHud(eventPlayer.heal_gui_visibility, 
                    roundedPercent(eventPlayer.self_repair_time_left/ow1_max_self_repair_duration_BASTION), 
@@ -56,9 +44,20 @@ rule "[bastion.opy]: Initialize Bastion specific HUD for all players (invisible 
                    Color.YELLOW, 
                    ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
                    SpecVisibility.DEFAULT)
+    eventPlayer.progress_bar_huds.append(getLastCreatedText())
 
 
-rule "Hide Bastion HUD on hero switch":
+rule "[bastion.opy]: Initialize Bastion":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+
+    eventPlayer.reset_flag = false
+    
+    initBastion()
+
+
+rule "[bastion.opy]: Hide Bastion HUD on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
     @Condition eventPlayer.getCurrentHero() != Hero.BASTION
