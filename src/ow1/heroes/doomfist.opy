@@ -63,11 +63,11 @@ playervar hasUsedSlam
 playervar slamTrackedPosition
 playervar slamEndPosition
 playervar previousTickPosition
-playervar tickRaycast
-playervar originalRaycastHeight
-playervar raycastTryNumber
-playervar showIndicator
-playervar spotFound
+playervar tick_raycast
+playervar original_raycast_height
+playervar raycast_try_number
+playervar show_indicator
+playervar spot_found
 playervar TopLine
 playervar RightLine
 playervar LeftLine
@@ -115,21 +115,21 @@ rule "[doomfist.opy]: (ALL SLAM) EVERYWHERE New slam indicator & allowance":
     
     eventPlayer.slam_raycast_end_position = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 15, null, getAllPlayers(), false).getHitPosition()
     #if distance(eventPlayer.slam_raycast_end_position, nearestWalkablePosition(eventPlayer.slam_raycast_end_position)) > 0.25:
-    eventPlayer.originalRaycastHeight = eventPlayer.getPosition().y - eventPlayer.slam_raycast_end_position.y
-    eventPlayer.tickRaycast = raycast(eventPlayer.slam_raycast_end_position, eventPlayer.slam_raycast_end_position - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
-    eventPlayer.raycastTryNumber = 1
-    #while distance(eventPlayer.tickRaycast, nearestWalkablePosition(eventPlayer.tickRaycast)) > 0.25 and eventPlayer.raycastTryNumber < 30:
+    eventPlayer.original_raycast_height = eventPlayer.getPosition().y - eventPlayer.slam_raycast_end_position.y
+    eventPlayer.tick_raycast = raycast(eventPlayer.slam_raycast_end_position, eventPlayer.slam_raycast_end_position - (vect(0, 40 - eventPlayer.original_raycast_height, 0)), null, getAllPlayers(), false).getHitPosition()
+    eventPlayer.raycast_try_number = 1
+    #while distance(eventPlayer.tick_raycast, nearestWalkablePosition(eventPlayer.tick_raycast)) > 0.25 and eventPlayer.raycast_try_number < 30:
     eventPlayer.slam_raycast_end_position -= eventPlayer.getFacingDirection() / 2
-    eventPlayer.tickRaycast = raycast(eventPlayer.slam_raycast_end_position, eventPlayer.slam_raycast_end_position - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
-    eventPlayer.raycastTryNumber += 1
-    if eventPlayer.raycastTryNumber >= 30:
-        eventPlayer.spotFound = false
+    eventPlayer.tick_raycast = raycast(eventPlayer.slam_raycast_end_position, eventPlayer.slam_raycast_end_position - (vect(0, 40 - eventPlayer.original_raycast_height, 0)), null, getAllPlayers(), false).getHitPosition()
+    eventPlayer.raycast_try_number += 1
+    if eventPlayer.raycast_try_number >= 30:
+        eventPlayer.spot_found = false
     else:
-        eventPlayer.slam_raycast_end_position = eventPlayer.tickRaycast
-        eventPlayer.spotFound = true
+        eventPlayer.slam_raycast_end_position = eventPlayer.tick_raycast
+        eventPlayer.spot_found = true
     else:
-        eventPlayer.spotFound = true
-    if eventPlayer.spotFound and eventPlayer.getFacingDirection().y < 0.25 and abs(angleBetweenVectors(eventPlayer.getFacingDirection(), vectorTowards(eventPlayer.getPosition(), eventPlayer.slam_raycast_end_position))) < 15 and eventPlayer.getPosition().y - eventPlayer.slam_raycast_end_position.y < 30 and distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.slam_raycast_end_position * vect(1, 0, 1)) < 15:
+        eventPlayer.spot_found = true
+    if eventPlayer.spot_found and eventPlayer.getFacingDirection().y < 0.25 and abs(angleBetweenVectors(eventPlayer.getFacingDirection(), vectorTowards(eventPlayer.getPosition(), eventPlayer.slam_raycast_end_position))) < 15 and eventPlayer.getPosition().y - eventPlayer.slam_raycast_end_position.y < 30 and distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.slam_raycast_end_position * vect(1, 0, 1)) < 15:
         if eventPlayer.diamond_indicator == 0:
             #BOTTOM LINE
             createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
@@ -144,7 +144,7 @@ rule "[doomfist.opy]: (ALL SLAM) EVERYWHERE New slam indicator & allowance":
             createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.LeftLine = getLastCreatedEntity()
             eventPlayer.diamond_indicator = [eventPlayer.BottomLine, eventPlayer.TopLine, eventPlayer.RightLine, eventPlayer.LeftLine]
-        eventPlayer.showIndicator = true
+        eventPlayer.show_indicator = true
     else:
         if eventPlayer.diamond_indicator:
             #destroyEffect(eventPlayer.BottomLine)
@@ -152,13 +152,13 @@ rule "[doomfist.opy]: (ALL SLAM) EVERYWHERE New slam indicator & allowance":
             destroyEffect(eventPlayer.diamond_indicator)
             wait()
             eventPlayer.diamond_indicator = 0
-            eventPlayer.showIndicator = false
+            eventPlayer.show_indicator = false
     wait()
     if eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and not eventPlayer.isFiringSecondaryFire() and eventPlayer.getAltitude() > 3 and not eventPlayer.isUsingAbility1() and eventPlayer.is_uppercutting == false:
         goto RULE_START
     else:
         if eventPlayer.getAltitude() > 3 and not eventPlayer.isUsingAbility1():
-            eventPlayer.showIndicator = false
+            eventPlayer.show_indicator = false
         if eventPlayer.diamond_indicator:
             #destroyEffect(eventPlayer.BottomLine)
             #destroyEffect(eventPlayer.TopLine)
@@ -253,7 +253,7 @@ rule "[doomfist.opy]: New indicator slam":
     @Condition (eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.STUNNED) or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.ROOTED)) == false
     @Condition eventPlayer.getAltitude() > 3
     @Condition eventPlayer.hasUsedSlam == false
-    @Condition eventPlayer.showIndicator == true
+    @Condition eventPlayer.show_indicator == true
     @Condition eventPlayer.is_uppercutting == false
     @Condition isInLoS(eventPlayer, eventPlayer.slam_raycast_end_position, BarrierLos.PASS_THROUGH_BARRIERS) == true
     @Condition eventPlayer.isInViewAngle(eventPlayer.slam_raycast_end_position, 45) == true
@@ -279,10 +279,10 @@ rule "[doomfist.opy]: New indicator slam":
         wait()
         eventPlayer.disallowButton(Button.ABILITY_1)
         eventPlayer.stopForcingButton(Button.ABILITY_1)
-        eventPlayer.tickRaycast = raycast(eventPlayer.previousTickPosition, eventPlayer.getEyePosition(), null, getAllPlayers(), false).getHitPosition()
-        if eventPlayer.tickRaycast != eventPlayer.getEyePosition():
+        eventPlayer.tick_raycast = raycast(eventPlayer.previousTickPosition, eventPlayer.getEyePosition(), null, getAllPlayers(), false).getHitPosition()
+        if eventPlayer.tick_raycast != eventPlayer.getEyePosition():
             eventPlayer.stopForcingPosition()
-            eventPlayer.startForcingPosition(eventPlayer.tickRaycast, false)
+            eventPlayer.startForcingPosition(eventPlayer.tick_raycast, false)
             break
     stopChasingVariable(eventPlayer.slamTrackedPosition)
     wait()
@@ -949,7 +949,7 @@ rule "[doomfist.opy]: TankBugSlamRemoval":
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     #@Condition eventPlayer.isUsingAbility1() == true
     
-    #if eventPlayer.showIndicator == false or eventPlayer.getAltitude() <= 3:
+    #if eventPlayer.show_indicator == false or eventPlayer.getAltitude() <= 3:
     #eventPlayer.disallowButton(Button.ABILITY_1)
     #eventPlayer.allowButton(Button.ABILITY_1)
     waitUntil(eventPlayer.isUsingAbility1(), 99999)
@@ -961,7 +961,7 @@ rule "[doomfist.opy]: TankBugSlamRemoval":
         wait()
         eventPlayer.applyImpulse(eventPlayer.getVelocity() * -1, eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-        #waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_1) == true and eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and eventPlayer.isUsingAbility2() == false and eventPlayer.isFiringSecondaryFire() == false and eventPlayer.getAltitude() > 3 and eventPlayer.hasUsedSlam == false and eventPlayer.showIndicator == true and eventPlayer.is_uppercutting == false and eventPlayer.ground_slam == false or eventPlayer.ground_slam == true, 99999)
+        #waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_1) == true and eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and eventPlayer.isUsingAbility2() == false and eventPlayer.isFiringSecondaryFire() == false and eventPlayer.getAltitude() > 3 and eventPlayer.hasUsedSlam == false and eventPlayer.show_indicator == true and eventPlayer.is_uppercutting == false and eventPlayer.ground_slam == false or eventPlayer.ground_slam == true, 99999)
         #wait(2)
     else:
     waitUntil(eventPlayer.isUsingAbility1() == false, 99999)
