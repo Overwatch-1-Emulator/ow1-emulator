@@ -78,23 +78,6 @@ playervar MONKEYslamVicsInVA 96
 subroutine HandleUltimateDamage 0
 
 
-#Activated extensions
-
-#!extension beamEffects
-#!extension kineticExplosionEffects
-#!extension explosionSounds
-#!extension beamEffects
-#!extension beamEffects
-#!extension beamEffects
-#!extension beamEffects
-#!extension explosionSounds
-#!extension kineticExplosionEffects
-#!extension kineticExplosionEffects
-#!extension explosionSounds
-#!extension explosionSounds
-#!extension kineticExplosionEffects
-
-
 rule "=======VERSION 5.0.0 ======== REAPPLY CODES FOR UPDATES! ======= CONTACT Xponit#1474 and/or Bebel#5658 FOR BUGS AND SUGGESTIONS":
 
 
@@ -201,16 +184,16 @@ rule "(ALL SLAM) EVERYWHERE New slam indicator & allowance":
     if eventPlayer.spotFound and eventPlayer.getFacingDirection().y < 0.25 and abs(angleBetweenVectors(eventPlayer.getFacingDirection(), vectorTowards(eventPlayer.getPosition(), eventPlayer.slamRaycastEndPos))) < 15 and eventPlayer.getPosition().y - eventPlayer.slamRaycastEndPos.y < 30 and distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.slamRaycastEndPos * vect(1, 0, 1)) < 15:
         if eventPlayer.DiamondIndicator == 0:
             #BOTTOM LINE
-            createBeam(eventPlayer, Beam.ORISA_AMPLIFIER, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.BottomLine = getLastCreatedEntity()
             #TOP LINE
-            createBeam(eventPlayer, Beam.ORISA_AMPLIFIER, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.TopLine = getLastCreatedEntity()
             #RIGHT SIDE
-            createBeam(eventPlayer, Beam.ORISA_AMPLIFIER, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.RightLine = getLastCreatedEntity()
             #LEFT SIDE
-            createBeam(eventPlayer, Beam.ORISA_AMPLIFIER, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.LeftLine = getLastCreatedEntity()
             eventPlayer.DiamondIndicator = [eventPlayer.BottomLine, eventPlayer.TopLine, eventPlayer.RightLine, eventPlayer.LeftLine]
         eventPlayer.showIndicator = true
@@ -585,8 +568,8 @@ rule "uppercut hit":
             eventPlayer.beamID.uppercutDealer = eventPlayer
             #50 with the 20% buff
             damage(eventPlayer.beamID, eventPlayer, 41.67)
-            playEffect(getAllPlayers(), DynamicEffect.DOOMFIST_RISING_UPPERCUT_IMPACT_SOUND, Color.WHITE, eventPlayer.beamID.getPosition(), 100)
-            playEffect(getAllPlayers(), DynamicEffect.DOOMFIST_RISING_UPPERCUT_IMPACT, Color.WHITE, eventPlayer.beamID, 1)
+            playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer.beamID.getPosition(), 100)
+            playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer.beamID, 1)
             eventPlayer.hitPlayers.append(eventPlayer.beamID)
     wait()
     if eventPlayer.isUppercutting == true:
@@ -598,8 +581,8 @@ rule "Uppercut Victim Effect":
     @Hero doomfist
     @Condition eventPlayer.isUppercutting == true
     
-    playEffect(getAllPlayers(), DynamicEffect.DOOMFIST_RISING_UPPERCUT_IMPACT, eventPlayer.getTeam(), victim, 5)
-    playEffect(getAllPlayers(), DynamicEffect.DOOMFIST_RISING_UPPERCUT_IMPACT_SOUND, Color.WHITE, victim, 100)
+    playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, eventPlayer.getTeam(), victim, 5)
+    playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, victim, 100)
 
 
 rule "===================================================== DPS CONVERSTION / STAT CORRECTION ========================================":
