@@ -92,11 +92,3 @@ rule "[custom_health_handler.opy]: Remove Custom Health Conditions":
     wait(0.016)
 
     if RULE_CONDITION: goto RULE_START
-
-rule "[custom_health_handler.opy]: Debug Rule":
-    @Event eachPlayer
-    @Disabled
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT)
-
-    setCustomHealth(100, 50, 50)
-    

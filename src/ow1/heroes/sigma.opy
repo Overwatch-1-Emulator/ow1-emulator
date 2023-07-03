@@ -1,12 +1,17 @@
 #!mainFile "../../main.opy"
 
-def initBaptiste():
-    # [TODO]
-    pass
+def initSigma():
+    @Name "[sigma.opy]: initSigma"
 
-rule "[ashe.opy]: Initialize Baptiste":
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS)
+
+rule "[sigma.opy]: Initialize Sigma":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero sigma
     @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initSigma()

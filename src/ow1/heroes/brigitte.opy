@@ -2,7 +2,24 @@
 # Credit to oreoslurpee for Brigitte shield bash logic
 # see https://workshop.codes/MR5QJ for oreslurpee's 2018 brig implementation
 
-rule "Add stun to shield bash":
+def initBrigitte():
+    
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR)
+
+
+rule "[brigitte.opy]: Initialize Brigitte":
+    @Event eachPlayer
+    @Hero brigitte
+    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+
+    initBrigitte()
+
+
+rule "[brigitte.opy]: Add stun to shield bash":
     @Event playerDealtDamage
     @Hero brigitte
     @Condition eventPlayer.isFiringSecondaryFire() == true
@@ -10,7 +27,8 @@ rule "Add stun to shield bash":
     
     victim.setStatusEffect(eventPlayer, Status.STUNNED, ow1_shield_bash_stun_duration)
 
-rule "Reduce shield bash distance":
+
+rule "[brigitte.opy]: Reduce shield bash distance":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.isFiringSecondaryFire() == true
@@ -24,7 +42,8 @@ rule "Reduce shield bash distance":
     else:
         eventPlayer.setMoveSpeed(100)
 
-rule "Rally 30% speed boost":
+
+rule "[brigitte.opy]: Rally 30% speed boost":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate() == true

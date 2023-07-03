@@ -4,6 +4,13 @@ playervar flashbang_origin_position
 playervar flashbang_exploded
 
 def initMccree():
+
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_MCCREE_HEALTH, 0, 0)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_MCCREE_HEALTH)
+
     eventPlayer.disallowButton(Button.ABILITY_2)
 
 rule "[mccree.opy]: Initialize Mccree":

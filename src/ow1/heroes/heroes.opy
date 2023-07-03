@@ -1,5 +1,8 @@
 #!mainFile "../../main.opy"
 
+# custom health logic
+#!include "ow1/heroes/custom_health_handler.opy"
+
 # generic hero logic
 #!include "ow1/heroes/generic.opy"
 
@@ -8,7 +11,9 @@
 #!include "ow1/heroes/dva.opy"
 #!include "ow1/heroes/reinhardt.opy"
 #!include "ow1/heroes/roadhog.opy"
+#!include "ow1/heroes/sigma.opy"
 #!include "ow1/heroes/winston.opy"
+#!include "ow1/heroes/wreckingball.opy"
 #!include "ow1/heroes/zarya.opy"
 
 # Damage
@@ -18,6 +23,7 @@
 #!include "ow1/heroes/mei.opy"
 #!include "ow1/heroes/symmetra.opy"
 #!include "ow1/heroes/tracer.opy"
+#!include "ow1/heroes/widowmaker.opy"
 
 # Support
 #!include "ow1/heroes/ana.opy"

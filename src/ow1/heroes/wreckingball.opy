@@ -1,12 +1,17 @@
 #!mainFile "../../main.opy"
 
-def initBaptiste():
-    # [TODO]
-    pass
+def initWreckingball():
+    @Name "[wreckingball.opy]: Initialize Wrecking Ball"
 
-rule "[ashe.opy]: Initialize Baptiste":
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_WRECKING_BALL_HEALTH + OW1_WRECKING_BALL_ARMOR)
+
+rule "[wreckingball.opy]: Initialize Wrecking Ball":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero hammond
     @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initWreckingball()

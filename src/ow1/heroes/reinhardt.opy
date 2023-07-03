@@ -1,8 +1,13 @@
 #!mainFile "../../main.opy"
 
 def initReinhardt():
-    # [TODO]
-    pass
+    
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_REINHARDT_HEALTH + OW1_REINHARDT_ARMOR)
+
 
 rule "[reinhardt.opy]: Initialize Reinhardt":
     @Event eachPlayer
