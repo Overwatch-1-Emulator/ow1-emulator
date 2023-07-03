@@ -1,13 +1,14 @@
 #!mainFile "../../main.opy"
 
 def initDva():
-    
     do:
         clearCustomHealth()
         setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
         wait(1)
     while (eventPlayer.getMaxHealth() != OW1_DVA_HEALTH + OW1_DVA_ARMOR)
 
+    waitUntil(not eventPlayer.isInAlternateForm(), 9999)
+    eventPlayer.setUltCharge(0)
 
 rule "[dva.opy]: Initialize Dva":
     @Event eachPlayer
