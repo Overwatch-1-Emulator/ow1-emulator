@@ -10,80 +10,80 @@ workshop gamemode through OverPy, and editing the
 rules/functions as needed.
 */
 
-playervar indicator_slam 0
-playervar slam_timer 1
-playervar slam_timer_visible 2
-playervar is_uppercutting 3
-playervar player_id 4
-playervar beam_id 5
-playervar hit_players 6
-playervar uppercut_momentum 7
-playervar uppercut_dealer 8
-playervar players_in_view 9
-playervar uppercut_lock_timer 10
-playervar punch_hit_timer 11
-playervar second_hit 12
-playervar average_angle 18
-playervar height 20
-playervar slam_horizontal_distance 21
-playervar slam_direction_when_pressed 22
-playervar diamond_indicator 26
-playervar ground_slam 27
-playervar all_slam_vics 28
-playervar has_slam_timer 29
-playervar BottomLine 30
-playervar isCloseSlam 31
-playervar DpsSlam 32
-playervar UltimatePlayers_Hit_increment 33
-playervar UpperFloat 35
-playervar isPunching 36
-playervar MainPunchVictim 37
-playervar SecondaryPunchVictim 38
-playervar PunchCast 39
-playervar UltimatePlayers_Hit 41
-playervar SinglePunchPhase 42
-playervar DoomKBCorrection 43
-playervar PhaseVictims 44
-playervar X_POS 45
-playervar Y_POS 46
-playervar FakePunchVictims 48
-playervar DoomHealthCorrection 49
-playervar RisingFistSymbol 50
-playervar RisingFistSymbolTracker 51
-playervar SlamTimerTEXT 52
-playervar VictimsInView 53
-playervar MultiPunchVictims 54
-playervar MPVid 55
-playervar isIndicating 56
-playervar PunchCastID 57
-playervar temphpTracker 61
-playervar PfP 64
-playervar SlamCamLocked 68
-playervar slamRaycastEndPos 69
-playervar tankslam360 71
-playervar hasUsedSlam 72
-playervar slamTrackedPosition 73
-playervar slamEndPosition 74
-playervar previousTickPosition 75
-playervar tickRaycast 76
-playervar originalRaycastHeight 77
-playervar raycastTryNumber 78
-playervar showIndicator 79
-playervar spotFound 80
-playervar TopLine 81
-playervar RightLine 82
-playervar LeftLine 83
-playervar FakeSlamVictims 87
-playervar SlamVicsInView 88
-playervar TrueSlamVics 91
-playervar victimHASbeenPUNCHED 92
-playervar DamageTrueSlamVics 93
-playervar SlamBounce 94
-playervar NullSlamWithShields 95
-playervar MONKEYslamVicsInVA 96
+playervar indicator_slam
+playervar slam_timer
+playervar slam_timer_visible
+playervar is_uppercutting
+playervar player_id
+playervar beam_id
+playervar hit_players
+playervar uppercut_momentum
+playervar uppercut_dealer
+playervar players_in_view
+playervar uppercut_lock_timer
+playervar punch_hit_timer
+playervar second_hit
+playervar average_angle
+playervar height
+playervar slam_horizontal_distance
+playervar slam_direction_when_pressed
+playervar diamond_indicator
+playervar ground_slam
+playervar all_slam_vics
+playervar has_slam_timer
+playervar BottomLine
+playervar isCloseSlam
+playervar DpsSlam
+playervar UltimatePlayers_Hit_increment
+playervar UpperFloat
+playervar isPunching
+playervar MainPunchVictim
+playervar SecondaryPunchVictim
+playervar PunchCast
+playervar UltimatePlayers_Hit
+playervar SinglePunchPhase
+playervar DoomKBCorrection
+playervar PhaseVictims
+playervar X_POS
+playervar Y_POS
+playervar FakePunchVictims
+playervar DoomHealthCorrection
+playervar RisingFistSymbol
+playervar RisingFistSymbolTracker
+playervar SlamTimerTEXT
+playervar VictimsInView
+playervar MultiPunchVictims
+playervar MPVid
+playervar isIndicating
+playervar PunchCastID
+playervar temphpTracker
+playervar PfP
+playervar SlamCamLocked
+playervar slamRaycastEndPos
+playervar tankslam360
+playervar hasUsedSlam
+playervar slamTrackedPosition
+playervar slamEndPosition
+playervar previousTickPosition
+playervar tickRaycast
+playervar originalRaycastHeight
+playervar raycastTryNumber
+playervar showIndicator
+playervar spotFound
+playervar TopLine
+playervar RightLine
+playervar LeftLine
+playervar FakeSlamVictims
+playervar SlamVicsInView
+playervar TrueSlamVics
+playervar victimHASbeenPUNCHED
+playervar DamageTrueSlamVics
+playervar SlamBounce
+playervar NullSlamWithShields
+playervar MONKEYslamVicsInVA
 
 
-subroutine HandleUltimateDamage 0
+subroutine HandleUltimateDamage
 
 # =========================================== ALL SLAM CODE (Damage Ramp & Movement) ===========================================
 /*
