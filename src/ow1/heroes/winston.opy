@@ -1,6 +1,14 @@
 #!mainFile "../../main.opy"
 
 def initWinston():
+    @Name "[winston.opy]: initWinston"
+
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_WINSTON_HEALTH + OW1_WINSTON_ARMOR)
+
     eventPlayer.setSecondaryFireEnabled(false)
 
 rule "[winston.opy]: Initialize Winston":

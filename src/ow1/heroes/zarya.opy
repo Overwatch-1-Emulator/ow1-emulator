@@ -5,6 +5,13 @@ playervar ally_bubble_cooldown
 playervar zarya_hud_visibility
 
 def initZarya():
+
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_ZARYA_HEALTH + OW1_ZARYA_SHIELDS)
+
     eventPlayer.self_bubble_cooldown = 0
     eventPlayer.ally_bubble_cooldown = 0
     eventPlayer.zarya_hud_visibility = eventPlayer

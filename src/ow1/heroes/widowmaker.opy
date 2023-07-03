@@ -1,12 +1,16 @@
 #!mainFile "../../main.opy"
 
-def initBaptiste():
-    # [TODO]
-    pass
+def initWidowmaker():
 
-rule "[ashe.opy]: Initialize Baptiste":
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_WIDOWMAKER_HEALTH, 0, 0)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_WIDOWMAKER_HEALTH)
+
+rule "[widowmaker.opy]: Initialize Widowmaker":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero widowmaker
     @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initWidowmaker()

@@ -36,59 +36,25 @@
 
 ###################################
 # Normal Healths
-#!define ow1_health_normal_DVA 300
-#!define ow1_health_normal_REINHARDT 300
-#!define ow1_health_normal_ROADHOG 600
-#!define ow1_health_normal_SIGMA 300
-#!define ow1_health_normal_WINSTON 350
-#!define ow1_health_normal_HAMMOND 500
-#!define ow1_health_normal_ZARYA 200
 
-#!define ow1_health_normal_ASHE 0
-#!define ow1_health_normal_BASTION 0
-#!define ow1_health_normal_MCCREE 225
-#!define ow1_health_normal_ECHO 0
-#!define ow1_health_normal_GENJI 0
-#!define ow1_health_normal_HANZO 0
-#!define ow1_health_normal_JUNKRAT 0
-#!define ow1_health_normal_MEI 0
-#!define ow1_health_normal_PHARAH 0
-#!define ow1_health_normal_REAPER 0
-#!define ow1_health_normal_SOLDIER 0
-#!define ow1_health_normal_SOMBRA 0
-#!define ow1_health_normal_SYMMETRA 0
-#!define ow1_health_normal_TORBJORN 0
-#!define ow1_health_normal_TRACER 0
-#!define ow1_health_normal_WIDOWMAKER 175
 
-#!define ow1_health_normal_ANA 0
-#!define ow1_health_normal_BAPTISTE 0
-#!define ow1_health_normal_BRIGITTE 150
-#!define ow1_health_normal_LUCIO 0
-#!define ow1_health_normal_MERCY 0
-#!define ow1_health_normal_MOIRA 0
-#!define ow1_health_normal_ZENYATTA 0
+
+
+
+
+
+
 
 ###################################
 # Armor Healths
-#!define ow1_health_armor_DVA 300
-#!define ow1_health_armor_REINHARDT 200
-#!define ow1_health_armor_WINSTON 150
-#!define ow1_health_armor_HAMMOND 100
 
-#!define ow1_health_armor_BASTION 0
-#!define ow1_health_armor_TORBJORN 0
 
-#!define ow1_health_armor_BRIGITTE 50
+
 
 ###################################
 # Shields Healths
-#!define ow1_health_shields_SIGMA 100
-#!define ow1_health_shields_ZARYA 200
 
-#!define ow1_health_shields_SYMMETRA 0
 
-#!define ow1_health_shields_ZENYATTA 0
 
 ###################################
 # Barrier Healths
@@ -146,7 +112,13 @@
 #!define ow1_self_repair_cooldown_time_BASTION 1
 #!define OW1_BASTION_TANK_TRANSFORM_TIME 1
 
+# Brigitte
+#!define OW1_BRIGITTE_HEALTH 150
+#!define OW1_BRIGITTE_ARMOR 50
+
 # Dva
+#!define OW1_DVA_HEALTH 300
+#!define OW1_DVA_ARMOR 300
 #!define OW1_DVA_MISSILE_COOLDOWN 8
 
 # Genji
@@ -154,6 +126,7 @@
 #!define OW1_GENJI_SHURIKEN_DAMAGE 29
 
 # Mccree
+#!define OW1_MCCREE_HEALTH 225
 #!define OW1_MCCREE_FLASHBANG_DAMAGE 25
 #!define OW1_MCCREE_FLASHBANG_AOE_RADIUS 3
 #!define OW1_MCCREE_FLASHBANG_SPEED 30
@@ -168,12 +141,19 @@
 #!define OW1_MERCY_CLIP_SIZE 20
 
 # Reinhardt
+#!define OW1_REINHARDT_HEALTH 300
+#!define OW1_REINHARDT_ARMOR 200
 #!define OW1_REINHARDT_CHARGE_COOLDOWN 10
 
 # Roadhog
+#!define OW1_ROADHOG_HEALTH 600
 #!define OW1_ROADHOG_CLIP_SIZE 5
 #!define OW1_ROADHOG_SHOTGUN_DAMAGE 165
 #!define OW1_ROADHOG_HOOK_COOLDOWN 8
+
+# Sigma
+#!define OW1_SIGMA_HEALTH 300
+#!define OW1_SIGMA_SHIELDS 100
 
 # Symmetra
 #!define OW1_SYMMETRA_CLIP_SIZE 70
@@ -181,6 +161,19 @@
 # Tracer
 #!define OW1_TRACER_PISTOL_DAMAGE 6
 
+# Widowmaker
+#!define OW1_WIDOWMAKER_HEALTH 175
+
 # Winston
+#!define OW1_WINSTON_HEALTH 350
+#!define OW1_WINSTON_ARMOR 150
 #!define OW1_WINSTON_LEAP_COOLDOWN 6
 #!define OW1_WINSTON_ULT_COST 1540
+
+# Wrecking Ball
+#!define OW1_WRECKING_BALL_HEALTH 500
+#!define OW1_WRECKING_BALL_ARMOR 100
+
+# Zarya
+#!define OW1_ZARYA_HEALTH 200
+#!define OW1_ZARYA_SHIELDS 200

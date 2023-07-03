@@ -1,10 +1,19 @@
 #!mainFile "../../main.opy"
 
 def initRoadhog():
+    
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_ROADHOG_HEALTH, 0, 0)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_ROADHOG_HEALTH)
+
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
 
     eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SHOTGUN_DAMAGE/OW2_ROADHOG_SHOTGUN_DAMAGE))
+
+
 
 rule "[roadhog.opy]: Initialize Roadhog":
     @Event eachPlayer
