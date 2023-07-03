@@ -17,6 +17,7 @@
 #!include "ow1/heroes/mccree.opy"
 #!include "ow1/heroes/mei.opy"
 #!include "ow1/heroes/mercy.opy"
+#!include "ow1/heroes/moira.opy"
 #!include "ow1/heroes/reinhardt.opy"
 #!include "ow1/heroes/roadhog.opy"
 #!include "ow1/heroes/sigma.opy"

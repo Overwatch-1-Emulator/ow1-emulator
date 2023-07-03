@@ -1,13 +1,24 @@
 #!mainFile "../../main.opy"
 
-def initBaptiste():
+def initMoira():
     # [TODO]
     pass
 
-rule "[ashe.opy]: Initialize Baptiste":
+
+rule "[moira.opy]: Initialize Moira":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero moira
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initMoira()
     eventPlayer.initialized = true
+
+
+rule "[moira.opy]: Deny fade during coalescence":
+    @Event eachPlayer
+    @Hero moira
+    @Condition eventPlayer.isUsingUltimate()
+
+    eventPlayer.setAbility1Enabled(false)
+    waitUntil(not eventPlayer.isUsingUltimate(), 9999)
+    eventPlayer.setAbility1Enabled(true)
