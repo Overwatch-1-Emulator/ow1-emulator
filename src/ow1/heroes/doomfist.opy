@@ -1,45 +1,4 @@
-settings {
-    "main": {
-        "description": "VERSION 5.0.0 Made by Bebel & Blessed. Play like its overwatch 1 again! All old abiltiys 90% working! Damage 100% accurate! Reach out to \n#5658 and/or Xponit#1474 on discord for questions or to report a bug.",
-        "modeName": "DPS DOOM, UPPERCUT,OLD SLAM"
-    },
-    "lobby": {
-        "allowPlayersInQueue": true
-    },
-    "gamemodes": {
-        "assault": {},
-        "control": {},
-        "escort": {},
-        "hybrid": {
-            "disabledMaps": [
-                "numbani"
-            ]
-        },
-        "general": {
-            "enableCompetitiveRules": true,
-            "heroLimit": "off",
-            "tankPassiveHealthBonus": "alwaysEnabled"
-        }
-    },
-    "heroes": {
-        "allTeams": {
-            "doomfist": {
-                "ammoRegenerationTime%": 162,
-                "damageDealt%": 120,
-                "ability1Cooldown%": 86,
-                "ability2Cooldown%": 86
-            },
-            "mercy": {
-                "ability1Cooldown%": 60
-            },
-            "disabledHeroes": [
-                "lifeweaver"
-            ]
-        }
-    }
-}
-
-#Player variables
+#!mainFile "../../main.opy"
 
 playervar IndicatorSlam 0
 playervar slamTimer 1
