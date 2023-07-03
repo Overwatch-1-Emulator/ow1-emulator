@@ -35,28 +35,6 @@
 #!define ow1_ult_cost_ZENYATTA 2310
 
 ###################################
-# Normal Healths
-
-
-
-
-
-
-
-
-
-###################################
-# Armor Healths
-
-
-
-
-###################################
-# Shields Healths
-
-
-
-###################################
 # Barrier Healths
 #!define ow1_barrier_health_REINHARDT 1600
 #!define ow1_barrier_health_SIGMA 700
@@ -64,13 +42,6 @@
 #!define ow1_barrier_health_ZARYA 200
 
 #!define ow1_barrier_health_BRIGITTE 250
-
-
-###################################
-# Ability cooldowns/delays/cast-time
-#!define ow1_cooldown_ability1_ZARYA 10
-#!define ow1_cooldown_ability2_ZARYA 8
-#!define ow1_cooldown_ability2_REINHARDT 6
 
 ###################################
 # misc
@@ -144,6 +115,7 @@
 #!define OW1_REINHARDT_HEALTH 300
 #!define OW1_REINHARDT_ARMOR 200
 #!define OW1_REINHARDT_CHARGE_COOLDOWN 10
+#!define ow1_cooldown_ability2_REINHARDT 6
 
 # Roadhog
 #!define OW1_ROADHOG_HEALTH 600
@@ -177,3 +149,5 @@
 # Zarya
 #!define OW1_ZARYA_HEALTH 200
 #!define OW1_ZARYA_SHIELDS 200
+#!define ow1_cooldown_ability1_ZARYA 10
+#!define ow1_cooldown_ability2_ZARYA 8
