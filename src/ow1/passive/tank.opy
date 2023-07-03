@@ -8,7 +8,7 @@ playervar missing_ult_points
 playervar ult_percent_compensated
 playervar ult_charge_compensated
 
-rule "initialize overwatch 1 ultimate costs":
+rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.DVA)] = 1/(roundedPercent(ow2_ult_cost_DVA/ow1_ult_cost_DVA)/100)*ow2_ult_cost_DVA
     ult_cost[heroID(Hero.REINHARDT)] = 1/(roundedPercent(ow2_ult_cost_REINHARDT/ow1_ult_cost_REINHARDT)/100)*ow2_ult_cost_REINHARDT
     ult_cost[heroID(Hero.ROADHOG)] = 1/(roundedPercent(ow2_ult_cost_ROADHOG/ow1_ult_cost_ROADHOG)/100)*ow2_ult_cost_ROADHOG
@@ -40,33 +40,35 @@ rule "initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.MOIRA)] = 1/(roundedPercent(ow2_ult_cost_MOIRA/ow1_ult_cost_MOIRA)/100)*ow2_ult_cost_MOIRA
     ult_cost[heroID(Hero.ZENYATTA)] = 1/(roundedPercent(ow2_ult_cost_ZENYATTA/ow1_ult_cost_ZENYATTA)/100)*ow2_ult_cost_ZENYATTA
 
-def compensateUltPercent():
-    @Name "[ult_charge.opy]: Compensate missing ultimate percentage"
-    
-    if eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id] > 0:
-        eventPlayer.ult_percent_compensated = percent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id]) + 3 # add 3% extra to compensate for rounding error
-        eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_percent_compensated)
-        eventPlayer.ult_charge_compensated = percentOf(eventPlayer.ult_percent_compensated, ult_cost[eventPlayer.hero_id])
-        eventPlayer.missing_ult_points -= eventPlayer.ult_charge_compensated
 
-rule "Remember missing ult charge from damaging tank":
+rule "[ult_charge.opy]: Remember missing ult charge from damaging tank":
     @Event playerDealtDamage
     @Condition victim != eventPlayer
     @Condition any([victim.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
     @Condition not eventPlayer.isUsingUltimate()
 
     eventPlayer.missing_ult_points += 0.3*eventDamage
-    compensateUltPercent()
 
-rule "Remember missing ult charge from healing tank":
+
+rule "[ult_charge.opy]: Remember missing ult charge from healing tank":
     @Event playerDealtHealing
     @Condition any([healee.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
     @Condition not eventPlayer.isUsingUltimate()
 
     eventPlayer.missing_ult_points += 0.3*eventHealing
-    compensateUltPercent()
 
-rule "Reset ult compensation after using ult or switching hero":
+
+rule "[ult_charge.opy]: Compensate missing ultimate percentage":
+    @Event eachPlayer
+    @Condition eventPlayer.missing_ult_points > 0
+
+    eventPlayer.ult_percent_compensated = percent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id]) + 3 # add 3% extra to compensate for rounding error
+    eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_percent_compensated)
+    eventPlayer.ult_charge_compensated = percentOf(eventPlayer.ult_percent_compensated, ult_cost[eventPlayer.hero_id])
+    eventPlayer.missing_ult_points -= eventPlayer.ult_charge_compensated
+
+
+rule "[ult_charge.opy]: Reset ult compensation after using ult or switching hero":
     @Event eachPlayer
     @Condition eventPlayer.isUsingUltimate()
 

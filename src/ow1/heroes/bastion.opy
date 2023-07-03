@@ -113,7 +113,7 @@ rule "[bastion.opy]: Initialize recon mode":
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)
     
-    eventPlayer.allowButton(Button.PRIMARY_FIRE)
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
@@ -138,6 +138,8 @@ rule "[bastion.opy]: Initialize sentry mode":
     eventPlayer.setDamageDealt(percent(OW1_BASTION_MACHINE_GUN_DAMAGE/OW2_BASTION_MACHINE_GUN_DAMAGE))
     eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
 
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+
     eventPlayer.machine_gun_ready = true
     stopChasingVariable(eventPlayer.machine_gun_reload_timer)
 
@@ -161,6 +163,7 @@ rule "[bastion.opy]: Initialize tank mode":
     eventPlayer.setProjectileGravity(0)
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE) # Disallow firing machine gun
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
 
@@ -246,8 +249,9 @@ def selfRepair():
     @Name "[bastion.opy]: Execute self-repair ability"
     wait(ow1_self_repair_cast_time_BASTION)
     while eventPlayer.self_repair == true: # Approximate 90 healing over time using discrete healing at high frequency
-        heal(eventPlayer, eventPlayer, ow1_bastion_self_repair_heal_increment) 
-        wait(ow1_bastion_self_repair_heal_increment/ow1_bastion_self_repair_healing_rate)
+        heal(eventPlayer, eventPlayer, OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT)
+        wait(OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT/OW1_BASTION_SELF_REPAIR_HEALING_RATE)
+        eventPlayer.missing_ult_points += OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT
 
 
 rule "[bastion.opy]: Activate self-repair":
