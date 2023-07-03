@@ -1,5 +1,11 @@
 #!mainFile "../../main.opy"
 
+#####################################################
+# This DPS doomfist workshop script is sourced from
+# https://workshop.codes/dpsdoom
+# Credit to discord users: Bebel#5658 and Xponit#1474
+#####################################################
+
 playervar IndicatorSlam 0
 playervar slamTimer 1
 playervar slamTimerVisible 2
