@@ -29,7 +29,7 @@ rule "[utilities.opy]: detect hero switch":
     @Condition eventPlayer.last_hero_played != eventPlayer.getCurrentHero()
     
     eventPlayer.hero_switched = true
+    wait()
     eventPlayer.last_hero_played = eventPlayer.getCurrentHero()
     eventPlayer.hero_id = heroID(eventPlayer.last_hero_played)
-    wait()
     eventPlayer.hero_switched = false
