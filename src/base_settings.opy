@@ -10,6 +10,7 @@ settings {
         "spectatorSlots": 12,
         "team1Slots": 6,
         "team2Slots": 6,
+        "returnToLobby": "never",
         "teamBalancing": "afterGame"
     },
     "gamemodes": {
@@ -21,6 +22,7 @@ settings {
         },
         "control": {
             "disabledMaps": [
+                "antarcticPeninsula",
                 "lijiangTowerLny"
             ],
             "enableCompetitiveRules": true
@@ -33,12 +35,12 @@ settings {
             "enableCompetitiveRules": true
         },
         "hybrid": {
-            "disabledMaps": [
-                "blizzWorldWinter",
-                "eichenwaldeHalloween",
-                "hollywoodHalloween",
-                "kingsRowWinter",
-                "midtown"
+            "enabledMaps": [
+                "blizzWorld",
+                "eichenwalde",
+                "hollywood",
+                "kingsRow",
+                "numbani"
             ],
             "enableCompetitiveRules": true
         },
