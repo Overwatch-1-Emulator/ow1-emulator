@@ -14,7 +14,7 @@ def initWinston():
 rule "[winston.opy]: Initialize Winston":
     @Event eachPlayer
     @Hero winston
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
     initWinston()
 

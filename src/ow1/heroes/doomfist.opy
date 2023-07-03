@@ -42,12 +42,10 @@ playervar SecondaryPunchVictim
 playervar PunchCast
 playervar UltimatePlayers_Hit
 playervar SinglePunchPhase
-playervar DoomKBCorrection
 playervar PhaseVictims
 playervar X_POS
 playervar Y_POS
 playervar FakePunchVictims
-playervar DoomHealthCorrection
 playervar RisingFistSymbol
 playervar RisingFistSymbolTracker
 playervar SlamTimerTEXT
@@ -59,7 +57,7 @@ playervar PunchCastID
 playervar temphpTracker
 playervar PfP
 playervar SlamCamLocked
-playervar slamRaycastEndPos
+playervar slam_raycast_end_position
 playervar tankslam360
 playervar hasUsedSlam
 playervar slamTrackedPosition
@@ -82,79 +80,27 @@ playervar SlamBounce
 playervar NullSlamWithShields
 playervar MONKEYslamVicsInVA
 
-
 subroutine HandleUltimateDamage
 
-# =========================================== ALL SLAM CODE (Damage Ramp & Movement) ===========================================
-/*
-rule "start slam timer":
+
+def initDoomfist():
+    eventPlayer.disallowButton(Button.ABILITY_1)
+
+    eventPlayer.setMaxHealth(55.556)
+    eventPlayer.setKnockbackReceived(142.895)
+
+
+rule "[doomfist.opy]: Initialize Doomfist":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.isUsingAbility1() == true
-    #@Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
-    #@Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) == false
-    
-    eventPlayer.slam_timer = 0
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    chase(eventPlayer.slam_timer, 125, duration=1.25, ChaseReeval.NONE)
-    wait(0.2)
-    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 999999)
-    #waitUntil(eventPlayer.isOnGround() or eventPlayer.getAltitude() < 0.2 or not eventPlayer.isUsingAbility1(), 999999)
-    #eventPlayer.slam_timer = eventPlayer.slam_timer - 0.4
-    #stopChasingVariable(eventPlayer.slam_timer)
-    #eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
-    #wait(0.3)
-    #eventPlayer.setDamageDealt(0)
-    #wait(0.02)
-    #eventPlayer.allowButton(Button.ABILITY_2)
-    #eventPlayer.allowButton(Button.ABILITY_1)
-    #eventPlayer.allowButton(Button.SECONDARY_FIRE)
-    #eventPlayer.setDamageDealt(100)
-    #else:
-    if eventPlayer.ground_slam == true:
-        if eventPlayer.slam_timer < 124:
-            eventPlayer.slam_timer = eventPlayer.slam_timer - 3.333
-            stopChasingVariable(eventPlayer.slam_timer)
-            eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
-            wait(0.3)
-            eventPlayer.setDamageDealt(0)
-            eventPlayer.allowButton(Button.ABILITY_2)
-            eventPlayer.allowButton(Button.ABILITY_1)
-            eventPlayer.allowButton(Button.SECONDARY_FIRE)
-            wait(0.32)
-            eventPlayer.setDamageDealt(100)
-        else:
-            stopChasingVariable(eventPlayer.slam_timer)
-            eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
-            wait(0.3)
-            eventPlayer.setDamageDealt(0)
-            eventPlayer.allowButton(Button.ABILITY_2)
-            eventPlayer.allowButton(Button.ABILITY_1)
-            eventPlayer.allowButton(Button.SECONDARY_FIRE)
-            wait(0.32)
-            eventPlayer.setDamageDealt(100)
-    stopChasingVariable(eventPlayer.slam_timer)
-    eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
-    wait(0.3)
-    eventPlayer.setDamageDealt(0)
-    eventPlayer.allowButton(Button.ABILITY_2)
-    eventPlayer.allowButton(Button.ABILITY_1)
-    eventPlayer.allowButton(Button.SECONDARY_FIRE)
-    wait(0.32)
-    eventPlayer.setDamageDealt(100)
-*/
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
-rule "New slam button disabled":
-    @Event eachPlayer
-    
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    waitUntil(eventPlayer.getCurrentHero() != Hero.DOOMFIST, 999999)
-    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.initialized = false
 
+    initDoomfist()
 
-rule "(ALL SLAM) EVERYWHERE New slam indicator & allowance":
+# =========================================== ALL SLAM CODE (Damage Ramp & Movement) ===========================================
+rule "[doomfist.opy]: (ALL SLAM) EVERYWHERE New slam indicator & allowance":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0
@@ -164,35 +110,35 @@ rule "(ALL SLAM) EVERYWHERE New slam indicator & allowance":
     @Condition eventPlayer.is_uppercutting == false
     @Condition eventPlayer.isUsingUltimate() == false
     
-    eventPlayer.slamRaycastEndPos = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 15, null, getAllPlayers(), false).getHitPosition()
-    #if distance(eventPlayer.slamRaycastEndPos, nearestWalkablePosition(eventPlayer.slamRaycastEndPos)) > 0.25:
-    eventPlayer.originalRaycastHeight = eventPlayer.getPosition().y - eventPlayer.slamRaycastEndPos.y
-    eventPlayer.tickRaycast = raycast(eventPlayer.slamRaycastEndPos, eventPlayer.slamRaycastEndPos - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
+    eventPlayer.slam_raycast_end_position = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 15, null, getAllPlayers(), false).getHitPosition()
+    #if distance(eventPlayer.slam_raycast_end_position, nearestWalkablePosition(eventPlayer.slam_raycast_end_position)) > 0.25:
+    eventPlayer.originalRaycastHeight = eventPlayer.getPosition().y - eventPlayer.slam_raycast_end_position.y
+    eventPlayer.tickRaycast = raycast(eventPlayer.slam_raycast_end_position, eventPlayer.slam_raycast_end_position - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
     eventPlayer.raycastTryNumber = 1
     #while distance(eventPlayer.tickRaycast, nearestWalkablePosition(eventPlayer.tickRaycast)) > 0.25 and eventPlayer.raycastTryNumber < 30:
-    eventPlayer.slamRaycastEndPos -= eventPlayer.getFacingDirection() / 2
-    eventPlayer.tickRaycast = raycast(eventPlayer.slamRaycastEndPos, eventPlayer.slamRaycastEndPos - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
+    eventPlayer.slam_raycast_end_position -= eventPlayer.getFacingDirection() / 2
+    eventPlayer.tickRaycast = raycast(eventPlayer.slam_raycast_end_position, eventPlayer.slam_raycast_end_position - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
     eventPlayer.raycastTryNumber += 1
     if eventPlayer.raycastTryNumber >= 30:
         eventPlayer.spotFound = false
     else:
-        eventPlayer.slamRaycastEndPos = eventPlayer.tickRaycast
+        eventPlayer.slam_raycast_end_position = eventPlayer.tickRaycast
         eventPlayer.spotFound = true
     else:
         eventPlayer.spotFound = true
-    if eventPlayer.spotFound and eventPlayer.getFacingDirection().y < 0.25 and abs(angleBetweenVectors(eventPlayer.getFacingDirection(), vectorTowards(eventPlayer.getPosition(), eventPlayer.slamRaycastEndPos))) < 15 and eventPlayer.getPosition().y - eventPlayer.slamRaycastEndPos.y < 30 and distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.slamRaycastEndPos * vect(1, 0, 1)) < 15:
+    if eventPlayer.spotFound and eventPlayer.getFacingDirection().y < 0.25 and abs(angleBetweenVectors(eventPlayer.getFacingDirection(), vectorTowards(eventPlayer.getPosition(), eventPlayer.slam_raycast_end_position))) < 15 and eventPlayer.getPosition().y - eventPlayer.slam_raycast_end_position.y < 30 and distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.slam_raycast_end_position * vect(1, 0, 1)) < 15:
         if eventPlayer.diamond_indicator == 0:
             #BOTTOM LINE
-            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.BottomLine = getLastCreatedEntity()
             #TOP LINE
-            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.TopLine = getLastCreatedEntity()
             #RIGHT SIDE
-            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.RightLine = getLastCreatedEntity()
             #LEFT SIDE
-            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+            createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.LeftLine = getLastCreatedEntity()
             eventPlayer.diamond_indicator = [eventPlayer.BottomLine, eventPlayer.TopLine, eventPlayer.RightLine, eventPlayer.LeftLine]
         eventPlayer.showIndicator = true
@@ -228,25 +174,25 @@ rule "(WALKABLE POSTION SLAM) New slam indicator & allowance":
     @Condition eventPlayer.isUsingAbility1() == false
     @Condition eventPlayer.is_uppercutting == false
     
-    eventPlayer.slamRaycastEndPos = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 15, null, getAllPlayers(), false).getHitPosition()
-    if distance(eventPlayer.slamRaycastEndPos, nearestWalkablePosition(eventPlayer.slamRaycastEndPos)) > 0.25:
-        eventPlayer.originalRaycastHeight = eventPlayer.getPosition().y - eventPlayer.slamRaycastEndPos.y
-        eventPlayer.tickRaycast = raycast(eventPlayer.slamRaycastEndPos, eventPlayer.slamRaycastEndPos - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
+    eventPlayer.slam_raycast_end_position = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 15, null, getAllPlayers(), false).getHitPosition()
+    if distance(eventPlayer.slam_raycast_end_position, nearestWalkablePosition(eventPlayer.slam_raycast_end_position)) > 0.25:
+        eventPlayer.originalRaycastHeight = eventPlayer.getPosition().y - eventPlayer.slam_raycast_end_position.y
+        eventPlayer.tickRaycast = raycast(eventPlayer.slam_raycast_end_position, eventPlayer.slam_raycast_end_position - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
         eventPlayer.raycastTryNumber = 1
         while distance(eventPlayer.tickRaycast, nearestWalkablePosition(eventPlayer.tickRaycast)) > 0.25 and eventPlayer.raycastTryNumber < 30:
-            eventPlayer.slamRaycastEndPos -= eventPlayer.getFacingDirection() / 2
-            eventPlayer.tickRaycast = raycast(eventPlayer.slamRaycastEndPos, eventPlayer.slamRaycastEndPos - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
+            eventPlayer.slam_raycast_end_position -= eventPlayer.getFacingDirection() / 2
+            eventPlayer.tickRaycast = raycast(eventPlayer.slam_raycast_end_position, eventPlayer.slam_raycast_end_position - (vect(0, 40 - eventPlayer.originalRaycastHeight, 0)), null, getAllPlayers(), false).getHitPosition()
             eventPlayer.raycastTryNumber += 1
         if eventPlayer.raycastTryNumber >= 30:
             eventPlayer.spotFound = false
         else:
-            eventPlayer.slamRaycastEndPos = eventPlayer.tickRaycast
+            eventPlayer.slam_raycast_end_position = eventPlayer.tickRaycast
             eventPlayer.spotFound = true
     else:
         eventPlayer.spotFound = true
-    if eventPlayer.spotFound and eventPlayer.getFacingDirection().y < 0.25 and abs(angleBetweenVectors(eventPlayer.getFacingDirection(), vectorTowards(eventPlayer.getPosition(), eventPlayer.slamRaycastEndPos))) < 15 and eventPlayer.getPosition().y - eventPlayer.slamRaycastEndPos.y < 30 and distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.slamRaycastEndPos * vect(1, 0, 1)) < 15:
+    if eventPlayer.spotFound and eventPlayer.getFacingDirection().y < 0.25 and abs(angleBetweenVectors(eventPlayer.getFacingDirection(), vectorTowards(eventPlayer.getPosition(), eventPlayer.slam_raycast_end_position))) < 15 and eventPlayer.getPosition().y - eventPlayer.slam_raycast_end_position.y < 30 and distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.slam_raycast_end_position * vect(1, 0, 1)) < 15:
         if eventPlayer.BottomLine == 0:
-            createEffect(eventPlayer, Effect.RING, Color.BLUE, updateEveryTick(eventPlayer.slamRaycastEndPos + 3 * (normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)))), 3, EffectReeval.POSITION_AND_RADIUS)
+            createEffect(eventPlayer, Effect.RING, Color.BLUE, updateEveryTick(eventPlayer.slam_raycast_end_position + 3 * (normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)))), 3, EffectReeval.POSITION_AND_RADIUS)
             eventPlayer.BottomLine = getLastCreatedEntity()
         eventPlayer.showIndicator = true
     else:
@@ -353,8 +299,8 @@ rule "New indicator slam":
     @Condition eventPlayer.hasUsedSlam == false
     @Condition eventPlayer.showIndicator == true
     @Condition eventPlayer.is_uppercutting == false
-    @Condition isInLoS(eventPlayer, eventPlayer.slamRaycastEndPos, BarrierLos.PASS_THROUGH_BARRIERS) == true
-    @Condition eventPlayer.isInViewAngle(eventPlayer.slamRaycastEndPos, 45) == true
+    @Condition isInLoS(eventPlayer, eventPlayer.slam_raycast_end_position, BarrierLos.PASS_THROUGH_BARRIERS) == true
+    @Condition eventPlayer.isInViewAngle(eventPlayer.slam_raycast_end_position, 45) == true
     
     #eventPlayer.FakeSlamVictims = []
     #eventPlayer.TrueSlamVics = []
@@ -363,7 +309,7 @@ rule "New indicator slam":
     #eventPlayer.isIndicating = true
     eventPlayer.startForcingButton(Button.ABILITY_1)
     eventPlayer.hasUsedSlam = true
-    eventPlayer.slamEndPosition = eventPlayer.slamRaycastEndPos
+    eventPlayer.slamEndPosition = eventPlayer.slam_raycast_end_position
     eventPlayer.slamTrackedPosition = eventPlayer.getPosition()
     chase(eventPlayer.slamTrackedPosition, eventPlayer.slamEndPosition, rate=25, ChaseReeval.NONE)
     eventPlayer.setGravity(0)
@@ -615,45 +561,6 @@ rule "punch hit timer":
     
     eventPlayer.second_hit = false
     stopChasingVariable(eventPlayer.punch_hit_timer)
-
-
-rule "Doom Health correction (+)":
-    @Event eachPlayer
-    @Condition Hero.DOOMFIST == eventPlayer.getCurrentHero()
-    @Condition eventPlayer.DoomHealthCorrection == false
-    
-    #eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.temphpTracker, true, true)
-    #eventPlayer.temphpTracker = 1
-    eventPlayer.setMaxHealth(55.556)
-    eventPlayer.DoomHealthCorrection = true
-
-
-rule "Doom Health correction (-)":
-    @Event eachPlayer
-    @Condition Hero.DOOMFIST != eventPlayer.getCurrentHero()
-    @Condition eventPlayer.DoomHealthCorrection == true
-    
-    eventPlayer.removeAllHealthPools()
-    eventPlayer.setMaxHealth(100)
-    eventPlayer.DoomHealthCorrection = false
-
-
-rule "Doom Knockback Correction (+)":
-    @Event eachPlayer
-    @Condition Hero.DOOMFIST == eventPlayer.getCurrentHero()
-    @Condition eventPlayer.DoomKBCorrection == false
-    
-    eventPlayer.DoomKBCorrection = true
-    eventPlayer.setKnockbackReceived(142.895)
-
-
-rule "Doom Knockback Correction (-)":
-    @Event eachPlayer
-    @Condition Hero.DOOMFIST != eventPlayer.getCurrentHero()
-    @Condition eventPlayer.DoomKBCorrection == true
-    
-    eventPlayer.DoomKBCorrection = false
-    eventPlayer.setKnockbackReceived(100)
 
 
 rule "============================================================ BUG TESTING =================================================":

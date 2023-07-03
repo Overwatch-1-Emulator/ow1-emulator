@@ -15,7 +15,7 @@
 playervar last_hero_played
 playervar hero_switched
 playervar hero_id
-playervar reset_flag
+playervar initialized
 
 rule "[utilities.opy]: Display server performance characteristics":
     @Disabled

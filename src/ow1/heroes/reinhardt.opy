@@ -12,7 +12,7 @@ def initReinhardt():
 rule "[reinhardt.opy]: Initialize Reinhardt":
     @Event eachPlayer
     @Hero reinhardt
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
     initReinhardt()
 

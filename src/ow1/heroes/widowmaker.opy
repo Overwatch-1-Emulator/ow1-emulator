@@ -11,6 +11,6 @@ def initWidowmaker():
 rule "[widowmaker.opy]: Initialize Widowmaker":
     @Event eachPlayer
     @Hero widowmaker
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
     initWidowmaker()

@@ -12,6 +12,6 @@ def initWreckingball():
 rule "[wreckingball.opy]: Initialize Wrecking Ball":
     @Event eachPlayer
     @Hero hammond
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
     initWreckingball()

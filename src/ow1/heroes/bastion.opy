@@ -50,9 +50,9 @@ def initBastion():
 rule "[bastion.opy]: Initialize Bastion":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
-    eventPlayer.reset_flag = false
+    eventPlayer.initialized = false
     
     initBastion()
 

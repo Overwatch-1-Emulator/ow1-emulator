@@ -7,7 +7,7 @@ def initMei():
 rule "[mei.opy]: Initialize Mei":
     @Event eachPlayer
     @Hero mei
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
     initMei()
 

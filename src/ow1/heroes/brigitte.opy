@@ -14,7 +14,7 @@ def initBrigitte():
 rule "[brigitte.opy]: Initialize Brigitte":
     @Event eachPlayer
     @Hero brigitte
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
     initBrigitte()
 

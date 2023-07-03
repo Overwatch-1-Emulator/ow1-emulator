@@ -12,6 +12,6 @@ def initSigma():
 rule "[sigma.opy]: Initialize Sigma":
     @Event eachPlayer
     @Hero sigma
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
     initSigma()

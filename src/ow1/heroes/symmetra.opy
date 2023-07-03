@@ -7,6 +7,6 @@ def initSymmetra():
 rule "[symmetra.opy]: Initialize Symmetra":
     @Event eachPlayer
     @Hero symmetra
-    @Condition eventPlayer.reset_flag == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
 
     initSymmetra()
