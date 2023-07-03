@@ -16,6 +16,10 @@ def resetHero():
     eventPlayer.setAbility2Enabled(true)
     eventPlayer.allowButton(Button.ABILITY_2)
     
+    eventPlayer.setUltCharge(0)
+    eventPlayer.missing_ult_points = 0
+    eventPlayer.ult_percent_compensated = 0
+    
     eventPlayer.setDamageDealt(100)
     eventPlayer.setDamageReceived(100)
     eventPlayer.setProjectileSpeed(100)
@@ -52,4 +56,5 @@ rule "[generic.opy]: Reset hero on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
 
+    wait()
     resetHero()
