@@ -16,9 +16,10 @@ def initMccree():
 rule "[mccree.opy]: Initialize Mccree":
     @Event eachPlayer
     @Hero mccree
-    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initMccree()
+    eventPlayer.initialized = true
 
 rule "[mccree.opy]: Throw projectile when pressing e":
     @Event eachPlayer

@@ -8,11 +8,10 @@ def initAna():
 rule "[ana.opy]: Initialize Ana":
     @Event eachPlayer
     @Hero ana
-    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
-
-    eventPlayer.initialized = false
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initAna()
+    eventPlayer.initialized = true
 
 rule "[ana.opy]: Set default sleep dart cooldown":
     @Event eachPlayer

@@ -81,6 +81,16 @@ playervar NullSlamWithShields
 playervar MONKEYslamVicsInVA
 
 subroutine HandleUltimateDamage
+subroutine initDoomfist
+
+
+rule "[doomfist.opy]: Initialize Doomfist":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+
+    initDoomfist()
+    eventPlayer.initialized = true
 
 
 def initDoomfist():
@@ -89,15 +99,6 @@ def initDoomfist():
     eventPlayer.setMaxHealth(55.556)
     eventPlayer.setKnockbackReceived(142.895)
 
-
-rule "[doomfist.opy]: Initialize Doomfist":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
-
-    eventPlayer.initialized = false
-
-    initDoomfist()
 
 # =========================================== ALL SLAM CODE (Damage Ramp & Movement) ===========================================
 rule "[doomfist.opy]: (ALL SLAM) EVERYWHERE New slam indicator & allowance":

@@ -10,9 +10,10 @@ def initBaptiste():
 rule "[baptiste.opy]: Initialize Baptiste":
     @Event eachPlayer
     @Hero baptiste
-    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initBaptiste()
+    eventPlayer.initialized = true
 
 rule "[baptiste.opy]: Set default immortality field cooldown":
     @Event eachPlayer

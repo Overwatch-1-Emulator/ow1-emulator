@@ -37,9 +37,10 @@ rule "[zarya.opy]: Hide bubble cooldown HUD on hero switch":
 rule "[zarya.opy]: Initialize Zarya":
     @Event eachPlayer
     @Hero zarya
-    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initZarya()
+    eventPlayer.initialized = true
 
 rule "zarya self bubble":
     @Event eachPlayer

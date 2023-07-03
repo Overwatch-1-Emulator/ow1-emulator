@@ -50,11 +50,10 @@ def initBastion():
 rule "[bastion.opy]: Initialize Bastion":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
-
-    eventPlayer.initialized = false
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
     
     initBastion()
+    eventPlayer.initialized = true
 
 
 rule "[bastion.opy]: Hide Bastion HUD on hero switch":

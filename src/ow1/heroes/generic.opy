@@ -37,7 +37,7 @@ def resetHero():
     eventPlayer.text_huds = []
     eventPlayer.progress_bar_huds = []
 
-    eventPlayer.initialized = true
+    eventPlayer.initialized = false
 
     
 rule "[generic.opy]: Reset hero on new round":

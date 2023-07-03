@@ -18,9 +18,10 @@ def initRoadhog():
 rule "[roadhog.opy]: Initialize Roadhog":
     @Event eachPlayer
     @Hero roadhog
-    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initRoadhog()
+    eventPlayer.initialized = true
 
 rule "[roadhog.opy]: Set default hook cooldown":
     @Event eachPlayer

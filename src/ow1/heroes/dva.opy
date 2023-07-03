@@ -12,9 +12,10 @@ def initDva():
 rule "[dva.opy]: Initialize Dva":
     @Event eachPlayer
     @Hero dva
-    @Condition eventPlayer.initialized == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initDva()
+    eventPlayer.initialized = true
 
 rule "[dva.opy]: Set default missile cooldown":
     @Event eachPlayer
