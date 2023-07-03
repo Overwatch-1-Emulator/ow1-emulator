@@ -3,7 +3,11 @@
 #####################################################
 # This DPS doomfist workshop script is sourced from
 # https://workshop.codes/dpsdoom        code: ZXJB4
-# DPS Doomfist author discord: Bebel#5658 and Xponit#1474
+# created by discord users: Bebel#5658 and Xponit#1474
+#
+# This file was created by decompiling the original 
+# workshop gamemode through OverPy, and editing the 
+# rules/functions as needed.
 #####################################################
 
 playervar IndicatorSlam 0
