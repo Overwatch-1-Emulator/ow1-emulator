@@ -158,6 +158,7 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_ZENYATTA/ow1_ult_cost_ZENYATTA)
             },
             "disabledHeroes": [
+                "doomfist",
                 "junkerQueen",
                 "kiriko",
                 "lifeweaver",
