@@ -11,5 +11,5 @@ rule "Disable support self-healing passive":
     @Condition eventAbility == 0
     
     printLog("{}".format(eventHealing))
-    if (eventPlayer.getCurrentHero() not in [Hero.MERCY, Hero.ZENYATTA]):
+    if (eventPlayer.getCurrentHero() not in [Hero.MERCY, Hero.ZENYATTA, Hero.BRIGITTE]):
         damage(eventPlayer, null, eventHealing)
