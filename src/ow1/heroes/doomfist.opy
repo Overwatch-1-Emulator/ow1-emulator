@@ -1,36 +1,36 @@
 #!mainFile "../../main.opy"
 
-#####################################################
-# This DPS doomfist workshop script is sourced from
-# https://workshop.codes/dpsdoom        code: ZXJB4
-# created by discord users: Bebel#5658 and Xponit#1474
-#
-# This file was created by decompiling the original 
-# workshop gamemode through OverPy, and editing the 
-# rules/functions as needed.
-#####################################################
+/*
+This DPS doomfist workshop script is sourced from
+https://workshop.codes/dpsdoom        code: ZXJB4
+created by discord users: Bebel#5658 and Xponit#1474
 
-playervar IndicatorSlam 0
-playervar slamTimer 1
-playervar slamTimerVisible 2
-playervar isUppercutting 3
-playervar playerId 4
-playervar beamID 5
-playervar hitPlayers 6
-playervar uppercutMomentum 7
-playervar uppercutDealer 8
-playervar playersInView 9
-playervar upperLockTimer 10
-playervar punchHitTimer 11
-playervar secondHit 12
-playervar avgAngle 18
+This file was created by decompiling the original 
+workshop gamemode through OverPy, and editing the 
+rules/functions as needed.
+*/
+
+playervar indicator_slam 0
+playervar slam_timer 1
+playervar slam_timer_visible 2
+playervar is_uppercutting 3
+playervar player_id 4
+playervar beam_id 5
+playervar hit_players 6
+playervar uppercut_momentum 7
+playervar uppercut_dealer 8
+playervar players_in_view 9
+playervar uppercut_lock_timer 10
+playervar punch_hit_timer 11
+playervar second_hit 12
+playervar average_angle 18
 playervar height 20
-playervar slamHorizontalDistance 21
-playervar slamDirectionWhenPressed 22
-playervar DiamondIndicator 26
-playervar GroundSlam 27
-playervar AllSlamVics 28
-playervar HasSlamTimer 29
+playervar slam_horizontal_distance 21
+playervar slam_direction_when_pressed 22
+playervar diamond_indicator 26
+playervar ground_slam 27
+playervar all_slam_vics 28
+playervar has_slam_timer 29
 playervar BottomLine 30
 playervar isCloseSlam 31
 playervar DpsSlam 32
@@ -83,20 +83,9 @@ playervar NullSlamWithShields 95
 playervar MONKEYslamVicsInVA 96
 
 
-#Subroutine names
-
 subroutine HandleUltimateDamage 0
 
-
-rule "=======VERSION 5.0.0 ======== REAPPLY CODES FOR UPDATES! ======= CONTACT Xponit#1474 and/or Bebel#5658 FOR BUGS AND SUGGESTIONS":
-
-
-rule "__________________________________________________________________Code Starts Here _____________________________________________":
-
-
-rule "======================================================== ALL SLAM CODE (Damage Ramp & Movement) ================================":
-
-
+# =========================================== ALL SLAM CODE (Damage Ramp & Movement) ===========================================
 /*
 rule "start slam timer":
     @Event eachPlayer
@@ -105,17 +94,17 @@ rule "start slam timer":
     #@Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
     #@Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) == false
     
-    eventPlayer.slamTimer = 0
+    eventPlayer.slam_timer = 0
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    chase(eventPlayer.slamTimer, 125, duration=1.25, ChaseReeval.NONE)
+    chase(eventPlayer.slam_timer, 125, duration=1.25, ChaseReeval.NONE)
     wait(0.2)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 999999)
     #waitUntil(eventPlayer.isOnGround() or eventPlayer.getAltitude() < 0.2 or not eventPlayer.isUsingAbility1(), 999999)
-    #eventPlayer.slamTimer = eventPlayer.slamTimer - 0.4
-    #stopChasingVariable(eventPlayer.slamTimer)
-    #eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+    #eventPlayer.slam_timer = eventPlayer.slam_timer - 0.4
+    #stopChasingVariable(eventPlayer.slam_timer)
+    #eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
     #wait(0.3)
     #eventPlayer.setDamageDealt(0)
     #wait(0.02)
@@ -124,11 +113,11 @@ rule "start slam timer":
     #eventPlayer.allowButton(Button.SECONDARY_FIRE)
     #eventPlayer.setDamageDealt(100)
     #else:
-    if eventPlayer.GroundSlam == true:
-        if eventPlayer.slamTimer < 124:
-            eventPlayer.slamTimer = eventPlayer.slamTimer - 3.333
-            stopChasingVariable(eventPlayer.slamTimer)
-            eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+    if eventPlayer.ground_slam == true:
+        if eventPlayer.slam_timer < 124:
+            eventPlayer.slam_timer = eventPlayer.slam_timer - 3.333
+            stopChasingVariable(eventPlayer.slam_timer)
+            eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
             wait(0.3)
             eventPlayer.setDamageDealt(0)
             eventPlayer.allowButton(Button.ABILITY_2)
@@ -137,8 +126,8 @@ rule "start slam timer":
             wait(0.32)
             eventPlayer.setDamageDealt(100)
         else:
-            stopChasingVariable(eventPlayer.slamTimer)
-            eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+            stopChasingVariable(eventPlayer.slam_timer)
+            eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
             wait(0.3)
             eventPlayer.setDamageDealt(0)
             eventPlayer.allowButton(Button.ABILITY_2)
@@ -146,8 +135,8 @@ rule "start slam timer":
             eventPlayer.allowButton(Button.SECONDARY_FIRE)
             wait(0.32)
             eventPlayer.setDamageDealt(100)
-    stopChasingVariable(eventPlayer.slamTimer)
-    eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+    stopChasingVariable(eventPlayer.slam_timer)
+    eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
     wait(0.3)
     eventPlayer.setDamageDealt(0)
     eventPlayer.allowButton(Button.ABILITY_2)
@@ -172,7 +161,7 @@ rule "(ALL SLAM) EVERYWHERE New slam indicator & allowance":
     @Condition eventPlayer.isFiringSecondaryFire() == false
     @Condition eventPlayer.getAltitude() > 3
     @Condition eventPlayer.isUsingAbility1() == false
-    @Condition eventPlayer.isUppercutting == false
+    @Condition eventPlayer.is_uppercutting == false
     @Condition eventPlayer.isUsingUltimate() == false
     
     eventPlayer.slamRaycastEndPos = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 15, null, getAllPlayers(), false).getHitPosition()
@@ -192,7 +181,7 @@ rule "(ALL SLAM) EVERYWHERE New slam indicator & allowance":
     else:
         eventPlayer.spotFound = true
     if eventPlayer.spotFound and eventPlayer.getFacingDirection().y < 0.25 and abs(angleBetweenVectors(eventPlayer.getFacingDirection(), vectorTowards(eventPlayer.getPosition(), eventPlayer.slamRaycastEndPos))) < 15 and eventPlayer.getPosition().y - eventPlayer.slamRaycastEndPos.y < 30 and distance(eventPlayer.getPosition() * vect(1, 0, 1), eventPlayer.slamRaycastEndPos * vect(1, 0, 1)) < 15:
-        if eventPlayer.DiamondIndicator == 0:
+        if eventPlayer.diamond_indicator == 0:
             #BOTTOM LINE
             createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.BottomLine = getLastCreatedEntity()
@@ -205,28 +194,28 @@ rule "(ALL SLAM) EVERYWHERE New slam indicator & allowance":
             #LEFT SIDE
             createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slamRaycastEndPos + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.LeftLine = getLastCreatedEntity()
-            eventPlayer.DiamondIndicator = [eventPlayer.BottomLine, eventPlayer.TopLine, eventPlayer.RightLine, eventPlayer.LeftLine]
+            eventPlayer.diamond_indicator = [eventPlayer.BottomLine, eventPlayer.TopLine, eventPlayer.RightLine, eventPlayer.LeftLine]
         eventPlayer.showIndicator = true
     else:
-        if eventPlayer.DiamondIndicator:
+        if eventPlayer.diamond_indicator:
             #destroyEffect(eventPlayer.BottomLine)
             #destroyEffect(eventPlayer.TopLine)
-            destroyEffect(eventPlayer.DiamondIndicator)
+            destroyEffect(eventPlayer.diamond_indicator)
             wait()
-            eventPlayer.DiamondIndicator = 0
+            eventPlayer.diamond_indicator = 0
             eventPlayer.showIndicator = false
     wait()
-    if eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and not eventPlayer.isFiringSecondaryFire() and eventPlayer.getAltitude() > 3 and not eventPlayer.isUsingAbility1() and eventPlayer.isUppercutting == false:
+    if eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and not eventPlayer.isFiringSecondaryFire() and eventPlayer.getAltitude() > 3 and not eventPlayer.isUsingAbility1() and eventPlayer.is_uppercutting == false:
         goto RULE_START
     else:
         if eventPlayer.getAltitude() > 3 and not eventPlayer.isUsingAbility1():
             eventPlayer.showIndicator = false
-        if eventPlayer.DiamondIndicator:
+        if eventPlayer.diamond_indicator:
             #destroyEffect(eventPlayer.BottomLine)
             #destroyEffect(eventPlayer.TopLine)
-            destroyEffect(eventPlayer.DiamondIndicator)
+            destroyEffect(eventPlayer.diamond_indicator)
             wait()
-            eventPlayer.DiamondIndicator = 0
+            eventPlayer.diamond_indicator = 0
 
 
 /*
@@ -237,7 +226,7 @@ rule "(WALKABLE POSTION SLAM) New slam indicator & allowance":
     @Condition eventPlayer.isFiringSecondaryFire() == false
     @Condition eventPlayer.getAltitude() > 3
     @Condition eventPlayer.isUsingAbility1() == false
-    @Condition eventPlayer.isUppercutting == false
+    @Condition eventPlayer.is_uppercutting == false
     
     eventPlayer.slamRaycastEndPos = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 15, null, getAllPlayers(), false).getHitPosition()
     if distance(eventPlayer.slamRaycastEndPos, nearestWalkablePosition(eventPlayer.slamRaycastEndPos)) > 0.25:
@@ -266,7 +255,7 @@ rule "(WALKABLE POSTION SLAM) New slam indicator & allowance":
             eventPlayer.BottomLine = 0
             eventPlayer.showIndicator = false
     wait()
-    if eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and not eventPlayer.isFiringSecondaryFire() and eventPlayer.getAltitude() > 3 and not eventPlayer.isUsingAbility1() and eventPlayer.isUppercutting == false:
+    if eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and not eventPlayer.isFiringSecondaryFire() and eventPlayer.getAltitude() > 3 and not eventPlayer.isUsingAbility1() and eventPlayer.is_uppercutting == false:
         goto RULE_START
     else:
         if eventPlayer.getAltitude() > 3 and not eventPlayer.isUsingAbility1():
@@ -304,12 +293,12 @@ rule "New ground slam":
     @Condition (eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.STUNNED) or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.ROOTED)) == false
     @Condition eventPlayer.getAltitude() <= 3
     @Condition eventPlayer.hasUsedSlam == false
-    @Condition eventPlayer.isUppercutting == false
+    @Condition eventPlayer.is_uppercutting == false
     
     #eventPlayer.PfP = eventPlayer.getFacingDirection()
     #eventPlayer.FakeSlamVictims = []
     #eventPlayer.TrueSlamVics = []
-    eventPlayer.GroundSlam = true
+    eventPlayer.ground_slam = true
     eventPlayer.hasUsedSlam = true
     eventPlayer.setGravity(0)
     #eventPlayer.startAcceleration(Vector.UP, 17.5, 60, Relativity.TO_WORLD, AccelReeval.DIRECTION_RATE_AND_MAX_SPEED)
@@ -336,7 +325,7 @@ rule "New ground slam":
         eventPlayer.allowButton(Button.SECONDARY_FIRE)
         eventPlayer.allowButton(Button.ABILITY_2)
         eventPlayer.hasUsedSlam = false
-        eventPlayer.GroundSlam = false
+        eventPlayer.ground_slam = false
     else:
         eventPlayer.setGravity(100)
         eventPlayer.disallowButton(Button.ABILITY_1)
@@ -349,7 +338,7 @@ rule "New ground slam":
         eventPlayer.allowButton(Button.SECONDARY_FIRE)
         eventPlayer.allowButton(Button.ABILITY_2)
         eventPlayer.hasUsedSlam = false
-        eventPlayer.GroundSlam = false
+        eventPlayer.ground_slam = false
 
 
 rule "New indicator slam":
@@ -363,13 +352,13 @@ rule "New indicator slam":
     @Condition eventPlayer.getAltitude() > 3
     @Condition eventPlayer.hasUsedSlam == false
     @Condition eventPlayer.showIndicator == true
-    @Condition eventPlayer.isUppercutting == false
+    @Condition eventPlayer.is_uppercutting == false
     @Condition isInLoS(eventPlayer, eventPlayer.slamRaycastEndPos, BarrierLos.PASS_THROUGH_BARRIERS) == true
     @Condition eventPlayer.isInViewAngle(eventPlayer.slamRaycastEndPos, 45) == true
     
     #eventPlayer.FakeSlamVictims = []
     #eventPlayer.TrueSlamVics = []
-    eventPlayer.IndicatorSlam = true
+    eventPlayer.indicator_slam = true
     eventPlayer.allowButton(Button.ABILITY_1)
     #eventPlayer.isIndicating = true
     eventPlayer.startForcingButton(Button.ABILITY_1)
@@ -404,7 +393,7 @@ rule "New indicator slam":
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.hasUsedSlam = false
-    eventPlayer.IndicatorSlam = false
+    eventPlayer.indicator_slam = false
 
 
 rule "start slam timer (REVAMP)":
@@ -416,26 +405,26 @@ rule "start slam timer (REVAMP)":
     
     eventPlayer.FakeSlamVictims = []
     waitUntil(eventPlayer.isUsingAbility1(), 99999)
-    eventPlayer.slamTimer = 0
+    eventPlayer.slam_timer = 0
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    if eventPlayer.GroundSlam == true:
-        eventPlayer.slamTimer = -3.333
-        chase(eventPlayer.slamTimer, 125, duration=1.283, ChaseReeval.NONE)
-    elif eventPlayer.IndicatorSlam == true and eventPlayer.UpperFloat == true:
-        eventPlayer.slamTimer = -2
-        chase(eventPlayer.slamTimer, 125, duration=1.27, ChaseReeval.NONE)
+    if eventPlayer.ground_slam == true:
+        eventPlayer.slam_timer = -3.333
+        chase(eventPlayer.slam_timer, 125, duration=1.283, ChaseReeval.NONE)
+    elif eventPlayer.indicator_slam == true and eventPlayer.UpperFloat == true:
+        eventPlayer.slam_timer = -2
+        chase(eventPlayer.slam_timer, 125, duration=1.27, ChaseReeval.NONE)
     else:
-        eventPlayer.slamTimer = 1.01
-        chase(eventPlayer.slamTimer, 125, duration=1.239, ChaseReeval.NONE)
+        eventPlayer.slam_timer = 1.01
+        chase(eventPlayer.slam_timer, 125, duration=1.239, ChaseReeval.NONE)
     wait(0.2)
     waitUntil(eventPlayer.isOnGround() or eventPlayer.getAbilityCooldown(Button.ABILITY_1) == true, 999999)
     #eventPlayer.MONKEYslamVicsInVA = []
     #waitUntil(eventPlayer.isOnGround() or eventPlayer.getAltitude() < 0.2 or not eventPlayer.isUsingAbility1(), 999999)
-    #eventPlayer.slamTimer = eventPlayer.slamTimer - 0.4
-    #stopChasingVariable(eventPlayer.slamTimer)
-    #eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+    #eventPlayer.slam_timer = eventPlayer.slam_timer - 0.4
+    #stopChasingVariable(eventPlayer.slam_timer)
+    #eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
     #wait(0.3)
     #eventPlayer.setDamageDealt(0)
     #wait(0.02)
@@ -444,11 +433,11 @@ rule "start slam timer (REVAMP)":
     #eventPlayer.allowButton(Button.SECONDARY_FIRE)
     #eventPlayer.setDamageDealt(100)
     #else:
-    #if eventPlayer.GroundSlam == true:
-    #if eventPlayer.slamTimer < 124:
-    #eventPlayer.slamTimer = eventPlayer.slamTimer - 3.333
-    #stopChasingVariable(eventPlayer.slamTimer)
-    #eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+    #if eventPlayer.ground_slam == true:
+    #if eventPlayer.slam_timer < 124:
+    #eventPlayer.slam_timer = eventPlayer.slam_timer - 3.333
+    #stopChasingVariable(eventPlayer.slam_timer)
+    #eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
     #wait(0.3)
     #eventPlayer.setDamageDealt(0)
     #eventPlayer.allowButton(Button.ABILITY_2)
@@ -457,8 +446,8 @@ rule "start slam timer (REVAMP)":
     #wait(0.32)
     #eventPlayer.setDamageDealt(100)
     #else:
-    #stopChasingVariable(eventPlayer.slamTimer)
-    #eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+    #stopChasingVariable(eventPlayer.slam_timer)
+    #eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
     #wait(0.3)
     #eventPlayer.setDamageDealt(0)
     #eventPlayer.allowButton(Button.ABILITY_2)
@@ -468,11 +457,11 @@ rule "start slam timer (REVAMP)":
     #eventPlayer.setDamageDealt(100)
     #__end__()
     #__end__()
-    if eventPlayer.IndicatorSlam == true:
-        if eventPlayer.slamTimer >= 63.1 and eventPlayer.slamTimer <= 68.9:
-            eventPlayer.slamTimer = 65.01
-            stopChasingVariable(eventPlayer.slamTimer)
-            eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+    if eventPlayer.indicator_slam == true:
+        if eventPlayer.slam_timer >= 63.1 and eventPlayer.slam_timer <= 68.9:
+            eventPlayer.slam_timer = 65.01
+            stopChasingVariable(eventPlayer.slam_timer)
+            eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
             wait(0.35)
             eventPlayer.allowButton(Button.ABILITY_2)
             eventPlayer.allowButton(Button.ABILITY_1)
@@ -481,8 +470,8 @@ rule "start slam timer (REVAMP)":
             #eventPlayer.TrueSlamVics = []
         else:
     #eventPlayer.setDamageDealt(0)
-    stopChasingVariable(eventPlayer.slamTimer)
-    eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+    stopChasingVariable(eventPlayer.slam_timer)
+    eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
     wait(0.35)
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_1)
@@ -491,7 +480,7 @@ rule "start slam timer (REVAMP)":
     #eventPlayer.TrueSlamVics = []
 
 
-rule "=============================================================== RISING UPPERCUT CODE ===========================================":
+# =========================================== RISING UPPERCUT CODE ===========================================
 
 
 rule "New uppercut":
@@ -505,11 +494,11 @@ rule "New uppercut":
     #@Condition eventPlayer.getAbilityResource(Button.PRIMARY_FIRE) == true
     #@Condition eventPlayer.DamageTrueSlamVics != true
     @Condition eventPlayer.isPunching == false
-    @Condition (eventPlayer.IndicatorSlam and eventPlayer.GroundSlam) == false
+    @Condition (eventPlayer.indicator_slam and eventPlayer.ground_slam) == false
     @Condition eventPlayer.isUsingUltimate() == false
     
     eventPlayer.UpperFloat = true
-    eventPlayer.isUppercutting = true
+    eventPlayer.is_uppercutting = true
     eventPlayer.disablePlayerCollision()
     eventPlayer.disallowButton(Button.MELEE)
     eventPlayer.disallowButton(Button.ABILITY_1)
@@ -520,7 +509,7 @@ rule "New uppercut":
     eventPlayer.applyImpulse(eventPlayer.getFacingDirection() * vect(1, 0, 1), 5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-    eventPlayer.hitPlayers = []
+    eventPlayer.hit_players = []
     wait(0.15)
     eventPlayer.applyImpulse(vect(0, 1, 0), 40, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     wait(0.1)
@@ -528,7 +517,7 @@ rule "New uppercut":
     wait()
     eventPlayer.applyImpulse(vect(0, 1, 0), 2.5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.setGravity(0)
-    eventPlayer.isUppercutting = false
+    eventPlayer.is_uppercutting = false
     eventPlayer.enablePlayerCollision()
     eventPlayer.allowButton(Button.MELEE)
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
@@ -545,22 +534,22 @@ rule "New uppercut":
 
 rule "uppercut momentum":
     @Event eachPlayer
-    @Condition eventPlayer.uppercutMomentum == true
+    @Condition eventPlayer.uppercut_momentum == true
     
-    eventPlayer.upperLockTimer = 0.6
-    chase(eventPlayer.upperLockTimer, 0, duration=0.6, ChaseReeval.NONE)
+    eventPlayer.uppercut_lock_timer = 0.6
+    chase(eventPlayer.uppercut_lock_timer, 0, duration=0.6, ChaseReeval.NONE)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
     wait()
     eventPlayer.applyImpulse(vect(0, 1, 0), 15, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
-    eventPlayer.applyImpulse(vect(eventPlayer.uppercutDealer.getFacingDirection().x, 0, eventPlayer.uppercutDealer.getFacingDirection().z), 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
-    eventPlayer.uppercutMomentum = false
+    eventPlayer.applyImpulse(vect(eventPlayer.uppercut_dealer.getFacingDirection().x, 0, eventPlayer.uppercut_dealer.getFacingDirection().z), 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    eventPlayer.uppercut_momentum = false
 
 
 rule "uppercut momentum stop":
     @Event eachPlayer
-    @Condition eventPlayer.upperLockTimer == 0
+    @Condition eventPlayer.uppercut_lock_timer == 0
     
-    stopChasingVariable(eventPlayer.upperLockTimer)
+    stopChasingVariable(eventPlayer.uppercut_lock_timer)
     #if not eventPlayer.isUsingAbility1():
     eventPlayer.stopForcingThrottle()
 
@@ -568,40 +557,39 @@ rule "uppercut momentum stop":
 rule "uppercut hit":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.isUppercutting == true
+    @Condition eventPlayer.is_uppercutting == true
     
-    eventPlayer.playersInView = eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45)
-    for eventPlayer.playerId in range(len(eventPlayer.playersInView)):
-        eventPlayer.beamID = eventPlayer.playersInView[eventPlayer.playerId]
-        if not eventPlayer.beamID in eventPlayer.hitPlayers and isInLoS(eventPlayer, eventPlayer.beamID, BarrierLos.PASS_THROUGH_BARRIERS) and distance(eventPlayer, eventPlayer.beamID) < 5:
-            eventPlayer.beamID.uppercutMomentum = true
-            eventPlayer.beamID.uppercutDealer = eventPlayer
+    eventPlayer.players_in_view = eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45)
+    for eventPlayer.player_id in range(len(eventPlayer.players_in_view)):
+        eventPlayer.beam_id = eventPlayer.players_in_view[eventPlayer.player_id]
+        if not eventPlayer.beam_id in eventPlayer.hit_players and isInLoS(eventPlayer, eventPlayer.beam_id, BarrierLos.PASS_THROUGH_BARRIERS) and distance(eventPlayer, eventPlayer.beam_id) < 5:
+            eventPlayer.beam_id.uppercut_momentum = true
+            eventPlayer.beam_id.uppercut_dealer = eventPlayer
             #50 with the 20% buff
-            damage(eventPlayer.beamID, eventPlayer, 41.67)
-            playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer.beamID.getPosition(), 100)
-            playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer.beamID, 1)
-            eventPlayer.hitPlayers.append(eventPlayer.beamID)
+            damage(eventPlayer.beam_id, eventPlayer, 41.67)
+            playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer.beam_id.getPosition(), 100)
+            playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer.beam_id, 1)
+            eventPlayer.hit_players.append(eventPlayer.beam_id)
     wait()
-    if eventPlayer.isUppercutting == true:
+    if eventPlayer.is_uppercutting == true:
         goto RULE_START
 
 
 rule "Uppercut Victim Effect":
     @Event playerDealtDamage
     @Hero doomfist
-    @Condition eventPlayer.isUppercutting == true
+    @Condition eventPlayer.is_uppercutting == true
     
     playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, eventPlayer.getTeam(), victim, 5)
     playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, victim, 100)
 
 
-rule "===================================================== DPS CONVERSTION / STAT CORRECTION ========================================":
-
+# =========================================== DPS CONVERSTION / STAT CORRECTION =========================================== 
 
 rule "punch damage change 2":
     @Event playerDealtDamage
     @Condition eventAbility == Button.SECONDARY_FIRE
-    @Condition victim.secondHit == true
+    @Condition victim.second_hit == true
     @Condition attacker.getCurrentHero() == Hero.DOOMFIST
     
     damage(victim, attacker, 3.167 * (eventDamage / 1.2))
@@ -610,23 +598,23 @@ rule "punch damage change 2":
 rule "punch damage change":
     @Event playerDealtDamage
     @Condition eventAbility == Button.SECONDARY_FIRE
-    @Condition victim.secondHit == false
+    @Condition victim.second_hit == false
     @Condition attacker.getCurrentHero() == Hero.DOOMFIST
     
     eventPlayer.victimHASbeenPUNCHED = true
     damage(victim, attacker, 0.667 * (eventDamage / 1.2))
-    victim.punchHitTimer = 0
-    victim.secondHit = true
-    chase(victim.punchHitTimer, 1, duration=1, ChaseReeval.NONE)
+    victim.punch_hit_timer = 0
+    victim.second_hit = true
+    chase(victim.punch_hit_timer, 1, duration=1, ChaseReeval.NONE)
     eventPlayer.victimHASbeenPUNCHED = false
 
 
 rule "punch hit timer":
     @Event eachPlayer
-    @Condition eventPlayer.punchHitTimer == 1
+    @Condition eventPlayer.punch_hit_timer == 1
     
-    eventPlayer.secondHit = false
-    stopChasingVariable(eventPlayer.punchHitTimer)
+    eventPlayer.second_hit = false
+    stopChasingVariable(eventPlayer.punch_hit_timer)
 
 
 rule "Doom Health correction (+)":
@@ -679,19 +667,19 @@ rule "slam effect (Bug testing)":
     @Hero doomfist
     
     #hudText(getAllPlayers(), "", "{0}".format(distance(raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 20 * eventPlayer.getFacingDirection(), [], getAllPlayers(), true).getHitPosition(), nearestWalkablePosition(raycast(eventPlayer.getEyePo
-    #hudHeader(eventPlayer, "angle: {0}".format(asin(eventPlayer.slamDirectionWhenPressed.y) * 180 / 3.142), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
-    #hudHeader(eventPlayer, "better angle: {0}".format(eventPlayer.avgAngle * 180 / 3.142), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
+    #hudHeader(eventPlayer, "angle: {0}".format(asin(eventPlayer.slam_direction_when_pressed.y) * 180 / 3.142), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
+    #hudHeader(eventPlayer, "better angle: {0}".format(eventPlayer.average_angle * 180 / 3.142), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
     #hudHeader(eventPlayer, "height: {0}".format(eventPlayer.height), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
-    #hudHeader(eventPlayer, "distance: {0}".format(eventPlayer.slamHorizontalDistance), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
-    #hudHeader(eventPlayer, "avgAngle: {0}".format(eventPlayer.avgAngle), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
+    #hudHeader(eventPlayer, "distance: {0}".format(eventPlayer.slam_horizontal_distance), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
+    #hudHeader(eventPlayer, "average_angle: {0}".format(eventPlayer.average_angle), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
     #hudHeader(eventPlayer, "looking: {0}".format(eventPlayer.getFacingDirection()), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
     #hudHeader(eventPlayer, "speed up: {0}".format(eventPlayer.getSpeedInDirection(vect(0, 1, 0))), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
     #hudHeader(eventPlayer, "Gravity: {0}".format(eventPlayer.getFacingDirection()), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
     #hudHeader(eventPlayer, "speed FD: {0}".format(eventPlayer.getSpeedInDirection(eventPlayer.getFacingDirection())), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
     hudHeader(eventPlayer, "VIC HAS BEEN PUNCHED: {0}".format("YUH" if eventPlayer.victimHASbeenPUNCHED == true else null), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
     #hudHeader(eventPlayer, "gc: {0}".format("ur on the ground lil bro" if eventPlayer.isOnGround() == true else "ur in air lil bro"), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
-    #hudHeader(getAllPlayers(), "is: {0}".format("IS INDICATING" if eventPlayer.IndicatorSlam == true else null), HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    #hudHeader(getAllPlayers(), "GS: {0}".format("IS GROUNDING" if eventPlayer.GroundSlam == true else null), HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    #hudHeader(getAllPlayers(), "is: {0}".format("IS INDICATING" if eventPlayer.indicator_slam == true else null), HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    #hudHeader(getAllPlayers(), "GS: {0}".format("IS GROUNDING" if eventPlayer.ground_slam == true else null), HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     #hudHeader(getAllPlayers(), "US: {0}".format("U USED SLAM LIL BRO" if eventPlayer.hasUsedSlam == true else null), HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     hudHeader(eventPlayer, "MAINpv: {0}".format(eventPlayer.MainPunchVictim), HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     hudHeader(eventPlayer, "MaPVpC: {1}".format(null, "LIL BRO IS PHASED! NOT GOOD" if eventPlayer.MainPunchVictim.hasStatusEffect(Status.PHASED_OUT) == true else null), HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
@@ -739,14 +727,14 @@ rule "Dummy Bots (-) (Bug Testing)":
     #createDummy(Hero.WIDOWMAKER, getOppositeTeam(eventPlayer.getTeam()), -1, eventPlayer.getPosition(), eventPlayer.getFacingDirection())
 */
 
-rule "============================================================= HUD THINGS =======================================================":
+# =========================================== HUD THINGS ===========================================
 
 
 rule "slam timer hud":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
-    @Condition eventPlayer.HasSlamTimer == false
+    @Condition eventPlayer.has_slam_timer == false
     
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
@@ -756,9 +744,9 @@ rule "slam timer hud":
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
-    hudText(eventPlayer if eventPlayer.slamTimerVisible else null, "", "{0}".format(round(eventPlayer.slamTimer)), "", HudPosition.TOP, 0.65, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    #hudText(eventPlayer if eventPlayer.slamTimerVisible else null, "", "{0}".format(eventPlayer.slamTimer), "", HudPosition.TOP, 0.65, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    eventPlayer.HasSlamTimer = true
+    hudText(eventPlayer if eventPlayer.slam_timer_visible else null, "", "{0}".format(round(eventPlayer.slam_timer)), "", HudPosition.TOP, 0.65, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    #hudText(eventPlayer if eventPlayer.slam_timer_visible else null, "", "{0}".format(eventPlayer.slam_timer), "", HudPosition.TOP, 0.65, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    eventPlayer.has_slam_timer = true
 
 
 rule "slam timer visibility":
@@ -766,13 +754,13 @@ rule "slam timer visibility":
     @Hero doomfist
     @Condition eventPlayer.isUsingAbility1() == true
     
-    eventPlayer.slamTimerVisible = true
+    eventPlayer.slam_timer_visible = true
     #waitUntil(not eventPlayer.isUsingAbility1(), 999999)
     wait()
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 999999)
     #waitUntil(eventPlayer.isOnGround(), 9999999)
     #wait(1)
-    eventPlayer.slamTimerVisible = false
+    eventPlayer.slam_timer_visible = false
     eventPlayer.SlamTimerTEXT = true
 
 
@@ -780,15 +768,15 @@ rule "Final Slam Timer BOLD":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     #@Condition eventPlayer.isOnGround() == true
-    #@Condition eventPlayer.slamTimerVisible == true
+    #@Condition eventPlayer.slam_timer_visible == true
     @Condition eventPlayer.SlamTimerTEXT == true
     
     eventPlayer.Y_POS = -0.1
     eventPlayer.X_POS = 0
     #ROUNDING, NORMAL GAMEPLAY
-    createInWorldText(eventPlayer if eventPlayer.SlamTimerTEXT else null, round(eventPlayer.slamTimer), updateEveryTick(eventPlayer.getEyePosition() + (100 * (eventPlayer.X_POS * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((eventPlayer.Y_POS - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 2, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, Color.WHITE, SpecVisibility.DEFAULT)
+    createInWorldText(eventPlayer if eventPlayer.SlamTimerTEXT else null, round(eventPlayer.slam_timer), updateEveryTick(eventPlayer.getEyePosition() + (100 * (eventPlayer.X_POS * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((eventPlayer.Y_POS - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 2, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, Color.WHITE, SpecVisibility.DEFAULT)
     #NO ROUNDING FOR BUG TESTING
-    #createInWorldText(eventPlayer if eventPlayer.SlamTimerTEXT else null, eventPlayer.slamTimer, updateEveryTick(eventPlayer.getEyePosition() + (100 * (eventPlayer.X_POS * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((eventPlayer.Y_POS - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 2, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, Color.WHITE, SpecVisibility.DEFAULT)
+    #createInWorldText(eventPlayer if eventPlayer.SlamTimerTEXT else null, eventPlayer.slam_timer, updateEveryTick(eventPlayer.getEyePosition() + (100 * (eventPlayer.X_POS * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((eventPlayer.Y_POS - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 2, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, Color.WHITE, SpecVisibility.DEFAULT)
     wait(1)
     eventPlayer.SlamTimerTEXT = false
 
@@ -844,7 +832,7 @@ rule "Fake Uppercut Symbol (-)":
     eventPlayer.RisingFistSymbolTracker = false
 */
 
-rule "============================================================ SINGLE PUNCH CODE =================================================":
+# =========================================== SINGLE PUNCH CODE ===========================================
 
 
 rule "Single Punch Condition":
@@ -852,16 +840,16 @@ rule "Single Punch Condition":
     @Condition eventPlayer.isPunching == true
     
     eventPlayer.MainPunchVictim.clearStatusEffect(Status.PHASED_OUT)
-    #eventPlayer.hitPlayers = []
+    #eventPlayer.hit_players = []
     #eventPlayer.PunchCast = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 20, getPlayers(getOppositeTeam(eventPlayer.getTeam())), eventPlayer, false).getHitPosition()
     #eventPlayer.MainPunchVictim = getClosestPlayer(eventPlayer.PunchCast, getOppositeTeam(eventPlayer.getTeam()))
     #eventPlayer.MainPunchVictim = eventPlayer.getPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam()))
-    #eventPlayer.playersInView = eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45)
+    #eventPlayer.players_in_view = eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45)
     #updateEveryTick(getPlayersInRadius(updateEveryTick(eventPlayer.getPosition()), 10, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF)).setStatusEffect(null, Status.PHASED_OUT, 9999)
-    #for eventPlayer.playerId in range(len(eventPlayer.playersInView)):
-    #eventPlayer.beamID = eventPlayer.playersInView[eventPlayer.playerId]
-    #if not eventPlayer.beamID in eventPlayer.hitPlayers and isInLoS(eventPlayer, eventPlayer.beamID, BarrierLos.PASS_THROUGH_BARRIERS) and distance(eventPlayer, eventPlayer.beamID) < 5:
-    #eventPlayer.beamID.uppercutMomentum = true
+    #for eventPlayer.player_id in range(len(eventPlayer.players_in_view)):
+    #eventPlayer.beam_id = eventPlayer.players_in_view[eventPlayer.player_id]
+    #if not eventPlayer.beam_id in eventPlayer.hit_players and isInLoS(eventPlayer, eventPlayer.beam_id, BarrierLos.PASS_THROUGH_BARRIERS) and distance(eventPlayer, eventPlayer.beam_id) < 5:
+    #eventPlayer.beam_id.uppercut_momentum = true
     #for eventPlayer.MainPunchVictim in range(1, len(eventPlayer.getPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())))):
     #eventPlayer.SecondaryPunchVictim = updateEveryTick(getClosestPlayer(eventPlayer.MainPunchVictim, getOppositeTeam(eventPlayer.getTeam())))
     #(eventPlayer.getPlayersInViewAngle(Team.ALL, 45) + 0).setStatusEffect(null, Status.PHASED_OUT, 9999)
@@ -870,11 +858,11 @@ rule "Single Punch Condition":
     #waitUntil(eventPlayer.isPunching == false, 100000000)
     #eventPlayer.SecondaryPunchVictim.clearStatusEffect(Status.FROZEN)
     #getAllPlayers().clearStatusEffect(Status.PHASED_OUT)
-    #eventPlayer.hitPlayers.append(eventPlayer.beamID)
+    #eventPlayer.hit_players.append(eventPlayer.beam_id)
     #__end__()
     #__end__()
     #wait()
-    #if eventPlayer.isUppercutting == true:
+    #if eventPlayer.is_uppercutting == true:
     #        goto RULE_START
     eventPlayer.VictimsInView = eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 100)
     for eventPlayer.MPVid in range(len(eventPlayer.VictimsInView)):
@@ -883,8 +871,8 @@ rule "Single Punch Condition":
             #if not eventPlayer.PunchCastID in eventPlayer.MultiPunchVictims and isGameInProgress() and distance(eventPlayer, eventPlayer.PunchCastID) <= 10:
             #eventPlayer.getPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam())).clearStatusEffect(Status.PHASED_OUT)
             eventPlayer.PhaseVictims = true
-            #playEffect(getAllPlayers(), DynamicEffect.DOOMFIST_RISING_UPPERCUT_IMPACT_SOUND, Color.WHITE, eventPlayer.beamID.getPosition(), 100)
-            #playEffect(getAllPlayers(), DynamicEffect.DOOMFIST_RISING_UPPERCUT_IMPACT, Color.WHITE, eventPlayer.beamID, 1)
+            #playEffect(getAllPlayers(), DynamicEffect.DOOMFIST_RISING_UPPERCUT_IMPACT_SOUND, Color.WHITE, eventPlayer.beam_id.getPosition(), 100)
+            #playEffect(getAllPlayers(), DynamicEffect.DOOMFIST_RISING_UPPERCUT_IMPACT, Color.WHITE, eventPlayer.beam_id, 1)
             #eventPlayer.FakePunchVictims = eventPlayer.MultiPunchVictims.exclude(eventPlayer.MainPunchVictim)
             eventPlayer.MultiPunchVictims.append(eventPlayer.PunchCastID)
     eventPlayer.MainPunchVictim.clearStatusEffect(Status.PHASED_OUT)
@@ -959,7 +947,7 @@ rule "Phase MultiPunchVics ONLY (+/-)":
     #wait()
     #waitUntil(eventPlayer.isPunching == true, 99999)
     eventPlayer.FakePunchVictims.setStatusEffect(null, Status.PHASED_OUT, 100000000)
-    #if eventPlayer.hitPlayers.hasStatusEffect(Status.PHASED_OUT) == false:
+    #if eventPlayer.hit_players.hasStatusEffect(Status.PHASED_OUT) == false:
     #        goto RULE_START
     #eventPlayer.applyImpulse(Vector.UP, 70, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
     wait()
@@ -1002,7 +990,7 @@ rule "True / Fake Slam Vics":
     
     #eventPlayer.FakeSlamVictims = [player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player in getPlayersInRadius(eventPlayer, 17.3, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF) and player in eventPlayer.isInViewAngle(eventPlayer, 90) and not player in getPlayersInRadius(eventPlayer, 8, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF) and player in eventPlayer.isInViewAngle(eventPlayer, 45)]
     #eventPlayer.TrueSlamVics = [player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player in getPlayersInRadius(eventPlayer, 8, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF) and player in eventPlayer.isInViewAngle(eventPlayer, 45)]
-    #eventPlayer.AllSlamVics = [player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player in getPlayersInRadius(eventPlayer, 17.3, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF) and player in eventPlayer.isInViewAngle(eventPlayer, 90)]
+    #eventPlayer.all_slam_vics = [player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player in getPlayersInRadius(eventPlayer, 17.3, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF) and player in eventPlayer.isInViewAngle(eventPlayer, 90)]
     eventPlayer.TrueSlamVics = [player for player in eventPlayer.DpsSlam if eventPlayer.isInViewAngle(getPlayers(getOppositeTeam(eventPlayer.getTeam())), 45)]
     #wait()
     eventPlayer.tankslam360 = [player for player in eventPlayer.MONKEYslamVicsInVA if eventPlayer.isInViewAngle(getPlayers(getOppositeTeam(eventPlayer.getTeam())), 90)]
@@ -1020,10 +1008,10 @@ rule "Slam Victim Damage":
     #waitUntil(eventPlayer.SlamCamLocked == true, 99999)
     #waitUntil(eventPlayer.isOnGround(), 99999)
     #wait(0.067)
-    #eventPlayer.setDamageDealt(eventPlayer.slamTimer / 60 * 100)
+    #eventPlayer.setDamageDealt(eventPlayer.slam_timer / 60 * 100)
     #wait(0.183)
     #eventPlayer.NullSlamWithShields = true
-    #damage(eventPlayer.TrueSlamVics, eventPlayer, eventPlayer.slamTimer / 1.2)
+    #damage(eventPlayer.TrueSlamVics, eventPlayer, eventPlayer.slam_timer / 1.2)
     #wait()
     #eventPlayer.SlamBounce = true
     #eventPlayer.setDamageDealt(0)
@@ -1093,8 +1081,8 @@ rule "======================================= BUG FIXES / REMOVE EMP PUNCH =====
 rule "TankBugSlamRemoval":
     @Event eachPlayer
     @Hero doomfist
-    #@Condition (eventPlayer.UpperFloat or eventPlayer.isUppercutting) == true
-    #@Condition (eventPlayer.IndicatorSlam == false or eventPlayer.GroundSlam) == false
+    #@Condition (eventPlayer.UpperFloat or eventPlayer.is_uppercutting) == true
+    #@Condition (eventPlayer.indicator_slam == false or eventPlayer.ground_slam) == false
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     #@Condition eventPlayer.isUsingAbility1() == true
     
@@ -1102,15 +1090,15 @@ rule "TankBugSlamRemoval":
     #eventPlayer.disallowButton(Button.ABILITY_1)
     #eventPlayer.allowButton(Button.ABILITY_1)
     waitUntil(eventPlayer.isUsingAbility1(), 99999)
-    if eventPlayer.isUsingAbility1() == true and eventPlayer.IndicatorSlam == false and eventPlayer.GroundSlam == false:
+    if eventPlayer.isUsingAbility1() == true and eventPlayer.indicator_slam == false and eventPlayer.ground_slam == false:
         eventPlayer.cancelPrimaryAction()
-        stopChasingVariable(eventPlayer.slamTimer)
-        eventPlayer.slamTimerVisible = false
-        eventPlayer.slamTimer = 0
+        stopChasingVariable(eventPlayer.slam_timer)
+        eventPlayer.slam_timer_visible = false
+        eventPlayer.slam_timer = 0
         wait()
         eventPlayer.applyImpulse(eventPlayer.getVelocity() * -1, eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-        #waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_1) == true and eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and eventPlayer.isUsingAbility2() == false and eventPlayer.isFiringSecondaryFire() == false and eventPlayer.getAltitude() > 3 and eventPlayer.hasUsedSlam == false and eventPlayer.showIndicator == true and eventPlayer.isUppercutting == false and eventPlayer.GroundSlam == false or eventPlayer.GroundSlam == true, 99999)
+        #waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_1) == true and eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and eventPlayer.isUsingAbility2() == false and eventPlayer.isFiringSecondaryFire() == false and eventPlayer.getAltitude() > 3 and eventPlayer.hasUsedSlam == false and eventPlayer.showIndicator == true and eventPlayer.is_uppercutting == false and eventPlayer.ground_slam == false or eventPlayer.ground_slam == true, 99999)
         #wait(2)
     else:
     waitUntil(eventPlayer.isUsingAbility1() == false, 99999)
@@ -1144,7 +1132,7 @@ rule "Remove EMP PUNCH from ult":
 rule "uppercut Cooldown correction":
     @Event eachPlayer
     #@Condition eventPlayer.isUsingAbility2() == true
-    @Condition eventPlayer.isUppercutting == true
+    @Condition eventPlayer.is_uppercutting == true
     
     #waitUntil(eventPlayer.getAbilityCooldown(Button.ABILITY_2), 99999)
     wait(0.38)
@@ -1233,7 +1221,7 @@ rule "Max Shields":
 rule "UPPERCUT temp":
     @Event playerDealtDamage
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
-    @Condition eventPlayer.isUppercutting == true
+    @Condition eventPlayer.is_uppercutting == true
     
     eventPlayer.temphpTracker += 30
 */
