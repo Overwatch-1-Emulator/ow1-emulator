@@ -11,7 +11,7 @@
 #!include "ow1/heroes/baptiste.opy"
 #!include "ow1/heroes/bastion.opy"
 #!include "ow1/heroes/brigitte.opy"
-#!include "ow1/heroes/doomfist_copy.opy"
+#!include "ow1/heroes/doomfist.opy"
 #!include "ow1/heroes/dva.opy"
 #!include "ow1/heroes/genji.opy"
 #!include "ow1/heroes/mccree.opy"

@@ -12,6 +12,8 @@
 # Macro function for computing a percent of number
 #!define percentOf(p, n) p/100*n
 
+
+
 playervar last_hero_played
 playervar hero_switched
 playervar hero_id

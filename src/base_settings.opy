@@ -75,9 +75,6 @@ settings {
             },
             "doomfist": {
                 "ammoRegenerationTime%": 162,
-                "damageDealt%": 120,
-                "ability1Cooldown%": 86,
-                "ability2Cooldown%": 86
             },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
