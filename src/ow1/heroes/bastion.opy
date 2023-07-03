@@ -249,8 +249,9 @@ def selfRepair():
     @Name "[bastion.opy]: Execute self-repair ability"
     wait(ow1_self_repair_cast_time_BASTION)
     while eventPlayer.self_repair == true: # Approximate 90 healing over time using discrete healing at high frequency
-        heal(eventPlayer, eventPlayer, ow1_bastion_self_repair_heal_increment) 
-        wait(ow1_bastion_self_repair_heal_increment/ow1_bastion_self_repair_healing_rate)
+        heal(eventPlayer, eventPlayer, OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT)
+        wait(OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT/OW1_BASTION_SELF_REPAIR_HEALING_RATE)
+        eventPlayer.missing_ult_points += OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT
 
 
 rule "[bastion.opy]: Activate self-repair":

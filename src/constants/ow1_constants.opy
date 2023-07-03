@@ -69,8 +69,8 @@
 #!define OW1_BASTION_TANK_MOVE_SPEED (1/0.65)
 #!define OW1_BASTION_TANK_DAMAGE 205
 #!define OW1_BASTION_TANK_PROJECTILE_SPEED 60
-#!define ow1_bastion_self_repair_heal_increment 7
-#!define ow1_bastion_self_repair_healing_rate 90
+#!define OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT 7
+#!define OW1_BASTION_SELF_REPAIR_HEALING_RATE 90
 #!define ow1_bastion_tank_mode_duration 8
 #!define ow1_bastion_tank_shell_reload_time (6/8)
 #!define ow1_bastion_machine_gun_fire_rate 30
