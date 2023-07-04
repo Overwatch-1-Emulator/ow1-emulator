@@ -165,8 +165,7 @@ def executeSlam():
     if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()
     else if eventPlayer.slam_to_use == SlamType.INDICATOR:
-        # initiateIndicatorSlam()
-        initiateGroundSlam()
+        initiateIndicatorSlam()
 
     eventPlayer.is_using_slam = false
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SLAM_COOLDOWN)    
@@ -209,6 +208,8 @@ def initiateGroundSlam():
     eventPlayer.setSecondaryFireEnabled(true)
 
 def initiateIndicatorSlam():
+    # [TODO] implement custom physics for indicator slam
+    bigMessage(eventPlayer, "Indicator Slam is currently not available") # Placeholder code; delete after implemenation
     pass
 
 
