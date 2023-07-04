@@ -30,8 +30,11 @@ playervar pressing_slam_key
 playervar e_pressed_by_bot
 playervar is_using_slam
 playervar slam_to_use
+playervar indicator_slam_position
+playervar indicator_slam_destination
 
 subroutine initDoomfist
+subroutine initSlamIndicatorGui
 subroutine executeUppercut
 subroutine detectUpercutHit
 subroutine executeSlam
@@ -57,6 +60,25 @@ def initDoomfist():
 
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.e_pressed_by_bot = false
+    
+    initSlamIndicatorGui()
+
+
+def initSlamIndicatorGui():
+    # #BOTTOM LINE
+    # createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    # eventPlayer.BottomLine = getLastCreatedEntity()
+    # #TOP LINE
+    # createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    # eventPlayer.TopLine = getLastCreatedEntity()
+    # #RIGHT SIDE
+    # createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    # eventPlayer.RightLine = getLastCreatedEntity()
+    # #LEFT SIDE
+    # createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    # eventPlayer.LeftLine = getLastCreatedEntity()
+    # eventPlayer.diamond_indicator = [eventPlayer.BottomLine, eventPlayer.TopLine, eventPlayer.RightLine, eventPlayer.LeftLine]
+    pass
 
 
 rule "[doomfist.opy]: Detect shift key press by human":
@@ -96,6 +118,7 @@ rule "[doomfist.opy]: Control flow for slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.pressing_slam_key == true
+    @Condition eventPlayer.is_using_uppercut == false
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not eventPlayer.hasStatusEffect(Status.HACKED)
 
@@ -161,18 +184,31 @@ def detectUpercutHit():
 def executeSlam():
     @Name "[doomfist.opy]: Execute main logic for Seismic Slam ability"
 
-    eventPlayer.is_using_slam = true
-    if eventPlayer.slam_to_use == SlamType.GROUND:
-        initiateGroundSlam()
-    else if eventPlayer.slam_to_use == SlamType.INDICATOR:
-        initiateIndicatorSlam()
+    if eventPlayer.getAltitude() >= 3:
+        eventPlayer.slam_to_use = SlamType.INDICATOR
+    else:
+        eventPlayer.slam_to_use = SlamType.GROUND
 
-    eventPlayer.is_using_slam = false
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SLAM_COOLDOWN)    
+    if eventPlayer.slam_to_use == SlamType.INDICATOR:
+        initiateIndicatorSlam()
+    else if eventPlayer.slam_to_use == SlamType.GROUND:
+        initiateGroundSlam()
+    else:
+        initiateGroundSlam()
+
+    if eventPlayer.is_using_slam == true:
+        waitUntil(not eventPlayer.isUsingAbility1(), 9999)
+        eventPlayer.is_using_slam = false
+        eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
+        eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SLAM_COOLDOWN)
 
 
 def initiateGroundSlam():
+    eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
+    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
+
+    # Start slam animation
     eventPlayer.uppercut_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.allowButton(Button.ABILITY_1)
@@ -180,9 +216,7 @@ def initiateGroundSlam():
     eventPlayer.forceButtonPress(Button.ABILITY_1)
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-    eventPlayer.setPrimaryFireEnabled(false)
-    eventPlayer.setSecondaryFireEnabled(false)
+
     wait()
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.applyImpulse(normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z)) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
@@ -202,28 +236,32 @@ def initiateGroundSlam():
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingThrottle()
-    waitUntil(not eventPlayer.isUsingAbility1(), 9999)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
-    eventPlayer.setPrimaryFireEnabled(true)
-    eventPlayer.setSecondaryFireEnabled(true)
+
 
 def initiateIndicatorSlam():
-    # [TODO] implement custom physics for indicator slam
-    bigMessage(eventPlayer, "Indicator Slam is currently not available") # Placeholder code; delete after implemenation
-    pass
+    # Calculate indicator slam path
+    eventPlayer.indicator_slam_destination = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 16*eventPlayer.getFacingDirection(), null, getAllPlayers(), false).getHitPosition()
+    eventPlayer.indicator_slam_position = eventPlayer.getPosition()
+    if distance(eventPlayer.indicator_slam_position, eventPlayer.indicator_slam_destination) > 15: # invalid pathing
+        return
 
+    eventPlayer.is_using_slam = true
+    eventPlayer.setGravity(0)
+    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
-rule "[doomfist.opy]: Detect indicator slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.getAltitude() >= 3
+    # Start slam animation
+    eventPlayer.uppercut_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.shift_pressed_by_bot = true
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
+    eventPlayer.shift_pressed_by_bot = false
+    eventPlayer.disallowButton(Button.ABILITY_1)
 
-    eventPlayer.slam_to_use = SlamType.INDICATOR
-
-
-rule "[doomfist.opy]: Detect ground slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.getAltitude() < 3
-
-    eventPlayer.slam_to_use = SlamType.GROUND
+    chase(eventPlayer.indicator_slam_position, eventPlayer.indicator_slam_destination, rate=25, ChaseReeval.NONE)
+    eventPlayer.startForcingPosition(eventPlayer.indicator_slam_position, true)
+    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_destination) < 1 or not eventPlayer.isUsingAbility1(), 9999)
+    eventPlayer.stopForcingPosition()
+    stopChasingVariable(eventPlayer.indicator_slam_position)
+    eventPlayer.stopForcingThrottle()
+    eventPlayer.setGravity(100)
