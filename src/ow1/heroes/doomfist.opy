@@ -13,7 +13,7 @@ rules/functions as needed.
 # First raycast max range towards the direction the crosshair is aimed at
 #!define findProtoIndicatorPosition() raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition()+OW1_DOOMFIST_SLAM_RADIUS*eventPlayer.getFacingDirection(), null, null, null).getHitPosition()
 # Then drop straight down vertically to find the final indicator position
-#!define findFinalIndicatorPosition() raycast(findProtoIndicatorPosition(), findProtoIndicatorPosition()+OW1_DOOMFIST_SLAM_RADIUS*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
+#!define findIndicatorPosition() raycast(findProtoIndicatorPosition(), findProtoIndicatorPosition()+OW1_DOOMFIST_SLAM_RADIUS*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
 # Facing direction vector projected and normalized to the XZ plane
 #!define getLateralFacingDirection() normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z))
 # Rotates vector around the y-axis in 3D space
@@ -41,7 +41,7 @@ playervar e_pressed_by_bot
 playervar is_using_slam
 playervar slam_to_use
 playervar current_position
-playervar selected_indicator_slam_position
+playervar final_indicator_position
 playervar indicator_visibility
 
 subroutine initDoomfist
@@ -76,13 +76,13 @@ def initDoomfist():
 
 
 def initSlamIndicatorGui():
-    eventPlayer.indicator_visibility = eventPlayer
+    eventPlayer.indicator_visibility = null
 
     for eventPlayer.i in range(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION):
-        createBeam(eventPlayer, Beam.GOOD, updateEveryTick(findFinalIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxis(getLateralFacingDirection(), evalOnce(eventPlayer.i)*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2)), updateEveryTick(findFinalIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxis(getLateralFacingDirection(), evalOnce(eventPlayer.i)*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2)), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        createBeam(eventPlayer.indicator_visibility, Beam.GOOD, updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxis(getLateralFacingDirection(), evalOnce(eventPlayer.i)*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2)), updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxis(getLateralFacingDirection(), evalOnce(eventPlayer.i)*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2)), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     
     # Sphere for debugging indicator slam
-    # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findFinalIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
+    # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
 
 rule "[doomfist.opy]: Detect shift key press by human":
     @Event eachPlayer
@@ -187,7 +187,7 @@ def detectUpercutHit():
 def executeSlam():
     @Name "[doomfist.opy]: Execute main logic for Seismic Slam ability"
 
-    if eventPlayer.getAltitude() >= 3:
+    if eventPlayer.indicator_visibility == eventPlayer:
         eventPlayer.slam_to_use = SlamType.INDICATOR
     else:
         eventPlayer.slam_to_use = SlamType.GROUND
@@ -204,6 +204,17 @@ def executeSlam():
         eventPlayer.is_using_slam = false
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
         eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SLAM_COOLDOWN)
+
+
+rule "[doomfist.opy]: Detect indicator slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition updateEveryTick(eventPlayer.getAltitude() >= 3)
+    @Condition updateEveryTick(distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN)
+
+    eventPlayer.indicator_visibility = eventPlayer
+    waitUntil(updateEveryTick(not (eventPlayer.getAltitude() >= 3 and distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN)), 9999)
+    eventPlayer.indicator_visibility = null
 
 
 def initiateGroundSlam():
@@ -231,10 +242,10 @@ def initiateGroundSlam():
 
 def initiateIndicatorSlam():
     # If vertical distance is greater than the margin, it's invalid.
-    if distance(findFinalIndicatorPosition(), findProtoIndicatorPosition()) > OW1_DOOMFIST_INDICATOR_SLAM_MARGIN:
+    if distance(findIndicatorPosition(), findProtoIndicatorPosition()) > OW1_DOOMFIST_INDICATOR_SLAM_MARGIN:
         return
 
-    eventPlayer.selected_indicator_slam_position = findFinalIndicatorPosition()
+    eventPlayer.final_indicator_position = findIndicatorPosition()
 
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
@@ -250,9 +261,9 @@ def initiateIndicatorSlam():
     eventPlayer.disallowButton(Button.ABILITY_1)
 
     eventPlayer.current_position = eventPlayer.getPosition()
-    chase(eventPlayer.current_position, eventPlayer.selected_indicator_slam_position, rate=25, ChaseReeval.NONE)
+    chase(eventPlayer.current_position, eventPlayer.final_indicator_position, rate=25, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
-    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.selected_indicator_slam_position) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN or not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.final_indicator_position) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingPosition()
     stopChasingVariable(eventPlayer.current_position)
     eventPlayer.stopForcingThrottle()
