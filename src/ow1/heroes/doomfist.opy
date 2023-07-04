@@ -282,7 +282,7 @@ def initiateIndicatorSlam():
     eventPlayer.disallowButton(Button.ABILITY_1)
 
     eventPlayer.current_position = eventPlayer.getPosition()
-    chase(eventPlayer.current_position, eventPlayer.final_indicator_position, rate=25, ChaseReeval.NONE)
+    chase(eventPlayer.current_position, eventPlayer.final_indicator_position, rate=OW1_DOOMFIST_INDICATOR_SLAM_SPEED, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
     waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.final_indicator_position) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingPosition()
