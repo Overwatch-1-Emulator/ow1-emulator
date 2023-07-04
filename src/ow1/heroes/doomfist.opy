@@ -236,6 +236,9 @@ rule "[doomfist.opy]: Detect indicator slam":
 
 
 def initiateGroundSlam():
+    if eventPlayer.getAltitude() >= 3:
+        return
+
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
