@@ -30,8 +30,9 @@ playervar pressing_slam_key
 playervar e_pressed_by_bot
 playervar is_using_slam
 playervar slam_to_use
-playervar indicator_slam_position
-playervar indicator_slam_destination
+playervar current_position
+playervar proto_slam_destination
+playervar final_slam_destination
 
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
@@ -78,8 +79,6 @@ def initSlamIndicatorGui():
     # createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     # eventPlayer.LeftLine = getLastCreatedEntity()
     # eventPlayer.diamond_indicator = [eventPlayer.BottomLine, eventPlayer.TopLine, eventPlayer.RightLine, eventPlayer.LeftLine]
-    pass
-
 
 rule "[doomfist.opy]: Detect shift key press by human":
     @Event eachPlayer
@@ -227,10 +226,14 @@ def initiateGroundSlam():
 
 
 def initiateIndicatorSlam():
-    # Calculate indicator slam path
-    eventPlayer.indicator_slam_destination = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 16*eventPlayer.getFacingDirection(), null, getAllPlayers(), false).getHitPosition()
-    eventPlayer.indicator_slam_position = eventPlayer.getPosition()
-    if distance(eventPlayer.indicator_slam_position, eventPlayer.indicator_slam_destination) > 15: # invalid pathing
+    # Calculate destination
+    # First raycast max range towards the direction the crosshair is aimed at
+    eventPlayer.proto_slam_destination = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + OW1_DOOMFIST_SLAM_RADIUS*eventPlayer.getFacingDirection(), null, getAllPlayers(), false).getHitPosition()
+    # Then drop straight down vertically
+    eventPlayer.final_slam_destination = raycast(eventPlayer.proto_slam_destination, eventPlayer.proto_slam_destination+OW1_DOOMFIST_SLAM_RADIUS*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
+
+    # If vertical distance is greater than the margin, it's invalid.
+    if distance(eventPlayer.final_slam_destination, eventPlayer.proto_slam_destination) > OW1_DOOMFIST_INDICATOR_SLAM_MARGIN:
         return
 
     eventPlayer.is_using_slam = true
@@ -246,10 +249,11 @@ def initiateIndicatorSlam():
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.disallowButton(Button.ABILITY_1)
 
-    chase(eventPlayer.indicator_slam_position, eventPlayer.indicator_slam_destination, rate=25, ChaseReeval.NONE)
-    eventPlayer.startForcingPosition(eventPlayer.indicator_slam_position, true)
-    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_destination) < 1 or not eventPlayer.isUsingAbility1(), 9999)
+    eventPlayer.current_position = eventPlayer.getPosition()
+    chase(eventPlayer.current_position, eventPlayer.final_slam_destination, rate=25, ChaseReeval.NONE)
+    eventPlayer.startForcingPosition(eventPlayer.current_position, true)
+    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.final_slam_destination) < 1 or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingPosition()
-    stopChasingVariable(eventPlayer.indicator_slam_position)
+    stopChasingVariable(eventPlayer.current_position)
     eventPlayer.stopForcingThrottle()
     eventPlayer.setGravity(100)
