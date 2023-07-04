@@ -19,10 +19,16 @@ rules/functions as needed.
 # Rotates vector around the y-axis in 3D space
 # See https://stackoverflow.com/q/14607640 for formula on rotating vector in 3D space
 #!define rotateRelativeToYAxis(v, angle_in_degrees) vect((v.x*cosDeg(angle_in_degrees) + v.z*sinDeg(angle_in_degrees)), (v.y), (-v.x*sinDeg(angle_in_degrees) + v.z*cosDeg(angle_in_degrees)))
+# Same function as above but using pre-computed cos/sin lookup tables
+#!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
+
 
 enum SlamType:
     GROUND,
     INDICATOR
+
+playervar cos_lut # lookup table for cosine values (for performance reasons)
+playervar sin_lut # lookup table for sine values (for performance reasons)
 
 playervar i
 
@@ -78,13 +84,25 @@ def initDoomfist():
 def initSlamIndicatorGui():
     eventPlayer.indicator_visibility = null
 
+    eventPlayer.cos_lut = []
+    eventPlayer.sin_lut = []
+
     for eventPlayer.i in range(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION):
-        createBeam(eventPlayer.indicator_visibility, Beam.GOOD, updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxis(getLateralFacingDirection(), evalOnce(eventPlayer.i)*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2)), updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxis(getLateralFacingDirection(), evalOnce(eventPlayer.i)*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2)), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer.cos_lut.append(cosDeg(eventPlayer.i*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2))
+        eventPlayer.sin_lut.append(sinDeg(eventPlayer.i*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2))
+    
+    for eventPlayer.i in range(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION):
+        createBeam(eventPlayer.indicator_visibility, 
+                   Beam.GOOD, 
+                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i))), 
+                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i))), 
+                   Color.BLUE, 
+                   EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     
     # Sphere for debugging indicator slam
     # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
 
-rule "[doomfist.opy]: Detect shift key press by human":
+rule "[doomfist.opy]: Detect shift key press by human": 
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
@@ -210,7 +228,7 @@ rule "[doomfist.opy]: Detect indicator slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition updateEveryTick(eventPlayer.getAltitude() >= 3)
-    @Condition updateEveryTick(distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN)
+    @Condition updateEveryTick(distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN) # If vertical distance is greater than the margin, it's invalid.
 
     eventPlayer.indicator_visibility = eventPlayer
     waitUntil(updateEveryTick(not (eventPlayer.getAltitude() >= 3 and distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN)), 9999)
@@ -241,9 +259,7 @@ def initiateGroundSlam():
 
 
 def initiateIndicatorSlam():
-    # If vertical distance is greater than the margin, it's invalid.
-    if distance(findIndicatorPosition(), findProtoIndicatorPosition()) > OW1_DOOMFIST_INDICATOR_SLAM_MARGIN:
-        return
+    eventPlayer.indicator_visibility = null
 
     eventPlayer.final_indicator_position = findIndicatorPosition()
 
