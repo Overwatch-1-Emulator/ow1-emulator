@@ -227,11 +227,13 @@ def executeSlam():
 rule "[doomfist.opy]: Detect indicator slam":
     @Event eachPlayer
     @Hero doomfist
+    @Condition updateEveryTick(eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0)
     @Condition updateEveryTick(eventPlayer.getAltitude() >= 3)
     @Condition updateEveryTick(distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN) # If vertical distance is greater than the margin, it's invalid.
 
     eventPlayer.indicator_visibility = eventPlayer
-    waitUntil(updateEveryTick(not (eventPlayer.getAltitude() >= 3 and distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN)), 9999)
+    # Wait for condition to go false
+    waitUntil(updateEveryTick(not (eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 and eventPlayer.getAltitude() >= 3 and distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN)), 9999)
     eventPlayer.indicator_visibility = null
 
 
