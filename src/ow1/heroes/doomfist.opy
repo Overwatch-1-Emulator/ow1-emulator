@@ -98,6 +98,7 @@ def initSlamIndicatorGui():
                    findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i)), 
                    Color.BLUE, 
                    EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer.entity_huds.append(getLastCreatedEntity())
     
     # Sphere for debugging indicator slam
     # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
