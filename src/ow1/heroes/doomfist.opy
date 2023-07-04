@@ -11,9 +11,14 @@ rules/functions as needed.
 */
 
 # First raycast max range towards the direction the crosshair is aimed at
-#!define proto_indicator_destination raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition()+OW1_DOOMFIST_SLAM_RADIUS*eventPlayer.getFacingDirection(), null, null, null).getHitPosition()
+#!define findProtoIndicatorPosition() raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition()+OW1_DOOMFIST_SLAM_RADIUS*eventPlayer.getFacingDirection(), null, null, null).getHitPosition()
 # Then drop straight down vertically to find the final indicator position
-#!define final_indicator_destination raycast(proto_indicator_destination, proto_indicator_destination+OW1_DOOMFIST_SLAM_RADIUS*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
+#!define findFinalIndicatorPosition() raycast(findProtoIndicatorPosition(), findProtoIndicatorPosition()+OW1_DOOMFIST_SLAM_RADIUS*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
+# Facing direction vector projected and normalized to the XZ plane
+#!define getLateralFacingDirection() normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z))
+# Rotates vector around the y-axis in 3D space
+# See https://stackoverflow.com/q/14607640 for formula on rotating vector in 3D space
+#!define rotateRelativeToYAxis(v, angle_in_degrees) vect((v.x*cosDeg(angle_in_degrees) + v.z*sinDeg(angle_in_degrees)), (v.y), (-v.x*sinDeg(angle_in_degrees) + v.z*cosDeg(angle_in_degrees)))
 
 enum SlamType:
     GROUND,
@@ -36,6 +41,8 @@ playervar e_pressed_by_bot
 playervar is_using_slam
 playervar slam_to_use
 playervar current_position
+playervar selected_indicator_slam_position
+playervar indicator_visibility
 
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
@@ -69,21 +76,13 @@ def initDoomfist():
 
 
 def initSlamIndicatorGui():
-    # #BOTTOM LINE
-    # createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    # eventPlayer.BottomLine = getLastCreatedEntity()
-    # #TOP LINE
-    # createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    # eventPlayer.TopLine = getLastCreatedEntity()
-    # #RIGHT SIDE
-    # createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0)) * 0.75) + vect(0, 0.15, 0)), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * 4.463) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    # eventPlayer.RightLine = getLastCreatedEntity()
-    # #LEFT SIDE
-    # createBeam(eventPlayer, Beam.GOOD, updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(eventPlayer.getFacingDirection() * vect(1, 0, 1)) * 8 + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -4.463) + vect(0, 0.15, 0), updateEveryTick(eventPlayer.slam_raycast_end_position + normalize(crossProduct(eventPlayer.getFacingDirection() * vect(1, 0, 1), vect(0, 1, 0))) * -0.75) + vect(0, 0.15, 0), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    # eventPlayer.LeftLine = getLastCreatedEntity()
-    # eventPlayer.diamond_indicator = [eventPlayer.BottomLine, eventPlayer.TopLine, eventPlayer.RightLine, eventPlayer.LeftLine]
+    eventPlayer.indicator_visibility = eventPlayer
+
+    for eventPlayer.i in range(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION):
+        createBeam(eventPlayer, Beam.GOOD, updateEveryTick(findFinalIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxis(getLateralFacingDirection(), evalOnce(eventPlayer.i)*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2)), updateEveryTick(findFinalIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxis(getLateralFacingDirection(), evalOnce(eventPlayer.i)*(OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SLAM_FAN_ANGLE/2)), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     
-    createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, final_indicator_destination, OW1_DOOMFIST_INDICATOR_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
+    # Sphere for debugging indicator slam
+    # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findFinalIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
 
 rule "[doomfist.opy]: Detect shift key press by human":
     @Event eachPlayer
@@ -232,8 +231,10 @@ def initiateGroundSlam():
 
 def initiateIndicatorSlam():
     # If vertical distance is greater than the margin, it's invalid.
-    if distance(final_indicator_destination, proto_indicator_destination) > OW1_DOOMFIST_INDICATOR_SLAM_MARGIN:
+    if distance(findFinalIndicatorPosition(), findProtoIndicatorPosition()) > OW1_DOOMFIST_INDICATOR_SLAM_MARGIN:
         return
+
+    eventPlayer.selected_indicator_slam_position = findFinalIndicatorPosition()
 
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
@@ -249,10 +250,11 @@ def initiateIndicatorSlam():
     eventPlayer.disallowButton(Button.ABILITY_1)
 
     eventPlayer.current_position = eventPlayer.getPosition()
-    chase(eventPlayer.current_position, final_indicator_destination, rate=25, ChaseReeval.NONE)
+    chase(eventPlayer.current_position, eventPlayer.selected_indicator_slam_position, rate=25, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
-    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), final_indicator_destination) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN or not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.selected_indicator_slam_position) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingPosition()
     stopChasingVariable(eventPlayer.current_position)
     eventPlayer.stopForcingThrottle()
     eventPlayer.setGravity(100)
+    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # cancel current momentum
