@@ -32,9 +32,9 @@ playervar is_using_slam
 playervar slam_to_use
 
 subroutine initDoomfist
-subroutine initiateUppercut
+subroutine executeUppercut
 subroutine detectUpercutHit
-subroutine initiateSlam
+subroutine executeSlam
 subroutine initiateGroundSlam
 subroutine initiateIndicatorSlam
 
@@ -59,7 +59,7 @@ def initDoomfist():
     eventPlayer.e_pressed_by_bot = false
 
 
-rule "[doomfist.opy]: Detect shift key press":
+rule "[doomfist.opy]: Detect shift key press by human":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
@@ -70,7 +70,7 @@ rule "[doomfist.opy]: Detect shift key press":
     eventPlayer.pressing_uppercut_key = false
 
 
-rule "[doomfist.opy]: Detect e key press":
+rule "[doomfist.opy]: Detect e key press by human":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
@@ -81,7 +81,7 @@ rule "[doomfist.opy]: Detect e key press":
     eventPlayer.pressing_slam_key = false
 
 
-rule "[doomfist.opy]: Perform uppercut":
+rule "[doomfist.opy]: Control flow for uppercut":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.pressing_uppercut_key == true
@@ -89,21 +89,21 @@ rule "[doomfist.opy]: Perform uppercut":
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
     @Condition not eventPlayer.hasStatusEffect(Status.HACKED)
 
-    initiateUppercut()
+    executeUppercut()
 
 
-rule "[doomfist.opy]: Perform slam":
+rule "[doomfist.opy]: Control flow for slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.pressing_slam_key == true
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not eventPlayer.hasStatusEffect(Status.HACKED)
 
-    initiateSlam()
+    executeSlam()
 
 
-def initiateUppercut():
-    @Name "[doomfist.opy]: Execute main logic for Uppercut ability"
+def executeUppercut():
+    @Name "[doomfist.opy]: Execute main logic for Rising Uppercut ability"
 
     eventPlayer.is_using_uppercut = true # Start of uppercut
     eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
@@ -158,8 +158,8 @@ def detectUpercutHit():
         eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].applyImpulse(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z), 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
         
 
-def initiateSlam():
-    @Name "[doomfist.opy]: Execute main logic for Slam"
+def executeSlam():
+    @Name "[doomfist.opy]: Execute main logic for Seismic Slam ability"
 
     eventPlayer.is_using_slam = true
     if eventPlayer.slam_to_use == SlamType.GROUND:
@@ -167,18 +167,19 @@ def initiateSlam():
     else if eventPlayer.slam_to_use == SlamType.INDICATOR:
         # initiateIndicatorSlam()
         initiateGroundSlam()
-    
+
     eventPlayer.is_using_slam = false
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SLAM_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SLAM_COOLDOWN)    
 
 
 def initiateGroundSlam():
     eventPlayer.setGravity(0)
-    eventPlayer.shift_pressed_by_bot = true
     eventPlayer.uppercut_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.shift_pressed_by_bot = true
     eventPlayer.forceButtonPress(Button.ABILITY_1)
+    eventPlayer.shift_pressed_by_bot = false
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
     eventPlayer.setPrimaryFireEnabled(false)
@@ -206,7 +207,6 @@ def initiateGroundSlam():
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
     eventPlayer.setPrimaryFireEnabled(true)
     eventPlayer.setSecondaryFireEnabled(true)
-    eventPlayer.shift_pressed_by_bot = false
 
 def initiateIndicatorSlam():
     pass
