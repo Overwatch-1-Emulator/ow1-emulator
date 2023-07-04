@@ -13,7 +13,7 @@ rules/functions as needed.
 # First raycast max range towards the direction the crosshair is aimed at
 #!define findProtoIndicatorPosition() raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition()+OW1_DOOMFIST_SLAM_RADIUS*eventPlayer.getFacingDirection(), null, null, null).getHitPosition()
 # Then drop straight down vertically to find the final indicator position
-#!define findIndicatorPosition() raycast(findProtoIndicatorPosition(), findProtoIndicatorPosition()+OW1_DOOMFIST_SLAM_RADIUS*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
+#!define findIndicatorPosition() raycast(findProtoIndicatorPosition(), findProtoIndicatorPosition()+OW1_DOOMFIST_INDICATOR_SLAM_MARGIN*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
 # Facing direction vector projected and normalized to the XZ plane
 #!define getLateralFacingDirection() normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z))
 # Rotates vector around the y-axis in 3D space
@@ -47,7 +47,7 @@ playervar e_pressed_by_bot
 playervar is_using_slam
 playervar slam_to_use
 playervar current_position
-playervar final_indicator_position
+playervar final_slam_position
 playervar indicator_visibility
 
 subroutine initDoomfist
@@ -228,13 +228,14 @@ def executeSlam():
 rule "[doomfist.opy]: Detect indicator slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition updateEveryTick(eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0)
-    @Condition updateEveryTick(eventPlayer.getAltitude() >= 3)
-    @Condition updateEveryTick(distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN) # If vertical distance is greater than the margin, it's invalid.
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 # Slam available
+    @Condition not eventPlayer.is_using_slam # Not using ability
+    @Condition eventPlayer.getAltitude() >= 3 # Doomfist mid air
+    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SLAM_MARGIN # If vertical distance is greater than the margin, it's invalid.
 
     eventPlayer.indicator_visibility = eventPlayer
     # Wait for condition to go false
-    waitUntil(updateEveryTick(not (eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 and eventPlayer.getAltitude() >= 3 and distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN)), 9999)
+    waitUntil(not (eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 and not eventPlayer.is_using_slam and eventPlayer.getAltitude() >= 3 and distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN), 9999)
     eventPlayer.indicator_visibility = null
 
 
@@ -265,9 +266,10 @@ def initiateGroundSlam():
 
 
 def initiateIndicatorSlam():
-    eventPlayer.indicator_visibility = null
-
-    eventPlayer.final_indicator_position = findIndicatorPosition()
+    eventPlayer.final_slam_position = findIndicatorPosition()
+    if eventPlayer.final_slam_position != raycast(eventPlayer.final_slam_position+OW1_DOOMFIST_INDICATOR_SLAM_MARGIN*Vector.UP, eventPlayer.final_slam_position+OW1_DOOMFIST_INDICATOR_SLAM_MARGIN*Vector.DOWN, null, null, null).getHitPosition():
+        bigMessage(eventPlayer, "slam cancelled to prevent no clipping")
+        return
 
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
@@ -283,9 +285,9 @@ def initiateIndicatorSlam():
     eventPlayer.disallowButton(Button.ABILITY_1)
 
     eventPlayer.current_position = eventPlayer.getPosition()
-    chase(eventPlayer.current_position, eventPlayer.final_indicator_position, rate=OW1_DOOMFIST_INDICATOR_SLAM_SPEED, ChaseReeval.NONE)
+    chase(eventPlayer.current_position, eventPlayer.final_slam_position, rate=OW1_DOOMFIST_INDICATOR_SLAM_SPEED, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
-    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.final_indicator_position) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN or not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.final_slam_position) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingPosition()
     stopChasingVariable(eventPlayer.current_position)
     eventPlayer.stopForcingThrottle()
