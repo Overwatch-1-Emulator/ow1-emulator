@@ -10,23 +10,33 @@ workshop gamemode through OverPy, and editing the
 rules/functions as needed.
 */
 
+enum SlamType:
+    GROUND,
+    INDICATOR
+
 playervar i
 
 # Variables for uppercut
 playervar pressing_uppercut_key
+playervar shift_pressed_by_bot
 playervar is_using_uppercut
 playervar enemies_in_uppercut_radius
 playervar enemies_in_uppercut_view
 playervar enemies_hit_by_uppercut
+playervar uppercut_cooldown
 
 # Variables for slam
 playervar pressing_slam_key
+playervar e_pressed_by_bot
 playervar is_using_slam
+playervar slam_to_use
 
 subroutine initDoomfist
-subroutine initiateSlam
 subroutine initiateUppercut
 subroutine detectUpercutHit
+subroutine initiateSlam
+subroutine initiateGroundSlam
+subroutine initiateIndicatorSlam
 
 rule "[doomfist.opy]: Initialize Doomfist":
     @Event eachPlayer
@@ -45,21 +55,26 @@ def initDoomfist():
     eventPlayer.setMaxHealth(55.556)
     eventPlayer.setKnockbackReceived(142.895)
 
+    eventPlayer.shift_pressed_by_bot = false
+    eventPlayer.e_pressed_by_bot = false
 
-rule "[doomfist.opy]: press virtual uppercut key on pressing shift":
+
+rule "[doomfist.opy]: Detect shift key press":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
+    @Condition eventPlayer.shift_pressed_by_bot == false
 
     eventPlayer.pressing_uppercut_key = true
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_1), 9999)
     eventPlayer.pressing_uppercut_key = false
 
 
-rule "[doomfist.opy]: press virtual slam key on pressing e":
+rule "[doomfist.opy]: Detect e key press":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
+    @Condition eventPlayer.e_pressed_by_bot == false
 
     eventPlayer.pressing_slam_key = true
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), 9999)
@@ -70,6 +85,7 @@ rule "[doomfist.opy]: Perform uppercut":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.pressing_uppercut_key == true
+    @Condition eventPlayer.is_using_slam == false
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
     @Condition not eventPlayer.hasStatusEffect(Status.HACKED)
 
@@ -145,4 +161,68 @@ def detectUpercutHit():
 def initiateSlam():
     @Name "[doomfist.opy]: Execute main logic for Slam"
 
+    eventPlayer.is_using_slam = true
+    if eventPlayer.slam_to_use == SlamType.GROUND:
+        initiateGroundSlam()
+    else if eventPlayer.slam_to_use == SlamType.INDICATOR:
+        # initiateIndicatorSlam()
+        initiateGroundSlam()
+    
+    eventPlayer.is_using_slam = false
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SLAM_COOLDOWN)
+
+
+def initiateGroundSlam():
+    eventPlayer.setGravity(0)
+    eventPlayer.shift_pressed_by_bot = true
+    eventPlayer.uppercut_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
+    eventPlayer.disallowButton(Button.ABILITY_1)
+    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
+    eventPlayer.setPrimaryFireEnabled(false)
+    eventPlayer.setSecondaryFireEnabled(false)
+    wait()
+    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+    eventPlayer.applyImpulse(normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z)) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+    wait(0.3)
+    # if eventPlayer.UpperFloat == true:
+    #     #eventPlayer.setGravity(100)
+    #     #eventPlayer.stopAcceleration()
+    #     eventPlayer.disallowButton(Button.ABILITY_1)
+    #     eventPlayer.stopForcingButton(Button.ABILITY_1)
+    #     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 999999)
+    #     eventPlayer.stopForcingThrottle()
+    #     waitUntil(not eventPlayer.isUsingAbility1(), 999999)
+    #     eventPlayer.allowButton(Button.PRIMARY_FIRE)
+    #     eventPlayer.allowButton(Button.SECONDARY_FIRE)
+    #     eventPlayer.allowButton(Button.ABILITY_2)
+    # else:
+    eventPlayer.setGravity(100)
+    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 9999)
+    eventPlayer.stopForcingThrottle()
+    waitUntil(not eventPlayer.isUsingAbility1(), 9999)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
+    eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.setSecondaryFireEnabled(true)
+    eventPlayer.shift_pressed_by_bot = false
+
+def initiateIndicatorSlam():
+    pass
+
+
+rule "[doomfist.opy]: Detect indicator slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.getAltitude() >= 3
+
+    eventPlayer.slam_to_use = SlamType.INDICATOR
+
+
+rule "[doomfist.opy]: Detect ground slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.getAltitude() < 3
+
+    eventPlayer.slam_to_use = SlamType.GROUND
