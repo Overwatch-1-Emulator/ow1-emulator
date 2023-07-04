@@ -217,22 +217,10 @@ def initiateGroundSlam():
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.disallowButton(Button.ABILITY_1)
 
-    wait()
-    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
-    eventPlayer.applyImpulse(normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z)) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+    wait() # wait for doom to start moving
+    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # immediately cancel momentum
+    eventPlayer.applyImpulse(normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z)) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
     wait(0.3)
-    # if eventPlayer.UpperFloat == true:
-    #     #eventPlayer.setGravity(100)
-    #     #eventPlayer.stopAcceleration()
-    #     eventPlayer.disallowButton(Button.ABILITY_1)
-    #     eventPlayer.stopForcingButton(Button.ABILITY_1)
-    #     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 999999)
-    #     eventPlayer.stopForcingThrottle()
-    #     waitUntil(not eventPlayer.isUsingAbility1(), 999999)
-    #     eventPlayer.allowButton(Button.PRIMARY_FIRE)
-    #     eventPlayer.allowButton(Button.SECONDARY_FIRE)
-    #     eventPlayer.allowButton(Button.ABILITY_2)
-    # else:
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingThrottle()
