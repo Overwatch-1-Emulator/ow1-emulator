@@ -160,7 +160,7 @@ rule "[bastion.opy]: Initialize tank mode":
     eventPlayer.setMoveSpeed(percent(OW1_BASTION_TANK_MOVE_SPEED)) # move faster in tank mode
     eventPlayer.setDamageDealt(percent(OW1_BASTION_TANK_DAMAGE/OW2_BASTION_GRENADE_DAMAGE)) # deal more damage in tank mode
     eventPlayer.setProjectileSpeed(percent(OW1_BASTION_TANK_PROJECTILE_SPEED/OW2_BASTION_GRENADE_PROJECTILE_SPEED)) # increase grenade travel speed (to mimic tank shells)
-    eventPlayer.setProjectileGravity(0)
+    eventPlayer.setProjectileGravity(5)
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE) # Disallow firing machine gun
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
