@@ -94,8 +94,8 @@ def initSlamIndicatorGui():
     for eventPlayer.i in range(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION):
         createBeam(eventPlayer.indicator_visibility, 
                    Beam.GOOD, 
-                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i))), 
-                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i))), 
+                   findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i)), 
+                   findIndicatorPosition() + OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i)), 
                    Color.BLUE, 
                    EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     
