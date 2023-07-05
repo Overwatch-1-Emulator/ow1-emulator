@@ -4,6 +4,7 @@ globalvar i
 
 playervar text_huds
 playervar progress_bar_huds
+playervar entity_huds
 
 def resetHero():
     @Name "[generic.opy]: Reset hero stats/gui"
@@ -36,10 +37,13 @@ def resetHero():
         destroyHudText(eventPlayer.text_huds[i])
     for i in range(len(eventPlayer.progress_bar_huds)):
         destroyProgressBarHud(eventPlayer.progress_bar_huds[i])
+    for i in range(len(eventPlayer.entity_huds)):
+        destroyEffect(eventPlayer.entity_huds[i])
     
 
     eventPlayer.text_huds = []
     eventPlayer.progress_bar_huds = []
+    eventPlayer.entity_huds = []
 
     eventPlayer.initialized = false
 

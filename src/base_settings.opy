@@ -75,9 +75,6 @@ settings {
             },
             "doomfist": {
                 "ammoRegenerationTime%": 162,
-                "damageDealt%": 120,
-                "ability1Cooldown%": 86,
-                "ability2Cooldown%": 86
             },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
@@ -158,7 +155,6 @@ settings {
                 "ultGen%": percent(ow2_ult_cost_ZENYATTA/ow1_ult_cost_ZENYATTA)
             },
             "disabledHeroes": [
-                "doomfist",
                 "junkerQueen",
                 "kiriko",
                 "lifeweaver",
