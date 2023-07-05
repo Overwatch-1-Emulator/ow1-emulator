@@ -267,10 +267,6 @@ def initiateGroundSlam():
 
 def initiateIndicatorSlam():
     eventPlayer.final_slam_position = findIndicatorPosition()
-    if eventPlayer.final_slam_position != raycast(eventPlayer.final_slam_position+OW1_DOOMFIST_INDICATOR_SLAM_MARGIN*Vector.UP, eventPlayer.final_slam_position+OW1_DOOMFIST_INDICATOR_SLAM_MARGIN*Vector.DOWN, null, null, null).getHitPosition():
-        bigMessage(eventPlayer, "slam cancelled to prevent no clipping")
-        return
-
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
@@ -287,7 +283,7 @@ def initiateIndicatorSlam():
     eventPlayer.current_position = eventPlayer.getPosition()
     chase(eventPlayer.current_position, eventPlayer.final_slam_position, rate=OW1_DOOMFIST_INDICATOR_SLAM_SPEED, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
-    waitUntil(eventPlayer.isOnGround() or distance(eventPlayer.getPosition(), eventPlayer.final_slam_position) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN or not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil(eventPlayer.getAltitude() <= 0.01 or distance(eventPlayer.current_position, eventPlayer.final_slam_position) <= 0.01 or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingPosition()
     stopChasingVariable(eventPlayer.current_position)
     eventPlayer.stopForcingThrottle()

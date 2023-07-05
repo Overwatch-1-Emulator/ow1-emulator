@@ -28,6 +28,12 @@ rule "[utilities.opy]: Display server performance characteristics":
     hudHeader(getAllPlayers(), l"{0}: {1}".format(l"Server Load Peak", l"{0}%".format(getPeakServerLoad())), HudPosition.LEFT, 2, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
 
 
+rule "[utilities.opy]: Debug HUD":
+    @Disabled
+    @Event eachPlayer
+    
+    hudSubheader(eventPlayer, "{}".format(eventPlayer.getAltitude()), HudPosition.TOP, 0, Color.WHITE, HudReeval.STRING)
+
 rule "[utilities.opy]: detect hero switch":
     @Event eachPlayer
     @Condition eventPlayer.last_hero_played != eventPlayer.getCurrentHero()
