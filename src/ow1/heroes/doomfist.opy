@@ -47,7 +47,7 @@ playervar e_pressed_by_bot
 playervar is_using_slam
 playervar slam_to_use
 playervar current_position
-playervar final_slam_position
+playervar valid_slam_position
 playervar indicator_visibility
 
 subroutine initDoomfist
@@ -201,21 +201,31 @@ def detectUpercutHit():
         playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].getPosition(), 100)
         eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].applyImpulse(Vector.UP, 15, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
         eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].applyImpulse(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z), 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
-        
+
+
+rule "[doomfist.opy]: Detect ground slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT)
+
+    eventPlayer.slam_to_use = SlamType.GROUND
+
+
+rule "[doomfist.opy]: Detect indicator slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition updateEveryTick(eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT)
+
+    eventPlayer.slam_to_use = SlamType.INDICATOR
+
 
 def executeSlam():
     @Name "[doomfist.opy]: Execute main logic for Seismic Slam ability"
 
-    if eventPlayer.indicator_visibility == eventPlayer:
-        eventPlayer.slam_to_use = SlamType.INDICATOR
-    else:
-        eventPlayer.slam_to_use = SlamType.GROUND
-
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
-        initiateIndicatorSlam()
+        if eventPlayer.indicator_visibility == eventPlayer: # Only execute indicator slam if indicator visible
+            initiateIndicatorSlam()
     else if eventPlayer.slam_to_use == SlamType.GROUND:
-        initiateGroundSlam()
-    else:
         initiateGroundSlam()
 
     if eventPlayer.is_using_slam == true:
@@ -225,24 +235,50 @@ def executeSlam():
         eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SLAM_COOLDOWN)
 
 
-rule "[doomfist.opy]: Detect indicator slam":
+rule "[doomfist.opy]: Indicator slam validity":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 # Slam available
     @Condition not eventPlayer.is_using_slam # Not using ability
-    @Condition eventPlayer.getAltitude() >= 3 # Doomfist mid air
+    @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
     @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SLAM_MARGIN # If vertical distance is greater than the margin, it's invalid.
 
     eventPlayer.indicator_visibility = eventPlayer
-    # Wait for condition to go false
-    waitUntil(not (eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 and not eventPlayer.is_using_slam and eventPlayer.getAltitude() >= 3 and distance(findIndicatorPosition(), findProtoIndicatorPosition()) <= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN), 9999)
+
+
+rule "[doomfist.opy]: Hide indicator while slam not available":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0
+
+    eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Hide indicator while using slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.is_using_slam
+
+    eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Hide indicator if not indicator slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.slam_to_use != SlamType.INDICATOR
+
+    eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Hide indicator slam is floating":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SLAM_MARGIN
+
     eventPlayer.indicator_visibility = null
 
 
 def initiateGroundSlam():
-    if eventPlayer.getAltitude() >= 3:
-        return
-
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
@@ -266,7 +302,7 @@ def initiateGroundSlam():
 
 
 def initiateIndicatorSlam():
-    eventPlayer.final_slam_position = findIndicatorPosition()
+    eventPlayer.valid_slam_position = findIndicatorPosition()
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
@@ -281,9 +317,9 @@ def initiateIndicatorSlam():
     eventPlayer.disallowButton(Button.ABILITY_1)
 
     eventPlayer.current_position = eventPlayer.getPosition()
-    chase(eventPlayer.current_position, eventPlayer.final_slam_position, rate=OW1_DOOMFIST_INDICATOR_SLAM_SPEED, ChaseReeval.NONE)
+    chase(eventPlayer.current_position, eventPlayer.valid_slam_position, rate=OW1_DOOMFIST_INDICATOR_SLAM_SPEED, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
-    waitUntil(eventPlayer.getAltitude() <= 0.01 or distance(eventPlayer.current_position, eventPlayer.final_slam_position) <= 0.01 or not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil((eventPlayer.getAltitude() <= 0.01 and distance(eventPlayer.current_position, eventPlayer.valid_slam_position) <= 0.01) or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingPosition()
     stopChasingVariable(eventPlayer.current_position)
     eventPlayer.stopForcingThrottle()
