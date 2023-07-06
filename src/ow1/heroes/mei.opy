@@ -4,7 +4,7 @@ playervar start_freeze
 playervar freeze_percent
 playervar is_frozen
 playervar reset_time
-playervar freeze_move_speed
+playervar freeze_move_percent
 
 def initMei():
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
