@@ -20,7 +20,7 @@ rule "[genji.opy]: Change dash damage":
     @Hero genji
     @Condition eventPlayer.isUsingAbility1() == true
 
-    eventPlayer.setDamageDealt(99.5)
+    eventPlayer.setDamageDealt(100)
     waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))    
 
