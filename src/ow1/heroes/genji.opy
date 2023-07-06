@@ -29,5 +29,5 @@ rule "[genji.opy]: Change dash damage":
 
     eventPlayer.setDamageDealt(99.5)
     waitUntil(eventPlayer.isUsingAbility1() == false,9999)
-    eventPlayer.setDamageDealt(107)    
+    eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))    
 
