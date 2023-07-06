@@ -15,19 +15,12 @@ rule "[genji.opy]: Initialize Genji":
     initGenji()
     eventPlayer.initialized = true
 
-rule "[genji.opy]: Test Damage GUI":
-    @Event playerDealtDamage
-    @Hero genji
-
-
-    hudHeader(getAllPlayers(), "Damage: {0}".format(eventDamage), HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-
 rule "[genji.opy]: Change dash damage":
     @Event eachPlayer
     @Hero genji
     @Condition eventPlayer.isUsingAbility1() == true
 
     eventPlayer.setDamageDealt(99.5)
-    waitUntil(eventPlayer.isUsingAbility1() == false,9999)
+    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))    
 
