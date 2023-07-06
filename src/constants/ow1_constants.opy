@@ -140,6 +140,7 @@
 # Sigma
 #!define OW1_SIGMA_HEALTH 300
 #!define OW1_SIGMA_SHIELDS 100
+#!define OW1_SIGMA_ROCK_DAMAGE 70
 
 # Symmetra
 #!define OW1_SYMMETRA_CLIP_SIZE 70

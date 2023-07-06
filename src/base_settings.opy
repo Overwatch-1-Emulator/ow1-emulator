@@ -121,7 +121,7 @@ settings {
             "sigma": {
                 "secondaryFireRechargeRate%": 80,
                 "health%": percent(ow1_barrier_health_SIGMA/ow2_barrier_health_SIGMA),  # for barrier
-                "ultGen%": percent(ow2_ult_cost_SIGMA/ow1_ult_cost_SIGMA)
+                "ultGen%": percent(ow2_ult_cost_SIGMA/ow1_ult_cost_SIGMA),
             },
             "soldier": {
                 "ultGen%": percent(ow2_ult_cost_SOLDIER/ow1_ult_cost_SOLDIER)
@@ -165,3 +165,6 @@ settings {
         }
     }
 }
+
+
+

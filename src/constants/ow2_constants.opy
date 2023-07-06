@@ -71,6 +71,9 @@
 # Roadhog
 #!define OW2_ROADHOG_SHOTGUN_DAMAGE 150
 
+# Sigma
+#!define OW2_SIGMA_ROCK_DAMAGE 80
+
 # Tracer
 #!define OW2_TRACER_PISTOL_DAMAGE 5.5
 #!define OW2_WINSTON_ULT_COST 1850
