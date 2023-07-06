@@ -4,6 +4,7 @@ playervar start_freeze
 playervar freeze_percent
 playervar is_frozen
 playervar reset_time
+playervar freeze_move_speed
 
 def initMei():
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
@@ -23,14 +24,13 @@ rule "[mei.opy]: Track freezing on enemy":
     @Condition eventAbility == Button.PRIMARY_FIRE and victim.is_frozen == false
 
     stopChasingVariable(victim.reset_time)
-    wait(0.016, Wait.ABORT_WHEN_FALSE) # wait 0.016 is 1 tick
     if victim.start_freeze == false: # start the freeze time at 20
         victim.freeze_percent = 20
+        victim.freeze_move_speed = 80
     if victim.freeze_percent < 100: # make sure it doesn't reset back to 20 
         victim.start_freeze = true
     victim.freeze_percent += 2.85 # 2.85% each tick from wiki
-    if victim.freeze_percent <= 70: # make sure you can only max freeze 70% movement speed
-        victim.setMoveSpeed(victim.freeze_percent)
+    victim.freeze_move_speed -= 2.85
 
 rule "[mei.opy]: Freeze enemy":
     @Event playerDealtDamage
@@ -44,13 +44,25 @@ rule "[mei.opy]: Freeze enemy":
     victim.is_frozen = false
     victim.start_freeze = false
     victim.freeze_percent = 20
+    victim.freeze_move_speed = 80
+
+
+rule "[mei.opy]: Slow movement":
+    @Event playerDealtDamage
+    @Hero mei
+    @Condition eventAbility == Button.PRIMARY_FIRE and victim.is_frozen == false
+
+    if victim.freeze_move_speed >= 80:
+        victim.setMoveSpeed(victim.freeze_move_speed)
+    elif victim.freeze_move_speed >= 30:
+        victim.setMoveSpeed(30)
 
 rule "[mei.opy]: Start canceling slow movement freeze":
     @Event playerDealtDamage
     @Hero mei
     @Condition eventAbility == Button.PRIMARY_FIRE and victim.is_frozen == false
 
-    victim.reset_time = 5
+    victim.reset_time = 1
     waitUntil(eventPlayer.isFiringPrimaryFire() == false, 9999)
     chase(victim.reset_time, 0, rate=1, ChaseReeval.DESTINATION_AND_RATE)
 
