@@ -20,7 +20,7 @@ rule "[mei.opy]: Initialize Mei":
 rule "[mei.opy]: Track freezing on enemy":
     @Event playerDealtDamage
     @Hero mei
-    @Condition eventPlayer.isFiringPrimaryFire() == true and victim.is_frozen == false
+    @Condition eventAbility == Button.PRIMARY_FIRE and victim.is_frozen == false
 
     stopChasingVariable(victim.reset_time)
     wait(0.016, Wait.ABORT_WHEN_FALSE) # wait 0.016 is 1 tick
@@ -34,22 +34,21 @@ rule "[mei.opy]: Track freezing on enemy":
 
 rule "[mei.opy]: Freeze enemy":
     @Event playerDealtDamage
-    @Hero mei
-    @Condition eventPlayer.isFiringPrimaryFire() == true and victim.is_frozen == false
+    @Hero all
+    @Condition victim.freeze_percent >= 100
 
-    if victim.freeze_percent >= 100: # if its above 100, freeze em!
-        victim.setStatusEffect(eventPlayer, Status.FROZEN, 1.3)
-        victim.is_frozen = true
-        wait(1.5)
-        victim.setMoveSpeed(100)
-        victim.is_frozen = false
-        victim.start_freeze = false
-        victim.freeze_percent = 20
+    victim.setStatusEffect(eventPlayer, Status.FROZEN, 1.3)
+    victim.is_frozen = true
+    wait(1.5)
+    victim.setMoveSpeed(100)
+    victim.is_frozen = false
+    victim.start_freeze = false
+    victim.freeze_percent = 20
 
 rule "[mei.opy]: Start canceling slow movement freeze":
     @Event playerDealtDamage
     @Hero mei
-    @Condition eventPlayer.isFiringPrimaryFire() == true and victim.is_frozen == false
+    @Condition eventAbility == Button.PRIMARY_FIRE and victim.is_frozen == false
 
     victim.reset_time = 5
     waitUntil(eventPlayer.isFiringPrimaryFire() == false, 9999)
