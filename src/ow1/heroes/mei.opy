@@ -1,5 +1,11 @@
 #!mainFile "../../main.opy"
 
+playervar start_freeze
+playervar freeze_percent
+playervar is_frozen
+playervar reset_time
+playervar freeze_penalty_percent
+
 def initMei():
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
@@ -12,10 +18,49 @@ rule "[mei.opy]: Initialize Mei":
     initMei()
     eventPlayer.initialized = true
 
-rule "[mei.opy] Freeze enemy": # credit to snappycreeper for this rule
+rule "[mei.opy]: Track freezing on enemy":
     @Event playerDealtDamage
     @Hero mei
-    @Condition eventPlayer.isFiringPrimaryFire() == true
+    @Condition eventAbility == Button.PRIMARY_FIRE and victim.is_frozen == false
+
+    stopChasingVariable(victim.reset_time)
+    if victim.start_freeze == false: # start the freeze time at 20
+        victim.freeze_percent = 20
+    if victim.freeze_percent < 100: # make sure it doesn't reset back to 20 
+        victim.start_freeze = true
+    victim.freeze_percent += 2.85 # 2.85% each tick from wiki
+    if victim.freeze_percent <= 70:
+        victim.freeze_penalty_percent = victim.freeze_percent
+    victim.setMoveSpeed(100-victim.freeze_penalty_percent)
     
-    wait(1.5, Wait.ABORT_WHEN_FALSE)
-    victim.setStatusEffect(eventPlayer, Status.FROZEN, 1.5)
+
+rule "[mei.opy]: Freeze enemy":
+    @Event playerDealtDamage
+    @Hero all
+    @Condition victim.freeze_percent >= 100
+
+    victim.setStatusEffect(eventPlayer, Status.FROZEN, 1.3)
+    victim.is_frozen = true
+    wait(1.5)
+    victim.setMoveSpeed(100)
+    victim.is_frozen = false
+    victim.start_freeze = false
+    victim.freeze_percent = 20
+
+rule "[mei.opy]: Start canceling slow movement freeze":
+    @Event playerDealtDamage
+    @Hero mei
+    @Condition eventAbility == Button.PRIMARY_FIRE and victim.is_frozen == false
+
+    victim.reset_time = 1
+    waitUntil(eventPlayer.isFiringPrimaryFire() == false, 9999)
+    chase(victim.reset_time, 0, rate=1, ChaseReeval.DESTINATION_AND_RATE)
+
+rule "[mei.opy]: Cancel slow movement freeze":
+    @Event eachPlayer
+    @Hero all
+    @Condition eventPlayer.reset_time == 0
+
+    stopChasingVariable(eventPlayer.reset_time)
+    eventPlayer.setMoveSpeed(100)
+    eventPlayer.freeze_percent = 20
