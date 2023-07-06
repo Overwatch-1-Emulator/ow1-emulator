@@ -25,3 +25,11 @@ rule "[dva.opy]: Set default missile cooldown":
     
     waitUntil(not eventPlayer.isUsingAbility2(), 9999)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DVA_MISSILE_COOLDOWN)
+
+rule "[dva.opy]: Make melee cancel DVa boosters":
+    @Event eachPlayer
+    @Hero dva
+    @Condition eventPlayer.isMeleeing() == true
+    @Condition eventPlayer.isUsingAbility1() == true
+    
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
