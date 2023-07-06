@@ -16,3 +16,12 @@ rule "[sigma.opy]: Initialize Sigma":
 
     initSigma()
     eventPlayer.initialized = true
+
+rule "[sigma.opy]: Change accretion damage":
+    @Event eachPlayer
+    @Hero sigma
+    @Condition eventPlayer.isUsingAbility2() == true
+
+    eventPlayer.setDamageDealt(percent(OW1_SIGMA_ROCK_DAMAGE/OW2_SIGMA_ROCK_DAMAGE))
+    waitUntil(eventPlayer.isUsingAbility2() == false,9999)
+    eventPlayer.setDamageDealt(100)
