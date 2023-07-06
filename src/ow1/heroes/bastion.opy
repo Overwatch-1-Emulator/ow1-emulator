@@ -388,3 +388,12 @@ rule "[bastion.opy]: Reload tank shells":
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, ow1_bastion_tank_shell_reload_time) # modify cooldown for tank shell
     wait(ow1_bastion_tank_shell_reload_time) # Wait tank shell reload time
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0) # Set tank shell as available
+
+rule "[bastion.opy]: Remove knockback while in turret form":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1() == true
+
+    eventPlayer.setKnockbackReceived(0)
+    waitUntil(not eventPlayer.isUsingAbility1(), 99999)
+    eventPlayer.setKnockbackReceived(100)
