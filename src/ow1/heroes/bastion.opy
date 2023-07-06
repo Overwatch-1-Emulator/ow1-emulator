@@ -268,6 +268,7 @@ rule "[bastion.opy]: Start self-repair on ability 2 or secondary fire":
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
     @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
+    @Condition eventPlayer.isDead() == false
     
     eventPlayer.self_repair = true
 
