@@ -11,3 +11,12 @@ rule "[mercy.opy]: Initialize mercy":
 
     initMercy()
     eventPlayer.initialized = true
+
+rule "[mercy.opy]: Change GA Cooldown":
+    @Event eachPlayer
+    @Hero mercy
+    @Condition eventPlayer.isUsingAbility1() == true and eventPlayer.isHoldingButton(Button.JUMP) == true or eventPlayer.isUsingAbility1() == true and eventPlayer.isHoldingButton(Button.CROUCH) == true
+
+    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+   
