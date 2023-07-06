@@ -26,4 +26,6 @@
 #!include "ow1/heroes/widowmaker.opy"
 #!include "ow1/heroes/winston.opy"
 #!include "ow1/heroes/wreckingball.opy"
+#!include "ow1/heroes/zenyatta.opy"
 #!include "ow1/heroes/zarya.opy"
+

@@ -1,13 +1,14 @@
 #!mainFile "../../main.opy"
 
-def initBaptiste():
-    # [TODO]
-    pass
+def initZenyatta():
+    eventPlayer.setAmmo(0, OW1_ZEN_CLIP_SIZE)
+    eventPlayer.setMaxAmmo(0, OW1_ZEN_CLIP_SIZE)
+    eventPlayer.setKnockbackDealt(50)
 
-rule "[ashe.opy]: Initialize Baptiste":
+rule "[zenyatta.opy]: Initialize Zenyatta":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero zenyatta
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initZenyatta()
     eventPlayer.initialized = true
