@@ -38,3 +38,21 @@ rule "[mccree.opy]: Stun flashed enemy":
     @Condition attacker.getCurrentHero() == Hero.MCCREE or attacker.getCurrentHero() == Hero.GENJI
 
     victim.setStatusEffect(eventPlayer, Status.STUNNED, OW1_MCCREE_FLASHBANG_STUN_DURATION)
+
+rule "[mccree.opy]: Remove damage reduction during combat roll":
+    @Event eachPlayer
+    @Hero mccree
+    @Condition eventPlayer.isUsingAbility1() == true
+    
+    startDamageModification(eventPlayer, getAllPlayers(), 200, DamageReeval.RECEIVERS_DAMAGERS_AND_DMGPERCENT)
+    waitUntil(not eventPlayer.isUsingAbility1(), 0.5)
+    stopDamageModification(getLastDamageModification())
+
+rule "[mccree.opy]: Remove damage reduction during ultimate":
+    @Event eachPlayer
+    @Hero mccree
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    startDamageModification(eventPlayer, getAllPlayers(), 180, DamageReeval.RECEIVERS_DAMAGERS_AND_DMGPERCENT)
+    waitUntil(not eventPlayer.isUsingUltimate(), 7.1)
+    stopDamageModification(getLastDamageModification())
