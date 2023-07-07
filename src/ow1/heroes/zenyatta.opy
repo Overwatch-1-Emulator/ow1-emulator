@@ -3,7 +3,7 @@
 def initZenyatta():
     eventPlayer.setAmmo(0, OW1_ZEN_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ZEN_CLIP_SIZE)
-    eventPlayer.setKnockbackDealt(50)
+    eventPlayer.setKnockbackDealt(25)
 
 rule "[zenyatta.opy]: Initialize Zenyatta":
     @Event eachPlayer
