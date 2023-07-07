@@ -147,7 +147,7 @@ settings {
             },
             "hammond": {
                 "ultGen%": percent(ow2_ult_cost_HAMMOND/ow1_ult_cost_HAMMOND),
-                "ability3Cooldown%": 120
+                "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_CD/OW2_WRECKING_BALL_PILEDRIVER_CD)
             },
             "zarya": {
                 "health%": percent(ow1_barrier_health_ZARYA/ow2_barrier_health_ZARYA),
