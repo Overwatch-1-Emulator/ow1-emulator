@@ -146,7 +146,8 @@ settings {
                 "ultGen%": percent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST)
             },
             "hammond": {
-                "ultGen%": percent(ow2_ult_cost_HAMMOND/ow1_ult_cost_HAMMOND)
+                "ultGen%": percent(ow2_ult_cost_HAMMOND/ow1_ult_cost_HAMMOND),
+                "ability3Cooldown%": 120
             },
             "zarya": {
                 "health%": percent(ow1_barrier_health_ZARYA/ow2_barrier_health_ZARYA),
