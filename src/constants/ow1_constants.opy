@@ -165,11 +165,11 @@
 #!define OW1_WRECKING_BALL_HEALTH 500
 #!define OW1_WRECKING_BALL_ARMOR 100
 
-# Zenyatta
-#!define OW1_ZEN_CLIP_SIZE 20
-
 # Zarya
 #!define OW1_ZARYA_HEALTH 200
 #!define OW1_ZARYA_SHIELDS 200
 #!define ow1_cooldown_ability1_ZARYA 10
 #!define ow1_cooldown_ability2_ZARYA 8
+
+# Zenyatta
+#!define OW1_ZEN_CLIP_SIZE 20
