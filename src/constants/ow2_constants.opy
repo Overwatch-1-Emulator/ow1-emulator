@@ -77,3 +77,6 @@
 # Tracer
 #!define OW2_TRACER_PISTOL_DAMAGE 5.5
 #!define OW2_WINSTON_ULT_COST 1850
+
+# Wrecking ball
+#!define OW2_WRECKING_BALL_PILEDRIVER_CD 8
