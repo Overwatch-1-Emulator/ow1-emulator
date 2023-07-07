@@ -170,3 +170,6 @@
 #!define OW1_ZARYA_SHIELDS 200
 #!define ow1_cooldown_ability1_ZARYA 10
 #!define ow1_cooldown_ability2_ZARYA 8
+
+# Zenyatta
+#!define OW1_ZEN_CLIP_SIZE 20

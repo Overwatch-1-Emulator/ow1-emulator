@@ -28,6 +28,7 @@ def resetHero():
     eventPlayer.setHealingDealt(100)
     eventPlayer.setHealingReceived(100)
     eventPlayer.setKnockbackReceived(100)
+    eventPlayer.setKnockbackDealt(100)
     clearCustomHealth()
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
