@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
-playervar regen_burst_cooldown 
+playervar regen_burst_cooldown
+playervar regen_burst_hps
 playervar regen_burst_targets # stores players affected by Baptiste's regen burst.
 
 def initBaptiste():
@@ -34,13 +35,22 @@ rule "[baptiste.opy]: Use OW1 regenerative burst":
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
     @Condition eventPlayer.regen_burst_cooldown == 0
     @Condition eventPlayer.isAlive()
-    # @Condition is not stunned slept etc
+    # TODO @Condition is not stunned slept etc
 
-    eventPlayer.regen_burst_cooldown = 5
-    eventPlayer.regen_burst_targets = getPlayersInRadius(eventPlayer.getPosition(), OW1_BAPTISTE_REGEN_BURST_RADIUS, eventPlayer.getTeam(), LosCheck.SURFACES_AND_ENEMY_BARRIERS)
+    eventPlayer.regen_burst_cooldown = OW1_BAPTISTE_REGEN_BURST_COOLDOWN
+
+    createEffect(getAllPlayers(), Effect.RING, Color.YELLOW, eventPlayer, OW1_BAPTISTE_REGEN_BURST_RADIUS, EffectReeval.NONE)
+
+    # find allies within regen burst range, excluding baptiste himself
+    eventPlayer.regen_burst_targets = [
+        p for p in getPlayersInRadius(eventPlayer.getPosition(), OW1_BAPTISTE_REGEN_BURST_RADIUS, eventPlayer.getTeam(), LosCheck.SURFACES_AND_ENEMY_BARRIERS)
+        if p != eventPlayer
+    ]
+
+    # baptiste heals more from his own regen burst than allies, so we handle him separately
+    eventPlayer.startHoT(eventPlayer, OW1_BAPTISTE_REGEN_BURST_DURATION, OW1_BAPTISTE_REGEN_BURST_SELF_HPS)
+
     for i in range(len(eventPlayer.regen_burst_targets)):
-        if eventPlayer.regen_burst_targets[i] != eventPlayer:
-            eventPlayer.regen_burst_targets[i].startHoT(eventPlayer, OW1_BAPTISTE_REGEN_BURST_DURATION, 10)
-        else:
-            eventPlayer.regen_burst_targets[i].startHoT(eventPlayer, OW1_BAPTISTE_REGEN_BURST_DURATION, 10)
+        eventPlayer.regen_burst_targets[i].startHoT(eventPlayer, OW1_BAPTISTE_REGEN_BURST_DURATION, OW1_BAPTISTE_REGEN_BURST_ALLY_HPS)
+        
     chase(eventPlayer.regen_burst_cooldown, 0, rate=1, ChaseReeval.NONE)
