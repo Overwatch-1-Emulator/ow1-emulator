@@ -55,7 +55,7 @@ settings {
     "heroes": {
         "allTeams": {
             "ana": {
-                "ultGen%": percent(OW2_DVA_ULT_COST/OW1_ANA_ULT_COST)
+                "ultGen%": percent(OW2_ANA_ULT_COST/OW1_ANA_ULT_COST)
             },
             "ashe": {
                 "ultGen%": percent(OW2_ASHE_ULT_COST/OW1_ASHE_ULT_COST)
