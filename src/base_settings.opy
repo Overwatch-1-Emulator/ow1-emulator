@@ -2,7 +2,7 @@
 
 settings {
     "main": {
-        "description": "ecksdee#11729's attempt to accurately recreate the last version of Overwatch 1 using workshop.\r\n\r\nDiscord Server: \r\nhttps://discord.gg/BuJnHqXNx\r\n\r\nGamemode Description: \r\nhttps://workshop.codes/overwatch1-emulator\r\n\r\nSource Code: \r\nhttps://github.com/MaxwellJung/ow1_emulator\r\n\r\nRelease build: KHTG0\r\nStaging build: ESMXJ",
+        "description": "ecksdee#11729's attempt to accurately recreate the last version of Overwatch 1 using workshop.\r\n\r\nDiscord Server: \r\nhttps://discord.gg/GMVqwYXbWB\r\n\r\nGamemode Description: \r\nhttps://workshop.codes/overwatch1-emulator\r\n\r\nSource Code: \r\nhttps://github.com/MaxwellJung/ow1_emulator\r\n\r\nRelease build: KHTG0\r\nStaging build: ESMXJ",
         "modeName": "Overwatch 1 Emulator"
     },
     "lobby": {
