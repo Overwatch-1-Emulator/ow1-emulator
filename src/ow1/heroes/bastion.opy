@@ -284,6 +284,14 @@ rule "[bastion.opy]: Stop self-repair on ability 2 release":
     eventPlayer.self_repair = false
 
 
+rule "[bastion.opy]: Stop self-repair and hide its GUI on death":
+    @Event playerDied
+    @Hero bastion
+
+    eventPlayer.self_repair = false
+    eventPlayer.heal_gui_visibility = null
+
+
 rule "[bastion.opy]: Stop self-repair when no healing resource left":
     @Event eachPlayer
     @Hero bastion
