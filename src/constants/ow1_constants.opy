@@ -45,9 +45,7 @@
 
 ###################################
 # misc
-#!define ow1_shield_bash_stun_duration 0.75
 #!define ow1_sleepdart_sleep_duration 5
-#!define ow1_rally_speed_buff 1.3
 #!define ow1_mercy_guardian_angel_recovery_time 1
 
 ###################################
@@ -86,6 +84,10 @@
 # Brigitte
 #!define OW1_BRIGITTE_HEALTH 150
 #!define OW1_BRIGITTE_ARMOR 50
+#!define OW1_BRIGITTE_SHIELD_BASH_STUN_DURATION 0.75
+#!define OW1_BRIGITTE_RALLY_SPEED_BUFF 1.3
+#!define OW1_BRIGITTE_SHIELD_TO_ENEMY_BARRIER_DISTANCE 1
+#!define OW1_BRIGITTE_SHIELD_BASH_DISTANCE 6.85
 
 # Doomfist
 #!define OW1_DOOMFIST_UPPERCUT_COOLDOWN 6

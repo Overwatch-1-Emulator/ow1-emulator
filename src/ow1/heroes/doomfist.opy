@@ -14,11 +14,6 @@ rules/functions as needed.
 #!define findProtoIndicatorPosition() raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition()+OW1_DOOMFIST_SLAM_RADIUS*eventPlayer.getFacingDirection(), null, null, null).getHitPosition()
 # Then drop straight down vertically to find the final indicator position
 #!define findIndicatorPosition() raycast(findProtoIndicatorPosition(), findProtoIndicatorPosition()+OW1_DOOMFIST_INDICATOR_SLAM_MARGIN*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
-# Facing direction vector projected and normalized to the XZ plane
-#!define getLateralFacingDirection() normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z))
-# Rotates vector around the y-axis in 3D space
-# See https://stackoverflow.com/q/14607640 for formula on rotating vector in 3D space
-#!define rotateRelativeToYAxis(v, angle_in_degrees) vect((v.x*cosDeg(angle_in_degrees) + v.z*sinDeg(angle_in_degrees)), (v.y), (-v.x*sinDeg(angle_in_degrees) + v.z*cosDeg(angle_in_degrees)))
 # Same function as above but using pre-computed cos/sin lookup tables
 #!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
 

@@ -15,6 +15,13 @@
 # Convert angle in degrees to radians
 #!define toRadians(deg) ((Math.PI/180)*deg)
 
+# Facing direction vector projected and normalized to the XZ plane
+#!define getLateralFacingDirection() normalize(eventPlayer.getFacingDirection() * (Vector.LEFT + Vector.RIGHT))
+
+# Rotates vector around the y-axis in 3D space
+# See https://stackoverflow.com/q/14607640 for formula on rotating vector in 3D space
+#!define rotateRelativeToYAxis(v, angle_in_degrees) vect((v.x*cosDeg(angle_in_degrees) + v.z*sinDeg(angle_in_degrees)), (v.y), (-v.x*sinDeg(angle_in_degrees) + v.z*cosDeg(angle_in_degrees)))
+
 
 playervar last_hero_played
 playervar hero_switched

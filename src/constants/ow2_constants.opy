@@ -46,7 +46,6 @@
 ###################################
 # Ammo count
 #!define ow2_mag_grenade_speed 20
-#!define ow2_rally_speed_buff 1.15
 
 
 ###################################
@@ -63,6 +62,8 @@
 #!define OW2_BASTION_RECON_GUN_DAMAGE 20
 #!define OW2_BASTION_GRENADE_DAMAGE 115
 #!define OW2_BASTION_GRENADE_PROJECTILE_SPEED 40
+
+#!define OW2_BRIGITTE_RALLY_SPEED_BUFF 1.15
 
 # Genji
 #!define OW2_GENJI_CLIP_SIZE 30
