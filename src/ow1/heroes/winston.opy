@@ -25,4 +25,4 @@ rule "[winston.opy]: Set default leap cooldown":
     @Condition eventPlayer.isUsingAbility1()
     @Condition not eventPlayer.isUsingUltimate()
     
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_LEAP_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_JUMP_PACK_COOLDOWN_TIME)

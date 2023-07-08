@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 def initTracer():
-    eventPlayer.setDamageDealt(percent(OW1_TRACER_PISTOL_DAMAGE/OW2_TRACER_PISTOL_DAMAGE))
+    eventPlayer.setDamageDealt(percent(OW1_TRACER_PULSE_PISTOL_DAMAGE/OW2_TRACER_PULSE_PISTOL_DAMAGE))
 
 
 rule "[tracer.opy]: Initialize Tracer":

@@ -34,7 +34,7 @@ rule "[mccree.opy]: Throw projectile when pressing e":
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Cassidy is not stunned
 
     createProjectile(Projectile.ORB, eventPlayer, null, null, Relativity.TO_WORLD, ModifyHealth.DAMAGE, getOppositeTeam(eventPlayer.getTeam()), OW1_MCCREE_FLASHBANG_DAMAGE, 1, OW1_MCCREE_FLASHBANG_AOE_RADIUS, DynamicEffect.BAD_EXPLOSION, DynamicEffect.EXPLOSION_SOUND, 0, OW1_MCCREE_FLASHBANG_SPEED, OW1_MCCREE_FLASHBANG_RANGE/OW1_MCCREE_FLASHBANG_SPEED, 0, 0, 1)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_MCCREE_FLASHBANG_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_MCCREE_FLASHBANG_COOLDOWN_TIME)
 
 rule "[mccree.opy]: Stun flashed enemy":
     @Event playerTookDamage
@@ -48,7 +48,7 @@ rule "[mccree.opy]: Remove damage reduction during roll":
     @Hero mccree
     @Condition eventPlayer.isUsingAbility1() == true
 
-    eventPlayer.setDamageReceived(percent(100/(100-OW2_MCCREE_ROLL_DAMAGE_REDUCTION)))
+    eventPlayer.setDamageReceived(percent(100/(100-OW2_MCCREE_COMBAT_ROLL_DAMAGE_REDUCTION)))
     waitUntil(not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.setDamageReceived(100)
 
