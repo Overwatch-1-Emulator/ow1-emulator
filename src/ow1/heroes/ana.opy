@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 def initAna():
-    eventPlayer.setDamageDealt(percent(OW1_ANA_DART_DAMAGE/OW2_ANA_DART_DAMAGE))
+    eventPlayer.setDamageDealt(percent(OW1_ANA_SLEEP_DART_DAMAGE/OW2_ANA_SLEEP_DART_DAMAGE))
     eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
 
@@ -19,11 +19,11 @@ rule "[ana.opy]: Set default sleep dart cooldown":
     @Condition eventPlayer.isUsingAbility1()
     
     waitUntil(not eventPlayer.isUsingAbility1(), 9999)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_ANA_SLEEP_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_ANA_SLEEP_DART_COOLDOWN_TIME)
 
 rule "[ana.opy]: Sleep tanks for longer duration":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() in getTankHeroes()
     @Condition eventPlayer.hasStatusEffect(Status.ASLEEP)
     
-    eventPlayer.setStatusEffect(null, Status.ASLEEP, 5/3.25*ow1_sleepdart_sleep_duration) # 5/3.5 is the ratio of regular sleep time to tank sleep time
+    eventPlayer.setStatusEffect(null, Status.ASLEEP, 5/3.25*OW1_ANA_SLEEP_DART_SLEEP_DURATION) # 5/3.5 is the ratio of regular sleep time to tank sleep time

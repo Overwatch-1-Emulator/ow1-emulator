@@ -24,7 +24,7 @@ rule "[dva.opy]: Set default missile cooldown":
     @Condition eventPlayer.isUsingAbility2()
     
     waitUntil(not eventPlayer.isUsingAbility2(), 9999)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DVA_MISSILE_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DVA_MICRO_MISSILES_COOLDOWN_TIME)
 
 rule "[dva.opy]: Decouple melee button from activating melee animation during booster":
     @Event eachPlayer

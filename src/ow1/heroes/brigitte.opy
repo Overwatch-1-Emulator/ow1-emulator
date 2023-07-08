@@ -26,7 +26,7 @@ rule "[brigitte.opy]: Add stun to shield bash":
     @Condition eventPlayer.isFiringSecondaryFire() == true
     @Condition eventAbility == Button.PRIMARY_FIRE
     
-    victim.setStatusEffect(eventPlayer, Status.STUNNED, ow1_shield_bash_stun_duration)
+    victim.setStatusEffect(eventPlayer, Status.STUNNED, OW1_BRIGITTE_SHIELD_BASH_STUN_DURATION)
 
 
 rule "[brigitte.opy]: Reduce shield bash distance":
@@ -39,7 +39,7 @@ rule "[brigitte.opy]: Reduce shield bash distance":
     eventPlayer.setMoveSpeed(77.8) # arbitrarily decided based on trial and error
     waitUntil(not eventPlayer.isFiringPrimaryFire(), 1)
     if eventPlayer.isUsingUltimate():
-        eventPlayer.setMoveSpeed(percent(ow1_rally_speed_buff/ow2_rally_speed_buff))
+        eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF))
     else:
         eventPlayer.setMoveSpeed(100)
 
@@ -49,6 +49,6 @@ rule "[brigitte.opy]: Rally 30% speed boost":
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate() == true
     
-    eventPlayer.setMoveSpeed(percent(ow1_rally_speed_buff/ow2_rally_speed_buff)) # 30% movement speed buff during ralley
+    eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF)) # 30% movement speed buff during ralley
     waitUntil(not eventPlayer.isUsingUltimate(), 10)
     eventPlayer.setMoveSpeed(100)

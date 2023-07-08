@@ -21,4 +21,4 @@ rule "[baptiste.opy]: Set default immortality field cooldown":
     @Condition eventPlayer.isUsingAbility2()
     
     waitUntil(not eventPlayer.isUsingAbility2(), 9999)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_BAPTISTE_IMMORTALITY_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_BAPTISTE_IMMORTALITY_FIELD_COOLDOWN_TIME)
