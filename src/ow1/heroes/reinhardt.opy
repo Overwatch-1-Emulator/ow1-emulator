@@ -34,3 +34,13 @@ rule "[reinhardt.opy]: Force single firestrike":
     eventPlayer.setAbilityCharge(Button.ABILITY_2, 0)
     wait(ow1_cooldown_ability2_REINHARDT)
     eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
+
+rule "[reinhardt.opy]: Charge Damage":
+    @Event eachPlayer
+    @Hero reinhardt
+    @Condition eventPlayer.isUsingAbility1() == true
+
+    eventPlayer.setDamageDealt(percent(OW1_CHARGE_DAMAGE/OW2_CHARGE_DAMAGE))
+    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
+    wait(0.2)
+    eventPlayer.setDamageDealt(100)
