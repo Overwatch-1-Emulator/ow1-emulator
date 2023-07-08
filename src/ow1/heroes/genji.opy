@@ -18,7 +18,8 @@ rule "[genji.opy]: Initialize Genji":
 rule "[genji.opy]: Change dash damage":
     @Event eachPlayer
     @Hero genji
-    @Condition eventPlayer.isUsingAbility1() == true and not eventPlayer.isUsingUltimate() == true
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.isUsingUltimate() == false
 
     eventPlayer.setDamageDealt(100)
     waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
@@ -40,7 +41,8 @@ rule "[genji.opy]: Change ult damage":
 rule "[genji.opy]: Change deflect damage":
     @Event eachPlayer
     @Hero genji
-    @Condition eventPlayer.isUsingAbility2() == true and not eventPlayer.isUsingUltimate() == true
+    @Condition eventPlayer.isUsingAbility2() == true
+    @Condition eventPlayer.isUsingUltimate() == false
 
     eventPlayer.setDamageDealt(100)
     waitUntil(eventPlayer.isUsingAbility2() == false, 9999)
