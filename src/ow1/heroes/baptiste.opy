@@ -4,7 +4,7 @@
 #!define playRegenBurstHoTEffect(h) playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.YELLOW, h, 1)
 
 playervar regen_burst_targets # stores players affected by Baptiste's regen burst.
-playervar exo_boots_charge_normalized # value from 0-100
+playervar exo_boots_charge_normalized # value from 0 to 1
 playervar exo_boots_charge_hud_visible
 
 # TODO: the progress bar initialized here is initialized twice and shows 2 bars in game. I can't figure out why
@@ -15,7 +15,7 @@ def initBaptiste():
     eventPlayer.setAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
     eventPlayer.setMaxAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
 
-    eventPlayer.setAbility1Enabled(false)
+    eventPlayer.disallowButton(Button.ABILITY_1)
 
     eventPlayer.exo_boots_charge_hud_visible = false
     # initialize exo boots charge bar
@@ -38,20 +38,6 @@ rule "[baptiste.opy]: Set default immortality field cooldown":
     waitUntil(not eventPlayer.isUsingAbility2(), 9999)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_BAPTISTE_IMMORTALITY_COOLDOWN)
 
-rule "[baptiste.opy]: Show exo boots charge bar":
-    @Event eachPlayer
-    @Hero baptiste
-    @Condition eventPlayer.exo_boots_charge_normalized > 0
-    
-    
-
-rule "[baptiste.opy]: Hide exo boots charge bar":
-    @Event eachPlayer
-    @Hero baptiste
-    @Condition eventPlayer.exo_boots_charge_normalized == 0
-
-    
-
 rule "[baptiste.opy]: Start charging exo boots":
     @Event eachPlayer
     @Hero baptiste
@@ -73,7 +59,7 @@ rule "[baptiste.opy]: Handle exo boots charge reset":
     # if the player crouches again, or jumps, or the linger time runs out, the exo boots charge goes back to 0
     waitUntil(eventPlayer.isCrouching() or (eventPlayer.isOnGround() and eventPlayer.isHoldingButton(Button.JUMP)), OW1_BAPTISTE_EXO_BOOTS_LINGER_DURATION)
     eventPlayer.exo_boots_hud_visible = false
-    # another grace period in case the player chose to jump, so we can use exo_boots_charge_normalized for that
+    # another grace period in case the player chose to jump, so we can use the value of exo_boots_charge_normalized for that
     wait()
     eventPlayer.exo_boots_charge_normalized = 0
     eventPlayer.setJumpEnabled(true)
@@ -105,7 +91,6 @@ rule "[baptiste.opy]: Use OW1 regenerative burst":
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN)
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED)
 
-    # the ability is still disabled on screen, but doing this displays the cooldown regardless which is nice
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_BAPTISTE_REGEN_BURST_COOLDOWN)
 
     # custom effect to indicate Baptiste used regen burst
