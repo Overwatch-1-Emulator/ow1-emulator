@@ -18,9 +18,30 @@ rule "[genji.opy]: Initialize Genji":
 rule "[genji.opy]: Change dash damage":
     @Event eachPlayer
     @Hero genji
-    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.isUsingAbility1() == true and not eventPlayer.isUsingUltimate() == true
 
     eventPlayer.setDamageDealt(100)
     waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))    
 
+rule "[genji.opy]: Change ult damage":
+    @Event eachPlayer
+    @Hero genji
+    @Condition eventPlayer.isUsingUltimate() == true
+
+    eventPlayer.setDamageDealt(100)
+    waitUntil(eventPlayer.isUsingUltimate() == false, 9999)
+    if eventPlayer.isUsingAbility2() == true:
+        waitUntil(eventPlayer.isUsingAbility2() == false, 9999)
+        eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))
+    else:
+    eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))
+
+rule "[genji.opy]: Change deflect damage":
+    @Event eachPlayer
+    @Hero genji
+    @Condition eventPlayer.isUsingAbility2() == true and not eventPlayer.isUsingUltimate() == true
+
+    eventPlayer.setDamageDealt(100)
+    waitUntil(eventPlayer.isUsingAbility2() == false, 9999)
+    eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))
