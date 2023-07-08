@@ -134,6 +134,7 @@
 #!define OW1_REINHARDT_ARMOR 200
 #!define OW1_REINHARDT_CHARGE_COOLDOWN 10
 #!define ow1_cooldown_ability2_REINHARDT 6
+#!define OW1_CHARGE_DAMAGE 300
 
 # Roadhog
 #!define OW1_ROADHOG_HEALTH 600
