@@ -30,3 +30,31 @@ rule "[roadhog.opy]: Set default hook cooldown":
     
     waitUntil(not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_ROADHOG_HOOK_COOLDOWN)
+
+rule "[roadhog.opy]: Disable all abilities during ult":
+    @Event eachPlayer
+    @Hero roadhog
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    eventPlayer.setMeleeEnabled(false)
+    eventPlayer.setAbility1Enabled(false)
+    eventPlayer.setAbility2Enabled(false)
+    waitUntil(not eventPlayer.isUsingUltimate(), 9999)
+    eventPlayer.setMeleeEnabled(true)
+    eventPlayer.setAbility1Enabled(true)
+    eventPlayer.setAbility2Enabled(true)
+
+rule "[roadhog.opy]: Force autofire during ult":
+    @Event eachPlayer
+    @Hero roadhog
+    @Condition eventPlayer.isUsingUltimate() == true
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false
+    
+    eventPlayer.startForcingButton(Button.PRIMARY_FIRE)
+
+rule "[roadhog.opy]: Stop autofire when not in ult":
+    @Event eachPlayer
+    @Hero roadhog
+    @Condition eventPlayer.isUsingUltimate() == false
+    
+    eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
