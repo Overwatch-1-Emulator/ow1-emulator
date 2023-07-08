@@ -116,6 +116,7 @@ rule "[bastion.opy]: Initialize recon mode":
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
+    eventPlayer.setKnockbackReceived(100)
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
 
 
@@ -137,6 +138,7 @@ rule "[bastion.opy]: Initialize sentry mode":
 
     eventPlayer.setDamageDealt(percent(OW1_BASTION_MACHINE_GUN_DAMAGE/OW2_BASTION_MACHINE_GUN_DAMAGE))
     eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
+    eventPlayer.setKnockbackReceived(0)
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
@@ -166,6 +168,7 @@ rule "[bastion.opy]: Initialize tank mode":
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
+    eventPlayer.setKnockbackReceived(100)
 
 
 rule "[bastion.opy]: Show sentry gui when in sentry mode":
