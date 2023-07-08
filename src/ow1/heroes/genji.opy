@@ -32,7 +32,7 @@ rule "[genji.opy]: Change ult damage":
 
     eventPlayer.setDamageDealt(100)
     waitUntil(eventPlayer.isUsingUltimate() == false, 9999)
-    if eventPlayer.isUsingAbility2() == true:
+    if eventPlayer.isUsingAbility2() == true: # this code from line 35 to 39 solves this bug: if you deflect right before his ult ends, it would cause it to be using the extra damage modifier. This prevents it so if his ult ends and you are still deflecting, you wont have the extra damage until deflect is over.
         waitUntil(eventPlayer.isUsingAbility2() == false, 9999)
         eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))
     else:
