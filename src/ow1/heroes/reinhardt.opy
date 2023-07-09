@@ -23,7 +23,7 @@ rule "[reinhardt.opy]: Set default charge cooldown":
     @Condition eventPlayer.isUsingAbility1()
     
     waitUntil(not eventPlayer.isUsingAbility1(), 9999)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_REINHARDT_CHARGE_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_REINHARDT_CHARGE_COOLDOWN_TIME)
 
 rule "[reinhardt.opy]: Force single firestrike":
     @Event eachPlayer
@@ -32,7 +32,7 @@ rule "[reinhardt.opy]: Force single firestrike":
 
     waitUntil(not eventPlayer.isUsingAbility2(), 1)
     eventPlayer.setAbilityCharge(Button.ABILITY_2, 0)
-    wait(ow1_cooldown_ability2_REINHARDT)
+    wait(OW1_REINHARDT_FIRE_STRIKE_COOLDOWN_TIME)
     eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
 
 rule "[reinhardt.opy]: Charge Damage":
@@ -40,7 +40,7 @@ rule "[reinhardt.opy]: Charge Damage":
     @Hero reinhardt
     @Condition eventPlayer.isUsingAbility1() == true
 
-    eventPlayer.setDamageDealt(percent(OW1_CHARGE_DAMAGE/OW2_CHARGE_DAMAGE))
+    eventPlayer.setDamageDealt(percent(OW1_REINHARDT_CHARGE_DAMAGE/OW2_REINHARDT_CHARGE_DAMAGE))
     waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     wait(0.2)
     eventPlayer.setDamageDealt(100)

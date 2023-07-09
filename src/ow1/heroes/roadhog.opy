@@ -11,7 +11,7 @@ def initRoadhog():
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
 
-    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SHOTGUN_DAMAGE/OW2_ROADHOG_SHOTGUN_DAMAGE))
+    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
 
 
 
@@ -29,7 +29,7 @@ rule "[roadhog.opy]: Set default hook cooldown":
     @Condition eventPlayer.isUsingAbility1()
     
     waitUntil(not eventPlayer.isUsingAbility1(), 9999)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_ROADHOG_HOOK_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_ROADHOG_HOOK_COOLDOWN_TIME)
 
 rule "[roadhog.opy]: Disable all abilities during ult":
     @Event eachPlayer
