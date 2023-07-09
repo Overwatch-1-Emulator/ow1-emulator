@@ -2,11 +2,6 @@
 
 subroutine initMercy
 
-def initMercy():
-    @Name "[mercy.opy]: initMercy()"
-    eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)
-
 rule "[mercy.opy]: Initialize mercy":
     @Event eachPlayer
     @Hero mercy
@@ -14,6 +9,13 @@ rule "[mercy.opy]: Initialize mercy":
 
     initMercy()
     eventPlayer.initialized = true
+
+
+def initMercy():
+    @Name "[mercy.opy]: initMercy()"
+    eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)
+    eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)
+
 
 rule "[mercy.opy]: Change GA Cooldown":
     @Event eachPlayer

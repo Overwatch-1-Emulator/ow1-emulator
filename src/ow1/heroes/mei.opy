@@ -8,11 +8,6 @@ playervar freeze_penalty_percent
 
 subroutine initMei
 
-def initMei():
-    @Name "[mei.opy]: initMei()"
-    eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
-
 rule "[mei.opy]: Initialize Mei":
     @Event eachPlayer
     @Hero mei
@@ -20,6 +15,13 @@ rule "[mei.opy]: Initialize Mei":
 
     initMei()
     eventPlayer.initialized = true
+
+
+def initMei():
+    @Name "[mei.opy]: initMei()"
+    eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
+    eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
+
 
 rule "[mei.opy]: Track freezing on enemy":
     @Event playerDealtDamage

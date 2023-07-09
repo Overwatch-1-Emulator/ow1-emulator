@@ -2,12 +2,6 @@
 
 subroutine initMoira
 
-def initMoira():
-    @Name "[moira.opy]: initMoira()"
-    # [TODO]
-    pass
-
-
 rule "[moira.opy]: Initialize Moira":
     @Event eachPlayer
     @Hero moira
@@ -15,6 +9,12 @@ rule "[moira.opy]: Initialize Moira":
 
     initMoira()
     eventPlayer.initialized = true
+
+
+def initMoira():
+    @Name "[moira.opy]: initMoira()"
+    # [TODO]
+    pass
 
 
 rule "[moira.opy]: Deny fade during coalescence":
