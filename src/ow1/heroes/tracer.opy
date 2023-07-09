@@ -2,11 +2,6 @@
 
 subroutine initTracer
 
-def initTracer():
-    @Name "[tracer.opy]: initTracer()"
-    eventPlayer.setDamageDealt(percent(OW1_TRACER_PULSE_PISTOL_DAMAGE/OW2_TRACER_PULSE_PISTOL_DAMAGE))
-
-
 rule "[tracer.opy]: Initialize Tracer":
     @Event eachPlayer
     @Hero tracer
@@ -14,3 +9,8 @@ rule "[tracer.opy]: Initialize Tracer":
 
     initTracer()
     eventPlayer.initialized = true
+
+
+def initTracer():
+    @Name "[tracer.opy]: initTracer()"
+    eventPlayer.setDamageDealt(percent(OW1_TRACER_PULSE_PISTOL_DAMAGE/OW2_TRACER_PULSE_PISTOL_DAMAGE))

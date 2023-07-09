@@ -2,12 +2,6 @@
 
 subroutine initZenyatta
 
-def initZenyatta():
-    @Name "[zenyatta.opy]: initZenyatta()"
-    eventPlayer.setAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
-    eventPlayer.setKnockbackDealt(5)
-
 rule "[zenyatta.opy]: Initialize Zenyatta":
     @Event eachPlayer
     @Hero zenyatta
@@ -15,3 +9,10 @@ rule "[zenyatta.opy]: Initialize Zenyatta":
 
     initZenyatta()
     eventPlayer.initialized = true
+
+
+def initZenyatta():
+    @Name "[zenyatta.opy]: initZenyatta()"
+    eventPlayer.setAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
+    eventPlayer.setMaxAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
+    eventPlayer.setKnockbackDealt(5)

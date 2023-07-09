@@ -2,11 +2,6 @@
 
 subroutine initSymmetra
 
-def initSymmetra():
-    @Name "[symmetra.opy]: initSymmetra()"
-    eventPlayer.setAmmo(0, OW1_SYMMETRA_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_SYMMETRA_CLIP_SIZE)
-
 rule "[symmetra.opy]: Initialize Symmetra":
     @Event eachPlayer
     @Hero symmetra
@@ -14,3 +9,9 @@ rule "[symmetra.opy]: Initialize Symmetra":
 
     initSymmetra()
     eventPlayer.initialized = true
+
+
+def initSymmetra():
+    @Name "[symmetra.opy]: initSymmetra()"
+    eventPlayer.setAmmo(0, OW1_SYMMETRA_CLIP_SIZE)
+    eventPlayer.setMaxAmmo(0, OW1_SYMMETRA_CLIP_SIZE)

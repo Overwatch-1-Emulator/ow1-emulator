@@ -2,6 +2,15 @@
 
 subroutine initWinston
 
+rule "[winston.opy]: Initialize Winston":
+    @Event eachPlayer
+    @Hero winston
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+
+    initWinston()
+    eventPlayer.initialized = true
+
+
 def initWinston():
     @Name "[winston.opy]: initWinston()"
 
@@ -13,13 +22,6 @@ def initWinston():
 
     eventPlayer.setSecondaryFireEnabled(false)
 
-rule "[winston.opy]: Initialize Winston":
-    @Event eachPlayer
-    @Hero winston
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initWinston()
-    eventPlayer.initialized = true
 
 rule "[winston.opy]: Set default leap cooldown":
     @Event eachPlayer
