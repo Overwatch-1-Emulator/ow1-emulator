@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initReinhardt
+
 def initReinhardt():
+    @Name "[reinhardt.opy]: initReinhardt()"
     
     do:
         clearCustomHealth()

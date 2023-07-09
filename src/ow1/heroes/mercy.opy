@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initMercy
+
 def initMercy():
+    @Name "[mercy.opy]: initMercy()"
     eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)
 

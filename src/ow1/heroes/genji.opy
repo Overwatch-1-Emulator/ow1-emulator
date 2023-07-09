@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 playervar damagetest
+subroutine initGenji
+
 def initGenji():
+    @Name "[genji.opy]: initGenji()"
     eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
 

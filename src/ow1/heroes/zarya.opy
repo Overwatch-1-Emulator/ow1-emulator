@@ -4,7 +4,10 @@ playervar self_bubble_cooldown
 playervar ally_bubble_cooldown
 playervar zarya_hud_visibility
 
+subroutine initZarya
+
 def initZarya():
+    @Name "[zarya.opy]: initZarya()"
 
     do:
         clearCustomHealth()

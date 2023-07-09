@@ -2,7 +2,10 @@
 # Credit to oreoslurpee for Brigitte shield bash logic
 # see https://workshop.codes/MR5QJ for oreslurpee's 2018 brig implementation
 
+subroutine initBrigitte
+
 def initBrigitte():
+    @Name "[brigitte.opy]: initBrigitte()"
     
     do:
         clearCustomHealth()

@@ -1,7 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initSigma
+
 def initSigma():
-    @Name "[sigma.opy]: initSigma"
+    @Name "[sigma.opy]: initSigma()"
 
     do:
         clearCustomHealth()

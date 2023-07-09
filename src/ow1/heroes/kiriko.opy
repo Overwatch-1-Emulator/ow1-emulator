@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initBaptiste
+
 def initBaptiste():
+    @Name "[baptiste.opy]: initBaptiste()"
     # [TODO]
     pass
 

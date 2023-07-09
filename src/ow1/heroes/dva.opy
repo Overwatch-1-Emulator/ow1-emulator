@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initDva
+
 def initDva():
+    @Name "[dva.opy]: initDva()"
     do:
         clearCustomHealth()
         setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)

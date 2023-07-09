@@ -6,7 +6,10 @@ playervar is_frozen
 playervar freeze_slow_effect_timer
 playervar freeze_penalty_percent
 
+subroutine initMei
+
 def initMei():
+    @Name "[mei.opy]: initMei()"
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
 

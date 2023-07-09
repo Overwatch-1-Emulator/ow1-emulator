@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initWidowmaker
+
 def initWidowmaker():
+    @Name "[widowmaker.opy]: initWidowmaker()"
 
     do:
         clearCustomHealth()

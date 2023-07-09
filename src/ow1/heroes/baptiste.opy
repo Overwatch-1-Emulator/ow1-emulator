@@ -1,6 +1,10 @@
 #!mainFile "../../main.opy"
 
+subroutine initBaptiste
+
 def initBaptiste():
+    @Name "[baptiste.opy]: initBaptiste()"
+    
     eventPlayer.setAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
 

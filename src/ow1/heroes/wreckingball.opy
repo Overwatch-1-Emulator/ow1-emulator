@@ -1,7 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initWreckingball
+
 def initWreckingball():
-    @Name "[wreckingball.opy]: Initialize Wrecking Ball"
+    @Name "[wreckingball.opy]: initWreckingball()"
 
     do:
         clearCustomHealth()

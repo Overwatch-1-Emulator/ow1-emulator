@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initZenyatta
+
 def initZenyatta():
+    @Name "[zenyatta.opy]: initZenyatta()"
     eventPlayer.setAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
     eventPlayer.setKnockbackDealt(5)

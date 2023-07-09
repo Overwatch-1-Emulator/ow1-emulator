@@ -1,7 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initWinston
+
 def initWinston():
-    @Name "[winston.opy]: initWinston"
+    @Name "[winston.opy]: initWinston()"
 
     do:
         clearCustomHealth()

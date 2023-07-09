@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initSymmetra
+
 def initSymmetra():
+    @Name "[symmetra.opy]: initSymmetra()"
     eventPlayer.setAmmo(0, OW1_SYMMETRA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_SYMMETRA_CLIP_SIZE)
 

@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initMoira
+
 def initMoira():
+    @Name "[moira.opy]: initMoira()"
     # [TODO]
     pass
 

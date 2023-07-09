@@ -3,7 +3,10 @@
 playervar flashbang_origin_position
 playervar flashbang_exploded
 
+subroutine initMccree
+
 def initMccree():
+    @Name "[mccree.opy]: initMccree()"
 
     do:
         clearCustomHealth()

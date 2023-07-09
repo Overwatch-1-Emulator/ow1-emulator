@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
+subroutine initRoadhog
+
 def initRoadhog():
+    @Name "[roadhog.opy]: initRoadhog()"
     
     do:
         clearCustomHealth()
