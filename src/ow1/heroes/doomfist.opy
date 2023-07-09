@@ -22,6 +22,7 @@ rules/functions as needed.
 # Same function as above but using pre-computed cos/sin lookup tables
 #!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
 
+#!define calculateSlamDamage() round(OW1_DOOMFIST_SLAM_DAMAGE_SCALAR*eventPlayer.slam_air_time)
 
 enum SlamType:
     GROUND,
@@ -50,6 +51,8 @@ playervar current_position
 playervar valid_slam_position
 playervar indicator_visibility
 playervar slam_air_time
+playervar final_slam_damage
+playervar slammed_victims
 
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
@@ -81,6 +84,9 @@ def initDoomfist():
     # Decouple ability button press from trigerring ability
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
+
+    # Make damage dealt by doom practically negligible, but still allow damage detection
+    eventPlayer.setDamageDealt(0.001)
 
     # Variables for swapping keybinds
     eventPlayer.shift_pressed_by_bot = false
@@ -239,6 +245,8 @@ rule "[doomfist.opy]: Detect indicator slam":
 def executeSlam():
     @Name "[doomfist.opy]: Execute main logic for Seismic Slam ability"
 
+    eventPlayer.slammed_victims = [] # clear slammed victims
+
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
         if eventPlayer.indicator_visibility == eventPlayer: # Only execute indicator slam if indicator visible
             initiateIndicatorSlam()
@@ -250,75 +258,6 @@ def executeSlam():
         eventPlayer.is_using_slam = false
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
         eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
-
-
-rule "[doomfist.opy]: Measure slam air time":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.is_using_slam == true
-
-    eventPlayer.slam_air_time = 0
-    chase(eventPlayer.slam_air_time, 9999, rate=1, ChaseReeval.NONE)
-    waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
-    stopChasingVariable(eventPlayer.slam_air_time)
-
-
-rule "[doomfist.opy]: Debug slam air time":
-    @Event eachPlayer
-    @Hero doomfist
-
-    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
-    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
-    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
-    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
-    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
-    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
-    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
-    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
-    hudText(eventPlayer, "", "{0}".format(round(OW1_DOOMFIST_SLAM_DAMAGE_SCALAR*eventPlayer.slam_air_time)), "", HudPosition.TOP, 0.65, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-
-
-rule "[doomfist.opy]: Indicator slam validity":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 # Slam available
-    @Condition not eventPlayer.is_using_slam # Not using ability
-    @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
-    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN # If vertical distance is greater than the margin, it's invalid.
-
-    eventPlayer.indicator_visibility = eventPlayer
-
-
-rule "[doomfist.opy]: Hide indicator while slam not available":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0
-
-    eventPlayer.indicator_visibility = null
-
-
-rule "[doomfist.opy]: Hide indicator while using slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.is_using_slam
-
-    eventPlayer.indicator_visibility = null
-
-
-rule "[doomfist.opy]: Hide indicator if not indicator slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.slam_to_use != SlamType.INDICATOR
-
-    eventPlayer.indicator_visibility = null
-
-
-rule "[doomfist.opy]: Hide indicator slam is floating":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN
-
-    eventPlayer.indicator_visibility = null
 
 
 def initiateGroundSlam():
@@ -370,3 +309,79 @@ def initiateIndicatorSlam():
     eventPlayer.stopForcingThrottle()
     eventPlayer.setGravity(100)
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # cancel current momentum
+
+
+rule "[doomfist.opy]: Find slammed victims":
+    @Event playerTookDamage
+
+rule "[doomfist.opy]: Measure slam air time and damage":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.is_using_slam == true
+
+    eventPlayer.slam_air_time = 0
+    eventPlayer.final_slam_damage = 0
+    chase(eventPlayer.slam_air_time, 9999, rate=1, ChaseReeval.NONE)
+    waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
+    stopChasingVariable(eventPlayer.slam_air_time)
+    eventPlayer.final_slam_damage = calculateSlamDamage()
+
+
+rule "[doomfist.opy]: Damage victims with OW1 slam damage":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.final_slam_damage != 0
+
+    # TODO
+    # display message for now
+    bigMessage(eventPlayer, "{}".format(calculateSlamDamage()))
+
+
+rule "[doomfist.opy]: Debug slam air time":
+    @Event eachPlayer
+    @Hero doomfist
+
+    hudSubheader(eventPlayer, "{0}".format(calculateSlamDamage()), HudPosition.TOP, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+
+
+rule "[doomfist.opy]: Indicator slam validity":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 # Slam available
+    @Condition not eventPlayer.is_using_slam # Not using ability
+    @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
+    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN # If vertical distance is greater than the margin, it's invalid.
+
+    eventPlayer.indicator_visibility = eventPlayer
+
+
+rule "[doomfist.opy]: Hide indicator while slam not available":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0
+
+    eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Hide indicator while using slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.is_using_slam
+
+    eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Hide indicator if not indicator slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.slam_to_use != SlamType.INDICATOR
+
+    eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Hide indicator slam is floating":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN
+
+    eventPlayer.indicator_visibility = null
