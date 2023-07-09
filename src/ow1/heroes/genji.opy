@@ -1,13 +1,6 @@
 #!mainFile "../../main.opy"
-playervar damagetest
+
 subroutine initGenji
-
-def initGenji():
-    @Name "[genji.opy]: initGenji()"
-    eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
-
-    eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))
 
 rule "[genji.opy]: Initialize Genji":
     @Event eachPlayer
@@ -17,6 +10,13 @@ rule "[genji.opy]: Initialize Genji":
 
     initGenji()
     eventPlayer.initialized = true
+
+def initGenji():
+    @Name "[genji.opy]: initGenji()"
+    eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
+    eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
+
+    eventPlayer.setDamageDealt(percent(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE))
 
 rule "[genji.opy]: Change dash damage":
     @Event eachPlayer

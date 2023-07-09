@@ -1,16 +1,16 @@
 #!mainFile "../../main.opy"
 
-subroutine initBaptiste
+subroutine initJunkerqueen
 
-def initBaptiste():
-    @Name "[baptiste.opy]: initBaptiste()"
+def initJunkerqueen():
+    @Name "[junkerqueen.opy]: initJunkerqueen()"
     # [TODO]
     pass
 
-rule "[ashe.opy]: Initialize Baptiste":
+rule "[junkerqueen.opy]: Initialize Junkerqueen":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero junkerqueen
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initJunkerqueen()
     eventPlayer.initialized = true
