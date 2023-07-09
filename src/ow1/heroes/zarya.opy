@@ -6,7 +6,7 @@ playervar zarya_hud_visibility
 
 subroutine initZarya
 
-rule "[zarya.opy]: Initialize Zarya":
+rule "[zarya.opy]: Detect Zarya initialization":
     @Event eachPlayer
     @Hero zarya
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

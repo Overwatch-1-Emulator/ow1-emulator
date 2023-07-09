@@ -7,7 +7,7 @@ def initJunkerqueen():
     # [TODO]
     pass
 
-rule "[junkerqueen.opy]: Initialize Junkerqueen":
+rule "[junkerqueen.opy]: Detect Junkerqueen initialization":
     @Event eachPlayer
     @Hero junkerqueen
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

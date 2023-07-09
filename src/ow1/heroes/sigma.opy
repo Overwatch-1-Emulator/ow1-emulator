@@ -2,7 +2,7 @@
 
 subroutine initSigma
 
-rule "[sigma.opy]: Initialize Sigma":
+rule "[sigma.opy]: Detect Sigma initialization":
     @Event eachPlayer
     @Hero sigma
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

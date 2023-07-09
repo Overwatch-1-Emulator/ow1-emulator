@@ -2,7 +2,7 @@
 
 subroutine initJunkrat
 
-rule "[junkrat.opy]: Initialize Junkrat":
+rule "[junkrat.opy]: Detect Junkrat initialization":
     @Event eachPlayer
     @Hero junkrat
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

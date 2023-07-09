@@ -2,7 +2,7 @@
 
 subroutine initAna
 
-rule "[ana.opy]: Initialize Ana":
+rule "[ana.opy]: Detect Ana initialization":
     @Event eachPlayer
     @Hero ana
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

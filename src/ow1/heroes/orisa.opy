@@ -2,7 +2,7 @@
 
 subroutine initOrisa
 
-rule "[orisa.opy]: Initialize Orisa":
+rule "[orisa.opy]: Detect Orisa initialization":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

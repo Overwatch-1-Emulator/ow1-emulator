@@ -2,7 +2,7 @@
 
 subroutine initMercy
 
-rule "[mercy.opy]: Initialize mercy":
+rule "[mercy.opy]: Detect Mercy initialization":
     @Event eachPlayer
     @Hero mercy
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

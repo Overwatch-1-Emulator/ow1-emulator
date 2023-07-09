@@ -8,7 +8,7 @@ def initSojourn():
     pass
 
 
-rule "[sojourn.opy]: Initialize Sojourn":
+rule "[sojourn.opy]: Detect Sojourn initialization":
     @Event eachPlayer
     @Hero sojourn
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

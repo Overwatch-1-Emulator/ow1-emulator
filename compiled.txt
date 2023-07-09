@@ -639,7 +639,7 @@ rule ("[reset_hero.opy]: Reset hero on hero switch") {
     }
 }
 
-rule ("[ana.opy]: Initialize Ana") {
+rule ("[ana.opy]: Detect Ana initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -698,7 +698,7 @@ rule ("[ana.opy]: Sleep tanks for longer duration") {
     }
 }
 
-rule ("[baptiste.opy]: Initialize Baptiste") {
+rule ("[baptiste.opy]: Detect Baptiste initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -742,7 +742,7 @@ rule ("[baptiste.opy]: Set default immortality field cooldown") {
     }
 }
 
-rule ("[bastion.opy]: Initialize Bastion") {
+rule ("[bastion.opy]: Detect Bastion initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -1346,7 +1346,7 @@ rule ("[bastion.opy]: Reload tank shells") {
     }
 }
 
-rule ("[brigitte.opy]: Initialize Brigitte") {
+rule ("[brigitte.opy]: Detect Brigitte initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -1432,7 +1432,7 @@ rule ("[brigitte.opy]: Rally 30% speed boost") {
     }
 }
 
-rule ("[doomfist.opy]: Initialize Doomfist") {
+rule ("[doomfist.opy]: Detect Doomfist initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -1833,7 +1833,7 @@ rule ("Subroutine initiateIndicatorSlam") {
     }
 }
 
-rule ("[dva.opy]: Initialize Dva") {
+rule ("[dva.opy]: Detect Dva initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -1916,7 +1916,7 @@ rule ("[dva.opy]: Cancel booster if melee pressed") {
     }
 }
 
-rule ("[genji.opy]: Initialize Genji") {
+rule ("[genji.opy]: Detect Genji initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2000,7 +2000,7 @@ rule ("[genji.opy]: Change deflect damage") {
     }
 }
 
-rule ("[mccree.opy]: Initialize Mccree") {
+rule ("[mccree.opy]: Detect Mccree initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2108,7 +2108,7 @@ rule ("[mccree.opy]: Remove damage reduction during deadeye") {
     }
 }
 
-rule ("[mei.opy]: Initialize Mei") {
+rule ("[mei.opy]: Detect Mei initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2202,7 +2202,7 @@ rule ("[mei.opy]: Cancel slow movement freeze") {
     }
 }
 
-rule ("[mercy.opy]: Initialize mercy") {
+rule ("[mercy.opy]: Detect Mercy initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2244,7 +2244,7 @@ rule ("[mercy.opy]: Change GA Cooldown") {
     }
 }
 
-rule ("[moira.opy]: Initialize Moira") {
+rule ("[moira.opy]: Detect Moira initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2276,7 +2276,7 @@ rule ("[moira.opy]: Deny fade during coalescence") {
     }
 }
 
-rule ("[reinhardt.opy]: Initialize Reinhardt") {
+rule ("[reinhardt.opy]: Detect Reinhardt initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2357,7 +2357,7 @@ rule ("[reinhardt.opy]: Charge Damage") {
     }
 }
 
-rule ("[roadhog.opy]: Initialize Roadhog") {
+rule ("[roadhog.opy]: Detect Roadhog initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2456,7 +2456,7 @@ rule ("[roadhog.opy]: Stop autofire when not in ult") {
     }
 }
 
-rule ("[sigma.opy]: Initialize Sigma") {
+rule ("[sigma.opy]: Detect Sigma initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2504,7 +2504,7 @@ rule ("[sigma.opy]: Change accretion damage") {
     }
 }
 
-rule ("[symmetra.opy]: Initialize Symmetra") {
+rule ("[symmetra.opy]: Detect Symmetra initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2531,7 +2531,7 @@ rule ("[symmetra.opy]: initSymmetra()") {
     }
 }
 
-rule ("[tracer.opy]: Initialize Tracer") {
+rule ("[tracer.opy]: Detect Tracer initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2557,7 +2557,7 @@ rule ("[tracer.opy]: initTracer()") {
     }
 }
 
-rule ("[widowmaker.opy]: Initialize Widowmaker") {
+rule ("[widowmaker.opy]: Detect Widowmaker initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2589,7 +2589,7 @@ rule ("[widowmaker.opy]: initWidowmaker()") {
     }
 }
 
-rule ("[winston.opy]: Initialize Winston") {
+rule ("[winston.opy]: Detect Winston initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2669,7 +2669,7 @@ rule ("[wreckingball.opy]: initWreckingball()") {
     }
 }
 
-rule ("[zarya.opy]: Initialize Zarya") {
+rule ("[zarya.opy]: Detect Zarya initialization") {
     event {
         Ongoing - Each Player;
         All;
@@ -2763,7 +2763,7 @@ rule ("[zarya.opy]: zarya ally bubble") {
     }
 }
 
-rule ("[zenyatta.opy]: Initialize Zenyatta") {
+rule ("[zenyatta.opy]: Detect Zenyatta initialization") {
     event {
         Ongoing - Each Player;
         All;

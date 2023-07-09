@@ -5,7 +5,7 @@ playervar flashbang_exploded
 
 subroutine initMccree
 
-rule "[mccree.opy]: Initialize Mccree":
+rule "[mccree.opy]: Detect Mccree initialization":
     @Event eachPlayer
     @Hero mccree
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

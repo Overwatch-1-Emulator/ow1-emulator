@@ -2,7 +2,7 @@
 
 subroutine initEcho
 
-rule "[echo.opy]: Initialize Echo":
+rule "[echo.opy]: Detect Echo initialization":
     @Event eachPlayer
     @Hero echo
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

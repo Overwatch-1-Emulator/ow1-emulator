@@ -2,7 +2,7 @@
 
 subroutine initLucio
 
-rule "[lucio.opy]: Initialize Lucio":
+rule "[lucio.opy]: Detect Lucio initialization":
     @Event eachPlayer
     @Hero lucio
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

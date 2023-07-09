@@ -2,7 +2,7 @@
 
 subroutine initReinhardt
 
-rule "[reinhardt.opy]: Initialize Reinhardt":
+rule "[reinhardt.opy]: Detect Reinhardt initialization":
     @Event eachPlayer
     @Hero reinhardt
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

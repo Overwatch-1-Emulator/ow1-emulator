@@ -2,7 +2,7 @@
 
 subroutine initReaper
 
-rule "[reaper.opy]: Initialize Reaper":
+rule "[reaper.opy]: Detect Reaper initialization":
     @Event eachPlayer
     @Hero reaper
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

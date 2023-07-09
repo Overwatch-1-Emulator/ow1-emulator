@@ -2,7 +2,7 @@
 
 subroutine initGenji
 
-rule "[genji.opy]: Initialize Genji":
+rule "[genji.opy]: Detect Genji initialization":
     @Event eachPlayer
     @Hero genji
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

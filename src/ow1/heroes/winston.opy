@@ -2,7 +2,7 @@
 
 subroutine initWinston
 
-rule "[winston.opy]: Initialize Winston":
+rule "[winston.opy]: Detect Winston initialization":
     @Event eachPlayer
     @Hero winston
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

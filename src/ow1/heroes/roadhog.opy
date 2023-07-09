@@ -2,7 +2,7 @@
 
 subroutine initRoadhog
 
-rule "[roadhog.opy]: Initialize Roadhog":
+rule "[roadhog.opy]: Detect Roadhog initialization":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

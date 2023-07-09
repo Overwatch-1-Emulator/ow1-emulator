@@ -8,7 +8,7 @@ playervar freeze_penalty_percent
 
 subroutine initMei
 
-rule "[mei.opy]: Initialize Mei":
+rule "[mei.opy]: Detect Mei initialization":
     @Event eachPlayer
     @Hero mei
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

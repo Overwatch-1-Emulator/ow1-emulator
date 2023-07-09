@@ -2,7 +2,7 @@
 
 subroutine initSymmetra
 
-rule "[symmetra.opy]: Initialize Symmetra":
+rule "[symmetra.opy]: Detect Symmetra initialization":
     @Event eachPlayer
     @Hero symmetra
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

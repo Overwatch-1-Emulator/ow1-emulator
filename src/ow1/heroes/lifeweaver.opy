@@ -2,7 +2,7 @@
 
 subroutine initLifeweaver
 
-rule "[lifeweaver.opy]: Initialize Lifeweaver":
+rule "[lifeweaver.opy]: Detect Lifeweaver initialization":
     @Event eachPlayer
     @Hero lifeweaver
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

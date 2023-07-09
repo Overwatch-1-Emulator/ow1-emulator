@@ -4,7 +4,7 @@
 
 subroutine initBrigitte
 
-rule "[brigitte.opy]: Initialize Brigitte":
+rule "[brigitte.opy]: Detect Brigitte initialization":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

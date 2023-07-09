@@ -16,7 +16,7 @@ playervar self_repair
 
 subroutine initBastion
 
-rule "[bastion.opy]: Initialize Bastion":
+rule "[bastion.opy]: Detect Bastion initialization":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

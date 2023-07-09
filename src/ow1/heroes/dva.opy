@@ -2,7 +2,7 @@
 
 subroutine initDva
 
-rule "[dva.opy]: Initialize Dva":
+rule "[dva.opy]: Detect Dva initialization":
     @Event eachPlayer
     @Hero dva
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

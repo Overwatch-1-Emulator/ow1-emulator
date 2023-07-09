@@ -2,7 +2,7 @@
 
 subroutine initTracer
 
-rule "[tracer.opy]: Initialize Tracer":
+rule "[tracer.opy]: Detect Tracer initialization":
     @Event eachPlayer
     @Hero tracer
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

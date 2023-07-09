@@ -2,7 +2,7 @@
 
 subroutine initZenyatta
 
-rule "[zenyatta.opy]: Initialize Zenyatta":
+rule "[zenyatta.opy]: Detect Zenyatta initialization":
     @Event eachPlayer
     @Hero zenyatta
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

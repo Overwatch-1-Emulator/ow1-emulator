@@ -2,7 +2,7 @@
 
 subroutine initRamattra
 
-rule "[ramattra.opy]: Initialize Ramattra":
+rule "[ramattra.opy]: Detect Ramattra initialization":
     @Event eachPlayer
     @Hero ramattra
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization

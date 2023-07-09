@@ -2,7 +2,7 @@
 
 subroutine initHanzo
 
-rule "[hanzo.opy]: Initialize Hanzo":
+rule "[hanzo.opy]: Detect Hanzo initialization":
     @Event eachPlayer
     @Hero hanzo
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
