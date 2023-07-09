@@ -63,7 +63,7 @@ rule "[zarya.opy]: Hide bubble cooldown HUD on hero switch":
     eventPlayer.zarya_hud_visibility = null
 
 
-rule "zarya self bubble":
+rule "[zarya.opy]: zarya self bubble":
     @Event eachPlayer
     @Hero zarya
     @Condition eventPlayer.isUsingAbility1()
@@ -77,7 +77,7 @@ rule "zarya self bubble":
     eventPlayer.setAbility1Enabled(true)
 
 
-rule "zarya ally bubble":
+rule "[zarya.opy]: zarya ally bubble":
     @Event eachPlayer
     @Hero zarya
     @Condition eventPlayer.isUsingAbility2()
