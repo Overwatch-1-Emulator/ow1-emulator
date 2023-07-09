@@ -344,6 +344,7 @@ rule "[doomfist.opy]: Damage victims with OW1 slam damage":
 
 
 rule "[doomfist.opy]: Debug slam air time":
+    @Disabled
     @Event eachPlayer
     @Hero doomfist
 
