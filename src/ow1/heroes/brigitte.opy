@@ -4,6 +4,15 @@
 
 subroutine initBrigitte
 
+rule "[brigitte.opy]: Initialize Brigitte":
+    @Event eachPlayer
+    @Hero brigitte
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+
+    initBrigitte()
+    eventPlayer.initialized = true
+
+
 def initBrigitte():
     @Name "[brigitte.opy]: initBrigitte()"
     
@@ -12,15 +21,6 @@ def initBrigitte():
         setCustomHealth(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
         wait(1)
     while (eventPlayer.getMaxHealth() != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR)
-
-
-rule "[brigitte.opy]: Initialize Brigitte":
-    @Event eachPlayer
-    @Hero brigitte
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initBrigitte()
-    eventPlayer.initialized = true
 
 
 rule "[brigitte.opy]: Add stun to shield bash":

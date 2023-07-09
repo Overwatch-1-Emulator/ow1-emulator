@@ -16,6 +16,15 @@ playervar self_repair
 
 subroutine initBastion
 
+rule "[bastion.opy]: Initialize Bastion":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    
+    initBastion()
+    eventPlayer.initialized = true
+
+
 def initBastion():
     @Name "[bastion.opy]: initBastion()"
     eventPlayer.self_repair_time_left = OW1_BASTION_MAX_SELF_REPAIR_DURATION
@@ -48,15 +57,6 @@ def initBastion():
                    ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
                    SpecVisibility.DEFAULT)
     eventPlayer.progress_bar_huds.append(getLastCreatedText())
-
-
-rule "[bastion.opy]: Initialize Bastion":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-    
-    initBastion()
-    eventPlayer.initialized = true
 
 
 rule "[bastion.opy]: Hide Bastion HUD on hero switch":

@@ -68,7 +68,7 @@ rule "[doomfist.opy]: Initialize Doomfist":
 
 
 def initDoomfist():
-    @Name "[doomfist.opy]: initDoomfist"
+    @Name "[doomfist.opy]: initDoomfist()"
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
 
