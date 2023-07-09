@@ -69,12 +69,19 @@ rule "[doomfist.opy]: Detect Doomfist initialization":
 
 def initDoomfist():
     @Name "[doomfist.opy]: initDoomfist()"
+
+    # Set Doomfist health to OW1
+    while (eventPlayer.getMaxHealth() != OW1_DOOMFIST_HEALTH):
+        clearCustomHealth()
+        setCustomHealth(OW1_DOOMFIST_HEALTH, 0, 0)
+        wait(1)
+
+
+    # Decouple ability button press from trigerring ability
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
 
-    eventPlayer.setMaxHealth(55.556)
-    eventPlayer.setKnockbackReceived(142.895)
-
+    # Variables for swapping keybinds
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.e_pressed_by_bot = false
     
@@ -102,6 +109,7 @@ def initSlamIndicatorGui():
     
     # Sphere for debugging indicator slam
     # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
+
 
 rule "[doomfist.opy]: Detect shift key press by human": 
     @Event eachPlayer
