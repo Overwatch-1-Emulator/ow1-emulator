@@ -3,7 +3,19 @@
 playervar flashbang_origin_position
 playervar flashbang_exploded
 
+subroutine initMccree
+
+rule "[mccree.opy]: Detect Mccree initialization":
+    @Event eachPlayer
+    @Hero mccree
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+
+    initMccree()
+    eventPlayer.initialized = true
+
+
 def initMccree():
+    @Name "[mccree.opy]: initMccree()"
 
     do:
         clearCustomHealth()
@@ -13,13 +25,6 @@ def initMccree():
 
     eventPlayer.disallowButton(Button.ABILITY_2)
 
-rule "[mccree.opy]: Initialize Mccree":
-    @Event eachPlayer
-    @Hero mccree
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initMccree()
-    eventPlayer.initialized = true
 
 rule "[mccree.opy]: Throw projectile when pressing e":
     @Event eachPlayer
@@ -34,7 +39,8 @@ rule "[mccree.opy]: Throw projectile when pressing e":
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Cassidy is not stunned
 
     createProjectile(Projectile.ORB, eventPlayer, null, null, Relativity.TO_WORLD, ModifyHealth.DAMAGE, getOppositeTeam(eventPlayer.getTeam()), OW1_MCCREE_FLASHBANG_DAMAGE, 1, OW1_MCCREE_FLASHBANG_AOE_RADIUS, DynamicEffect.BAD_EXPLOSION, DynamicEffect.EXPLOSION_SOUND, 0, OW1_MCCREE_FLASHBANG_SPEED, OW1_MCCREE_FLASHBANG_RANGE/OW1_MCCREE_FLASHBANG_SPEED, 0, 0, 1)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_MCCREE_FLASHBANG_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_MCCREE_FLASHBANG_COOLDOWN_TIME)
+
 
 rule "[mccree.opy]: Stun flashed enemy":
     @Event playerTookDamage
@@ -43,14 +49,16 @@ rule "[mccree.opy]: Stun flashed enemy":
 
     victim.setStatusEffect(eventPlayer, Status.STUNNED, OW1_MCCREE_FLASHBANG_STUN_DURATION)
 
+
 rule "[mccree.opy]: Remove damage reduction during roll":
     @Event eachPlayer
     @Hero mccree
     @Condition eventPlayer.isUsingAbility1() == true
 
-    eventPlayer.setDamageReceived(percent(100/(100-OW2_MCCREE_ROLL_DAMAGE_REDUCTION)))
+    eventPlayer.setDamageReceived(percent(100/(100-OW2_MCCREE_COMBAT_ROLL_DAMAGE_REDUCTION)))
     waitUntil(not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.setDamageReceived(100)
+
 
 rule "[mccree.opy]: Remove damage reduction during deadeye":
     @Event eachPlayer

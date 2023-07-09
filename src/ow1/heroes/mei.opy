@@ -6,17 +6,22 @@ playervar is_frozen
 playervar freeze_slow_effect_timer
 playervar freeze_penalty_percent
 
-def initMei():
-    eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
+subroutine initMei
 
-rule "[mei.opy]: Initialize Mei":
+rule "[mei.opy]: Detect Mei initialization":
     @Event eachPlayer
     @Hero mei
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initMei()
     eventPlayer.initialized = true
+
+
+def initMei():
+    @Name "[mei.opy]: initMei()"
+    eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
+    eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
+
 
 rule "[mei.opy]: Track freezing on enemy":
     @Event playerDealtDamage

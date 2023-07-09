@@ -1,7 +1,18 @@
 #!mainFile "../../main.opy"
 
+subroutine initWinston
+
+rule "[winston.opy]: Detect Winston initialization":
+    @Event eachPlayer
+    @Hero winston
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+
+    initWinston()
+    eventPlayer.initialized = true
+
+
 def initWinston():
-    @Name "[winston.opy]: initWinston"
+    @Name "[winston.opy]: initWinston()"
 
     do:
         clearCustomHealth()
@@ -11,13 +22,6 @@ def initWinston():
 
     eventPlayer.setSecondaryFireEnabled(false)
 
-rule "[winston.opy]: Initialize Winston":
-    @Event eachPlayer
-    @Hero winston
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initWinston()
-    eventPlayer.initialized = true
 
 rule "[winston.opy]: Set default leap cooldown":
     @Event eachPlayer
@@ -25,4 +29,4 @@ rule "[winston.opy]: Set default leap cooldown":
     @Condition eventPlayer.isUsingAbility1()
     @Condition not eventPlayer.isUsingUltimate()
     
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_LEAP_COOLDOWN)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_JUMP_PACK_COOLDOWN_TIME)

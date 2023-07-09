@@ -1,13 +1,17 @@
 #!mainFile "../../main.opy"
 
-def initBaptiste():
-    # [TODO]
-    pass
+subroutine initRamattra
 
-rule "[ashe.opy]: Initialize Baptiste":
+rule "[ramattra.opy]: Detect Ramattra initialization":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero ramattra
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initRamattra()
     eventPlayer.initialized = true
+
+
+def initRamattra():
+    @Name "[ramattra.opy]: initRamattra()"
+    # [TODO]
+    pass

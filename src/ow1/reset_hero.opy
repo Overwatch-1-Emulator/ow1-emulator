@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../main.opy"
 
 globalvar i
 
@@ -7,7 +7,7 @@ playervar progress_bar_huds
 playervar entity_huds
 
 def resetHero():
-    @Name "[generic.opy]: Reset hero stats/gui"
+    @Name "[reset_hero.opy]: Reset hero stats/gui"
     eventPlayer.setPrimaryFireEnabled(true)
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.setSecondaryFireEnabled(true)
@@ -49,7 +49,7 @@ def resetHero():
     eventPlayer.initialized = false
 
     
-rule "[generic.opy]: Reset hero on new round":
+rule "[reset_hero.opy]: Reset hero on new round":
     @Event eachPlayer
     @Condition isMatchBetweenRounds() == true
     
@@ -57,7 +57,7 @@ rule "[generic.opy]: Reset hero on new round":
     resetHero()
 
 
-rule "[generic.opy]: Reset hero on hero switch":
+rule "[reset_hero.opy]: Reset hero on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
 
