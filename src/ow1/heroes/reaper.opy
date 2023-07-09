@@ -1,13 +1,17 @@
 #!mainFile "../../main.opy"
 
-def initBaptiste():
-    # [TODO]
-    pass
+subroutine initReaper
 
-rule "[ashe.opy]: Initialize Baptiste":
+rule "[reaper.opy]: Detect Reaper initialization":
     @Event eachPlayer
-    @Hero baptiste
+    @Hero reaper
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
+    initReaper()
     eventPlayer.initialized = true
+
+
+def initReaper():
+    @Name "[reaper.opy]: initReaper()"
+    # [TODO]
+    pass

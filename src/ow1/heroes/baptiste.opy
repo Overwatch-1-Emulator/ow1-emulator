@@ -7,11 +7,20 @@ playervar regen_burst_targets # stores players affected by Baptiste's regen burs
 playervar exo_boots_charge_normalized # value from 0 to 1
 playervar exo_boots_charge_hud_visible
 
-# TODO: the progress bar initialized here is initialized twice and shows 2 bars in game. I can't figure out why
-def initBaptiste():
-    eventPlayer.setAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
+subroutine initBaptiste
 
+rule "[baptiste.opy]: Initialize Baptiste":
+    @Event eachPlayer
+    @Hero baptiste
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+
+    initBaptiste()
+    eventPlayer.initialized = true
+
+
+def initBaptiste():
+    @Name "[baptiste.opy]: initBaptiste()"
+    
     eventPlayer.setAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
     eventPlayer.setMaxAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
 
@@ -22,13 +31,6 @@ def initBaptiste():
     progressBarHud(eventPlayer.exo_boots_charge_hud_visible, percent(eventPlayer.exo_boots_charge_normalized), 
     null, HudPosition.TOP, 1, Color.SKY_BLUE, null, ProgressHudReeval.VISIBILITY_AND_VALUES, SpecVisibility.NEVER)
 
-rule "[baptiste.opy]: Initialize Baptiste":
-    @Event eachPlayer
-    @Hero baptiste
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initBaptiste()
-    eventPlayer.initialized = true
 
 rule "[baptiste.opy]: Set default immortality field cooldown":
     @Event eachPlayer

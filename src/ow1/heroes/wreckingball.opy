@@ -1,13 +1,6 @@
 #!mainFile "../../main.opy"
 
-def initWreckingball():
-    @Name "[wreckingball.opy]: Initialize Wrecking Ball"
-
-    do:
-        clearCustomHealth()
-        setCustomHealth(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)
-        wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_WRECKING_BALL_HEALTH + OW1_WRECKING_BALL_ARMOR)
+subroutine initWreckingball
 
 rule "[wreckingball.opy]: Initialize Wrecking Ball":
     @Event eachPlayer
@@ -16,3 +9,13 @@ rule "[wreckingball.opy]: Initialize Wrecking Ball":
 
     initWreckingball()
     eventPlayer.initialized = true
+
+
+def initWreckingball():
+    @Name "[wreckingball.opy]: initWreckingball()"
+
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_WRECKING_BALL_HEALTH + OW1_WRECKING_BALL_ARMOR)

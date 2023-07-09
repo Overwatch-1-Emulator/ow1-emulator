@@ -1,0 +1,2781 @@
+settings
+{
+	main
+	{
+		Description: "ecksdee#11729's attempt to accurately recreate the last version of Overwatch 1 using workshop.\r\n\r\nDiscord Server: \r\nhttps://discord.gg/GMVqwYXbWB\r\n\r\nGamemode Description: \r\nhttps://workshop.codes/overwatch1-emulator\r\n\r\nSource Code: \r\nhttps://github.com/MaxwellJung/ow1_emulator\r\n\r\nRelease build: KHTG0\r\nStaging build: ESMXJ"
+		Mode Name: "Overwatch 1 Emulator"
+	}
+	lobby
+	{
+		Match Voice Chat: Enabled
+		Max Spectators: 12
+		Max Team 1 Players: 6
+		Max Team 2 Players: 6
+		Return To Lobby: Never
+		Team Balancing: After A Game
+	}
+	modes
+	{
+		Assault
+		{
+			disabled maps
+			{
+				Hanamura Winter
+			}
+			Competitive Rules: On
+		}
+		Control
+		{
+			disabled maps
+			{
+				Antarctic Peninsula
+				Lijiang Tower Lunar New Year
+			}
+			Competitive Rules: On
+		}
+		Escort
+		{
+			disabled maps
+			{
+				Circuit Royal
+				Shambali Monastery
+			}
+			Competitive Rules: On
+		}
+		Hybrid
+		{
+			enabled maps
+			{
+				Blizzard World
+				Eichenwalde
+				Hollywood
+				King's Row
+				Numbani
+			}
+			Competitive Rules: On
+		}
+		Practice Range
+		{
+			enabled maps
+			{
+			}
+		}
+		General
+		{
+			Limit Roles: 2 Of Each Role Per Team
+			Tank Role Passive Health Bonus: Always Enabled
+		}
+	}
+	heroes
+	{
+		General
+		{
+			Ana
+			{
+				Ultimate Generation Nano Boost: 100%
+			}
+			Ashe
+			{
+				Ultimate Generation B.O.B.: 100%
+			}
+			Baptiste
+			{
+				Ultimate Generation Amplification Matrix: 100%
+			}
+			Bastion
+			{
+				Ultimate Generation Configuration: Artillery: 100%
+			}
+			Brigitte
+			{
+				Health: 83.33333333333333%
+				Ultimate Generation Rally: 91.07142857142857%
+			}
+			Cassidy
+			{
+				Ultimate Generation Deadeye: 110.11904761904762%
+			}
+			Doomfist
+			{
+				Ammunition Regeneration Time Scalar: 162%
+			}
+			D.Va
+			{
+				Defense Matrix Maximum Time: 67%
+				Ultimate Generation Self-Destruct: 100%
+			}
+			Echo
+			{
+				Ultimate Generation Duplicate: 75.02218278615794%
+			}
+			Genji
+			{
+				Ultimate Generation Dragonblade: 100%
+			}
+			Hanzo
+			{
+				Ultimate Generation Dragonstrike: 100%
+			}
+			Junkrat
+			{
+				Ultimate Generation RIP-Tire: 100%
+			}
+			Lúcio
+			{
+				Ultimate Generation Sound Barrier: 82.31292517006803%
+			}
+			Mei
+			{
+				Ultimate Generation Blizzard: 108.69565217391305%
+			}
+			Mercy
+			{
+				Ultimate Generation Valkyrie: 100%
+			}
+			Moira
+			{
+				Ultimate Generation Coalescence: 95%
+			}
+			Pharah
+			{
+				Ultimate Generation Barrage: 95.23809523809524%
+			}
+			Reaper
+			{
+				Ultimate Generation Death Blossom: 91.9047619047619%
+			}
+			Reinhardt
+			{
+				Barrier Field Recharge Rate: 139%
+				Health: 133.33333333333334%
+				Ultimate Generation Earthshatter: 107.14285714285714%
+			}
+			Roadhog
+			{
+				Ultimate Generation Whole Hog: 108.03571428571429%
+			}
+			Sigma
+			{
+				Experimental Barrier Recharge Rate: 80%
+				Health: 100%
+				Ultimate Generation Gravitic Flux: 107.14285714285714%
+			}
+			Soldier: 76
+			{
+				Ultimate Generation Tactical Visor: 100%
+			}
+			Sombra
+			{
+				Ultimate Generation EMP: 100%
+			}
+			Symmetra
+			{
+				Ultimate Generation Photon Barrier: 100%
+			}
+			Torbjörn
+			{
+				Ultimate Generation Molten Core: 100%
+			}
+			Tracer
+			{
+				Ultimate Generation Pulse Bomb: 100%
+			}
+			Widowmaker
+			{
+				Ultimate Generation Infra-Sight: 100%
+			}
+			Winston
+			{
+				Health: 107.6923076923077%
+				Ultimate Generation Primal Rage: 120.12987012987013%
+			}
+			Wrecking Ball
+			{
+				Ultimate Generation Minefield: 108.76623376623377%
+				Piledriver Cooldown Time: 125%
+			}
+			Zarya
+			{
+				Health: 100%
+			}
+			Zenyatta
+			{
+				Ultimate Generation Transcendence: 100%
+			}
+			disabled heroes
+			{
+				Junker Queen
+				Kiriko
+				Lifeweaver
+				Orisa
+				Ramattra
+				Sojourn
+			}
+		}
+	}
+}
+variables {
+    global:
+        0: ult_cost
+        1: i
+    player:
+        0: last_hero_played
+        1: hero_switched
+        2: hero_id
+        3: initialized
+        4: health_normal
+        5: health_armor
+        6: health_shields
+        7: storedSpawnPosition
+        8: missing_ult_points
+        9: ult_percent_compensated
+        10: ult_charge_compensated
+        11: text_huds
+        12: progress_bar_huds
+        13: entity_huds
+        14: current_configuration
+        15: sentry_gui_visibility
+        16: heal_gui_visibility
+        17: self_repair_time_left
+        18: machine_gun_ready
+        19: machine_gun_reload_timer
+        20: machine_gun_ammo
+        21: self_repair
+        22: cos_lut
+        23: sin_lut
+        24: i
+        25: pressing_uppercut_key
+        26: shift_pressed_by_bot
+        27: is_using_uppercut
+        28: enemies_in_uppercut_radius
+        29: enemies_in_uppercut_view
+        30: enemies_hit_by_uppercut
+        31: uppercut_cooldown
+        32: pressing_slam_key
+        33: e_pressed_by_bot
+        34: is_using_slam
+        35: slam_to_use
+        36: current_position
+        37: valid_slam_position
+        38: indicator_visibility
+        39: flashbang_origin_position
+        40: flashbang_exploded
+        41: start_freeze
+        42: freeze_percent
+        43: is_frozen
+        44: freeze_slow_effect_timer
+        45: freeze_penalty_percent
+        46: self_bubble_cooldown
+        47: ally_bubble_cooldown
+        48: zarya_hud_visibility
+}
+subroutines {
+    0: clearCustomHealth
+    1: applyCustomHealth
+    2: resetHero
+    3: initAna
+    4: initBaptiste
+    5: initBastion
+    6: startMachineGunReload
+    7: selfRepair
+    8: transformInToTank
+    9: transformOutOfTank
+    10: initBrigitte
+    11: initDoomfist
+    12: initSlamIndicatorGui
+    13: executeUppercut
+    14: detectUpercutHit
+    15: executeSlam
+    16: initiateGroundSlam
+    17: initiateIndicatorSlam
+    18: initDva
+    19: initGenji
+    20: initMccree
+    21: initMei
+    22: initMercy
+    23: initMoira
+    24: initReinhardt
+    25: initRoadhog
+    26: initSigma
+    27: initSymmetra
+    28: initTracer
+    29: initWidowmaker
+    30: initWinston
+    31: initWreckingball
+    32: initZarya
+    33: initZenyatta
+}
+rule ("[utilities.opy]: detect hero switch") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).last_hero_played != Hero Of(Event Player);
+    }
+    actions {
+        Set Player Variable(Event Player, hero_switched, True);
+        Wait(0.016, Ignore Condition);
+        Set Player Variable(Event Player, last_hero_played, Hero Of(Event Player));
+        Set Player Variable(Event Player, hero_id, Index Of Array Value(All Heroes, (Event Player).last_hero_played));
+        Set Player Variable(Event Player, hero_switched, False);
+    }
+}
+
+rule ("[custom_health_handler.opy]: Clear Custom Health") {
+    event {
+        Subroutine;
+        clearCustomHealth;
+    }
+    actions {
+        Remove All Health Pools From Player(Event Player);
+        Wait(0.016, Ignore Condition);
+        Set Max Health(Event Player, 100.001);
+        Wait(0.016, Ignore Condition);
+        Set Max Health(Event Player, 100);
+        Heal(Event Player, Null, 999999999999999);
+    }
+}
+
+rule ("[custom_health_handler.opy]: Apply Custom Health") {
+    event {
+        Subroutine;
+        applyCustomHealth;
+    }
+    actions {
+        "If the player is in spawn, teleport them out as they are invulnerable in spawn"
+        If(Is In Spawn Room(Event Player));
+            Start Camera(Event Player, Eye Position(Event Player), Add(Eye Position(Event Player), Facing Direction Of(Event Player)), 0.001);
+            Wait(0.032, Ignore Condition);
+            Set Player Variable(Event Player, storedSpawnPosition, Position Of(Event Player));
+            Teleport(Event Player, Add(Position Of(Event Player), Vector(0, 100, 0)));
+            Wait Until(And(And(Not(Is In Spawn Room(Event Player)), Not(Has Status(Event Player, Invincible))), Not(Has Status(Event Player, Unkillable))), 1);
+            Wait(0.016, Ignore Condition);
+        End;
+        "If the player is duplicating a hero, wait until Echo is no longer invulnerable"
+        If(Is Duplicating(Event Player));
+            Wait Until(And(Not(Has Status(Event Player, Invincible)), Not(Has Status(Event Player, Unkillable))), 1);
+            Wait(0.016, Ignore Condition);
+        End;
+        "# Applying Custom Health ##\r\n Apply an unkillable status so we don't accidentally kill the player"
+        Set Status(Event Player, Event Player, Unkillable, 1);
+        "Damage the player so they're at one health"
+        Damage(Event Player, Null, 999999999999999);
+        Wait(0.016, Ignore Condition);
+        "Apply temporary base health to the player"
+        Add Health Pool To Player(Event Player, Health, 999999999999999, True, True);
+        Add Health Pool To Player(Event Player, Armor, 999999999999999, True, True);
+        Add Health Pool To Player(Event Player, Shields, 999999999999999, True, True);
+        Wait(0.016, Ignore Condition);
+        "Remove temporary base health from the player"
+        Remove All Health Pools From Player(Event Player);
+        Wait(0.016, Ignore Condition);
+        "Apply custom health pool to player"
+        If(Compare((Event Player).health_normal, >, 0));
+            Add Health Pool To Player(Event Player, Health, Max(1, Subtract((Event Player).health_normal, 1)), True, True);
+        End;
+        If(Compare((Event Player).health_armor, >, 0));
+            Add Health Pool To Player(Event Player, Armor, Max(1, (Event Player).health_armor), True, True);
+        End;
+        If(Compare((Event Player).health_shields, >, 0));
+            Add Health Pool To Player(Event Player, Shields, Max(1, (Event Player).health_shields), True, True);
+        End;
+        Heal(Event Player, Null, 999999999999999);
+        "Teleport player back if they were in spawn."
+        If((Event Player).storedSpawnPosition);
+            Wait(0.016, Ignore Condition);
+            Teleport(Event Player, (Event Player).storedSpawnPosition);
+            Set Player Variable(Event Player, storedSpawnPosition, Null);
+            Stop Camera(Event Player);
+        End;
+    }
+}
+
+rule ("[custom_health_handler.opy]: Remove Custom Health Conditions") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    actions {
+        "Health pools persist between hero switching, so we remove it when player's switch or duplicate to another hero, or when D.Va switches between forms."
+        Wait Until(Or(Or(Compare(Hero Of(Event Player), !=, Evaluate Once(Hero Of(Event Player))), Compare(Hero Being Duplicated(Event Player), !=, Evaluate Once(Hero Being Duplicated(Event Player)))), And(Or(Compare(Hero Of(Event Player), ==, Hero(D.Va)), Compare(Hero Being Duplicated(Event Player), ==, Hero(D.Va))), Compare(Is In Alternate Form(Event Player), !=, Evaluate Once(Is In Alternate Form(Event Player))))), 9999);
+        Call Subroutine(clearCustomHealth);
+        Wait(0.016, Ignore Condition);
+        Loop If Condition Is True;
+    }
+}
+
+disabled rule ("[debug.opy]: Display server performance characteristics") {
+    event {
+        Ongoing - Global;
+    }
+    actions {
+        Create HUD Text(All Players(All Teams), String("{0}: {1}", String("Server Load", Null, Null, Null), String("{0}%", Server Load, Null, Null), Null), Null, Null, Left, 0, Color(White), Null, Null, Visible To and String, Default Visibility);
+        Create HUD Text(All Players(All Teams), String("{0}: {1}", String("Server Load Average", Null, Null, Null), String("{0}%", Server Load Average, Null, Null), Null), Null, Null, Left, 1, Color(White), Null, Null, Visible To and String, Default Visibility);
+        Create HUD Text(All Players(All Teams), String("{0}: {1}", String("Server Load Peak", Null, Null, Null), String("{0}%", Server Load Peak, Null, Null), Null), Null, Null, Left, 2, Color(White), Null, Null, Visible To and String, Default Visibility);
+    }
+}
+
+disabled rule ("[debug.opy]: Debug HUD text") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    actions {
+        Create HUD Text(Event Player, Null, Custom String("{0}", Altitude Of(Event Player), Null, Null), Null, Top, 0, Null, Color(White), Null, String, Default Visibility);
+    }
+}
+
+rule ("[no_self_heal.opy]: Disable support self-healing passive") {
+    event {
+        Player Received Healing;
+        All;
+        All;
+    }
+    conditions {
+        "apply to only support heroes"
+        Array Contains(All Support Heroes, Hero Of(Event Player)) == True;
+        "apply to self healing (event player heals themselves)"
+        Healer == Event Player;
+        Healee == Event Player;
+        "apply to passive healing (healing ability source = non-existent)"
+        Event Ability == 0;
+    }
+    actions {
+        If(Not(Array Contains(Array(Hero(Mercy), Hero(Zenyatta), Hero(Brigitte)), Hero Of(Event Player))));
+            Damage(Event Player, Null, Event Healing);
+    }
+}
+
+rule ("[ult_charge.opy]: initialize overwatch 1 ultimate costs") {
+    event {
+        Ongoing - Global;
+    }
+    actions {
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(D.Va)), 1540);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Reinhardt)), 1542.056074766355);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Roadhog)), 2240.7407407407404);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Sigma)), 1962.6168224299065);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Winston)), 1541.6666666666667);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Wrecking Ball)), 1536.6972477064219);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Zarya)), 2101.8518518518517);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Ashe)), 2240);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Bastion)), 2310);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Cassidy)), 1681.8181818181818);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Echo)), 2254.6666666666665);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Genji)), 1932);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Hanzo)), 1680);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Junkrat)), 1925);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Mei)), 1605.5045871559632);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Pharah)), 2105.2631578947367);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Reaper)), 2097.8260869565215);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Soldier: 76)), 2310);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Sombra)), 1400);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Symmetra)), 1680);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Torbjörn)), 2142);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Tracer)), 1260);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Widowmaker)), 1540);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Ana)), 2100);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Baptiste)), 2310);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Brigitte)), 2802.197802197802);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Lúcio)), 2951.2195121951218);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Mercy)), 1820);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Moira)), 2800);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Zenyatta)), 2310);
+    }
+}
+
+rule ("[ult_charge.opy]: Remember missing ult charge from damaging tank") {
+    event {
+        Player Dealt Damage;
+        All;
+        All;
+    }
+    conditions {
+        Victim != Event Player;
+        Is True For Any(All Tank Heroes, Compare(Hero Of(Victim), ==, Current Array Element)) == True;
+        Is Using Ultimate(Event Player) == False;
+    }
+    actions {
+        Modify Player Variable(Event Player, missing_ult_points, Add, Multiply(0.3, Event Damage));
+    }
+}
+
+rule ("[ult_charge.opy]: Remember missing ult charge from healing tank") {
+    event {
+        Player Dealt Healing;
+        All;
+        All;
+    }
+    conditions {
+        Is True For Any(All Tank Heroes, Compare(Hero Of(Healee), ==, Current Array Element)) == True;
+        Is Using Ultimate(Event Player) == False;
+    }
+    actions {
+        Modify Player Variable(Event Player, missing_ult_points, Add, Multiply(0.3, Event Healing));
+    }
+}
+
+rule ("[ult_charge.opy]: Compensate missing ultimate percentage") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).missing_ult_points > 0;
+    }
+    actions {
+        "add 3% extra to compensate for rounding error"
+        Set Player Variable(Event Player, ult_percent_compensated, Add(Divide(Multiply(100, (Event Player).missing_ult_points), Value In Array(Global.ult_cost, (Event Player).hero_id)), 3));
+        Set Ultimate Charge(Event Player, Add(Ultimate Charge Percent(Event Player), (Event Player).ult_percent_compensated));
+        Set Player Variable(Event Player, ult_charge_compensated, Multiply(Divide((Event Player).ult_percent_compensated, 100), Value In Array(Global.ult_cost, (Event Player).hero_id)));
+        Modify Player Variable(Event Player, missing_ult_points, Subtract, (Event Player).ult_charge_compensated);
+    }
+}
+
+rule ("[ult_charge.opy]: Reset ult compensation after using ult") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, missing_ult_points, 0);
+        Set Player Variable(Event Player, ult_percent_compensated, 0);
+    }
+}
+
+rule ("[reset_hero.opy]: Reset hero stats/gui") {
+    event {
+        Subroutine;
+        resetHero;
+    }
+    actions {
+        Set Primary Fire Enabled(Event Player, True);
+        Allow Button(Event Player, Button(Primary Fire));
+        Set Secondary Fire Enabled(Event Player, True);
+        Allow Button(Event Player, Button(Secondary Fire));
+        Set Ability 1 Enabled(Event Player, True);
+        Allow Button(Event Player, Button(Ability 1));
+        Set Ability 2 Enabled(Event Player, True);
+        Allow Button(Event Player, Button(Ability 2));
+        Set Ultimate Charge(Event Player, 0);
+        Set Player Variable(Event Player, missing_ult_points, 0);
+        Set Player Variable(Event Player, ult_percent_compensated, 0);
+        Set Damage Dealt(Event Player, 100);
+        Set Damage Received(Event Player, 100);
+        Set Projectile Speed(Event Player, 100);
+        Set Projectile Gravity(Event Player, 100);
+        Set Healing Dealt(Event Player, 100);
+        Set Healing Received(Event Player, 100);
+        Set Knockback Received(Event Player, 100);
+        Set Knockback Dealt(Event Player, 100);
+        Call Subroutine(clearCustomHealth);
+        Clear Status(Event Player, Rooted);
+        "Clear GUI"
+        For Global Variable(i, 0, Count Of((Event Player).text_huds), 1);
+            Destroy HUD Text(Value In Array((Event Player).text_huds, Global.i));
+        End;
+        For Global Variable(i, 0, Count Of((Event Player).progress_bar_huds), 1);
+            Destroy Progress Bar HUD Text(Value In Array((Event Player).progress_bar_huds, Global.i));
+        End;
+        For Global Variable(i, 0, Count Of((Event Player).entity_huds), 1);
+            Destroy Effect(Value In Array((Event Player).entity_huds, Global.i));
+        End;
+        Set Player Variable(Event Player, text_huds, Empty Array);
+        Set Player Variable(Event Player, progress_bar_huds, Empty Array);
+        Set Player Variable(Event Player, entity_huds, Empty Array);
+        Set Player Variable(Event Player, initialized, False);
+    }
+}
+
+rule ("[reset_hero.opy]: Reset hero on new round") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Is Between Rounds == True;
+    }
+    actions {
+        Wait Until(Is In Spawn Room(Event Player), 60);
+        Call Subroutine(resetHero);
+    }
+}
+
+rule ("[reset_hero.opy]: Reset hero on hero switch") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).hero_switched == True;
+    }
+    actions {
+        Wait(0.016, Ignore Condition);
+        Call Subroutine(resetHero);
+    }
+}
+
+rule ("[ana.opy]: Detect Ana initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Ana;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initAna);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[ana.opy]: initAna()") {
+    event {
+        Subroutine;
+        initAna;
+    }
+    actions {
+        Set Damage Dealt(Event Player, 96);
+        Set Ammo(Event Player, 0, 12);
+        Set Max Ammo(Event Player, 0, 12);
+    }
+}
+
+rule ("[ana.opy]: Set default sleep dart cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Ana;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Set Ability Cooldown(Event Player, Button(Ability 1), 12);
+    }
+}
+
+rule ("[ana.opy]: Sleep tanks for longer duration") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Array Contains(All Tank Heroes, Hero Of(Event Player)) == True;
+        Has Status(Event Player, Asleep) == True;
+    }
+    actions {
+        "5/3.5 is the ratio of regular sleep time to tank sleep time"
+        Set Status(Event Player, Null, Asleep, 7.692307692307692);
+    }
+}
+
+rule ("[baptiste.opy]: Detect Baptiste initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Baptiste;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initBaptiste);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[baptiste.opy]: initBaptiste()") {
+    event {
+        Subroutine;
+        initBaptiste;
+    }
+    actions {
+        Set Ammo(Event Player, 0, 45);
+        Set Max Ammo(Event Player, 0, 45);
+        Set Ammo(Event Player, 1, 10);
+        Set Max Ammo(Event Player, 1, 10);
+    }
+}
+
+rule ("[baptiste.opy]: Set default immortality field cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Baptiste;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+    }
+    actions {
+        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Set Ability Cooldown(Event Player, Button(Ability 2), 25);
+    }
+}
+
+rule ("[bastion.opy]: Detect Bastion initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initBastion);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[bastion.opy]: initBastion()") {
+    event {
+        Subroutine;
+        initBastion;
+    }
+    actions {
+        Set Player Variable(Event Player, self_repair_time_left, 3.333333333333333);
+        Set Player Variable(Event Player, machine_gun_ammo, 300);
+        Set Player Variable(Event Player, machine_gun_reload_timer, 0);
+        Disallow Button(Event Player, Button(Secondary Fire));
+        Set Player Variable(Event Player, sentry_gui_visibility, Null);
+        Set Player Variable(Event Player, heal_gui_visibility, Null);
+        "Initialize GUI"
+        Create Progress Bar HUD Text((Event Player).sentry_gui_visibility, Round To Integer(Divide(Multiply(100, (Event Player).machine_gun_ammo), 300), To Nearest), Custom String("Ammo: {0}", Round To Integer((Event Player).machine_gun_ammo, Up), Null, Null), Top, 0, Color(Orange), Color(Orange), Visible To Values and Color, Default Visibility);
+        Modify Player Variable(Event Player, progress_bar_huds, Append To Array, Last Text ID);
+        Create Progress Bar HUD Text((Event Player).heal_gui_visibility, Round To Integer(Divide(Multiply(100, (Event Player).self_repair_time_left), 3.333333333333333), To Nearest), Custom String("Self-Repair", Null, Null, Null), Left, 1, Color(Yellow), Color(Yellow), Visible To Values and Color, Default Visibility);
+        Modify Player Variable(Event Player, progress_bar_huds, Append To Array, Last Text ID);
+    }
+}
+
+rule ("[bastion.opy]: Hide Bastion HUD on hero switch") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).hero_switched == True;
+        Hero Of(Event Player) != Hero(Bastion);
+    }
+    actions {
+        Set Player Variable(Event Player, sentry_gui_visibility, Null);
+        Set Player Variable(Event Player, heal_gui_visibility, Null);
+    }
+}
+
+rule ("[bastion.opy]: No cooldown on reconfigure (ability 1)") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == False;
+    }
+    actions {
+        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
+    }
+}
+
+rule ("[bastion.opy]: start machine gun reload timer") {
+    event {
+        Subroutine;
+        startMachineGunReload;
+    }
+    actions {
+        Abort If(Compare((Event Player).machine_gun_ammo, >=, 300));
+        If(Compare((Event Player).current_configuration, ==, 1));
+            Small Message(Event Player, Custom String("Reloading . . .", Null, Null, Null));
+        End;
+        Set Player Variable(Event Player, machine_gun_ready, False);
+        Set Player Variable(Event Player, machine_gun_reload_timer, 1.984);
+        Chase Player Variable At Rate(Event Player, machine_gun_reload_timer, 0, 1, Destination and Rate);
+    }
+}
+
+rule ("[bastion.opy]: finish reloading machine gun") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).machine_gun_reload_timer <= 0;
+    }
+    actions {
+        Set Player Variable(Event Player, machine_gun_ammo, 300);
+        Set Player Variable(Event Player, machine_gun_ready, True);
+        If(Compare((Event Player).current_configuration, ==, 1));
+            Small Message(Event Player, Custom String("Done", Null, Null, Null));
+    }
+}
+
+rule ("[bastion.opy]: Define recon mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        "built in workshop function for detecting default hero form"
+        Is In Alternate Form(Event Player) == False;
+    }
+    actions {
+        Set Player Variable(Event Player, current_configuration, 0);
+    }
+}
+
+rule ("[bastion.opy]: Initialize recon mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 0;
+    }
+    actions {
+        Set Move Speed(Event Player, 100);
+        Set Damage Dealt(Event Player, 100);
+        Set Projectile Speed(Event Player, 100);
+        Set Projectile Gravity(Event Player, 100);
+        Disallow Button(Event Player, Button(Secondary Fire));
+        Clear Status(Event Player, Rooted);
+        Set Knockback Received(Event Player, 100);
+        Allow Button(Event Player, Button(Primary Fire));
+    }
+}
+
+rule ("[bastion.opy]: Define sentry mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Is In Alternate Form(Event Player) == True;
+        "Sentry mode can only be entered from recon mode"
+        (Event Player).current_configuration == 0;
+        "prevents incorrectly identifying tank as sentry"
+        (Event Player).current_configuration != 2;
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, current_configuration, 1);
+    }
+}
+
+rule ("[bastion.opy]: Initialize sentry mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+    }
+    actions {
+        Set Damage Dealt(Event Player, 125);
+        Set Status(Event Player, Null, Rooted, 9999);
+        Set Knockback Received(Event Player, 0);
+        Disallow Button(Event Player, Button(Secondary Fire));
+        Set Player Variable(Event Player, machine_gun_ready, True);
+        Stop Chasing Player Variable(Event Player, machine_gun_reload_timer);
+    }
+}
+
+rule ("[bastion.opy]: Define tank mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, current_configuration, 2);
+    }
+}
+
+rule ("[bastion.opy]: Initialize tank mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 2;
+    }
+    actions {
+        "move faster in tank mode"
+        Set Move Speed(Event Player, 153.84615384615384);
+        "deal more damage in tank mode"
+        Set Damage Dealt(Event Player, 178.2608695652174);
+        "increase grenade travel speed (to mimic tank shells)"
+        Set Projectile Speed(Event Player, 150);
+        Set Projectile Gravity(Event Player, 5);
+        "Disallow firing machine gun"
+        Disallow Button(Event Player, Button(Primary Fire));
+        Disallow Button(Event Player, Button(Secondary Fire));
+        Clear Status(Event Player, Rooted);
+        Set Knockback Received(Event Player, 100);
+    }
+}
+
+rule ("[bastion.opy]: Show sentry gui when in sentry mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+    }
+    actions {
+        Set Player Variable(Event Player, sentry_gui_visibility, Event Player);
+    }
+}
+
+rule ("[bastion.opy]: Hide sentry gui when not in sentry mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration != 1;
+    }
+    actions {
+        Set Player Variable(Event Player, sentry_gui_visibility, Null);
+    }
+}
+
+rule ("[bastion.opy]: Consume machine gun ammo when shooting") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        Is Firing Primary(Event Player) == True;
+    }
+    actions {
+        Chase Player Variable At Rate(Event Player, machine_gun_ammo, 0, 30, Destination and Rate);
+    }
+}
+
+rule ("[bastion.opy]: Stop machine gun ammo consumption when not shooting") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        And(Compare((Event Player).current_configuration, ==, 1), Is Firing Primary(Event Player)) == False;
+    }
+    actions {
+        Stop Chasing Player Variable(Event Player, machine_gun_ammo);
+    }
+}
+
+rule ("[bastion.opy]: Reload machine gun on reload key") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        Is Button Held(Event Player, Button(Reload)) == True;
+    }
+    actions {
+        Call Subroutine(startMachineGunReload);
+    }
+}
+
+rule ("[bastion.opy]: Reload machine gun if out of ammo") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        (Event Player).machine_gun_ammo <= 0;
+    }
+    actions {
+        Call Subroutine(startMachineGunReload);
+    }
+}
+
+rule ("[bastion.opy]: Reload machine gun when not in sentry mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration != 1;
+    }
+    actions {
+        Call Subroutine(startMachineGunReload);
+    }
+}
+
+rule ("[bastion.opy]: Allow machine gun shooting when machine gun ready") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        "gun ready to shoot"
+        (Event Player).machine_gun_ready == True;
+    }
+    actions {
+        Allow Button(Event Player, Button(Primary Fire));
+    }
+}
+
+rule ("[bastion.opy]: Disallow machine gun shooting when machine gun not ready") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        "gun not ready to shoot"
+        (Event Player).machine_gun_ready == False;
+    }
+    actions {
+        Disallow Button(Event Player, Button(Primary Fire));
+    }
+}
+
+rule ("[bastion.opy]: Execute self-repair ability") {
+    event {
+        Subroutine;
+        selfRepair;
+    }
+    actions {
+        Wait(0.5, Ignore Condition);
+        "Approximate 90 healing over time using discrete healing at high frequency"
+        While(Compare((Event Player).self_repair, ==, True));
+            Heal(Event Player, Event Player, 7);
+            Wait(0.077777777777777, Ignore Condition);
+            Modify Player Variable(Event Player, missing_ult_points, Add, 7);
+        End;
+    }
+}
+
+rule ("[bastion.opy]: Activate self-repair") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).self_repair == True;
+    }
+    actions {
+        Call Subroutine(selfRepair);
+    }
+}
+
+rule ("[bastion.opy]: Start self-repair on ability 2 or secondary fire") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire))) == True;
+        Is Firing Primary(Event Player) == False;
+        Health(Event Player) < Max Health(Event Player);
+        Is Alive(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, self_repair, True);
+    }
+}
+
+rule ("[bastion.opy]: Stop self-repair on ability 2 release") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Or(Not(Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire)))), Is Firing Primary(Event Player)) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, self_repair, False);
+    }
+}
+
+rule ("[bastion.opy]: Stop self-repair and hide its GUI on death") {
+    event {
+        Player Died;
+        All;
+        Bastion;
+    }
+    actions {
+        Set Player Variable(Event Player, self_repair, False);
+        Set Player Variable(Event Player, heal_gui_visibility, Null);
+    }
+}
+
+rule ("[bastion.opy]: Stop self-repair when no healing resource left") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).self_repair_time_left <= 0;
+    }
+    actions {
+        Set Player Variable(Event Player, self_repair, False);
+    }
+}
+
+rule ("[bastion.opy]: Stop self-repair when full hp") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Health(Event Player) >= Max Health(Event Player);
+    }
+    actions {
+        Set Player Variable(Event Player, self_repair, False);
+    }
+}
+
+rule ("[bastion.opy]: Show self-repair GUI") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).self_repair_time_left < 3.333333333333333;
+    }
+    actions {
+        Set Player Variable(Event Player, heal_gui_visibility, Event Player);
+    }
+}
+
+rule ("[bastion.opy]: Hide self-repair GUI") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).self_repair_time_left >= 3.333333333333333;
+    }
+    actions {
+        Set Player Variable(Event Player, heal_gui_visibility, Null);
+    }
+}
+
+rule ("[bastion.opy]: Consume heal resource on self-repair") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).self_repair == True;
+    }
+    actions {
+        "Stop any ongoing resource modification"
+        Stop Chasing Player Variable(Event Player, self_repair_time_left);
+        "wait self-repair animation casttime"
+        Wait Until(Not((Event Player).self_repair), 0.5);
+        "player interrupted self-repair"
+        Abort If(Not((Event Player).self_repair));
+        "Start depleting"
+        Chase Player Variable At Rate(Event Player, self_repair_time_left, 0, 1, Destination and Rate);
+    }
+}
+
+rule ("[bastion.opy]: Recharge heal resource when not self-repairing") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).self_repair == False;
+    }
+    actions {
+        "Stop any ongoing resource modification"
+        Stop Chasing Player Variable(Event Player, self_repair_time_left);
+        "Wait 1 second cooldown before recharging heal resource"
+        Wait Until((Event Player).self_repair, 1);
+        "player interrupted self-repair"
+        Abort If((Event Player).self_repair);
+        "Start recharging"
+        Chase Player Variable At Rate(Event Player, self_repair_time_left, 3.333333333333333, 0.476190476190476, Destination and Rate);
+    }
+}
+
+rule ("[bastion.opy]: Transform into tank") {
+    event {
+        Subroutine;
+        transformInToTank;
+    }
+    actions {
+        Wait(0.5, Ignore Condition);
+        "interrupt ultimate animation right before it completes"
+        Cancel Primary Action(Event Player);
+        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
+        "Go to turret mode"
+        Press Button(Event Player, Button(Ability 1));
+        "Disable reconfiguring out of turret mode"
+        Disallow Button(Event Player, Button(Ability 1));
+    }
+}
+
+rule ("[bastion.opy]: Transform out of tank") {
+    event {
+        Subroutine;
+        transformOutOfTank;
+    }
+    actions {
+        If(Is Using Ability 1(Event Player));
+            Set Ability Cooldown(Event Player, Button(Ability 1), 0);
+            "Go to recon mode"
+            Press Button(Event Player, Button(Ability 1));
+        End;
+        Allow Button(Event Player, Button(Ability 1));
+    }
+}
+
+rule ("[bastion.opy]: Enter tank mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 2;
+    }
+    actions {
+        Call Subroutine(transformInToTank);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 8);
+        Call Subroutine(transformOutOfTank);
+    }
+}
+
+rule ("[bastion.opy]: Fire tank shells") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 2;
+        Is Button Held(Event Player, Button(Primary Fire)) == True;
+    }
+    actions {
+        Allow Button(Event Player, Button(Secondary Fire));
+        Press Button(Event Player, Button(Secondary Fire));
+        Disallow Button(Event Player, Button(Secondary Fire));
+        Wait(0.016, Ignore Condition);
+        Wait Until(Compare(Ability Cooldown(Event Player, Button(Secondary Fire)), <=, 0), 9999);
+        Loop If Condition Is True;
+    }
+}
+
+rule ("[bastion.opy]: Reload tank shells") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 2;
+        Is Firing Secondary(Event Player) == True;
+    }
+    actions {
+        "modify cooldown for tank shell"
+        Set Ability Cooldown(Event Player, Button(Secondary Fire), 0.75);
+        "Wait tank shell reload time"
+        Wait(0.75, Ignore Condition);
+        "Set tank shell as available"
+        Set Ability Cooldown(Event Player, Button(Secondary Fire), 0);
+    }
+}
+
+rule ("[brigitte.opy]: Detect Brigitte initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Brigitte;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initBrigitte);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[brigitte.opy]: initBrigitte()") {
+    event {
+        Subroutine;
+        initBrigitte;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 150);
+        Set Player Variable(Event Player, health_armor, 50);
+        Set Player Variable(Event Player, health_shields, 0);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 200));
+    }
+}
+
+rule ("[brigitte.opy]: Add stun to shield bash") {
+    event {
+        Player Dealt Damage;
+        All;
+        Brigitte;
+    }
+    conditions {
+        Is Firing Secondary(Event Player) == True;
+        Event Ability == Button(Primary Fire);
+    }
+    actions {
+        Set Status(Victim, Event Player, Stunned, 0.75);
+    }
+}
+
+rule ("[brigitte.opy]: Reduce shield bash distance") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Brigitte;
+    }
+    conditions {
+        Is Firing Secondary(Event Player) == True;
+        Is Firing Primary(Event Player) == True;
+        Is Using Ultimate(Event Player) == False;
+    }
+    actions {
+        "arbitrarily decided based on trial and error"
+        Set Move Speed(Event Player, 77.8);
+        Wait Until(Not(Is Firing Primary(Event Player)), 1);
+        If(Is Using Ultimate(Event Player));
+            Set Move Speed(Event Player, 113.04347826086958);
+        Else;
+            Set Move Speed(Event Player, 100);
+    }
+}
+
+rule ("[brigitte.opy]: Rally 30% speed boost") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Brigitte;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+    }
+    actions {
+        "30% movement speed buff during ralley"
+        Set Move Speed(Event Player, 113.04347826086958);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 10);
+        Set Move Speed(Event Player, 100);
+    }
+}
+
+rule ("[doomfist.opy]: Detect Doomfist initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initDoomfist);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[doomfist.opy]: initDoomfist()") {
+    event {
+        Subroutine;
+        initDoomfist;
+    }
+    actions {
+        Disallow Button(Event Player, Button(Ability 1));
+        Disallow Button(Event Player, Button(Ability 2));
+        Set Max Health(Event Player, 55.556);
+        Set Knockback Received(Event Player, 142.895);
+        Set Player Variable(Event Player, shift_pressed_by_bot, False);
+        Set Player Variable(Event Player, e_pressed_by_bot, False);
+        Call Subroutine(initSlamIndicatorGui);
+    }
+}
+
+rule ("Subroutine initSlamIndicatorGui") {
+    event {
+        Subroutine;
+        initSlamIndicatorGui;
+    }
+    actions {
+        Set Player Variable(Event Player, indicator_visibility, Null);
+        Set Player Variable(Event Player, cos_lut, Empty Array);
+        Set Player Variable(Event Player, sin_lut, Empty Array);
+        For Player Variable(Event Player, i, 0, 5, 1);
+            Modify Player Variable(Event Player, cos_lut, Append To Array, Cosine From Degrees(Subtract(Multiply((Event Player).i, 15), 30)));
+            Modify Player Variable(Event Player, sin_lut, Append To Array, Sine From Degrees(Subtract(Multiply((Event Player).i, 15), 30)));
+        End;
+        For Player Variable(Event Player, i, 0, 5, 1);
+            Create Beam Effect((Event Player).indicator_visibility, Good Beam, Add(Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False), Vector(Add(Multiply(X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i)))), Y Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Add(Multiply(Multiply(-1, X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player)))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i)))))), Add(Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False), Multiply(8, Vector(Add(Multiply(X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i)))), Y Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Add(Multiply(Multiply(-1, X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player)))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i))))))), Color(Blue), Visible To Position and Radius);
+            Modify Player Variable(Event Player, entity_huds, Append To Array, Last Created Entity);
+        End;
+    }
+}
+
+rule ("[doomfist.opy]: Detect shift key press by human") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Is Button Held(Event Player, Button(Ability 1)) == True;
+        (Event Player).shift_pressed_by_bot == False;
+    }
+    actions {
+        Set Player Variable(Event Player, pressing_uppercut_key, True);
+        Wait Until(Not(Is Button Held(Event Player, Button(Ability 1))), 9999);
+        Set Player Variable(Event Player, pressing_uppercut_key, False);
+    }
+}
+
+rule ("[doomfist.opy]: Detect e key press by human") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Is Button Held(Event Player, Button(Ability 2)) == True;
+        (Event Player).e_pressed_by_bot == False;
+    }
+    actions {
+        Set Player Variable(Event Player, pressing_slam_key, True);
+        Wait Until(Not(Is Button Held(Event Player, Button(Ability 2))), 9999);
+        Set Player Variable(Event Player, pressing_slam_key, False);
+    }
+}
+
+rule ("[doomfist.opy]: Control flow for uppercut") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).pressing_uppercut_key == True;
+        (Event Player).is_using_slam == False;
+        Ability Cooldown(Event Player, Button(Ability 1)) <= 0;
+        "Ensure Doomfist is not hacked"
+        Has Status(Event Player, Hacked) == False;
+        "Ensure Doomfist is not frozen"
+        Has Status(Event Player, Frozen) == False;
+        "Ensure Doomfist is not knocked down"
+        Has Status(Event Player, Knocked Down) == False;
+        "Ensure Doomfist is not asleep"
+        Has Status(Event Player, Asleep) == False;
+        "Ensure Doomfist is not stunned"
+        Has Status(Event Player, Stunned) == False;
+    }
+    actions {
+        Call Subroutine(executeUppercut);
+    }
+}
+
+rule ("[doomfist.opy]: Control flow for slam") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).pressing_slam_key == True;
+        (Event Player).is_using_uppercut == False;
+        Ability Cooldown(Event Player, Button(Ability 2)) <= 0;
+        "Ensure Doomfist is not hacked"
+        Has Status(Event Player, Hacked) == False;
+        "Ensure Doomfist is not frozen"
+        Has Status(Event Player, Frozen) == False;
+        "Ensure Doomfist is not knocked down"
+        Has Status(Event Player, Knocked Down) == False;
+        "Ensure Doomfist is not asleep"
+        Has Status(Event Player, Asleep) == False;
+        "Ensure Doomfist is not stunned"
+        Has Status(Event Player, Stunned) == False;
+    }
+    actions {
+        Call Subroutine(executeSlam);
+    }
+}
+
+rule ("[doomfist.opy]: Execute main logic for Rising Uppercut ability") {
+    event {
+        Subroutine;
+        executeUppercut;
+    }
+    actions {
+        "Start of uppercut"
+        Set Player Variable(Event Player, is_using_uppercut, True);
+        "Doomfist phases through enemies during uppercut"
+        Disable Movement Collision With Players(Event Player);
+        "Doomfist cannot melee during uppercut"
+        Disallow Button(Event Player, Button(Melee));
+        "Doomfist cannot shoot during uppercut"
+        Disallow Button(Event Player, Button(Primary Fire));
+        "Doomfist cannot punch during uppercut"
+        Set Secondary Fire Enabled(Event Player, False);
+        "Uppercut physics\r\n Cancel current momentum"
+        Apply Impulse(Event Player, Velocity Of(Event Player), Multiply(-1, Speed Of(Event Player)), To World, Incorporate Contrary Motion);
+        "Move laterally in the facing direction"
+        Apply Impulse(Event Player, Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))), 5, To World, Incorporate Contrary Motion);
+        "Override gravity during uppercut"
+        Set Gravity(Event Player, 0);
+        "Deny player from inputting movement commands"
+        Start Forcing Throttle(Event Player, 0, 0, 0, 0, 0, 0);
+        Call Subroutine(detectUpercutHit);
+        Wait(0.15, Ignore Condition);
+        Apply Impulse(Event Player, Up, 40, To World, Incorporate Contrary Motion);
+        Wait(0.1, Ignore Condition);
+        Apply Impulse(Event Player, Down, Max(0, Speed Of In Direction(Event Player, Up)), To World, Incorporate Contrary Motion);
+        Wait(0.016, Ignore Condition);
+        Apply Impulse(Event Player, Vector(0, 1, 0), 2.5, To World, Incorporate Contrary Motion);
+        Set Gravity(Event Player, 0);
+        "End of uppercut"
+        Set Player Variable(Event Player, is_using_uppercut, False);
+        Set Ability Cooldown(Event Player, Button(Ability 1), 6);
+        Enable Movement Collision With Players(Event Player);
+        Allow Button(Event Player, Button(Melee));
+        Allow Button(Event Player, Button(Primary Fire));
+        Set Secondary Fire Enabled(Event Player, True);
+        Wait(0.35, Ignore Condition);
+        Stop Forcing Throttle(Event Player);
+        Wait(0.15, Ignore Condition);
+        Set Gravity(Event Player, 50);
+        Wait(0.25, Ignore Condition);
+        Set Gravity(Event Player, 100);
+    }
+}
+
+rule ("[doomfist.opy]: Detect enemies hit by Uppercut") {
+    event {
+        Subroutine;
+        detectUpercutHit;
+    }
+    actions {
+        "Find enemies in uppercut range"
+        Set Player Variable(Event Player, enemies_in_uppercut_radius, Players Within Radius(Event Player, 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers));
+        "Find enemies in 90 degree FOV"
+        Set Player Variable(Event Player, enemies_in_uppercut_view, Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 90));
+        "enemies_hit_by_uppercut = Union(enemies_in_uppercut_radius, enemies_in_uppercut_view)"
+        Set Player Variable(Event Player, enemies_hit_by_uppercut, Empty Array);
+        For Player Variable(Event Player, i, 0, Count Of((Event Player).enemies_in_uppercut_radius), 1);
+            If(Array Contains((Event Player).enemies_in_uppercut_view, Value In Array((Event Player).enemies_in_uppercut_radius, (Event Player).i)));
+                Modify Player Variable(Event Player, enemies_hit_by_uppercut, Append To Array, Value In Array((Event Player).enemies_in_uppercut_radius, (Event Player).i));
+            End;
+        End;
+        For Player Variable(Event Player, i, 0, Count Of((Event Player).enemies_hit_by_uppercut), 1);
+            Damage(Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i), Event Player, 50);
+            Play Effect(All Players(All Teams), Bad Explosion, Color(White), Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i), 1);
+            Play Effect(All Players(All Teams), Explosion Sound, Color(White), Position Of(Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i)), 100);
+            Apply Impulse(Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i), Up, 15, To Player, Cancel Contrary Motion XYZ);
+            Apply Impulse(Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i), Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))), 5, To World, Cancel Contrary Motion XYZ);
+        End;
+    }
+}
+
+rule ("[doomfist.opy]: Detect ground slam") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Update Every Frame(Compare(Altitude Of(Event Player), <, 3)) != False;
+    }
+    actions {
+        Set Player Variable(Event Player, slam_to_use, 0);
+    }
+}
+
+rule ("[doomfist.opy]: Detect indicator slam") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Update Every Frame(Compare(Altitude Of(Event Player), >=, 3)) != False;
+    }
+    actions {
+        Set Player Variable(Event Player, slam_to_use, 1);
+    }
+}
+
+rule ("[doomfist.opy]: Execute main logic for Seismic Slam ability") {
+    event {
+        Subroutine;
+        executeSlam;
+    }
+    actions {
+        If(Compare((Event Player).slam_to_use, ==, 1));
+            "Only execute indicator slam if indicator visible"
+            If(Compare((Event Player).indicator_visibility, ==, Event Player));
+                Call Subroutine(initiateIndicatorSlam);
+            End;
+        Else;
+            Call Subroutine(initiateGroundSlam);
+        End;
+        If(Compare((Event Player).is_using_slam, ==, True));
+            Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+            Set Player Variable(Event Player, is_using_slam, False);
+            Set Ability Cooldown(Event Player, Button(Ability 1), (Event Player).uppercut_cooldown);
+            Set Ability Cooldown(Event Player, Button(Ability 2), 6);
+        End;
+    }
+}
+
+rule ("[doomfist.opy]: Indicator slam validity") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        "Slam available"
+        Ability Cooldown(Event Player, Button(Ability 2)) <= 0;
+        "Not using ability"
+        (Event Player).is_using_slam == False;
+        (Event Player).slam_to_use == 1;
+        "If vertical distance is greater than the margin, it's invalid."
+        Distance Between(Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False), Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null))) < 1.5;
+    }
+    actions {
+        Set Player Variable(Event Player, indicator_visibility, Event Player);
+    }
+}
+
+rule ("[doomfist.opy]: Hide indicator while slam not available") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Ability Cooldown(Event Player, Button(Ability 2)) > 0;
+    }
+    actions {
+        Set Player Variable(Event Player, indicator_visibility, Null);
+    }
+}
+
+rule ("[doomfist.opy]: Hide indicator while using slam") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).is_using_slam != False;
+    }
+    actions {
+        Set Player Variable(Event Player, indicator_visibility, Null);
+    }
+}
+
+rule ("[doomfist.opy]: Hide indicator if not indicator slam") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).slam_to_use != 1;
+    }
+    actions {
+        Set Player Variable(Event Player, indicator_visibility, Null);
+    }
+}
+
+rule ("[doomfist.opy]: Hide indicator slam is floating") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Distance Between(Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False), Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null))) >= 1.5;
+    }
+    actions {
+        Set Player Variable(Event Player, indicator_visibility, Null);
+    }
+}
+
+rule ("[doomfist.opy]: InitiateGroundSlam()") {
+    event {
+        Subroutine;
+        initiateGroundSlam;
+    }
+    actions {
+        Set Player Variable(Event Player, is_using_slam, True);
+        Set Gravity(Event Player, 0);
+        Start Forcing Throttle(Event Player, 0, 0, 0, 0, 0, 0);
+        "Start slam animation"
+        Set Player Variable(Event Player, uppercut_cooldown, Ability Cooldown(Event Player, Button(Ability 1)));
+        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
+        Allow Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, shift_pressed_by_bot, True);
+        Press Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, shift_pressed_by_bot, False);
+        Disallow Button(Event Player, Button(Ability 1));
+        "wait for doom to start moving"
+        Wait(0.016, Ignore Condition);
+        "immediately cancel momentum"
+        Apply Impulse(Event Player, Velocity Of(Event Player), Multiply(-1, Speed Of(Event Player)), To World, Incorporate Contrary Motion);
+        "apply custom momentum"
+        Apply Impulse(Event Player, Add(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player)))), Vector(0, 0.075, 0)), 16, To World, Incorporate Contrary Motion);
+        Wait(0.3, Ignore Condition);
+        Set Gravity(Event Player, 100);
+        Wait Until(Or(Is On Ground(Event Player), Not(Is Using Ability 1(Event Player))), 9999);
+        Stop Forcing Throttle(Event Player);
+    }
+}
+
+rule ("[doomfist.opy]: InitiateIndicatorSlam()") {
+    event {
+        Subroutine;
+        initiateIndicatorSlam;
+    }
+    actions {
+        Set Player Variable(Event Player, valid_slam_position, Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False));
+        Set Player Variable(Event Player, is_using_slam, True);
+        Set Gravity(Event Player, 0);
+        Start Forcing Throttle(Event Player, 0, 0, 0, 0, 0, 0);
+        "Start slam animation"
+        Set Player Variable(Event Player, uppercut_cooldown, Ability Cooldown(Event Player, Button(Ability 1)));
+        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
+        Allow Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, shift_pressed_by_bot, True);
+        Press Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, shift_pressed_by_bot, False);
+        Disallow Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, current_position, Position Of(Event Player));
+        Chase Player Variable At Rate(Event Player, current_position, (Event Player).valid_slam_position, 25, None);
+        Start Forcing Player Position(Event Player, (Event Player).current_position, True);
+        Wait Until(Or(And(Compare(Altitude Of(Event Player), <=, 0.01), Compare(Distance Between((Event Player).current_position, (Event Player).valid_slam_position), <=, 0.01)), Not(Is Using Ability 1(Event Player))), 9999);
+        Stop Forcing Player Position(Event Player);
+        Stop Chasing Player Variable(Event Player, current_position);
+        Stop Forcing Throttle(Event Player);
+        Set Gravity(Event Player, 100);
+        "cancel current momentum"
+        Apply Impulse(Event Player, Velocity Of(Event Player), Multiply(-1, Speed Of(Event Player)), To World, Incorporate Contrary Motion);
+    }
+}
+
+rule ("[dva.opy]: Detect Dva initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        D.Va;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initDva);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[dva.opy]: initDva()") {
+    event {
+        Subroutine;
+        initDva;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 300);
+        Set Player Variable(Event Player, health_armor, 300);
+        Set Player Variable(Event Player, health_shields, 0);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 600));
+        Wait Until(Not(Is In Alternate Form(Event Player)), 9999);
+        Set Ultimate Charge(Event Player, 0);
+    }
+}
+
+rule ("[dva.opy]: Set default missile cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        D.Va;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+    }
+    actions {
+        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Set Ability Cooldown(Event Player, Button(Ability 2), 8);
+    }
+}
+
+rule ("[dva.opy]: Decouple melee button from activating melee animation during booster") {
+    event {
+        Ongoing - Each Player;
+        All;
+        D.Va;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Disallow Button(Event Player, Button(Melee));
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Allow Button(Event Player, Button(Melee));
+    }
+}
+
+rule ("[dva.opy]: Cancel booster if melee pressed") {
+    event {
+        Ongoing - Each Player;
+        All;
+        D.Va;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+        Is Button Held(Event Player, Button(Melee)) == True;
+    }
+    actions {
+        Press Button(Event Player, Button(Ability 1));
+        Allow Button(Event Player, Button(Melee));
+        Press Button(Event Player, Button(Melee));
+        Disallow Button(Event Player, Button(Melee));
+    }
+}
+
+rule ("[genji.opy]: Detect Genji initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Genji;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initGenji);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[genji.opy]: initGenji()") {
+    event {
+        Subroutine;
+        initGenji;
+    }
+    actions {
+        Set Ammo(Event Player, 0, 30);
+        Set Max Ammo(Event Player, 0, 30);
+        Set Damage Dealt(Event Player, 107.4074074074074);
+    }
+}
+
+rule ("[genji.opy]: Change dash damage") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Genji;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+        Is Using Ultimate(Event Player) == False;
+    }
+    actions {
+        Set Damage Dealt(Event Player, 100);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Set Damage Dealt(Event Player, 107.4074074074074);
+    }
+}
+
+rule ("[genji.opy]: Change ult damage") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Genji;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+    }
+    actions {
+        Set Damage Dealt(Event Player, 100);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        "this code from line 35 to 39 solves this bug: if you deflect right before his ult ends, it would cause it to be using the extra damage modifier. This prevents it so if his ult ends and you are still deflecting, you wont have the extra damage until deflect is over."
+        If(Is Using Ability 2(Event Player));
+            Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+            Set Damage Dealt(Event Player, 107.4074074074074);
+        Else;
+        End;
+        Set Damage Dealt(Event Player, 107.4074074074074);
+    }
+}
+
+rule ("[genji.opy]: Change deflect damage") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Genji;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+        Is Using Ultimate(Event Player) == False;
+    }
+    actions {
+        Set Damage Dealt(Event Player, 100);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Set Damage Dealt(Event Player, 107.4074074074074);
+    }
+}
+
+rule ("[mccree.opy]: Detect Mccree initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Cassidy;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initMccree);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[mccree.opy]: initMccree()") {
+    event {
+        Subroutine;
+        initMccree;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 225);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 0);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 225));
+        Disallow Button(Event Player, Button(Ability 2));
+    }
+}
+
+rule ("[mccree.opy]: Throw projectile when pressing e") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Cassidy;
+    }
+    conditions {
+        Is Button Held(Event Player, Button(Ability 2)) == True;
+        Ability Cooldown(Event Player, Button(Ability 2)) <= 0;
+        "Ensure Cassidy is not rolling"
+        Is Using Ability 1(Event Player) == False;
+        "Ensure Cassidy is not hacked"
+        Has Status(Event Player, Hacked) == False;
+        "Ensure Cassidy is not frozen"
+        Has Status(Event Player, Frozen) == False;
+        "Ensure Cassidy is not knocked down"
+        Has Status(Event Player, Knocked Down) == False;
+        "Ensure Cassidy is not asleep"
+        Has Status(Event Player, Asleep) == False;
+        "Ensure Cassidy is not stunned"
+        Has Status(Event Player, Stunned) == False;
+    }
+    actions {
+        Create Projectile(Orb Projectile, Event Player, Null, Null, To World, Damage, Opposite Team Of(Team Of(Event Player)), 25, 1, 3, Bad Explosion, Explosion Sound, 0, 30, 0.233333333333333, 0, 0, 1);
+        Set Ability Cooldown(Event Player, Button(Ability 2), 10);
+    }
+}
+
+rule ("[mccree.opy]: Stun flashed enemy") {
+    event {
+        Player Took Damage;
+        All;
+        All;
+    }
+    conditions {
+        Event Ability == 0;
+        Or(Compare(Hero Of(Attacker), ==, Hero(Cassidy)), Compare(Hero Of(Attacker), ==, Hero(Genji))) == True;
+    }
+    actions {
+        Set Status(Victim, Event Player, Stunned, 0.8);
+    }
+}
+
+rule ("[mccree.opy]: Remove damage reduction during roll") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Cassidy;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Set Damage Received(Event Player, 200);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Set Damage Received(Event Player, 100);
+    }
+}
+
+rule ("[mccree.opy]: Remove damage reduction during deadeye") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Cassidy;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+    }
+    actions {
+        Set Damage Received(Event Player, 166.66666666666666);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Set Damage Received(Event Player, 100);
+    }
+}
+
+rule ("[mei.opy]: Detect Mei initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Mei;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initMei);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[mei.opy]: initMei()") {
+    event {
+        Subroutine;
+        initMei;
+    }
+    actions {
+        Set Ammo(Event Player, 0, 120);
+        Set Max Ammo(Event Player, 0, 120);
+    }
+}
+
+rule ("[mei.opy]: Track freezing on enemy") {
+    event {
+        Player Dealt Damage;
+        All;
+        Mei;
+    }
+    conditions {
+        Event Ability == Button(Primary Fire);
+        (Victim).is_frozen == False;
+    }
+    actions {
+        Stop Chasing Player Variable(Victim, freeze_slow_effect_timer);
+        Set Player Variable(Victim, freeze_slow_effect_timer, 1);
+        "start the freeze time at 20"
+        If(Compare((Victim).start_freeze, ==, False));
+            Set Player Variable(Victim, freeze_percent, 20);
+        End;
+        "make sure it doesn't reset back to 20"
+        If(Compare((Victim).freeze_percent, <, 100));
+            Set Player Variable(Victim, start_freeze, True);
+        End;
+        "2.85% each tick from wiki"
+        Modify Player Variable(Victim, freeze_percent, Add, 2.85);
+        If(Compare((Victim).freeze_percent, <=, 70));
+            Set Player Variable(Victim, freeze_penalty_percent, (Victim).freeze_percent);
+        End;
+        Set Move Speed(Victim, Subtract(100, (Victim).freeze_penalty_percent));
+        Chase Player Variable At Rate(Victim, freeze_slow_effect_timer, 0, 1, None);
+    }
+}
+
+rule ("[mei.opy]: Freeze enemy") {
+    event {
+        Player Dealt Damage;
+        All;
+        All;
+    }
+    conditions {
+        (Victim).freeze_percent >= 100;
+    }
+    actions {
+        Set Status(Victim, Event Player, Frozen, 1.3);
+        Set Player Variable(Victim, is_frozen, True);
+        Wait(1.3, Ignore Condition);
+        Set Player Variable(Victim, is_frozen, False);
+        Set Player Variable(Victim, start_freeze, False);
+        Set Player Variable(Victim, freeze_percent, 20);
+        Set Move Speed(Victim, 100);
+    }
+}
+
+rule ("[mei.opy]: Cancel slow movement freeze") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).freeze_slow_effect_timer == 0;
+    }
+    actions {
+        Stop Chasing Player Variable(Event Player, freeze_slow_effect_timer);
+        Set Move Speed(Event Player, 100);
+        Set Player Variable(Event Player, freeze_percent, 20);
+    }
+}
+
+rule ("[mercy.opy]: Detect Mercy initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Mercy;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initMercy);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[mercy.opy]: initMercy()") {
+    event {
+        Subroutine;
+        initMercy;
+    }
+    actions {
+        Set Ammo(Event Player, 0, 20);
+        Set Max Ammo(Event Player, 0, 20);
+    }
+}
+
+rule ("[mercy.opy]: Change GA Cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Mercy;
+    }
+    conditions {
+        Or(And(Is Using Ability 1(Event Player), Is Button Held(Event Player, Button(Jump))), And(And(Is Using Ability 1(Event Player), Is Button Held(Event Player, Button(Crouch))), Not(Is Using Ultimate(Event Player)))) == True;
+    }
+    actions {
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
+    }
+}
+
+rule ("[moira.opy]: Detect Moira initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Moira;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initMoira);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[moira.opy]: Deny fade during coalescence") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Moira;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+    }
+    actions {
+        Set Ability 1 Enabled(Event Player, False);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Set Ability 1 Enabled(Event Player, True);
+    }
+}
+
+rule ("[reinhardt.opy]: Detect Reinhardt initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Reinhardt;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initReinhardt);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[reinhardt.opy]: initReinhardt()") {
+    event {
+        Subroutine;
+        initReinhardt;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 300);
+        Set Player Variable(Event Player, health_armor, 200);
+        Set Player Variable(Event Player, health_shields, 0);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 500));
+    }
+}
+
+rule ("[reinhardt.opy]: Set default charge cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Reinhardt;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Set Ability Cooldown(Event Player, Button(Ability 1), 10);
+    }
+}
+
+rule ("[reinhardt.opy]: Force single firestrike") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Reinhardt;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+    }
+    actions {
+        Wait Until(Not(Is Using Ability 2(Event Player)), 1);
+        "Every time rein uses firestrike, reset the resource to 0"
+        Set Ability Charge(Event Player, Button(Ability 2), 0);
+        Wait(6, Ignore Condition);
+        Set Ability Charge(Event Player, Button(Ability 2), 2);
+    }
+}
+
+rule ("[reinhardt.opy]: Charge Damage") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Reinhardt;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Set Damage Dealt(Event Player, 133.33333333333334);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Wait(0.2, Ignore Condition);
+        Set Damage Dealt(Event Player, 100);
+    }
+}
+
+rule ("[roadhog.opy]: Detect Roadhog initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Roadhog;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initRoadhog);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[roadhog.opy]: initRoadhog()") {
+    event {
+        Subroutine;
+        initRoadhog;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 600);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 0);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 600));
+        Set Ammo(Event Player, 0, 5);
+        Set Max Ammo(Event Player, 0, 5);
+        Set Damage Dealt(Event Player, 110);
+    }
+}
+
+rule ("[roadhog.opy]: Set default hook cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Roadhog;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Set Ability Cooldown(Event Player, Button(Ability 1), 8);
+    }
+}
+
+rule ("[roadhog.opy]: Disable all abilities during ult") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Roadhog;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+    }
+    actions {
+        Set Melee Enabled(Event Player, False);
+        Set Ability 1 Enabled(Event Player, False);
+        Set Ability 2 Enabled(Event Player, False);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Set Melee Enabled(Event Player, True);
+        Set Ability 1 Enabled(Event Player, True);
+        Set Ability 2 Enabled(Event Player, True);
+    }
+}
+
+rule ("[roadhog.opy]: Force autofire during ult") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Roadhog;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+        Is Button Held(Event Player, Button(Primary Fire)) == False;
+    }
+    actions {
+        Start Holding Button(Event Player, Button(Primary Fire));
+    }
+}
+
+rule ("[roadhog.opy]: Stop autofire when not in ult") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Roadhog;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == False;
+    }
+    actions {
+        Stop Holding Button(Event Player, Button(Primary Fire));
+    }
+}
+
+rule ("[sigma.opy]: Detect Sigma initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Sigma;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initSigma);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[sigma.opy]: initSigma()") {
+    event {
+        Subroutine;
+        initSigma;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 300);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 100);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 400));
+    }
+}
+
+rule ("[sigma.opy]: Change accretion damage") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Sigma;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+    }
+    actions {
+        Set Damage Dealt(Event Player, 137.5);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Set Damage Dealt(Event Player, 100);
+    }
+}
+
+rule ("[symmetra.opy]: Detect Symmetra initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Symmetra;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initSymmetra);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[symmetra.opy]: initSymmetra()") {
+    event {
+        Subroutine;
+        initSymmetra;
+    }
+    actions {
+        Set Ammo(Event Player, 0, 70);
+        Set Max Ammo(Event Player, 0, 70);
+    }
+}
+
+rule ("[tracer.opy]: Detect Tracer initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Tracer;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initTracer);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[tracer.opy]: initTracer()") {
+    event {
+        Subroutine;
+        initTracer;
+    }
+    actions {
+        Set Damage Dealt(Event Player, 109.0909090909091);
+    }
+}
+
+rule ("[widowmaker.opy]: Detect Widowmaker initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Widowmaker;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initWidowmaker);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[widowmaker.opy]: initWidowmaker()") {
+    event {
+        Subroutine;
+        initWidowmaker;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 175);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 0);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 175));
+    }
+}
+
+rule ("[winston.opy]: Detect Winston initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Winston;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initWinston);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[winston.opy]: initWinston()") {
+    event {
+        Subroutine;
+        initWinston;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 350);
+        Set Player Variable(Event Player, health_armor, 150);
+        Set Player Variable(Event Player, health_shields, 0);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 500));
+        Set Secondary Fire Enabled(Event Player, False);
+    }
+}
+
+rule ("[winston.opy]: Set default leap cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Winston;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+        Is Using Ultimate(Event Player) == False;
+    }
+    actions {
+        Set Ability Cooldown(Event Player, Button(Ability 1), 6);
+    }
+}
+
+rule ("[wreckingball.opy]: Initialize Wrecking Ball") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Wrecking Ball;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initWreckingball);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[wreckingball.opy]: initWreckingball()") {
+    event {
+        Subroutine;
+        initWreckingball;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 500);
+        Set Player Variable(Event Player, health_armor, 100);
+        Set Player Variable(Event Player, health_shields, 0);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 600));
+    }
+}
+
+rule ("[zarya.opy]: Detect Zarya initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Zarya;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initZarya);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[zarya.opy]: initZarya()") {
+    event {
+        Subroutine;
+        initZarya;
+    }
+    actions {
+        Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, health_normal, 200);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 200);
+        Call Subroutine(applyCustomHealth);
+        Wait(1, Ignore Condition);
+        Loop If(Compare(Max Health(Event Player), !=, 400));
+        Set Player Variable(Event Player, self_bubble_cooldown, 0);
+        Set Player Variable(Event Player, ally_bubble_cooldown, 0);
+        Set Player Variable(Event Player, zarya_hud_visibility, Event Player);
+        Create In-World Text((Event Player).zarya_hud_visibility, Custom String("{0}    {1}", Round To Integer((Event Player).self_bubble_cooldown, Up), Round To Integer((Event Player).ally_bubble_cooldown, Up), Null), Update Every Frame(Add(Eye Position(Event Player), Multiply(100, Add(Add(Multiply(2.15, World Vector Of(Right, Event Player, Rotation)), Multiply(-1.65, Direction From Angles(Horizontal Angle From Direction(Facing Direction Of(Event Player)), Subtract(Vertical Angle From Direction(Facing Direction Of(Event Player)), 90)))), Multiply(3, Facing Direction Of(Event Player)))))), 4, Do Not Clip, Visible To Position String and Color, Color(White), Default Visibility);
+        Modify Player Variable(Event Player, text_huds, Append To Array, Last Text ID);
+    }
+}
+
+rule ("[zarya.opy]: Hide bubble cooldown HUD on hero switch") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).hero_switched == True;
+        Hero Of(Event Player) != Hero(Zarya);
+    }
+    actions {
+        Set Player Variable(Event Player, zarya_hud_visibility, Null);
+    }
+}
+
+rule ("[zarya.opy]: zarya self bubble") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Zarya;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Set Ability Charge(Event Player, Button(Ability 1), 2);
+        Set Ability 1 Enabled(Event Player, False);
+        "2 second bubble duration"
+        Wait(2, Ignore Condition);
+        Set Player Variable(Event Player, self_bubble_cooldown, 10);
+        Chase Player Variable At Rate(Event Player, self_bubble_cooldown, 0, 1, None);
+        Wait Until(Compare((Event Player).self_bubble_cooldown, ==, 0), 10);
+        Set Ability 1 Enabled(Event Player, True);
+    }
+}
+
+rule ("[zarya.opy]: zarya ally bubble") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Zarya;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+    }
+    actions {
+        Set Ability Charge(Event Player, Button(Ability 2), 2);
+        Set Ability 2 Enabled(Event Player, False);
+        "2 second bubble duration"
+        Wait(2, Ignore Condition);
+        Set Player Variable(Event Player, ally_bubble_cooldown, 8);
+        Chase Player Variable At Rate(Event Player, ally_bubble_cooldown, 0, 1, None);
+        Wait Until(Compare((Event Player).ally_bubble_cooldown, ==, 0), 8);
+        Set Ability 2 Enabled(Event Player, True);
+    }
+}
+
+rule ("[zenyatta.opy]: Detect Zenyatta initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Zenyatta;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initZenyatta);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[zenyatta.opy]: initZenyatta()") {
+    event {
+        Subroutine;
+        initZenyatta;
+    }
+    actions {
+        Set Ammo(Event Player, 0, 20);
+        Set Max Ammo(Event Player, 0, 20);
+        Set Knockback Dealt(Event Player, 5);
+    }
+}
+

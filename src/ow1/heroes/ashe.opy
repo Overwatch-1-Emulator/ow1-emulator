@@ -1,13 +1,17 @@
 #!mainFile "../../main.opy"
 
-def initAshe():
-    # [TODO]
-    pass
+subroutine initAshe
 
-rule "[ashe.opy]: Initialize Ashe":
+rule "[ashe.opy]: Detect Ashe initialization":
     @Event eachPlayer
     @Hero ashe
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initAshe()
     eventPlayer.initialized = true
+
+
+def initAshe():
+    @Name "[ashe.opy]: initAshe()"
+    # [TODO]
+    pass
