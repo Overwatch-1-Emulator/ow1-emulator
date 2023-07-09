@@ -1,8 +1,6 @@
 #!mainFile "../../main.opy"
 
-def initAshe():
-    # [TODO]
-    pass
+subroutine initAshe
 
 rule "[ashe.opy]: Initialize Ashe":
     @Event eachPlayer
@@ -11,3 +9,9 @@ rule "[ashe.opy]: Initialize Ashe":
 
     initAshe()
     eventPlayer.initialized = true
+
+
+def initAshe():
+    @Name "[ashe.opy]: initAshe()"
+    # [TODO]
+    pass
