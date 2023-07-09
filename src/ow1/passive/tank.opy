@@ -32,7 +32,7 @@ rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.TORBJORN)] = 1/(roundedPercent(OW2_TORBJORN_ULT_COST/OW1_TORBJORN_ULT_COST)/100)*OW2_TORBJORN_ULT_COST
     ult_cost[heroID(Hero.TRACER)] = 1/(roundedPercent(OW2_TRACER_ULT_COST/OW1_TRACER_ULT_COST)/100)*OW2_TRACER_ULT_COST
     ult_cost[heroID(Hero.WIDOWMAKER)] = 1/(roundedPercent(OW2_WIDOWMAKER_ULT_COST/OW1_WIDOWMAKER_ULT_COST)/100)*OW2_WIDOWMAKER_ULT_COST
-    ult_cost[heroID(Hero.ANA)] = 1/(roundedPercent(OW2_DVA_ULT_COST/OW1_ANA_ULT_COST)/100)*OW2_DVA_ULT_COST
+    ult_cost[heroID(Hero.ANA)] = 1/(roundedPercent(OW2_ANA_ULT_COST/OW1_ANA_ULT_COST)/100)*OW2_ANA_ULT_COST
     ult_cost[heroID(Hero.BAPTISTE)] = 1/(roundedPercent(OW2_BAPTISTE_ULT_COST/OW1_BAPTISTE_ULT_COST)/100)*OW2_BAPTISTE_ULT_COST
     ult_cost[heroID(Hero.BRIGITTE)] = 1/(roundedPercent(OW2_BRIGITTE_ULT_COST/OW1_BRIGITTE_ULT_COST)/100)*OW2_BRIGITTE_ULT_COST
     ult_cost[heroID(Hero.LUCIO)] = 1/(roundedPercent(OW2_LUCIO_ULT_COST/OW1_LUCIO_ULT_COST)/100)*OW2_LUCIO_ULT_COST
