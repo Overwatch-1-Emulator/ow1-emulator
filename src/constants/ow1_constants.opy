@@ -86,6 +86,7 @@
 #!define OW1_BRIGITTE_SHIELD_BASH_STUN_DURATION 0.75
 
 # Doomfist
+#!define OW1_DOOMFIST_HEALTH 250
 #!define OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT 3
 #!define OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN 1.5
 #!define OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED 25
@@ -98,6 +99,9 @@
 #!define OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE 60
 #!define OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION 5
 #!define OW1_DOOMFIST_SEISMIC_SLAM_RADIUS 15
+# slamming on flat ground takes 0.85 seconds (and deals 49 damage in OW1)
+# 0.85s depends on current slam physics and may need to be modified in the future
+#!define OW1_DOOMFIST_SLAM_DAMAGE_SCALAR (49/0.83)
 
 # Dva
 #!define OW1_DVA_ARMOR 300

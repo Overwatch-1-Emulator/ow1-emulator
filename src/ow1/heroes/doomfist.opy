@@ -22,6 +22,7 @@ rules/functions as needed.
 # Same function as above but using pre-computed cos/sin lookup tables
 #!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
 
+#!define calculateSlamDamage() round(OW1_DOOMFIST_SLAM_DAMAGE_SCALAR*eventPlayer.slam_air_time)
 
 enum SlamType:
     GROUND,
@@ -49,6 +50,9 @@ playervar slam_to_use
 playervar current_position
 playervar valid_slam_position
 playervar indicator_visibility
+playervar slam_air_time
+playervar final_slam_damage
+playervar slammed_victims
 
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
@@ -69,12 +73,19 @@ rule "[doomfist.opy]: Detect Doomfist initialization":
 
 def initDoomfist():
     @Name "[doomfist.opy]: initDoomfist()"
+
+    # Set Doomfist health to OW1
+    while (eventPlayer.getMaxHealth() != OW1_DOOMFIST_HEALTH):
+        clearCustomHealth()
+        setCustomHealth(OW1_DOOMFIST_HEALTH, 0, 0)
+        wait(1)
+
+
+    # Decouple ability button press from trigerring ability
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
 
-    eventPlayer.setMaxHealth(55.556)
-    eventPlayer.setKnockbackReceived(142.895)
-
+    # Variables for swapping keybinds
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.e_pressed_by_bot = false
     
@@ -102,6 +113,7 @@ def initSlamIndicatorGui():
     
     # Sphere for debugging indicator slam
     # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
+
 
 rule "[doomfist.opy]: Detect shift key press by human": 
     @Event eachPlayer
@@ -230,6 +242,9 @@ rule "[doomfist.opy]: Detect indicator slam":
 def executeSlam():
     @Name "[doomfist.opy]: Execute main logic for Seismic Slam ability"
 
+    eventPlayer.setDamageDealt(0.001) # Make built-in slam damage practically negligible, but still detectable by damage dealt/received events
+    eventPlayer.slammed_victims = [] # clear slammed victims
+
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
         if eventPlayer.indicator_visibility == eventPlayer: # Only execute indicator slam if indicator visible
             initiateIndicatorSlam()
@@ -242,48 +257,7 @@ def executeSlam():
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
         eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
 
-
-rule "[doomfist.opy]: Indicator slam validity":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 # Slam available
-    @Condition not eventPlayer.is_using_slam # Not using ability
-    @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
-    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN # If vertical distance is greater than the margin, it's invalid.
-
-    eventPlayer.indicator_visibility = eventPlayer
-
-
-rule "[doomfist.opy]: Hide indicator while slam not available":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0
-
-    eventPlayer.indicator_visibility = null
-
-
-rule "[doomfist.opy]: Hide indicator while using slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.is_using_slam
-
-    eventPlayer.indicator_visibility = null
-
-
-rule "[doomfist.opy]: Hide indicator if not indicator slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.slam_to_use != SlamType.INDICATOR
-
-    eventPlayer.indicator_visibility = null
-
-
-rule "[doomfist.opy]: Hide indicator slam is floating":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN
-
-    eventPlayer.indicator_visibility = null
+    eventPlayer.setDamageDealt(100) # Reset damage back to normal
 
 
 def initiateGroundSlam():
@@ -335,3 +309,86 @@ def initiateIndicatorSlam():
     eventPlayer.stopForcingThrottle()
     eventPlayer.setGravity(100)
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # cancel current momentum
+
+
+rule "[doomfist.opy]: Find slammed victims":
+    @Event playerTookDamage
+    @Condition attacker.getCurrentHero() == Hero.DOOMFIST
+    @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
+    # [TODO] add more conditions to check that the player is inside OW1 slam hitbox
+
+    attacker.slammed_victims.append(eventPlayer)
+
+rule "[doomfist.opy]: Measure slam air time and damage":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.is_using_slam == true
+
+    eventPlayer.slam_air_time = 0
+    eventPlayer.final_slam_damage = 0
+    chase(eventPlayer.slam_air_time, 9999, rate=1, ChaseReeval.NONE)
+    waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
+    stopChasingVariable(eventPlayer.slam_air_time)
+    eventPlayer.final_slam_damage = calculateSlamDamage()
+
+
+rule "[doomfist.opy]: Damage victims with OW1 slam damage":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.final_slam_damage != 0
+
+    # TODO
+    # display message for now
+    bigMessage(eventPlayer, "{}".format(calculateSlamDamage()))
+    damage(eventPlayer.slammed_victims, eventPlayer, eventPlayer.final_slam_damage)
+
+
+rule "[doomfist.opy]: Debug slam air time":
+    @Disabled
+    @Event eachPlayer
+    @Hero doomfist
+
+    hudSubheader(eventPlayer, "{0}".format(calculateSlamDamage()), HudPosition.TOP, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+
+
+rule "[doomfist.opy]: Indicator slam validity":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 # Slam available
+    @Condition not eventPlayer.is_using_slam # Not using ability
+    @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
+    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN # If vertical distance is greater than the margin, it's invalid.
+
+    eventPlayer.indicator_visibility = eventPlayer
+
+
+rule "[doomfist.opy]: Hide indicator while slam not available":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0
+
+    eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Hide indicator while using slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.is_using_slam
+
+    eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Hide indicator if not indicator slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.slam_to_use != SlamType.INDICATOR
+
+    eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Hide FLOATING indicator slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN
+
+    eventPlayer.indicator_visibility = null
