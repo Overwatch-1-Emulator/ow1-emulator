@@ -97,7 +97,7 @@
 #!define OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS 1
 #!define OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME 6
 #!define OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE 60
-#!define OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION 2
+#!define OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION 5
 #!define OW1_DOOMFIST_SEISMIC_SLAM_RADIUS 15
 # slamming on flat ground takes 0.85 seconds (and deals 49 damage in OW1)
 # 0.85s depends on current slam physics and may need to be modified in the future
