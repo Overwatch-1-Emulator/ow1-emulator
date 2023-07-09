@@ -287,6 +287,7 @@ rule "[doomfist.opy]: Hide indicator slam is floating":
 
 
 def initiateGroundSlam():
+    @Name "[doomfist.opy]: InitiateGroundSlam()"
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
@@ -310,6 +311,7 @@ def initiateGroundSlam():
 
 
 def initiateIndicatorSlam():
+    @Name "[doomfist.opy]: InitiateIndicatorSlam()"
     eventPlayer.valid_slam_position = findIndicatorPosition()
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)

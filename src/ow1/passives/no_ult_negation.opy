@@ -68,7 +68,7 @@ rule "[ult_charge.opy]: Compensate missing ultimate percentage":
     eventPlayer.missing_ult_points -= eventPlayer.ult_charge_compensated
 
 
-rule "[ult_charge.opy]: Reset ult compensation after using ult or switching hero":
+rule "[ult_charge.opy]: Reset ult compensation after using ult":
     @Event eachPlayer
     @Condition eventPlayer.isUsingUltimate()
 

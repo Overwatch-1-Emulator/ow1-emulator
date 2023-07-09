@@ -1,15 +1,15 @@
-#!mainFile "../../main.opy"
+#!mainFile "../main.opy"
 
 # Credit to https://discord.com/channels/570672959799164958/1095384108504465488
 # Base code written by CaptCaptain
-playervar HEALTH_NORMAL = 0
-playervar HEALTH_ARMOR = 0
-playervar HEALTH_SHIELDS = 0
+playervar health_normal
+playervar health_armor
+playervar health_shields
 
-#!define setCustomHealth(health_normal, health_armor, health_shields)\
-    eventPlayer.HEALTH_NORMAL = health_normal\
-    eventPlayer.HEALTH_ARMOR = health_armor\
-    eventPlayer.HEALTH_SHIELDS = health_shields\
+#!define setCustomHealth(hp_health, hp_armor, hp_shields)\
+    eventPlayer.health_normal = hp_health\
+    eventPlayer.health_armor = hp_armor\
+    eventPlayer.health_shields = hp_shields\
     applyCustomHealth()
 #!define isHero(player, hero) (player.getCurrentHero() == hero or player.getHeroOfDuplication() == hero)
 
@@ -66,12 +66,12 @@ def applyCustomHealth():
 
 
     # Apply custom health pool to player
-    if eventPlayer.HEALTH_NORMAL > 0:
-        eventPlayer.addHealthPool(Health.NORMAL, max(1, eventPlayer.HEALTH_NORMAL - 1), true, true)
-    if eventPlayer.HEALTH_ARMOR > 0:
-        eventPlayer.addHealthPool(Health.ARMOR, max(1, eventPlayer.HEALTH_ARMOR), true, true)
-    if eventPlayer.HEALTH_SHIELDS > 0:
-        eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer.HEALTH_SHIELDS), true, true)
+    if eventPlayer.health_normal > 0:
+        eventPlayer.addHealthPool(Health.NORMAL, max(1, eventPlayer.health_normal - 1), true, true)
+    if eventPlayer.health_armor > 0:
+        eventPlayer.addHealthPool(Health.ARMOR, max(1, eventPlayer.health_armor), true, true)
+    if eventPlayer.health_shields > 0:
+        eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer.health_shields), true, true)
     heal(eventPlayer, null, Math.INFINITY)
 
     # Teleport player back if they were in spawn.
