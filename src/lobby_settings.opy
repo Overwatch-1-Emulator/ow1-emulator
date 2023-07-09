@@ -6,6 +6,7 @@ settings {
         "modeName": "Overwatch 1 Emulator"
     },
     "lobby": {
+        "mapRotation": "afterGame",
         "enableMatchVoiceChat": true,
         "spectatorSlots": 12,
         "team1Slots": 6,
@@ -14,25 +15,18 @@ settings {
         "teamBalancing": "afterGame"
     },
     "gamemodes": {
-        "assault": {
-            "disabledMaps": [
-                "hanamuraWinter"
-            ],
-            "enableCompetitiveRules": true
-        },
+        "assault": {},
         "control": {
             "disabledMaps": [
                 "antarcticPeninsula",
                 "lijiangTowerLny"
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "escort": {
             "disabledMaps": [
                 "circuitRoyal",
                 "shambaliMonastery"
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "hybrid": {
             "enabledMaps": [
@@ -41,8 +35,7 @@ settings {
                 "hollywood",
                 "kingsRow",
                 "numbani"
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "practiceRange": {
             "enabledMaps": []
