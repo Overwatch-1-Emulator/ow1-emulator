@@ -50,9 +50,9 @@ rule "zarya self bubble":
     eventPlayer.setAbilityCharge(Button.ABILITY_1, 2)
     eventPlayer.setAbility1Enabled(false)
     wait(2) # 2 second bubble duration
-    eventPlayer.self_bubble_cooldown = ow1_cooldown_ability1_ZARYA
+    eventPlayer.self_bubble_cooldown = OW1_ZARYA_PARTICLE_BARRIER_COOLDOWN_TIME
     chase(eventPlayer.self_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
-    waitUntil(eventPlayer.self_bubble_cooldown == 0, ow1_cooldown_ability1_ZARYA)
+    waitUntil(eventPlayer.self_bubble_cooldown == 0, OW1_ZARYA_PARTICLE_BARRIER_COOLDOWN_TIME)
     eventPlayer.setAbility1Enabled(true)
 
 rule "zarya ally bubble":
@@ -63,7 +63,7 @@ rule "zarya ally bubble":
     eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
     eventPlayer.setAbility2Enabled(false)
     wait(2) # 2 second bubble duration
-    eventPlayer.ally_bubble_cooldown = ow1_cooldown_ability2_ZARYA
+    eventPlayer.ally_bubble_cooldown = OW1_ZARYA_PROJECTED_BARRIER_COOLDOWN_TIME
     chase(eventPlayer.ally_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
-    waitUntil(eventPlayer.ally_bubble_cooldown == 0, ow1_cooldown_ability2_ZARYA)
+    waitUntil(eventPlayer.ally_bubble_cooldown == 0, OW1_ZARYA_PROJECTED_BARRIER_COOLDOWN_TIME)
     eventPlayer.setAbility2Enabled(true)
