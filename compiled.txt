@@ -223,9 +223,9 @@ variables {
         1: hero_switched
         2: hero_id
         3: initialized
-        4: HEALTH_NORMAL
-        5: HEALTH_ARMOR
-        6: HEALTH_SHIELDS
+        4: health_normal
+        5: health_armor
+        6: health_shields
         7: storedSpawnPosition
         8: missing_ult_points
         9: ult_percent_compensated
@@ -305,19 +305,6 @@ subroutines {
     32: initZarya
     33: initZenyatta
 }
-rule ("Initialize player variables") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    actions {
-        Set Player Variable(Event Player, HEALTH_NORMAL, 0);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 0);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 0);
-    }
-}
-
 rule ("[utilities.opy]: detect hero switch") {
     event {
         Ongoing - Each Player;
@@ -385,14 +372,14 @@ rule ("[custom_health_handler.opy]: Apply Custom Health") {
         Remove All Health Pools From Player(Event Player);
         Wait(0.016, Ignore Condition);
         "Apply custom health pool to player"
-        If(Compare((Event Player).HEALTH_NORMAL, >, 0));
-            Add Health Pool To Player(Event Player, Health, Max(1, Subtract((Event Player).HEALTH_NORMAL, 1)), True, True);
+        If(Compare((Event Player).health_normal, >, 0));
+            Add Health Pool To Player(Event Player, Health, Max(1, Subtract((Event Player).health_normal, 1)), True, True);
         End;
-        If(Compare((Event Player).HEALTH_ARMOR, >, 0));
-            Add Health Pool To Player(Event Player, Armor, Max(1, (Event Player).HEALTH_ARMOR), True, True);
+        If(Compare((Event Player).health_armor, >, 0));
+            Add Health Pool To Player(Event Player, Armor, Max(1, (Event Player).health_armor), True, True);
         End;
-        If(Compare((Event Player).HEALTH_SHIELDS, >, 0));
-            Add Health Pool To Player(Event Player, Shields, Max(1, (Event Player).HEALTH_SHIELDS), True, True);
+        If(Compare((Event Player).health_shields, >, 0));
+            Add Health Pool To Player(Event Player, Shields, Max(1, (Event Player).health_shields), True, True);
         End;
         Heal(Event Player, Null, 999999999999999);
         "Teleport player back if they were in spawn."
@@ -442,7 +429,7 @@ disabled rule ("[debug.opy]: Debug HUD text") {
     }
 }
 
-rule ("Disable support self-healing passive") {
+rule ("[no_self_heal.opy]: Disable support self-healing passive") {
     event {
         Player Received Healing;
         All;
@@ -550,7 +537,7 @@ rule ("[ult_charge.opy]: Compensate missing ultimate percentage") {
     }
 }
 
-rule ("[ult_charge.opy]: Reset ult compensation after using ult or switching hero") {
+rule ("[ult_charge.opy]: Reset ult compensation after using ult") {
     event {
         Ongoing - Each Player;
         All;
@@ -1369,9 +1356,9 @@ rule ("[brigitte.opy]: initBrigitte()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 150);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 50);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 0);
+        Set Player Variable(Event Player, health_normal, 150);
+        Set Player Variable(Event Player, health_armor, 50);
+        Set Player Variable(Event Player, health_shields, 0);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 200));
@@ -1772,7 +1759,7 @@ rule ("[doomfist.opy]: Hide indicator slam is floating") {
     }
 }
 
-rule ("Subroutine initiateGroundSlam") {
+rule ("[doomfist.opy]: InitiateGroundSlam()") {
     event {
         Subroutine;
         initiateGroundSlam;
@@ -1802,7 +1789,7 @@ rule ("Subroutine initiateGroundSlam") {
     }
 }
 
-rule ("Subroutine initiateIndicatorSlam") {
+rule ("[doomfist.opy]: InitiateIndicatorSlam()") {
     event {
         Subroutine;
         initiateIndicatorSlam;
@@ -1856,9 +1843,9 @@ rule ("[dva.opy]: initDva()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 300);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 300);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 0);
+        Set Player Variable(Event Player, health_normal, 300);
+        Set Player Variable(Event Player, health_armor, 300);
+        Set Player Variable(Event Player, health_shields, 0);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 600));
@@ -2023,9 +2010,9 @@ rule ("[mccree.opy]: initMccree()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 225);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 0);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 0);
+        Set Player Variable(Event Player, health_normal, 225);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 0);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 225));
@@ -2299,9 +2286,9 @@ rule ("[reinhardt.opy]: initReinhardt()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 300);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 200);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 0);
+        Set Player Variable(Event Player, health_normal, 300);
+        Set Player Variable(Event Player, health_armor, 200);
+        Set Player Variable(Event Player, health_shields, 0);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 500));
@@ -2334,6 +2321,7 @@ rule ("[reinhardt.opy]: Force single firestrike") {
     }
     actions {
         Wait Until(Not(Is Using Ability 2(Event Player)), 1);
+        "Every time rein uses firestrike, reset the resource to 0"
         Set Ability Charge(Event Player, Button(Ability 2), 0);
         Wait(6, Ignore Condition);
         Set Ability Charge(Event Player, Button(Ability 2), 2);
@@ -2380,9 +2368,9 @@ rule ("[roadhog.opy]: initRoadhog()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 600);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 0);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 0);
+        Set Player Variable(Event Player, health_normal, 600);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 0);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 600));
@@ -2479,9 +2467,9 @@ rule ("[sigma.opy]: initSigma()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 300);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 0);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 100);
+        Set Player Variable(Event Player, health_normal, 300);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 100);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 400));
@@ -2580,9 +2568,9 @@ rule ("[widowmaker.opy]: initWidowmaker()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 175);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 0);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 0);
+        Set Player Variable(Event Player, health_normal, 175);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 0);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 175));
@@ -2612,9 +2600,9 @@ rule ("[winston.opy]: initWinston()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 350);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 150);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 0);
+        Set Player Variable(Event Player, health_normal, 350);
+        Set Player Variable(Event Player, health_armor, 150);
+        Set Player Variable(Event Player, health_shields, 0);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 500));
@@ -2660,9 +2648,9 @@ rule ("[wreckingball.opy]: initWreckingball()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 500);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 100);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 0);
+        Set Player Variable(Event Player, health_normal, 500);
+        Set Player Variable(Event Player, health_armor, 100);
+        Set Player Variable(Event Player, health_shields, 0);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 600));
@@ -2692,9 +2680,9 @@ rule ("[zarya.opy]: initZarya()") {
     }
     actions {
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, HEALTH_NORMAL, 200);
-        Set Player Variable(Event Player, HEALTH_ARMOR, 0);
-        Set Player Variable(Event Player, HEALTH_SHIELDS, 200);
+        Set Player Variable(Event Player, health_normal, 200);
+        Set Player Variable(Event Player, health_armor, 0);
+        Set Player Variable(Event Player, health_shields, 200);
         Call Subroutine(applyCustomHealth);
         Wait(1, Ignore Condition);
         Loop If(Compare(Max Health(Event Player), !=, 400));
