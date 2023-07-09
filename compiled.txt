@@ -2721,7 +2721,7 @@ rule ("[zarya.opy]: Hide bubble cooldown HUD on hero switch") {
     }
 }
 
-rule ("zarya self bubble") {
+rule ("[zarya.opy]: zarya self bubble") {
     event {
         Ongoing - Each Player;
         All;
@@ -2742,7 +2742,7 @@ rule ("zarya self bubble") {
     }
 }
 
-rule ("zarya ally bubble") {
+rule ("[zarya.opy]: zarya ally bubble") {
     event {
         Ongoing - Each Player;
         All;
