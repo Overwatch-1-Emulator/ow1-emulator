@@ -49,6 +49,7 @@ playervar slam_to_use
 playervar current_position
 playervar valid_slam_position
 playervar indicator_visibility
+playervar slam_air_time
 
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
@@ -249,6 +250,32 @@ def executeSlam():
         eventPlayer.is_using_slam = false
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
         eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
+
+
+rule "[doomfist.opy]: Measure slam air time":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.is_using_slam == true
+
+    eventPlayer.slam_air_time = 0
+    chase(eventPlayer.slam_air_time, 9999, rate=1, ChaseReeval.NONE)
+    waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
+    stopChasingVariable(eventPlayer.slam_air_time)
+
+
+rule "[doomfist.opy]: Debug slam air time":
+    @Event eachPlayer
+    @Hero doomfist
+
+    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, "", "{0}".format(round(OW1_DOOMFIST_SLAM_DAMAGE_SCALAR*eventPlayer.slam_air_time)), "", HudPosition.TOP, 0.65, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
 
 
 rule "[doomfist.opy]: Indicator slam validity":
