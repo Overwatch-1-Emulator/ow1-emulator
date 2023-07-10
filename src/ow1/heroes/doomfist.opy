@@ -101,6 +101,7 @@ def initDoomfist():
 
 
 def initSlamIndicatorGui():
+    @Name "[doomfist.opy]: initSlamIndicatorGui()"
     eventPlayer.indicator_visibility = null
 
     eventPlayer.cos_lut = []
@@ -324,7 +325,7 @@ rule "[doomfist.opy]: Damage slammed victims":
     # [TODO] add more conditions to check that the player is inside OW1 slam hitbox
 
     eventPlayer.setDamageDealt(100)
-    damage(victim, attacker, round(attacker.slam_damage))
+    damage(victim, attacker, attacker.slam_damage)
     eventPlayer.setDamageDealt(0.001)
     attacker.slammed_victims.append(victim)
 
