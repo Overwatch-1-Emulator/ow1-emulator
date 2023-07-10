@@ -22,8 +22,6 @@ rules/functions as needed.
 # Same function as above but using pre-computed cos/sin lookup tables
 #!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
 
-#!define calculateSlamDamage() round(OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_SCALAR*eventPlayer.slam_air_time)
-
 enum SlamType:
     GROUND,
     INDICATOR
@@ -50,13 +48,14 @@ playervar slam_to_use
 playervar current_position
 playervar valid_slam_position
 playervar indicator_visibility
-playervar slam_air_time
-playervar final_slam_damage
+playervar slam_damage
 playervar slammed_victims
 
 # Variables for rocket punch
 playervar punched_victims
-playervar wall_punched_victims
+playervar wall_impacted_victims
+playervar punch_damage
+playervar wall_impact_damage
 
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
@@ -96,7 +95,7 @@ def initDoomfist():
     eventPlayer.e_pressed_by_bot = false
 
     eventPlayer.punched_victims = []
-    eventPlayer.wall_punched_victims = []
+    eventPlayer.wall_impacted_victims = []
     
     initSlamIndicatorGui()
 
@@ -324,43 +323,30 @@ rule "[doomfist.opy]: Damage slammed victims":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     # [TODO] add more conditions to check that the player is inside OW1 slam hitbox
 
-    eventPlayer.final_slam_damage = calculateSlamDamage()
-    if eventPlayer.final_slam_damage > OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX:
-        eventPlayer.final_slam_damage = OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX
     eventPlayer.setDamageDealt(100)
-    damage(victim, attacker, attacker.final_slam_damage)
+    damage(victim, attacker, round(attacker.slam_damage))
     eventPlayer.setDamageDealt(0.001)
     attacker.slammed_victims.append(victim)
 
-rule "[doomfist.opy]: Measure slam air time and damage":
+
+rule "[doomfist.opy]: Calculate slam damage based on air time":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_using_slam == true
 
-    eventPlayer.slam_air_time = 0
-    eventPlayer.final_slam_damage = 0 
-    chase(eventPlayer.slam_air_time, 9999, rate=1, ChaseReeval.NONE)
+    eventPlayer.slam_damage = 0 
+    chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
     waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
-    stopChasingVariable(eventPlayer.slam_air_time)
-
-
-
-rule "[doomfist.opy]: Damage victims with OW1 slam damage":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.final_slam_damage != 0
-
-    # TODO
-    # display message for now
-    bigMessage(eventPlayer, "{}".format(eventPlayer.final_slam_damage))
+    bigMessage(eventPlayer, "{}".format(round(eventPlayer.slam_damage)))
+    stopChasingVariable(eventPlayer.slam_damage)
  
 
 rule "[doomfist.opy]: Debug slam air time":
     @Disabled
-    @Event eachPlayer
+    @Event eachPlayer 
     @Hero doomfist
 
-    hudSubheader(eventPlayer, "{0}".format(calculateSlamDamage()), HudPosition.TOP, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    hudSubheader(eventPlayer, "{0}".format(eventPlayer.slam_damage), HudPosition.TOP, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
 
 
 rule "[doomfist.opy]: Indicator slam validity":
@@ -412,21 +398,21 @@ rule "[doomfist.opy]: Detect rocket punch positive edge":
     @Condition eventPlayer.isFiringSecondaryFire() == true
 
     eventPlayer.punched_victims = []
-    eventPlayer.wall_punched_victims = []
+    eventPlayer.wall_impacted_victims = []
     waitUntil(eventPlayer.isFiringSecondaryFire() == false, 9999)
 
 # DO NOT switch the order of this rule with the next rule
 # The order is functionally significant
-rule "[doomfist.opy]: Find wall punched victims":
+rule "[doomfist.opy]: Find wall impacted victims":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim in attacker.punched_victims
-    @Condition victim not in attacker.wall_punched_victims
+    @Condition victim not in attacker.wall_impacted_victims
 
     attacker.setDamageDealt(100)
-    damage(victim, attacker, 50)
-    attacker.wall_punched_victims.append(victim)
+    damage(victim, attacker, attacker.wall_impact_damage)
+    attacker.wall_impacted_victims.append(victim)
     attacker.setDamageDealt(0.001)
 
 # DO NOT switch the order of this rule with the previous rule
@@ -438,6 +424,21 @@ rule "[doomfist.opy]: Find punched victims":
     @Condition victim not in attacker.punched_victims
 
     attacker.setDamageDealt(100)
-    damage(victim, attacker, 25) 
+    damage(victim, attacker, attacker.punch_damage) 
     attacker.punched_victims.append(victim)
     attacker.setDamageDealt(0.001)
+
+
+rule "[doomfist.opy]: Calculate punch damage based on charge time":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.isFiringSecondaryFire()
+    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
+
+    eventPlayer.punch_damage = OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN
+    eventPlayer.wall_impact_damage = OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN
+    chase(eventPlayer.punch_damage, OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX, rate=(OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN)/OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME, ChaseReeval.NONE)
+    chase(eventPlayer.wall_impact_damage, OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX, rate=(OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN)/OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME, ChaseReeval.NONE)
+    waitUntil(updateEveryTick(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false), 9999)
+    stopChasingVariable(eventPlayer.punch_damage)
+    stopChasingVariable(eventPlayer.wall_impact_damage)
