@@ -54,6 +54,10 @@ playervar slam_air_time
 playervar final_slam_damage
 playervar slammed_victims
 
+# Variables for rocket punch
+playervar punched_victims
+playervar wall_punched_victims
+
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
 subroutine executeUppercut
@@ -84,10 +88,15 @@ def initDoomfist():
     # Decouple ability button press from trigerring ability
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
+    
+    eventPlayer.setDamageDealt(0.001)
 
     # Variables for swapping keybinds
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.e_pressed_by_bot = false
+
+    eventPlayer.punched_victims = []
+    eventPlayer.wall_punched_victims = []
     
     initSlamIndicatorGui()
 
@@ -216,7 +225,9 @@ def detectUpercutHit():
             eventPlayer.enemies_hit_by_uppercut.append(eventPlayer.enemies_in_uppercut_radius[eventPlayer.i])
 
     for eventPlayer.i in range(len(eventPlayer.enemies_hit_by_uppercut)):
+        eventPlayer.setDamageDealt(100)
         damage(eventPlayer.enemies_hit_by_uppercut[eventPlayer.i], eventPlayer, OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE)
+        eventPlayer.setDamageDealt(0.001)
         playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer.enemies_hit_by_uppercut[eventPlayer.i], 1)
         playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].getPosition(), 100)
         eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].applyImpulse(Vector.UP, 15, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
@@ -241,8 +252,6 @@ rule "[doomfist.opy]: Detect indicator slam":
 
 def executeSlam():
     @Name "[doomfist.opy]: Execute main logic for Seismic Slam ability"
-
-    eventPlayer.setDamageDealt(0.001) # Make built-in slam damage practically negligible, but still detectable by damage dealt/received events
     eventPlayer.slammed_victims = [] # clear slammed victims
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
@@ -256,8 +265,6 @@ def executeSlam():
         eventPlayer.is_using_slam = false
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
         eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
-
-    eventPlayer.setDamageDealt(100) # Reset damage back to normal
 
 
 def initiateGroundSlam():
@@ -311,13 +318,19 @@ def initiateIndicatorSlam():
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # cancel current momentum
 
 
-rule "[doomfist.opy]: Find slammed victims":
-    @Event playerTookDamage
-    @Condition attacker.getCurrentHero() == Hero.DOOMFIST
+rule "[doomfist.opy]: Damage slammed victims":
+    @Event playerDealtDamage
+    @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     # [TODO] add more conditions to check that the player is inside OW1 slam hitbox
 
-    attacker.slammed_victims.append(eventPlayer)
+    eventPlayer.final_slam_damage = calculateSlamDamage()
+    if eventPlayer.final_slam_damage > OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX:
+        eventPlayer.final_slam_damage = OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX
+    eventPlayer.setDamageDealt(100)
+    damage(victim, attacker, attacker.final_slam_damage)
+    eventPlayer.setDamageDealt(0.001)
+    attacker.slammed_victims.append(victim)
 
 rule "[doomfist.opy]: Measure slam air time and damage":
     @Event eachPlayer
@@ -325,13 +338,11 @@ rule "[doomfist.opy]: Measure slam air time and damage":
     @Condition eventPlayer.is_using_slam == true
 
     eventPlayer.slam_air_time = 0
-    eventPlayer.final_slam_damage = 0
+    eventPlayer.final_slam_damage = 0 
     chase(eventPlayer.slam_air_time, 9999, rate=1, ChaseReeval.NONE)
     waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
     stopChasingVariable(eventPlayer.slam_air_time)
-    eventPlayer.final_slam_damage = calculateSlamDamage()
-    if eventPlayer.final_slam_damage > OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX:
-        eventPlayer.final_slam_damage = OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX
+
 
 
 rule "[doomfist.opy]: Damage victims with OW1 slam damage":
@@ -342,8 +353,7 @@ rule "[doomfist.opy]: Damage victims with OW1 slam damage":
     # TODO
     # display message for now
     bigMessage(eventPlayer, "{}".format(eventPlayer.final_slam_damage))
-    damage(eventPlayer.slammed_victims, eventPlayer, eventPlayer.final_slam_damage)
-
+ 
 
 rule "[doomfist.opy]: Debug slam air time":
     @Disabled
@@ -394,3 +404,40 @@ rule "[doomfist.opy]: Hide FLOATING indicator slam":
     @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN
 
     eventPlayer.indicator_visibility = null
+
+
+rule "[doomfist.opy]: Detect rocket punch positive edge":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.isFiringSecondaryFire() == true
+
+    eventPlayer.punched_victims = []
+    eventPlayer.wall_punched_victims = []
+    waitUntil(eventPlayer.isFiringSecondaryFire() == false, 9999)
+
+# DO NOT switch the order of this rule with the next rule
+# The order is functionally significant
+rule "[doomfist.opy]: Find wall punched victims":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility == Button.SECONDARY_FIRE
+    @Condition victim in attacker.punched_victims
+    @Condition victim not in attacker.wall_punched_victims
+
+    attacker.setDamageDealt(100)
+    damage(victim, attacker, 50)
+    attacker.wall_punched_victims.append(victim)
+    attacker.setDamageDealt(0.001)
+
+# DO NOT switch the order of this rule with the previous rule
+# The order is functionally significant
+rule "[doomfist.opy]: Find punched victims":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility == Button.SECONDARY_FIRE
+    @Condition victim not in attacker.punched_victims
+
+    attacker.setDamageDealt(100)
+    damage(victim, attacker, 25) 
+    attacker.punched_victims.append(victim)
+    attacker.setDamageDealt(0.001)
