@@ -30,3 +30,12 @@ rule "[winston.opy]: Set default leap cooldown":
     @Condition not eventPlayer.isUsingUltimate()
     
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_JUMP_PACK_COOLDOWN_TIME)
+
+rule "[winston.opy]: Set leap after ultimate":
+    @Event eachPlayer
+    @Hero winston
+    @Condition eventPlayer.isUsingUltimate() == true
+
+    waitUntil(eventPlayer.isUsingUltimate() == false, 9999)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    
