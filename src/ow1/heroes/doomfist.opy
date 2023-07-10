@@ -22,7 +22,7 @@ rules/functions as needed.
 # Same function as above but using pre-computed cos/sin lookup tables
 #!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
 
-#!define calculateSlamDamage() round(OW1_DOOMFIST_SLAM_DAMAGE_SCALAR*eventPlayer.slam_air_time)
+#!define calculateSlamDamage() round(OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_SCALAR*eventPlayer.slam_air_time)
 
 enum SlamType:
     GROUND,
@@ -330,6 +330,8 @@ rule "[doomfist.opy]: Measure slam air time and damage":
     waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
     stopChasingVariable(eventPlayer.slam_air_time)
     eventPlayer.final_slam_damage = calculateSlamDamage()
+    if eventPlayer.final_slam_damage > OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX:
+        eventPlayer.final_slam_damage = OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX
 
 
 rule "[doomfist.opy]: Damage victims with OW1 slam damage":
@@ -339,7 +341,7 @@ rule "[doomfist.opy]: Damage victims with OW1 slam damage":
 
     # TODO
     # display message for now
-    bigMessage(eventPlayer, "{}".format(calculateSlamDamage()))
+    bigMessage(eventPlayer, "{}".format(eventPlayer.final_slam_damage))
     damage(eventPlayer.slammed_victims, eventPlayer, eventPlayer.final_slam_damage)
 
 
