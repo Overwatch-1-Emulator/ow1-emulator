@@ -322,16 +322,6 @@ def initiateIndicatorSlam():
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # cancel current momentum
 
 
-rule "[doomfist.opy]: Damage slammed victims":
-    @Event playerDealtDamage
-    @Hero doomfist
-    @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-    # [TODO] add more conditions to check that the player is inside OW1 slam hitbox
-
-    damage(victim, attacker, round(attacker.slam_damage))
-    attacker.slammed_victims.append(victim)
-
-
 rule "[doomfist.opy]: Calculate slam damage based on air time":
     @Event eachPlayer
     @Hero doomfist
@@ -342,6 +332,17 @@ rule "[doomfist.opy]: Calculate slam damage based on air time":
     waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
     bigMessage(eventPlayer, "{}".format(round(eventPlayer.slam_damage)))
     stopChasingVariable(eventPlayer.slam_damage)
+
+
+rule "[doomfist.opy]: Damage slammed victims":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
+    # [TODO] add more conditions to check that the player is inside OW1 slam hitbox
+
+    printLog("{} {}".format(round(attacker.slam_damage), eventDamage))
+    damage(victim, attacker, round(attacker.slam_damage)-eventDamage)
+    attacker.slammed_victims.append(victim)
 
 
 rule "[doomfist.opy]: Indicator slam validity":
