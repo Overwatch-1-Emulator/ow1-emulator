@@ -54,7 +54,8 @@ playervar e_pressed_by_bot
 playervar is_using_slam
 playervar slam_to_use
 playervar current_position
-playervar valid_slam_position
+playervar indicator_slam_position
+playervar indicator_slam_direction
 playervar indicator_visibility
 playervar slam_damage
 playervar slammed_victims
@@ -119,8 +120,8 @@ def initSlamIndicatorGui():
     for eventPlayer.i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
         createBeam(eventPlayer.indicator_visibility, 
                    Beam.GOOD, 
-                   findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i)), 
-                   findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i)), 
+                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i))), 
+                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i))), 
                    Color.BLUE, 
                    EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.entity_huds.append(getLastCreatedEntity())
@@ -259,7 +260,7 @@ def executeSlam():
     eventPlayer.slammed_victims = [] # clear slammed victims
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
-        if eventPlayer.indicator_visibility == eventPlayer: # Only execute indicator slam if indicator visible
+        if distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN: # Only execute indicator slam is valid
             initiateIndicatorSlam()
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()
@@ -297,9 +298,10 @@ def initiateGroundSlam():
 
 def initiateIndicatorSlam():
     @Name "[doomfist.opy]: InitiateIndicatorSlam()"
-    eventPlayer.valid_slam_position = findIndicatorPosition()
+    eventPlayer.indicator_slam_position = findIndicatorPosition()
+    eventPlayer.indicator_slam_direction = directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position)
     eventPlayer.is_using_slam = true
-    eventPlayer.setGravity(0)
+    eventPlayer.setGravity(0.001)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
     # Start slam animation
@@ -312,9 +314,10 @@ def initiateIndicatorSlam():
     eventPlayer.disallowButton(Button.ABILITY_1)
 
     eventPlayer.current_position = eventPlayer.getPosition()
-    chase(eventPlayer.current_position, eventPlayer.valid_slam_position, rate=OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, ChaseReeval.NONE)
+    chase(eventPlayer.current_position, eventPlayer.indicator_slam_position, rate=OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
-    waitUntil((eventPlayer.getAltitude() <= 0.01 and distance(eventPlayer.current_position, eventPlayer.valid_slam_position) <= 0.01) or not eventPlayer.isUsingAbility1(), 9999)
+    eventPlayer.applyImpulse(eventPlayer.indicator_slam_direction, OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    waitUntil(distance(eventPlayer.current_position, eventPlayer.indicator_slam_position) <= 0.01 or not eventPlayer.isUsingAbility1(), 9999)
     eventPlayer.stopForcingPosition()
     stopChasingVariable(eventPlayer.current_position)
     eventPlayer.stopForcingThrottle()
@@ -340,12 +343,11 @@ rule "[doomfist.opy]: Damage slammed victims":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     # [TODO] add more conditions to check that the player is inside OW1 slam hitbox
 
-    printLog("{} {}".format(round(attacker.slam_damage), eventDamage))
     damage(victim, attacker, round(attacker.slam_damage)-eventDamage)
     attacker.slammed_victims.append(victim)
 
 
-rule "[doomfist.opy]: Indicator slam validity":
+rule "[doomfist.opy]: Indicator slam visibility":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 # Slam available
