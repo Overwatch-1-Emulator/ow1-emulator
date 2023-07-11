@@ -88,8 +88,6 @@ def initDoomfist():
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
     
-    eventPlayer.setDamageDealt(0.001)
-
     # Variables for swapping keybinds
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.e_pressed_by_bot = false
@@ -225,9 +223,7 @@ def detectUpercutHit():
             eventPlayer.enemies_hit_by_uppercut.append(eventPlayer.enemies_in_uppercut_radius[eventPlayer.i])
 
     for eventPlayer.i in range(len(eventPlayer.enemies_hit_by_uppercut)):
-        eventPlayer.setDamageDealt(100)
         damage(eventPlayer.enemies_hit_by_uppercut[eventPlayer.i], eventPlayer, OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE)
-        eventPlayer.setDamageDealt(0.001)
         playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer.enemies_hit_by_uppercut[eventPlayer.i], 1)
         playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].getPosition(), 100)
         eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].applyImpulse(Vector.UP, 15, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
@@ -252,6 +248,7 @@ rule "[doomfist.opy]: Detect indicator slam":
 
 def executeSlam():
     @Name "[doomfist.opy]: Execute main logic for Seismic Slam ability"
+
     eventPlayer.slammed_victims = [] # clear slammed victims
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
@@ -324,9 +321,7 @@ rule "[doomfist.opy]: Damage slammed victims":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     # [TODO] add more conditions to check that the player is inside OW1 slam hitbox
 
-    eventPlayer.setDamageDealt(100)
     damage(victim, attacker, round(attacker.slam_damage))
-    eventPlayer.setDamageDealt(0.001)
     attacker.slammed_victims.append(victim)
 
 
@@ -340,14 +335,6 @@ rule "[doomfist.opy]: Calculate slam damage based on air time":
     waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
     bigMessage(eventPlayer, "{}".format(round(eventPlayer.slam_damage)))
     stopChasingVariable(eventPlayer.slam_damage)
- 
-
-rule "[doomfist.opy]: Debug slam air time":
-    @Disabled
-    @Event eachPlayer 
-    @Hero doomfist
-
-    hudSubheader(eventPlayer, "{0}".format(eventPlayer.slam_damage), HudPosition.TOP, 10, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
 
 
 rule "[doomfist.opy]: Indicator slam validity":
@@ -411,10 +398,8 @@ rule "[doomfist.opy]: Find wall impacted victims":
     @Condition victim in attacker.punched_victims
     @Condition victim not in attacker.wall_impacted_victims
 
-    attacker.setDamageDealt(100)
     damage(victim, attacker, attacker.wall_impact_damage)
     attacker.wall_impacted_victims.append(victim)
-    attacker.setDamageDealt(0.001)
 
 # DO NOT switch the order of this rule with the previous rule
 # The order is functionally significant
@@ -424,10 +409,8 @@ rule "[doomfist.opy]: Find punched victims":
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim not in attacker.punched_victims
 
-    attacker.setDamageDealt(100)
     damage(victim, attacker, attacker.punch_damage) 
     attacker.punched_victims.append(victim)
-    attacker.setDamageDealt(0.001)
 
 
 rule "[doomfist.opy]: Calculate punch damage based on charge time":
@@ -443,3 +426,11 @@ rule "[doomfist.opy]: Calculate punch damage based on charge time":
     waitUntil(updateEveryTick(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false), 9999)
     stopChasingVariable(eventPlayer.punch_damage)
     stopChasingVariable(eventPlayer.wall_impact_damage)
+
+
+rule "[doomfist.opy]: Deal OW1 hand cannon damage":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, eventDamage*(OW1_DOOMFIST_HAND_CANNON_DAMAGE/OW2_DOOMFIST_HAND_CANNON_DAMAGE-1)) # Deal additional damage to match OW1 damage
