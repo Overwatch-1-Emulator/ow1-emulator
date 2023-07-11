@@ -22,12 +22,13 @@ rules/functions as needed.
 # Same function as above but using pre-computed cos/sin lookup tables
 #!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
 
-# Calculate rocket punch charge time given punch damage
-# Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
-#!define getRocketPunchChargeTime(punch_damage) ((OW2_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW2_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)/(OW2_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX-OW2_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN)*(punch_damage-OW2_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX)+OW2_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX)
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
 #!define getRocketPunchDamage(charge_time) ((OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN)/(OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)*(charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX)+OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX)
+# Calculate OW1 rocket punch damage given charge time
+# Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
+#!define getRocketPunchWallImpactDamage(charge_time) ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN)/(OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)*(charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX)+OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX)
+
 
 enum SlamType:
     GROUND,
@@ -62,7 +63,6 @@ playervar slammed_victims
 playervar punched_victims
 playervar wall_impacted_victims
 playervar punch_charge_time
-playervar expected_punch_damage
 
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
@@ -387,13 +387,18 @@ rule "[doomfist.opy]: Hide FLOATING indicator slam":
     eventPlayer.indicator_visibility = null
 
 
-rule "[doomfist.opy]: Detect rocket punch positive edge":
+rule "[doomfist.opy]: Initialize rocket punch":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isFiringSecondaryFire() == true
+    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
 
     eventPlayer.punched_victims = []
     eventPlayer.wall_impacted_victims = []
+    eventPlayer.punch_charge_time = 0
+    chase(eventPlayer.punch_charge_time, OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX, rate=1, ChaseReeval.NONE)
+    waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false, 9999)
+    stopChasingVariable(eventPlayer.punch_charge_time)
 
 
 # DO NOT switch the order of this rule with the next rule
@@ -405,7 +410,7 @@ rule "[doomfist.opy]: Find wall impacted victims":
     @Condition victim in attacker.punched_victims
     @Condition victim not in attacker.wall_impacted_victims
 
-    # damage(victim, attacker, attacker.wall_impact_damage)
+    damage(victim, attacker, getRocketPunchWallImpactDamage(eventPlayer.punch_charge_time)-eventDamage)
     attacker.wall_impacted_victims.append(victim)
 
 # DO NOT switch the order of this rule with the previous rule
@@ -416,8 +421,7 @@ rule "[doomfist.opy]: Find punched victims":
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim not in attacker.punched_victims
 
-    printLog("{} {}".format(eventDamage, getRocketPunchDamage(getRocketPunchChargeTime(eventDamage))))
-    damage(victim, attacker, getRocketPunchDamage(getRocketPunchChargeTime(eventDamage))-eventDamage)
+    damage(victim, attacker, getRocketPunchDamage(eventPlayer.punch_charge_time)-eventDamage)
     attacker.punched_victims.append(victim)
 
 
