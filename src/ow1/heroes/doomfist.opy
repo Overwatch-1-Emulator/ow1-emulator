@@ -22,6 +22,14 @@ rules/functions as needed.
 # Same function as above but using pre-computed cos/sin lookup tables
 #!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
 
+# Calculate OW1 rocket punch damage given charge time
+# Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
+#!define getRocketPunchDamage(charge_time) ((OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN)/(OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)*(charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX)+OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX)
+# Calculate OW1 rocket punch damage given charge time
+# Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
+#!define getRocketPunchWallImpactDamage(charge_time) ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN)/(OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)*(charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX)+OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX)
+
+
 enum SlamType:
     GROUND,
     INDICATOR
@@ -54,8 +62,7 @@ playervar slammed_victims
 # Variables for rocket punch
 playervar punched_victims
 playervar wall_impacted_victims
-playervar punch_damage
-playervar wall_impact_damage
+playervar punch_charge_time
 
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
@@ -380,14 +387,19 @@ rule "[doomfist.opy]: Hide FLOATING indicator slam":
     eventPlayer.indicator_visibility = null
 
 
-rule "[doomfist.opy]: Detect rocket punch positive edge":
+rule "[doomfist.opy]: Initialize rocket punch":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isFiringSecondaryFire() == true
+    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
 
     eventPlayer.punched_victims = []
     eventPlayer.wall_impacted_victims = []
-    waitUntil(eventPlayer.isFiringSecondaryFire() == false, 9999)
+    eventPlayer.punch_charge_time = 0
+    chase(eventPlayer.punch_charge_time, OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX, rate=1, ChaseReeval.NONE)
+    waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false, 9999)
+    stopChasingVariable(eventPlayer.punch_charge_time)
+
 
 # DO NOT switch the order of this rule with the next rule
 # The order is functionally significant
@@ -398,8 +410,9 @@ rule "[doomfist.opy]: Find wall impacted victims":
     @Condition victim in attacker.punched_victims
     @Condition victim not in attacker.wall_impacted_victims
 
-    damage(victim, attacker, attacker.wall_impact_damage)
+    damage(victim, attacker, getRocketPunchWallImpactDamage(eventPlayer.punch_charge_time)-eventDamage)
     attacker.wall_impacted_victims.append(victim)
+
 
 # DO NOT switch the order of this rule with the previous rule
 # The order is functionally significant
@@ -409,23 +422,8 @@ rule "[doomfist.opy]: Find punched victims":
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim not in attacker.punched_victims
 
-    damage(victim, attacker, attacker.punch_damage) 
+    damage(victim, attacker, getRocketPunchDamage(eventPlayer.punch_charge_time)-eventDamage)
     attacker.punched_victims.append(victim)
-
-
-rule "[doomfist.opy]: Calculate punch damage based on charge time":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.isFiringSecondaryFire()
-    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
-
-    eventPlayer.punch_damage = OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN
-    eventPlayer.wall_impact_damage = OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN
-    chase(eventPlayer.punch_damage, OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX, rate=(OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN)/OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME, ChaseReeval.NONE)
-    chase(eventPlayer.wall_impact_damage, OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX, rate=(OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN)/OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME, ChaseReeval.NONE)
-    waitUntil(updateEveryTick(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false), 9999)
-    stopChasingVariable(eventPlayer.punch_damage)
-    stopChasingVariable(eventPlayer.wall_impact_damage)
 
 
 rule "[doomfist.opy]: Deal OW1 hand cannon damage":
@@ -433,4 +431,4 @@ rule "[doomfist.opy]: Deal OW1 hand cannon damage":
     @Hero doomfist
     @Condition eventAbility == Button.PRIMARY_FIRE
 
-    damage(victim, attacker, eventDamage*(OW1_DOOMFIST_HAND_CANNON_DAMAGE/OW2_DOOMFIST_HAND_CANNON_DAMAGE-1)) # Deal additional damage to match OW1 damage
+    damage(victim, attacker, eventDamage*(OW1_DOOMFIST_HAND_CANNON_DAMAGE/OW2_DOOMFIST_HAND_CANNON_DAMAGE)-eventDamage) # Deal additional damage to match OW1 damage
