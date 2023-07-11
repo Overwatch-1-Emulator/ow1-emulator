@@ -45,6 +45,7 @@ rule "[mccree.opy]: Throw projectile when pressing e":
 rule "[mccree.opy]: Stun flashed enemy":
     @Event playerTookDamage
     @Condition eventAbility == 0
+    @Condition eventDamage >= 15 # This check is needed to ensure that the damage source is flashbang
     @Condition attacker.getCurrentHero() == Hero.MCCREE or attacker.getCurrentHero() == Hero.GENJI
 
     victim.setStatusEffect(eventPlayer, Status.STUNNED, OW1_MCCREE_FLASHBANG_STUN_DURATION)
