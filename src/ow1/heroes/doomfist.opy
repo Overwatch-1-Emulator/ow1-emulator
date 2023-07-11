@@ -413,6 +413,7 @@ rule "[doomfist.opy]: Find wall impacted victims":
     damage(victim, attacker, getRocketPunchWallImpactDamage(eventPlayer.punch_charge_time)-eventDamage)
     attacker.wall_impacted_victims.append(victim)
 
+
 # DO NOT switch the order of this rule with the previous rule
 # The order is functionally significant
 rule "[doomfist.opy]: Find punched victims":
