@@ -7,6 +7,7 @@ settings
 	}
 	lobby
 	{
+		Map Rotation: After A Game
 		Match Voice Chat: Enabled
 		Max Spectators: 12
 		Max Team 1 Players: 6
@@ -18,11 +19,6 @@ settings
 	{
 		Assault
 		{
-			disabled maps
-			{
-				Hanamura Winter
-			}
-			Competitive Rules: On
 		}
 		Control
 		{
@@ -31,7 +27,6 @@ settings
 				Antarctic Peninsula
 				Lijiang Tower Lunar New Year
 			}
-			Competitive Rules: On
 		}
 		Escort
 		{
@@ -40,7 +35,6 @@ settings
 				Circuit Royal
 				Shambali Monastery
 			}
-			Competitive Rules: On
 		}
 		Hybrid
 		{
@@ -52,7 +46,6 @@ settings
 				King's Row
 				Numbani
 			}
-			Competitive Rules: On
 		}
 		Practice Range
 		{
@@ -247,27 +240,31 @@ variables {
         25: pressing_uppercut_key
         26: shift_pressed_by_bot
         27: is_using_uppercut
-        28: enemies_in_uppercut_radius
-        29: enemies_in_uppercut_view
-        30: enemies_hit_by_uppercut
-        31: uppercut_cooldown
-        32: pressing_slam_key
-        33: e_pressed_by_bot
-        34: is_using_slam
-        35: slam_to_use
-        36: current_position
-        37: valid_slam_position
-        38: indicator_visibility
-        39: flashbang_origin_position
-        40: flashbang_exploded
-        41: start_freeze
-        42: freeze_percent
-        43: is_frozen
-        44: freeze_slow_effect_timer
-        45: freeze_penalty_percent
-        46: self_bubble_cooldown
-        47: ally_bubble_cooldown
-        48: zarya_hud_visibility
+        28: uppercut_victims
+        29: uppercut_cooldown
+        30: pressing_slam_key
+        31: e_pressed_by_bot
+        32: is_using_slam
+        33: slam_to_use
+        34: current_position
+        35: indicator_slam_position
+        36: indicator_slam_direction
+        37: indicator_visibility
+        38: slam_damage
+        39: slammed_victims
+        40: punched_victims
+        41: wall_impacted_victims
+        42: punch_charge_time
+        43: flashbang_origin_position
+        44: flashbang_exploded
+        45: start_freeze
+        46: freeze_percent
+        47: is_frozen
+        48: freeze_slow_effect_timer
+        49: freeze_penalty_percent
+        50: self_bubble_cooldown
+        51: ally_bubble_cooldown
+        52: zarya_hud_visibility
 }
 subroutines {
     0: clearCustomHealth
@@ -1441,17 +1438,28 @@ rule ("[doomfist.opy]: initDoomfist()") {
         initDoomfist;
     }
     actions {
+        "Set Doomfist health to OW1"
+        While(Compare(Max Health(Event Player), !=, 250));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, health_normal, 250);
+            Set Player Variable(Event Player, health_armor, 0);
+            Set Player Variable(Event Player, health_shields, 0);
+            Call Subroutine(applyCustomHealth);
+            Wait(1, Ignore Condition);
+        End;
+        "Decouple ability button press from trigerring ability"
         Disallow Button(Event Player, Button(Ability 1));
         Disallow Button(Event Player, Button(Ability 2));
-        Set Max Health(Event Player, 55.556);
-        Set Knockback Received(Event Player, 142.895);
+        "Variables for swapping keybinds"
         Set Player Variable(Event Player, shift_pressed_by_bot, False);
         Set Player Variable(Event Player, e_pressed_by_bot, False);
+        Set Player Variable(Event Player, punched_victims, Empty Array);
+        Set Player Variable(Event Player, wall_impacted_victims, Empty Array);
         Call Subroutine(initSlamIndicatorGui);
     }
 }
 
-rule ("Subroutine initSlamIndicatorGui") {
+rule ("[doomfist.opy]: initSlamIndicatorGui()") {
     event {
         Subroutine;
         initSlamIndicatorGui;
@@ -1460,12 +1468,12 @@ rule ("Subroutine initSlamIndicatorGui") {
         Set Player Variable(Event Player, indicator_visibility, Null);
         Set Player Variable(Event Player, cos_lut, Empty Array);
         Set Player Variable(Event Player, sin_lut, Empty Array);
-        For Player Variable(Event Player, i, 0, 5, 1);
-            Modify Player Variable(Event Player, cos_lut, Append To Array, Cosine From Degrees(Subtract(Multiply((Event Player).i, 15), 30)));
-            Modify Player Variable(Event Player, sin_lut, Append To Array, Sine From Degrees(Subtract(Multiply((Event Player).i, 15), 30)));
+        For Player Variable(Event Player, i, 0, 2, 1);
+            Modify Player Variable(Event Player, cos_lut, Append To Array, Cosine From Degrees(Subtract(Multiply((Event Player).i, 60), 30)));
+            Modify Player Variable(Event Player, sin_lut, Append To Array, Sine From Degrees(Subtract(Multiply((Event Player).i, 60), 30)));
         End;
-        For Player Variable(Event Player, i, 0, 5, 1);
-            Create Beam Effect((Event Player).indicator_visibility, Good Beam, Add(Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False), Vector(Add(Multiply(X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i)))), Y Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Add(Multiply(Multiply(-1, X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player)))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i)))))), Add(Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False), Multiply(8, Vector(Add(Multiply(X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i)))), Y Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Add(Multiply(Multiply(-1, X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player)))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i))))))), Color(Blue), Visible To Position and Radius);
+        For Player Variable(Event Player, i, 0, 2, 1);
+            Create Beam Effect((Event Player).indicator_visibility, Good Beam, Update Every Frame(Add(Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False), Vector(Add(Multiply(X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i)))), Y Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Add(Multiply(Multiply(-1, X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player)))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i))))))), Update Every Frame(Add(Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False), Multiply(8, Vector(Add(Multiply(X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i)))), Y Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Add(Multiply(Multiply(-1, X Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player)))))), Value In Array((Event Player).sin_lut, Evaluate Once((Event Player).i))), Multiply(Z Component Of(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))))), Value In Array((Event Player).cos_lut, Evaluate Once((Event Player).i)))))))), Color(Blue), Visible To Position and Radius);
             Modify Player Variable(Event Player, entity_huds, Append To Array, Last Created Entity);
         End;
     }
@@ -1563,6 +1571,8 @@ rule ("[doomfist.opy]: Execute main logic for Rising Uppercut ability") {
         executeUppercut;
     }
     actions {
+        "Clear uppercut victims"
+        Set Player Variable(Event Player, uppercut_victims, Empty Array);
         "Start of uppercut"
         Set Player Variable(Event Player, is_using_uppercut, True);
         "Doomfist phases through enemies during uppercut"
@@ -1581,7 +1591,6 @@ rule ("[doomfist.opy]: Execute main logic for Rising Uppercut ability") {
         Set Gravity(Event Player, 0);
         "Deny player from inputting movement commands"
         Start Forcing Throttle(Event Player, 0, 0, 0, 0, 0, 0);
-        Call Subroutine(detectUpercutHit);
         Wait(0.15, Ignore Condition);
         Apply Impulse(Event Player, Up, 40, To World, Incorporate Contrary Motion);
         Wait(0.1, Ignore Condition);
@@ -1605,30 +1614,24 @@ rule ("[doomfist.opy]: Execute main logic for Rising Uppercut ability") {
     }
 }
 
-rule ("[doomfist.opy]: Detect enemies hit by Uppercut") {
+rule ("[doomfist.opy]: Detect uppercut victims") {
     event {
-        Subroutine;
-        detectUpercutHit;
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Is True For Any(Filtered Array(Players Within Radius(Event Player, 5, Opposite Team Of(Team Of(Event Player)), Surfaces), Compare(Hero Of(Current Array Element), ==, Hero(Doomfist))), Compare((Current Array Element).is_using_uppercut, ==, True)) == True;
+        Angle Between Vectors(Normalize(Vector(X Component Of(Facing Direction Of(First Of(Filtered Array(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player))), Compare((Current Array Element).is_using_uppercut, ==, True))))), 0, Z Component Of(Facing Direction Of(First Of(Filtered Array(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player))), Compare((Current Array Element).is_using_uppercut, ==, True))))))), Direction Towards(First Of(Filtered Array(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player))), Compare((Current Array Element).is_using_uppercut, ==, True))), Event Player)) <= 90;
+        Array Contains((First Of(Filtered Array(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player))), Compare((Current Array Element).is_using_uppercut, ==, True)))).uppercut_victims, Event Player) == False;
     }
     actions {
-        "Find enemies in uppercut range"
-        Set Player Variable(Event Player, enemies_in_uppercut_radius, Players Within Radius(Event Player, 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers));
-        "Find enemies in 90 degree FOV"
-        Set Player Variable(Event Player, enemies_in_uppercut_view, Players in View Angle(Event Player, Opposite Team Of(Team Of(Event Player)), 90));
-        "enemies_hit_by_uppercut = Union(enemies_in_uppercut_radius, enemies_in_uppercut_view)"
-        Set Player Variable(Event Player, enemies_hit_by_uppercut, Empty Array);
-        For Player Variable(Event Player, i, 0, Count Of((Event Player).enemies_in_uppercut_radius), 1);
-            If(Array Contains((Event Player).enemies_in_uppercut_view, Value In Array((Event Player).enemies_in_uppercut_radius, (Event Player).i)));
-                Modify Player Variable(Event Player, enemies_hit_by_uppercut, Append To Array, Value In Array((Event Player).enemies_in_uppercut_radius, (Event Player).i));
-            End;
-        End;
-        For Player Variable(Event Player, i, 0, Count Of((Event Player).enemies_hit_by_uppercut), 1);
-            Damage(Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i), Event Player, 50);
-            Play Effect(All Players(All Teams), Bad Explosion, Color(White), Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i), 1);
-            Play Effect(All Players(All Teams), Explosion Sound, Color(White), Position Of(Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i)), 100);
-            Apply Impulse(Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i), Up, 15, To Player, Cancel Contrary Motion XYZ);
-            Apply Impulse(Value In Array((Event Player).enemies_hit_by_uppercut, (Event Player).i), Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player))), 5, To World, Cancel Contrary Motion XYZ);
-        End;
+        Modify Player Variable(First Of(Filtered Array(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player))), Compare((Current Array Element).is_using_uppercut, ==, True))), uppercut_victims, Append To Array, Event Player);
+        Damage(Event Player, First Of(Filtered Array(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player))), Compare((Current Array Element).is_using_uppercut, ==, True))), 50);
+        Play Effect(All Players(All Teams), Bad Explosion, Color(White), Event Player, 1);
+        Play Effect(All Players(All Teams), Explosion Sound, Color(White), Event Player, 100);
+        Apply Impulse(Event Player, Up, 15, To Player, Cancel Contrary Motion XYZ);
+        Apply Impulse(Event Player, Vector(X Component Of(Facing Direction Of(First Of(Filtered Array(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player))), Compare((Current Array Element).is_using_uppercut, ==, True))))), 0, Z Component Of(Facing Direction Of(First Of(Filtered Array(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player))), Compare((Current Array Element).is_using_uppercut, ==, True)))))), 5, To World, Cancel Contrary Motion XYZ);
     }
 }
 
@@ -1666,9 +1669,11 @@ rule ("[doomfist.opy]: Execute main logic for Seismic Slam ability") {
         executeSlam;
     }
     actions {
+        "clear slammed victims"
+        Set Player Variable(Event Player, slammed_victims, Empty Array);
         If(Compare((Event Player).slam_to_use, ==, 1));
-            "Only execute indicator slam if indicator visible"
-            If(Compare((Event Player).indicator_visibility, ==, Event Player));
+            "Only execute indicator slam is valid"
+            If(Compare(Distance Between(Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False), Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null))), <, 1.5));
                 Call Subroutine(initiateIndicatorSlam);
             End;
         Else;
@@ -1683,7 +1688,106 @@ rule ("[doomfist.opy]: Execute main logic for Seismic Slam ability") {
     }
 }
 
-rule ("[doomfist.opy]: Indicator slam validity") {
+rule ("[doomfist.opy]: InitiateGroundSlam()") {
+    event {
+        Subroutine;
+        initiateGroundSlam;
+    }
+    actions {
+        Set Player Variable(Event Player, is_using_slam, True);
+        Set Gravity(Event Player, 0);
+        Start Forcing Throttle(Event Player, 0, 0, 0, 0, 0, 0);
+        "Start slam animation"
+        Set Player Variable(Event Player, uppercut_cooldown, Ability Cooldown(Event Player, Button(Ability 1)));
+        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
+        Allow Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, shift_pressed_by_bot, True);
+        Press Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, shift_pressed_by_bot, False);
+        Disallow Button(Event Player, Button(Ability 1));
+        "wait for doom to start moving"
+        Wait(0.016, Ignore Condition);
+        "immediately cancel momentum"
+        Apply Impulse(Event Player, Velocity Of(Event Player), Multiply(-1, Speed Of(Event Player)), To World, Incorporate Contrary Motion);
+        "apply custom momentum"
+        Apply Impulse(Event Player, Add(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player)))), Vector(0, 0.075, 0)), 16, To World, Incorporate Contrary Motion);
+        Wait(0.3, Ignore Condition);
+        Set Gravity(Event Player, 100);
+        Wait Until(Or(Is On Ground(Event Player), Not(Is Using Ability 1(Event Player))), 9999);
+        Stop Forcing Throttle(Event Player);
+    }
+}
+
+rule ("[doomfist.opy]: InitiateIndicatorSlam()") {
+    event {
+        Subroutine;
+        initiateIndicatorSlam;
+    }
+    actions {
+        Set Player Variable(Event Player, indicator_slam_position, Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False));
+        Set Player Variable(Event Player, indicator_slam_direction, Direction Towards(Position Of(Event Player), (Event Player).indicator_slam_position));
+        Set Player Variable(Event Player, is_using_slam, True);
+        Set Gravity(Event Player, 0.001);
+        Start Forcing Throttle(Event Player, 0, 0, 0, 0, 0, 0);
+        "Start slam animation"
+        Set Player Variable(Event Player, uppercut_cooldown, Ability Cooldown(Event Player, Button(Ability 1)));
+        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
+        Allow Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, shift_pressed_by_bot, True);
+        Press Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, shift_pressed_by_bot, False);
+        Disallow Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, current_position, Position Of(Event Player));
+        Chase Player Variable At Rate(Event Player, current_position, (Event Player).indicator_slam_position, 25, None);
+        Start Forcing Player Position(Event Player, (Event Player).current_position, True);
+        "Helps prevent clipping through map geometry"
+        Apply Impulse(Event Player, (Event Player).indicator_slam_direction, 25, To World, Cancel Contrary Motion XYZ);
+        Wait Until(Or(Compare(Distance Between((Event Player).current_position, (Event Player).indicator_slam_position), <=, 0.01), Not(Is Using Ability 1(Event Player))), 9999);
+        Stop Forcing Player Position(Event Player);
+        Stop Chasing Player Variable(Event Player, current_position);
+        Stop Forcing Throttle(Event Player);
+        Set Gravity(Event Player, 100);
+        "cancel current momentum"
+        Apply Impulse(Event Player, Velocity Of(Event Player), Multiply(-1, Speed Of(Event Player)), To World, Incorporate Contrary Motion);
+    }
+}
+
+rule ("[doomfist.opy]: Calculate slam damage based on air time") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).is_using_slam == True;
+    }
+    actions {
+        Set Player Variable(Event Player, slam_damage, 0);
+        Chase Player Variable At Rate(Event Player, slam_damage, 125, 59.036144578313255, None);
+        Wait Until(Update Every Frame(Compare((Event Player).is_using_slam, ==, False)), 9999);
+        Big Message(Event Player, Custom String("{0}", Round To Integer((Event Player).slam_damage, To Nearest), Null, Null));
+        Stop Chasing Player Variable(Event Player, slam_damage);
+    }
+}
+
+rule ("[doomfist.opy]: Damage slammed victims") {
+    event {
+        Player Dealt Damage;
+        All;
+        Doomfist;
+    }
+    conditions {
+        "Ability used to damage player is Seismic Slam"
+        Event Ability == Button(Ability 1);
+    }
+    actions {
+        "[TODO] add more conditions to check that the player is inside OW1 slam hitbox"
+        Damage(Victim, Attacker, Subtract(Round To Integer((Attacker).slam_damage, To Nearest), Event Damage));
+        Modify Player Variable(Attacker, slammed_victims, Append To Array, Victim);
+    }
+}
+
+rule ("[doomfist.opy]: Indicator slam visibility") {
     event {
         Ongoing - Each Player;
         All;
@@ -1745,7 +1849,7 @@ rule ("[doomfist.opy]: Hide indicator if not indicator slam") {
     }
 }
 
-rule ("[doomfist.opy]: Hide indicator slam is floating") {
+rule ("[doomfist.opy]: Hide floating indicator slam") {
     event {
         Ongoing - Each Player;
         All;
@@ -1759,64 +1863,71 @@ rule ("[doomfist.opy]: Hide indicator slam is floating") {
     }
 }
 
-rule ("[doomfist.opy]: InitiateGroundSlam()") {
+rule ("[doomfist.opy]: Initialize rocket punch") {
     event {
-        Subroutine;
-        initiateGroundSlam;
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Is Firing Secondary(Event Player) == True;
+        Is Button Held(Event Player, Button(Secondary Fire)) == True;
     }
     actions {
-        Set Player Variable(Event Player, is_using_slam, True);
-        Set Gravity(Event Player, 0);
-        Start Forcing Throttle(Event Player, 0, 0, 0, 0, 0, 0);
-        "Start slam animation"
-        Set Player Variable(Event Player, uppercut_cooldown, Ability Cooldown(Event Player, Button(Ability 1)));
-        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
-        Allow Button(Event Player, Button(Ability 1));
-        Set Player Variable(Event Player, shift_pressed_by_bot, True);
-        Press Button(Event Player, Button(Ability 1));
-        Set Player Variable(Event Player, shift_pressed_by_bot, False);
-        Disallow Button(Event Player, Button(Ability 1));
-        "wait for doom to start moving"
-        Wait(0.016, Ignore Condition);
-        "immediately cancel momentum"
-        Apply Impulse(Event Player, Velocity Of(Event Player), Multiply(-1, Speed Of(Event Player)), To World, Incorporate Contrary Motion);
-        "apply custom momentum"
-        Apply Impulse(Event Player, Add(Normalize(Vector(X Component Of(Facing Direction Of(Event Player)), 0, Z Component Of(Facing Direction Of(Event Player)))), Vector(0, 0.075, 0)), 16, To World, Incorporate Contrary Motion);
-        Wait(0.3, Ignore Condition);
-        Set Gravity(Event Player, 100);
-        Wait Until(Or(Is On Ground(Event Player), Not(Is Using Ability 1(Event Player))), 9999);
-        Stop Forcing Throttle(Event Player);
+        Set Player Variable(Event Player, punched_victims, Empty Array);
+        Set Player Variable(Event Player, wall_impacted_victims, Empty Array);
+        Set Player Variable(Event Player, punch_charge_time, 0);
+        Chase Player Variable At Rate(Event Player, punch_charge_time, 1.4, 1, None);
+        Wait Until(Not(Is Button Held(Event Player, Button(Secondary Fire))), 9999);
+        Stop Chasing Player Variable(Event Player, punch_charge_time);
     }
 }
 
-rule ("[doomfist.opy]: InitiateIndicatorSlam()") {
+rule ("[doomfist.opy]: Find wall impacted victims") {
     event {
-        Subroutine;
-        initiateIndicatorSlam;
+        Player Dealt Damage;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Event Ability == Button(Secondary Fire);
+        Array Contains((Attacker).punched_victims, Victim) == True;
+        Array Contains((Attacker).wall_impacted_victims, Victim) == False;
     }
     actions {
-        Set Player Variable(Event Player, valid_slam_position, Ray Cast Hit Position(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Add(Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), Multiply(1.5, Down)), Null, All Players(All Teams), False));
-        Set Player Variable(Event Player, is_using_slam, True);
-        Set Gravity(Event Player, 0);
-        Start Forcing Throttle(Event Player, 0, 0, 0, 0, 0, 0);
-        "Start slam animation"
-        Set Player Variable(Event Player, uppercut_cooldown, Ability Cooldown(Event Player, Button(Ability 1)));
-        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
-        Allow Button(Event Player, Button(Ability 1));
-        Set Player Variable(Event Player, shift_pressed_by_bot, True);
-        Press Button(Event Player, Button(Ability 1));
-        Set Player Variable(Event Player, shift_pressed_by_bot, False);
-        Disallow Button(Event Player, Button(Ability 1));
-        Set Player Variable(Event Player, current_position, Position Of(Event Player));
-        Chase Player Variable At Rate(Event Player, current_position, (Event Player).valid_slam_position, 25, None);
-        Start Forcing Player Position(Event Player, (Event Player).current_position, True);
-        Wait Until(Or(And(Compare(Altitude Of(Event Player), <=, 0.01), Compare(Distance Between((Event Player).current_position, (Event Player).valid_slam_position), <=, 0.01)), Not(Is Using Ability 1(Event Player))), 9999);
-        Stop Forcing Player Position(Event Player);
-        Stop Chasing Player Variable(Event Player, current_position);
-        Stop Forcing Throttle(Event Player);
-        Set Gravity(Event Player, 100);
-        "cancel current momentum"
-        Apply Impulse(Event Player, Velocity Of(Event Player), Multiply(-1, Speed Of(Event Player)), To World, Incorporate Contrary Motion);
+        Damage(Victim, Attacker, Subtract(Add(Multiply(82.78145695364239, Subtract((Event Player).punch_charge_time, 1.4)), 150), Event Damage));
+        Modify Player Variable(Attacker, wall_impacted_victims, Append To Array, Victim);
+    }
+}
+
+rule ("[doomfist.opy]: Find punched victims") {
+    event {
+        Player Dealt Damage;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Event Ability == Button(Secondary Fire);
+        Array Contains((Attacker).punched_victims, Victim) == False;
+    }
+    actions {
+        Damage(Victim, Attacker, Subtract(Add(Multiply(41.390728476821195, Subtract((Event Player).punch_charge_time, 1.4)), 100), Event Damage));
+        Modify Player Variable(Attacker, punched_victims, Append To Array, Victim);
+    }
+}
+
+rule ("[doomfist.opy]: Deal OW1 hand cannon damage") {
+    event {
+        Player Dealt Damage;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Event Ability == Button(Primary Fire);
+    }
+    actions {
+        "Deal additional damage to match OW1 damage"
+        Damage(Victim, Attacker, Subtract(Multiply(Event Damage, 1.2), Event Damage));
     }
 }
 
@@ -1927,63 +2038,20 @@ rule ("[genji.opy]: initGenji()") {
     actions {
         Set Ammo(Event Player, 0, 30);
         Set Max Ammo(Event Player, 0, 30);
-        Set Damage Dealt(Event Player, 107.4074074074074);
     }
 }
 
-rule ("[genji.opy]: Change dash damage") {
+rule ("[genji.opy]: Deal OW1 shuriken damage") {
     event {
-        Ongoing - Each Player;
+        Player Dealt Damage;
         All;
         Genji;
     }
     conditions {
-        Is Using Ability 1(Event Player) == True;
-        Is Using Ultimate(Event Player) == False;
+        Or(Compare(Event Ability, ==, Button(Primary Fire)), Compare(Event Ability, ==, Button(Secondary Fire))) == True;
     }
     actions {
-        Set Damage Dealt(Event Player, 100);
-        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
-        Set Damage Dealt(Event Player, 107.4074074074074);
-    }
-}
-
-rule ("[genji.opy]: Change ult damage") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Genji;
-    }
-    conditions {
-        Is Using Ultimate(Event Player) == True;
-    }
-    actions {
-        Set Damage Dealt(Event Player, 100);
-        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
-        "this code from line 35 to 39 solves this bug: if you deflect right before his ult ends, it would cause it to be using the extra damage modifier. This prevents it so if his ult ends and you are still deflecting, you wont have the extra damage until deflect is over."
-        If(Is Using Ability 2(Event Player));
-            Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
-            Set Damage Dealt(Event Player, 107.4074074074074);
-        Else;
-        End;
-        Set Damage Dealt(Event Player, 107.4074074074074);
-    }
-}
-
-rule ("[genji.opy]: Change deflect damage") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Genji;
-    }
-    conditions {
-        Is Using Ability 2(Event Player) == True;
-        Is Using Ultimate(Event Player) == False;
-    }
-    actions {
-        Set Damage Dealt(Event Player, 100);
-        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
-        Set Damage Dealt(Event Player, 107.4074074074074);
+        Damage(Victim, Attacker, Subtract(Multiply(Event Damage, 1.074074074074074), Event Damage));
     }
 }
 
@@ -2056,6 +2124,8 @@ rule ("[mccree.opy]: Stun flashed enemy") {
     }
     conditions {
         Event Ability == 0;
+        "This check is needed to ensure that the damage source is flashbang"
+        Event Damage >= 15;
         Or(Compare(Hero Of(Attacker), ==, Hero(Cassidy)), Compare(Hero Of(Attacker), ==, Hero(Genji))) == True;
     }
     actions {
@@ -2622,6 +2692,21 @@ rule ("[winston.opy]: Set default leap cooldown") {
     }
     actions {
         Set Ability Cooldown(Event Player, Button(Ability 1), 6);
+    }
+}
+
+rule ("[winston.opy]: Set leap after ultimate") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Winston;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+    }
+    actions {
+        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Set Ability Cooldown(Event Player, Button(Ability 1), 0);
     }
 }
 
