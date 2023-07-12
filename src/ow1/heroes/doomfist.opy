@@ -22,7 +22,7 @@ rules/functions as needed.
 # Same function as above but using pre-computed cos/sin lookup tables
 #!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
 
-# Get player using uppercut
+# Get enemy players using uppercut
 #!define getUppercuttingPlayers() [i for i in getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam())) if i.is_using_uppercut == true]
 
 # Calculate OW1 rocket punch damage given charge time
@@ -46,9 +46,7 @@ playervar i
 playervar pressing_uppercut_key
 playervar shift_pressed_by_bot
 playervar is_using_uppercut
-playervar enemies_in_uppercut_radius
-playervar enemies_in_uppercut_view
-playervar enemies_hit_by_uppercut
+playervar uppercut_victims
 playervar uppercut_cooldown
 
 # Variables for slam
@@ -188,6 +186,7 @@ rule "[doomfist.opy]: Control flow for slam":
 def executeUppercut():
     @Name "[doomfist.opy]: Execute main logic for Rising Uppercut ability"
 
+    eventPlayer.uppercut_victims = [] # Clear uppercut victims
     eventPlayer.is_using_uppercut = true # Start of uppercut
     eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
     eventPlayer.disallowButton(Button.MELEE) # Doomfist cannot melee during uppercut
@@ -224,32 +223,14 @@ rule "[doomfist.opy]: Detect uppercut victims":
     @Event eachPlayer
     @Condition any([i.is_using_uppercut == true for i in getPlayersInRadius(eventPlayer, OW1_DOOMFIST_RISING_UPPERCUT_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES) if i.getCurrentHero() == Hero.DOOMFIST])
     @Condition angleBetweenVectors(getLateralFacingDirection(getUppercuttingPlayers()[0]), directionTowards(getUppercuttingPlayers()[0], eventPlayer)) <= 90
+    @Condition eventPlayer not in getUppercuttingPlayers()[0].uppercut_victims
 
+    getUppercuttingPlayers()[0].uppercut_victims.append(eventPlayer)
     damage(eventPlayer, getUppercuttingPlayers()[0], OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE)
     playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer, 1)
     playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer, 100)
     eventPlayer.applyImpulse(Vector.UP, 15, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     eventPlayer.applyImpulse(vect(getUppercuttingPlayers()[0].getFacingDirection().x, 0, getUppercuttingPlayers()[0].getFacingDirection().z), 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
-
-
-def detectUpercutHit():
-    @Name "[doomfist.opy]: Detect enemies hit by Uppercut"
-
-    eventPlayer.enemies_in_uppercut_radius = getPlayersInRadius(eventPlayer, OW1_DOOMFIST_RISING_UPPERCUT_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS) # Find enemies in uppercut range
-    eventPlayer.enemies_in_uppercut_view = eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 90) # Find enemies in 90 degree FOV
-
-    # enemies_hit_by_uppercut = Union(enemies_in_uppercut_radius, enemies_in_uppercut_view)
-    eventPlayer.enemies_hit_by_uppercut = []
-    for eventPlayer.i in range(len(eventPlayer.enemies_in_uppercut_radius)):
-        if eventPlayer.enemies_in_uppercut_radius[eventPlayer.i] in eventPlayer.enemies_in_uppercut_view:
-            eventPlayer.enemies_hit_by_uppercut.append(eventPlayer.enemies_in_uppercut_radius[eventPlayer.i])
-
-    for eventPlayer.i in range(len(eventPlayer.enemies_hit_by_uppercut)):
-        damage(eventPlayer.enemies_hit_by_uppercut[eventPlayer.i], eventPlayer, OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE)
-        playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer.enemies_hit_by_uppercut[eventPlayer.i], 1)
-        playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].getPosition(), 100)
-        eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].applyImpulse(Vector.UP, 15, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
-        eventPlayer.enemies_hit_by_uppercut[eventPlayer.i].applyImpulse(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z), 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
 
 
 rule "[doomfist.opy]: Detect ground slam":
