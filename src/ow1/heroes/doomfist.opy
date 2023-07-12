@@ -15,12 +15,15 @@ rules/functions as needed.
 # Then drop straight down vertically to find the final indicator position
 #!define findIndicatorPosition() raycast(findProtoIndicatorPosition(), findProtoIndicatorPosition()+OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
 # Facing direction vector projected and normalized to the XZ plane
-#!define getLateralFacingDirection() normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z))
+#!define getLateralFacingDirection(player) normalize(vect(player.getFacingDirection().x, 0, player.getFacingDirection().z))
 # Rotates vector around the y-axis in 3D space
 # See https://stackoverflow.com/q/14607640 for formula on rotating vector in 3D space
 #!define rotateRelativeToYAxis(v, angle_in_degrees) vect((v.x*cosDeg(angle_in_degrees) + v.z*sinDeg(angle_in_degrees)), (v.y), (-v.x*sinDeg(angle_in_degrees) + v.z*cosDeg(angle_in_degrees)))
 # Same function as above but using pre-computed cos/sin lookup tables
 #!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
+
+# Get player using uppercut
+#!define getUppercuttingPlayers() [i for i in getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam())) if i.is_using_uppercut == true]
 
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
@@ -120,8 +123,8 @@ def initSlamIndicatorGui():
     for eventPlayer.i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
         createBeam(eventPlayer.indicator_visibility, 
                    Beam.GOOD, 
-                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i))), 
-                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(), evalOnce(eventPlayer.i))), 
+                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(eventPlayer), evalOnce(eventPlayer.i))), 
+                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(eventPlayer), evalOnce(eventPlayer.i))), 
                    Color.BLUE, 
                    EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.entity_huds.append(getLastCreatedEntity())
@@ -196,7 +199,6 @@ def executeUppercut():
     eventPlayer.applyImpulse(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z), 5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Move laterally in the facing direction
     eventPlayer.setGravity(0) # Override gravity during uppercut
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0) # Deny player from inputting movement commands
-    detectUpercutHit()
     wait(0.15)
     eventPlayer.applyImpulse(Vector.UP, 40, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     wait(0.1)
@@ -216,6 +218,19 @@ def executeUppercut():
     eventPlayer.setGravity(50)
     wait(0.25)
     eventPlayer.setGravity(100)
+
+
+rule "[doomfist.opy]: Detect uppercut victims":
+    @Event eachPlayer
+    @Condition len(getUppercuttingPlayers()) > 0
+    @Condition distance(getUppercuttingPlayers()[0], eventPlayer) <= OW1_DOOMFIST_RISING_UPPERCUT_RADIUS
+    @Condition angleBetweenVectors(getLateralFacingDirection(getUppercuttingPlayers()[0]), directionTowards(getUppercuttingPlayers()[0], eventPlayer)) <= 90
+
+    damage(eventPlayer, getUppercuttingPlayers()[0], OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE)
+    playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer, 1)
+    playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer, 100)
+    eventPlayer.applyImpulse(Vector.UP, 15, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    eventPlayer.applyImpulse(vect(getUppercuttingPlayers()[0].getFacingDirection().x, 0, getUppercuttingPlayers()[0].getFacingDirection().z), 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
 
 
 def detectUpercutHit():
@@ -382,7 +397,7 @@ rule "[doomfist.opy]: Hide indicator if not indicator slam":
     eventPlayer.indicator_visibility = null
 
 
-rule "[doomfist.opy]: Hide FLOATING indicator slam":
+rule "[doomfist.opy]: Hide floating indicator slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN
