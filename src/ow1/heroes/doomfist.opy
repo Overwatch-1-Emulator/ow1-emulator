@@ -222,8 +222,7 @@ def executeUppercut():
 
 rule "[doomfist.opy]: Detect uppercut victims":
     @Event eachPlayer
-    @Condition len(getUppercuttingPlayers()) > 0
-    @Condition distance(getUppercuttingPlayers()[0], eventPlayer) <= OW1_DOOMFIST_RISING_UPPERCUT_RADIUS
+    @Condition any([i.is_using_uppercut == true for i in getPlayersInRadius(eventPlayer, OW1_DOOMFIST_RISING_UPPERCUT_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES) if i.getCurrentHero() == Hero.DOOMFIST])
     @Condition angleBetweenVectors(getLateralFacingDirection(getUppercuttingPlayers()[0]), directionTowards(getUppercuttingPlayers()[0], eventPlayer)) <= 90
 
     damage(eventPlayer, getUppercuttingPlayers()[0], OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE)
