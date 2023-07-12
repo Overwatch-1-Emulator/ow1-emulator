@@ -52,8 +52,8 @@ def resetHero():
 rule "[reset_hero.opy]: Reset hero on new round":
     @Event eachPlayer
     @Condition isMatchBetweenRounds() == true
-    
-    waitUntil(eventPlayer.isInSpawnRoom(), 60)
+
+    waitUntil(not isMatchBetweenRounds(), 9999)
     resetHero()
 
 
