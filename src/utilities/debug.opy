@@ -12,3 +12,10 @@ rule "[debug.opy]: Debug HUD text":
     @Event eachPlayer
     
     hudSubheader(eventPlayer, "{}".format(eventPlayer.getAltitude()), HudPosition.TOP, 0, Color.WHITE, HudReeval.STRING)
+
+
+rule "[debug.opy]: Debug damage instance":
+    @Disabled
+    @Event playerDealtDamage
+
+    printLog("{} {} {}".format(eventPlayer.getCurrentHero(), eventAbility, eventDamage))
