@@ -22,10 +22,9 @@ def initSigma():
 
 
 rule "[sigma.opy]: Change accretion damage":
-    @Event eachPlayer
+    @Event playerDealtDamage
     @Hero sigma
-    @Condition eventPlayer.isUsingAbility2() == true
+    @Condition eventAbility == Button.ABILITY_2
+    @Condition eventDamage > OW2_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE # Checks for direct hit vs splash damage
 
-    eventPlayer.setDamageDealt(percent(OW1_SIGMA_ACCRETION_DAMAGE/OW2_SIGMA_ACCRETION_DAMAGE))
-    waitUntil(eventPlayer.isUsingAbility2() == false,9999)
-    eventPlayer.setDamageDealt(100)
+    damage(victim, attacker, eventDamage*(OW1_SIGMA_ACCRETION_DAMAGE/OW2_SIGMA_ACCRETION_DAMAGE)-eventDamage)
