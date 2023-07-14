@@ -41,12 +41,10 @@ rule "[reinhardt.opy]: Force single firestrike":
     eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
 
 
-rule "[reinhardt.opy]: Charge Damage":
-    @Event eachPlayer
+rule "[reinhardt.opy]: Increase charge damage":
+    @Event playerDealtDamage
     @Hero reinhardt
-    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventAbility == Button.ABILITY_1
+    @Condition eventDamage > (OW2_REINHARDT_CHARGE_BUMP_DAMAGE + 1) # Checks for pin vs boop damage (+ 1 because apparently 50.0 > 50 == true for whatever reason)
 
-    eventPlayer.setDamageDealt(percent(OW1_REINHARDT_CHARGE_DAMAGE/OW2_REINHARDT_CHARGE_DAMAGE))
-    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
-    wait(0.2)
-    eventPlayer.setDamageDealt(100)
+    damage(victim, attacker, eventDamage*(OW1_REINHARDT_CHARGE_PIN_DAMAGE/OW2_REINHARDT_CHARGE_PIN_DAMAGE)-eventDamage)
