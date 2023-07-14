@@ -2,11 +2,6 @@
 
 subroutine initSoldier
 
-def initSoldier():
-    @Name "[soldier.opy]: initSoldier()"
-    # [TODO]
-    pass
-
 rule "[soldier.opy]: Initialize Soldier 76":
     @Event eachPlayer
     @Hero soldier
@@ -14,3 +9,17 @@ rule "[soldier.opy]: Initialize Soldier 76":
 
     initSoldier()
     eventPlayer.initialized = true
+
+
+def initSoldier():
+    @Name "[soldier.opy]: initSoldier()"
+    # [TODO]
+    pass
+
+
+rule "[soldier.opy]: Deal OW1 soldier primary fire damage":
+    @Event playerDealtDamage
+    @Hero soldier
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, eventDamage*(OW1_SOLDIER_HEAVY_PULSE_RIFLE_DAMAGE/OW2_SOLDIER_HEAVY_PULSE_RIFLE_DAMAGE)-eventDamage)
