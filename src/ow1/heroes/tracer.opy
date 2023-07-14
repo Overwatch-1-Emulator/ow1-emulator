@@ -13,4 +13,11 @@ rule "[tracer.opy]: Detect Tracer initialization":
 
 def initTracer():
     @Name "[tracer.opy]: initTracer()"
-    eventPlayer.setDamageDealt(percent(OW1_TRACER_PULSE_PISTOL_DAMAGE/OW2_TRACER_PULSE_PISTOL_DAMAGE))
+
+
+rule "[tracer.opy]: Deal OW1 tracer primary fire damage":
+    @Event playerDealtDamage
+    @Hero tracer
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, eventDamage*(OW1_TRACER_PULSE_PISTOL_DAMAGE/OW2_TRACER_PULSE_PISTOL_DAMAGE)-eventDamage)
