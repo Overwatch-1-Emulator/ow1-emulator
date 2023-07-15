@@ -365,6 +365,21 @@ rule "[doomfist.opy]: Damage slammed victims":
     attacker.slammed_victims.append(victim)
 
 
+rule "[doomfist.opy]: Pull slammed victims":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
+    @Condition victim in attacker.slammed_victims
+
+    victim.setGravity(50)
+    if distance(attacker, victim) < 2.5:
+        victim.applyImpulse(getLateralFacingDirection(eventPlayer) + Vector.UP, max(0, 8.5 - distance(eventPlayer, victim) * 2), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+        victim.setGravity(100)
+    else:
+        victim.applyImpulse(normalize(vect(vectorTowards(victim, eventPlayer).x, 0, vectorTowards(victim, eventPlayer).z)) + vect(0, 1, 0), 5 + distance(eventPlayer, victim) / 4, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+        victim.setGravity(100)
+
+
 rule "[doomfist.opy]: Indicator slam visibility":
     @Event eachPlayer
     @Hero doomfist
