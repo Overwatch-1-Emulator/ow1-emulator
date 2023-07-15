@@ -47,7 +47,6 @@ playervar pressing_uppercut_key
 playervar shift_pressed_by_bot
 playervar is_using_uppercut
 playervar uppercut_victims
-playervar uppercut_cooldown
 
 # Variables for slam
 playervar pressing_slam_key
@@ -156,10 +155,10 @@ rule "[doomfist.opy]: Detect shift key press by human":
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
     @Condition eventPlayer.shift_pressed_by_bot == false
-
-    eventPlayer.pressing_uppercut_key = true
+    
+    eventPlayer.pressing_slam_key = true
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_1), 9999)
-    eventPlayer.pressing_uppercut_key = false
+    eventPlayer.pressing_slam_key = false
 
 
 rule "[doomfist.opy]: Detect e key press by human":
@@ -168,9 +167,9 @@ rule "[doomfist.opy]: Detect e key press by human":
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.e_pressed_by_bot == false
 
-    eventPlayer.pressing_slam_key = true
+    eventPlayer.pressing_uppercut_key = true
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), 9999)
-    eventPlayer.pressing_slam_key = false
+    eventPlayer.pressing_uppercut_key = false
 
 
 rule "[doomfist.opy]: Control flow for uppercut":
@@ -178,7 +177,7 @@ rule "[doomfist.opy]: Control flow for uppercut":
     @Hero doomfist
     @Condition eventPlayer.pressing_uppercut_key == true
     @Condition eventPlayer.is_using_slam == false
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
     @Condition not eventPlayer.hasStatusEffect(Status.FROZEN) # Ensure Doomfist is not frozen
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
@@ -193,7 +192,7 @@ rule "[doomfist.opy]: Control flow for slam":
     @Hero doomfist
     @Condition eventPlayer.pressing_slam_key == true
     @Condition eventPlayer.is_using_uppercut == false
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
     @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
     @Condition not eventPlayer.hasStatusEffect(Status.FROZEN) # Ensure Doomfist is not frozen
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
@@ -226,7 +225,7 @@ def executeUppercut():
     wait()
     eventPlayer.applyImpulse(Vector.UP, 2.5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.setGravity(0)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_RISING_UPPERCUT_COOLDOWN_TIME)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_RISING_UPPERCUT_COOLDOWN_TIME)
     eventPlayer.enablePlayerCollision()
     eventPlayer.allowButton(Button.MELEE)
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
@@ -283,8 +282,7 @@ def executeSlam():
     if eventPlayer.is_using_slam == true:
         waitUntil(not eventPlayer.isUsingAbility1(), 9999)
         eventPlayer.is_using_slam = false
-        eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.uppercut_cooldown)
-        eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
+        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
 
 
 def initiateGroundSlam():
@@ -294,7 +292,6 @@ def initiateGroundSlam():
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
     # Start slam animation
-    eventPlayer.uppercut_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.shift_pressed_by_bot = true
@@ -320,7 +317,6 @@ def initiateIndicatorSlam():
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
     # Start slam animation
-    eventPlayer.uppercut_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.shift_pressed_by_bot = true
