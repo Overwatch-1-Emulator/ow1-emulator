@@ -103,9 +103,9 @@
 #!define OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS 8
 #!define OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS 1
 #!define OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME 6
-# slamming on flat ground deals 49 damage in 0.85 seconds
-# 0.85s depends on current slam physics and may need to be modified in the future
-#!define OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE (49/0.83)
+# Slamming on flat ground should deal 49 damage
+# Frame by frame analysis of Youtube videos indicate that slam damage increases at a rate of 100 damage/second
+#!define OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE 100
 #!define OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX 125
 #!define OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE 60
 #!define OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION 2
