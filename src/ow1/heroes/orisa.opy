@@ -2,6 +2,7 @@
 
 subroutine initOrisa
 
+
 rule "[orisa.opy]: Detect Orisa initialization":
     @Event eachPlayer
     @Hero orisa
@@ -13,5 +14,15 @@ rule "[orisa.opy]: Detect Orisa initialization":
 
 def initOrisa():
     @Name "[orisa.opy]: initOrisa()"
-    # [TODO]
+    eventPlayer.disallowButton(Button.ULTIMATE)
     pass
+
+
+rule "[orisa.opy]: Cancel ult":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true and eventPlayer.getUltCharge() == 100
+
+    #getPlayersInRadius(eventPlayer.getPosition(), 25, eventPlayer.getTeam(), LosCheck.SURFACES)
+    createEffect(getAllPlayers(), Effect.RING, Color.LIME_GREEN, eventPlayer.getPosition(), 10, EffectReeval.NONE)
+    eventPlayer.setUltCharge(0)
