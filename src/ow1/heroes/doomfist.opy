@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 /*
-This DPS doomfist workshop script is sourced from
+This DPS doomfist workshop script is heavily based on
 https://workshop.codes/dpsdoom        code: ZXJB4
 created by discord users: Bebel#5658 and Xponit#1474
 
