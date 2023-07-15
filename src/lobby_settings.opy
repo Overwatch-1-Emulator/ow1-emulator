@@ -152,7 +152,6 @@ settings {
                 "junkerQueen",
                 "kiriko",
                 "lifeweaver",
-                "orisa",
                 "ramattra",
                 "sojourn"
             ],
