@@ -355,25 +355,27 @@ rule "[doomfist.opy]: Calculate slam damage based on air time":
     eventPlayer.slam_damage_gui_visible = false
 
 
-rule "[doomfist.opy]: Damage slammed victims":
+rule "[doomfist.opy]: Find slammed victims":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-    # [TODO] add more conditions to check that the player is inside OW1 slam hitbox
-
-    damage(victim, attacker, round(attacker.slam_damage)-eventDamage)
+    @Condition OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim)
+    @Condition distance(attacker, victim) <= OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS
+    # TODO add condition to check victim in 60 degree cone
+    
     attacker.slammed_victims.append(victim)
 
 
-rule "[doomfist.opy]: Pull slammed victims":
+rule "[doomfist.opy]: Slammed victims damage and pull/push effects":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.slammed_victims
 
-    victim.setGravity(50)
+    damage(victim, attacker, round(attacker.slam_damage)-eventDamage) # Custom slam damage
+    victim.setGravity(50) 
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
-    victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-OW1_DOOMFIST_RISING_UPPERCUT_RADIUS), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
+    victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-(OW1_DOOMFIST_RISING_UPPERCUT_RADIUS-1)), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
     victim.setGravity(100)
 
 rule "[doomfist.opy]: Indicator slam visibility":
