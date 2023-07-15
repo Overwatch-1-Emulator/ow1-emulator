@@ -1,14 +1,17 @@
 #!mainFile "../../main.opy"
 
+playervar all_enemies
+
 playervar halt_position
 playervar halt_ending_position
 playervar halt_visible
 playervar is_using_halt
 playervar halt_exploded
 playervar halt_victims
+playervar halted
 playervar halt_attacker
 playervar position
-playervar halt_effect_id
+playervar halt_effect_ids
 
 subroutine initOrisa
 subroutine initHaltGui
@@ -82,15 +85,12 @@ def explodeHalt():
     wait(OW1_ORISA_HALT_ACTIVATION_TIME)
     eventPlayer.halt_victims = getPlayersInRadius(eventPlayer.halt_position, OW1_ORISA_HALT_AOE_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS)
     eventPlayer.halt_victims.halt_attacker = eventPlayer
+    eventPlayer.halt_victims.halted = true
 
 
 rule "[orisa.opy]: Pull halted victims":
     @Event eachPlayer
-    @Condition eventPlayer.halt_attacker != null
-
-    
-    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer, eventPlayer.halt_attacker.halt_position, Color.LIME_GREEN, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    eventPlayer.halt_effect_id = getLastCreatedEntity()
+    @Condition eventPlayer.halted == true
 
     eventPlayer.position = eventPlayer.getPosition()
     eventPlayer.startForcingPosition(eventPlayer.position, true)
@@ -99,6 +99,25 @@ rule "[orisa.opy]: Pull halted victims":
     stopChasingVariable(eventPlayer.position)
     eventPlayer.stopForcingPosition()
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
+    eventPlayer.halted = false
 
-    destroyEffect(eventPlayer.halt_effect_id)
-    eventPlayer.halt_attacker = null
+
+rule "[orisa.opy]: Create Halt pull line vfx":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.halt_visible == true
+
+    eventPlayer.halt_effect_ids = []
+    eventPlayer.all_enemies = getPlayers(getOppositeTeam(eventPlayer.getTeam()))
+    for i in range(len(eventPlayer.all_enemies)):
+        createBeam(getAllPlayers() if (distance(eventPlayer.halt_position, eventPlayer.all_enemies[evalOnce(i)]) <= OW1_ORISA_HALT_AOE_RADIUS) and isInLoS(eventPlayer.halt_position, eventPlayer.all_enemies[evalOnce(i)], BarrierLos.BLOCKED_BY_ENEMY_BARRIERS) else null, Beam.GOOD, eventPlayer.halt_position, eventPlayer.all_enemies[evalOnce(i)], Color.LIME_GREEN, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer.halt_effect_ids.append(getLastCreatedEntity())
+
+
+rule "[orisa.opy]: Destroy Halt pull line vfx":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.halt_visible == false
+
+    for i in range(len(eventPlayer.halt_effect_ids)):
+        destroyEffect(eventPlayer.halt_effect_ids[i])
