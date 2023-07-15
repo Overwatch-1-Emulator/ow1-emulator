@@ -372,8 +372,8 @@ rule "[doomfist.opy]: Pull slammed victims":
     @Condition victim in attacker.slammed_victims
 
     victim.setGravity(50)
-    # victim.applyImpulse(normalize(vect(vectorTowards(victim, eventPlayer).x, 0, vectorTowards(victim, eventPlayer).z)) + Vector.UP, 5 + distance(attacker, victim) / 4, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
-    victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
+    victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-OW1_DOOMFIST_RISING_UPPERCUT_RADIUS), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
     victim.setGravity(100)
 
 rule "[doomfist.opy]: Indicator slam visibility":
