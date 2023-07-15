@@ -340,12 +340,12 @@ rule "[doomfist.opy]: Calculate slam damage based on air time":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_using_slam == true
-
-    eventPlayer.slam_damage_gui_visible = true
+    
     eventPlayer.slam_damage = 0 
+    waitUntil(updateEveryTick(eventPlayer.isOnGround() == false), 9999)
+    eventPlayer.slam_damage_gui_visible = true
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
-    waitUntil(updateEveryTick(eventPlayer.getAltitude() != 0), 9999)
-    waitUntil(updateEveryTick(eventPlayer.getAltitude() == 0), 9999)
+    waitUntil(updateEveryTick(eventPlayer.isOnGround() == true), 9999)
     stopChasingVariable(eventPlayer.slam_damage)
     wait(1)
     eventPlayer.slam_damage_gui_visible = false
