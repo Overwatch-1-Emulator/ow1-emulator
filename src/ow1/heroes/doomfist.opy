@@ -202,10 +202,10 @@ def executeUppercut():
     eventPlayer.applyImpulse(Vector.UP, 40, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     wait(0.1)
     eventPlayer.applyImpulse(Vector.DOWN, max(0, eventPlayer.getSpeedInDirection(Vector.UP)), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
-    wait()
-    eventPlayer.applyImpulse(vect(0, 1, 0), 2.5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
-    eventPlayer.setGravity(0)
     eventPlayer.is_using_uppercut = false # End of uppercut
+    wait()
+    eventPlayer.applyImpulse(Vector.UP, 2.5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+    eventPlayer.setGravity(0)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_RISING_UPPERCUT_COOLDOWN_TIME)
     eventPlayer.enablePlayerCollision()
     eventPlayer.allowButton(Button.MELEE)
