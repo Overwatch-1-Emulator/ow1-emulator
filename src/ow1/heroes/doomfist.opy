@@ -59,6 +59,7 @@ playervar indicator_slam_position
 playervar indicator_slam_direction
 playervar indicator_visibility
 playervar slam_damage
+playervar slam_damage_gui_visible
 playervar slammed_victims
 
 # Variables for rocket punch
@@ -68,6 +69,7 @@ playervar punch_charge_time
 
 subroutine initDoomfist
 subroutine initSlamIndicatorGui
+subroutine initSlamDamageGui
 subroutine executeUppercut
 subroutine detectUpercutHit
 subroutine executeSlam
@@ -105,10 +107,12 @@ def initDoomfist():
     eventPlayer.wall_impacted_victims = []
     
     initSlamIndicatorGui()
+    initSlamDamageGui()
 
 
 def initSlamIndicatorGui():
     @Name "[doomfist.opy]: initSlamIndicatorGui()"
+
     eventPlayer.indicator_visibility = null
 
     eventPlayer.cos_lut = []
@@ -129,6 +133,22 @@ def initSlamIndicatorGui():
     
     # Sphere for debugging indicator slam
     # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
+
+
+def initSlamDamageGui():
+    @Name "[doomfist.opy]: initSlamDamageGui()"
+
+    eventPlayer.slam_damage_gui_visible = false
+    createInWorldText(eventPlayer if eventPlayer.slam_damage_gui_visible else null, 
+    "{0}".format(round(eventPlayer.slam_damage)), 
+    updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+    verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
+    2, 
+    Clip.NONE, 
+    WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
+    Color.WHITE, 
+    SpecVisibility.DEFAULT)
+    eventPlayer.text_huds.append(getLastCreatedText())
 
 
 rule "[doomfist.opy]: Detect shift key press by human": 
@@ -325,11 +345,14 @@ rule "[doomfist.opy]: Calculate slam damage based on air time":
     @Hero doomfist
     @Condition eventPlayer.is_using_slam == true
 
+    eventPlayer.slam_damage_gui_visible = true
     eventPlayer.slam_damage = 0 
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
-    waitUntil(updateEveryTick(eventPlayer.is_using_slam == false), 9999)
-    bigMessage(eventPlayer, "{}".format(round(eventPlayer.slam_damage)))
+    waitUntil(updateEveryTick(eventPlayer.getAltitude() != 0), 9999)
+    waitUntil(updateEveryTick(eventPlayer.getAltitude() == 0), 9999)
     stopChasingVariable(eventPlayer.slam_damage)
+    wait(1)
+    eventPlayer.slam_damage_gui_visible = false
 
 
 rule "[doomfist.opy]: Damage slammed victims":
