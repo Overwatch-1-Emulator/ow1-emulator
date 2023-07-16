@@ -166,7 +166,16 @@ def throwShield(): # Select shield position and orientation
 def deployShield(): # Create shield visual object
     @Name "[orisa.opy]: deployShield()"
 
-    # fibonacci sphere algorithm:
+    fibonacciSphere()
+    
+    # Draw each barrier sample
+    for i in range(len(eventPlayer.barrier_sample_points)):
+        eventPlayer.barrier_sample_point = eventPlayer.barrier_sample_points[i]
+        createEffect(getAllPlayers(), Effect.SPHERE, eventPlayer.getTeam(), evalOnce(eventPlayer.barrier_sample_point), 10/OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+
+
+def fibonacciSphere():
+    @Name "[orisa.opy]: fibonacciSphere()"
     # Evenly distribute N points around a sphere
     # Store coodrindate of those points to barrier_sample_points array
     # See https://stackoverflow.com/a/26127012 for algorithm
@@ -184,10 +193,3 @@ def deployShield(): # Create shield visual object
 
         eventPlayer.barrier_sample_point = vect(eventPlayer.barrier_sample_x, eventPlayer.barrier_sample_y, eventPlayer.barrier_sample_z)
         eventPlayer.barrier_sample_points.append(OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_point + eventPlayer.barrier_position)
-
-    
-    # Draw each barrier sample
-    for i in range(len(eventPlayer.barrier_sample_points)):
-        eventPlayer.barrier_sample_point = eventPlayer.barrier_sample_points[i]
-        createEffect(getAllPlayers(), Effect.SPHERE, eventPlayer.getTeam(), evalOnce(eventPlayer.barrier_sample_point), 10/OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-
