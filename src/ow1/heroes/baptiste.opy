@@ -7,22 +7,9 @@ playervar regen_burst_targets # stores players affected by Baptiste's regen burs
 playervar exo_boots_charge_normalized # value from 0 to 1
 playervar exo_boots_charge_hud_visible
 
-# TODO: the progress bar initialized here is initialized twice and shows 2 bars in game. I can't figure out why
-def initBaptiste():
-    eventPlayer.setAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
+subroutine initBaptiste
 
-    eventPlayer.setAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
-    eventPlayer.setMaxAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
-
-    eventPlayer.disallowButton(Button.ABILITY_1)
-
-    eventPlayer.exo_boots_charge_hud_visible = false
-    # initialize exo boots charge bar
-    progressBarHud(eventPlayer.exo_boots_charge_hud_visible, percent(eventPlayer.exo_boots_charge_normalized), 
-    null, HudPosition.TOP, 1, Color.SKY_BLUE, null, ProgressHudReeval.VISIBILITY_AND_VALUES, SpecVisibility.NEVER)
-
-rule "[baptiste.opy]: Initialize Baptiste":
+rule "[baptiste.opy]: Detect Baptiste initialization":
     @Event eachPlayer
     @Hero baptiste
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
@@ -30,6 +17,8 @@ rule "[baptiste.opy]: Initialize Baptiste":
     initBaptiste()
     eventPlayer.initialized = true
 
+
+# TODO: the progress bar initialized here is initialized twice and shows 2 bars in game. I can't figure out why
 def initBaptiste():
     @Name "[baptiste.opy]: initBaptiste()"
     
@@ -47,6 +36,7 @@ def initBaptiste():
     null, HudPosition.TOP, 1, Color.SKY_BLUE, null, ProgressHudReeval.VISIBILITY_AND_VALUES, SpecVisibility.NEVER)
     eventPlayer.progress_bar_huds.append(getLastCreatedText())
 
+
 rule "[baptiste.opy]: Set default immortality field cooldown":
     @Event eachPlayer
     @Hero baptiste
@@ -54,6 +44,7 @@ rule "[baptiste.opy]: Set default immortality field cooldown":
     
     waitUntil(not eventPlayer.isUsingAbility2(), 9999)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_BAPTISTE_IMMORTALITY_COOLDOWN)
+
 
 rule "[baptiste.opy]: Start charging exo boots":
     @Event eachPlayer
@@ -66,6 +57,7 @@ rule "[baptiste.opy]: Start charging exo boots":
     # don't allow the player to jump normally, because that would use the OW2 exo boots which charge faster
     eventPlayer.setJumpEnabled(false)
     chase(eventPlayer.exo_boots_charge_normalized, 1, duration=OW1_BAPTISTE_EXO_BOOTS_CHARGE_TIME, ChaseReeval.NONE)
+
 
 rule "[baptiste.opy]: Handle exo boots charge reset":
     @Event eachPlayer
