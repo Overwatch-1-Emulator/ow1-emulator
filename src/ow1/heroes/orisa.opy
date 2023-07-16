@@ -30,6 +30,12 @@ rule "[orisa.opy]: Detect Orisa initialization":
 def initOrisa():
     @Name "[orisa.opy]: initOrisa()"
 
+    do:
+        clearCustomHealth()
+        setCustomHealth(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
+        wait(1)
+    while (eventPlayer.getMaxHealth() != OW1_ORISA_HEALTH + OW1_ORISA_ARMOR)
+
     eventPlayer.disallowButton(Button.SECONDARY_FIRE) # Disable OW2 Javelin
 
     eventPlayer.halt_visible = false
