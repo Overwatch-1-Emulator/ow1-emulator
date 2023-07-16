@@ -184,6 +184,8 @@ def fibonacciSphere():
 
     for i in range(OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION):
         eventPlayer.barrier_sample_y = 1 - (i / (OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION-1)) * 2
+        if (eventPlayer.barrier_sample_y < -0.1):
+            break
         eventPlayer.barrier_sample_radius = sqrt(1 - eventPlayer.barrier_sample_y * eventPlayer.barrier_sample_y)
 
         eventPlayer.barrier_sample_theta = PHI * i
@@ -192,4 +194,6 @@ def fibonacciSphere():
         eventPlayer.barrier_sample_z = sin(eventPlayer.barrier_sample_theta) * eventPlayer.barrier_sample_radius
 
         eventPlayer.barrier_sample_point = vect(eventPlayer.barrier_sample_x, eventPlayer.barrier_sample_y, eventPlayer.barrier_sample_z)
+        if angleBetweenVectors(eventPlayer.barrier_sample_point, eventPlayer.barrier_orientation) > 90:
+            continue
         eventPlayer.barrier_sample_points.append(OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_point + eventPlayer.barrier_position)
