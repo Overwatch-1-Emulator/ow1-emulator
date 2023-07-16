@@ -166,6 +166,16 @@ def throwBarrier(): # Select shield position and orientation
     eventPlayer.barrier_position -= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS*eventPlayer.barrier_orientation
 
 
+def destroyBarrier():
+    @Name "[orisa.opy]: destroyBarrier()"
+
+    for i in range(len(eventPlayer.barrier_entity_ids)):
+        destroyEffect(eventPlayer.barrier_entity_ids[i])
+        wait()
+
+    eventPlayer.barrier_entity_ids = []
+
+
 def deployBarrier(): # Create shield visual object
     @Name "[orisa.opy]: deployBarrier()"
 
@@ -173,19 +183,11 @@ def deployBarrier(): # Create shield visual object
 
     fibonacciSphere()
 
-    eventPlayer.barrier_entity_ids = []
     # Draw each barrier sample
     for i in range(len(eventPlayer.barrier_sample_points)):
         eventPlayer.barrier_sample_point = eventPlayer.barrier_sample_points[i]
         createEffect(getAllPlayers(), Effect.SPHERE, eventPlayer.getTeam(), evalOnce(eventPlayer.barrier_sample_point), 0.1, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.barrier_entity_ids.append(getLastCreatedEntity())
-
-
-def destroyBarrier():
-    @Name "[orisa.opy]: destroyBarrier()"
-
-    for i in range(len(eventPlayer.barrier_entity_ids)):
-        destroyEffect(eventPlayer.barrier_entity_ids[i])
 
     
 def fibonacciSphere():
