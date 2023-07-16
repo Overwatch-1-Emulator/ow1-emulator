@@ -147,7 +147,7 @@ rule "[orisa.opy]: Destroy Halt pull line vfx":
         destroyEffect(eventPlayer.halt_effect_ids[i])
 
 
-rule "[orisa.opy]: Trigger shield placement":
+rule "[orisa.opy]: Trigger Projectile Barrier ability":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) == 0
@@ -156,6 +156,8 @@ rule "[orisa.opy]: Trigger shield placement":
     throwBarrier()
     destroyBarrier()
     deployBarrier()
+
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME)
 
 
 def throwBarrier(): # Select shield position and orientation
