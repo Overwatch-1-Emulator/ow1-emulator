@@ -25,6 +25,7 @@ playervar barrier_sample_theta
 playervar barrier_sample_point
 playervar barrier_sample_points
 playervar barrier_entity_ids
+playervar barrier_uptime
 
 subroutine initOrisa
 subroutine initHaltGui
@@ -175,6 +176,7 @@ def destroyBarrier():
         destroyEffect(eventPlayer.barrier_entity_ids[i])
 
     eventPlayer.barrier_entity_ids = []
+    eventPlayer.barrier_sample_points = []
 
 
 def deployBarrier(): # Create shield visual object
@@ -190,6 +192,9 @@ def deployBarrier(): # Create shield visual object
         eventPlayer.barrier_sample_point = eventPlayer.barrier_sample_points[i]
         createEffect(getAllPlayers(), Effect.SPHERE, eventPlayer.getTeam(), evalOnce(eventPlayer.barrier_sample_point), sqrt(1*OW1_ORISA_PROTECTIVE_BARRIER_RADIUS**2/OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION), EffectReeval.NONE)
         eventPlayer.barrier_entity_ids.append(getLastCreatedEntity())
+
+    eventPlayer.barrier_uptime = 0
+    chase(eventPlayer.barrier_uptime, OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME, rate=1, ChaseReeval.NONE)
 
     
 def fibonacciSphere():
@@ -213,3 +218,12 @@ def fibonacciSphere():
         eventPlayer.barrier_sample_point = vect(eventPlayer.barrier_sample_x, eventPlayer.barrier_sample_y, eventPlayer.barrier_sample_z)
         if angleBetweenVectors(eventPlayer.barrier_sample_point, eventPlayer.barrier_orientation) > 90: continue # Do not draw back half of sphere
         eventPlayer.barrier_sample_points.append(OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_point + eventPlayer.barrier_position)
+
+
+rule "[orisa.opy]: Destroy barrier on timeout":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.barrier_uptime >= OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME
+
+    stopChasingVariable(eventPlayer.barrier_uptime)
+    destroyBarrier()
