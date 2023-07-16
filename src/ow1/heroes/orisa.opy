@@ -1,5 +1,7 @@
 #!mainFile "../../main.opy"
 
+globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
+
 playervar all_enemies
 
 playervar halt_position
@@ -13,10 +15,24 @@ playervar halt_attacker
 playervar position
 playervar halt_effect_ids
 
+playervar barrier_position
+playervar barrier_orientation
+playervar barrier_sample_x
+playervar barrier_sample_y
+playervar barrier_sample_z
+playervar barrier_sample_radius
+playervar barrier_sample_theta
+playervar barrier_sample_point
+playervar barrier_sample_points
+
 subroutine initOrisa
 subroutine initHaltGui
 subroutine shootHalt
 subroutine explodeHalt
+
+subroutine throwShield
+subroutine deployShield
+subroutine fibonacciSphere
 
 rule "[orisa.opy]: Detect Orisa initialization":
     @Event eachPlayer
@@ -37,6 +53,7 @@ def initOrisa():
     while (eventPlayer.getMaxHealth() != OW1_ORISA_HEALTH + OW1_ORISA_ARMOR)
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE) # Disable OW2 Javelin
+    eventPlayer.disallowButton(Button.ABILITY_2) # Disable OW2 Javelin Spin
 
     eventPlayer.halt_visible = false
     eventPlayer.is_using_halt = false
@@ -44,9 +61,8 @@ def initOrisa():
 
     initHaltGui()
 
-
 def initHaltGui():
-    @Name "[orisa.opy]: initHaltGui"
+    @Name "[orisa.opy]: initHaltGui()"
 
     createEffect(getAllPlayers() if eventPlayer.halt_visible else null, Effect.SPHERE, Color.LIME_GREEN, eventPlayer.halt_position, OW1_ORISA_HALT_PROJECTILE_RADIUS, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     createEffect(getAllPlayers() if eventPlayer.halt_visible else null, Effect.SPHERE, Color.LIME_GREEN, eventPlayer.halt_position, 0.5*OW1_ORISA_HALT_PROJECTILE_RADIUS, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
@@ -127,3 +143,51 @@ rule "[orisa.opy]: Destroy Halt pull line vfx":
 
     for i in range(len(eventPlayer.halt_effect_ids)):
         destroyEffect(eventPlayer.halt_effect_ids[i])
+
+
+rule "[orisa.opy]: Trigger shield placement":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) == 0
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
+
+    throwShield()
+    deployShield()
+
+
+def throwShield(): # Select shield position and orientation
+    @Name "[orisa.opy]: throwShield()"
+
+    destroyAllEffects()
+    eventPlayer.barrier_position = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 1000*eventPlayer.getFacingDirection(), null, null, false).getHitPosition()
+    eventPlayer.barrier_orientation = getLateralFacingDirection(eventPlayer)
+
+
+def deployShield(): # Create shield visual object
+    @Name "[orisa.opy]: deployShield()"
+
+    # fibonacci sphere algorithm:
+    # Evenly distribute N points around a sphere
+    # Store coodrindate of those points to barrier_sample_points array
+    # See https://stackoverflow.com/a/26127012 for algorithm
+
+    eventPlayer.barrier_sample_points = []
+
+    for i in range(OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION):
+        eventPlayer.barrier_sample_y = 1 - (i / (OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION-1)) * 2
+        eventPlayer.barrier_sample_radius = sqrt(1 - eventPlayer.barrier_sample_y * eventPlayer.barrier_sample_y)
+
+        eventPlayer.barrier_sample_theta = PHI * i
+
+        eventPlayer.barrier_sample_x = cos(eventPlayer.barrier_sample_theta) * eventPlayer.barrier_sample_radius
+        eventPlayer.barrier_sample_z = sin(eventPlayer.barrier_sample_theta) * eventPlayer.barrier_sample_radius
+
+        eventPlayer.barrier_sample_point = vect(eventPlayer.barrier_sample_x, eventPlayer.barrier_sample_y, eventPlayer.barrier_sample_z)
+        eventPlayer.barrier_sample_points.append(OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_point + eventPlayer.barrier_position)
+
+    
+    # Draw each barrier sample
+    for i in range(len(eventPlayer.barrier_sample_points)):
+        eventPlayer.barrier_sample_point = eventPlayer.barrier_sample_points[i]
+        createEffect(getAllPlayers(), Effect.SPHERE, eventPlayer.getTeam(), evalOnce(eventPlayer.barrier_sample_point), 10/OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+
