@@ -3,6 +3,8 @@
 globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
 
 playervar all_enemies
+playervar friendly_orisa_player
+playervar enemy_orisa_player
 
 playervar halt_position
 playervar halt_ending_position
@@ -39,6 +41,11 @@ subroutine deployBarrier
 subroutine destroyBarrier
 subroutine fibonacciSphere
 
+#!define isOrisaBarrierInLOS(start, end, barrier_center, barrier_orientation) \
+((distance(end, barrier_center) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) and \
+(angleBetweenVectors(Vector.UP, directionTowards(barrier_center, end)) <= 90) and \
+(angleBetweenVectors(barrier_orientation, directionTowards(barrier_center, end)) <= 90))
+
 rule "[orisa.opy]: Detect Orisa initialization":
     @Event eachPlayer
     @Hero orisa
@@ -59,6 +66,9 @@ def initOrisa():
     eventPlayer.halt_visible = false
     eventPlayer.is_using_halt = false
     eventPlayer.halt_exploded = false
+
+    getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer
+    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_orisa_player = eventPlayer
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE) # Disable OW2 Javelin
     eventPlayer.disallowButton(Button.ABILITY_2) # Disable OW2 Javelin Spin
@@ -184,13 +194,13 @@ def throwBarrier(): # Select shield position and orientation
 def destroyBarrier():
     @Name "[orisa.opy]: destroyBarrier()"
 
-    eventPlayer.barrier_active = false
-
     for i in range(len(eventPlayer.barrier_entity_ids)):
         destroyEffect(eventPlayer.barrier_entity_ids[i])
 
     eventPlayer.barrier_entity_ids = []
     eventPlayer.barrier_sample_points = []
+
+    eventPlayer.barrier_active = false
 
 
 def deployBarrier(): # Create shield visual object
@@ -212,7 +222,7 @@ def deployBarrier(): # Create shield visual object
     eventPlayer.barrier_uptime = 0
     chase(eventPlayer.barrier_uptime, OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME, rate=1, ChaseReeval.NONE)
 
-    
+
 def fibonacciSphere():
     @Name "[orisa.opy]: fibonacciSphere()"
     # Evenly distribute N points around a sphere
@@ -255,21 +265,12 @@ rule "[orisa.opy]: Destroy barrier when barrier hp runs out":
 
 
 rule "[orisa.opy]: Take no damage when behind barrier":
-    @Event playerTookDamage
-    @Condition eventPlayer.barrier_active == true
-    @Condition distance(eventPlayer, eventPlayer.barrier_position) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS
-    @Condition angleBetweenVectors(Vector.UP, directionTowards(eventPlayer.barrier_position, eventPlayer.getEyePosition())) <= 90
-    @Condition angleBetweenVectors(eventPlayer.barrier_orientation, directionTowards(eventPlayer.barrier_position, eventPlayer)) <= 90
+    @Event playerDealtDamage
+    @Condition victim.friendly_orisa_player.barrier_active == true
+    @Condition isOrisaBarrierInLOS(attacker.getEyePosition(), \
+                                   victim.getEyePosition(), \
+                                   victim.friendly_orisa_player.barrier_position, \
+                                   victim.friendly_orisa_player.barrier_orientation) == true
 
-    heal(eventPlayer, null, eventDamage)
-    eventPlayer.barrier_health -= eventDamage
-
-
-rule "[orisa.opy]: Orisa barrier debug":
-    @Disabled
-    @Event eachPlayer
-    @Hero orisa
-
-    hudSubheader(eventPlayer, "{}".format(distance(eventPlayer, eventPlayer.barrier_position)), HudPosition.TOP, 0, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "{}".format(angleBetweenVectors(Vector.UP, directionTowards(eventPlayer.barrier_position, eventPlayer.getEyePosition()))), HudPosition.TOP, 0, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "{}".format(angleBetweenVectors(eventPlayer.barrier_orientation, directionTowards(eventPlayer.barrier_position, eventPlayer))), HudPosition.TOP, 0, Color.WHITE, HudReeval.STRING)
+    heal(victim, null, eventDamage)
+    victim.friendly_orisa_player.barrier_health -= eventDamage
