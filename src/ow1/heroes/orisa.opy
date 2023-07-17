@@ -26,6 +26,8 @@ playervar barrier_sample_point
 playervar barrier_sample_points
 playervar barrier_entity_ids
 playervar barrier_uptime
+playervar barrier_active
+playervar barrier_health
 
 subroutine initOrisa
 subroutine initHaltGui
@@ -68,7 +70,17 @@ def initHaltGui():
     @Name "[orisa.opy]: initHaltGui()"
 
     createEffect(getAllPlayers() if eventPlayer.halt_visible else null, Effect.SPHERE, Color.LIME_GREEN, eventPlayer.halt_position, OW1_ORISA_HALT_PROJECTILE_RADIUS, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    eventPlayer.entity_huds.append(getLastCreatedEntity())
     createEffect(getAllPlayers() if eventPlayer.halt_visible else null, Effect.SPHERE, Color.LIME_GREEN, eventPlayer.halt_position, 0.5*OW1_ORISA_HALT_PROJECTILE_RADIUS, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    eventPlayer.entity_huds.append(getLastCreatedEntity())
+
+
+rule "[orisa.opy]: destroy barrier on hero switch":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_switched == true
+    @Condition eventPlayer.getCurrentHero() != Hero.ORISA
+
+    destroyBarrier()
 
 
 rule "[orisa.opy]: Trigger Halt ability":
@@ -172,6 +184,8 @@ def throwBarrier(): # Select shield position and orientation
 def destroyBarrier():
     @Name "[orisa.opy]: destroyBarrier()"
 
+    eventPlayer.barrier_active = false
+
     for i in range(len(eventPlayer.barrier_entity_ids)):
         destroyEffect(eventPlayer.barrier_entity_ids[i])
 
@@ -193,6 +207,8 @@ def deployBarrier(): # Create shield visual object
         createEffect(getAllPlayers(), Effect.SPHERE, eventPlayer.getTeam(), evalOnce(eventPlayer.barrier_sample_point), sqrt(1*OW1_ORISA_PROTECTIVE_BARRIER_RADIUS**2/OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION), EffectReeval.NONE)
         eventPlayer.barrier_entity_ids.append(getLastCreatedEntity())
 
+    eventPlayer.barrier_active = true
+    eventPlayer.barrier_health = OW1_ORISA_PROJECTILE_BARRIER_HEALTH
     eventPlayer.barrier_uptime = 0
     chase(eventPlayer.barrier_uptime, OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME, rate=1, ChaseReeval.NONE)
 
@@ -227,3 +243,33 @@ rule "[orisa.opy]: Destroy barrier on timeout":
 
     stopChasingVariable(eventPlayer.barrier_uptime)
     destroyBarrier()
+
+
+rule "[orisa.opy]: Destroy barrier when barrier hp runs out":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.barrier_health <= 0
+
+    stopChasingVariable(eventPlayer.barrier_uptime)
+    destroyBarrier()
+
+
+rule "[orisa.opy]: Take no damage when behind barrier":
+    @Event playerTookDamage
+    @Condition eventPlayer.barrier_active == true
+    @Condition distance(eventPlayer, eventPlayer.barrier_position) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS
+    @Condition angleBetweenVectors(Vector.UP, directionTowards(eventPlayer.barrier_position, eventPlayer.getEyePosition())) <= 90
+    @Condition angleBetweenVectors(eventPlayer.barrier_orientation, directionTowards(eventPlayer.barrier_position, eventPlayer)) <= 90
+
+    heal(eventPlayer, null, eventDamage)
+    eventPlayer.barrier_health -= eventDamage
+
+
+rule "[orisa.opy]: Orisa barrier debug":
+    @Disabled
+    @Event eachPlayer
+    @Hero orisa
+
+    hudSubheader(eventPlayer, "{}".format(distance(eventPlayer, eventPlayer.barrier_position)), HudPosition.TOP, 0, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "{}".format(angleBetweenVectors(Vector.UP, directionTowards(eventPlayer.barrier_position, eventPlayer.getEyePosition()))), HudPosition.TOP, 0, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "{}".format(angleBetweenVectors(eventPlayer.barrier_orientation, directionTowards(eventPlayer.barrier_position, eventPlayer))), HudPosition.TOP, 0, Color.WHITE, HudReeval.STRING)
