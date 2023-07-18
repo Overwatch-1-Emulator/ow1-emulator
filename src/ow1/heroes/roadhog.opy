@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 subroutine initRoadhog
+playervar time_hook_was_active 0
 
 rule "[roadhog.opy]: Detect Roadhog initialization":
     @Event eachPlayer
@@ -31,8 +32,10 @@ rule "[roadhog.opy]: Set default hook cooldown":
     @Hero roadhog
     @Condition eventPlayer.isUsingAbility1()
     
-    waitUntil(not eventPlayer.isUsingAbility1(), 9999)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_ROADHOG_HOOK_COOLDOWN_TIME)
+    eventPlayer.time_hook_was_active = 0
+    chase(eventPlayer.time_hook_was_active, 3, rate=1, ChaseReeval.NONE)
+    waitUntil(not eventPlayer.isUsingAbility1(), 99999)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_ROADHOG_HOOK_COOLDOWN_TIME - eventPlayer.time_hook_was_active)
 
 
 rule "[roadhog.opy]: Disable all abilities during ult":
