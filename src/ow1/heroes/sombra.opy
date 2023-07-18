@@ -4,11 +4,6 @@ playervar friendlysombra
 
 subroutine initSombra
 
-def initSombra():
-    getPlayers(eventPlayer.getTeam()).friendlysombra = eventPlayer
-    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemysombra = eventPlayer
-    pass
-
 rule "[sombra.opy]: Initialize Sombra":
     @Event eachPlayer
     @Hero sombra
@@ -17,6 +12,13 @@ rule "[sombra.opy]: Initialize Sombra":
     initSombra()
     eventPlayer.initialized = true
         
+
+def initSombra():
+    getPlayers(eventPlayer.getTeam()).friendlysombra = eventPlayer
+    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemysombra = eventPlayer
+    pass
+
+
 rule "[sombra.opy]: No hack while invis":
     @Event eachPlayer
     @Hero all
