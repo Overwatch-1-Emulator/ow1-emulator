@@ -25,6 +25,7 @@
 #!include "ow1/heroes/reaper.opy"
 #!include "ow1/heroes/reinhardt.opy"
 #!include "ow1/heroes/roadhog.opy"
+#!include "ow1/heroes/sombra.opy"
 #!include "ow1/heroes/sigma.opy"
 #!include "ow1/heroes/soldier.opy"
 #!include "ow1/heroes/symmetra.opy"
