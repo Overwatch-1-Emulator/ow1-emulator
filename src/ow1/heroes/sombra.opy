@@ -2,6 +2,8 @@
 playervar enemysombra
 playervar friendlysombra
 
+subroutine initSombra
+
 def initSombra():
     getPlayers(eventPlayer.getTeam()).friendlysombra = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemysombra = eventPlayer
