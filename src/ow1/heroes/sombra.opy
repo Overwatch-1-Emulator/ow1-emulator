@@ -1,10 +1,11 @@
 #!mainFile "../../main.opy"
+
 playervar enemysombra
 playervar friendlysombra
 
 subroutine initSombra
 
-rule "[sombra.opy]: Initialize Sombra":
+rule "[sombra.opy]: Detect Sombra initialization":
     @Event eachPlayer
     @Hero sombra
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
@@ -14,9 +15,10 @@ rule "[sombra.opy]: Initialize Sombra":
         
 
 def initSombra():
+    @Name "[sombra.opy]: initSombra()"
+
     getPlayers(eventPlayer.getTeam()).friendlysombra = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemysombra = eventPlayer
-    pass
 
 
 rule "[sombra.opy]: No hack while invis":
@@ -29,5 +31,3 @@ rule "[sombra.opy]: No hack while invis":
     eventPlayer.enemysombra.cancelPrimaryAction()
     eventPlayer.enemysombra.setAbility1Enabled(false)
     eventPlayer.enemysombra.setAbility1Enabled(true)
-
-        
