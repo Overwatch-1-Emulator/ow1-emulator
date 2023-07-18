@@ -36,6 +36,7 @@ playervar barrier_entity_ids
 playervar barrier_uptime
 playervar barrier_active
 playervar barrier_health
+playervar orisa_barrier_hit_positions
 
 subroutine initOrisa
 subroutine initHaltGui
@@ -47,11 +48,10 @@ subroutine deployBarrier
 subroutine destroyBarrier
 subroutine fibonacciSphere
 
-#!define isOrisaBarrierInLOS(start, end, barrier_center, barrier_orientation) \
-((distance(end, barrier_center) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) and \
-(angleBetweenVectors(Vector.UP, directionTowards(barrier_center, end)) <= 90) and \
-(angleBetweenVectors(barrier_orientation, directionTowards(barrier_center, end)) <= 90))
-
+#!define isInsideOrisaBarrier(point, center, direction)\
+    ((distance(center, point) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) and \
+    (angleBetweenVectors(Vector.UP, directionTowards(center, point)) <= 90) and \
+    (angleBetweenVectors(direction, directionTowards(center, point)) <= 90))
 
 rule "[orisa.opy]: Detect Orisa initialization":
     @Event eachPlayer
@@ -335,10 +335,13 @@ rule "[orisa.opy]: Destroy barrier when barrier hp runs out":
 rule "[orisa.opy]: Take no damage when behind barrier":
     @Event playerDealtDamage
     @Condition victim.friendly_orisa_player.barrier_active == true
-    @Condition isOrisaBarrierInLOS(attacker.getEyePosition(), \
-                                   victim.getEyePosition(), \
-                                   victim.friendly_orisa_player.barrier_position, \
-                                   victim.friendly_orisa_player.barrier_orientation) == true
+    @Condition isAimingAtSphere(attacker.getEyePosition(), attacker.getFacingDirection(), victim.friendly_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
 
-    heal(victim, null, eventDamage)
-    victim.friendly_orisa_player.barrier_health -= eventDamage
+    detectSphereHit(attacker.getEyePosition(), attacker.getFacingDirection(), victim.friendly_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
+    eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x if isInsideOrisaBarrier(point, victim.friendly_orisa_player.barrier_position, victim.friendly_orisa_player.barrier_orientation)]
+
+    for i in range(len(eventPlayer.orisa_barrier_hit_positions)):
+        if (distance(attacker.getEyePosition(), eventPlayer.orisa_barrier_hit_positions[i]) < distance(attacker.getEyePosition(), victim.getEyePosition())): # barrier hit is between the attacker and the victim
+            heal(victim, null, eventDamage)
+            victim.friendly_orisa_player.barrier_health -= eventDamage
+            return
