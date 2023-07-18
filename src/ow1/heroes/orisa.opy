@@ -31,10 +31,10 @@ def initOrisa():
 rule "[orisa.opy]: Supercharger":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true and eventPlayer.getUltCharge() == 100 and eventPlayer.orisa_ult_time == 0
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true and eventPlayer.getUltCharge() == 100 and eventPlayer.orisa_ult_time == 0 and eventPlayer.isOnGround() == true
 
     
-    eventPlayer.orisa_ult_pos = eventPlayer.getPosition() + Vector.UP
+    eventPlayer.orisa_ult_pos = eventPlayer.getPosition() + 0.5*Vector.UP
     eventPlayer.orisa_ult_time = 15
     chase(eventPlayer.orisa_ult_time, 0, rate=1, ChaseReeval.NONE)
     eventPlayer.communicate(Comms.VOICE_LINE_UP) 
