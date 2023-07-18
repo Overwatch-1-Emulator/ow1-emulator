@@ -2,9 +2,15 @@
 
 globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
 
-playervar all_enemies
+playervar orisa_supercharger_ring
+playervar orisa_supercharger
+playervar orisa_ult_time 0
+playervar orisa_ult_pos
+playervar orisa_beam
+playervar orisa_beam_enabled
 playervar friendly_orisa_player
 playervar enemy_orisa_player
+playervar all_enemies
 
 playervar halt_position
 playervar halt_ending_position
@@ -46,6 +52,7 @@ subroutine fibonacciSphere
 (angleBetweenVectors(Vector.UP, directionTowards(barrier_center, end)) <= 90) and \
 (angleBetweenVectors(barrier_orientation, directionTowards(barrier_center, end)) <= 90))
 
+
 rule "[orisa.opy]: Detect Orisa initialization":
     @Event eachPlayer
     @Hero orisa
@@ -72,8 +79,69 @@ def initOrisa():
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE) # Disable OW2 Javelin
     eventPlayer.disallowButton(Button.ABILITY_2) # Disable OW2 Javelin Spin
+    eventPlayer.disallowButton(Button.ULTIMATE)
 
     initHaltGui()
+
+
+rule "[orisa.opy]: Supercharger":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true and eventPlayer.getUltCharge() == 100 and eventPlayer.orisa_ult_time == 0 and eventPlayer.isOnGround() == true
+
+    
+    eventPlayer.orisa_ult_pos = eventPlayer.getPosition() + 0.5*Vector.UP
+    eventPlayer.orisa_ult_time = 15
+    chase(eventPlayer.orisa_ult_time, 0, rate=1, ChaseReeval.NONE)
+    eventPlayer.communicate(Comms.VOICE_LINE_UP) 
+    #createEffect(getAllPlayers(), Effect.RING, Color.LIME_GREEN, eventPlayer.orisa_ult_pos, 25, EffectReeval.NONE)
+    #eventPlayer.orisa_supercharger_ring = getLastCreatedEntity()
+    createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.orisa_ult_pos, 0.5, EffectReeval.NONE)
+    eventPlayer.orisa_supercharger = getLastCreatedEntity()
+    eventPlayer.setUltCharge(0)
+
+
+rule "[orisa.opy]: Remove effect":
+    @Event eachPlayer
+    @Hero all
+    @Condition eventPlayer.friendly_orisa_player.orisa_ult_time == 0
+
+    #destroyEffect(eventPlayer.orisa_supercharger_ring)
+    destroyEffect(eventPlayer.orisa_supercharger)
+    destroyEffect(eventPlayer.orisa_beam)
+    eventPlayer.orisa_beam_enabled = false
+    stopChasingVariable(eventPlayer.orisa_ult_time)
+
+
+rule "[orisa.opy]: Enable Damage Boost":
+    @Event eachPlayer
+    @Hero all
+    @Condition eventPlayer.friendly_orisa_player.orisa_ult_time != 0 and eventPlayer in getPlayersInRadius(eventPlayer.friendly_orisa_player.orisa_ult_pos, 25, eventPlayer.friendly_orisa_player.getTeam(), LosCheck.SURFACES_AND_ENEMY_BARRIERS)
+    
+    if eventPlayer.orisa_beam_enabled == false:
+        createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.friendly_orisa_player.orisa_ult_pos, eventPlayer.getPosition(), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer.orisa_beam_enabled = true
+    eventPlayer.orisa_beam = getLastCreatedEntity()
+    eventPlayer.setDamageDealt(150)
+
+
+rule "[orisa.opy]: Disable Damage Boost":
+    @Event eachPlayer
+    @Hero all
+    @Condition eventPlayer.friendly_orisa_player.orisa_ult_time != 0 and not eventPlayer in getPlayersInRadius(eventPlayer.friendly_orisa_player.orisa_ult_pos, 25, eventPlayer.friendly_orisa_player.getTeam(), LosCheck.SURFACES_AND_ENEMY_BARRIERS)
+    
+    wait(1,Wait.ABORT_WHEN_FALSE)
+    destroyEffect(eventPlayer.orisa_beam)
+    eventPlayer.orisa_beam_enabled = false
+    eventPlayer.setDamageDealt(100)
+
+
+rule "[orisa.opy]: Set damage dealt after ultimate":
+    @Event eachPlayer
+    @Hero all
+    @Condition eventPlayer.friendly_orisa_player.orisa_ult_time == 0
+
+    eventPlayer.setDamageDealt(100)
 
 
 def initHaltGui():

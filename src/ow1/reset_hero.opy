@@ -16,6 +16,8 @@ def resetHero():
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.setAbility2Enabled(true)
     eventPlayer.allowButton(Button.ABILITY_2)
+    eventPlayer.setUltEnabled(true)
+    eventPlayer.allowButton(Button.ULTIMATE)
     
     eventPlayer.setUltCharge(0)
     eventPlayer.missing_ult_points = 0
