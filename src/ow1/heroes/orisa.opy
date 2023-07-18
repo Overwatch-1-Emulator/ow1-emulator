@@ -335,10 +335,9 @@ rule "[orisa.opy]: Destroy barrier when barrier hp runs out":
 rule "[orisa.opy]: Take no damage when behind barrier":
     @Event playerDealtDamage
     @Condition victim.friendly_orisa_player.barrier_active == true
-    @Condition isOrisaBarrierInLOS(attacker.getEyePosition(), \
-                                   victim.getEyePosition(), \
-                                   victim.friendly_orisa_player.barrier_position, \
-                                   victim.friendly_orisa_player.barrier_orientation) == true
+    @Condition isAimingAtSphere(attacker.getEyePosition(), attacker.getFacingDirection(), victim.friendly_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
 
-    heal(victim, null, eventDamage)
-    victim.friendly_orisa_player.barrier_health -= eventDamage
+    detectSphereHit(attacker.getEyePosition(), attacker.getFacingDirection(), victim.friendly_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
+    if (len(eventPlayer.lsi_x) > 0): # hit detected
+        heal(victim, null, eventDamage)
+        victim.friendly_orisa_player.barrier_health -= eventDamage
