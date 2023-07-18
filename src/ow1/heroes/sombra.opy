@@ -20,7 +20,9 @@ rule "[sombra.opy]: Initialize Sombra":
 rule "[sombra.opy]: No hack while invis":
     @Event eachPlayer
     @Hero all
-    @Condition eventPlayer.hasStatusEffect(Status.HACKED) and eventPlayer.enemysombra.isUsingAbility1() == true and eventPlayer.enemysombra.isUsingUltimate() == false
+    @Condition eventPlayer.hasStatusEffect(Status.HACKED)
+    @Condition eventPlayer.enemysombra.isUsingAbility1() == true
+    @Condition eventPlayer.enemysombra.isUsingUltimate() == false
 
     eventPlayer.enemysombra.cancelPrimaryAction()
     eventPlayer.enemysombra.setAbility1Enabled(false)
