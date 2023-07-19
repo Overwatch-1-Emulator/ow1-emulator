@@ -6,6 +6,9 @@ playervar text_huds
 playervar progress_bar_huds
 playervar entity_huds
 
+playervar friendly_orisa_player
+playervar enemy_orisa_player
+
 def resetHero():
     @Name "[reset_hero.opy]: Reset hero stats/gui"
     eventPlayer.setPrimaryFireEnabled(true)
@@ -34,6 +37,9 @@ def resetHero():
     clearCustomHealth()
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
+
+    eventPlayer.friendly_orisa_player = getPlayersOnHero(Hero.ORISA, eventPlayer.getTeam())[0]
+    eventPlayer.enemy_orisa_player = getPlayersOnHero(Hero.ORISA, getOppositeTeam(eventPlayer.getTeam()))[0]
 
     # Clear GUI
     for i in range(len(eventPlayer.text_huds)):

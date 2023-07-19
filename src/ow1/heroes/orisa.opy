@@ -2,9 +2,6 @@
 
 globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
 
-playervar friendly_orisa_player
-playervar enemy_orisa_player
-
 playervar is_using_supercharger
 playervar is_supercharged
 playervar orisa_supercharger_entity
