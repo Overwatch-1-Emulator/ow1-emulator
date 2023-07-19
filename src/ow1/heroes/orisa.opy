@@ -171,7 +171,7 @@ rule "[orisa.opy]: Damage boost player when supercharged":
     @Event eachPlayer
     @Condition eventPlayer.is_supercharged == true
 
-    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.friendly_orisa_player.orisa_supercharger_position, eventPlayer.getPosition(), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.friendly_orisa_player.orisa_supercharger_position, eventPlayer.getPosition(), Color.WHITE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.orisa_beam_entity = getLastCreatedEntity()
     eventPlayer.setDamageDealt(percent(OW1_ORISA_SUPERCHARGER_DAMAGE_MULTIPLIER))
 
