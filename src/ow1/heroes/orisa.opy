@@ -78,7 +78,7 @@ def initOrisa():
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE) # Disable OW2 Javelin
     eventPlayer.disallowButton(Button.ABILITY_2) # Disable OW2 Javelin Spin
-    eventPlayer.disallowButton(Button.ULTIMATE)
+    eventPlayer.disallowButton(Button.ULTIMATE) # Disable Terra Surge
 
     initHaltGui()
 
@@ -86,7 +86,10 @@ def initOrisa():
 rule "[orisa.opy]: Supercharger":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true and eventPlayer.getUltCharge() == 100 and eventPlayer.orisa_ult_time == 0 and eventPlayer.isOnGround() == true
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
+    @Condition eventPlayer.getUltCharge() == 100
+    @Condition eventPlayer.orisa_ult_time == 0
+    @Condition eventPlayer.isOnGround() == true
 
     
     eventPlayer.orisa_ult_pos = eventPlayer.getPosition() + 0.5*Vector.UP
