@@ -29,8 +29,8 @@ playervar barrier_sample_z
 playervar barrier_sample_radius
 playervar barrier_sample_theta
 playervar barrier_sample_point
-playervar barrier_sample_points
-playervar barrier_entity_ids
+playervar barrier_entity_positions
+playervar barrier_entities
 playervar barrier_uptime
 playervar barrier_active
 playervar barrier_health
@@ -295,10 +295,10 @@ def deployBarrier(): # Create shield visual object
     fibonacciSphere()
 
     # Draw each barrier sample
-    for i in range(len(eventPlayer.barrier_sample_points)):
-        eventPlayer.barrier_sample_point = eventPlayer.barrier_sample_points[i]
+    for i in range(len(eventPlayer.barrier_entity_positions)):
+        eventPlayer.barrier_sample_point = eventPlayer.barrier_entity_positions[i]
         createEffect(getAllPlayers(), Effect.SPHERE, eventPlayer.getTeam(), evalOnce(eventPlayer.barrier_sample_point), sqrt(1*OW1_ORISA_PROTECTIVE_BARRIER_RADIUS**2/OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION), EffectReeval.NONE)
-        eventPlayer.barrier_entity_ids.append(getLastCreatedEntity())
+        eventPlayer.barrier_entities.append(getLastCreatedEntity())
 
     eventPlayer.barrier_active = true
     eventPlayer.barrier_health = OW1_ORISA_PROJECTILE_BARRIER_HEALTH
@@ -309,10 +309,10 @@ def deployBarrier(): # Create shield visual object
 def fibonacciSphere():
     @Name "[orisa.opy]: fibonacciSphere()"
     # Evenly distribute N points around a sphere
-    # Store coodrindate of those points to barrier_sample_points array
+    # Store coodrindate of those points to barrier_entity_positions array
     # See https://stackoverflow.com/a/26127012 for algorithm
 
-    eventPlayer.barrier_sample_points = []
+    eventPlayer.barrier_entity_positions = []
 
     for i in range(OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION):
         eventPlayer.barrier_sample_y = 1 - (i / (OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION-1)) * 2
@@ -326,17 +326,17 @@ def fibonacciSphere():
 
         eventPlayer.barrier_sample_point = vect(eventPlayer.barrier_sample_x, eventPlayer.barrier_sample_y, eventPlayer.barrier_sample_z)
         if angleBetweenVectors(eventPlayer.barrier_sample_point, eventPlayer.barrier_orientation) > 90: continue # Do not draw back half of sphere
-        eventPlayer.barrier_sample_points.append(OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_point + eventPlayer.barrier_position)
+        eventPlayer.barrier_entity_positions.append(OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_point + eventPlayer.barrier_position)
 
 
 def destroyBarrier():
     @Name "[orisa.opy]: destroyBarrier()"
 
-    for i in range(len(eventPlayer.barrier_entity_ids)):
-        destroyEffect(eventPlayer.barrier_entity_ids[i])
+    for i in range(len(eventPlayer.barrier_entities)):
+        destroyEffect(eventPlayer.barrier_entities[i])
 
-    eventPlayer.barrier_entity_ids = []
-    eventPlayer.barrier_sample_points = []
+    eventPlayer.barrier_entities = []
+    eventPlayer.barrier_entity_positions = []
 
     eventPlayer.barrier_active = false
 
