@@ -90,7 +90,7 @@ def initOrisa():
     eventPlayer.halt_exploded = false
     initHaltGui()
 
-
+################################################ Supercharger (ultimate) ################################################
 rule "[orisa.opy]: Trigger Supercharger start":
     @Event eachPlayer
     @Hero orisa
@@ -183,7 +183,7 @@ rule "[orisa.opy]: Revert damage boost if not supercharged":
     destroyEffect(eventPlayer.orisa_beam_entity)
     eventPlayer.setDamageDealt(100)
 
-
+################################################ Halt! (secondary fire) ################################################
 def initHaltGui():
     @Name "[orisa.opy]: initHaltGui()"
 
@@ -191,14 +191,6 @@ def initHaltGui():
     eventPlayer.entity_huds.append(getLastCreatedEntity())
     createEffect(getAllPlayers() if eventPlayer.halt_visible else null, Effect.SPHERE, Color.LIME_GREEN, eventPlayer.halt_position, 0.5*OW1_ORISA_HALT_PROJECTILE_RADIUS, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.entity_huds.append(getLastCreatedEntity())
-
-
-rule "[orisa.opy]: destroy barrier on hero switch":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_switched == true
-    @Condition eventPlayer.getCurrentHero() != Hero.ORISA
-
-    destroyBarrier()
 
 
 rule "[orisa.opy]: Trigger Halt ability":
@@ -277,7 +269,7 @@ rule "[orisa.opy]: Destroy Halt pull line vfx":
     for i in range(len(eventPlayer.halt_effect_ids)):
         destroyEffect(eventPlayer.halt_effect_ids[i])
 
-
+################################################ Projectile Barrier (ability 2) ################################################
 rule "[orisa.opy]: Trigger Projectile Barrier ability":
     @Event eachPlayer
     @Hero orisa
@@ -297,18 +289,6 @@ def throwBarrier(): # Select shield position and orientation
     eventPlayer.barrier_orientation = getLateralFacingDirection(eventPlayer)
     eventPlayer.barrier_position = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 1000*eventPlayer.getFacingDirection(), null, null, false).getHitPosition()
     eventPlayer.barrier_position -= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS*eventPlayer.barrier_orientation
-
-
-def destroyBarrier():
-    @Name "[orisa.opy]: destroyBarrier()"
-
-    for i in range(len(eventPlayer.barrier_entity_ids)):
-        destroyEffect(eventPlayer.barrier_entity_ids[i])
-
-    eventPlayer.barrier_entity_ids = []
-    eventPlayer.barrier_sample_points = []
-
-    eventPlayer.barrier_active = false
 
 
 def deployBarrier(): # Create shield visual object
@@ -354,7 +334,27 @@ def fibonacciSphere():
         eventPlayer.barrier_sample_points.append(OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_point + eventPlayer.barrier_position)
 
 
-rule "[orisa.opy]: Destroy barrier on timeout":
+def destroyBarrier():
+    @Name "[orisa.opy]: destroyBarrier()"
+
+    for i in range(len(eventPlayer.barrier_entity_ids)):
+        destroyEffect(eventPlayer.barrier_entity_ids[i])
+
+    eventPlayer.barrier_entity_ids = []
+    eventPlayer.barrier_sample_points = []
+
+    eventPlayer.barrier_active = false
+
+
+rule "[orisa.opy]: destroy barrier on hero switch":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_switched == true
+    @Condition eventPlayer.getCurrentHero() != Hero.ORISA
+
+    destroyBarrier()
+
+
+rule "[orisa.opy]: Destroy barrier on barrier timeout":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.barrier_uptime >= OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME
