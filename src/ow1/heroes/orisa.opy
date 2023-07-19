@@ -2,9 +2,8 @@
 
 globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
 
-playervar orisa_supercharger_ring
-playervar orisa_supercharger
-playervar orisa_ult_time 0
+playervar orisa_supercharger_entity
+playervar orisa_ult_time
 playervar orisa_ult_pos
 playervar orisa_beam
 playervar orisa_beam_enabled
@@ -94,10 +93,8 @@ rule "[orisa.opy]: Supercharger":
     eventPlayer.orisa_ult_time = 15
     chase(eventPlayer.orisa_ult_time, 0, rate=1, ChaseReeval.NONE)
     eventPlayer.communicate(Comms.VOICE_LINE_UP) 
-    #createEffect(getAllPlayers(), Effect.RING, Color.LIME_GREEN, eventPlayer.orisa_ult_pos, 25, EffectReeval.NONE)
-    #eventPlayer.orisa_supercharger_ring = getLastCreatedEntity()
     createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.orisa_ult_pos, 0.5, EffectReeval.NONE)
-    eventPlayer.orisa_supercharger = getLastCreatedEntity()
+    eventPlayer.orisa_supercharger_entity = getLastCreatedEntity()
     eventPlayer.setUltCharge(0)
 
 
@@ -106,8 +103,7 @@ rule "[orisa.opy]: Remove effect":
     @Hero all
     @Condition eventPlayer.friendly_orisa_player.orisa_ult_time == 0
 
-    #destroyEffect(eventPlayer.orisa_supercharger_ring)
-    destroyEffect(eventPlayer.orisa_supercharger)
+    destroyEffect(eventPlayer.orisa_supercharger_entity)
     destroyEffect(eventPlayer.orisa_beam)
     eventPlayer.orisa_beam_enabled = false
     stopChasingVariable(eventPlayer.orisa_ult_time)
