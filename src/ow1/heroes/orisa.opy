@@ -224,6 +224,7 @@ def explodeHalt():
     stopChasingVariable(eventPlayer.halt_position)
     wait(OW1_ORISA_HALT_ACTIVATION_TIME)
     getPlayersInRadius(eventPlayer.halt_position, OW1_ORISA_HALT_AOE_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS).is_getting_orisa_pulled = true
+    getPlayersInRadius(eventPlayer.halt_position, OW1_ORISA_HALT_AOE_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS).setEnvironmentalKillCreditor(eventPlayer)
     eventPlayer.is_using_halt = false
     destroyEffect(eventPlayer.halt_entity1)
     destroyEffect(eventPlayer.halt_entity2)
