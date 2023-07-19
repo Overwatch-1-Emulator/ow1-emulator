@@ -2,14 +2,16 @@
 
 globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
 
-playervar orisa_supercharger_ring
-playervar orisa_supercharger
-playervar orisa_ult_time 0
-playervar orisa_ult_pos
-playervar orisa_beam
-playervar orisa_beam_enabled
 playervar friendly_orisa_player
 playervar enemy_orisa_player
+
+playervar is_using_supercharger
+playervar orisa_supercharger_entity
+playervar orisa_supercharger_uptime
+playervar orisa_supercharger_position
+playervar orisa_beam_entity
+playervar is_supercharged
+
 playervar all_enemies
 
 playervar halt_position
@@ -39,6 +41,10 @@ playervar barrier_health
 playervar orisa_barrier_hit_positions
 
 subroutine initOrisa
+
+subroutine startSupercharger
+subroutine endSupercharger
+
 subroutine initHaltGui
 subroutine shootHalt
 subroutine explodeHalt
@@ -69,78 +75,112 @@ def initOrisa():
         clearCustomHealth()
         setCustomHealth(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
         wait(1)
-    
-    eventPlayer.halt_visible = false
-    eventPlayer.is_using_halt = false
-    eventPlayer.halt_exploded = false
+
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE) # Disable OW2 Javelin
+    eventPlayer.disallowButton(Button.ABILITY_2) # Disable OW2 Javelin Spin
+    eventPlayer.disallowButton(Button.ULTIMATE) # Disable Terra Surge
 
     getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_orisa_player = eventPlayer
 
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE) # Disable OW2 Javelin
-    eventPlayer.disallowButton(Button.ABILITY_2) # Disable OW2 Javelin Spin
-    eventPlayer.disallowButton(Button.ULTIMATE)
-
+    eventPlayer.is_using_supercharger = false
+    
+    eventPlayer.halt_visible = false
+    eventPlayer.is_using_halt = false
+    eventPlayer.halt_exploded = false
     initHaltGui()
 
 
-rule "[orisa.opy]: Supercharger":
+rule "[orisa.opy]: Trigger Supercharger start":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true and eventPlayer.getUltCharge() == 100 and eventPlayer.orisa_ult_time == 0 and eventPlayer.isOnGround() == true
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
+    @Condition eventPlayer.getUltCharge() == 100
+    @Condition eventPlayer.isOnGround() == true
 
-    
-    eventPlayer.orisa_ult_pos = eventPlayer.getPosition() + 0.5*Vector.UP
-    eventPlayer.orisa_ult_time = 15
-    chase(eventPlayer.orisa_ult_time, 0, rate=1, ChaseReeval.NONE)
-    eventPlayer.communicate(Comms.VOICE_LINE_UP) 
-    #createEffect(getAllPlayers(), Effect.RING, Color.LIME_GREEN, eventPlayer.orisa_ult_pos, 25, EffectReeval.NONE)
-    #eventPlayer.orisa_supercharger_ring = getLastCreatedEntity()
-    createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.orisa_ult_pos, 0.5, EffectReeval.NONE)
-    eventPlayer.orisa_supercharger = getLastCreatedEntity()
+    startSupercharger()
+
+
+rule "[orisa.opy]: Trigger Supercharger end":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.orisa_supercharger_uptime >= OW1_ORISA_SUPERCHARGER_MAX_DURATION
+
+    endSupercharger()
+
+
+def startSupercharger():
+    @Name "[orisa.opy]: startSupercharger()"
+
     eventPlayer.setUltCharge(0)
+    eventPlayer.communicate(Comms.VOICE_LINE_UP)
+    # Supercharge GUI
+    eventPlayer.orisa_supercharger_position = eventPlayer.getPosition() + OW1_ORISA_SUPERCHARGER_HEIGHT/2*Vector.UP
+    createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.orisa_supercharger_position, OW1_ORISA_SUPERCHARGER_HEIGHT/2, EffectReeval.NONE)
+    eventPlayer.orisa_supercharger_entity = getLastCreatedEntity()
+    # Start supercharger timer
+    eventPlayer.orisa_supercharger_uptime = 0
+    chase(eventPlayer.orisa_supercharger_uptime, OW1_ORISA_SUPERCHARGER_MAX_DURATION, rate=1, ChaseReeval.NONE)
+    eventPlayer.is_using_supercharger = true
 
 
-rule "[orisa.opy]: Remove effect":
+def endSupercharger():
+    @Name "[orisa.opy]: endSupercharger()"
+
+    stopChasingVariable(eventPlayer.orisa_supercharger_uptime)
+    destroyEffect(eventPlayer.orisa_supercharger_entity)
+    getPlayers(eventPlayer.getTeam()).is_supercharged = false
+    eventPlayer.is_using_supercharger = false
+
+
+rule "[orisa.opy]: Supercharge teammates in supercharger range":
     @Event eachPlayer
     @Hero all
-    @Condition eventPlayer.friendly_orisa_player.orisa_ult_time == 0
-
-    #destroyEffect(eventPlayer.orisa_supercharger_ring)
-    destroyEffect(eventPlayer.orisa_supercharger)
-    destroyEffect(eventPlayer.orisa_beam)
-    eventPlayer.orisa_beam_enabled = false
-    stopChasingVariable(eventPlayer.orisa_ult_time)
-
-
-rule "[orisa.opy]: Enable Damage Boost":
-    @Event eachPlayer
-    @Hero all
-    @Condition eventPlayer.friendly_orisa_player.orisa_ult_time != 0 and eventPlayer in getPlayersInRadius(eventPlayer.friendly_orisa_player.orisa_ult_pos, 25, eventPlayer.friendly_orisa_player.getTeam(), LosCheck.SURFACES_AND_ENEMY_BARRIERS)
+    @Condition eventPlayer.friendly_orisa_player.is_using_supercharger == true
+    @Condition eventPlayer in getPlayersInRadius(eventPlayer.friendly_orisa_player.orisa_supercharger_position, 
+                                                 OW1_ORISA_SUPERCHARGER_AOE_RADIUS, 
+                                                 eventPlayer.friendly_orisa_player.getTeam(), 
+                                                 LosCheck.SURFACES_AND_ENEMY_BARRIERS)
     
-    if eventPlayer.orisa_beam_enabled == false:
-        createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.friendly_orisa_player.orisa_ult_pos, eventPlayer.getPosition(), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-        eventPlayer.orisa_beam_enabled = true
-    eventPlayer.orisa_beam = getLastCreatedEntity()
-    eventPlayer.setDamageDealt(150)
+    eventPlayer.is_supercharged = true
 
 
-rule "[orisa.opy]: Disable Damage Boost":
+rule "[orisa.opy]: De-supercharge teammates outside supercharger range":
     @Event eachPlayer
     @Hero all
-    @Condition eventPlayer.friendly_orisa_player.orisa_ult_time != 0 and not eventPlayer in getPlayersInRadius(eventPlayer.friendly_orisa_player.orisa_ult_pos, 25, eventPlayer.friendly_orisa_player.getTeam(), LosCheck.SURFACES_AND_ENEMY_BARRIERS)
+    @Condition eventPlayer.friendly_orisa_player.is_using_supercharger == true
+    @Condition eventPlayer not in getPlayersInRadius(eventPlayer.friendly_orisa_player.orisa_supercharger_position, 
+                                                     OW1_ORISA_SUPERCHARGER_AOE_RADIUS, 
+                                                     eventPlayer.friendly_orisa_player.getTeam(), 
+                                                     LosCheck.SURFACES_AND_ENEMY_BARRIERS)
+    @Condition eventPlayer.is_supercharged == true
     
-    wait(1,Wait.ABORT_WHEN_FALSE)
-    destroyEffect(eventPlayer.orisa_beam)
-    eventPlayer.orisa_beam_enabled = false
-    eventPlayer.setDamageDealt(100)
+    wait(OW1_ORISA_SUPERCHARGER_LINGER_TIME, Wait.ABORT_WHEN_FALSE)
+    eventPlayer.is_supercharged = false
 
 
-rule "[orisa.opy]: Set damage dealt after ultimate":
+rule "[orisa.opy]: De-supercharge teammates when supercharger ends":
     @Event eachPlayer
     @Hero all
-    @Condition eventPlayer.friendly_orisa_player.orisa_ult_time == 0
+    @Condition eventPlayer.friendly_orisa_player.is_using_supercharger == false
+    
+    eventPlayer.is_supercharged = false
 
+
+rule "[orisa.opy]: Damage boost player when supercharged":
+    @Event eachPlayer
+    @Condition eventPlayer.is_supercharged == true
+
+    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.friendly_orisa_player.orisa_supercharger_position, eventPlayer.getPosition(), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    eventPlayer.orisa_beam_entity = getLastCreatedEntity()
+    eventPlayer.setDamageDealt(percent(OW1_ORISA_SUPERCHARGER_DAMAGE_MULTIPLIER))
+
+
+rule "[orisa.opy]: Revert damage boost if not supercharged":
+    @Event eachPlayer
+    @Condition eventPlayer.is_supercharged == false
+
+    destroyEffect(eventPlayer.orisa_beam_entity)
     eventPlayer.setDamageDealt(100)
 
 
