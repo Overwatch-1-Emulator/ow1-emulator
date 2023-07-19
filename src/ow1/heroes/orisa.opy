@@ -86,9 +86,9 @@ rule "[orisa.opy]: Trigger Supercharger start":
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
     @Condition eventPlayer.getUltCharge() == 100
     @Condition eventPlayer.isOnGround() == true
-    @Condition eventPlayer.is_using_supercharger == false
 
-    startSupercharger()
+    endSupercharger() # Destroy any existing Supercharger
+    startSupercharger() # Start supercharger
 
 
 rule "[orisa.opy]: Trigger Supercharger end":
@@ -103,6 +103,7 @@ def startSupercharger():
     @Name "[orisa.opy]: startSupercharger()"
 
     eventPlayer.setUltCharge(0)
+    eventPlayer.setUltEnabled(false)
     eventPlayer.communicate(Comms.VOICE_LINE_UP)
     # Supercharge GUI
     eventPlayer.orisa_supercharger_position = eventPlayer.getPosition() + OW1_ORISA_SUPERCHARGER_HEIGHT/2*Vector.UP
@@ -120,6 +121,7 @@ def startSupercharger():
 def endSupercharger():
     @Name "[orisa.opy]: endSupercharger()"
 
+    eventPlayer.setUltEnabled(true)
     stopChasingVariable(eventPlayer.orisa_supercharger_uptime)
     destroyEffect(eventPlayer.orisa_supercharger_entity)
     getPlayers(eventPlayer.getTeam()).is_supercharged = false
