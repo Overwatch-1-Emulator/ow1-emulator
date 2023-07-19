@@ -33,3 +33,11 @@ rule "[ana.opy]: Sleep tanks for longer duration":
     @Condition eventPlayer.hasStatusEffect(Status.ASLEEP)
     
     eventPlayer.setStatusEffect(null, Status.ASLEEP, 5/3.25*OW1_ANA_SLEEP_DART_SLEEP_DURATION) # 5/3.5 is the ratio of regular sleep time to tank sleep time
+
+
+rule "[ana.opy]: Heal OW1 healing with biotic grenade":
+    @Event playerDealtHealing
+    @Hero ana
+    @Condition eventAbility == Button.ABILITY_2
+
+    heal(healee, healer, eventHealing*(OW1_ANA_BIOTIC_GRENADE_HEALING/OW2_ANA_BIOTIC_GRENADE_HEALING)-eventHealing)
