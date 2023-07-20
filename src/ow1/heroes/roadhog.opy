@@ -77,7 +77,7 @@ rule "[roadhog.opy]: Cancel ult when stunned":
     @Condition eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.STUNNED)
 
     if eventPlayer.hasStatusEffect(Status.HACKED):
-        waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, 9999)
+        #waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, 9999) if hacked, instantly cancel ult
     elif eventPlayer.hasStatusEffect(Status.FROZEN):
         waitUntil(eventPlayer.hasStatusEffect(Status.FROZEN) == false, 9999)
     elif eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN):
@@ -87,11 +87,13 @@ rule "[roadhog.opy]: Cancel ult when stunned":
     elif eventPlayer.hasStatusEffect(Status.STUNNED):
         waitUntil(eventPlayer.hasStatusEffect(Status.STUNNED) == false, 9999)
     
-    eventPlayer.ult_pos = eventPlayer.getPosition()
-    eventPlayer.ult_health = eventPlayer.getHealth()
-    kill(eventPlayer,null)
-    eventPlayer.respawn()
-    eventPlayer.setHealth(eventPlayer.ult_health)
-    eventPlayer.startForcingPosition(eventPlayer.ult_pos, true)
-    wait(0.3)
-    eventPlayer.stopForcingPosition()
+    if eventPlayer.isUsingUltimate() == true:
+        eventPlayer.ult_pos = eventPlayer.getPosition()
+        eventPlayer.ult_health = eventPlayer.getHealth()
+        kill(eventPlayer,null)
+        eventPlayer.respawn()
+        eventPlayer.setHealth(eventPlayer.ult_health)
+        eventPlayer.startForcingPosition(eventPlayer.ult_pos, true)
+        wait(0.3)
+        eventPlayer.stopForcingPosition()
+    
