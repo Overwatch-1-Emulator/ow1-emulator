@@ -133,8 +133,8 @@ rule "[orisa.opy]: Supercharge teammates in supercharger range":
     @Hero all
     @Condition eventPlayer.isAlive() == true
     @Condition eventPlayer.friendly_orisa_player.is_using_supercharger == true
-    @Condition distance(eventPlayer, eventPlayer.friendly_orisa_player.orisa_supercharger_position) <= OW1_ORISA_SUPERCHARGER_AOE_RADIUS and \
-               isInLoS(eventPlayer, eventPlayer.friendly_orisa_player.orisa_supercharger_position, BarrierLos.PASS_THROUGH_BARRIERS) == true
+    @Condition (distance(eventPlayer, eventPlayer.friendly_orisa_player.orisa_supercharger_position) <= OW1_ORISA_SUPERCHARGER_AOE_RADIUS and \
+               isInLoS(eventPlayer, eventPlayer.friendly_orisa_player.orisa_supercharger_position, BarrierLos.PASS_THROUGH_BARRIERS)) == true
     
     eventPlayer.is_supercharged = true
 
@@ -144,8 +144,8 @@ rule "[orisa.opy]: De-supercharge teammates outside supercharger range":
     @Hero all
     @Condition eventPlayer.is_supercharged == true
     @Condition eventPlayer.friendly_orisa_player.is_using_supercharger == true
-    @Condition distance(eventPlayer, eventPlayer.friendly_orisa_player.orisa_supercharger_position) <= OW1_ORISA_SUPERCHARGER_AOE_RADIUS and \
-               isInLoS(eventPlayer, eventPlayer.friendly_orisa_player.orisa_supercharger_position, BarrierLos.PASS_THROUGH_BARRIERS) == false
+    @Condition (distance(eventPlayer, eventPlayer.friendly_orisa_player.orisa_supercharger_position) <= OW1_ORISA_SUPERCHARGER_AOE_RADIUS and \
+               isInLoS(eventPlayer, eventPlayer.friendly_orisa_player.orisa_supercharger_position, BarrierLos.PASS_THROUGH_BARRIERS)) == false
     
     wait(OW1_ORISA_SUPERCHARGER_LINGER_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.is_supercharged = false
@@ -254,8 +254,8 @@ rule "[orisa.opy]: Pull halted victims":
 rule "[orisa.opy]: Create Halt pull line vfx when in pull range":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.is_using_halt == true
-    @Condition distance(eventPlayer, eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS and \
-               isInLoS(eventPlayer, eventPlayer.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS) == true
+    @Condition (distance(eventPlayer, eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS and \
+               isInLoS(eventPlayer, eventPlayer.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS)) == true
     
     createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.enemy_orisa_player.halt_position, eventPlayer, Color.LIME_GREEN, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.halt_pull_line_entity = getLastCreatedEntity()
@@ -265,8 +265,8 @@ rule "[orisa.opy]: Create Halt pull line vfx when in pull range":
 rule "[orisa.opy]: Destroy Halt pull line vfx when not in pull range":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.is_using_halt == true
-    @Condition distance(eventPlayer, eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS and \
-               isInLoS(eventPlayer, eventPlayer.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS) == false
+    @Condition (distance(eventPlayer, eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS and \
+               isInLoS(eventPlayer, eventPlayer.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS)) == false
     
     destroyEffect(eventPlayer.halt_pull_line_entity)
     eventPlayer.entity_huds.remove(eventPlayer.halt_pull_line_entity)
