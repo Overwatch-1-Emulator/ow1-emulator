@@ -75,22 +75,15 @@ rule "[roadhog.opy]: Cancel ult when stunned":
     @Condition eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.STUNNED)
 
     if eventPlayer.hasStatusEffect(Status.HACKED):
-        waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false,9999)
-        kill(eventPlayer,null)
-        eventPlayer.resurrect()
+        waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, 9999)
     elif eventPlayer.hasStatusEffect(Status.FROZEN):
-        waitUntil(eventPlayer.hasStatusEffect(Status.FROZEN) == false,9999)
-        kill(eventPlayer,null)
-        eventPlayer.resurrect()
+        waitUntil(eventPlayer.hasStatusEffect(Status.FROZEN) == false, 9999)
     elif eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN):
-        waitUntil(eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) == false,9999)
-        kill(eventPlayer,null)
-        eventPlayer.resurrect()
+        waitUntil(eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) == false, 9999)
     elif eventPlayer.hasStatusEffect(Status.ASLEEP):
-        waitUntil(eventPlayer.hasStatusEffect(Status.ASLEEP) == false,9999)
-        kill(eventPlayer,null)
-        eventPlayer.resurrect()
+        waitUntil(eventPlayer.hasStatusEffect(Status.ASLEEP) == false, 9999)
     elif eventPlayer.hasStatusEffect(Status.STUNNED):
-        waitUntil(eventPlayer.hasStatusEffect(Status.STUNNED) == false,9999)
-        kill(eventPlayer,null)
-        eventPlayer.resurrect()
+        waitUntil(eventPlayer.hasStatusEffect(Status.STUNNED) == false, 9999)
+
+    kill(eventPlayer,null)
+    eventPlayer.resurrect()
