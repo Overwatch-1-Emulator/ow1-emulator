@@ -2,6 +2,8 @@
 
 subroutine initRoadhog
 playervar time_hook_was_active 0
+playervar ult_pos
+playervar ult_health
 
 rule "[roadhog.opy]: Detect Roadhog initialization":
     @Event eachPlayer
@@ -67,3 +69,29 @@ rule "[roadhog.opy]: Stop autofire when not in ult":
     @Condition eventPlayer.isUsingUltimate() == false
     
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
+
+rule "[roadhog.opy]: Cancel ult when stunned":
+    @Event eachPlayer
+    @Hero roadhog
+    @Condition eventPlayer.isUsingUltimate() == true
+    @Condition eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.STUNNED)
+
+    if eventPlayer.hasStatusEffect(Status.HACKED):
+        waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, 9999)
+    elif eventPlayer.hasStatusEffect(Status.FROZEN):
+        waitUntil(eventPlayer.hasStatusEffect(Status.FROZEN) == false, 9999)
+    elif eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN):
+        waitUntil(eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) == false, 9999)
+    elif eventPlayer.hasStatusEffect(Status.ASLEEP):
+        waitUntil(eventPlayer.hasStatusEffect(Status.ASLEEP) == false, 9999)
+    elif eventPlayer.hasStatusEffect(Status.STUNNED):
+        waitUntil(eventPlayer.hasStatusEffect(Status.STUNNED) == false, 9999)
+    
+    eventPlayer.ult_pos = eventPlayer.getPosition()
+    eventPlayer.ult_health = eventPlayer.getHealth()
+    kill(eventPlayer,null)
+    eventPlayer.respawn()
+    eventPlayer.setHealth(eventPlayer.ult_health)
+    eventPlayer.startForcingPosition(eventPlayer.ult_pos, true)
+    wait(0.3)
+    eventPlayer.stopForcingPosition()
