@@ -257,7 +257,7 @@ rule "[orisa.opy]: Create Halt pull line vfx when in pull range":
     @Condition (distance(eventPlayer, eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS and \
                isInLoS(eventPlayer, eventPlayer.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS)) == true
     
-    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.enemy_orisa_player.halt_position, eventPlayer, Color.LIME_GREEN, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.enemy_orisa_player.halt_position, eventPlayer, Color.GREEN if eventPlayer.is_getting_orisa_pulled else Color.WHITE, EffectReeval.POSITION_RADIUS_AND_COLOR)
     eventPlayer.halt_pull_line_entity = getLastCreatedEntity()
     eventPlayer.entity_huds.append(eventPlayer.halt_pull_line_entity)
 
