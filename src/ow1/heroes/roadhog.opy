@@ -2,8 +2,9 @@
 
 subroutine initRoadhog
 playervar time_hook_was_active 0
-playervar ult_pos
-playervar ult_health
+playervar roadhog_ult_pos
+playervar roadhog_ult_health
+playervar roadhog_ult_facing
 
 rule "[roadhog.opy]: Detect Roadhog initialization":
     @Event eachPlayer
@@ -88,12 +89,13 @@ rule "[roadhog.opy]: Cancel ult when stunned":
         waitUntil(eventPlayer.hasStatusEffect(Status.STUNNED) == false, 9999)
     
     if eventPlayer.isUsingUltimate() == true:
-        eventPlayer.ult_pos = eventPlayer.getPosition()
-        eventPlayer.ult_health = eventPlayer.getHealth()
+        eventPlayer.roadhog_ult_pos = eventPlayer.getPosition()
+        eventPlayer.roadhog_ult_health = eventPlayer.getHealth()
         kill(eventPlayer,null)
         eventPlayer.respawn()
-        eventPlayer.setHealth(eventPlayer.ult_health)
-        eventPlayer.startForcingPosition(eventPlayer.ult_pos, true)
+        eventPlayer.setHealth(eventPlayer.roadhog_ult_health)
+        eventPlayer.setFacing(eventPlayer.roadhog_ult_facing, Relativity.TO_WORLD)
+        eventPlayer.startForcingPosition(eventPlayer.roadhog_ult_pos, true)
         wait(0.3)
         eventPlayer.stopForcingPosition()
     
