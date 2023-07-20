@@ -8,6 +8,7 @@ playervar orisa_supercharger_entity
 playervar orisa_supercharger_uptime
 playervar orisa_supercharger_position
 playervar orisa_beam_entity
+playervar orisa_beam_sound_effect
 
 playervar is_using_halt
 playervar is_getting_orisa_pulled
@@ -86,7 +87,8 @@ rule "[orisa.opy]: Trigger Supercharger start":
     @Condition eventPlayer.getUltCharge() == 100
     @Condition eventPlayer.isOnGround() == true
 
-    startSupercharger()
+    endSupercharger() # Destroy any existing Supercharger
+    startSupercharger() # Start supercharger
 
 
 rule "[orisa.opy]: Trigger Supercharger end":
@@ -101,11 +103,15 @@ def startSupercharger():
     @Name "[orisa.opy]: startSupercharger()"
 
     eventPlayer.setUltCharge(0)
+    eventPlayer.setUltEnabled(false)
     eventPlayer.communicate(Comms.VOICE_LINE_UP)
     # Supercharge GUI
     eventPlayer.orisa_supercharger_position = eventPlayer.getPosition() + OW1_ORISA_SUPERCHARGER_HEIGHT/2*Vector.UP
     createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.orisa_supercharger_position, OW1_ORISA_SUPERCHARGER_HEIGHT/2, EffectReeval.NONE)
     eventPlayer.orisa_supercharger_entity = getLastCreatedEntity()
+    # Supercharge Effect
+    playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.GREEN, eventPlayer.orisa_supercharger_position, 3)
+    playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.GREEN, eventPlayer.orisa_supercharger_position, 200)
     # Start supercharger timer
     eventPlayer.orisa_supercharger_uptime = 0
     chase(eventPlayer.orisa_supercharger_uptime, OW1_ORISA_SUPERCHARGER_MAX_DURATION, rate=1, ChaseReeval.NONE)
@@ -115,6 +121,7 @@ def startSupercharger():
 def endSupercharger():
     @Name "[orisa.opy]: endSupercharger()"
 
+    eventPlayer.setUltEnabled(true)
     stopChasingVariable(eventPlayer.orisa_supercharger_uptime)
     destroyEffect(eventPlayer.orisa_supercharger_entity)
     getPlayers(eventPlayer.getTeam()).is_supercharged = false
@@ -159,8 +166,10 @@ rule "[orisa.opy]: Damage boost player when supercharged":
     @Event eachPlayer
     @Condition eventPlayer.is_supercharged == true
 
-    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.friendly_orisa_player.orisa_supercharger_position, eventPlayer.getPosition(), Color.WHITE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.friendly_orisa_player.orisa_supercharger_position, eventPlayer.getPosition(), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.orisa_beam_entity = getLastCreatedEntity()
+    createEffect(eventPlayer, Effect.ENERGY_SOUND, Color.GREEN, eventPlayer.getPosition(), 100, EffectReeval.POSITION_AND_RADIUS)
+    eventPlayer.orisa_beam_sound_effect = getLastCreatedEntity()
     eventPlayer.setDamageDealt(percent(OW1_ORISA_SUPERCHARGER_DAMAGE_MULTIPLIER))
 
 
@@ -169,6 +178,7 @@ rule "[orisa.opy]: Revert damage boost if not supercharged":
     @Condition eventPlayer.is_supercharged == false
 
     destroyEffect(eventPlayer.orisa_beam_entity)
+    destroyEffect(eventPlayer.orisa_beam_sound_effect)
     eventPlayer.setDamageDealt(100)
 
 ################################################ Halt! (secondary fire) ################################################
@@ -214,6 +224,7 @@ def explodeHalt():
     stopChasingVariable(eventPlayer.halt_position)
     wait(OW1_ORISA_HALT_ACTIVATION_TIME)
     getPlayersInRadius(eventPlayer.halt_position, OW1_ORISA_HALT_AOE_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS).is_getting_orisa_pulled = true
+    getPlayersInRadius(eventPlayer.halt_position, OW1_ORISA_HALT_AOE_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS).setEnvironmentalKillCreditor(eventPlayer)
     eventPlayer.is_using_halt = false
     destroyEffect(eventPlayer.halt_entity1)
     destroyEffect(eventPlayer.halt_entity2)
