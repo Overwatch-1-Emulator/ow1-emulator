@@ -15,18 +15,22 @@ settings {
         "teamBalancing": "afterGame"
     },
     "gamemodes": {
-        "assault": {},
+        "assault": {
+            "enableCompetitiveRules": true
+        },
         "control": {
             "disabledMaps": [
                 "antarcticPeninsula",
                 "lijiangTowerLny"
-            ]
+            ],
+            "enableCompetitiveRules": true
         },
         "escort": {
             "disabledMaps": [
                 "circuitRoyal",
                 "shambaliMonastery"
-            ]
+            ],
+            "enableCompetitiveRules": true
         },
         "hybrid": {
             "enabledMaps": [
@@ -35,7 +39,8 @@ settings {
                 "hollywood",
                 "kingsRow",
                 "numbani"
-            ]
+            ],
+            "enableCompetitiveRules": true
         },
         "practiceRange": {
             "enabledMaps": []
