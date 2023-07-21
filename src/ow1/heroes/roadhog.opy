@@ -2,9 +2,6 @@
 
 subroutine initRoadhog
 playervar time_hook_was_active
-playervar roadhog_ult_pos
-playervar roadhog_ult_health
-playervar roadhog_ult_facing
 
 rule "[roadhog.opy]: Detect Roadhog initialization":
     @Event eachPlayer
@@ -90,13 +87,7 @@ rule "[roadhog.opy]: Cancel ult when stunned":
         waitUntil(eventPlayer.hasStatusEffect(Status.STUNNED) == false, 9999)
     
     if eventPlayer.isUsingUltimate() == true:
-        eventPlayer.roadhog_ult_pos = eventPlayer.getPosition()
-        eventPlayer.roadhog_ult_health = eventPlayer.getHealth()
-        kill(eventPlayer,null)
-        eventPlayer.respawn()
-        eventPlayer.setHealth(eventPlayer.roadhog_ult_health)
-        eventPlayer.setFacing(eventPlayer.roadhog_ult_facing, Relativity.TO_WORLD)
-        eventPlayer.teleport(eventPlayer.roadhog_ult_pos)
+        respawnSameState()
 
 
 rule "[roadhog.opy]: Move hooked enemies closer":
@@ -106,3 +97,15 @@ rule "[roadhog.opy]: Move hooked enemies closer":
 
     waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     victim.applyImpulse(directionTowards(victim, attacker), 25*(OW2_ROADHOG_HOOK_PROXIMITY-OW1_ROADHOG_HOOK_PROXIMITY), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+
+rule "[roadhog.opy]: Reduce ultimate duration":
+    @Event eachPlayer
+    @Hero roadhog
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    wait(OW1_ROADHOG_ULTIMATE_DURATION)
+    # Check if the ultimate was not cancelled before
+    if eventPlayer.isUsingUltimate():
+        respawnSameState()
+    
+

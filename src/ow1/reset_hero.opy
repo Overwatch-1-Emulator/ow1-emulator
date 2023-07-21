@@ -8,6 +8,7 @@ playervar entity_huds
 
 playervar friendly_orisa_player
 playervar enemy_orisa_player
+playervar player_health
 
 def resetHero():
     @Name "[reset_hero.opy]: Reset hero stats/gui"
@@ -71,3 +72,14 @@ rule "[reset_hero.opy]: Reset hero on hero switch":
 
     wait()
     resetHero()
+
+
+def respawnSameState():
+    @Name "[reset_hero.opy]: respawnSameState()"
+    eventPlayer.player_health = eventPlayer.getHealth()
+    kill(eventPlayer,null)
+    # Use resurrect to keep the same position and angle
+    eventPlayer.resurrect()
+    # Wait to set healt else roadhog will be full life
+    wait()
+    eventPlayer.setHealth(eventPlayer.player_health)
