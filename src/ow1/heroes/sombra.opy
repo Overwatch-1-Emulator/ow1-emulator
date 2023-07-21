@@ -21,13 +21,10 @@ def initSombra():
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra = eventPlayer
 
 
-rule "[sombra.opy]: No hack while invis":
+rule "[sombra.opy]: Cancel invis if hack activated":
     @Event eachPlayer
-    @Hero all
-    @Condition eventPlayer.hasStatusEffect(Status.HACKED)
-    @Condition eventPlayer.enemy_sombra.isUsingAbility1() == true
-    @Condition eventPlayer.enemy_sombra.isUsingUltimate() == false
-
-    eventPlayer.enemy_sombra.cancelPrimaryAction()
-    eventPlayer.enemy_sombra.setAbility1Enabled(false)
-    eventPlayer.enemy_sombra.setAbility1Enabled(true)
+    @Hero sombra
+    @Condition eventPlayer.isUsingAbility1()
+    @Condition eventPlayer.isFiringSecondaryFire()
+    
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
