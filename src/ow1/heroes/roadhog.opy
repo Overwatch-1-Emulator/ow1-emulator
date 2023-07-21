@@ -95,7 +95,5 @@ rule "[roadhog.opy]: Cancel ult when stunned":
         eventPlayer.respawn()
         eventPlayer.setHealth(eventPlayer.roadhog_ult_health)
         eventPlayer.setFacing(eventPlayer.roadhog_ult_facing, Relativity.TO_WORLD)
-        eventPlayer.startForcingPosition(eventPlayer.roadhog_ult_pos, true)
-        wait(0.3)
-        eventPlayer.stopForcingPosition()
+        eventPlayer.teleport(eventPlayer.roadhog_ult_pos)
     
