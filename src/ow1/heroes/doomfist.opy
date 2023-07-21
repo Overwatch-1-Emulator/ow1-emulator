@@ -386,7 +386,7 @@ rule "[doomfist.opy]: Slammed victims damage and pull/push effects":
 rule "[doomfist.opy]: Indicator slam visibility":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0 # Slam available
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0 # Slam available
     @Condition not eventPlayer.is_using_slam # Not using ability
     @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
     @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN # If vertical distance is greater than the margin, it's invalid.
@@ -397,7 +397,7 @@ rule "[doomfist.opy]: Indicator slam visibility":
 rule "[doomfist.opy]: Hide indicator while slam not available":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0
 
     eventPlayer.indicator_visibility = null
 
