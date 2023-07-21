@@ -188,6 +188,7 @@
 
 # Symmetra
 #!define OW1_SYMMETRA_CLIP_SIZE 70
+#!define OW1_SYMMETRA_ORB_SPEED 25
 
 # Tracer
 #!define OW1_TRACER_PULSE_PISTOL_DAMAGE 6
