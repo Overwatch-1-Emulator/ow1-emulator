@@ -80,6 +80,6 @@ def respawnSameState():
     kill(eventPlayer,null)
     # Use resurrect to keep the same position and angle
     eventPlayer.resurrect()
-    # Wait to set healt else roadhog will be full life
+    # Wait to set health else the player will be full life
     wait()
     eventPlayer.setHealth(eventPlayer.player_health)
