@@ -11,6 +11,7 @@
 
 # OW1 specific hero logic
 #!include "ow1/heroes/ana.opy"
+#!include "ow1/heroes/ashe.opy"
 #!include "ow1/heroes/baptiste.opy"
 #!include "ow1/heroes/bastion.opy"
 #!include "ow1/heroes/brigitte.opy"
@@ -25,9 +26,9 @@
 #!include "ow1/heroes/reaper.opy"
 #!include "ow1/heroes/reinhardt.opy"
 #!include "ow1/heroes/roadhog.opy"
-#!include "ow1/heroes/sombra.opy"
 #!include "ow1/heroes/sigma.opy"
 #!include "ow1/heroes/soldier.opy"
+#!include "ow1/heroes/sombra.opy"
 #!include "ow1/heroes/symmetra.opy"
 #!include "ow1/heroes/tracer.opy"
 #!include "ow1/heroes/widowmaker.opy"
