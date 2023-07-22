@@ -91,6 +91,9 @@
 #!define OW2_HANZO_ARROW_DAMAGE 120
 #!define OW2_HANZO_STORM_DAMAGE 65
 
+# Junkrat
+#!define OW2_JUNKRAT_STEEL_TRAP_DMG 100
+
 # Lucio
 #!define OW2_LUCIO_SELF_HEALING 10
 

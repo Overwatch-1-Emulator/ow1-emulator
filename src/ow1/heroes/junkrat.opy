@@ -13,5 +13,14 @@ rule "[junkrat.opy]: Detect Junkrat initialization":
 
 def initJunkrat():
     @Name "[junkrat.opy]: initJunkrat()"
-    # [TODO]
-    pass
+    # Reduce damage to the trap
+    eventPlayer.setDamageDealt(percent(OW1_JUNKRAT_STEEL_TRAP_DMG/OW2_JUNKRAT_STEEL_TRAP_DMG))
+
+
+rule "[junkrat.opy]: Deal extra damage on ability other than steel trap and increase root duration.":
+    @Event playerDealtDamage
+    @Hero junkrat
+    if eventAbility != Button.ABILITY_2 :
+        damage(victim, attacker, eventDamage * (OW2_JUNKRAT_STEEL_TRAP_DMG/OW1_JUNKRAT_STEEL_TRAP_DMG) - eventDamage)
+    else :
+        victim.setStatusEffect(attacker,Status.ROOTED,OW1_JUNKRAT_STEEL_TRAP_DURATION)
