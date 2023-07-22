@@ -71,6 +71,7 @@ rule "[roadhog.opy]: Stop autofire when not in ult":
     
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
 
+
 rule "[roadhog.opy]: Cancel ult when stunned":
     @Event eachPlayer
     @Hero roadhog
@@ -96,4 +97,12 @@ rule "[roadhog.opy]: Cancel ult when stunned":
         eventPlayer.setHealth(eventPlayer.roadhog_ult_health)
         eventPlayer.setFacing(eventPlayer.roadhog_ult_facing, Relativity.TO_WORLD)
         eventPlayer.teleport(eventPlayer.roadhog_ult_pos)
-    
+
+
+rule "[roadhog.opy]: Move hooked enemies closer":
+    @Event playerDealtDamage
+    @Hero roadhog
+    @Condition eventPlayer.isUsingAbility1() == true
+
+    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
+    victim.applyImpulse(directionTowards(victim, attacker), 25*(OW2_ROADHOG_HOOK_PROXIMITY-OW1_ROADHOG_HOOK_PROXIMITY), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)

@@ -15,3 +15,13 @@ def initSymmetra():
     @Name "[symmetra.opy]: initSymmetra()"
     eventPlayer.setAmmo(0, OW1_SYMMETRA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_SYMMETRA_CLIP_SIZE)
+
+
+rule "[symmetra.opy]: Set OW1 Symmetra Photo Projector projectile speed":
+    @Event eachPlayer
+    @Hero symmetra
+    @Condition eventPlayer.isFiringSecondaryFire()
+
+    eventPlayer.setProjectileSpeed(percent(OW1_SYMMETRA_ORB_SPEED/OW2_SYMMETRA_ORB_SPEED))
+    waitUntil(eventPlayer.isFiringSecondaryFire() == false, 9999)
+    eventPlayer.setProjectileSpeed(100)

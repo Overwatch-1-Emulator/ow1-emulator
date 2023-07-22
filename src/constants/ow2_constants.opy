@@ -91,6 +91,7 @@
 
 # Roadhog
 #!define OW2_ROADHOG_SCRAP_GUN_DAMAGE 150
+#!define OW2_ROADHOG_HOOK_PROXIMITY 4
 
 # Sigma
 #!define OW2_SIGMA_ACCRETION_DAMAGE 80
@@ -98,6 +99,9 @@
 
 # Soldier 76
 #!define OW2_SOLDIER_HEAVY_PULSE_RIFLE_DAMAGE 19
+
+# Symmetra
+#!define OW2_SYMMETRA_ORB_SPEED 50
 
 # Tracer
 #!define OW2_TRACER_PULSE_PISTOL_DAMAGE 5.5
