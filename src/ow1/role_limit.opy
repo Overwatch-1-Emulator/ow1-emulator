@@ -1,7 +1,6 @@
 #!mainFile "../main.opy"
 
 # Code based on Role Limit Framework by Josbird#1908  (jprosk#6749 on Discord) https://workshop.codes/DN8PX
-#Global variables
 
 globalvar hero_list_damage
 globalvar hero_list_tank
