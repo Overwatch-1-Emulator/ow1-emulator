@@ -42,6 +42,6 @@ rule "[ashe.opy]: Calcul of the damage made while BOB is active":
     @Condition victim != attacker
 
     if victim.getCurrentHero() in getTankHeroes() :
-        eventPlayer.ult_point_while_ult_active += (1 + OW1_ULT_POINTS_COMPENSATION) * eventDamage 
+        eventPlayer.ult_point_while_ult_active += (1 + OW2_TANK_ULT_NEGATION) * eventDamage 
     else :
         eventPlayer.ult_point_while_ult_active += eventDamage 

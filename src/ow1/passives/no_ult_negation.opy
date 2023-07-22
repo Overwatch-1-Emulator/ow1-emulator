@@ -47,7 +47,7 @@ rule "[ult_charge.opy]: Remember missing ult charge from damaging tank":
     @Condition victim.getCurrentHero() in getTankHeroes()
     @Condition not eventPlayer.isUsingUltimate()
 
-    eventPlayer.missing_ult_points += OW1_ULT_POINTS_COMPENSATION * eventDamage
+    eventPlayer.missing_ult_points += OW2_TANK_ULT_NEGATION * eventDamage
 
 
 rule "[ult_charge.opy]: Remember missing ult charge from healing tank":
@@ -55,7 +55,7 @@ rule "[ult_charge.opy]: Remember missing ult charge from healing tank":
     @Condition healee.getCurrentHero() in getTankHeroes()
     @Condition not eventPlayer.isUsingUltimate()
 
-    eventPlayer.missing_ult_points += OW1_ULT_POINTS_COMPENSATION * eventHealing
+    eventPlayer.missing_ult_points += OW2_TANK_ULT_NEGATION * eventHealing
 
 
 rule "[ult_charge.opy]: Compensate missing ultimate percentage":

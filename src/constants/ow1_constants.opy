@@ -38,8 +38,6 @@
 #!define OW1_MOIRA_ULT_COST 2800
 #!define OW1_ZENYATTA_ULT_COST 2310
 
-# Compensation ultimate point for healing and damage done to tank
-#!define OW1_ULT_POINTS_COMPENSATION 0.3
 # Passive ultimate point generation
 #!define ULT_CHARGE_PER_SECOND 5
 
