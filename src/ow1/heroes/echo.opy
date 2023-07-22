@@ -43,6 +43,7 @@ rule "[echo.opy]: Set Life for echo when duplicating a tank":
     @Hero echo
     @Condition eventPlayer.isDuplicatingAHero()
     @Condition eventPlayer.getHeroOfDuplication() in getTankHeroes()
+    @Condition eventPlayer.getHeroOfDuplication() != Hero.DOOMFIST
     
     eventPlayer.hero_id_duplicated = heroID(eventPlayer.getHeroOfDuplication())
     clearCustomHealth()
@@ -51,4 +52,3 @@ rule "[echo.opy]: Set Life for echo when duplicating a tank":
         health_pool[eventPlayer.hero_id_duplicated][1],
         health_pool[eventPlayer.hero_id_duplicated][2],
     )
-    waitUntil(eventPlayer.isDuplicatingAHero() == false, 9999)
