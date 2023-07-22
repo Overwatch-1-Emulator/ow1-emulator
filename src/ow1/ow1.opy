@@ -8,6 +8,8 @@
 
 # Script for resetting hero before initialization
 #!include "ow1/reset_hero.opy"
+# Script to implement role lock
+#!include "ow1/role_limit.opy"
 
 # OW1 specific hero logic
 #!include "ow1/heroes/ana.opy"
