@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 subroutine initRoadhog
-playervar time_hook_was_active 0
+playervar time_hook_was_active
 playervar roadhog_ult_pos
 playervar roadhog_ult_health
 playervar roadhog_ult_facing
