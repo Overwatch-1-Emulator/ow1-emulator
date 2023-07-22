@@ -13,7 +13,6 @@ rule "[soldier.opy]: Initialize Soldier 76":
 
 def initSoldier():
     @Name "[soldier.opy]: initSoldier()"
-    # [TODO]
     eventPlayer.setHealingDealt(percent(OW1_SOLDIER_BIOTIC_FIELD_HEAL/OW2_SOLDIER_BIOTIC_FIELD_HEAL))
 
 
