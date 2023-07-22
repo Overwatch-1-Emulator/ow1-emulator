@@ -3,7 +3,6 @@
 # Useful constants
 #!include "constants/ow1_constants.opy"
 #!include "constants/ow2_constants.opy"
-#!include "constants/common_constants.opy"
 
 # Useful functions
 #!include "utilities/macro_functions.opy"

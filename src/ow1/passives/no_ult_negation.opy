@@ -44,18 +44,18 @@ rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
 rule "[ult_charge.opy]: Remember missing ult charge from damaging tank":
     @Event playerDealtDamage
     @Condition victim != eventPlayer
-    @Condition any([victim.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
+    @Condition victim.getCurrentHero() in getTankHeroes()
     @Condition not eventPlayer.isUsingUltimate()
 
-    eventPlayer.missing_ult_points += 0.3*eventDamage
+    eventPlayer.missing_ult_points += OW1_ULT_POINTS_COMPENSATION * eventDamage
 
 
 rule "[ult_charge.opy]: Remember missing ult charge from healing tank":
     @Event playerDealtHealing
-    @Condition any([healee.getCurrentHero() == tank_hero for tank_hero in getTankHeroes()])
+    @Condition healee.getCurrentHero() in getTankHeroes()
     @Condition not eventPlayer.isUsingUltimate()
 
-    eventPlayer.missing_ult_points += 0.3*eventHealing
+    eventPlayer.missing_ult_points += OW1_ULT_POINTS_COMPENSATION * eventHealing
 
 
 rule "[ult_charge.opy]: Compensate missing ultimate percentage":
