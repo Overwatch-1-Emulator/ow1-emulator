@@ -21,6 +21,7 @@
 #!include "ow1/heroes/dva.opy"
 #!include "ow1/heroes/echo.opy"
 #!include "ow1/heroes/genji.opy"
+#!include "ow1/heroes/hanzo.opy"
 #!include "ow1/heroes/mccree.opy"
 #!include "ow1/heroes/mei.opy"
 #!include "ow1/heroes/mercy.opy"
