@@ -66,8 +66,10 @@ playervar current_position
 playervar indicator_slam_position
 playervar indicator_slam_direction
 playervar slam_damage
-playervar slam_damage_gui_visible
+playervar slam_damage_text_entity
 playervar slammed_victims
+subroutine createSlamDamageGui
+subroutine destroySlamDamageGui
 
 playervar indicator_entity
 subroutine createSlamIndicatorGui
@@ -79,7 +81,6 @@ playervar wall_impacted_victims
 playervar punch_charge_time
 
 subroutine initDoomfist
-subroutine initSlamDamageGui
 subroutine executeUppercut
 subroutine detectUpercutHit
 subroutine executeSlam
@@ -119,30 +120,12 @@ def initDoomfist():
     for i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
         eventPlayer.cos_lut.append(cosDeg(i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
         eventPlayer.sin_lut.append(sinDeg(i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
-    
-    initSlamDamageGui()
 
     # Set Doomfist health to OW1
     while (eventPlayer.getMaxHealth() != OW1_DOOMFIST_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_DOOMFIST_HEALTH, 0, 0)
         wait(1)
-
-
-def initSlamDamageGui():
-    @Name "[doomfist.opy]: initSlamDamageGui()"
-
-    eventPlayer.slam_damage_gui_visible = false
-    createInWorldText(eventPlayer if eventPlayer.slam_damage_gui_visible else null, 
-    "{0}".format(floor(eventPlayer.slam_damage)), 
-    updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
-    verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
-    2, 
-    Clip.NONE, 
-    WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
-    Color.WHITE, 
-    SpecVisibility.DEFAULT)
-    eventPlayer.text_huds.append(getLastCreatedText())
 
 
 rule "[doomfist.opy]: Detect shift key press by human": 
@@ -389,12 +372,33 @@ rule "[doomfist.opy]: Calculate slam damage based on air time":
     
     eventPlayer.slam_damage = 0 
     waitUntil(updateEveryTick(eventPlayer.isOnGround() == false), 9999)
-    eventPlayer.slam_damage_gui_visible = true
+    createSlamDamageGui()
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
     waitUntil(updateEveryTick(eventPlayer.isOnGround() == true), 9999)
     stopChasingVariable(eventPlayer.slam_damage)
     wait(1)
-    eventPlayer.slam_damage_gui_visible = false
+    destroySlamDamageGui()
+
+
+def createSlamDamageGui():
+    @Name "[doomfist.opy]: createSlamDamageGui()"
+
+    createInWorldText(eventPlayer, "{0}".format(floor(eventPlayer.slam_damage)), 
+    updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+    verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
+    2, 
+    Clip.NONE, 
+    WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
+    Color.WHITE, 
+    SpecVisibility.DEFAULT)
+    eventPlayer.slam_damage_text_entity = getLastCreatedText()
+
+
+def destroySlamDamageGui():
+    @Name "[doomfist.opy]: destroySlamDamageGui()"
+
+    destroyInWorldText(eventPlayer.slam_damage_text_entity)
+    eventPlayer.slam_damage_text_entity = null
 
 
 # Need more permanent/robust solution
