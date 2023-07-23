@@ -97,7 +97,8 @@ settings {
                 "ultGen%": percent(OW2_MEI_ULT_COST/OW1_MEI_ULT_COST)
             },
             "mercy": {
-                "ultGen%": percent(OW2_MERCY_ULT_COST/OW1_MERCY_ULT_COST)
+                "ultGen%": percent(OW2_MERCY_ULT_COST/OW1_MERCY_ULT_COST),
+                "enablePassive": false
             },
             "moira": {
                 "ultGen%": percent(OW2_MOIRA_ULT_COST/OW1_MOIRA_ULT_COST)
