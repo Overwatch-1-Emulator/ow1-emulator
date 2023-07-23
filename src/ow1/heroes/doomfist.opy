@@ -32,6 +32,9 @@ rules/functions as needed.
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
 #!define getRocketPunchWallImpactDamage(charge_time) ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN)/(OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)*(charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX)+OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX)
 
+# Calculate OW1 meteor strike outer sphere damage from OW2 meteor strike outer sphere damage
+#!define getMeteorStrikeDamage(d) (OW1_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE + ((OW1_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE - OW1_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MIN_DAMAGE)/(OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE - OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MIN_DAMAGE)) * (d - OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE))
+
 
 enum SlamType:
     GROUND,
@@ -486,6 +489,14 @@ rule "[doomfist.opy]: Remove Empowered Punch from ultimate":
     # eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
 
+
+rule "[doomfist.opy]: Deal OW1 Meteor Strike damage":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility == Button.ULTIMATE
+    @Condition eventDamage < (OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE + OW2_DOOMFIST_METEOR_STRIKE_INNER_SPHERE_DAMAGE)/2
+
+    damage(victim, attacker, getMeteorStrikeDamage(eventDamage) - eventDamage)
 
 
 rule "[doomfist.opy]: Deal OW1 hand cannon damage":
