@@ -30,6 +30,17 @@ rules/functions as needed.
 # Calculate OW1 meteor strike outer sphere damage from OW2 meteor strike outer sphere damage
 #!define getMeteorStrikeDamage(d) (OW1_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE + ((OW1_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE - OW1_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MIN_DAMAGE)/(OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE - OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MIN_DAMAGE)) * (d - OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE))
 
+#!define isIndicatorVisible() \
+    (eventPlayer.slam_to_use == SlamType.INDICATOR and \
+    eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0 and \
+    not eventPlayer.isUsingAbility1() == true and \
+    distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
+
+#!define isIndicatorNotVisible() \
+    (eventPlayer.slam_to_use != SlamType.INDICATOR or \
+    eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0 or \
+    eventPlayer.isUsingAbility1() == true or \
+    distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
 
 enum SlamType:
     GROUND,
@@ -54,10 +65,13 @@ playervar slam_to_use
 playervar current_position
 playervar indicator_slam_position
 playervar indicator_slam_direction
-playervar indicator_visibility
 playervar slam_damage
 playervar slam_damage_gui_visible
 playervar slammed_victims
+
+playervar indicator_entity
+subroutine createSlamIndicatorGui
+subroutine destroySlamIndicatorGui
 
 # Variables for rocket punch
 playervar punched_victims
@@ -65,7 +79,6 @@ playervar wall_impacted_victims
 playervar punch_charge_time
 
 subroutine initDoomfist
-subroutine initSlamIndicatorGui
 subroutine initSlamDamageGui
 subroutine executeUppercut
 subroutine detectUpercutHit
@@ -99,8 +112,14 @@ def initDoomfist():
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_doomfist_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_doomfist_player = eventPlayer
+
+    eventPlayer.cos_lut = []
+    eventPlayer.sin_lut = []
+
+    for i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
+        eventPlayer.cos_lut.append(cosDeg(i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
+        eventPlayer.sin_lut.append(sinDeg(i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
     
-    initSlamIndicatorGui()
     initSlamDamageGui()
 
     # Set Doomfist health to OW1
@@ -108,31 +127,6 @@ def initDoomfist():
         clearCustomHealth()
         setCustomHealth(OW1_DOOMFIST_HEALTH, 0, 0)
         wait(1)
-
-
-def initSlamIndicatorGui():
-    @Name "[doomfist.opy]: initSlamIndicatorGui()"
-
-    eventPlayer.indicator_visibility = null
-
-    eventPlayer.cos_lut = []
-    eventPlayer.sin_lut = []
-
-    for eventPlayer.i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
-        eventPlayer.cos_lut.append(cosDeg(eventPlayer.i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
-        eventPlayer.sin_lut.append(sinDeg(eventPlayer.i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
-    
-    for eventPlayer.i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
-        createBeam(eventPlayer.indicator_visibility, 
-                   Beam.GOOD, 
-                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(eventPlayer), evalOnce(eventPlayer.i))), 
-                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(eventPlayer), evalOnce(eventPlayer.i))), 
-                   Color.BLUE, 
-                   EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-        eventPlayer.entity_huds.append(getLastCreatedEntity())
-    
-    # Sphere for debugging indicator slam
-    # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
 
 
 def initSlamDamageGui():
@@ -334,23 +328,6 @@ def executeSlam():
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
 
 
-def startSlamAnimation():
-    @Name "[doomfist.opy]: startSlamAnimation()"
-
-    # Start slam animation
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-    eventPlayer.allowButton(Button.ABILITY_1)
-    eventPlayer.shift_pressed_by_bot = true
-    eventPlayer.forceButtonPress(Button.ABILITY_1)
-    eventPlayer.shift_pressed_by_bot = false
-    eventPlayer.disallowButton(Button.ABILITY_1)
-
-    # immediately cancel momentum
-    eventPlayer.startForcingPosition(eventPlayer, false)
-    wait()
-    eventPlayer.stopForcingPosition()
-
-
 def initiateGroundSlam():
     @Name "[doomfist.opy]: InitiateGroundSlam()"
 
@@ -386,6 +363,23 @@ def initiateIndicatorSlam():
     eventPlayer.stopForcingThrottle()
     eventPlayer.setGravity(100)
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # cancel current momentum
+
+
+def startSlamAnimation():
+    @Name "[doomfist.opy]: startSlamAnimation()"
+
+    # Start slam animation
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.shift_pressed_by_bot = true
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
+    eventPlayer.shift_pressed_by_bot = false
+    eventPlayer.disallowButton(Button.ABILITY_1)
+
+    # immediately cancel momentum
+    eventPlayer.startForcingPosition(eventPlayer, false)
+    wait()
+    eventPlayer.stopForcingPosition()
 
 
 rule "[doomfist.opy]: Calculate slam damage based on air time":
@@ -435,47 +429,39 @@ rule "[doomfist.opy]: Slammed victims damage and pull/push effects":
     victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-(OW1_DOOMFIST_RISING_UPPERCUT_RADIUS-1)), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
     victim.setGravity(100)
 
-rule "[doomfist.opy]: Indicator slam visibility":
+rule "[doomfist.opy]: Slam indicator VFX":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0 # Slam available
-    @Condition not eventPlayer.is_using_slam # Not using ability
-    @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
-    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN # If vertical distance is greater than the margin, it's invalid.
+    @Condition isIndicatorVisible() == true
 
-    eventPlayer.indicator_visibility = eventPlayer
-
-
-rule "[doomfist.opy]: Hide indicator while slam not available":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0
-
-    eventPlayer.indicator_visibility = null
+    createSlamIndicatorGui()
+    waitUntil(isIndicatorNotVisible() == true, 9999)
+    destroySlamIndicatorGui()
 
 
-rule "[doomfist.opy]: Hide indicator while using slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.is_using_slam
+def createSlamIndicatorGui():
+    @Name "[doomfist.opy]: createSlamIndicatorGui()"
 
-    eventPlayer.indicator_visibility = null
+    for i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
+        createBeam(eventPlayer if isIndicatorVisible() else null,
+                   Beam.GOOD, 
+                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(eventPlayer), evalOnce(i))), 
+                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(eventPlayer), evalOnce(i))), 
+                   Color.BLUE, 
+                   EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer.indicator_entity.append(getLastCreatedEntity())
+    
+    # Sphere for debugging indicator slam
+    # createEffect(eventPlayer, Effect.SPHERE, Color.BLUE, findIndicatorPosition(), OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN, EffectReeval.POSITION_AND_RADIUS)
 
 
-rule "[doomfist.opy]: Hide indicator if not indicator slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.slam_to_use != SlamType.INDICATOR
+def destroySlamIndicatorGui():
+    @Name "[doomfist.opy]: destroySlamIndicatorGui()"
 
-    eventPlayer.indicator_visibility = null
-
-
-rule "[doomfist.opy]: Hide floating indicator slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN
-
-    eventPlayer.indicator_visibility = null
+    for i in range(len(eventPlayer.indicator_entity)):
+        destroyEffect(eventPlayer.indicator_entity[i])
+    
+    eventPlayer.indicator_entity = []
 
 
 rule "[doomfist.opy]: Initialize rocket punch":
