@@ -88,6 +88,7 @@
 #!define OW2_GENJI_SHURIKEN_DAMAGE 27
 
 # Hanzo
+#!define OW2_HANZO_ARROW_DAMAGE 120
 #!define OW2_HANZO_STORM_DAMAGE 65
 
 # Mccree

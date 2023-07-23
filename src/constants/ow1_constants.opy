@@ -133,6 +133,7 @@
 #!define OW1_GENJI_SHURIKEN_DAMAGE 29
 
 # Hanzo
+#!define OW1_HANZO_ARROW_DAMAGE 125
 #!define OW1_HANZO_STORM_DAMAGE 70
 
 # Mccree
