@@ -8,6 +8,9 @@ playervar entity_huds
 
 playervar friendly_orisa_player
 playervar enemy_orisa_player
+playervar friendly_doomfist_player
+playervar enemy_doomfist_player
+
 playervar player_health
 
 def resetHero():
@@ -39,6 +42,8 @@ def resetHero():
 
     eventPlayer.clearStatusEffect(Status.ROOTED)
 
+    eventPlayer.friendly_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, eventPlayer.getTeam())[0]
+    eventPlayer.enemy_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam()))[0]
     eventPlayer.friendly_orisa_player = getPlayersOnHero(Hero.ORISA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_orisa_player = getPlayersOnHero(Hero.ORISA, getOppositeTeam(eventPlayer.getTeam()))[0]
 
@@ -76,6 +81,7 @@ rule "[reset_hero.opy]: Reset hero on hero switch":
 
 def respawnSameState():
     @Name "[reset_hero.opy]: respawnSameState()"
+    
     eventPlayer.player_health = eventPlayer.getHealth()
     kill(eventPlayer,null)
     # Use resurrect to keep the same position and angle
