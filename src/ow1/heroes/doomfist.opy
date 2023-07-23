@@ -70,6 +70,7 @@ subroutine initSlamDamageGui
 subroutine executeUppercut
 subroutine detectUpercutHit
 subroutine executeSlam
+subroutine startSlamAnimation
 subroutine initiateGroundSlam
 subroutine initiateIndicatorSlam
 
@@ -139,7 +140,7 @@ def initSlamDamageGui():
 
     eventPlayer.slam_damage_gui_visible = false
     createInWorldText(eventPlayer if eventPlayer.slam_damage_gui_visible else null, 
-    "{0}".format(round(eventPlayer.slam_damage)), 
+    "{0}".format(floor(eventPlayer.slam_damage)), 
     updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
     verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
     2, 
@@ -202,10 +203,18 @@ rule "[doomfist.opy]: Control flow for slam":
     executeSlam()
 
 
+rule "[doomfist.opy]: Always cancel powerblock":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.isUsingAbility2() # Using power block
+
+    wait() # Wait for animation
+    eventPlayer.cancelPrimaryAction() # Cancel Power Block
+
+
 def executeUppercut():
     @Name "[doomfist.opy]: executeUppercut()"
 
-    eventPlayer.cancelPrimaryAction() # Cancel Power Block
     eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
 
     # Uppercut physics
@@ -309,12 +318,12 @@ rule "[doomfist.opy]: Detect indicator slam":
 
 
 def executeSlam():
-    @Name "[doomfist.opy]: Execute main logic for Seismic Slam ability"
+    @Name "[doomfist.opy]: executeSlam()"
 
     eventPlayer.slammed_victims = [] # clear slammed victims
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
-        if distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN: # Only execute indicator slam is valid
+        if distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN: # Only execute when indicator slam is valid
             initiateIndicatorSlam()
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()
@@ -325,11 +334,8 @@ def executeSlam():
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
 
 
-def initiateGroundSlam():
-    @Name "[doomfist.opy]: InitiateGroundSlam()"
-    eventPlayer.is_using_slam = true
-    eventPlayer.setGravity(0)
-    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
+def startSlamAnimation():
+    @Name "[doomfist.opy]: startSlamAnimation()"
 
     # Start slam animation
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
@@ -339,9 +345,21 @@ def initiateGroundSlam():
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.disallowButton(Button.ABILITY_1)
 
-    wait() # wait for doom to start moving
-    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # immediately cancel momentum
-    eventPlayer.applyImpulse(normalize(vect(eventPlayer.getFacingDirection().x, 0, eventPlayer.getFacingDirection().z)) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
+    # immediately cancel momentum
+    eventPlayer.startForcingPosition(eventPlayer, false)
+    wait()
+    eventPlayer.stopForcingPosition()
+
+
+def initiateGroundSlam():
+    @Name "[doomfist.opy]: InitiateGroundSlam()"
+
+    eventPlayer.is_using_slam = true
+    eventPlayer.setGravity(0)
+    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
+
+    startSlamAnimation()
+    eventPlayer.applyImpulse(getLateralFacingDirection(eventPlayer) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
     wait(0.3)
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 9999)
@@ -350,20 +368,14 @@ def initiateGroundSlam():
 
 def initiateIndicatorSlam():
     @Name "[doomfist.opy]: InitiateIndicatorSlam()"
+    
     eventPlayer.indicator_slam_position = findIndicatorPosition()
     eventPlayer.indicator_slam_direction = directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position)
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0.001)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
-    # Start slam animation
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-    eventPlayer.allowButton(Button.ABILITY_1)
-    eventPlayer.shift_pressed_by_bot = true
-    eventPlayer.forceButtonPress(Button.ABILITY_1)
-    eventPlayer.shift_pressed_by_bot = false
-    eventPlayer.disallowButton(Button.ABILITY_1)
-
+    startSlamAnimation()
     eventPlayer.current_position = eventPlayer.getPosition()
     chase(eventPlayer.current_position, eventPlayer.indicator_slam_position, rate=OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
@@ -417,7 +429,7 @@ rule "[doomfist.opy]: Slammed victims damage and pull/push effects":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.slammed_victims
 
-    damage(victim, attacker, round(attacker.slam_damage)) # Custom slam damage
+    damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
     victim.setGravity(50) 
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
     victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-(OW1_DOOMFIST_RISING_UPPERCUT_RADIUS-1)), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
