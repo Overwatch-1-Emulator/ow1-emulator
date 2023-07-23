@@ -14,3 +14,6 @@
 
 # Convert angle in degrees to radians
 #!define toRadians(deg) ((Math.PI/180)*deg)
+
+# Get Facing direction normalized to the XZ plane
+#!define getLateralFacingDirection(player) normalize(player.getFacingDirection() * (Vector.FORWARD + Vector.LEFT))

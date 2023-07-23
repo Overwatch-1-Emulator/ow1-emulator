@@ -73,6 +73,7 @@ def initOrisa():
     eventPlayer.disallowButton(Button.ABILITY_2) # Disable OW2 Javelin Spin
     eventPlayer.disallowButton(Button.ULTIMATE) # Disable Terra Surge
 
+    # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_orisa_player = eventPlayer
 
