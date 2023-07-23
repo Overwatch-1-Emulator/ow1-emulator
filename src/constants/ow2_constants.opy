@@ -113,6 +113,9 @@
 # Symmetra
 #!define OW2_SYMMETRA_ORB_SPEED 50
 
+# Torbjorn
+#!define OW2_TORBJORN_TURRET_HEALTH 225
+
 # Tracer
 #!define OW2_TRACER_PULSE_PISTOL_DAMAGE 5.5
 
