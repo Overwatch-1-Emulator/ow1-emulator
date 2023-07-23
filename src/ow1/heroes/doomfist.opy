@@ -359,10 +359,8 @@ def startSlamAnimation():
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.disallowButton(Button.ABILITY_1)
 
-    # immediately cancel momentum
-    eventPlayer.startForcingPosition(eventPlayer, false)
     wait()
-    eventPlayer.stopForcingPosition()
+    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
 
 
 rule "[doomfist.opy]: Calculate slam damage based on air time":
