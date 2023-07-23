@@ -99,8 +99,7 @@ def initDoomfist():
 
     # Decouple ability button press from trigerring ability
     eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    
+
     # Variables for swapping keybinds
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.e_pressed_by_bot = false
@@ -208,6 +207,7 @@ rule "[doomfist.opy]: Control flow for slam":
 def executeUppercut():
     @Name "[doomfist.opy]: Execute main logic for Rising Uppercut ability"
 
+    eventPlayer.cancelPrimaryAction() # Cancel Power Block
     eventPlayer.uppercut_victims = [] # Clear uppercut victims
     eventPlayer.is_using_uppercut = true # Start of uppercut
     eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
@@ -474,7 +474,7 @@ rule "[doomfist.opy]: Remove Empowered Punch from ultimate":
     @Condition eventPlayer.isUsingUltimate() == true
     
     # eventPlayer.disallowButton(Button.ABILITY_1)
-    # eventPlayer.disallowButton(Button.ABILITY_2)
+    eventPlayer.disallowButton(Button.ABILITY_2)
     waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 4.8)
     waitUntil(not eventPlayer.isUsingUltimate(), 9999)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
@@ -486,7 +486,7 @@ rule "[doomfist.opy]: Remove Empowered Punch from ultimate":
     wait()
     eventPlayer.setSecondaryFireEnabled(true)
     # eventPlayer.allowButton(Button.ABILITY_1)
-    # eventPlayer.allowButton(Button.ABILITY_2)
+    eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
 
 
