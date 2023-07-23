@@ -465,6 +465,29 @@ rule "[doomfist.opy]: Find punched victims":
     attacker.punched_victims.append(victim)
 
 
+rule "[doomfist.opy]: Remove Empowered Punch from ultimate":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    # eventPlayer.disallowButton(Button.ABILITY_1)
+    # eventPlayer.disallowButton(Button.ABILITY_2)
+    waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 4.8)
+    waitUntil(not eventPlayer.isUsingUltimate(), 9999)
+    eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.setStatusEffect(null, Status.STUNNED, 0.016)
+    eventPlayer.stopForcingButton(Button.SECONDARY_FIRE)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
+    eventPlayer.setSecondaryFireEnabled(false)
+    wait()
+    eventPlayer.setSecondaryFireEnabled(true)
+    # eventPlayer.allowButton(Button.ABILITY_1)
+    # eventPlayer.allowButton(Button.ABILITY_2)
+    eventPlayer.allowButton(Button.SECONDARY_FIRE)
+
+
+
 rule "[doomfist.opy]: Deal OW1 hand cannon damage":
     @Event playerDealtDamage
     @Hero doomfist
