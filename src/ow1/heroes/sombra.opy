@@ -42,3 +42,19 @@ rule "[sombra.opy]: Set hack duration on heroes":
 
     wait(OW1_SOMBRA_HACK_DURATION_ON_ENEMIES)
     respawnSameState()
+
+rule "[sombra.opy]: Disable abilities on hacked enemies":
+    @Event eachPlayer
+    @Condition eventPlayer.hasStatusEffect(Status.HACKED) == true
+
+    eventPlayer.setAbility1Enabled(false)
+    eventPlayer.setAbility2Enabled(false)
+    eventPlayer.setUltEnabled(false)
+    # Disables secondary fire on heroes that have a separate ability as secondary fire. Weapons should not be affected.
+    if not eventPlayer.getCurrentHero() in [Hero.ANA, Hero.ASHE, Hero.BAPTISTE, Hero.MCCREE, Hero.GENJI, Hero.JUNKRAT, Hero.MEI, Hero.ROADHOG, Hero.SYMMETRA, Hero.TORBJORN, Hero.TRACER, Hero.WIDOWMAKER, Hero.ZARYA]:
+        eventPlayer.setSecondaryFireEnabled(false)
+    wait(OW1_SOMBRA_HACK_DURATION_ON_ENEMIES)
+    eventPlayer.setSecondaryFireEnabled(true)
+    eventPlayer.setAbility1Enabled(true)
+    eventPlayer.setAbility2Enabled(true)
+    eventPlayer.setUltEnabled(true)
