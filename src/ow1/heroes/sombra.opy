@@ -41,7 +41,8 @@ rule "[sombra.opy]: Set hack duration on heroes":
     @Condition eventPlayer.hasStatusEffect(Status.HACKED) == true
 
     wait(OW1_SOMBRA_HACK_DURATION_ON_ENEMIES)
-    respawnSameState()
+    if eventPlayer.isAlive():
+        respawnSameState()
 
 rule "[sombra.opy]: Disable abilities on hacked enemies":
     @Event eachPlayer
