@@ -55,7 +55,8 @@ rule "[sombra.opy]: Disable abilities on hacked enemies":
     if not eventPlayer.getCurrentHero() in [Hero.ANA, Hero.ASHE, Hero.BAPTISTE, Hero.MCCREE, Hero.GENJI, Hero.JUNKRAT, Hero.MEI, Hero.ROADHOG, Hero.SYMMETRA, Hero.TORBJORN, Hero.TRACER, Hero.WIDOWMAKER, Hero.ZARYA]:
         eventPlayer.setSecondaryFireEnabled(false)
     wait(OW1_SOMBRA_HACK_DURATION_ON_ENEMIES)
-    eventPlayer.setSecondaryFireEnabled(true)
+    if not eventPlayer.getCurrentHero() in [Hero.WINSTON]:
+        eventPlayer.setSecondaryFireEnabled(true)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
     eventPlayer.allowButton(Button.ULTIMATE)
