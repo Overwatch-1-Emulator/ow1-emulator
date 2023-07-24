@@ -28,3 +28,10 @@ rule "[sombra.opy]: Cancel invis if hack activated":
     @Condition eventPlayer.isFiringSecondaryFire()
     
     eventPlayer.forceButtonPress(Button.ABILITY_1)
+
+rule "[sombra.opy]: Set hack cooldown time after being damaged while hacking":
+    @Event playerTookDamage
+    @Hero sombra
+    @Condition eventPlayer.isFiringSecondaryFire() == true
+
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_SOMBRA_HACK_COOLDOWN_TIME_AFTER_INTERRUPT)
