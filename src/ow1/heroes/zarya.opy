@@ -2,7 +2,8 @@
 
 playervar self_bubble_cooldown
 playervar ally_bubble_cooldown
-playervar zarya_hud_visibility
+playervar zarya_hud_self_bubble_visibility
+playervar zarya_hud_ally_bubble_visibility
 
 subroutine initZarya
 
@@ -26,7 +27,6 @@ def initZarya():
 
     eventPlayer.self_bubble_cooldown = 0
     eventPlayer.ally_bubble_cooldown = 0
-    eventPlayer.zarya_hud_visibility = eventPlayer
 
     /*
     Below HUD code is sourced from https://workshop.codes/wiki/articles/rendering-an-inworld-text-at-a-specific-onscreen-position
@@ -43,11 +43,20 @@ def initZarya():
 
     Below HUD is tuned for 16:9 aspect ratio monitors (typical PC Overwatch setup).
     */
-    createInWorldText(eventPlayer.zarya_hud_visibility, 
-                      "{0}    {1}".format(ceil(eventPlayer.self_bubble_cooldown), ceil(eventPlayer.ally_bubble_cooldown)), 
-                      updateEveryTick(eventPlayer.getEyePosition() + (100 * (2.15 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.45 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+    createInWorldText(eventPlayer.zarya_hud_self_bubble_visibility, 
+                      "{0}".format(ceil(eventPlayer.self_bubble_cooldown)),
+                      updateEveryTick(eventPlayer.getEyePosition() + (100 * (1.99 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.44 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
                       verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
-                      4, 
+                      3, 
+                      Clip.NONE, 
+                      WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
+                      Color.WHITE, 
+                      SpecVisibility.DEFAULT)
+    createInWorldText(eventPlayer.zarya_hud_ally_bubble_visibility, 
+                      "{0}".format(ceil(eventPlayer.ally_bubble_cooldown)),
+                      updateEveryTick(eventPlayer.getEyePosition() + (100 * (2.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.46 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+                      verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
+                      3, 
                       Clip.NONE, 
                       WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
                       Color.WHITE, 
@@ -60,7 +69,8 @@ rule "[zarya.opy]: Hide bubble cooldown HUD on hero switch":
     @Condition eventPlayer.hero_switched == true
     @Condition eventPlayer.getCurrentHero() != Hero.ZARYA
 
-    eventPlayer.zarya_hud_visibility = null
+    eventPlayer.zarya_hud_self_bubble_visibility = null
+    eventPlayer.zarya_hud_ally_bubble_visibility = null
 
 
 rule "[zarya.opy]: zarya self bubble":
@@ -71,9 +81,11 @@ rule "[zarya.opy]: zarya self bubble":
     eventPlayer.setAbilityCharge(Button.ABILITY_1, 2)
     eventPlayer.setAbility1Enabled(false)
     wait(2) # 2 second bubble duration
+    eventPlayer.zarya_hud_self_bubble_visibility = eventPlayer
     eventPlayer.self_bubble_cooldown = OW1_ZARYA_PARTICLE_BARRIER_COOLDOWN_TIME
     chase(eventPlayer.self_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
     waitUntil(eventPlayer.self_bubble_cooldown == 0, OW1_ZARYA_PARTICLE_BARRIER_COOLDOWN_TIME)
+    eventPlayer.zarya_hud_self_bubble_visibility = null
     eventPlayer.setAbility1Enabled(true)
 
 
@@ -85,7 +97,9 @@ rule "[zarya.opy]: zarya ally bubble":
     eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
     eventPlayer.setAbility2Enabled(false)
     wait(2) # 2 second bubble duration
+    eventPlayer.zarya_hud_ally_bubble_visibility = eventPlayer
     eventPlayer.ally_bubble_cooldown = OW1_ZARYA_PROJECTED_BARRIER_COOLDOWN_TIME
     chase(eventPlayer.ally_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
     waitUntil(eventPlayer.ally_bubble_cooldown == 0, OW1_ZARYA_PROJECTED_BARRIER_COOLDOWN_TIME)
+    eventPlayer.zarya_hud_ally_bubble_visibility = null
     eventPlayer.setAbility2Enabled(true)
