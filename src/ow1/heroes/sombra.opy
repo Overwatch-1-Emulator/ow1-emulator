@@ -35,3 +35,10 @@ rule "[sombra.opy]: Set hack cooldown time after being damaged while hacking":
     @Condition eventPlayer.isFiringSecondaryFire() == true
 
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_SOMBRA_HACK_COOLDOWN_TIME_AFTER_INTERRUPT)
+
+rule "[sombra.opy]: Set hack duration on heroes":
+    @Event eachPlayer
+    @Condition eventPlayer.hasStatusEffect(Status.HACKED) == true
+
+    wait(OW1_SOMBRA_HACK_DURATION_ON_ENEMIES)
+    respawnSameState()
