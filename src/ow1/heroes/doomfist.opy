@@ -100,9 +100,16 @@ rule "[doomfist.opy]: Detect Doomfist initialization":
 def initDoomfist():
     @Name "[doomfist.opy]: initDoomfist()"
 
+    # Set Doomfist health to OW1
+    while (eventPlayer.getMaxHealth() != OW1_DOOMFIST_HEALTH):
+        clearCustomHealth()
+        setCustomHealth(OW1_DOOMFIST_HEALTH, 0, 0)
+        wait(1)
+
     # Decouple ability button press from trigerring ability
     eventPlayer.disallowButton(Button.ABILITY_1)
-
+    eventPlayer.disallowButton(Button.ABILITY_2)
+    
     # Variables for swapping keybinds
     eventPlayer.shift_pressed_by_bot = false
     eventPlayer.e_pressed_by_bot = false
@@ -120,12 +127,6 @@ def initDoomfist():
     for i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
         eventPlayer.cos_lut.append(cosDeg(i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
         eventPlayer.sin_lut.append(sinDeg(i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
-
-    # Set Doomfist health to OW1
-    while (eventPlayer.getMaxHealth() != OW1_DOOMFIST_HEALTH):
-        clearCustomHealth()
-        setCustomHealth(OW1_DOOMFIST_HEALTH, 0, 0)
-        wait(1)
 
 
 rule "[doomfist.opy]: Detect shift key press by human": 
@@ -178,15 +179,6 @@ rule "[doomfist.opy]: Control flow for slam":
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Doomfist is not stunned
 
     executeSlam()
-
-
-rule "[doomfist.opy]: Always cancel powerblock":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.isUsingAbility2() # Using power block
-
-    wait() # Wait for animation
-    eventPlayer.cancelPrimaryAction() # Cancel Power Block
 
 
 def executeUppercut():
@@ -511,7 +503,7 @@ rule "[doomfist.opy]: Remove Empowered Punch from ultimate":
     @Condition eventPlayer.isUsingUltimate() == true
     
     # eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.disallowButton(Button.ABILITY_2)
+    # eventPlayer.disallowButton(Button.ABILITY_2)
     waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 4.8)
     waitUntil(not eventPlayer.isUsingUltimate(), 9999)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
@@ -523,7 +515,7 @@ rule "[doomfist.opy]: Remove Empowered Punch from ultimate":
     wait()
     eventPlayer.setSecondaryFireEnabled(true)
     # eventPlayer.allowButton(Button.ABILITY_1)
-    eventPlayer.allowButton(Button.ABILITY_2)
+    # eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
 
 
