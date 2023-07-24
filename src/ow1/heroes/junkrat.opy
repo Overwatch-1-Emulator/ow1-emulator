@@ -30,7 +30,7 @@ rule "[junkrat.opy]: Deal extra damage on ability other than steel trap and incr
             + (eventDamage - OW1_JUNKRAT_CONCUSSION_MINE_MIN_DAMAGE) 
                 / (OW2_JUNKRAT_CONCUSSION_MINE_MAX_DAMAGE - OW2_JUNKRAT_CONCUSSION_MINE_MIN_DAMAGE) 
                 * (OW1_JUNKRAT_CONCUSSION_MINE_MAX_DAMAGE - OW2_JUNKRAT_CONCUSSION_MINE_MAX_DAMAGE)
-            ) * (OW2_JUNKRAT_STEEL_TRAP_DMG/OW1_JUNKRAT_STEEL_TRAP_DMG) - eventDamage
+            ) * (OW2_JUNKRAT_STEEL_TRAP_DMG/OW1_JUNKRAT_STEEL_TRAP_DMG) + 1 - eventDamage  # Add 1 to enable one shot combo with trap
         )
         
     elif eventAbility != Button.ABILITY_2 :
