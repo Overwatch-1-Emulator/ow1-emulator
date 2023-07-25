@@ -20,6 +20,7 @@
 #!include "ow1/heroes/echo.opy"
 #!include "ow1/heroes/genji.opy"
 #!include "ow1/heroes/hanzo.opy"
+#!include "ow1/heroes/junkrat.opy"
 #!include "ow1/heroes/lucio.opy"
 #!include "ow1/heroes/mccree.opy"
 #!include "ow1/heroes/mei.opy"
