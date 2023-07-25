@@ -1,12 +1,12 @@
 #!mainFile "../../main.opy"
 
-playervar start_freeze
-playervar freeze_percent
+playervar freeze_progress
 playervar is_frozen
-playervar freeze_slow_effect_timer
-playervar freeze_penalty_percent
+playervar freeze_slow_linger_time
+playervar freeze_move_penalty
 
 subroutine initMei
+subroutine clearFreezeEffect
 
 rule "[mei.opy]: Detect Mei initialization":
     @Event eachPlayer
@@ -26,40 +26,45 @@ def initMei():
 rule "[mei.opy]: Track freezing on enemy":
     @Event playerDealtDamage
     @Hero mei
-    @Condition eventAbility == Button.PRIMARY_FIRE and victim.is_frozen == false
+    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition victim.freeze_progress < 100
 
-    stopChasingVariable(victim.freeze_slow_effect_timer)
-    victim.freeze_slow_effect_timer = 1
-    if victim.start_freeze == false: # start the freeze time at 20
-        victim.freeze_percent = OW1_MEI_MINIMUM_FREEZE
-    if victim.freeze_percent < 100: # make sure it doesn't reset back to 20 
-        victim.start_freeze = true
-    victim.freeze_percent += OW1_MEI_FREEZE_PERCENT_PER_TICK # 2.85% each tick from wiki
-    if victim.freeze_percent <= OW1_MEI_FREEZE_MAX_SLOW:
-        victim.freeze_penalty_percent = victim.freeze_percent
-    victim.setMoveSpeed(100-victim.freeze_penalty_percent)
-    chase(victim.freeze_slow_effect_timer, 0, rate=1, ChaseReeval.NONE)
+    stopChasingVariable(victim.freeze_slow_linger_time)
+
+    if victim.freeze_progress == 0: # victims started taking freeze damage
+        victim.freeze_progress = OW1_MEI_MINIMUM_FREEZE
+    else:
+        victim.freeze_progress += OW1_MEI_FREEZE_PERCENT_PER_TICK # 2.85% each tick from wiki
+
+    victim.freeze_move_penalty = victim.freeze_progress if victim.freeze_progress < OW1_MEI_FREEZE_MAX_SLOW else OW1_MEI_FREEZE_MAX_SLOW
+    # victim.setMoveSpeed(100-victim.freeze_move_penalty)
+    
+    victim.freeze_slow_linger_time = 0
+    chase(victim.freeze_slow_linger_time, OW1_MEI_FREEZE_SLOW_LINGER_DURATION, rate=1, ChaseReeval.NONE)
 
 
 rule "[mei.opy]: Freeze enemy":
-    @Event playerDealtDamage
+    @Event playerTookDamage
     @Hero all
-    @Condition victim.freeze_percent >= 100
+    @Condition victim.freeze_progress >= 100
 
     victim.setStatusEffect(eventPlayer, Status.FROZEN, OW1_MEI_FREEZE_DURATION)
-    victim.is_frozen = true
-    wait(OW1_MEI_FREEZE_DURATION)
-    victim.is_frozen = false
-    victim.start_freeze = false
-    victim.freeze_percent = OW1_MEI_MINIMUM_FREEZE
-    victim.setMoveSpeed(100)
+    waitUntil(victim.hasStatusEffect(Status.FROZEN) == false, 9999)
+    clearFreezeEffect()
     
 
-rule "[mei.opy]: Cancel slow movement freeze":
+rule "[mei.opy]: clear freeze after exceeding linger time":
     @Event eachPlayer
     @Hero all
-    @Condition eventPlayer.freeze_slow_effect_timer == 0
+    @Condition eventPlayer.freeze_slow_linger_time >= OW1_MEI_FREEZE_SLOW_LINGER_DURATION
 
-    stopChasingVariable(eventPlayer.freeze_slow_effect_timer)
+    clearFreezeEffect()
+
+
+def clearFreezeEffect():
+    @Name "[mei.opy]: clearFreezeEffect()"
+    
+    stopChasingVariable(eventPlayer.freeze_slow_linger_time)
     eventPlayer.setMoveSpeed(100)
-    eventPlayer.freeze_percent = OW1_MEI_MINIMUM_FREEZE
+    eventPlayer.freeze_progress = 0
+    

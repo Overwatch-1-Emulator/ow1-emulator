@@ -15,6 +15,15 @@ def initHanzo():
     # [TODO]
     pass
 
+
+rule "[hanzo.opy]: Deal OW1 primary fire damage":
+    @Event playerDealtDamage
+    @Hero hanzo
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, eventDamage*(OW1_HANZO_ARROW_DAMAGE/OW2_HANZO_ARROW_DAMAGE)-eventDamage)
+
+
 rule "[hanzo.opy]: Deal OW1 storm arrow damage":
     @Event playerDealtDamage
     @Hero hanzo
