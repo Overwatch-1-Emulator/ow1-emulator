@@ -16,6 +16,8 @@ def initAna():
     eventPlayer.setDamageDealt(percent(OW1_ANA_SLEEP_DART_DAMAGE/OW2_ANA_SLEEP_DART_DAMAGE))
     eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
+    startHealingModification(eventPlayer, eventPlayer, percent(OW1_ANA_BIOTIC_GRENADE_HEALING/OW2_ANA_BIOTIC_GRENADE_HEALING), HealingReeval.RECEIVERS_HEALERS_AND_HEALPERCENT)
+    eventPlayer.healing_modification = getLastHealingModification()
 
 
 rule "[ana.opy]: Set default sleep dart cooldown":
