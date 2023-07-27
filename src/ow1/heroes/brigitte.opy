@@ -22,6 +22,17 @@ def initBrigitte():
         wait(1)
     while (eventPlayer.getMaxHealth() != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR)
 
+    removeSelfHealing()
+
+
+rule "[brigitte.opy]: Fix inspire self heal":
+    @Event playerDealtDamage
+    @Hero brigitte
+
+    eventPlayer.self_healing_percent = 100
+    wait(OW1_BRIGITTE_INSPIRE_DURATION)
+    eventPlayer.self_healing_percent = 0
+
 
 rule "[brigitte.opy]: Add stun to shield bash":
     @Event playerDealtDamage

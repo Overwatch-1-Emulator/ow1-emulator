@@ -13,6 +13,7 @@ rule "[mercy.opy]: Detect Mercy initialization":
 
 def initMercy():
     @Name "[mercy.opy]: initMercy()"
+
     eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)
 
@@ -24,4 +25,3 @@ rule "[mercy.opy]: Change GA Cooldown":
 
     waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-   

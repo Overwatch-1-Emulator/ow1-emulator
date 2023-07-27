@@ -16,3 +16,15 @@ def initZenyatta():
     eventPlayer.setAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
     eventPlayer.setKnockbackDealt(5)
+
+    removeSelfHealing()
+
+
+rule "[zenyatta.opy]: Allow self healing during Transcendence":
+    @Event eachPlayer
+    @Hero zenyatta
+    @Condition eventPlayer.isUsingUltimate()
+
+    eventPlayer.self_healing_percent = 100
+    waitUntil(eventPlayer.isUsingUltimate() == false, 9999)
+    eventPlayer.self_healing_percent = 0

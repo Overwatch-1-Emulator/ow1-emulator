@@ -11,7 +11,6 @@ playervar enemy_orisa_player
 playervar friendly_doomfist_player
 playervar enemy_doomfist_player
 playervar player_health
-playervar healing_modification
 
 def resetHero():
     @Name "[reset_hero.opy]: Reset hero stats/gui"
@@ -25,7 +24,6 @@ def resetHero():
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.setUltEnabled(true)
     eventPlayer.allowButton(Button.ULTIMATE)
-    stopHealingModification(eventPlayer.healing_modification)
     
     eventPlayer.setUltCharge(0)
     eventPlayer.missing_ult_points = 0
@@ -37,6 +35,7 @@ def resetHero():
     eventPlayer.setProjectileGravity(100)
     eventPlayer.setHealingDealt(100)
     eventPlayer.setHealingReceived(100)
+    stopHealingModification(eventPlayer.self_healing_modification)
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.setKnockbackDealt(100)
     clearCustomHealth()

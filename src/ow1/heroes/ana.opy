@@ -16,8 +16,8 @@ def initAna():
     eventPlayer.setDamageDealt(percent(OW1_ANA_SLEEP_DART_DAMAGE/OW2_ANA_SLEEP_DART_DAMAGE))
     eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
-    startHealingModification(eventPlayer, eventPlayer, percent(OW1_ANA_BIOTIC_GRENADE_HEALING/OW2_ANA_BIOTIC_GRENADE_HEALING), HealingReeval.RECEIVERS_HEALERS_AND_HEALPERCENT)
-    eventPlayer.healing_modification = getLastHealingModification()
+
+    removeSelfHealing()
 
 
 rule "[ana.opy]: Set default sleep dart cooldown":
@@ -43,3 +43,13 @@ rule "[ana.opy]: Heal OW1 healing with biotic grenade":
     @Condition eventAbility == Button.ABILITY_2
 
     heal(healee, healer, eventHealing*(OW1_ANA_BIOTIC_GRENADE_HEALING/OW2_ANA_BIOTIC_GRENADE_HEALING)-eventHealing)
+
+
+rule "[ana.opy]: Allow self healing during Biotic Grenade":
+    @Event eachPlayer
+    @Hero ana
+    @Condition eventPlayer.isUsingAbility2()
+
+    eventPlayer.self_healing_percent = 100
+    waitUntil(eventPlayer.isUsingAbility2() == false, 9999)
+    eventPlayer.self_healing_percent = 0
