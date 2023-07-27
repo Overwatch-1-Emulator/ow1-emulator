@@ -2,7 +2,7 @@
 
 # Remove OW2 passives
 # Remove support self heal passive
-#!include "ow1/passives/no_self_heal.opy"
+#!include "ow1/passives/no_support_passive.opy"
 # Remove tank ult negation passive
 #!include "ow1/passives/no_ult_negation.opy"
 

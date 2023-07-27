@@ -20,6 +20,8 @@ def initBaptiste():
     eventPlayer.setAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
     eventPlayer.setMaxAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
 
+    removeSelfHealing()
+
 
 rule "[baptiste.opy]: Set default immortality field cooldown":
     @Event eachPlayer
@@ -28,4 +30,14 @@ rule "[baptiste.opy]: Set default immortality field cooldown":
     
     waitUntil(not eventPlayer.isUsingAbility2(), 9999)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_BAPTISTE_IMMORTALITY_FIELD_COOLDOWN_TIME)
-    
+
+
+rule "[baptiste.opy]: Allow self healing during Biotic Orb":
+    @Event eachPlayer
+    @Hero baptiste
+    @Condition eventPlayer.isUsingAbility1()
+
+    eventPlayer.self_healing_percent = 100
+    wait(OW1_BAPTISTE_REGEN_BURST_DURATION)
+    # waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
+    eventPlayer.self_healing_percent = 0
