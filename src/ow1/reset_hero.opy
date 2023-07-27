@@ -61,8 +61,6 @@ def resetHero():
     eventPlayer.entity_huds = []
 
     eventPlayer.initialized = false
-    eventPlayer.role_lock = false
-    eventPlayer.setAllowedHeroes(hero_list_support + hero_list_tank + hero_list_damage)
 
     
 rule "[reset_hero.opy]: Reset hero on new round":
@@ -71,6 +69,9 @@ rule "[reset_hero.opy]: Reset hero on new round":
 
     waitUntil(not isMatchBetweenRounds(), 9999)
     resetHero()
+    eventPlayer.role_lock = false
+    eventPlayer.setAllowedHeroes(hero_list_support + hero_list_tank + hero_list_damage)
+
 
 
 rule "[reset_hero.opy]: Reset hero on hero switch":
