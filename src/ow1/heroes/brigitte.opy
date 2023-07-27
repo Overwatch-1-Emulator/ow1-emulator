@@ -2,6 +2,8 @@
 # Credit to oreoslurpee for Brigitte shield bash logic
 # see https://workshop.codes/MR5QJ for oreslurpee's 2018 brig implementation
 
+playervar inspire_duration
+
 subroutine initBrigitte
 
 rule "[brigitte.opy]: Detect Brigitte initialization":
@@ -29,8 +31,17 @@ rule "[brigitte.opy]: Fix inspire self heal":
     @Event playerDealtDamage
     @Hero brigitte
 
+    stopChasingVariable(eventPlayer.inspire_duration)
+    eventPlayer.inspire_duration = 0
+    chase(eventPlayer.inspire_duration, OW1_BRIGITTE_INSPIRE_DURATION, rate=1, ChaseReeval.NONE)
     eventPlayer.self_healing_percent = 100
-    wait(OW1_BRIGITTE_INSPIRE_DURATION)
+
+
+rule "[brigitte.opy]: No self healing when inspire timer runs out":
+    @Event eachPlayer
+    @Hero brigitte
+    @Condition eventPlayer.inspire_duration >= OW1_BRIGITTE_INSPIRE_DURATION
+
     eventPlayer.self_healing_percent = 0
 
 
