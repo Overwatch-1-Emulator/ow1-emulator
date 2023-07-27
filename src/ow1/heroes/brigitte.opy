@@ -42,6 +42,7 @@ rule "[brigitte.opy]: No self healing when inspire timer runs out":
     @Hero brigitte
     @Condition eventPlayer.inspire_duration >= OW1_BRIGITTE_INSPIRE_DURATION
 
+    stopChasingVariable(eventPlayer.inspire_duration)
     eventPlayer.self_healing_percent = 0
 
 
