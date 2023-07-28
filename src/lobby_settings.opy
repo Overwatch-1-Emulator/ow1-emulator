@@ -52,6 +52,10 @@ settings {
     },
     "heroes": {
         "allTeams": {
+            "general": {
+                "combatUltGen%": 0,
+                "passiveUltGen%": 0
+            },
             "ana": {
                 "ultGen%": percent(OW2_ANA_ULT_COST/OW1_ANA_ULT_COST)
             },
@@ -165,5 +169,6 @@ settings {
         }
     }
 }
+
 
 

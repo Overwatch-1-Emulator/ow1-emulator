@@ -4,6 +4,8 @@
 globalvar ult_cost
 
 # Player variables
+playervar healing_dealt
+playervar damage_dealt
 playervar missing_ult_points
 playervar ult_percent_compensated
 playervar ult_charge_compensated
@@ -41,30 +43,34 @@ rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.ZENYATTA)] = 1/(roundedPercent(OW2_ZENYATTA_ULT_COST/OW1_ZENYATTA_ULT_COST)/100)*OW2_ZENYATTA_ULT_COST
 
 
-rule "[ult_charge.opy]: Remember missing ult charge from damaging tank":
-    @Event playerDealtDamage
-    @Condition victim != eventPlayer
-    @Condition victim.getCurrentHero() in getTankHeroes()
-    @Condition not eventPlayer.isUsingUltimate()
-
-    eventPlayer.missing_ult_points += OW2_TANK_ULT_NEGATION * eventDamage
-
-
-rule "[ult_charge.opy]: Remember missing ult charge from healing tank":
-    @Event playerDealtHealing
-    @Condition healee.getCurrentHero() in getTankHeroes()
-    @Condition not eventPlayer.isUsingUltimate()
-
-    eventPlayer.missing_ult_points += OW2_TANK_ULT_NEGATION * eventHealing
-
-
-rule "[ult_charge.opy]: Compensate missing ultimate percentage":
+rule "[ult_charge.opy]: Update the damage and healing dealt for every player":
     @Event eachPlayer
-    @Condition eventPlayer.missing_ult_points > 0
+    # Get the damage and healing dealt by every player to update the h
+    while true :
+        
+        if not eventPlayer.isUsingUltimate():
+            eventPlayer.missing_ult_points += eventPlayer.getStatistic(Stat.HEALING_DEALT) - eventPlayer.healing_dealt 
+            eventPlayer.missing_ult_points += eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT) - eventPlayer.damage_dealt 
+        eventPlayer.healing_dealt = eventPlayer.getStatistic(Stat.HEALING_DEALT)
+        eventPlayer.damage_dealt = eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT)
+        wait(OW1_REFRESH_ULTIMATE_TIME)
 
-    eventPlayer.ult_percent_compensated = percent(eventPlayer.missing_ult_points/ult_cost[eventPlayer.hero_id]) + 3 # add 3% extra to compensate for rounding error
-    eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_percent_compensated)
-    eventPlayer.ult_charge_compensated = percentOf(eventPlayer.ult_percent_compensated, ult_cost[eventPlayer.hero_id])
+rule "[ult_charge.opy]: Reimplement passive ult charge":
+    @Event eachPlayer
+    @Condition isMatchBetweenRounds() == false
+    while true :
+        if not eventPlayer.isUsingUltimate():
+            eventPlayer.missing_ult_points += ULT_CHARGE_PER_SECOND
+        wait(1)
+
+rule "[ult_charge.opy]: Implement ult charge":
+    @Event eachPlayer
+    @Condition eventPlayer.missing_ult_points >= ult_cost[eventPlayer.hero_id] * 0.01
+    @Condition eventPlayer.isUsingUltimate() == false
+
+    eventPlayer.ult_percent_compensated = percent(eventPlayer.missing_ult_points /ult_cost[eventPlayer.hero_id]) 
+    eventPlayer.setUltCharge(eventPlayer.getUltCharge() + eventPlayer.ult_percent_compensated - (eventPlayer.ult_percent_compensated %1))
+    eventPlayer.ult_charge_compensated = percentOf((eventPlayer.ult_percent_compensated - (eventPlayer.ult_percent_compensated %1) ), ult_cost[eventPlayer.hero_id])
     eventPlayer.missing_ult_points -= eventPlayer.ult_charge_compensated
 
 
