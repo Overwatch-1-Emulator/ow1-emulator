@@ -17,3 +17,5 @@
 
 # Get Facing direction normalized to the XZ plane
 #!define getLateralFacingDirection(player) normalize(player.getFacingDirection() * (Vector.FORWARD + Vector.LEFT))
+
+globalvar i

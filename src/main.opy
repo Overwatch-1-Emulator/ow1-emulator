@@ -7,6 +7,7 @@
 # Useful functions
 #!include "utilities/macro_functions.opy"
 #!include "utilities/hero_switch.opy"
+#!include "utilities/role_lock.opy"
 #!include "utilities/custom_health_handler.opy"
 #!include "utilities/hit_detection.opy"
 #!include "utilities/debug.opy"

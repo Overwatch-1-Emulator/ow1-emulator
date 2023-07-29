@@ -1,7 +1,5 @@
 #!mainFile "../main.opy"
 
-globalvar i
-
 playervar text_huds
 playervar progress_bar_huds
 playervar entity_huds
@@ -69,9 +67,6 @@ rule "[reset_hero.opy]: Reset hero on new round":
 
     waitUntil(not isMatchBetweenRounds(), 9999)
     resetHero()
-    eventPlayer.role_lock = false
-    eventPlayer.setAllowedHeroes(hero_list_support + hero_list_tank + hero_list_damage)
-
 
 
 rule "[reset_hero.opy]: Reset hero on hero switch":
