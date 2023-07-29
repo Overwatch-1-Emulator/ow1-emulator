@@ -9,15 +9,13 @@ globalvar max_tank_count = createWorkshopSetting(int[0:6], "Team Composition", "
 globalvar max_damage_count = createWorkshopSetting(int[0:6], "Team Composition", "Damage", 2, 1)
 globalvar max_support_count = createWorkshopSetting(int[0:6], "Team Composition", "Support", 2, 2)
 
-playervar teammates
+playervar role
+playervar allowed_heroes
+
+# boolean variables for controlling lock/unlock subroutines below
 playervar tank_locked
 playervar damage_locked
 playervar support_locked
-
-playervar allowed_heroes
-
-playervar role
-playervar team_composition
 
 subroutine lockTank
 subroutine lockDamage
