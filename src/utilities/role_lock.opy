@@ -68,7 +68,7 @@ rule "[role_lock.opy]: Skip Assemble Heroes":
     setMatchTime(getMatchTime() + hero_select_time) # Give back assemble hero time
 
 
-rule "[role_lock.opy]: Unlock roles when assembling heroes":
+rule "[role_lock.opy]: Unlock all roles when assembling heroes":
     @Event eachPlayer
     @Condition isAssemblingHeroes() == true
 
@@ -77,42 +77,42 @@ rule "[role_lock.opy]: Unlock roles when assembling heroes":
     unlockSupport()
 
 
-rule "[role_lock.opy]: Detect tank role limit (rising edge)":
+rule "[role_lock.opy]: Lock tanks above role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) >= max_tank_count
 
     lockTank()
 
 
-rule "[role_lock.opy]: Detect damage role limit (rising edge)":
+rule "[role_lock.opy]: Lock damage above role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) >= max_damage_count
 
     lockDamage()
 
 
-rule "[role_lock.opy]: Detect support role limit (rising edge)":
+rule "[role_lock.opy]: Lock supports above role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) >= max_support_count
 
     lockSupport()
 
 
-rule "[role_lock.opy]: Detect tank role limit (falling edge)":
+rule "[role_lock.opy]: Unlock tanks below role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) < max_tank_count
 
     unlockTank()
 
 
-rule "[role_lock.opy]: Detect damage role limit (falling edge)":
+rule "[role_lock.opy]: Unlock damage below role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) < max_damage_count
 
     unlockDamage()
 
 
-rule "[role_lock.opy]: Detect support role limit (falling edge)":
+rule "[role_lock.opy]: Unlock supports below role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) < max_support_count
 
