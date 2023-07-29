@@ -1,7 +1,5 @@
 #!mainFile "../main.opy"
 
-globalvar i
-
 playervar text_huds
 playervar progress_bar_huds
 playervar entity_huds

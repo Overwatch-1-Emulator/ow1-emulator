@@ -5,7 +5,7 @@ playervar hero_switched
 playervar hero_id
 playervar initialized
 
-rule "[utilities.opy]: detect hero switch":
+rule "[hero_switch.opy]: detect hero switch":
     @Event eachPlayer
     @Condition eventPlayer.last_hero_played != eventPlayer.getCurrentHero()
     
