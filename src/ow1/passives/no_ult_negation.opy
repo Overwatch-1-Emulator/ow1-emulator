@@ -57,8 +57,9 @@ rule "[ult_charge.opy]: Update the damage and healing dealt for every player":
 
 rule "[ult_charge.opy]: Reimplement passive ult charge":
     @Event eachPlayer
-    @Condition isMatchBetweenRounds() == false
-    while true :
+    @Condition isGameInProgress() == true
+    
+    while isGameInProgress() == true :
         if not eventPlayer.isUsingUltimate():
             eventPlayer.missing_ult_points += ULT_CHARGE_PER_SECOND
         wait(1)
