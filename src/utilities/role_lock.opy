@@ -63,6 +63,7 @@ rule "[role_lock.opy]: Skip Assemble Heroes":
     @Condition isAssemblingHeroes() == true
 
     hero_select_time = getMatchTime() # Save assemble hero time
+    wait() # Let built-in game logic reset "allowed hero list"
     setMatchTime(0) # Go to the end of the assembling heroes
     waitUntil(isAssemblingHeroes() == false, 9999)
     setMatchTime(getMatchTime() + hero_select_time) # Give back assemble hero time
@@ -72,6 +73,7 @@ rule "[role_lock.opy]: Unlock all roles when assembling heroes":
     @Event eachPlayer
     @Condition isAssemblingHeroes() == true
 
+    wait() # Let built-in game logic reset "allowed hero list"
     unlockTank()
     unlockDamage()
     unlockSupport()
