@@ -39,14 +39,16 @@ rule "[role_lock.opy]: Define OW1 tank, damage, support heroes":
     
     # Tanks
     ow1_tank_heroes = getTankHeroes()
-    ow1_tank_heroes.remove([Hero.DOOMFIST])
+    ow1_tank_heroes.remove([Hero.DOOMFIST, Hero.JUNKER_QUEEN, Hero.RAMATTRA])
 
     # Damage
     ow1_damage_heroes = getDamageHeroes()
     ow1_damage_heroes.append([Hero.DOOMFIST])
+    ow1_damage_heroes.remove([Hero.SOJOURN])
 
     # Supports
     ow1_support_heroes = getSupportHeroes()
+    ow1_support_heroes.remove([Hero.KIRIKO, Hero.LIFEWEAVER])
 
 
 rule "[role_lock.opy]: Find player's role":
