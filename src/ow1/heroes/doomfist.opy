@@ -11,14 +11,17 @@ rules/functions as needed.
 */
 
 # First raycast max range towards the direction the crosshair is aimed at
-#!define findProtoIndicatorPosition() raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition()+OW1_DOOMFIST_SEISMIC_SLAM_RADIUS*eventPlayer.getFacingDirection(), null, null, null).getHitPosition()
+#!define findProtoIndicatorPosition() raycast(eventPlayer.getEyePosition(), \
+                                              eventPlayer.getEyePosition()+OW1_DOOMFIST_SEISMIC_SLAM_RADIUS*eventPlayer.getFacingDirection(), \
+                                              null, \
+                                              null, \
+                                              null).getHitPosition()
 # Then drop straight down vertically to find the final indicator position
-#!define findIndicatorPosition() raycast(findProtoIndicatorPosition(), findProtoIndicatorPosition()+OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, null, getAllPlayers(), false).getHitPosition()
-# Rotates vector around the y-axis in 3D space
-# See https://stackoverflow.com/q/14607640 for formula on rotating vector in 3D space
-#!define rotateRelativeToYAxis(v, angle_in_degrees) vect((v.x*cosDeg(angle_in_degrees) + v.z*sinDeg(angle_in_degrees)), (v.y), (-v.x*sinDeg(angle_in_degrees) + v.z*cosDeg(angle_in_degrees)))
-# Same function as above but using pre-computed cos/sin lookup tables
-#!define rotateRelativeToYAxisLUT(v, index) vect((v.x*eventPlayer.cos_lut[index] + v.z*eventPlayer.sin_lut[index]), (v.y), (-v.x*eventPlayer.sin_lut[index] + v.z*eventPlayer.cos_lut[index]))
+#!define findIndicatorPosition() raycast(eventPlayer.proto_indicator_slam_position, \
+                                         eventPlayer.proto_indicator_slam_position+OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, \
+                                         null, \
+                                         getAllPlayers(), \
+                                         false).getHitPosition()
 
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
@@ -34,20 +37,17 @@ rules/functions as needed.
     (eventPlayer.slam_to_use == SlamType.INDICATOR and \
     eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0 and \
     not eventPlayer.isUsingAbility1() == true and \
-    distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
+    distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
 
 #!define isIndicatorNotVisible() \
     (eventPlayer.slam_to_use != SlamType.INDICATOR or \
     eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0 or \
     eventPlayer.isUsingAbility1() == true or \
-    distance(findIndicatorPosition(), findProtoIndicatorPosition()) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
+    distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
 
 enum SlamType:
     GROUND,
     INDICATOR
-
-playervar cos_lut # lookup table for cosine values (for performance reasons)
-playervar sin_lut # lookup table for sine values (for performance reasons)
 
 playervar i
 
@@ -63,6 +63,7 @@ playervar e_pressed_by_bot
 playervar is_using_slam
 playervar slam_to_use
 playervar current_position
+playervar proto_indicator_slam_position
 playervar indicator_slam_position
 playervar indicator_slam_direction
 playervar slam_damage
@@ -120,13 +121,6 @@ def initDoomfist():
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_doomfist_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_doomfist_player = eventPlayer
-
-    eventPlayer.cos_lut = []
-    eventPlayer.sin_lut = []
-
-    for i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
-        eventPlayer.cos_lut.append(cosDeg(i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
-        eventPlayer.sin_lut.append(sinDeg(i*(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))-OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2))
 
 
 rule "[doomfist.opy]: Detect shift key press by human": 
@@ -286,13 +280,36 @@ rule "[doomfist.opy]: Detect indicator slam":
     eventPlayer.slam_to_use = SlamType.INDICATOR
 
 
+rule "[doomfist.opy]: Start tracking indicator slam destination":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
+    @Condition eventPlayer.isUsingAbility1() == false
+
+    chase(eventPlayer.proto_indicator_slam_position, findProtoIndicatorPosition(), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
+    chase(eventPlayer.indicator_slam_position, findIndicatorPosition(), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
+
+
+rule "[doomfist.opy]: Stop tracking indicator slam destination":
+    @Disabled
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition not ((eventPlayer.slam_to_use == SlamType.INDICATOR) and \
+                   (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) and \
+                   (eventPlayer.isUsingAbility1() == false))
+
+    stopChasingVariable(eventPlayer.proto_indicator_slam_position)
+    stopChasingVariable(eventPlayer.indicator_slam_position)
+
+
 def executeSlam():
     @Name "[doomfist.opy]: executeSlam()"
 
     eventPlayer.slammed_victims = [] # clear slammed victims
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
-        if distance(findIndicatorPosition(), findProtoIndicatorPosition()) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN: # Only execute when indicator slam is valid
+        if distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN: # Only execute when indicator slam is valid
             initiateIndicatorSlam()
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()
@@ -321,6 +338,7 @@ def initiateGroundSlam():
 def initiateIndicatorSlam():
     @Name "[doomfist.opy]: InitiateIndicatorSlam()"
     
+    stopChasingVariable(eventPlayer.indicator_slam_position)
     eventPlayer.indicator_slam_position = findIndicatorPosition()
     eventPlayer.indicator_slam_direction = directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position)
     eventPlayer.is_using_slam = true
@@ -439,8 +457,18 @@ def createSlamIndicatorGui():
     for i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
         createBeam(eventPlayer if isIndicatorVisible() else null,
                    Beam.GOOD, 
-                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(eventPlayer), evalOnce(i))), 
-                   updateEveryTick(findIndicatorPosition() + OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS*rotateRelativeToYAxisLUT(getLateralFacingDirection(eventPlayer), evalOnce(i))), 
+                   updateEveryTick(eventPlayer.indicator_slam_position + \
+                                   OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS * \
+                                   worldVector(cosDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))*Vector.FORWARD + \
+                                               sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))*Vector.LEFT, \
+                                               eventPlayer, \
+                                               Transform.ROTATION)), 
+                   updateEveryTick(eventPlayer.indicator_slam_position + \
+                                   OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS * \
+                                   worldVector(cosDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))*Vector.FORWARD + \
+                                               sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))*Vector.LEFT, \
+                                               eventPlayer, \
+                                               Transform.ROTATION)), 
                    Color.BLUE, 
                    EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.indicator_entity.append(getLastCreatedEntity())
