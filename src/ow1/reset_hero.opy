@@ -16,6 +16,8 @@ def resetHero():
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.setSecondaryFireEnabled(true)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
+    eventPlayer.setMeleeEnabled(true)
+    eventPlayer.allowButton(Button.MELEE)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.setAbility2Enabled(true)
