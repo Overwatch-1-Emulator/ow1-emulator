@@ -55,3 +55,23 @@ rule "[dva.opy]: Cancel booster if melee pressed":
     eventPlayer.allowButton(Button.MELEE)
     eventPlayer.forceButtonPress(Button.MELEE)
     eventPlayer.disallowButton(Button.MELEE)
+
+    
+rule "[dva.opy]: Reduce boosters damage":
+    @Event playerDealtDamage
+    @Hero dva
+    @Condition eventPlayer.isUsingAbility1()
+    @Condition eventDamage == OW2_DVA_BOOSTERS_DAMAGE
+
+    heal(victim,null, OW2_DVA_BOOSTERS_DAMAGE - OW1_DVA_BOOSTERS_DAMAGE)
+
+
+rule "[dva.opy]: Reset Dva health":
+    @Event eachPlayer
+    @Hero dva
+    @Condition eventPlayer.getMaxHealth() == 650
+    @Condition eventPlayer.initialized
+
+    clearCustomHealth()
+    setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
+    wait()
