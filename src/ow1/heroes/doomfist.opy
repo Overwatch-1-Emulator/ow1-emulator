@@ -216,14 +216,14 @@ rule "[doomfist.opy]: Disable abilities when uppercutting":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_using_uppercut == true
-
-    eventPlayer.disallowButton(Button.MELEE) # Doomfist cannot melee during uppercut
-    eventPlayer.disallowButton(Button.PRIMARY_FIRE) # Doomfist cannot shoot during uppercut
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE) # Doomfist cannot punch during uppercut
+    
+    eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
+    eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
+    eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
     waitUntil(eventPlayer.is_using_uppercut == false, 9999)
-    eventPlayer.allowButton(Button.MELEE)
-    eventPlayer.allowButton(Button.PRIMARY_FIRE)
-    eventPlayer.allowButton(Button.SECONDARY_FIRE)
+    eventPlayer.setMeleeEnabled(true)
+    eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.setSecondaryFireEnabled(true)
 
 
 rule "[doomfist.opy]: Detect uppercut victims":
