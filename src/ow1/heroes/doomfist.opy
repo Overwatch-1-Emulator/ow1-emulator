@@ -292,7 +292,6 @@ rule "[doomfist.opy]: Start tracking indicator slam destination":
 
 
 rule "[doomfist.opy]: Stop tracking indicator slam destination":
-    @Disabled
     @Event eachPlayer
     @Hero doomfist
     @Condition not ((eventPlayer.slam_to_use == SlamType.INDICATOR) and \
