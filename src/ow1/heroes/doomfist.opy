@@ -18,7 +18,7 @@ rules/functions as needed.
                                               null).getHitPosition()
 # Then drop straight down vertically to find the final indicator position
 #!define findIndicatorPosition() raycast(eventPlayer.proto_indicator_slam_position, \
-                                         eventPlayer.proto_indicator_slam_position+OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, \
+                                         eventPlayer.proto_indicator_slam_position + OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, \
                                          null, \
                                          getAllPlayers(), \
                                          false).getHitPosition()
@@ -337,7 +337,9 @@ def initiateGroundSlam():
 def initiateIndicatorSlam():
     @Name "[doomfist.opy]: InitiateIndicatorSlam()"
     
+    stopChasingVariable(eventPlayer.proto_indicator_slam_position)
     stopChasingVariable(eventPlayer.indicator_slam_position)
+    eventPlayer.proto_indicator_slam_position = findProtoIndicatorPosition()
     eventPlayer.indicator_slam_position = findIndicatorPosition()
     eventPlayer.indicator_slam_direction = directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position)
     eventPlayer.is_using_slam = true
