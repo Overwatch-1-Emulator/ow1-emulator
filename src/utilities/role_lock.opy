@@ -19,6 +19,7 @@ subroutine lockSupport
 subroutine unlockTank
 subroutine unlockDamage
 subroutine unlockSupport
+subroutine unlockAllRoles
 
 enum Role:
     MISSING, # role has not been picked
@@ -63,7 +64,6 @@ rule "[role_lock.opy]: Skip Assemble Heroes":
     @Condition isAssemblingHeroes() == true
 
     hero_select_time = getMatchTime() # Save assemble hero time
-    wait() # Let built-in game logic reset "allowed hero list"
     setMatchTime(0) # Go to the end of the assembling heroes
     waitUntil(isAssemblingHeroes() == false, 9999)
     setMatchTime(getMatchTime() + hero_select_time) # Give back assemble hero time
@@ -73,10 +73,7 @@ rule "[role_lock.opy]: Unlock all roles when assembling heroes":
     @Event eachPlayer
     @Condition isAssemblingHeroes() == true
 
-    wait() # Let built-in game logic reset "allowed hero list"
-    unlockTank()
-    unlockDamage()
-    unlockSupport()
+    unlockAllRoles()
 
 
 rule "[role_lock.opy]: Lock tanks above role limit":
@@ -165,5 +162,15 @@ def unlockSupport():
     @Name "[role_lock.opy]: unlockSupport()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
+    eventPlayer.allowed_heroes.append(ow1_support_heroes)
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
+
+
+def unlockAllRoles():
+    @Name "[role_lock.opy]: unlockAllRoles()"
+
+    eventPlayer.allowed_heroes = []
+    eventPlayer.allowed_heroes.append(ow1_tank_heroes)
+    eventPlayer.allowed_heroes.append(ow1_damage_heroes)
     eventPlayer.allowed_heroes.append(ow1_support_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
