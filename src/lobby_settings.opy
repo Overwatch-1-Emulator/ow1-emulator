@@ -16,28 +16,93 @@ settings {
     },
     "gamemodes": {
         "assault": {
+            "enabledMaps": [
+                "hanamura",
+                "horizonLunarColony",
+                "paris",
+                "templeOfAnubis",
+                "volskaya"
+            ],
             "enableCompetitiveRules": true
         },
         "control": {
-            "disabledMaps": [
-                "antarcticPeninsula",
-                "lijiangTowerLny"
+            "enabledMaps": [
+                {
+                    "busan": [
+                        "morning"
+                    ]
+                },
+                {
+                    "ilios": [
+                        "morning"
+                    ]
+                },
+                {
+                    "lijiangTower": [
+                        "night"
+                    ]
+                },
+                {
+                    "nepal": [
+                        "morning"
+                    ]
+                },
+                {
+                    "oasis": [
+                        "evening"
+                    ]
+                }
             ],
             "enableCompetitiveRules": true
         },
         "escort": {
-            "disabledMaps": [
-                "circuitRoyal",
-                "shambaliMonastery"
+            "enabledMaps": [
+                {
+                    "dorado": [
+                        "night"
+                    ]
+                },
+                {
+                    "havana": [
+                        "morning"
+                    ]
+                },
+                "rialto",
+                {
+                    "route66": [
+                        "morning"
+                    ]
+                },
+				{
+                    "watchpointGibraltar": [
+                        "evening"
+                    ]
+                }
             ],
             "enableCompetitiveRules": true
         },
         "hybrid": {
             "enabledMaps": [
-                "blizzWorld",
-                "eichenwalde",
-                "hollywood",
-                "kingsRow",
+                {
+                    "blizzWorld": [
+                        "morning"
+                    ]
+                },
+                {
+                    "eichenwalde": [
+                        "morning"
+                    ]
+                },
+                {
+                    "hollywood": [
+                        "morning"
+                    ]
+                },
+                {
+                    "kingsRow": [
+                        "night"
+                    ]
+                },
                 "numbani"
             ],
             "enableCompetitiveRules": true
