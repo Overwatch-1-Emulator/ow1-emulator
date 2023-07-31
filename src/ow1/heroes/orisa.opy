@@ -19,6 +19,18 @@ playervar halt_entity2
 playervar halt_pull_line_entity
 playervar position
 
+playervar barrier_projectile
+playervar barrier_proj_v0 # Barrier projectile initial velocity v0
+#!define getBarrierVelocity(t) vect(eventPlayer.barrier_proj_v0.x, \
+                                   -9.8 * eventPlayer.barrier_proj_t + eventPlayer.barrier_proj_v0.y, \
+                                   eventPlayer.barrier_proj_v0.z)
+playervar barrier_proj_p0 # Barrier projectile initial position p0
+#!define getBarrierPosition(t) vect(eventPlayer.barrier_proj_v0.x * eventPlayer.barrier_proj_t + eventPlayer.barrier_proj_p0.x, \
+                                   -9.8/2 * (eventPlayer.barrier_proj_t ** 2) + eventPlayer.barrier_proj_v0.y * eventPlayer.barrier_proj_t + eventPlayer.barrier_proj_p0.y, \
+                                   eventPlayer.barrier_proj_v0.z * eventPlayer.barrier_proj_t + eventPlayer.barrier_proj_p0.z)
+playervar barrier_proj_t # Barrier projectile time t
+playervar barrier_proj_velocity
+playervar barrier_proj_position
 playervar barrier_position
 playervar barrier_orientation
 playervar barrier_sample_x
@@ -287,27 +299,61 @@ rule "[orisa.opy]: Trigger Projectile Barrier ability":
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) == 0
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
 
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME)
+
     throwBarrier()
     destroyBarrier()
     deployBarrier()
-
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME)
 
 
 def throwBarrier(): # Select shield position and orientation
     @Name "[orisa.opy]: throwBarrier()"
 
+    # Initialize barrier projectile
     eventPlayer.barrier_orientation = getLateralFacingDirection(eventPlayer)
-    eventPlayer.barrier_position = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 1000*eventPlayer.getFacingDirection(), null, null, false).getHitPosition()
-    eventPlayer.barrier_position -= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS*eventPlayer.barrier_orientation
+    eventPlayer.barrier_proj_v0 = OW1_ORISA_BARRIER_PROJECTILE_SPEED * eventPlayer.getFacingDirection()
+    eventPlayer.barrier_proj_p0 = eventPlayer.getEyePosition()
+    eventPlayer.barrier_proj_t = 0
+    chase(eventPlayer.barrier_proj_t, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME, rate=1, ChaseReeval.DESTINATION_AND_RATE)
+    eventPlayer.barrier_proj_velocity = eventPlayer.barrier_proj_v0
+    chase(eventPlayer.barrier_proj_velocity, getBarrierVelocity(eventPlayer.barrier_proj_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
+    eventPlayer.barrier_proj_position = eventPlayer.barrier_proj_p0
+    chase(eventPlayer.barrier_proj_position, getBarrierPosition(eventPlayer.barrier_proj_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
+
+    # Draw barrier projectile object
+    createEffect(eventPlayer, Effect.SPHERE, Color.LIME_GREEN, eventPlayer.barrier_proj_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
+    eventPlayer.barrier_projectile = getLastCreatedEntity()
+
+    # Wait for barrier projectile to land
+    waitUntil(updateEveryTick(
+                distance(eventPlayer.barrier_proj_position, \
+                         raycast(eventPlayer.barrier_proj_position, \
+                                 eventPlayer.barrier_proj_position + eventPlayer.barrier_proj_velocity, \
+                                 null, \
+                                 null, \
+                                 false).getHitPosition()) \ 
+                         < 0.5), OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME)
+    
+    # Freeze barrier projectile
+    stopChasingVariable(eventPlayer.barrier_proj_t)
+    stopChasingVariable(eventPlayer.barrier_proj_velocity)
+    stopChasingVariable(eventPlayer.barrier_proj_position)
+    # Move projectile to where it collided with the ground
+    eventPlayer.barrier_proj_position += 0.5 * normalize(eventPlayer.barrier_proj_velocity)
+    
+    # Destroy projectile
+    destroyEffect(eventPlayer.barrier_projectile)
 
 
 def deployBarrier(): # Create shield visual object
     @Name "[orisa.opy]: deployBarrier()"
 
+    # Define barrer by the sphere center position
+    eventPlayer.barrier_position = eventPlayer.barrier_proj_position - OW1_ORISA_PROTECTIVE_BARRIER_RADIUS*eventPlayer.barrier_orientation
+
     # Debug barrier center
     # createEffect(eventPlayer, Effect.SPHERE, Color.BLACK, eventPlayer.barrier_position, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-
+    
     fibonacciSphere()
 
     # Draw each barrier sample
