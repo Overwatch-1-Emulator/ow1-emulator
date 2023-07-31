@@ -339,7 +339,11 @@ def throwBarrier(): # Select shield position and orientation
     stopChasingVariable(eventPlayer.barrier_proj_velocity)
     stopChasingVariable(eventPlayer.barrier_proj_position)
     # Move projectile to where it collided with the ground
-    eventPlayer.barrier_proj_position += 0.5 * normalize(eventPlayer.barrier_proj_velocity)
+    eventPlayer.barrier_proj_position = raycast(eventPlayer.barrier_proj_position, \
+                                                eventPlayer.barrier_proj_position + eventPlayer.barrier_proj_velocity, \
+                                                null, \
+                                                null, \
+                                                false).getHitPosition()
     
     # Destroy projectile
     destroyEffect(eventPlayer.barrier_projectile)
