@@ -358,70 +358,71 @@ subroutines {
     3: unlockTank
     4: unlockDamage
     5: unlockSupport
-    6: clearCustomHealth
-    7: applyCustomHealth
-    8: findLineSphereIntersection
-    9: removeSelfHealing
-    10: resetHero
-    11: respawnSameState
-    12: initAna
-    13: initAshe
-    14: initBaptiste
-    15: initBastion
-    16: startMachineGunReload
-    17: selfRepair
-    18: transformInToTank
-    19: transformOutOfTank
-    20: initBrigitte
-    21: createSlamDamageGui
-    22: destroySlamDamageGui
-    23: createSlamIndicatorGui
-    24: destroySlamIndicatorGui
-    25: initDoomfist
-    26: executeUppercut
-    27: detectUpercutHit
-    28: executeSlam
-    29: startSlamAnimation
-    30: initiateGroundSlam
-    31: initiateIndicatorSlam
-    32: initDva
-    33: initEcho
-    34: initGenji
-    35: initHanzo
-    36: initJunkrat
-    37: initLucio
-    38: initMccree
-    39: initMei
-    40: clearFreezeEffect
-    41: initMercy
-    42: initMoira
-    43: initOrisa
-    44: startSupercharger
-    45: endSupercharger
-    46: shootHalt
-    47: explodeHalt
-    48: throwBarrier
-    49: deployBarrier
-    50: destroyBarrier
-    51: fibonacciSphere
-    52: initReaper
-    53: initReinhardt
-    54: initRoadhog
-    55: initSigma
-    56: initSoldier
-    57: initSombra
-    58: initSymmetra
-    59: initTorbjorn
-    60: initTracer
-    61: initWidowmaker
-    62: initWinston
-    63: initWreckingball
-    64: initZarya
-    65: showSelfBubbleCD
-    66: hideSelfBubbleCD
-    67: showAllyBubbleCD
-    68: hideAllyBubbleCD
-    69: initZenyatta
+    6: unlockAllRoles
+    7: clearCustomHealth
+    8: applyCustomHealth
+    9: findLineSphereIntersection
+    10: removeSelfHealing
+    11: resetHero
+    12: respawnSameState
+    13: initAna
+    14: initAshe
+    15: initBaptiste
+    16: initBastion
+    17: startMachineGunReload
+    18: selfRepair
+    19: transformInToTank
+    20: transformOutOfTank
+    21: initBrigitte
+    22: createSlamDamageGui
+    23: destroySlamDamageGui
+    24: createSlamIndicatorGui
+    25: destroySlamIndicatorGui
+    26: initDoomfist
+    27: executeUppercut
+    28: detectUpercutHit
+    29: executeSlam
+    30: startSlamAnimation
+    31: initiateGroundSlam
+    32: initiateIndicatorSlam
+    33: initDva
+    34: initEcho
+    35: initGenji
+    36: initHanzo
+    37: initJunkrat
+    38: initLucio
+    39: initMccree
+    40: initMei
+    41: clearFreezeEffect
+    42: initMercy
+    43: initMoira
+    44: initOrisa
+    45: startSupercharger
+    46: endSupercharger
+    47: shootHalt
+    48: explodeHalt
+    49: throwBarrier
+    50: deployBarrier
+    51: destroyBarrier
+    52: fibonacciSphere
+    53: initReaper
+    54: initReinhardt
+    55: initRoadhog
+    56: initSigma
+    57: initSoldier
+    58: initSombra
+    59: initSymmetra
+    60: initTorbjorn
+    61: initTracer
+    62: initWidowmaker
+    63: initWinston
+    64: initWreckingball
+    65: initZarya
+    66: showSelfBubbleCD
+    67: hideSelfBubbleCD
+    68: showAllyBubbleCD
+    69: hideAllyBubbleCD
+    70: initZenyatta
 }
 rule ("Initialize global variables") {
     event {
@@ -557,9 +558,7 @@ rule ("[role_lock.opy]: Unlock all roles when assembling heroes") {
     actions {
         "Let built-in game logic reset \"allowed hero list\""
         Wait(0.016, Ignore Condition);
-        Call Subroutine(unlockTank);
-        Call Subroutine(unlockDamage);
-        Call Subroutine(unlockSupport);
+        Call Subroutine(unlockAllRoles);
     }
 }
 
@@ -714,6 +713,20 @@ rule ("[role_lock.opy]: unlockSupport()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
+        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_support_heroes);
+        Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
+    }
+}
+
+rule ("[role_lock.opy]: unlockAllRoles()") {
+    event {
+        Subroutine;
+        unlockAllRoles;
+    }
+    actions {
+        Set Player Variable(Event Player, allowed_heroes, Empty Array);
+        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_tank_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_damage_heroes);
         Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_support_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
@@ -955,6 +968,8 @@ rule ("[reset_hero.opy]: Reset hero stats/gui") {
         Allow Button(Event Player, Button(Primary Fire));
         Set Secondary Fire Enabled(Event Player, True);
         Allow Button(Event Player, Button(Secondary Fire));
+        Set Melee Enabled(Event Player, True);
+        Allow Button(Event Player, Button(Melee));
         Set Ability 1 Enabled(Event Player, True);
         Allow Button(Event Player, Button(Ability 1));
         Set Ability 2 Enabled(Event Player, True);
@@ -2163,15 +2178,15 @@ rule ("[doomfist.opy]: Disable abilities when uppercutting") {
     }
     actions {
         "Doomfist cannot melee during uppercut"
-        Disallow Button(Event Player, Button(Melee));
+        Set Melee Enabled(Event Player, False);
         "Doomfist cannot shoot during uppercut"
-        Disallow Button(Event Player, Button(Primary Fire));
+        Set Primary Fire Enabled(Event Player, False);
         "Doomfist cannot punch during uppercut"
-        Disallow Button(Event Player, Button(Secondary Fire));
+        Set Secondary Fire Enabled(Event Player, False);
         Wait Until(Compare((Event Player).is_using_uppercut, ==, False), 9999);
-        Allow Button(Event Player, Button(Melee));
-        Allow Button(Event Player, Button(Primary Fire));
-        Allow Button(Event Player, Button(Secondary Fire));
+        Set Melee Enabled(Event Player, True);
+        Set Primary Fire Enabled(Event Player, True);
+        Set Secondary Fire Enabled(Event Player, True);
     }
 }
 
@@ -2352,7 +2367,9 @@ rule ("[doomfist.opy]: InitiateIndicatorSlam()") {
         initiateIndicatorSlam;
     }
     actions {
+        Stop Chasing Player Variable(Event Player, proto_indicator_slam_position);
         Stop Chasing Player Variable(Event Player, indicator_slam_position);
+        Set Player Variable(Event Player, proto_indicator_slam_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)));
         Set Player Variable(Event Player, indicator_slam_position, Ray Cast Hit Position((Event Player).proto_indicator_slam_position, Add((Event Player).proto_indicator_slam_position, Multiply(3, Down)), Null, All Players(All Teams), False));
         Set Player Variable(Event Player, indicator_slam_direction, Direction Towards(Position Of(Event Player), (Event Player).indicator_slam_position));
         Set Player Variable(Event Player, is_using_slam, True);
