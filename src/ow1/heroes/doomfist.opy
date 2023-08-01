@@ -238,10 +238,13 @@ rule "[doomfist.opy]: Disable abilities when uppercutting":
 
 rule "[doomfist.opy]: Detect uppercut victims":
     @Event eachPlayer
-    @Condition eventPlayer.enemy_doomfist_player.is_using_uppercut == true
-    @Condition distance(eventPlayer.enemy_doomfist_player, eventPlayer) <= OW1_DOOMFIST_RISING_UPPERCUT_RADIUS
-    @Condition isInLoS(eventPlayer.enemy_doomfist_player, eventPlayer, BarrierLos.PASS_THROUGH_BARRIERS)
-    @Condition angleBetweenVectors(getLateralFacingDirection(eventPlayer.enemy_doomfist_player), directionTowards(eventPlayer.enemy_doomfist_player, eventPlayer)) <= 90
+    @Condition eventPlayer.enemy_doomfist_player.is_using_uppercut == true # Enemy doomfist using uppercut
+    @Condition distance(eventPlayer.enemy_doomfist_player, eventPlayer) <= OW1_DOOMFIST_RISING_UPPERCUT_RADIUS # Victim within uppercut hitbox range
+    @Condition isInLoS(eventPlayer.enemy_doomfist_player, eventPlayer, BarrierLos.PASS_THROUGH_BARRIERS) # Victim in los of doomfist
+    @Condition angleBetweenVectors(getLateralFacingDirection(eventPlayer.enemy_doomfist_player), \
+                                   directionTowards(eventPlayer.enemy_doomfist_player, eventPlayer)) <= 90 # Victim visible to doomfist
+    @Condition eventPlayer.enemy_doomfist_player.isAlive() == true # Enemy doomfist alive
+    @Condition eventPlayer.isAlive() == true # Victim is alive
 
     eventPlayer.is_hit_by_uppercut = true
 
@@ -450,6 +453,7 @@ rule "[doomfist.opy]: Slammed victims damage and pull/push effects":
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
     victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-(OW1_DOOMFIST_RISING_UPPERCUT_RADIUS-1)), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
     victim.setGravity(100)
+
 
 rule "[doomfist.opy]: Slam indicator VFX":
     @Event eachPlayer
