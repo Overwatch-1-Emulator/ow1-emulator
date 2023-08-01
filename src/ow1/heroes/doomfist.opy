@@ -203,6 +203,16 @@ def executeUppercut():
     eventPlayer.setGravity(100)
 
 
+rule "[doomfist.opy]: Play uppercut VFX":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.is_using_uppercut == true
+
+    playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
+    playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
+    playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
+
+
 rule "[doomfist.opy]: Set uppercut cooldown":
     @Event eachPlayer
     @Hero doomfist
@@ -261,7 +271,6 @@ rule "[doomfist.opy]: Play uppercut hit VFX":
     @Condition eventPlayer.is_hit_by_uppercut == true
 
     playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer, 1)
-    playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, eventPlayer, 100)
 
 
 rule "[doomfist.opy]: Detect ground slam":
