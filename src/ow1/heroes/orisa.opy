@@ -321,7 +321,7 @@ def throwBarrier(): # Select shield position and orientation
     chase(eventPlayer.barrier_proj_position, getBarrierPosition(eventPlayer.barrier_proj_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
 
     # Draw barrier projectile object
-    createEffect(eventPlayer, Effect.SPHERE, Color.LIME_GREEN, eventPlayer.barrier_proj_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
+    createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.barrier_proj_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.barrier_projectile = getLastCreatedEntity()
 
     # Wait for barrier projectile to land
