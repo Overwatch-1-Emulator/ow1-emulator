@@ -16,7 +16,7 @@ ecksdee#11729\r\n\
 Snappy#11809\r\n\
 KingDonMike#2694\r\n\
 thenova#21104\r\n\
-pretz#11551\r\n
+pretz#11551\r\n\
 \r\n\
 workshop.codes:\r\n\
 workshop.codes/ow1-emulator\r\n\
