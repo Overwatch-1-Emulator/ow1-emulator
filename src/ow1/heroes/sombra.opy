@@ -28,3 +28,10 @@ rule "[sombra.opy]: Cancel invis if hack activated":
     @Condition eventPlayer.isFiringSecondaryFire()
     
     eventPlayer.forceButtonPress(Button.ABILITY_1)
+
+
+rule "[sombra.opy]: OW1 hack duration on enemies":
+    @Event eachPlayer
+    @Condition eventPlayer.hasStatusEffect(Status.HACKED)
+
+    eventPlayer.setStatusEffect(null, Status.HACKED, OW1_SOMBRA_HACK_ENEMY_DURATION)
