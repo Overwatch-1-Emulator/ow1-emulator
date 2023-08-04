@@ -18,13 +18,10 @@ KingDonMike#2694\r\n\
 thenova#21104\r\n\
 pretz#11551\r\n\
 \r\n\
-workshop.codes:\r\n\
 workshop.codes/ow1-emulator\r\n\
 \r\n\
-Discord:\r\n\
 discord.gg/GMVqwYXbWB\r\n\
 \r\n\
-Source Code:\r\n\
 github.com/MaxwellJung/ow1_emulator",
         "modeName": "Overwatch 1 Emulator"
     },
