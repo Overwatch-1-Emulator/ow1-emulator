@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator:\r\n\r\necksdee#11729's attempt to accurately recreate the last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\nZeggle#1917\r\n\r\nDiscord Server: \r\nhttps://discord.gg/ow1\r\n\r\nworkshop.codes: \r\nhttps://workshop.codes/overwatch1-emulator\r\n\r\nGitHub: \r\nhttps://github.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.5.4 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nworkshop.codes/ow1-emulator\r\n\r\ndiscord.gg/GMVqwYXbWB\r\n\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -239,6 +239,7 @@ variables {
         8: ult_cost
         9: health_pool
         10: PHI
+        11: debug
     player:
         0: last_hero_played
         1: hero_switched
@@ -324,32 +325,38 @@ variables {
         81: halt_entity2
         82: halt_pull_line_entity
         83: position
-        84: barrier_position
-        85: barrier_orientation
-        86: barrier_sample_x
-        87: barrier_sample_y
-        88: barrier_sample_z
-        89: barrier_sample_radius
-        90: barrier_sample_theta
-        91: barrier_sample_point
-        92: barrier_entity_positions
-        93: barrier_entities
-        94: barrier_uptime
-        95: barrier_active
-        96: barrier_health
-        97: orisa_barrier_hit_positions
-        98: time_hook_was_active
-        99: enemy_sombra
-        100: friendly_sombra
-        101: scoped_shot_distance
-        102: scoped_damage_base
-        103: ow2_scoped_damage_falloff_scalar
-        104: ow1_scoped_damage_falloff_scalar
-        105: expected_scoped_damage
-        106: self_bubble_cooldown
-        107: ally_bubble_cooldown
-        108: self_bubble_cd_text
-        109: ally_bubble_cd_text
+        84: barrier_projectile
+        85: barrier_proj_v0
+        86: barrier_proj_p0
+        87: barrier_proj_t
+        88: barrier_proj_velocity
+        89: barrier_proj_position
+        90: barrier_position
+        91: barrier_orientation
+        92: barrier_sample_x
+        93: barrier_sample_y
+        94: barrier_sample_z
+        95: barrier_sample_radius
+        96: barrier_sample_theta
+        97: barrier_sample_point
+        98: barrier_entity_positions
+        99: barrier_entities
+        100: barrier_uptime
+        101: barrier_active
+        102: barrier_health
+        103: orisa_barrier_hit_positions
+        104: time_hook_was_active
+        105: enemy_sombra
+        106: friendly_sombra
+        107: scoped_shot_distance
+        108: scoped_damage_base
+        109: ow2_scoped_damage_falloff_scalar
+        110: ow1_scoped_damage_falloff_scalar
+        111: expected_scoped_damage
+        112: self_bubble_cooldown
+        113: ally_bubble_cooldown
+        114: self_bubble_cd_text
+        115: ally_bubble_cd_text
 }
 subroutines {
     0: lockTank
@@ -433,39 +440,7 @@ rule ("Initialize global variables") {
         Set Global Variable(max_damage_count, Workshop Setting Integer(Custom String("Team Composition", Null, Null, Null), Custom String("Damage", Null, Null, Null), 2, 0, 6, 1));
         Set Global Variable(max_support_count, Workshop Setting Integer(Custom String("Team Composition", Null, Null, Null), Custom String("Support", Null, Null, Null), 2, 0, 6, 2));
         Set Global Variable(PHI, 3.883222077450933);
-    }
-}
-
-disabled rule ("[debug.opy]: Display server performance characteristics") {
-    event {
-        Ongoing - Global;
-    }
-    actions {
-        Create HUD Text(All Players(All Teams), String("{0}: {1}", String("Server Load", Null, Null, Null), String("{0}%", Server Load, Null, Null), Null), Null, Null, Left, 0, Color(White), Null, Null, Visible To and String, Default Visibility);
-        Create HUD Text(All Players(All Teams), String("{0}: {1}", String("Server Load Average", Null, Null, Null), String("{0}%", Server Load Average, Null, Null), Null), Null, Null, Left, 1, Color(White), Null, Null, Visible To and String, Default Visibility);
-        Create HUD Text(All Players(All Teams), String("{0}: {1}", String("Server Load Peak", Null, Null, Null), String("{0}%", Server Load Peak, Null, Null), Null), Null, Null, Left, 2, Color(White), Null, Null, Visible To and String, Default Visibility);
-    }
-}
-
-disabled rule ("[debug.opy]: Debug HUD text") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    actions {
-        Create HUD Text(Event Player, Null, Custom String("{0}", Altitude Of(Event Player), Null, Null), Null, Top, 0, Null, Color(White), Null, String, Default Visibility);
-    }
-}
-
-disabled rule ("[debug.opy]: Debug damage instance") {
-    event {
-        Player Dealt Damage;
-        All;
-        All;
-    }
-    actions {
-        Log To Inspector(Custom String("{0} {1} {2}", Hero Of(Event Player), Event Ability, Event Damage));
+        Set Global Variable(debug, Workshop Setting Toggle(Custom String("Dev Tools", Null, Null, Null), Custom String("debug mode", Null, Null, Null), False, 0));
     }
 }
 
@@ -2152,6 +2127,22 @@ rule ("[doomfist.opy]: executeUppercut()") {
     }
 }
 
+rule ("[doomfist.opy]: Play uppercut VFX") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).is_using_uppercut == True;
+    }
+    actions {
+        Play Effect(All Players(All Teams), Explosion Sound, Team Of(Event Player), Event Player, 100);
+        Play Effect(All Players(All Teams), Debuff Impact Sound, Team Of(Event Player), Event Player, 100);
+        Play Effect(All Players(All Teams), Ring Explosion Sound, Team Of(Event Player), Event Player, 100);
+    }
+}
+
 rule ("[doomfist.opy]: Set uppercut cooldown") {
     event {
         Ongoing - Each Player;
@@ -2197,10 +2188,18 @@ rule ("[doomfist.opy]: Detect uppercut victims") {
         All;
     }
     conditions {
+        "Enemy doomfist using uppercut"
         ((Event Player).enemy_doomfist_player).is_using_uppercut == True;
+        "Victim within uppercut hitbox range"
         Distance Between((Event Player).enemy_doomfist_player, Event Player) <= 5;
+        "Victim in los of doomfist"
         Is In Line of Sight((Event Player).enemy_doomfist_player, Event Player, Barriers Do Not Block LOS) == True;
+        "Victim visible to doomfist"
         Angle Between Vectors(Normalize(Multiply(Facing Direction Of((Event Player).enemy_doomfist_player), Add(Forward, Left))), Direction Towards((Event Player).enemy_doomfist_player, Event Player)) <= 90;
+        "Enemy doomfist alive"
+        Is Alive((Event Player).enemy_doomfist_player) == True;
+        "Victim is alive"
+        Is Alive(Event Player) == True;
     }
     actions {
         Set Player Variable(Event Player, is_hit_by_uppercut, True);
@@ -2254,7 +2253,6 @@ rule ("[doomfist.opy]: Play uppercut hit VFX") {
     }
     actions {
         Play Effect(All Players(All Teams), Bad Explosion, Color(White), Event Player, 1);
-        Play Effect(All Players(All Teams), Explosion Sound, Color(White), Event Player, 100);
     }
 }
 
@@ -2299,7 +2297,7 @@ rule ("[doomfist.opy]: Start tracking indicator slam destination") {
     }
     actions {
         Chase Player Variable At Rate(Event Player, proto_indicator_slam_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)), 9999, Destination and Rate);
-        Chase Player Variable At Rate(Event Player, indicator_slam_position, Ray Cast Hit Position((Event Player).proto_indicator_slam_position, Add((Event Player).proto_indicator_slam_position, Multiply(3, Down)), Null, All Players(All Teams), False), 9999, Destination and Rate);
+        Chase Player Variable At Rate(Event Player, indicator_slam_position, Ray Cast Hit Position((Event Player).proto_indicator_slam_position, Add((Event Player).proto_indicator_slam_position, Multiply(5, Down)), Null, All Players(All Teams), False), 9999, Destination and Rate);
     }
 }
 
@@ -2328,7 +2326,7 @@ rule ("[doomfist.opy]: executeSlam()") {
         Set Player Variable(Event Player, slammed_victims, Empty Array);
         If(Compare((Event Player).slam_to_use, ==, 1));
             "Only execute when indicator slam is valid"
-            If(Compare(Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position), <, 3));
+            If(Compare(Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position), <, 5));
                 Call Subroutine(initiateIndicatorSlam);
             End;
         Else;
@@ -2370,7 +2368,7 @@ rule ("[doomfist.opy]: InitiateIndicatorSlam()") {
         Stop Chasing Player Variable(Event Player, proto_indicator_slam_position);
         Stop Chasing Player Variable(Event Player, indicator_slam_position);
         Set Player Variable(Event Player, proto_indicator_slam_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(15, Facing Direction Of(Event Player))), Null, Null, First Of(Null)));
-        Set Player Variable(Event Player, indicator_slam_position, Ray Cast Hit Position((Event Player).proto_indicator_slam_position, Add((Event Player).proto_indicator_slam_position, Multiply(3, Down)), Null, All Players(All Teams), False));
+        Set Player Variable(Event Player, indicator_slam_position, Ray Cast Hit Position((Event Player).proto_indicator_slam_position, Add((Event Player).proto_indicator_slam_position, Multiply(5, Down)), Null, All Players(All Teams), False));
         Set Player Variable(Event Player, indicator_slam_direction, Direction Towards(Position Of(Event Player), (Event Player).indicator_slam_position));
         Set Player Variable(Event Player, is_using_slam, True);
         Set Gravity(Event Player, 0.001);
@@ -2519,11 +2517,11 @@ rule ("[doomfist.opy]: Slam indicator VFX") {
         (Event Player).slam_to_use == 1;
         Ability Cooldown(Event Player, Button(Ability 1)) <= 0;
         Is Using Ability 1(Event Player) == False;
-        Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position) < 3;
+        Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position) < 5;
     }
     actions {
         Call Subroutine(createSlamIndicatorGui);
-        Wait Until(Or(Or(Or(Compare((Event Player).slam_to_use, !=, 1), Compare(Ability Cooldown(Event Player, Button(Ability 1)), >, 0)), Is Using Ability 1(Event Player)), Compare(Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position), >=, 3)), 9999);
+        Wait Until(Or(Or(Or(Compare((Event Player).slam_to_use, !=, 1), Compare(Ability Cooldown(Event Player, Button(Ability 1)), >, 0)), Is Using Ability 1(Event Player)), Compare(Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position), >=, 5)), 9999);
         Call Subroutine(destroySlamIndicatorGui);
     }
 }
@@ -2535,7 +2533,7 @@ rule ("[doomfist.opy]: createSlamIndicatorGui()") {
     }
     actions {
         For Global Variable(i, 0, 2, 1);
-            Create Beam Effect(If-Then-Else(And(And(And(Compare((Event Player).slam_to_use, ==, 1), Compare(Ability Cooldown(Event Player, Button(Ability 1)), <=, 0)), Not(Is Using Ability 1(Event Player))), Compare(Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position), <, 3)), Event Player, Null), Good Beam, Update Every Frame(Add((Event Player).indicator_slam_position, World Vector Of(Add(Multiply(Cosine From Degrees(Subtract(30, Multiply(Evaluate Once(Global.i), 60))), Forward), Multiply(Sine From Degrees(Subtract(30, Multiply(Evaluate Once(Global.i), 60))), Left)), Event Player, Rotation))), Update Every Frame(Add((Event Player).indicator_slam_position, Multiply(8, World Vector Of(Add(Multiply(Cosine From Degrees(Subtract(30, Multiply(Evaluate Once(Global.i), 60))), Forward), Multiply(Sine From Degrees(Subtract(30, Multiply(Evaluate Once(Global.i), 60))), Left)), Event Player, Rotation)))), Color(Blue), Visible To Position and Radius);
+            Create Beam Effect(If-Then-Else(And(And(And(Compare((Event Player).slam_to_use, ==, 1), Compare(Ability Cooldown(Event Player, Button(Ability 1)), <=, 0)), Not(Is Using Ability 1(Event Player))), Compare(Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position), <, 5)), Event Player, Null), Good Beam, Update Every Frame(Add((Event Player).indicator_slam_position, World Vector Of(Add(Multiply(Cosine From Degrees(Subtract(30, Multiply(Evaluate Once(Global.i), 60))), Forward), Multiply(Sine From Degrees(Subtract(30, Multiply(Evaluate Once(Global.i), 60))), Left)), Event Player, Rotation))), Update Every Frame(Add((Event Player).indicator_slam_position, Multiply(8, World Vector Of(Add(Multiply(Cosine From Degrees(Subtract(30, Multiply(Evaluate Once(Global.i), 60))), Forward), Multiply(Sine From Degrees(Subtract(30, Multiply(Evaluate Once(Global.i), 60))), Left)), Event Player, Rotation)))), Color(Blue), Visible To Position and Radius);
             Modify Player Variable(Event Player, indicator_entity, Append To Array, Last Created Entity);
         End;
     }
@@ -2753,7 +2751,7 @@ rule ("[echo.opy]: Tank armor, shields and health for every tank") {
     actions {
         Set Global Variable At Index(health_pool, Index Of Array Value(All Heroes, Hero(D.Va)), Array(300, 300, 0));
         Set Global Variable At Index(health_pool, Index Of Array Value(All Heroes, Hero(Wrecking Ball)), Array(500, 100, 0));
-        Set Global Variable At Index(health_pool, Index Of Array Value(All Heroes, Hero(Orisa)), Array(200, 200, 0));
+        Set Global Variable At Index(health_pool, Index Of Array Value(All Heroes, Hero(Orisa)), Array(200, 250, 0));
         Set Global Variable At Index(health_pool, Index Of Array Value(All Heroes, Hero(Reinhardt)), Array(300, 200, 0));
         Set Global Variable At Index(health_pool, Index Of Array Value(All Heroes, Hero(Roadhog)), Array(600, 0, 0));
         Set Global Variable At Index(health_pool, Index Of Array Value(All Heroes, Hero(Sigma)), Array(300, 0, 100));
@@ -3348,10 +3346,10 @@ rule ("[orisa.opy]: initOrisa()") {
         initOrisa;
     }
     actions {
-        While(Compare(Max Health(Event Player), !=, 400));
+        While(Compare(Max Health(Event Player), !=, 450));
             Call Subroutine(clearCustomHealth);
             Set Player Variable(Event Player, health_normal, 200);
-            Set Player Variable(Event Player, health_armor, 200);
+            Set Player Variable(Event Player, health_armor, 250);
             Set Player Variable(Event Player, health_shields, 0);
             Call Subroutine(applyCustomHealth);
             Wait(1, Ignore Condition);
@@ -3682,10 +3680,10 @@ rule ("[orisa.opy]: Trigger Projectile Barrier ability") {
         Is Button Held(Event Player, Button(Ability 2)) == True;
     }
     actions {
+        Set Ability Cooldown(Event Player, Button(Ability 2), 10);
         Call Subroutine(throwBarrier);
         Call Subroutine(destroyBarrier);
         Call Subroutine(deployBarrier);
-        Set Ability Cooldown(Event Player, Button(Ability 2), 10);
     }
 }
 
@@ -3695,9 +3693,29 @@ rule ("[orisa.opy]: throwBarrier()") {
         throwBarrier;
     }
     actions {
+        "Initialize barrier projectile"
         Set Player Variable(Event Player, barrier_orientation, Normalize(Multiply(Facing Direction Of(Event Player), Add(Forward, Left))));
-        Set Player Variable(Event Player, barrier_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(1000, Facing Direction Of(Event Player))), Null, Null, False));
-        Modify Player Variable(Event Player, barrier_position, Subtract, Multiply(3.5, (Event Player).barrier_orientation));
+        Set Player Variable(Event Player, barrier_proj_v0, Multiply(25, Facing Direction Of(Event Player)));
+        Set Player Variable(Event Player, barrier_proj_p0, Eye Position(Event Player));
+        Set Player Variable(Event Player, barrier_proj_t, 0);
+        Chase Player Variable At Rate(Event Player, barrier_proj_t, 10, 1, Destination and Rate);
+        Set Player Variable(Event Player, barrier_proj_velocity, (Event Player).barrier_proj_v0);
+        Chase Player Variable At Rate(Event Player, barrier_proj_velocity, Vector(X Component Of((Event Player).barrier_proj_v0), Add(Multiply(-9.8, (Event Player).barrier_proj_t), Y Component Of((Event Player).barrier_proj_v0)), Z Component Of((Event Player).barrier_proj_v0)), 9999, Destination and Rate);
+        Set Player Variable(Event Player, barrier_proj_position, (Event Player).barrier_proj_p0);
+        Chase Player Variable At Rate(Event Player, barrier_proj_position, Vector(Add(Multiply(X Component Of((Event Player).barrier_proj_v0), (Event Player).barrier_proj_t), X Component Of((Event Player).barrier_proj_p0)), Add(Add(Multiply(-4.9, Raise To Power((Event Player).barrier_proj_t, 2)), Multiply(Y Component Of((Event Player).barrier_proj_v0), (Event Player).barrier_proj_t)), Y Component Of((Event Player).barrier_proj_p0)), Add(Multiply(Z Component Of((Event Player).barrier_proj_v0), (Event Player).barrier_proj_t), Z Component Of((Event Player).barrier_proj_p0))), 9999, Destination and Rate);
+        "Draw barrier projectile object"
+        Create Effect(All Players(All Teams), Sphere, Color(Lime Green), (Event Player).barrier_proj_position, 0.1, Position and Radius);
+        Set Player Variable(Event Player, barrier_projectile, Last Created Entity);
+        "Wait for barrier projectile to land"
+        Wait Until(Update Every Frame(Compare(Distance Between((Event Player).barrier_proj_position, Ray Cast Hit Position((Event Player).barrier_proj_position, Add((Event Player).barrier_proj_position, (Event Player).barrier_proj_velocity), Null, Null, False)), <, 0.5)), 10);
+        "Freeze barrier projectile"
+        Stop Chasing Player Variable(Event Player, barrier_proj_t);
+        Stop Chasing Player Variable(Event Player, barrier_proj_velocity);
+        Stop Chasing Player Variable(Event Player, barrier_proj_position);
+        "Move projectile to where it collided with the ground"
+        Set Player Variable(Event Player, barrier_proj_position, Ray Cast Hit Position((Event Player).barrier_proj_position, Add((Event Player).barrier_proj_position, (Event Player).barrier_proj_velocity), Null, Null, False));
+        "Destroy projectile"
+        Destroy Effect((Event Player).barrier_projectile);
     }
 }
 
@@ -3707,6 +3725,8 @@ rule ("[orisa.opy]: deployBarrier()") {
         deployBarrier;
     }
     actions {
+        "Define barrer by the sphere center position"
+        Set Player Variable(Event Player, barrier_position, Subtract((Event Player).barrier_proj_position, Multiply(3.5, (Event Player).barrier_orientation)));
         "Debug barrier center\r\n createEffect(eventPlayer, Effect.SPHERE, Color.BLACK, eventPlayer.barrier_position, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)"
         Call Subroutine(fibonacciSphere);
         "Draw each barrier sample"
@@ -4234,6 +4254,20 @@ rule ("[sombra.opy]: Cancel invis if hack activated") {
     }
     actions {
         Press Button(Event Player, Button(Ability 1));
+    }
+}
+
+rule ("[sombra.opy]: OW1 hack duration on enemies") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Has Status(Event Player, Hacked) == True;
+    }
+    actions {
+        Set Status(Event Player, Null, Hacked, 5);
     }
 }
 
@@ -4792,6 +4826,50 @@ rule ("[zenyatta.opy]: Allow self healing during Transcendence") {
         Set Player Variable(Event Player, self_healing_percent, 100);
         Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
         Set Player Variable(Event Player, self_healing_percent, 0);
+    }
+}
+
+rule ("[debug.opy]: global debug (Top Left)") {
+    event {
+        Ongoing - Global;
+    }
+    conditions {
+        Global.debug == True;
+    }
+    actions {
+        Create HUD Text(All Players(All Teams), Null, Custom String("Server Load: {0}%", Server Load, Null, Null), Null, Left, 0, Null, Color(White), Null, Visible To and String, Default Visibility);
+        Create HUD Text(All Players(All Teams), Null, Custom String("Server Load Average: {0}%", Server Load Average, Null, Null), Null, Left, 0, Null, Color(White), Null, Visible To and String, Default Visibility);
+        Create HUD Text(All Players(All Teams), Null, Custom String("Server Load Peak: {0}%", Server Load Peak, Null, Null), Null, Left, 0, Null, Color(White), Null, Visible To and String, Default Visibility);
+    }
+}
+
+rule ("[debug.opy]: player debug (Top Right)") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Global.debug == True;
+    }
+    actions {
+        Create HUD Text(Event Player, Null, Custom String("altitude: {0}", Altitude Of(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("Hacked?: {0}", Has Status(Event Player, Hacked), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("Hero Damage Dealt: {0}", Player Stat(Event Player, Hero Damage Dealt), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+    }
+}
+
+rule ("[debug.opy]: Debug damage instance") {
+    event {
+        Player Dealt Damage;
+        All;
+        All;
+    }
+    conditions {
+        Global.debug == True;
+    }
+    actions {
+        Log To Inspector(Custom String("{0} {1} {2}", Hero Of(Event Player), Event Ability, Event Damage));
     }
 }
 
