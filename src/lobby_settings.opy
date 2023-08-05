@@ -22,7 +22,7 @@ Gamemode:\r\n\
 workshop.codes/ow1-emulator\r\n\
 \r\n\
 Discord:\r\n\
-tinyurl.com/6v6ow1\r\n\
+dsc.gg/ow1\r\n\
 discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
