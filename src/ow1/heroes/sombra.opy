@@ -35,3 +35,15 @@ rule "[sombra.opy]: OW1 hack duration on enemies":
     @Condition eventPlayer.hasStatusEffect(Status.HACKED)
 
     eventPlayer.setStatusEffect(null, Status.HACKED, OW1_SOMBRA_HACK_ENEMY_DURATION)
+
+
+rule "[sombra.opy]: No damage with EMP":
+    @Event eachPlayer
+    @Hero sombra
+    @Condition eventPlayer.getUltCharge() >= 100
+    
+    waitUntil(eventPlayer.isHoldingButton(Button.ULTIMATE) == true, 9999)
+    waitUntil(eventPlayer.getUltCharge() <= 0, 9999)
+    eventPlayer.setDamageDealt(0)
+    waitUntil(eventPlayer.isUsingUltimate() == true, 9999)
+    eventPlayer.setDamageDealt(100)
