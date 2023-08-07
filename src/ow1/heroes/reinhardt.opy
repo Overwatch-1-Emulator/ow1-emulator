@@ -48,3 +48,14 @@ rule "[reinhardt.opy]: Increase charge damage":
     @Condition eventDamage > (OW2_REINHARDT_CHARGE_BUMP_DAMAGE + 1) # Checks for pin vs boop damage (+ 1 because apparently 50.0 > 50 == true for whatever reason)
 
     damage(victim, attacker, eventDamage*(OW1_REINHARDT_CHARGE_PIN_DAMAGE/OW2_REINHARDT_CHARGE_PIN_DAMAGE)-eventDamage)
+
+
+rule "[reinhardt.opy]: OW1 one shot earthshatter":
+    @Event playerDealtDamage
+    @Hero reinhardt
+    @Condition eventAbility == Button.ULTIMATE
+    @Condition eventDamage > (OW2_REINHARDT_EARTHSHATTER_BASE_DAMAGE + OW2_REINHARDT_EARTHSHATTER_BONUS_DAMAGE)/2
+    
+    damage(victim, attacker, eventDamage * \
+                             ((OW1_REINHARDT_EARTHSHATTER_BASE_DAMAGE + OW1_REINHARDT_EARTHSHATTER_BONUS_DAMAGE) / \
+                              (OW2_REINHARDT_EARTHSHATTER_BASE_DAMAGE + OW2_REINHARDT_EARTHSHATTER_BONUS_DAMAGE)) - eventDamage)
