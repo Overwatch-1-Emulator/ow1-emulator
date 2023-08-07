@@ -3,7 +3,7 @@
 settings {
     "main": {
         "description": \
-"Overwatch 1 Emulator v0.5.4 (main build)\r\n\
+"Overwatch 1 Emulator v0.5.5 (main build)\r\n\
 \r\n\
 ecksdee#11729's attempt to accurately recreate \r\n\
 the last version of Overwatch 1 using workshop.\r\n\
@@ -18,10 +18,14 @@ KingDonMike#2694\r\n\
 thenova#21104\r\n\
 pretz#11551\r\n\
 \r\n\
+Gamemode:\r\n\
 workshop.codes/ow1-emulator\r\n\
 \r\n\
+Discord:\r\n\
+dsc.gg/ow1\r\n\
 discord.gg/GMVqwYXbWB\r\n\
 \r\n\
+Source code:\r\n\
 github.com/MaxwellJung/ow1_emulator",
         "modeName": "Overwatch 1 Emulator"
     },
@@ -42,8 +46,7 @@ github.com/MaxwellJung/ow1_emulator",
                 "paris",
                 "templeOfAnubis",
                 "volskaya"
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "control": {
             "enabledMaps": [
@@ -72,8 +75,7 @@ github.com/MaxwellJung/ow1_emulator",
                         "evening"
                     ]
                 }
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "escort": {
             "enabledMaps": [
@@ -98,8 +100,7 @@ github.com/MaxwellJung/ow1_emulator",
                         "evening"
                     ]
                 }
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "hybrid": {
             "enabledMaps": [
@@ -124,15 +125,16 @@ github.com/MaxwellJung/ow1_emulator",
                     ]
                 },
                 "numbani"
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "practiceRange": {
             "enabledMaps": []
         },
         "general": {
-            "roleLimit": "2OfEachRolePerTeam",
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "heroLimit": "1PerTeam",
+            "roleLimit": "off",
+            "tankPassiveHealthBonus": "alwaysEnabled",
+            "enableCompetitiveRules": true
         }
     },
     "heroes": {
