@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.5.4 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nworkshop.codes/ow1-emulator\r\n\r\ndiscord.gg/GMVqwYXbWB\r\n\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.5.5 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -27,7 +27,6 @@ settings
 				Temple of Anubis
 				Volskaya Industries
 			}
-			Competitive Rules: On
 		}
 		Control
 		{
@@ -39,7 +38,6 @@ settings
 				Nepal 972777519512068154
 				Oasis 972777519512068292
 			}
-			Competitive Rules: On
 		}
 		Escort
 		{
@@ -51,7 +49,6 @@ settings
 				Route 66 972777519512068154
 				Watchpoint: Gibraltar 972777519512068292
 			}
-			Competitive Rules: On
 		}
 		Hybrid
 		{
@@ -63,7 +60,6 @@ settings
 				King's Row 972777519512068153
 				Numbani
 			}
-			Competitive Rules: On
 		}
 		Practice Range
 		{
@@ -73,8 +69,10 @@ settings
 		}
 		General
 		{
-			Limit Roles: 2 Of Each Role Per Team
+			Hero Limit: 1 Per Team
+			Limit Roles: Off
 			Tank Role Passive Health Bonus: Always Enabled
+			Competitive Rules: On
 		}
 	}
 	heroes
@@ -232,14 +230,22 @@ variables {
         1: ow1_tank_heroes
         2: ow1_damage_heroes
         3: ow1_support_heroes
-        4: hero_select_time
-        5: max_tank_count
-        6: max_damage_count
-        7: max_support_count
-        8: ult_cost
-        9: health_pool
-        10: PHI
-        11: debug
+        4: ow2_tank_heroes
+        5: ow2_damage_heroes
+        6: ow2_support_heroes
+        7: tank_heroes
+        8: damage_heroes
+        9: support_heroes
+        10: all_heroes
+        11: hero_select_time
+        12: max_tank_count
+        13: max_damage_count
+        14: max_support_count
+        15: allow_ow2_heroes
+        16: ult_cost
+        17: health_pool
+        18: PHI
+        19: debug
     player:
         0: last_hero_played
         1: hero_switched
@@ -247,116 +253,117 @@ variables {
         3: initialized
         4: role
         5: allowed_heroes
-        6: health_normal
-        7: health_armor
-        8: health_shields
-        9: storedSpawnPosition
-        10: lsi_o
-        11: lsi_c
-        12: lsi_r
-        13: lsi_u
-        14: lsi_d
-        15: lsi_nabla
-        16: lsi_i
-        17: lsi_x
-        18: self_healing_percent
-        19: self_healing_modification
-        20: missing_ult_points
-        21: ult_percent_compensated
-        22: ult_charge_compensated
-        23: text_huds
-        24: progress_bar_huds
-        25: entity_huds
-        26: friendly_orisa_player
-        27: enemy_orisa_player
-        28: friendly_doomfist_player
-        29: enemy_doomfist_player
-        30: player_health
-        31: ult_point_while_ult_active
-        32: start_time_ult
-        33: current_configuration
-        34: sentry_gui_visibility
-        35: heal_gui_visibility
-        36: self_repair_time_left
-        37: machine_gun_ready
-        38: machine_gun_reload_timer
-        39: machine_gun_ammo
-        40: self_repair
-        41: inspire_duration
-        42: i
-        43: pressing_uppercut_key
-        44: shift_pressed_by_bot
-        45: is_using_uppercut
-        46: is_hit_by_uppercut
-        47: pressing_slam_key
-        48: e_pressed_by_bot
-        49: is_using_slam
-        50: slam_to_use
-        51: current_position
-        52: proto_indicator_slam_position
-        53: indicator_slam_position
-        54: indicator_slam_direction
-        55: slam_damage
-        56: slam_damage_text_entity
-        57: slammed_victims
-        58: indicator_entity
-        59: punched_victims
-        60: wall_impacted_victims
-        61: punch_charge_time
-        62: hero_id_duplicated
-        63: flashbang_origin_position
-        64: flashbang_exploded
-        65: freeze_progress
-        66: is_frozen
-        67: freeze_slow_linger_time
-        68: freeze_move_penalty
-        69: is_using_supercharger
-        70: is_supercharged
-        71: orisa_supercharger_entity
-        72: orisa_supercharger_uptime
-        73: orisa_supercharger_position
-        74: orisa_beam_entity
-        75: orisa_beam_sound_effect
-        76: is_using_halt
-        77: is_getting_orisa_pulled
-        78: halt_position
-        79: halt_ending_position
-        80: halt_entity1
-        81: halt_entity2
-        82: halt_pull_line_entity
-        83: position
-        84: barrier_projectile
-        85: barrier_proj_v0
-        86: barrier_proj_p0
-        87: barrier_proj_t
-        88: barrier_proj_velocity
-        89: barrier_proj_position
-        90: barrier_position
-        91: barrier_orientation
-        92: barrier_sample_x
-        93: barrier_sample_y
-        94: barrier_sample_z
-        95: barrier_sample_radius
-        96: barrier_sample_theta
-        97: barrier_sample_point
-        98: barrier_entity_positions
-        99: barrier_entities
-        100: barrier_uptime
-        101: barrier_active
-        102: barrier_health
-        103: orisa_barrier_hit_positions
-        104: time_hook_was_active
-        105: enemy_sombra
-        106: friendly_sombra
-        107: scoped_shot_distance
-        108: scoped_damage_base
-        109: ow2_scoped_damage_falloff_scalar
-        110: ow1_scoped_damage_falloff_scalar
-        111: expected_scoped_damage
-        112: self_bubble_cooldown
-        113: ally_bubble_cooldown
-        114: self_bubble_cd_text
-        115: ally_bubble_cd_text
+        6: ready
+        7: health_normal
+        8: health_armor
+        9: health_shields
+        10: storedSpawnPosition
+        11: lsi_o
+        12: lsi_c
+        13: lsi_r
+        14: lsi_u
+        15: lsi_d
+        16: lsi_nabla
+        17: lsi_i
+        18: lsi_x
+        19: self_healing_percent
+        20: self_healing_modification
+        21: missing_ult_points
+        22: ult_percent_compensated
+        23: ult_charge_compensated
+        24: text_huds
+        25: progress_bar_huds
+        26: entity_huds
+        27: friendly_orisa_player
+        28: enemy_orisa_player
+        29: friendly_doomfist_player
+        30: enemy_doomfist_player
+        31: player_health
+        32: ult_point_while_ult_active
+        33: start_time_ult
+        34: current_configuration
+        35: sentry_gui_visibility
+        36: heal_gui_visibility
+        37: self_repair_time_left
+        38: machine_gun_ready
+        39: machine_gun_reload_timer
+        40: machine_gun_ammo
+        41: self_repair
+        42: inspire_duration
+        43: i
+        44: pressing_uppercut_key
+        45: shift_pressed_by_bot
+        46: is_using_uppercut
+        47: is_hit_by_uppercut
+        48: pressing_slam_key
+        49: e_pressed_by_bot
+        50: is_using_slam
+        51: slam_to_use
+        52: current_position
+        53: proto_indicator_slam_position
+        54: indicator_slam_position
+        55: indicator_slam_direction
+        56: slam_damage
+        57: slam_damage_text_entity
+        58: slammed_victims
+        59: indicator_entity
+        60: punched_victims
+        61: wall_impacted_victims
+        62: punch_charge_time
+        63: hero_id_duplicated
+        64: flashbang_origin_position
+        65: flashbang_exploded
+        66: freeze_progress
+        67: is_frozen
+        68: freeze_slow_linger_time
+        69: freeze_move_penalty
+        70: is_using_supercharger
+        71: is_supercharged
+        72: orisa_supercharger_entity
+        73: orisa_supercharger_uptime
+        74: orisa_supercharger_position
+        75: orisa_beam_entity
+        76: orisa_beam_sound_effect
+        77: is_using_halt
+        78: is_getting_orisa_pulled
+        79: halt_position
+        80: halt_ending_position
+        81: halt_entity1
+        82: halt_entity2
+        83: halt_pull_line_entity
+        84: position
+        85: barrier_projectile
+        86: barrier_proj_v0
+        87: barrier_proj_p0
+        88: barrier_proj_t
+        89: barrier_proj_velocity
+        90: barrier_proj_position
+        91: barrier_position
+        92: barrier_orientation
+        93: barrier_sample_x
+        94: barrier_sample_y
+        95: barrier_sample_z
+        96: barrier_sample_radius
+        97: barrier_sample_theta
+        98: barrier_sample_point
+        99: barrier_entity_positions
+        100: barrier_entities
+        101: barrier_uptime
+        102: barrier_active
+        103: barrier_health
+        104: orisa_barrier_hit_positions
+        105: time_hook_was_active
+        106: enemy_sombra
+        107: friendly_sombra
+        108: scoped_shot_distance
+        109: scoped_damage_base
+        110: ow2_scoped_damage_falloff_scalar
+        111: ow1_scoped_damage_falloff_scalar
+        112: expected_scoped_damage
+        113: self_bubble_cooldown
+        114: ally_bubble_cooldown
+        115: self_bubble_cd_text
+        116: ally_bubble_cd_text
 }
 subroutines {
     0: lockTank
@@ -436,9 +443,10 @@ rule ("Initialize global variables") {
         Ongoing - Global;
     }
     actions {
-        Set Global Variable(max_tank_count, Workshop Setting Integer(Custom String("Team Composition", Null, Null, Null), Custom String("Tank", Null, Null, Null), 2, 0, 6, 0));
-        Set Global Variable(max_damage_count, Workshop Setting Integer(Custom String("Team Composition", Null, Null, Null), Custom String("Damage", Null, Null, Null), 2, 0, 6, 1));
-        Set Global Variable(max_support_count, Workshop Setting Integer(Custom String("Team Composition", Null, Null, Null), Custom String("Support", Null, Null, Null), 2, 0, 6, 2));
+        Set Global Variable(max_tank_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Tank", Null, Null, Null), 2, 0, 6, 0));
+        Set Global Variable(max_damage_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Damage", Null, Null, Null), 2, 0, 6, 1));
+        Set Global Variable(max_support_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Support", Null, Null, Null), 2, 0, 6, 2));
+        Set Global Variable(allow_ow2_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Allow Overwatch 2 Heroes", Null, Null, Null), False, 0));
         Set Global Variable(PHI, 3.883222077450933);
         Set Global Variable(debug, Workshop Setting Toggle(Custom String("Dev Tools", Null, Null, Null), Custom String("debug mode", Null, Null, Null), False, 0));
     }
@@ -469,14 +477,30 @@ rule ("[role_lock.opy]: Define OW1 tank, damage, support heroes") {
     actions {
         "Tanks"
         Set Global Variable(ow1_tank_heroes, All Tank Heroes);
-        Modify Global Variable(ow1_tank_heroes, Remove From Array By Value, Array(Hero(Doomfist), Hero(Junker Queen), Hero(Ramattra)));
+        Modify Global Variable(ow1_tank_heroes, Remove From Array By Value, Hero(Doomfist));
+        Set Global Variable(ow2_tank_heroes, Array(Hero(Junker Queen), Hero(Ramattra)));
+        Modify Global Variable(ow1_tank_heroes, Remove From Array By Value, Global.ow2_tank_heroes);
+        Set Global Variable(tank_heroes, Global.ow1_tank_heroes);
         "Damage"
         Set Global Variable(ow1_damage_heroes, All Damage Heroes);
-        Modify Global Variable(ow1_damage_heroes, Append To Array, Array(Hero(Doomfist)));
-        Modify Global Variable(ow1_damage_heroes, Remove From Array By Value, Array(Hero(Sojourn)));
+        Modify Global Variable(ow1_damage_heroes, Append To Array, Hero(Doomfist));
+        Set Global Variable(ow2_damage_heroes, Array(Hero(Sojourn)));
+        Modify Global Variable(ow1_damage_heroes, Remove From Array By Value, Global.ow2_damage_heroes);
+        Set Global Variable(damage_heroes, Global.ow1_damage_heroes);
         "Supports"
         Set Global Variable(ow1_support_heroes, All Support Heroes);
-        Modify Global Variable(ow1_support_heroes, Remove From Array By Value, Array(Hero(Kiriko), Hero(Lifeweaver)));
+        Set Global Variable(ow2_support_heroes, Array(Hero(Kiriko), Hero(Lifeweaver)));
+        Modify Global Variable(ow1_support_heroes, Remove From Array By Value, Global.ow2_support_heroes);
+        Set Global Variable(support_heroes, Global.ow1_support_heroes);
+        If(Compare(Global.allow_ow2_heroes, ==, True));
+            Modify Global Variable(tank_heroes, Append To Array, Global.ow2_tank_heroes);
+            Modify Global Variable(damage_heroes, Append To Array, Global.ow2_damage_heroes);
+            Modify Global Variable(support_heroes, Append To Array, Global.ow2_support_heroes);
+        End;
+        Set Global Variable(all_heroes, Empty Array);
+        Modify Global Variable(all_heroes, Append To Array, Global.tank_heroes);
+        Modify Global Variable(all_heroes, Append To Array, Global.damage_heroes);
+        Modify Global Variable(all_heroes, Append To Array, Global.support_heroes);
     }
 }
 
@@ -490,11 +514,11 @@ rule ("[role_lock.opy]: Find player's role") {
         (Event Player).hero_switched == True;
     }
     actions {
-        If(Array Contains(Global.ow1_tank_heroes, Hero Of(Event Player)));
+        If(Array Contains(Global.tank_heroes, Hero Of(Event Player)));
             Set Player Variable(Event Player, role, 1);
-        Else If(Array Contains(Global.ow1_damage_heroes, Hero Of(Event Player)));
+        Else If(Array Contains(Global.damage_heroes, Hero Of(Event Player)));
             Set Player Variable(Event Player, role, 2);
-        Else If(Array Contains(Global.ow1_support_heroes, Hero Of(Event Player)));
+        Else If(Array Contains(Global.support_heroes, Hero Of(Event Player)));
             Set Player Variable(Event Player, role, 3);
         Else;
             Set Player Variable(Event Player, role, 0);
@@ -521,22 +545,6 @@ rule ("[role_lock.opy]: Skip Assemble Heroes") {
     }
 }
 
-rule ("[role_lock.opy]: Unlock all roles when assembling heroes") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Is Assembling Heroes == True;
-    }
-    actions {
-        "Let built-in game logic reset \"allowed hero list\""
-        Wait(0.016, Ignore Condition);
-        Call Subroutine(unlockAllRoles);
-    }
-}
-
 rule ("[role_lock.opy]: Lock tanks above role limit") {
     event {
         Ongoing - Each Player;
@@ -545,6 +553,7 @@ rule ("[role_lock.opy]: Lock tanks above role limit") {
     }
     conditions {
         Count Of(Filtered Array(All Players(Team Of(Event Player)), And(Compare(Current Array Element, !=, Event Player), Compare((Current Array Element).role, ==, 1)))) >= Global.max_tank_count;
+        Is Assembling Heroes == False;
     }
     actions {
         Call Subroutine(lockTank);
@@ -559,6 +568,7 @@ rule ("[role_lock.opy]: Lock damage above role limit") {
     }
     conditions {
         Count Of(Filtered Array(All Players(Team Of(Event Player)), And(Compare(Current Array Element, !=, Event Player), Compare((Current Array Element).role, ==, 2)))) >= Global.max_damage_count;
+        Is Assembling Heroes == False;
     }
     actions {
         Call Subroutine(lockDamage);
@@ -573,6 +583,7 @@ rule ("[role_lock.opy]: Lock supports above role limit") {
     }
     conditions {
         Count Of(Filtered Array(All Players(Team Of(Event Player)), And(Compare(Current Array Element, !=, Event Player), Compare((Current Array Element).role, ==, 3)))) >= Global.max_support_count;
+        Is Assembling Heroes == False;
     }
     actions {
         Call Subroutine(lockSupport);
@@ -587,6 +598,7 @@ rule ("[role_lock.opy]: Unlock tanks below role limit") {
     }
     conditions {
         Count Of(Filtered Array(All Players(Team Of(Event Player)), And(Compare(Current Array Element, !=, Event Player), Compare((Current Array Element).role, ==, 1)))) < Global.max_tank_count;
+        Is Assembling Heroes == False;
     }
     actions {
         Call Subroutine(unlockTank);
@@ -601,6 +613,7 @@ rule ("[role_lock.opy]: Unlock damage below role limit") {
     }
     conditions {
         Count Of(Filtered Array(All Players(Team Of(Event Player)), And(Compare(Current Array Element, !=, Event Player), Compare((Current Array Element).role, ==, 2)))) < Global.max_damage_count;
+        Is Assembling Heroes == False;
     }
     actions {
         Call Subroutine(unlockDamage);
@@ -615,6 +628,7 @@ rule ("[role_lock.opy]: Unlock supports below role limit") {
     }
     conditions {
         Count Of(Filtered Array(All Players(Team Of(Event Player)), And(Compare(Current Array Element, !=, Event Player), Compare((Current Array Element).role, ==, 3)))) < Global.max_support_count;
+        Is Assembling Heroes == False;
     }
     actions {
         Call Subroutine(unlockSupport);
@@ -628,7 +642,7 @@ rule ("[role_lock.opy]: lockTank()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
-        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.ow1_tank_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.tank_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
 }
@@ -640,7 +654,7 @@ rule ("[role_lock.opy]: lockDamage()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
-        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.ow1_damage_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.damage_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
 }
@@ -652,7 +666,7 @@ rule ("[role_lock.opy]: lockSupport()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
-        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.ow1_support_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.support_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
 }
@@ -664,7 +678,8 @@ rule ("[role_lock.opy]: unlockTank()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
-        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_tank_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.tank_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.tank_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
 }
@@ -676,7 +691,8 @@ rule ("[role_lock.opy]: unlockDamage()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
-        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_damage_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.damage_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.damage_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
 }
@@ -688,7 +704,8 @@ rule ("[role_lock.opy]: unlockSupport()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
-        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_support_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.support_heroes);
+        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.support_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
 }
@@ -699,11 +716,84 @@ rule ("[role_lock.opy]: unlockAllRoles()") {
         unlockAllRoles;
     }
     actions {
-        Set Player Variable(Event Player, allowed_heroes, Empty Array);
-        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_tank_heroes);
-        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_damage_heroes);
-        Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.ow1_support_heroes);
+        Set Player Variable(Event Player, allowed_heroes, Global.all_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
+    }
+}
+
+rule ("[ready.opy]: Unready all players when entering setup") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Is In Setup == True;
+    }
+    actions {
+        Set Player Variable(Event Player, ready, False);
+    }
+}
+
+rule ("[ready.opy]: Toggle ready when pressing Interact + Reload") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Is In Setup == True;
+        Is Button Held(Event Player, Button(Interact)) == True;
+        Is Button Held(Event Player, Button(Reload)) == True;
+    }
+    actions {
+        "Toggle readiness"
+        Set Player Variable(Event Player, ready, Not((Event Player).ready));
+    }
+}
+
+rule ("[ready.opy]: Display message when ready") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).ready == True;
+    }
+    actions {
+        Big Message(Event Player, Custom String("Ready", Null, Null, Null));
+    }
+}
+
+rule ("[ready.opy]: Display message when not ready") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).ready == False;
+    }
+    actions {
+        Big Message(Event Player, Custom String("Not Ready", Null, Null, Null));
+    }
+}
+
+rule ("[ready.opy]: Start match when everyone ready") {
+    event {
+        Ongoing - Global;
+    }
+    conditions {
+        "Guard to prevent incorrect match time modification"
+        Is Game In Progress == False;
+        "Guard to prevent incorrect match time modification"
+        Is Assembling Heroes == False;
+        Is In Setup == True;
+        Is True For All(All Players(All Teams), (Current Array Element).ready) == True;
+    }
+    actions {
+        Set Match Time(5);
     }
 }
 
@@ -4271,6 +4361,24 @@ rule ("[sombra.opy]: OW1 hack duration on enemies") {
     }
 }
 
+rule ("[sombra.opy]: No damage with EMP") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Sombra;
+    }
+    conditions {
+        Ultimate Charge Percent(Event Player) >= 100;
+    }
+    actions {
+        Wait Until(Is Button Held(Event Player, Button(Ultimate)), 9999);
+        Wait Until(Compare(Ultimate Charge Percent(Event Player), <=, 0), 9999);
+        Set Damage Dealt(Event Player, 0);
+        Wait Until(Is Using Ultimate(Event Player), 9999);
+        Set Damage Dealt(Event Player, 100);
+    }
+}
+
 rule ("[symmetra.opy]: Detect Symmetra initialization") {
     event {
         Ongoing - Each Player;
@@ -4853,9 +4961,31 @@ rule ("[debug.opy]: player debug (Top Right)") {
         Global.debug == True;
     }
     actions {
-        Create HUD Text(Event Player, Null, Custom String("altitude: {0}", Altitude Of(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("Hacked?: {0}", Has Status(Event Player, Hacked), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("Hero Damage Dealt: {0}", Player Stat(Event Player, Hero Damage Dealt), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("altitude = {0}", Altitude Of(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("hacked = {0}", Has Status(Event Player, Hacked), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("hero damage dealt = {0}", Player Stat(Event Player, Hero Damage Dealt), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("len(eventPlayer.allowed_heroes) = {0}", Count Of((Event Player).allowed_heroes), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("len(eventPlayer.getAllowedHeroes()) = {0}", Count Of(Allowed Heroes(Event Player)), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("eventPlayer.isUsingUltimate() = {0}", Is Using Ultimate(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("eventPlayer.getUltCharge() = {0}", Ultimate Charge Percent(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("eventPlayer.getUltCharge() >= 100 = {0}", Compare(Ultimate Charge Percent(Event Player), >=, 100), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+    }
+}
+
+rule ("[debug.opy]: print to console on interact") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Global.debug == True;
+        Is Button Held(Event Player, Button(Interact)) == True;
+    }
+    actions {
+        For Global Variable(i, 0, Count Of((Event Player).allowed_heroes), 1);
+            Log To Inspector(Custom String("eventPlayer.allowed_heroes[{0}] = {1}", Global.i, Value In Array((Event Player).allowed_heroes, Global.i), Null));
+        End;
     }
 }
 
