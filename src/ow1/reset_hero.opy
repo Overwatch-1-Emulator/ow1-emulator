@@ -40,6 +40,8 @@ def resetHero():
     eventPlayer.setKnockbackDealt(100)
     clearCustomHealth()
 
+    eventPlayer.support_passive_active = true
+
     eventPlayer.clearStatusEffect(Status.ROOTED)
 
     eventPlayer.friendly_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, eventPlayer.getTeam())[0]
