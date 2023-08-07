@@ -13,5 +13,5 @@ rule "[lifeweaver.opy]: Detect Lifeweaver initialization":
 
 def initLifeweaver():
     @Name "[lifeweaver.opy]: initLifeweaver()"
-    # [TODO]
-    pass
+
+    removeSelfHealing()

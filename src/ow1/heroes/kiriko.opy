@@ -13,5 +13,5 @@ rule "[kiriko.opy]: Detect Kiriko initialization":
 
 def initKiriko():
     @Name "[kiriko.opy]: initKiriko()"
-    # [TODO]
-    pass
+
+    removeSelfHealing()
