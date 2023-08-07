@@ -20,6 +20,9 @@ rule "[debug.opy]: player debug (Top Right)":
     hudSubheader(eventPlayer, "hero damage dealt = {}".format(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT)), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "len(eventPlayer.allowed_heroes) = {}".format(len(eventPlayer.allowed_heroes)), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "len(eventPlayer.getAllowedHeroes()) = {}".format(len(eventPlayer.getAllowedHeroes())), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "eventPlayer.isUsingUltimate() = {}".format(eventPlayer.isUsingUltimate()), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "eventPlayer.getUltCharge() = {}".format(eventPlayer.getUltCharge()), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "eventPlayer.getUltCharge() >= 100 = {}".format(eventPlayer.getUltCharge() >= 100), HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
 
 
 rule "[debug.opy]: print to console on interact":
