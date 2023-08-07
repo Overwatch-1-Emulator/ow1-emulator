@@ -46,8 +46,7 @@ github.com/MaxwellJung/ow1_emulator",
                 "paris",
                 "templeOfAnubis",
                 "volskaya"
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "control": {
             "enabledMaps": [
@@ -76,8 +75,7 @@ github.com/MaxwellJung/ow1_emulator",
                         "evening"
                     ]
                 }
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "escort": {
             "enabledMaps": [
@@ -102,8 +100,7 @@ github.com/MaxwellJung/ow1_emulator",
                         "evening"
                     ]
                 }
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "hybrid": {
             "enabledMaps": [
@@ -128,15 +125,16 @@ github.com/MaxwellJung/ow1_emulator",
                     ]
                 },
                 "numbani"
-            ],
-            "enableCompetitiveRules": true
+            ]
         },
         "practiceRange": {
             "enabledMaps": []
         },
         "general": {
-            "roleLimit": "2OfEachRolePerTeam",
-            "tankPassiveHealthBonus": "alwaysEnabled"
+            "heroLimit": "1PerTeam",
+            "roleLimit": "off",
+            "tankPassiveHealthBonus": "alwaysEnabled",
+            "enableCompetitiveRules": true
         }
     },
     "heroes": {
