@@ -1,7 +1,6 @@
 #!mainFile "../../main.opy"
 
-playervar enemy_sombra
-playervar friendly_sombra
+playervar hack_damage_modifier
 
 subroutine initSombra
 
@@ -17,8 +16,8 @@ rule "[sombra.opy]: Detect Sombra initialization":
 def initSombra():
     @Name "[sombra.opy]: initSombra()"
 
-    getPlayers(eventPlayer.getTeam()).friendly_sombra = eventPlayer
-    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra = eventPlayer
+    getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
+    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra_player = eventPlayer
 
 
 rule "[sombra.opy]: Cancel invis if hack activated":
@@ -55,3 +54,13 @@ rule "[sombra.opy]: Deal OW1 machine pistol damage":
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, eventDamage*(OW1_SOMBRA_MACHINE_PISTOL_DAMAGE/OW2_SOMBRA_MACHINE_PISTOL_DAMAGE)-eventDamage)
+
+
+rule "[sombra.opy]: Remove hack bonus damage":
+    @Event eachPlayer
+    @Condition eventPlayer.hasStatusEffect(Status.HACKED)
+
+    startDamageModification(eventPlayer, eventPlayer.enemy_sombra_player, percent(1/OW2_SOMBRA_HACK_DAMAGE_MULTIPLIER), DamageReeval.NONE)
+    eventPlayer.hack_damage_modifier = getLastDamageModification()
+    waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, 9999)
+    stopDamageModification(eventPlayer.hack_damage_modifier)
