@@ -64,3 +64,13 @@ rule "[sombra.opy]: Remove hack bonus damage":
     eventPlayer.hack_damage_modifier = getLastDamageModification()
     waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, 9999)
     stopDamageModification(eventPlayer.hack_damage_modifier)
+
+
+rule "[sombra.opy]: Increase stealth movement speed":
+    @Event eachPlayer
+    @Hero sombra
+    @Condition eventPlayer.isUsingAbility1()
+
+    eventPlayer.setMoveSpeed(percent(OW1_SOMBRA_STEALTH_MOVEMENT_BONUS/OW2_SOMBRA_STEALTH_MOVEMENT_BONUS))
+    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
+    eventPlayer.setMoveSpeed(100)
