@@ -47,3 +47,11 @@ rule "[sombra.opy]: No damage with EMP":
     eventPlayer.setDamageDealt(0)
     waitUntil(eventPlayer.isUsingUltimate() == true, 9999)
     eventPlayer.setDamageDealt(100)
+
+
+rule "[sombra.opy]: Deal OW1 machine pistol damage":
+    @Event playerDealtDamage
+    @Hero sombra
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, eventDamage*(OW1_SOMBRA_MACHINE_PISTOL_DAMAGE/OW2_SOMBRA_MACHINE_PISTOL_DAMAGE)-eventDamage)
