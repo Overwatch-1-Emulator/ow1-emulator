@@ -4,11 +4,16 @@ playervar text_huds
 playervar progress_bar_huds
 playervar entity_huds
 
-playervar friendly_orisa_player
-playervar enemy_orisa_player
-playervar friendly_doomfist_player
-playervar enemy_doomfist_player
 playervar player_health
+
+playervar friendly_doomfist_player
+playervar friendly_orisa_player
+playervar friendly_sombra_player
+
+playervar enemy_doomfist_player
+playervar enemy_orisa_player
+playervar enemy_sombra_player
+
 
 def resetHero():
     @Name "[reset_hero.opy]: Reset hero stats/gui"
@@ -40,12 +45,16 @@ def resetHero():
     eventPlayer.setKnockbackDealt(100)
     clearCustomHealth()
 
+    eventPlayer.support_passive_active = true
+
     eventPlayer.clearStatusEffect(Status.ROOTED)
 
     eventPlayer.friendly_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, eventPlayer.getTeam())[0]
     eventPlayer.enemy_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam()))[0]
     eventPlayer.friendly_orisa_player = getPlayersOnHero(Hero.ORISA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_orisa_player = getPlayersOnHero(Hero.ORISA, getOppositeTeam(eventPlayer.getTeam()))[0]
+    eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
+    eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
 
     # Clear GUI
     for i in range(len(eventPlayer.text_huds)):

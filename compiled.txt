@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.5.5 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.6.0 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -268,102 +268,105 @@ variables {
         18: lsi_x
         19: self_healing_percent
         20: self_healing_modification
-        21: missing_ult_points
-        22: ult_percent_compensated
-        23: ult_charge_compensated
-        24: text_huds
-        25: progress_bar_huds
-        26: entity_huds
-        27: friendly_orisa_player
-        28: enemy_orisa_player
-        29: friendly_doomfist_player
-        30: enemy_doomfist_player
-        31: player_health
-        32: ult_point_while_ult_active
-        33: start_time_ult
-        34: current_configuration
-        35: sentry_gui_visibility
-        36: heal_gui_visibility
-        37: self_repair_time_left
-        38: machine_gun_ready
-        39: machine_gun_reload_timer
-        40: machine_gun_ammo
-        41: self_repair
-        42: inspire_duration
-        43: i
-        44: pressing_uppercut_key
-        45: shift_pressed_by_bot
-        46: is_using_uppercut
-        47: is_hit_by_uppercut
-        48: pressing_slam_key
-        49: e_pressed_by_bot
-        50: is_using_slam
-        51: slam_to_use
-        52: current_position
-        53: proto_indicator_slam_position
-        54: indicator_slam_position
-        55: indicator_slam_direction
-        56: slam_damage
-        57: slam_damage_text_entity
-        58: slammed_victims
-        59: indicator_entity
-        60: punched_victims
-        61: wall_impacted_victims
-        62: punch_charge_time
-        63: hero_id_duplicated
-        64: flashbang_origin_position
-        65: flashbang_exploded
-        66: freeze_progress
-        67: is_frozen
-        68: freeze_slow_linger_time
-        69: freeze_move_penalty
-        70: is_using_supercharger
-        71: is_supercharged
-        72: orisa_supercharger_entity
-        73: orisa_supercharger_uptime
-        74: orisa_supercharger_position
-        75: orisa_beam_entity
-        76: orisa_beam_sound_effect
-        77: is_using_halt
-        78: is_getting_orisa_pulled
-        79: halt_position
-        80: halt_ending_position
-        81: halt_entity1
-        82: halt_entity2
-        83: halt_pull_line_entity
-        84: position
-        85: barrier_projectile
-        86: barrier_proj_v0
-        87: barrier_proj_p0
-        88: barrier_proj_t
-        89: barrier_proj_velocity
-        90: barrier_proj_position
-        91: barrier_position
-        92: barrier_orientation
-        93: barrier_sample_x
-        94: barrier_sample_y
-        95: barrier_sample_z
-        96: barrier_sample_radius
-        97: barrier_sample_theta
-        98: barrier_sample_point
-        99: barrier_entity_positions
-        100: barrier_entities
-        101: barrier_uptime
-        102: barrier_active
-        103: barrier_health
-        104: orisa_barrier_hit_positions
-        105: time_hook_was_active
-        106: enemy_sombra
-        107: friendly_sombra
-        108: scoped_shot_distance
-        109: scoped_damage_base
-        110: ow2_scoped_damage_falloff_scalar
-        111: ow1_scoped_damage_falloff_scalar
-        112: expected_scoped_damage
-        113: self_bubble_cooldown
-        114: ally_bubble_cooldown
-        115: self_bubble_cd_text
-        116: ally_bubble_cd_text
+        21: support_passive_active
+        22: last_time_damage_taken
+        23: missing_ult_points
+        24: ult_percent_compensated
+        25: ult_charge_compensated
+        26: text_huds
+        27: progress_bar_huds
+        28: entity_huds
+        29: player_health
+        30: friendly_doomfist_player
+        31: friendly_orisa_player
+        32: friendly_sombra_player
+        33: enemy_doomfist_player
+        34: enemy_orisa_player
+        35: enemy_sombra_player
+        36: ult_point_while_ult_active
+        37: start_time_ult
+        38: current_configuration
+        39: sentry_gui_visibility
+        40: heal_gui_visibility
+        41: self_repair_time_left
+        42: machine_gun_ready
+        43: machine_gun_reload_timer
+        44: machine_gun_ammo
+        45: self_repair
+        46: inspire_duration
+        47: i
+        48: pressing_uppercut_key
+        49: shift_pressed_by_bot
+        50: is_using_uppercut
+        51: is_hit_by_uppercut
+        52: pressing_slam_key
+        53: e_pressed_by_bot
+        54: is_using_slam
+        55: slam_to_use
+        56: current_position
+        57: proto_indicator_slam_position
+        58: indicator_slam_position
+        59: indicator_slam_direction
+        60: slam_damage
+        61: slam_damage_text_entity
+        62: slammed_victims
+        63: indicator_entity
+        64: punched_victims
+        65: wall_impacted_victims
+        66: punch_charge_time
+        67: hero_id_duplicated
+        68: flashbang_origin_position
+        69: flashbang_exploded
+        70: freeze_progress
+        71: is_frozen
+        72: freeze_slow_linger_time
+        73: freeze_move_penalty
+        74: is_using_supercharger
+        75: is_supercharged
+        76: orisa_supercharger_entity
+        77: orisa_supercharger_uptime
+        78: orisa_supercharger_position
+        79: orisa_beam_entity
+        80: orisa_beam_sound_effect
+        81: is_using_halt
+        82: is_getting_orisa_pulled
+        83: halt_position
+        84: halt_ending_position
+        85: halt_entity1
+        86: halt_entity2
+        87: halt_pull_line_entity
+        88: position
+        89: barrier_projectile
+        90: barrier_proj_v0
+        91: barrier_proj_p0
+        92: barrier_proj_t
+        93: barrier_proj_velocity
+        94: barrier_proj_position
+        95: barrier_position
+        96: barrier_orientation
+        97: barrier_sample_x
+        98: barrier_sample_y
+        99: barrier_sample_z
+        100: barrier_sample_radius
+        101: barrier_sample_theta
+        102: barrier_sample_point
+        103: barrier_entity_positions
+        104: barrier_entities
+        105: barrier_uptime
+        106: barrier_active
+        107: barrier_health
+        108: orisa_barrier_hit_positions
+        109: time_hook_was_active
+        110: hack_damage_modifier
+        111: scoped_shot_distance
+        112: scoped_damage_base
+        113: ow2_scoped_damage_falloff_scalar
+        114: ow1_scoped_damage_falloff_scalar
+        115: expected_scoped_damage
+        116: self_bubble_cooldown
+        117: ally_bubble_cooldown
+        118: self_bubble_cd_text
+        119: ally_bubble_cd_text
 }
 subroutines {
     0: lockTank
@@ -446,7 +449,7 @@ rule ("Initialize global variables") {
         Set Global Variable(max_tank_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Tank", Null, Null, Null), 2, 0, 6, 0));
         Set Global Variable(max_damage_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Damage", Null, Null, Null), 2, 0, 6, 1));
         Set Global Variable(max_support_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Support", Null, Null, Null), 2, 0, 6, 2));
-        Set Global Variable(allow_ow2_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Allow Overwatch 2 Heroes", Null, Null, Null), False, 0));
+        Set Global Variable(allow_ow2_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Overwatch 2", Null, Null, Null), False, 0));
         Set Global Variable(PHI, 3.883222077450933);
         Set Global Variable(debug, Workshop Setting Toggle(Custom String("Dev Tools", Null, Null, Null), Custom String("debug mode", Null, Null, Null), False, 0));
     }
@@ -921,6 +924,37 @@ rule ("[no_support_passive.opy]: removeSelfHealing()") {
     }
 }
 
+rule ("[no_support_passive.opy]: Get time when support hero take damage") {
+    event {
+        Player Took Damage;
+        All;
+        All;
+    }
+    conditions {
+        Array Contains(Global.support_heroes, Hero Of(Event Player)) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, last_time_damage_taken, Total Time Elapsed);
+        Set Player Variable(Event Player, support_passive_active, False);
+    }
+}
+
+rule ("[no_support_passive.opy]: Check if support passive is active") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).support_passive_active == False;
+        Array Contains(Global.support_heroes, Hero Of(Event Player)) == True;
+        Subtract(Total Time Elapsed, (Event Player).last_time_damage_taken) > 1.5;
+    }
+    actions {
+        Set Player Variable(Event Player, support_passive_active, True);
+    }
+}
+
 rule ("[ult_charge.opy]: initialize overwatch 1 ultimate costs") {
     event {
         Ongoing - Global;
@@ -1054,11 +1088,14 @@ rule ("[reset_hero.opy]: Reset hero stats/gui") {
         Set Knockback Received(Event Player, 100);
         Set Knockback Dealt(Event Player, 100);
         Call Subroutine(clearCustomHealth);
+        Set Player Variable(Event Player, support_passive_active, True);
         Clear Status(Event Player, Rooted);
         Set Player Variable(Event Player, friendly_doomfist_player, First Of(Players On Hero(Hero(Doomfist), Team Of(Event Player))));
         Set Player Variable(Event Player, enemy_doomfist_player, First Of(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player)))));
         Set Player Variable(Event Player, friendly_orisa_player, First Of(Players On Hero(Hero(Orisa), Team Of(Event Player))));
         Set Player Variable(Event Player, enemy_orisa_player, First Of(Players On Hero(Hero(Orisa), Opposite Team Of(Team Of(Event Player)))));
+        Set Player Variable(Event Player, friendly_sombra_player, First Of(Players On Hero(Hero(Sombra), Team Of(Event Player))));
+        Set Player Variable(Event Player, enemy_sombra_player, First Of(Players On Hero(Hero(Sombra), Opposite Team Of(Team Of(Event Player)))));
         "Clear GUI"
         For Global Variable(i, 0, Count Of((Event Player).text_huds), 1);
             Destroy HUD Text(Value In Array((Event Player).text_huds, Global.i));
@@ -2137,9 +2174,7 @@ rule ("[doomfist.opy]: Control flow for uppercut") {
         (Event Player).pressing_uppercut_key == True;
         (Event Player).is_using_slam == False;
         Ability Cooldown(Event Player, Button(Ability 2)) <= 0;
-        "Ensure Doomfist is not hacked"
-        Has Status(Event Player, Hacked) == False;
-        "Ensure Doomfist is not frozen"
+        "@Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\r\n Ensure Doomfist is not frozen"
         Has Status(Event Player, Frozen) == False;
         "Ensure Doomfist is not knocked down"
         Has Status(Event Player, Knocked Down) == False;
@@ -2163,9 +2198,7 @@ rule ("[doomfist.opy]: Control flow for slam") {
         (Event Player).pressing_slam_key == True;
         (Event Player).is_using_uppercut == False;
         Ability Cooldown(Event Player, Button(Ability 1)) <= 0;
-        "Ensure Doomfist is not hacked"
-        Has Status(Event Player, Hacked) == False;
-        "Ensure Doomfist is not frozen"
+        "@Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\r\n Ensure Doomfist is not frozen"
         Has Status(Event Player, Frozen) == False;
         "Ensure Doomfist is not knocked down"
         Has Status(Event Player, Knocked Down) == False;
@@ -3055,13 +3088,43 @@ rule ("[lucio.opy]: initLucio()") {
         initLucio;
     }
     actions {
-        Set Player Variable(Event Player, self_healing_percent, 120);
-        Start Healing Modification(Event Player, Event Player, (Event Player).self_healing_percent, Receivers Healers and Healing Percent);
-        Set Player Variable(Event Player, self_healing_modification, Last Healing Modification ID);
+        Call Subroutine(removeSelfHealing);
     }
 }
 
-rule ("[lucio.opy]: Revert Lucio self healing when using amp") {
+rule ("[lucio.opy]: Handle lucio self healing while amp is not active and supp passive is active") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Lúcio;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == False;
+        Is Using Ability 1(Event Player) == False;
+        (Event Player).support_passive_active != False;
+    }
+    actions {
+        Set Player Variable(Event Player, self_healing_percent, 48);
+    }
+}
+
+rule ("[lucio.opy]: Handle lucio self healing while amp is not active and support passive inactive") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Lúcio;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == False;
+        Is Using Ability 1(Event Player) == False;
+        (Event Player).support_passive_active == False;
+    }
+    actions {
+        Set Player Variable(Event Player, self_healing_percent, 120);
+    }
+}
+
+rule ("[lucio.opy]: Handle lucio self when amp is active and supp passive is active") {
     event {
         Ongoing - Each Player;
         All;
@@ -3069,11 +3132,41 @@ rule ("[lucio.opy]: Revert Lucio self healing when using amp") {
     }
     conditions {
         Is Using Ability 2(Event Player) == True;
+        Is Using Ability 1(Event Player) == False;
+        (Event Player).support_passive_active != False;
+    }
+    actions {
+        Set Player Variable(Event Player, self_healing_percent, 68.42105263157895);
+    }
+}
+
+rule ("[lucio.opy]: Handle lucio self when amp is active and supp passive is inactive") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Lúcio;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+        Is Using Ability 1(Event Player) == False;
+        (Event Player).support_passive_active == False;
     }
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
-        Wait Until(Not(Is Using Ability 2(Event Player)), 99999);
-        Set Player Variable(Event Player, self_healing_percent, 120);
+    }
+}
+
+rule ("[lucio.opy]: If lucio uses speed aura remove self healing") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Lúcio;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
 
@@ -4057,6 +4150,21 @@ rule ("[reinhardt.opy]: Increase charge damage") {
     }
 }
 
+rule ("[reinhardt.opy]: OW1 one shot earthshatter") {
+    event {
+        Player Dealt Damage;
+        All;
+        Reinhardt;
+    }
+    conditions {
+        Event Ability == Button(Ultimate);
+        Event Damage > 85;
+    }
+    actions {
+        Damage(Victim, Attacker, Subtract(Multiply(Event Damage, 1.470588235294117), Event Damage));
+    }
+}
+
 rule ("[roadhog.opy]: Detect Roadhog initialization") {
     event {
         Ongoing - Each Player;
@@ -4327,8 +4435,8 @@ rule ("[sombra.opy]: initSombra()") {
         initSombra;
     }
     actions {
-        Set Player Variable(All Players(Team Of(Event Player)), friendly_sombra, Event Player);
-        Set Player Variable(All Players(Opposite Team Of(Team Of(Event Player))), enemy_sombra, Event Player);
+        Set Player Variable(All Players(Team Of(Event Player)), friendly_sombra_player, Event Player);
+        Set Player Variable(All Players(Opposite Team Of(Team Of(Event Player))), enemy_sombra_player, Event Player);
     }
 }
 
@@ -4376,6 +4484,67 @@ rule ("[sombra.opy]: No damage with EMP") {
         Set Damage Dealt(Event Player, 0);
         Wait Until(Is Using Ultimate(Event Player), 9999);
         Set Damage Dealt(Event Player, 100);
+    }
+}
+
+rule ("[sombra.opy]: Deal OW1 machine pistol damage") {
+    event {
+        Player Dealt Damage;
+        All;
+        Sombra;
+    }
+    conditions {
+        Event Ability == Button(Primary Fire);
+    }
+    actions {
+        Damage(Victim, Attacker, Subtract(Multiply(Event Damage, 1.066666666666666), Event Damage));
+    }
+}
+
+rule ("[sombra.opy]: Remove hack bonus damage") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Has Status(Event Player, Hacked) == True;
+    }
+    actions {
+        Start Damage Modification(Event Player, (Event Player).enemy_sombra_player, 80, None);
+        Set Player Variable(Event Player, hack_damage_modifier, Last Damage Modification ID);
+        Wait Until(Not(Has Status(Event Player, Hacked)), 9999);
+        Stop Damage Modification((Event Player).hack_damage_modifier);
+    }
+}
+
+rule ("[sombra.opy]: Increase stealth movement speed") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Sombra;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Set Move Speed(Event Player, 103.125);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Set Move Speed(Event Player, 100);
+    }
+}
+
+rule ("[sombra.opy]: Set default hack cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Sombra;
+    }
+    conditions {
+        Ability Cooldown(Event Player, Button(Secondary Fire)) >= 4;
+    }
+    actions {
+        Set Ability Cooldown(Event Player, Button(Secondary Fire), 8);
     }
 }
 
@@ -4945,6 +5114,7 @@ rule ("[debug.opy]: global debug (Top Left)") {
         Global.debug == True;
     }
     actions {
+        Create HUD Text(All Players(All Teams), Custom String("Global", Null, Null, Null), Null, Null, Left, 0, Color(White), Null, Null, Visible To and String, Default Visibility);
         Create HUD Text(All Players(All Teams), Null, Custom String("Server Load: {0}%", Server Load, Null, Null), Null, Left, 0, Null, Color(White), Null, Visible To and String, Default Visibility);
         Create HUD Text(All Players(All Teams), Null, Custom String("Server Load Average: {0}%", Server Load Average, Null, Null), Null, Left, 0, Null, Color(White), Null, Visible To and String, Default Visibility);
         Create HUD Text(All Players(All Teams), Null, Custom String("Server Load Peak: {0}%", Server Load Peak, Null, Null), Null, Left, 0, Null, Color(White), Null, Visible To and String, Default Visibility);
@@ -4961,14 +5131,20 @@ rule ("[debug.opy]: player debug (Top Right)") {
         Global.debug == True;
     }
     actions {
-        Create HUD Text(Event Player, Null, Custom String("altitude = {0}", Altitude Of(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("hacked = {0}", Has Status(Event Player, Hacked), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("hero damage dealt = {0}", Player Stat(Event Player, Hero Damage Dealt), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("len(eventPlayer.allowed_heroes) = {0}", Count Of((Event Player).allowed_heroes), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("len(eventPlayer.getAllowedHeroes()) = {0}", Count Of(Allowed Heroes(Event Player)), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("eventPlayer.isUsingUltimate() = {0}", Is Using Ultimate(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("eventPlayer.getUltCharge() = {0}", Ultimate Charge Percent(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("eventPlayer.getUltCharge() >= 100 = {0}", Compare(Ultimate Charge Percent(Event Player), >=, 100), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Custom String("Event Player", Null, Null, Null), Null, Null, Right, 0, Color(White), Null, Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getAltitude() = {0}", Altitude Of(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("hasStatusEffect(Status.HACKED) = {0}", Has Status(Event Player, Hacked), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getStatistic(Stat.HERO_DAMAGE_DEALT) = {0}", Player Stat(Event Player, Hero Damage Dealt), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("len(allowed_heroes) = {0}", Count Of((Event Player).allowed_heroes), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("len(getAllowedHeroes()) = {0}", Count Of(Allowed Heroes(Event Player)), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isUsingUltimate() = {0}", Is Using Ultimate(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getUltCharge() = {0}", Ultimate Charge Percent(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getUltCharge() >= 100 = {0}", Compare(Ultimate Charge Percent(Event Player), >=, 100), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isFiringPrimaryFire() = {0}", Is Firing Primary(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isFiringSecondaryFire() = {0}", Is Firing Secondary(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isUsingAbility1() = {0}", Is Using Ability 1(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isUsingAbility2() = {0}", Is Using Ability 2(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getSpeed() = {0}", Speed Of(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
     }
 }
 
