@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.6.0 (staging build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.6.0 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -2174,9 +2174,7 @@ rule ("[doomfist.opy]: Control flow for uppercut") {
         (Event Player).pressing_uppercut_key == True;
         (Event Player).is_using_slam == False;
         Ability Cooldown(Event Player, Button(Ability 2)) <= 0;
-        "Ensure Doomfist is not hacked"
-        Has Status(Event Player, Hacked) == False;
-        "Ensure Doomfist is not frozen"
+        "@Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\r\n Ensure Doomfist is not frozen"
         Has Status(Event Player, Frozen) == False;
         "Ensure Doomfist is not knocked down"
         Has Status(Event Player, Knocked Down) == False;
@@ -2200,9 +2198,7 @@ rule ("[doomfist.opy]: Control flow for slam") {
         (Event Player).pressing_slam_key == True;
         (Event Player).is_using_uppercut == False;
         Ability Cooldown(Event Player, Button(Ability 1)) <= 0;
-        "Ensure Doomfist is not hacked"
-        Has Status(Event Player, Hacked) == False;
-        "Ensure Doomfist is not frozen"
+        "@Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\r\n Ensure Doomfist is not frozen"
         Has Status(Event Player, Frozen) == False;
         "Ensure Doomfist is not knocked down"
         Has Status(Event Player, Knocked Down) == False;
@@ -4535,6 +4531,20 @@ rule ("[sombra.opy]: Increase stealth movement speed") {
         Set Move Speed(Event Player, 103.125);
         Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
         Set Move Speed(Event Player, 100);
+    }
+}
+
+rule ("[sombra.opy]: Set default hack cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Sombra;
+    }
+    conditions {
+        Ability Cooldown(Event Player, Button(Secondary Fire)) >= 4;
+    }
+    actions {
+        Set Ability Cooldown(Event Player, Button(Secondary Fire), 8);
     }
 }
 
