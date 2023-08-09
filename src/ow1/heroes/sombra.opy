@@ -74,3 +74,11 @@ rule "[sombra.opy]: Increase stealth movement speed":
     eventPlayer.setMoveSpeed(percent(OW1_SOMBRA_STEALTH_MOVEMENT_BONUS/OW2_SOMBRA_STEALTH_MOVEMENT_BONUS))
     waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     eventPlayer.setMoveSpeed(100)
+
+
+rule "[sombra.opy]: Set default hack cooldown":
+    @Event eachPlayer
+    @Hero sombra
+    @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) >= OW2_SOMBRA_HACK_COOLDOWN_TIME
+    
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_SOMBRA_HACK_COOLDOWN_TIME)
