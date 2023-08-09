@@ -3,7 +3,7 @@
 settings {
     "main": {
         "description": \
-"Overwatch 1 Emulator v0.6.0 (main build)\r\n\
+"Overwatch 1 Emulator v0.6.1 (staging build)\r\n\
 \r\n\
 ecksdee#11729's attempt to accurately recreate \r\n\
 the last version of Overwatch 1 using workshop.\r\n\
