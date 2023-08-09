@@ -151,7 +151,7 @@ rule "[doomfist.opy]: Control flow for uppercut":
     @Condition eventPlayer.pressing_uppercut_key == true
     @Condition eventPlayer.is_using_slam == false
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
-    @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
+    # @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
     @Condition not eventPlayer.hasStatusEffect(Status.FROZEN) # Ensure Doomfist is not frozen
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
     @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Doomfist is not asleep
@@ -166,7 +166,7 @@ rule "[doomfist.opy]: Control flow for slam":
     @Condition eventPlayer.pressing_slam_key == true
     @Condition eventPlayer.is_using_uppercut == false
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
-    @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
+    # @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
     @Condition not eventPlayer.hasStatusEffect(Status.FROZEN) # Ensure Doomfist is not frozen
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
     @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Doomfist is not asleep
