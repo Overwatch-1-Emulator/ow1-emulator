@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.6.0 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.6.1 (staging build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -242,10 +242,12 @@ variables {
         13: max_damage_count
         14: max_support_count
         15: allow_ow2_heroes
-        16: ult_cost
-        17: health_pool
-        18: PHI
-        19: debug
+        16: ready_hud
+        17: ready_description_hud
+        18: ult_cost
+        19: health_pool
+        20: PHI
+        21: debug
     player:
         0: last_hero_played
         1: hero_switched
@@ -724,6 +726,24 @@ rule ("[role_lock.opy]: unlockAllRoles()") {
     }
 }
 
+rule ("[ready.opy]: Create ready HUD") {
+    event {
+        Ongoing - Global;
+    }
+    conditions {
+        Is In Setup == True;
+    }
+    actions {
+        Create HUD Text(All Players(All Teams), Custom String("{0}/{1} ready", Count Of(Filtered Array(All Players(All Teams), Compare((Current Array Element).ready, ==, True))), Number Of Players(All Teams), Null), Null, Null, Top, 9999, If-Then-Else(Is True For All(All Players(All Teams), (Current Array Element).ready), Color(Green), Color(Red)), Null, Null, String and Color, Default Visibility);
+        Set Global Variable(ready_hud, Last Text ID);
+        Create HUD Text(All Players(All Teams), Null, Custom String("Press {0} + {1} to ready", Input Binding String(Button(Interact)), Input Binding String(Button(Reload)), Null), Null, Top, 9999, Null, Color(White), Null, String and Color, Default Visibility);
+        Set Global Variable(ready_description_hud, Last Text ID);
+        Wait Until(Not(Is In Setup), 9999);
+        Destroy HUD Text(Global.ready_hud);
+        Destroy HUD Text(Global.ready_description_hud);
+    }
+}
+
 rule ("[ready.opy]: Unready all players when entering setup") {
     event {
         Ongoing - Each Player;
@@ -750,36 +770,7 @@ rule ("[ready.opy]: Toggle ready when pressing Interact + Reload") {
         Is Button Held(Event Player, Button(Reload)) == True;
     }
     actions {
-        "Toggle readiness"
         Set Player Variable(Event Player, ready, Not((Event Player).ready));
-    }
-}
-
-rule ("[ready.opy]: Display message when ready") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        (Event Player).ready == True;
-    }
-    actions {
-        Big Message(Event Player, Custom String("Ready", Null, Null, Null));
-    }
-}
-
-rule ("[ready.opy]: Display message when not ready") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        (Event Player).ready == False;
-    }
-    actions {
-        Big Message(Event Player, Custom String("Not Ready", Null, Null, Null));
     }
 }
 
@@ -793,6 +784,7 @@ rule ("[ready.opy]: Start match when everyone ready") {
         "Guard to prevent incorrect match time modification"
         Is Assembling Heroes == False;
         Is In Setup == True;
+        Match Time > 5;
         Is True For All(All Players(All Teams), (Current Array Element).ready) == True;
     }
     actions {
