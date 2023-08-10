@@ -1,5 +1,8 @@
 #!mainFile "../main.opy"
 
+# Generic
+#!define MATCH_START_BUFFER_TIME 5
+
 ###################################
 # Ult Costs
 # Tank
