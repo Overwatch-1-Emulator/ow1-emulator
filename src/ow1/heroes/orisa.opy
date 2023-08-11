@@ -46,6 +46,8 @@ playervar barrier_active
 playervar barrier_health
 playervar orisa_barrier_hit_positions
 
+playervar current_ammo_count
+
 subroutine initOrisa
 
 subroutine startSupercharger
@@ -58,6 +60,8 @@ subroutine throwBarrier
 subroutine deployBarrier
 subroutine destroyBarrier
 subroutine fibonacciSphere
+
+subroutine replanishAmmo
 
 #!define isInsideOrisaBarrier(point, center, direction)\
     ((distance(center, point) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) and \
@@ -88,6 +92,9 @@ def initOrisa():
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_orisa_player = eventPlayer
+
+    replanishAmmo()
+    eventPlayer.setMaxAmmo(0, eventPlayer.current_ammo_count)
 
     eventPlayer.is_using_supercharger = false
     eventPlayer.is_using_halt = false
@@ -470,3 +477,34 @@ rule "[orisa.opy]: Receive no healing when behind barrier":
             damage(healee, null, eventHealing)
             healee.enemy_orisa_player.barrier_health -= eventHealing
             return
+
+
+rule "[orisa.opy]: Save ammo count when finished firing":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition not eventPlayer.isFiringPrimaryFire()
+
+    eventPlayer.current_ammo_count = eventPlayer.getAmmo(0)
+
+
+rule "[orisa.opy]: Correct ammo count when wrong":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.current_ammo_count != eventPlayer.getAmmo(0)
+
+    eventPlayer.setAmmo(0, eventPlayer.current_ammo_count)
+
+
+rule "[orisa.opy]: Replanish ammo on reload":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isReloading()
+
+    replanishAmmo()
+
+
+def replanishAmmo():
+    @Name "[orisa.opy]: replanishAmmo()"
+
+    eventPlayer.current_ammo_count = OW1_ORISA_AMMO/OW1_ORISA_FIRE_RATE*OW2_ORISA_FIRE_RATE
+    eventPlayer.setAmmo(0, eventPlayer.current_ammo_count)
