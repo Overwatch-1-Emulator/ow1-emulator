@@ -193,6 +193,9 @@ github.com/MaxwellJung/ow1_emulator",
             "pharah": {
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST)
             },
+            "ramattra": {
+                "health%": percent(OW1_RAMATTRA_BARRIER_HEALTH/OW2_RAMATTRA_BARRIER_HEALTH) # for barrier
+            },
             "reaper": {
                 "ultGen%": percent(OW2_REAPER_ULT_COST/OW1_REAPER_ULT_COST)
             },

@@ -13,5 +13,8 @@ rule "[ramattra.opy]: Detect Ramattra initialization":
 
 def initRamattra():
     @Name "[ramattra.opy]: initRamattra()"
-    # [TODO]
-    pass
+
+    while (eventPlayer.getMaxHealth() != OW1_RAMATTRA_HEALTH):
+        clearCustomHealth()
+        setCustomHealth(OW1_RAMATTRA_HEALTH, 0, 0)
+        wait(1)
