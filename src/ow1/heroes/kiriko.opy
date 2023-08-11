@@ -15,3 +15,13 @@ def initKiriko():
     @Name "[kiriko.opy]: initKiriko()"
 
     removeSelfHealing()
+
+
+rule "[kiriko.opy]: Allow self healing during Suzu":
+    @Event eachPlayer
+    @Hero kiriko
+    @Condition eventPlayer.isUsingAbility2()
+
+    eventPlayer.self_healing_percent = 100
+    waitUntil(eventPlayer.isUsingAbility2() == false, 9999)
+    eventPlayer.self_healing_percent = 0

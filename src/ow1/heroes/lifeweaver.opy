@@ -15,3 +15,13 @@ def initLifeweaver():
     @Name "[lifeweaver.opy]: initLifeweaver()"
 
     removeSelfHealing()
+
+
+rule "[lifeweaver.opy]: Allow self healing during Tree of Life":
+    @Event eachPlayer
+    @Hero lifeweaver
+    @Condition eventPlayer.isUsingUltimate()
+
+    eventPlayer.self_healing_percent = 100
+    waitUntil(eventPlayer.isUsingUltimate() == false, 9999)
+    eventPlayer.self_healing_percent = 0
