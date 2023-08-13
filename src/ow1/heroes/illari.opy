@@ -1,25 +1,25 @@
 #!mainFile "../../main.opy"
 
-subroutine initKiriko
+subroutine initIllari
 
-rule "[kiriko.opy]: Detect Kiriko initialization":
+rule "[illari.opy]: Detect Illari initialization":
     @Event eachPlayer
-    @Hero kiriko
+    @Hero illari
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
-    initKiriko()
+    initIllari()
     eventPlayer.initialized = true
 
 
-def initKiriko():
-    @Name "[kiriko.opy]: initKiriko()"
+def initIllari():
+    @Name "[illari.opy]: initIllari()"
 
     removeSelfHealing()
 
 
-rule "[kiriko.opy]: Allow self healing during Suzu":
+rule "[illari.opy]: Allow self healing during Pylon":
     @Event eachPlayer
-    @Hero kiriko
+    @Hero illari
     @Condition eventPlayer.isUsingAbility2()
 
     eventPlayer.self_healing_percent = 100

@@ -11,7 +11,7 @@ playervar orisa_beam_entity
 playervar orisa_beam_sound_effect
 
 playervar is_using_halt
-playervar is_getting_orisa_pulled
+playervar is_snared
 playervar halt_position
 playervar halt_ending_position
 playervar halt_entity1
@@ -46,6 +46,8 @@ playervar barrier_active
 playervar barrier_health
 playervar orisa_barrier_hit_positions
 
+playervar current_ammo_count
+
 subroutine initOrisa
 
 subroutine startSupercharger
@@ -58,6 +60,8 @@ subroutine throwBarrier
 subroutine deployBarrier
 subroutine destroyBarrier
 subroutine fibonacciSphere
+
+subroutine replanishAmmo
 
 #!define isInsideOrisaBarrier(point, center, direction)\
     ((distance(center, point) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) and \
@@ -88,6 +92,9 @@ def initOrisa():
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_orisa_player = eventPlayer
+
+    replanishAmmo()
+    eventPlayer.setMaxAmmo(0, eventPlayer.current_ammo_count)
 
     eventPlayer.is_using_supercharger = false
     eventPlayer.is_using_halt = false
@@ -220,7 +227,7 @@ def shootHalt():
     # Calculate starting/ending positions
     eventPlayer.halt_position = eventPlayer.getEyePosition()
     eventPlayer.halt_ending_position = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 1000*eventPlayer.getFacingDirection(), null, null, true).getHitPosition()
-    eventPlayer.is_getting_orisa_pulled = false
+    eventPlayer.is_snared = false
 
     wait(OW1_ORISA_HALT_LAUNCH_CAST_TIME)
     eventPlayer.is_using_halt = true # Start halt
@@ -241,7 +248,7 @@ def explodeHalt():
 
     stopChasingVariable(eventPlayer.halt_position)
     wait(OW1_ORISA_HALT_ACTIVATION_TIME)
-    getPlayersInRadius(eventPlayer.halt_position, OW1_ORISA_HALT_AOE_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS).is_getting_orisa_pulled = true
+    getPlayersInRadius(eventPlayer.halt_position, OW1_ORISA_HALT_AOE_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS).is_snared = true
     getPlayersInRadius(eventPlayer.halt_position, OW1_ORISA_HALT_AOE_RADIUS, getOppositeTeam(eventPlayer.getTeam()), LosCheck.SURFACES_AND_ENEMY_BARRIERS).setEnvironmentalKillCreditor(eventPlayer)
     eventPlayer.is_using_halt = false
     destroyEffect(eventPlayer.halt_entity1)
@@ -250,9 +257,18 @@ def explodeHalt():
     eventPlayer.entity_huds.remove(eventPlayer.halt_entity2)
 
 
+rule "[orirsa.opy]: Slow down snared enemies":
+    @Event eachPlayer
+    @Condition eventPlayer.is_snared == true
+
+    eventPlayer.setMoveSpeed(100-OW1_ORISA_HALT_SNARE_MOVE_PENALTY)
+    wait(OW1_ORISA_HALT_SNARE_DURATION)
+    eventPlayer.setMoveSpeed(100)
+
+
 rule "[orisa.opy]: Pull halted victims":
     @Event eachPlayer
-    @Condition eventPlayer.is_getting_orisa_pulled == true
+    @Condition eventPlayer.is_snared == true
 
     eventPlayer.position = eventPlayer.getPosition()
     eventPlayer.startForcingPosition(eventPlayer.position, true)
@@ -261,7 +277,7 @@ rule "[orisa.opy]: Pull halted victims":
     stopChasingVariable(eventPlayer.position)
     eventPlayer.stopForcingPosition()
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
-    eventPlayer.is_getting_orisa_pulled = false
+    eventPlayer.is_snared = false
 
 
 rule "[orisa.opy]: Create Halt pull line vfx when in pull range":
@@ -270,7 +286,7 @@ rule "[orisa.opy]: Create Halt pull line vfx when in pull range":
     @Condition (distance(eventPlayer, eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS and \
                isInLoS(eventPlayer, eventPlayer.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS)) == true
     
-    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.enemy_orisa_player.halt_position, eventPlayer, Color.GREEN if eventPlayer.is_getting_orisa_pulled else Color.WHITE, EffectReeval.POSITION_RADIUS_AND_COLOR)
+    createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.enemy_orisa_player.halt_position, eventPlayer, Color.GREEN if eventPlayer.is_snared else Color.WHITE, EffectReeval.POSITION_RADIUS_AND_COLOR)
     eventPlayer.halt_pull_line_entity = getLastCreatedEntity()
     eventPlayer.entity_huds.append(eventPlayer.halt_pull_line_entity)
 
@@ -438,7 +454,7 @@ rule "[orisa.opy]: Take no damage when behind barrier":
     @Condition victim.friendly_orisa_player.barrier_active == true
     @Condition isAimingAtSphere(attacker.getEyePosition(), attacker.getFacingDirection(), victim.friendly_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
 
-    detectSphereHit(attacker.getEyePosition(), attacker.getFacingDirection(), victim.friendly_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
+    detectSphereHit(attacker.getEyePosition(), directionTowards(attacker, victim), victim.friendly_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
     eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x if isInsideOrisaBarrier(point, victim.friendly_orisa_player.barrier_position, victim.friendly_orisa_player.barrier_orientation)]
 
     for i in range(len(eventPlayer.orisa_barrier_hit_positions)):
@@ -446,3 +462,49 @@ rule "[orisa.opy]: Take no damage when behind barrier":
             heal(victim, null, eventDamage)
             victim.friendly_orisa_player.barrier_health -= eventDamage
             return
+
+
+rule "[orisa.opy]: Receive no healing when behind barrier":
+    @Event playerReceivedHealing
+    @Condition healee.enemy_orisa_player.barrier_active == true
+    @Condition isAimingAtSphere(healer.getEyePosition(), directionTowards(healer, healee), healee.enemy_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
+
+    detectSphereHit(healer.getEyePosition(), directionTowards(healer, healee), healee.enemy_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
+    eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x if isInsideOrisaBarrier(point, healee.enemy_orisa_player.barrier_position, healee.enemy_orisa_player.barrier_orientation)]
+
+    for i in range(len(eventPlayer.orisa_barrier_hit_positions)):
+        if (distance(healer.getEyePosition(), eventPlayer.orisa_barrier_hit_positions[i]) < distance(healer.getEyePosition(), healee.getEyePosition())): # barrier hit is between the healer and the healee
+            damage(healee, null, eventHealing)
+            healee.enemy_orisa_player.barrier_health -= eventHealing
+            return
+
+
+rule "[orisa.opy]: Save ammo count when finished firing":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition not eventPlayer.isFiringPrimaryFire()
+
+    eventPlayer.current_ammo_count = eventPlayer.getAmmo(0)
+
+
+rule "[orisa.opy]: Correct ammo count when wrong":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.current_ammo_count != eventPlayer.getAmmo(0)
+
+    eventPlayer.setAmmo(0, eventPlayer.current_ammo_count)
+
+
+rule "[orisa.opy]: Replanish ammo on reload":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isReloading()
+
+    replanishAmmo()
+
+
+def replanishAmmo():
+    @Name "[orisa.opy]: replanishAmmo()"
+
+    eventPlayer.current_ammo_count = OW1_ORISA_AMMO/OW1_ORISA_FIRE_RATE*OW2_ORISA_FIRE_RATE
+    eventPlayer.setAmmo(0, eventPlayer.current_ammo_count)

@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.6.1 (staging build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.7.0 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -97,8 +97,8 @@ settings
 			}
 			Brigitte
 			{
-				Health: 83.33333333333333%
-				Ultimate Generation Rally: 91.07142857142857%
+				Health: 100%
+				Ultimate Generation Rally: 96.53571428571429%
 			}
 			Cassidy
 			{
@@ -150,6 +150,10 @@ settings
 			{
 				Ultimate Generation Barrage: 95.23809523809524%
 			}
+			Ramattra
+			{
+				Health: 100%
+			}
 			Reaper
 			{
 				Ultimate Generation Death Blossom: 91.9047619047619%
@@ -172,11 +176,11 @@ settings
 			}
 			Soldier: 76
 			{
-				Ultimate Generation Tactical Visor: 100%
+				Ultimate Generation Tactical Visor: 110%
 			}
 			Sombra
 			{
-				Ultimate Generation EMP: 100%
+				Ultimate Generation EMP: 115%
 			}
 			Symmetra
 			{
@@ -213,13 +217,9 @@ settings
 			{
 				Ultimate Generation Transcendence: 100%
 			}
-			disabled heroes
+			enabled heroes
 			{
-				Junker Queen
-				Kiriko
-				Lifeweaver
-				Ramattra
-				Sojourn
+				Tracer
 			}
 		}
 	}
@@ -241,13 +241,14 @@ variables {
         12: max_tank_count
         13: max_damage_count
         14: max_support_count
-        15: allow_ow2_heroes
-        16: ready_hud
-        17: ready_description_hud
-        18: ult_cost
-        19: health_pool
-        20: PHI
-        21: debug
+        15: allow_ow1_heroes
+        16: allow_ow2_heroes
+        17: ready_hud
+        18: ready_description_hud
+        19: ult_cost
+        20: health_pool
+        21: PHI
+        22: debug
     player:
         0: last_hero_played
         1: hero_switched
@@ -331,7 +332,7 @@ variables {
         79: orisa_beam_entity
         80: orisa_beam_sound_effect
         81: is_using_halt
-        82: is_getting_orisa_pulled
+        82: is_snared
         83: halt_position
         84: halt_ending_position
         85: halt_entity1
@@ -358,17 +359,18 @@ variables {
         106: barrier_active
         107: barrier_health
         108: orisa_barrier_hit_positions
-        109: time_hook_was_active
-        110: hack_damage_modifier
-        111: scoped_shot_distance
-        112: scoped_damage_base
-        113: ow2_scoped_damage_falloff_scalar
-        114: ow1_scoped_damage_falloff_scalar
-        115: expected_scoped_damage
-        116: self_bubble_cooldown
-        117: ally_bubble_cooldown
-        118: self_bubble_cd_text
-        119: ally_bubble_cd_text
+        109: current_ammo_count
+        110: time_hook_was_active
+        111: hack_damage_modifier
+        112: scoped_shot_distance
+        113: scoped_damage_base
+        114: ow2_scoped_damage_falloff_scalar
+        115: ow1_scoped_damage_falloff_scalar
+        116: expected_scoped_damage
+        117: self_bubble_cooldown
+        118: ally_bubble_cooldown
+        119: self_bubble_cd_text
+        120: ally_bubble_cd_text
 }
 subroutines {
     0: lockTank
@@ -377,7 +379,7 @@ subroutines {
     3: unlockTank
     4: unlockDamage
     5: unlockSupport
-    6: unlockAllRoles
+    6: resetRoleLock
     7: clearCustomHealth
     8: applyCustomHealth
     9: findLineSphereIntersection
@@ -408,40 +410,46 @@ subroutines {
     34: initEcho
     35: initGenji
     36: initHanzo
-    37: initJunkrat
-    38: initLucio
-    39: initMccree
-    40: initMei
-    41: clearFreezeEffect
-    42: initMercy
-    43: initMoira
-    44: initOrisa
-    45: startSupercharger
-    46: endSupercharger
-    47: shootHalt
-    48: explodeHalt
-    49: throwBarrier
-    50: deployBarrier
-    51: destroyBarrier
-    52: fibonacciSphere
-    53: initReaper
-    54: initReinhardt
-    55: initRoadhog
-    56: initSigma
-    57: initSoldier
-    58: initSombra
-    59: initSymmetra
-    60: initTorbjorn
-    61: initTracer
-    62: initWidowmaker
-    63: initWinston
-    64: initWreckingball
-    65: initZarya
-    66: showSelfBubbleCD
-    67: hideSelfBubbleCD
-    68: showAllyBubbleCD
-    69: hideAllyBubbleCD
-    70: initZenyatta
+    37: initIllari
+    38: initJunkerqueen
+    39: initJunkrat
+    40: initKiriko
+    41: initLifeweaver
+    42: initLucio
+    43: initMccree
+    44: initMei
+    45: clearFreezeEffect
+    46: initMercy
+    47: initMoira
+    48: initOrisa
+    49: startSupercharger
+    50: endSupercharger
+    51: shootHalt
+    52: explodeHalt
+    53: throwBarrier
+    54: deployBarrier
+    55: destroyBarrier
+    56: fibonacciSphere
+    57: replanishAmmo
+    58: initRamattra
+    59: initReaper
+    60: initReinhardt
+    61: initRoadhog
+    62: initSigma
+    63: initSoldier
+    64: initSombra
+    65: initSymmetra
+    66: initTorbjorn
+    67: initTracer
+    68: initWidowmaker
+    69: initWinston
+    70: initWreckingball
+    71: initZarya
+    72: showSelfBubbleCD
+    73: hideSelfBubbleCD
+    74: showAllyBubbleCD
+    75: hideAllyBubbleCD
+    76: initZenyatta
 }
 rule ("Initialize global variables") {
     event {
@@ -451,7 +459,8 @@ rule ("Initialize global variables") {
         Set Global Variable(max_tank_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Tank", Null, Null, Null), 2, 0, 6, 0));
         Set Global Variable(max_damage_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Damage", Null, Null, Null), 2, 0, 6, 1));
         Set Global Variable(max_support_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Support", Null, Null, Null), 2, 0, 6, 2));
-        Set Global Variable(allow_ow2_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Overwatch 2", Null, Null, Null), False, 0));
+        Set Global Variable(allow_ow1_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Overwatch 1", Null, Null, Null), True, 0));
+        Set Global Variable(allow_ow2_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Overwatch 2", Null, Null, Null), True, 0));
         Set Global Variable(PHI, 3.883222077450933);
         Set Global Variable(debug, Workshop Setting Toggle(Custom String("Dev Tools", Null, Null, Null), Custom String("debug mode", Null, Null, Null), False, 0));
     }
@@ -475,7 +484,7 @@ rule ("[hero_switch.opy]: detect hero switch") {
     }
 }
 
-rule ("[role_lock.opy]: Define OW1 tank, damage, support heroes") {
+rule ("[role_lock.opy]: Define tank, damage, support heroes array") {
     event {
         Ongoing - Global;
     }
@@ -485,18 +494,23 @@ rule ("[role_lock.opy]: Define OW1 tank, damage, support heroes") {
         Modify Global Variable(ow1_tank_heroes, Remove From Array By Value, Hero(Doomfist));
         Set Global Variable(ow2_tank_heroes, Array(Hero(Junker Queen), Hero(Ramattra)));
         Modify Global Variable(ow1_tank_heroes, Remove From Array By Value, Global.ow2_tank_heroes);
-        Set Global Variable(tank_heroes, Global.ow1_tank_heroes);
         "Damage"
         Set Global Variable(ow1_damage_heroes, All Damage Heroes);
         Modify Global Variable(ow1_damage_heroes, Append To Array, Hero(Doomfist));
         Set Global Variable(ow2_damage_heroes, Array(Hero(Sojourn)));
         Modify Global Variable(ow1_damage_heroes, Remove From Array By Value, Global.ow2_damage_heroes);
-        Set Global Variable(damage_heroes, Global.ow1_damage_heroes);
         "Supports"
         Set Global Variable(ow1_support_heroes, All Support Heroes);
-        Set Global Variable(ow2_support_heroes, Array(Hero(Kiriko), Hero(Lifeweaver)));
+        Set Global Variable(ow2_support_heroes, Array(Hero(Kiriko), Hero(Lifeweaver), Hero(Illari)));
         Modify Global Variable(ow1_support_heroes, Remove From Array By Value, Global.ow2_support_heroes);
-        Set Global Variable(support_heroes, Global.ow1_support_heroes);
+        Set Global Variable(tank_heroes, Empty Array);
+        Set Global Variable(damage_heroes, Empty Array);
+        Set Global Variable(support_heroes, Empty Array);
+        If(Compare(Global.allow_ow1_heroes, ==, True));
+            Modify Global Variable(tank_heroes, Append To Array, Global.ow1_tank_heroes);
+            Modify Global Variable(damage_heroes, Append To Array, Global.ow1_damage_heroes);
+            Modify Global Variable(support_heroes, Append To Array, Global.ow1_support_heroes);
+        End;
         If(Compare(Global.allow_ow2_heroes, ==, True));
             Modify Global Variable(tank_heroes, Append To Array, Global.ow2_tank_heroes);
             Modify Global Variable(damage_heroes, Append To Array, Global.ow2_damage_heroes);
@@ -683,7 +697,7 @@ rule ("[role_lock.opy]: unlockTank()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
-        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.tank_heroes);
+        "eventPlayer.allowed_heroes.remove(tank_heroes)"
         Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.tank_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
@@ -696,7 +710,7 @@ rule ("[role_lock.opy]: unlockDamage()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
-        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.damage_heroes);
+        "eventPlayer.allowed_heroes.remove(damage_heroes)"
         Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.damage_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
@@ -709,16 +723,16 @@ rule ("[role_lock.opy]: unlockSupport()") {
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Allowed Heroes(Event Player));
-        Modify Player Variable(Event Player, allowed_heroes, Remove From Array By Value, Global.support_heroes);
+        "eventPlayer.allowed_heroes.remove(support_heroes)"
         Modify Player Variable(Event Player, allowed_heroes, Append To Array, Global.support_heroes);
         Set Player Allowed Heroes(Event Player, (Event Player).allowed_heroes);
     }
 }
 
-rule ("[role_lock.opy]: unlockAllRoles()") {
+rule ("[role_lock.opy]: resetRoleLock()") {
     event {
         Subroutine;
-        unlockAllRoles;
+        resetRoleLock;
     }
     actions {
         Set Player Variable(Event Player, allowed_heroes, Global.all_heroes);
@@ -970,14 +984,14 @@ rule ("[ult_charge.opy]: initialize overwatch 1 ultimate costs") {
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Pharah)), 2105.2631578947367);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Reaper)), 2097.8260869565215);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Soldier: 76)), 2310);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Sombra)), 1400);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Sombra)), 1400.0000000000002);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Symmetra)), 1680);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Torbjörn)), 2142);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Tracer)), 1260);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Widowmaker)), 1540);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Ana)), 2100);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Baptiste)), 2310);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Brigitte)), 2802.197802197802);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Brigitte)), 2786.5979381443303);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Lúcio)), 2951.2195121951218);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Mercy)), 1820);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Moira)), 2800);
@@ -1173,7 +1187,6 @@ rule ("[ana.opy]: initAna()") {
         initAna;
     }
     actions {
-        Set Damage Dealt(Event Player, 96);
         Set Ammo(Event Player, 0, 12);
         Set Max Ammo(Event Player, 0, 12);
         Call Subroutine(removeSelfHealing);
@@ -3012,6 +3025,64 @@ rule ("[hanzo.opy]: Deal OW1 storm arrow damage") {
     }
 }
 
+rule ("[illari.opy]: Detect Illari initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Illari;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initIllari);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[illari.opy]: initIllari()") {
+    event {
+        Subroutine;
+        initIllari;
+    }
+    actions {
+        Call Subroutine(removeSelfHealing);
+    }
+}
+
+rule ("[illari.opy]: Allow self healing during Pylon") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Illari;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, self_healing_percent, 100);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Set Player Variable(Event Player, self_healing_percent, 0);
+    }
+}
+
+rule ("[junkerqueen.opy]: Detect Junkerqueen initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Junker Queen;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initJunkerqueen);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
 rule ("[junkrat.opy]: Detect Junkrat initialization") {
     event {
         Ongoing - Each Player;
@@ -3055,6 +3126,108 @@ rule ("[junkrat.opy]: Deal extra damage on ability other than steel trap and inc
         Else;
             "Increase root duration"
             Set Status(Victim, Attacker, Rooted, 3);
+    }
+}
+
+rule ("[kiriko.opy]: Detect Kiriko initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Kiriko;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initKiriko);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[kiriko.opy]: initKiriko()") {
+    event {
+        Subroutine;
+        initKiriko;
+    }
+    actions {
+        Call Subroutine(removeSelfHealing);
+    }
+}
+
+rule ("[kiriko.opy]: Allow self healing during Suzu") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Kiriko;
+    }
+    conditions {
+        Is Using Ability 2(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, self_healing_percent, 100);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Set Player Variable(Event Player, self_healing_percent, 0);
+    }
+}
+
+rule ("[lifeweaver.opy]: Detect Lifeweaver initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Lifeweaver;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initLifeweaver);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[lifeweaver.opy]: initLifeweaver()") {
+    event {
+        Subroutine;
+        initLifeweaver;
+    }
+    actions {
+        Call Subroutine(removeSelfHealing);
+    }
+}
+
+rule ("[lifeweaver.opy]: Allow self healing during Rejuvanating Dash") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Lifeweaver;
+    }
+    conditions {
+        "[TODO] Replace with better condition"
+        Is Jumping(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, self_healing_percent, 100);
+        "[TODO] Replace with better condition"
+        Wait Until(Not(Is Jumping(Event Player)), 9999);
+        Set Player Variable(Event Player, self_healing_percent, 0);
+    }
+}
+
+rule ("[lifeweaver.opy]: Allow self healing during Tree of Life") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Lifeweaver;
+    }
+    conditions {
+        Is Using Ultimate(Event Player) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, self_healing_percent, 100);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
 
@@ -3538,6 +3711,8 @@ rule ("[orisa.opy]: initOrisa()") {
         "Below variables are also declared and initialized in reset_hero.opy"
         Set Player Variable(All Players(Team Of(Event Player)), friendly_orisa_player, Event Player);
         Set Player Variable(All Players(Opposite Team Of(Team Of(Event Player))), enemy_orisa_player, Event Player);
+        Call Subroutine(replanishAmmo);
+        Set Max Ammo(Event Player, 0, (Event Player).current_ammo_count);
         Set Player Variable(Event Player, is_using_supercharger, False);
         Set Player Variable(Event Player, is_using_halt, False);
     }
@@ -3739,7 +3914,7 @@ rule ("[orisa.opy]: Shoot Halt Orb") {
         "Calculate starting/ending positions"
         Set Player Variable(Event Player, halt_position, Eye Position(Event Player));
         Set Player Variable(Event Player, halt_ending_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(1000, Facing Direction Of(Event Player))), Null, Null, True));
-        Set Player Variable(Event Player, is_getting_orisa_pulled, False);
+        Set Player Variable(Event Player, is_snared, False);
         Wait(0.1, Ignore Condition);
         "Start halt"
         Set Player Variable(Event Player, is_using_halt, True);
@@ -3763,13 +3938,29 @@ rule ("[orisa.opy]: Explode Halt Orb") {
     actions {
         Stop Chasing Player Variable(Event Player, halt_position);
         Wait(0.45, Ignore Condition);
-        Set Player Variable(Players Within Radius((Event Player).halt_position, 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), is_getting_orisa_pulled, True);
+        Set Player Variable(Players Within Radius((Event Player).halt_position, 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), is_snared, True);
         Set Environment Credit Player(Players Within Radius((Event Player).halt_position, 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), Event Player);
         Set Player Variable(Event Player, is_using_halt, False);
         Destroy Effect((Event Player).halt_entity1);
         Destroy Effect((Event Player).halt_entity2);
         Modify Player Variable(Event Player, entity_huds, Remove From Array By Value, (Event Player).halt_entity1);
         Modify Player Variable(Event Player, entity_huds, Remove From Array By Value, (Event Player).halt_entity2);
+    }
+}
+
+rule ("[orirsa.opy]: Slow down snared enemies") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).is_snared == True;
+    }
+    actions {
+        Set Move Speed(Event Player, 33);
+        Wait(0.65, Ignore Condition);
+        Set Move Speed(Event Player, 100);
     }
 }
 
@@ -3780,7 +3971,7 @@ rule ("[orisa.opy]: Pull halted victims") {
         All;
     }
     conditions {
-        (Event Player).is_getting_orisa_pulled == True;
+        (Event Player).is_snared == True;
     }
     actions {
         Set Player Variable(Event Player, position, Position Of(Event Player));
@@ -3791,7 +3982,7 @@ rule ("[orisa.opy]: Pull halted victims") {
         Stop Forcing Player Position(Event Player);
         "Cancel current momentum"
         Apply Impulse(Event Player, Velocity Of(Event Player), Multiply(-1, Speed Of(Event Player)), To World, Incorporate Contrary Motion);
-        Set Player Variable(Event Player, is_getting_orisa_pulled, False);
+        Set Player Variable(Event Player, is_snared, False);
     }
 }
 
@@ -3807,7 +3998,7 @@ rule ("[orisa.opy]: Create Halt pull line vfx when in pull range") {
         Is In Line of Sight(Event Player, ((Event Player).enemy_orisa_player).halt_position, All Barriers Block LOS) == True;
     }
     actions {
-        Create Beam Effect(All Players(All Teams), Good Beam, ((Event Player).enemy_orisa_player).halt_position, Event Player, If-Then-Else((Event Player).is_getting_orisa_pulled, Color(Green), Color(White)), Position Radius and Color);
+        Create Beam Effect(All Players(All Teams), Good Beam, ((Event Player).enemy_orisa_player).halt_position, Event Player, If-Then-Else((Event Player).is_snared, Color(Green), Color(White)), Position Radius and Color);
         Set Player Variable(Event Player, halt_pull_line_entity, Last Created Entity);
         Modify Player Variable(Event Player, entity_huds, Append To Array, (Event Player).halt_pull_line_entity);
     }
@@ -4015,7 +4206,7 @@ rule ("[orisa.opy]: Take no damage when behind barrier") {
     }
     actions {
         Set Player Variable(Event Player, lsi_o, Eye Position(Attacker));
-        Set Player Variable(Event Player, lsi_u, Facing Direction Of(Attacker));
+        Set Player Variable(Event Player, lsi_u, Direction Towards(Attacker, Victim));
         Set Player Variable(Event Player, lsi_c, ((Victim).friendly_orisa_player).barrier_position);
         Set Player Variable(Event Player, lsi_r, 3.5);
         Call Subroutine(findLineSphereIntersection);
@@ -4027,6 +4218,120 @@ rule ("[orisa.opy]: Take no damage when behind barrier") {
                 Modify Player Variable((Victim).friendly_orisa_player, barrier_health, Subtract, Event Damage);
                 Abort;
             End;
+        End;
+    }
+}
+
+rule ("[orisa.opy]: Receive no healing when behind barrier") {
+    event {
+        Player Received Healing;
+        All;
+        All;
+    }
+    conditions {
+        ((Healee).enemy_orisa_player).barrier_active == True;
+        Multiply(Distance Between(Eye Position(Healer), ((Healee).enemy_orisa_player).barrier_position), Sine From Degrees(Angle Between Vectors(Direction Towards(Healer, Healee), Direction Towards(Eye Position(Healer), ((Healee).enemy_orisa_player).barrier_position)))) <= 3.5;
+    }
+    actions {
+        Set Player Variable(Event Player, lsi_o, Eye Position(Healer));
+        Set Player Variable(Event Player, lsi_u, Direction Towards(Healer, Healee));
+        Set Player Variable(Event Player, lsi_c, ((Healee).enemy_orisa_player).barrier_position);
+        Set Player Variable(Event Player, lsi_r, 3.5);
+        Call Subroutine(findLineSphereIntersection);
+        Set Player Variable(Event Player, orisa_barrier_hit_positions, Filtered Array((Event Player).lsi_x, And(And(Compare(Distance Between(((Healee).enemy_orisa_player).barrier_position, Current Array Element), <=, 3.5), Compare(Angle Between Vectors(Up, Direction Towards(((Healee).enemy_orisa_player).barrier_position, Current Array Element)), <=, 90)), Compare(Angle Between Vectors(((Healee).enemy_orisa_player).barrier_orientation, Direction Towards(((Healee).enemy_orisa_player).barrier_position, Current Array Element)), <=, 90))));
+        For Global Variable(i, 0, Count Of((Event Player).orisa_barrier_hit_positions), 1);
+            "barrier hit is between the healer and the healee"
+            If(Compare(Distance Between(Eye Position(Healer), Value In Array((Event Player).orisa_barrier_hit_positions, Global.i)), <, Distance Between(Eye Position(Healer), Eye Position(Healee))));
+                Damage(Healee, Null, Event Healing);
+                Modify Player Variable((Healee).enemy_orisa_player, barrier_health, Subtract, Event Healing);
+                Abort;
+            End;
+        End;
+    }
+}
+
+rule ("[orisa.opy]: Save ammo count when finished firing") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        Is Firing Primary(Event Player) == False;
+    }
+    actions {
+        Set Player Variable(Event Player, current_ammo_count, Ammo(Event Player, 0));
+    }
+}
+
+rule ("[orisa.opy]: Correct ammo count when wrong") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        (Event Player).current_ammo_count != Ammo(Event Player, 0);
+    }
+    actions {
+        Set Ammo(Event Player, 0, (Event Player).current_ammo_count);
+    }
+}
+
+rule ("[orisa.opy]: Replanish ammo on reload") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        Is Reloading(Event Player) == True;
+    }
+    actions {
+        Call Subroutine(replanishAmmo);
+    }
+}
+
+rule ("[orisa.opy]: replanishAmmo()") {
+    event {
+        Subroutine;
+        replanishAmmo;
+    }
+    actions {
+        Set Player Variable(Event Player, current_ammo_count, 125);
+        Set Ammo(Event Player, 0, (Event Player).current_ammo_count);
+    }
+}
+
+rule ("[ramattra.opy]: Detect Ramattra initialization") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Ramattra;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).initialized == False;
+    }
+    actions {
+        Call Subroutine(initRamattra);
+        Set Player Variable(Event Player, initialized, True);
+    }
+}
+
+rule ("[ramattra.opy]: initRamattra()") {
+    event {
+        Subroutine;
+        initRamattra;
+    }
+    actions {
+        While(Compare(Max Health(Event Player), !=, 400));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, health_normal, 400);
+            Set Player Variable(Event Player, health_armor, 0);
+            Set Player Variable(Event Player, health_shields, 0);
+            Call Subroutine(applyCustomHealth);
+            Wait(1, Ignore Condition);
         End;
     }
 }
