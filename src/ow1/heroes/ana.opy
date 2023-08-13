@@ -13,7 +13,6 @@ rule "[ana.opy]: Detect Ana initialization":
 
 def initAna():
     @Name "[ana.opy]: initAna()"
-    eventPlayer.setDamageDealt(percent(OW1_ANA_SLEEP_DART_DAMAGE/OW2_ANA_SLEEP_DART_DAMAGE))
     eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
 
