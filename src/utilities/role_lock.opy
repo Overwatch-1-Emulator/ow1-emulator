@@ -17,7 +17,7 @@ globalvar hero_select_time
 globalvar max_tank_count = createWorkshopSetting(int[0:6], "Role limit", "Tank", 2, 0)
 globalvar max_damage_count = createWorkshopSetting(int[0:6], "Role limit", "Damage", 2, 1)
 globalvar max_support_count = createWorkshopSetting(int[0:6], "Role limit", "Support", 2, 2)
-globalvar allow_ow2_heroes = createWorkshopSetting(bool, "Heroes", "Overwatch 2", false, 0)
+globalvar allow_ow2_heroes = createWorkshopSetting(bool, "Heroes", "Overwatch 2", true, 0)
 
 playervar role
 playervar allowed_heroes
@@ -38,7 +38,7 @@ enum Role:
     SUPPORT
 
 
-rule "[role_lock.opy]: Define OW1 tank, damage, support heroes":
+rule "[role_lock.opy]: Define tank, damage, support heroes array":
     @Event global
     
     # Tanks
@@ -57,7 +57,7 @@ rule "[role_lock.opy]: Define OW1 tank, damage, support heroes":
 
     # Supports
     ow1_support_heroes = getSupportHeroes()
-    ow2_support_heroes = [Hero.KIRIKO, Hero.LIFEWEAVER]
+    ow2_support_heroes = [Hero.KIRIKO, Hero.LIFEWEAVER, Hero.ILLARI]
     ow1_support_heroes.remove(ow2_support_heroes)
     support_heroes = ow1_support_heroes
 
