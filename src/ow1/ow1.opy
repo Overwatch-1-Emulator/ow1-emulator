@@ -20,6 +20,7 @@
 #!include "ow1/heroes/echo.opy"
 #!include "ow1/heroes/genji.opy"
 #!include "ow1/heroes/hanzo.opy"
+#!include "ow1/heroes/illari.opy"
 #!include "ow1/heroes/junkrat.opy"
 #!include "ow1/heroes/kiriko.opy"
 #!include "ow1/heroes/lifeweaver.opy"
