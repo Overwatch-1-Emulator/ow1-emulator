@@ -2,11 +2,6 @@
 
 subroutine initJunkerqueen
 
-def initJunkerqueen():
-    @Name "[junkerqueen.opy]: initJunkerqueen()"
-    # [TODO]
-    pass
-
 rule "[junkerqueen.opy]: Detect Junkerqueen initialization":
     @Event eachPlayer
     @Hero junkerqueen
@@ -14,3 +9,9 @@ rule "[junkerqueen.opy]: Detect Junkerqueen initialization":
 
     initJunkerqueen()
     eventPlayer.initialized = true
+
+
+def initJunkerqueen():
+    @Name "[junkerqueen.opy]: initJunkerqueen()"
+    # [TODO]
+    pass
