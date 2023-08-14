@@ -54,11 +54,9 @@
 
 ###################################
 # Ana
-# Ana's sleep dart damage should be 70, but extra 2 damage is needed for shoot nade shoot combo
 #!define OW1_ANA_BIOTIC_GRENADE_HEALING 100
 #!define OW1_ANA_CLIP_SIZE 12
 #!define OW1_ANA_SLEEP_DART_COOLDOWN_TIME 12
-#!define OW1_ANA_SLEEP_DART_DAMAGE 72
 #!define OW1_ANA_SLEEP_DART_SLEEP_DURATION 5
 
 # Baptiste
