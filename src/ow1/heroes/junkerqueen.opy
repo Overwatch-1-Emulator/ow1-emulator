@@ -4,7 +4,7 @@ subroutine initJunkerqueen
 
 rule "[junkerqueen.opy]: Detect Junkerqueen initialization":
     @Event eachPlayer
-    @Hero junkerqueen
+    @Hero junkerQueen
     @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initJunkerqueen()
