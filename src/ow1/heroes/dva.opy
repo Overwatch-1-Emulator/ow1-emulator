@@ -23,6 +23,15 @@ def initDva():
     eventPlayer.setUltCharge(0)
 
 
+rule "[dva.opy]: Set default booster cooldown":
+    @Event eachPlayer
+    @Hero dva
+    @Condition eventPlayer.isUsingAbility1()
+
+    waitUntil(not eventPlayer.isUsingAbility1(), 9999)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DVA_BOOSTER_COOLDOWN_TIME)
+
+
 rule "[dva.opy]: Set default missile cooldown":
     @Event eachPlayer
     @Hero dva
