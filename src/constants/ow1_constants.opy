@@ -6,7 +6,6 @@
 ###################################
 # Ult Costs
 # Tank
-#!define OW1_DVA_ULT_COST 1540
 #!define OW1_REINHARDT_ULT_COST 1540
 #!define OW1_ROADHOG_ULT_COST 2240
 #!define OW1_SIGMA_ULT_COST 1960
@@ -122,9 +121,11 @@
 
 # Dva
 #!define OW1_DVA_ARMOR 300
+#!define OW1_DVA_BOOSTER_COOLDOWN_TIME 4
 #!define OW1_DVA_HEALTH 300
 #!define OW1_DVA_MICRO_MISSILES_COOLDOWN_TIME 8
 #!define OW1_DVA_SHIELDS 0
+#!define OW1_DVA_ULT_COST 1540
 
 # Echo
 #!define OW1_ECHO_FOCUSING_BEAM_TRESHOLD 50
