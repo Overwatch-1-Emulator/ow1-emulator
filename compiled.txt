@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.7.0 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.7.1 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -460,7 +460,7 @@ rule ("Initialize global variables") {
         Set Global Variable(max_damage_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Damage", Null, Null, Null), 2, 0, 6, 1));
         Set Global Variable(max_support_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Support", Null, Null, Null), 2, 0, 6, 2));
         Set Global Variable(allow_ow1_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Overwatch 1", Null, Null, Null), True, 0));
-        Set Global Variable(allow_ow2_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Overwatch 2", Null, Null, Null), True, 0));
+        Set Global Variable(allow_ow2_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Overwatch 2", Null, Null, Null), False, 0));
         Set Global Variable(PHI, 3.883222077450933);
         Set Global Variable(debug, Workshop Setting Toggle(Custom String("Dev Tools", Null, Null, Null), Custom String("debug mode", Null, Null, Null), False, 0));
     }
@@ -3041,16 +3041,6 @@ rule ("[illari.opy]: Detect Illari initialization") {
     }
 }
 
-rule ("[illari.opy]: initIllari()") {
-    event {
-        Subroutine;
-        initIllari;
-    }
-    actions {
-        Call Subroutine(removeSelfHealing);
-    }
-}
-
 rule ("[illari.opy]: Allow self healing during Pylon") {
     event {
         Ongoing - Each Player;
@@ -3826,13 +3816,13 @@ rule ("[orisa.opy]: De-supercharge teammates when supercharger ends") {
     event {
         Ongoing - Each Player;
         All;
-        All;
+        Orisa;
     }
     conditions {
-        ((Event Player).friendly_orisa_player).is_using_supercharger == False;
+        (Event Player).is_using_supercharger == False;
     }
     actions {
-        Set Player Variable(Event Player, is_supercharged, False);
+        Set Player Variable(All Players(Team Of(Event Player)), is_supercharged, False);
     }
 }
 
@@ -3844,6 +3834,7 @@ rule ("[orisa.opy]: De-supercharge teammates when they die") {
     }
     conditions {
         Is Dead(Event Player) == True;
+        (Event Player).is_supercharged == True;
     }
     actions {
         Set Player Variable(Event Player, is_supercharged, False);
@@ -3911,20 +3902,22 @@ rule ("[orisa.opy]: Shoot Halt Orb") {
         shootHalt;
     }
     actions {
-        "Calculate starting/ending positions"
-        Set Player Variable(Event Player, halt_position, Eye Position(Event Player));
-        Set Player Variable(Event Player, halt_ending_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(1000, Facing Direction Of(Event Player))), Null, Null, True));
-        Set Player Variable(Event Player, is_snared, False);
-        Wait(0.1, Ignore Condition);
         "Start halt"
         Set Player Variable(Event Player, is_using_halt, True);
-        "Halt orb GUI"
+        "Halt orb visuals"
         Create Effect(All Players(All Teams), Sphere, Color(Lime Green), (Event Player).halt_position, 0.6, Visible To Position and Radius);
         Set Player Variable(Event Player, halt_entity1, Last Created Entity);
         Modify Player Variable(Event Player, entity_huds, Append To Array, (Event Player).halt_entity1);
         Create Effect(All Players(All Teams), Sphere, Color(Lime Green), (Event Player).halt_position, 0.3, Visible To Position and Radius);
         Set Player Variable(Event Player, halt_entity2, Last Created Entity);
         Modify Player Variable(Event Player, entity_huds, Append To Array, (Event Player).halt_entity2);
+        "Halt orb sounds"
+        Play Effect(All Players(All Teams), Ring Explosion Sound, Color(Lime Green), Event Player, 100);
+        "Calculate starting/ending positions"
+        Set Player Variable(Event Player, halt_position, Eye Position(Event Player));
+        Set Player Variable(Event Player, halt_ending_position, Ray Cast Hit Position(Eye Position(Event Player), Add(Eye Position(Event Player), Multiply(1000, Facing Direction Of(Event Player))), Null, Null, True));
+        Set Player Variable(All Players(Opposite Team Of(Team Of(Event Player))), is_snared, False);
+        Wait(0.1, Ignore Condition);
         "Start flying halt orb"
         Chase Player Variable At Rate(Event Player, halt_position, (Event Player).halt_ending_position, 25, Destination and Rate);
     }
@@ -3940,11 +3933,14 @@ rule ("[orisa.opy]: Explode Halt Orb") {
         Wait(0.45, Ignore Condition);
         Set Player Variable(Players Within Radius((Event Player).halt_position, 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), is_snared, True);
         Set Environment Credit Player(Players Within Radius((Event Player).halt_position, 5, Opposite Team Of(Team Of(Event Player)), Surfaces And Enemy Barriers), Event Player);
-        Set Player Variable(Event Player, is_using_halt, False);
+        "Halt orb explosion sounds"
+        Play Effect(All Players(All Teams), Explosion Sound, Color(Lime Green), Event Player, 100);
+        "Clear visuals"
         Destroy Effect((Event Player).halt_entity1);
         Destroy Effect((Event Player).halt_entity2);
         Modify Player Variable(Event Player, entity_huds, Remove From Array By Value, (Event Player).halt_entity1);
         Modify Player Variable(Event Player, entity_huds, Remove From Array By Value, (Event Player).halt_entity2);
+        Set Player Variable(Event Player, is_using_halt, False);
     }
 }
 
@@ -3998,6 +3994,8 @@ rule ("[orisa.opy]: Create Halt pull line vfx when in pull range") {
         Is In Line of Sight(Event Player, ((Event Player).enemy_orisa_player).halt_position, All Barriers Block LOS) == True;
     }
     actions {
+        "Halt orb explosion sounds"
+        Play Effect(All Players(All Teams), Debuff Impact Sound, Color(Lime Green), Event Player, 100);
         Create Beam Effect(All Players(All Teams), Good Beam, ((Event Player).enemy_orisa_player).halt_position, Event Player, If-Then-Else((Event Player).is_snared, Color(Green), Color(White)), Position Radius and Color);
         Set Player Variable(Event Player, halt_pull_line_entity, Last Created Entity);
         Modify Player Variable(Event Player, entity_huds, Append To Array, (Event Player).halt_pull_line_entity);
@@ -4601,7 +4599,7 @@ rule ("[roadhog.opy]: Move hooked enemies closer") {
     actions {
         Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
         If(Compare(Distance Between(Victim, Attacker), <=, 4.5));
-            Teleport(Victim, Add(Position Of(Attacker), Multiply(3, Direction Towards(Attacker, Victim))));
+            Teleport(Victim, Ray Cast Hit Position(Position Of(Attacker), Add(Position Of(Attacker), Multiply(3, Direction Towards(Attacker, Victim))), Null, Null, False));
     }
 }
 

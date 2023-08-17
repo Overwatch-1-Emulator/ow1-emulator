@@ -14,7 +14,7 @@ rule "[illari.opy]: Detect Illari initialization":
 def initIllari():
     @Name "[illari.opy]: initIllari()"
 
-    removeSelfHealing()
+    # removeSelfHealing()
 
 
 rule "[illari.opy]: Allow self healing during Pylon":
