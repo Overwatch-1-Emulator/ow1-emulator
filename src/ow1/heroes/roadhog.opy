@@ -97,7 +97,7 @@ rule "[roadhog.opy]: Move hooked enemies closer":
 
     waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     if distance(victim, attacker) <= OW2_ROADHOG_HOOK_PROXIMITY + 0.5:
-        victim.teleport(attacker.getPosition() + OW1_ROADHOG_HOOK_PROXIMITY*directionTowards(attacker, victim))
+        victim.teleport(raycast(attacker.getPosition(), attacker.getPosition() + OW1_ROADHOG_HOOK_PROXIMITY*directionTowards(attacker, victim), null, null, false).getHitPosition())
 
 
 rule "[roadhog.opy]: Reduce ultimate duration":
