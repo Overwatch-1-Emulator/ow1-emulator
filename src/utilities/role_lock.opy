@@ -18,7 +18,7 @@ globalvar max_tank_count = createWorkshopSetting(int[0:6], "Role limit", "Tank",
 globalvar max_damage_count = createWorkshopSetting(int[0:6], "Role limit", "Damage", 2, 1)
 globalvar max_support_count = createWorkshopSetting(int[0:6], "Role limit", "Support", 2, 2)
 globalvar allow_ow1_heroes = createWorkshopSetting(bool, "Heroes", "Overwatch 1", true, 0)
-globalvar allow_ow2_heroes = createWorkshopSetting(bool, "Heroes", "Overwatch 2", true, 0)
+globalvar allow_ow2_heroes = createWorkshopSetting(bool, "Heroes", "Overwatch 2", false, 0)
 
 playervar role
 playervar allowed_heroes
