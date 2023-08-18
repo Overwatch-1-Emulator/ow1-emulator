@@ -254,8 +254,8 @@ rule "[doomfist.opy]: Uppercut victim movement physics":
     @Condition eventPlayer.is_hit_by_uppercut == true
 
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0) # Lose movement control
-    eventPlayer.applyImpulse(Vector.UP, 15, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
-    eventPlayer.applyImpulse(getLateralFacingDirection(eventPlayer.enemy_doomfist_player), 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    eventPlayer.applyImpulse(Vector.UP, 13.5, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    eventPlayer.applyImpulse(getLateralFacingDirection(eventPlayer.enemy_doomfist_player), 8.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     wait(OW1_DOOMFIST_RISING_UPPERCUT_AIR_LOCK_TIME)
     eventPlayer.stopForcingThrottle() # Regain movement control
     eventPlayer.is_hit_by_uppercut = false
