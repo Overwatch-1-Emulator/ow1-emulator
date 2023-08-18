@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.7.1 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.7.2 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -2346,8 +2346,8 @@ rule ("[doomfist.opy]: Uppercut victim movement physics") {
     actions {
         "Lose movement control"
         Start Forcing Throttle(Event Player, 0, 0, 0, 0, 0, 0);
-        Apply Impulse(Event Player, Up, 15, To Player, Cancel Contrary Motion XYZ);
-        Apply Impulse(Event Player, Normalize(Multiply(Facing Direction Of((Event Player).enemy_doomfist_player), Add(Forward, Left))), 5, To World, Cancel Contrary Motion XYZ);
+        Apply Impulse(Event Player, Up, 13.5, To Player, Cancel Contrary Motion XYZ);
+        Apply Impulse(Event Player, Normalize(Multiply(Facing Direction Of((Event Player).enemy_doomfist_player), Add(Forward, Left))), 8.5, To World, Cancel Contrary Motion XYZ);
         Wait(0.6, Ignore Condition);
         "Regain movement control"
         Stop Forcing Throttle(Event Player);
@@ -2820,6 +2820,21 @@ rule ("[dva.opy]: initDva()") {
         Loop If(Compare(Max Health(Event Player), !=, 600));
         Wait Until(Not(Is In Alternate Form(Event Player)), 9999);
         Set Ultimate Charge(Event Player, 0);
+    }
+}
+
+rule ("[dva.opy]: Set default booster cooldown") {
+    event {
+        Ongoing - Each Player;
+        All;
+        D.Va;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Set Ability Cooldown(Event Player, Button(Ability 1), 4);
     }
 }
 
@@ -4301,6 +4316,20 @@ rule ("[orisa.opy]: replanishAmmo()") {
     }
 }
 
+rule ("[orisa.opy]: Remove overhealth during fortify") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        Is Using Ability 1(Event Player) == True;
+    }
+    actions {
+        Damage(Event Player, Null, 250);
+    }
+}
+
 rule ("[ramattra.opy]: Detect Ramattra initialization") {
     event {
         Ongoing - Each Player;
@@ -5410,9 +5439,9 @@ rule ("[debug.opy]: global debug (Top Left)") {
     }
     actions {
         Create HUD Text(All Players(All Teams), Custom String("Global", Null, Null, Null), Null, Null, Left, 0, Color(White), Null, Null, Visible To and String, Default Visibility);
-        Create HUD Text(All Players(All Teams), Null, Custom String("Server Load: {0}%", Server Load, Null, Null), Null, Left, 0, Null, Color(White), Null, Visible To and String, Default Visibility);
-        Create HUD Text(All Players(All Teams), Null, Custom String("Server Load Average: {0}%", Server Load Average, Null, Null), Null, Left, 0, Null, Color(White), Null, Visible To and String, Default Visibility);
-        Create HUD Text(All Players(All Teams), Null, Custom String("Server Load Peak: {0}%", Server Load Peak, Null, Null), Null, Left, 0, Null, Color(White), Null, Visible To and String, Default Visibility);
+        Create HUD Text(All Players(All Teams), Null, Custom String("Server Load: {0}%", Server Load, Null, Null), Null, Left, 1, Null, Color(White), Null, Visible To and String, Default Visibility);
+        Create HUD Text(All Players(All Teams), Null, Custom String("Server Load Average: {0}%", Server Load Average, Null, Null), Null, Left, 1, Null, Color(White), Null, Visible To and String, Default Visibility);
+        Create HUD Text(All Players(All Teams), Null, Custom String("Server Load Peak: {0}%", Server Load Peak, Null, Null), Null, Left, 1, Null, Color(White), Null, Visible To and String, Default Visibility);
     }
 }
 
@@ -5427,19 +5456,21 @@ rule ("[debug.opy]: player debug (Top Right)") {
     }
     actions {
         Create HUD Text(Event Player, Custom String("Event Player", Null, Null, Null), Null, Null, Right, 0, Color(White), Null, Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("getAltitude() = {0}", Altitude Of(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("hasStatusEffect(Status.HACKED) = {0}", Has Status(Event Player, Hacked), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("getStatistic(Stat.HERO_DAMAGE_DEALT) = {0}", Player Stat(Event Player, Hero Damage Dealt), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("len(allowed_heroes) = {0}", Count Of((Event Player).allowed_heroes), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("len(getAllowedHeroes()) = {0}", Count Of(Allowed Heroes(Event Player)), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("isUsingUltimate() = {0}", Is Using Ultimate(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("getUltCharge() = {0}", Ultimate Charge Percent(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("getUltCharge() >= 100 = {0}", Compare(Ultimate Charge Percent(Event Player), >=, 100), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("isFiringPrimaryFire() = {0}", Is Firing Primary(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("isFiringSecondaryFire() = {0}", Is Firing Secondary(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("isUsingAbility1() = {0}", Is Using Ability 1(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("isUsingAbility2() = {0}", Is Using Ability 2(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
-        Create HUD Text(Event Player, Null, Custom String("getSpeed() = {0}", Speed Of(Event Player), Null, Null), Null, Right, 0, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getAltitude() = {0}", Altitude Of(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("hasStatusEffect(Status.HACKED) = {0}", Has Status(Event Player, Hacked), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getStatistic(Stat.HERO_DAMAGE_DEALT) = {0}", Player Stat(Event Player, Hero Damage Dealt), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("len(allowed_heroes) = {0}", Count Of((Event Player).allowed_heroes), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("len(getAllowedHeroes()) = {0}", Count Of(Allowed Heroes(Event Player)), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isUsingUltimate() = {0}", Is Using Ultimate(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getUltCharge() = {0}", Ultimate Charge Percent(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getUltCharge() >= 100 = {0}", Compare(Ultimate Charge Percent(Event Player), >=, 100), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isFiringPrimaryFire() = {0}", Is Firing Primary(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isFiringSecondaryFire() = {0}", Is Firing Secondary(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isUsingAbility1() = {0}", Is Using Ability 1(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isUsingAbility2() = {0}", Is Using Ability 2(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getSpeed() = {0}", Speed Of(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("ult_cost[hero_id] = {0}", Value In Array(Global.ult_cost, (Event Player).hero_id), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("ult_percent_compensated = {0}", (Event Player).ult_percent_compensated, Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
     }
 }
 
