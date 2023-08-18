@@ -529,3 +529,11 @@ def replanishAmmo():
 
     eventPlayer.current_ammo_count = OW1_ORISA_AMMO/OW1_ORISA_FIRE_RATE*OW2_ORISA_FIRE_RATE
     eventPlayer.setAmmo(0, eventPlayer.current_ammo_count)
+
+
+rule "[orisa.opy]: Remove overhealth during fortify":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isUsingAbility1()
+
+    damage(eventPlayer, null, OW2_ORISA_FORTIFY_OVERHEALTH/OW2_ORISA_FORTIFY_DAMAGE_REDUCTION)
