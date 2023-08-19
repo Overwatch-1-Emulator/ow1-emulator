@@ -6,10 +6,16 @@ playervar punch_charge_time
 
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
-#!define getRocketPunchDamage(charge_time) ((OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN)/(OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)*(charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX)+OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX)
+#!define getRocketPunchDamage(charge_time) \
+    ((OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN) \
+     / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
+     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX) + OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX)
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
-#!define getRocketPunchWallImpactDamage(charge_time) ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN)/(OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)*(charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX)+OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX)
+#!define getRocketPunchWallImpactDamage(charge_time) \
+    ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN) \
+     / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
+     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX) + OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX)
 
 rule "[punch.opy]: Initialize rocket punch":
     @Event eachPlayer
