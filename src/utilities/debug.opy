@@ -47,4 +47,11 @@ rule "[debug.opy]: Debug damage instance":
     @Event playerDealtDamage
     @Condition debug == true
 
-    printLog("{} {} {}".format(eventPlayer.getCurrentHero(), eventAbility, eventDamage))
+    printLog("hero={}, ability={}, amount={}".format(eventPlayer.getCurrentHero(), eventAbility, eventDamage))
+
+
+rule "[debug.opy]: Debug healing instance":
+    @Event playerDealtHealing
+    @Condition debug == true
+
+    printLog("hero={}, ability={}, amount={}".format(eventPlayer.getCurrentHero(), eventAbility, eventHealing))
