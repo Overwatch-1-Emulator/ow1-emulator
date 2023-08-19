@@ -95,6 +95,8 @@ def initOrisa():
 
     replanishAmmo()
     eventPlayer.setMaxAmmo(0, eventPlayer.current_ammo_count)
+    
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
     eventPlayer.is_using_supercharger = false
     eventPlayer.is_using_halt = false

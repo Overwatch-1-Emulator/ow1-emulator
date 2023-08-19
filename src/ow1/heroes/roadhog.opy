@@ -25,6 +25,7 @@ def initRoadhog():
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
 
     eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
 
 rule "[roadhog.opy]: Set default hook cooldown":
