@@ -30,7 +30,7 @@
 #!include "ow1/heroes/mei.opy"
 #!include "ow1/heroes/mercy.opy"
 #!include "ow1/heroes/moira.opy"
-#!include "ow1/heroes/orisa.opy"
+#!include "ow1/heroes/orisa/orisa.opy"
 #!include "ow1/heroes/ramattra.opy"
 #!include "ow1/heroes/reaper.opy"
 #!include "ow1/heroes/reinhardt.opy"
