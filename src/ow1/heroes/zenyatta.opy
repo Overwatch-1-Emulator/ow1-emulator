@@ -5,10 +5,10 @@ subroutine initZenyatta
 rule "[zenyatta.opy]: Detect Zenyatta initialization":
     @Event eachPlayer
     @Hero zenyatta
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initZenyatta()
-    eventPlayer.call_initialize = false
+    eventPlayer.initialized = true
 
 
 def initZenyatta():

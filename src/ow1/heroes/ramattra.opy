@@ -5,10 +5,10 @@ subroutine initRamattra
 rule "[ramattra.opy]: Detect Ramattra initialization":
     @Event eachPlayer
     @Hero ramattra
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initRamattra()
-    eventPlayer.call_initialize = false
+    eventPlayer.initialized = true
 
 
 def initRamattra():

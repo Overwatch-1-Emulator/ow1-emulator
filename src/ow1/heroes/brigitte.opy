@@ -9,10 +9,10 @@ subroutine initBrigitte
 rule "[brigitte.opy]: Detect Brigitte initialization":
     @Event eachPlayer
     @Hero brigitte
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initBrigitte()
-    eventPlayer.call_initialize = false
+    eventPlayer.initialized = true
 
 
 def initBrigitte():

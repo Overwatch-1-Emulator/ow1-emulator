@@ -32,9 +32,6 @@ rule "[debug.opy]: player debug (Top Right)":
     hudSubheader(eventPlayer, "getSpeed() = {}".format(eventPlayer.getSpeed()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "ult_cost[hero_id] = {}".format(ult_cost[eventPlayer.hero_id]), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "ult_percent_compensated = {}".format(eventPlayer.ult_percent_compensated), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "call_reset = {}".format(eventPlayer.call_reset), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "call_initialize = {}".format(eventPlayer.call_initialize), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "getMaxHealth() = {}".format(eventPlayer.getMaxHealth()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
 rule "[debug.opy]: print to console on interact":

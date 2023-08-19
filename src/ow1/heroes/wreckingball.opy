@@ -5,10 +5,10 @@ subroutine initWreckingball
 rule "[wreckingball.opy]: Initialize Wrecking Ball":
     @Event eachPlayer
     @Hero hammond
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initWreckingball()
-    eventPlayer.call_initialize = false
+    eventPlayer.initialized = true
 
 
 def initWreckingball():
