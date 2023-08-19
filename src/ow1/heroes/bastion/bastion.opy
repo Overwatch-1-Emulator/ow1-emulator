@@ -19,10 +19,10 @@ subroutine initBastion
 rule "[bastion.opy]: Detect Bastion initialization":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
     
     initBastion()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initBastion():

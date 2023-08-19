@@ -5,10 +5,10 @@ subroutine initSoldier
 rule "[soldier.opy]: Initialize Soldier 76":
     @Event eachPlayer
     @Hero soldier
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initSoldier()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initSoldier():

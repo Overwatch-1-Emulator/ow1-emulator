@@ -5,10 +5,10 @@ subroutine initBaptiste
 rule "[baptiste.opy]: Detect Baptiste initialization":
     @Event eachPlayer
     @Hero baptiste
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initBaptiste()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initBaptiste():

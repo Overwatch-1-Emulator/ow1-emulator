@@ -8,10 +8,10 @@ subroutine initMccree
 rule "[mccree.opy]: Detect Mccree initialization":
     @Event eachPlayer
     @Hero mccree
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initMccree()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initMccree():
