@@ -1,4 +1,4 @@
-# Contributing Guide
+# Contribution Guide
 
 This guide covers anything related to contributing to this gamemode.  
 
