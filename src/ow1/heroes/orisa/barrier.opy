@@ -39,7 +39,7 @@ subroutine fibonacciSphere
     (angleBetweenVectors(Vector.UP, directionTowards(center, point)) <= 90) and \
     (angleBetweenVectors(direction, directionTowards(center, point)) <= 90))
 
-rule "[protective_barrier.opy]: Trigger Projectile Barrier ability":
+rule "[orisa/protective_barrier.opy]: Trigger Projectile Barrier ability":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) == 0
@@ -53,7 +53,7 @@ rule "[protective_barrier.opy]: Trigger Projectile Barrier ability":
 
 
 def throwBarrier(): # Select shield position and orientation
-    @Name "[protective_barrier.opy]: throwBarrier()"
+    @Name "[orisa/protective_barrier.opy]: throwBarrier()"
 
     # Initialize barrier projectile
     eventPlayer.barrier_orientation = getLateralFacingDirection(eventPlayer)
@@ -96,7 +96,7 @@ def throwBarrier(): # Select shield position and orientation
 
 
 def deployBarrier(): # Create shield visual object
-    @Name "[protective_barrier.opy]: deployBarrier()"
+    @Name "[orisa/protective_barrier.opy]: deployBarrier()"
 
     # Define barrer by the sphere center position
     eventPlayer.barrier_position = eventPlayer.barrier_proj_position - OW1_ORISA_PROTECTIVE_BARRIER_RADIUS*eventPlayer.barrier_orientation
@@ -119,7 +119,7 @@ def deployBarrier(): # Create shield visual object
 
 
 def fibonacciSphere():
-    @Name "[protective_barrier.opy]: fibonacciSphere()"
+    @Name "[orisa/protective_barrier.opy]: fibonacciSphere()"
     # Evenly distribute N points around a sphere
     # Store coodrindate of those points to barrier_entity_positions array
     # See https://stackoverflow.com/a/26127012 for algorithm
@@ -142,7 +142,7 @@ def fibonacciSphere():
 
 
 def destroyBarrier():
-    @Name "[protective_barrier.opy]: destroyBarrier()"
+    @Name "[orisa/protective_barrier.opy]: destroyBarrier()"
 
     for i in range(len(eventPlayer.barrier_entities)):
         destroyEffect(eventPlayer.barrier_entities[i])
@@ -153,7 +153,7 @@ def destroyBarrier():
     eventPlayer.barrier_active = false
 
 
-rule "[protective_barrier.opy]: destroy barrier on hero switch":
+rule "[orisa/protective_barrier.opy]: destroy barrier on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
     @Condition eventPlayer.getCurrentHero() != Hero.ORISA
@@ -161,7 +161,7 @@ rule "[protective_barrier.opy]: destroy barrier on hero switch":
     destroyBarrier()
 
 
-rule "[protective_barrier.opy]: Destroy barrier on barrier timeout":
+rule "[orisa/protective_barrier.opy]: Destroy barrier on barrier timeout":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.barrier_uptime >= OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME
@@ -170,7 +170,7 @@ rule "[protective_barrier.opy]: Destroy barrier on barrier timeout":
     destroyBarrier()
 
 
-rule "[protective_barrier.opy]: Destroy barrier when barrier hp runs out":
+rule "[orisa/protective_barrier.opy]: Destroy barrier when barrier hp runs out":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.barrier_health <= 0
@@ -179,7 +179,7 @@ rule "[protective_barrier.opy]: Destroy barrier when barrier hp runs out":
     destroyBarrier()
 
 
-rule "[protective_barrier.opy]: Take no damage when behind barrier":
+rule "[orisa/protective_barrier.opy]: Take no damage when behind barrier":
     @Event playerDealtDamage
     @Condition victim.friendly_orisa_player.barrier_active == true
     @Condition isAimingAtSphere(attacker.getEyePosition(), attacker.getFacingDirection(), victim.friendly_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
@@ -194,7 +194,7 @@ rule "[protective_barrier.opy]: Take no damage when behind barrier":
             return
 
 
-rule "[protective_barrier.opy]: Receive no healing when behind barrier":
+rule "[orisa/protective_barrier.opy]: Receive no healing when behind barrier":
     @Event playerReceivedHealing
     @Condition healee.enemy_orisa_player.barrier_active == true
     @Condition isAimingAtSphere(healer.getEyePosition(), directionTowards(healer, healee), healee.enemy_orisa_player.barrier_position, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)

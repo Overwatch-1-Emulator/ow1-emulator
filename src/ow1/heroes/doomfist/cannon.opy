@@ -1,6 +1,6 @@
 #!mainFile "../../../main.opy"
 
-rule "[cannon.opy]: Deal OW1 hand cannon damage":
+rule "[doomfist/cannon.opy]: Deal OW1 hand cannon damage":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.PRIMARY_FIRE

@@ -14,7 +14,7 @@ playervar position
 subroutine shootHalt
 subroutine explodeHalt
 
-rule "[halt.opy]: Trigger Halt ability start":
+rule "[orisa/halt.opy]: Trigger Halt ability start":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) == 0
@@ -29,7 +29,7 @@ rule "[halt.opy]: Trigger Halt ability start":
 
 
 def shootHalt():
-    @Name "[halt.opy]: Shoot Halt Orb"
+    @Name "[orisa/halt.opy]: Shoot Halt Orb"
 
     eventPlayer.is_using_halt = true # Start halt
 
@@ -55,7 +55,7 @@ def shootHalt():
 
 
 def explodeHalt():
-    @Name "[halt.opy]: Explode Halt Orb"
+    @Name "[orisa/halt.opy]: Explode Halt Orb"
 
     stopChasingVariable(eventPlayer.halt_position)
     wait(OW1_ORISA_HALT_ACTIVATION_TIME)
@@ -75,7 +75,7 @@ def explodeHalt():
     eventPlayer.is_using_halt = false
 
 
-rule "[halt.opy]: Destroy Halt Orb VFX":
+rule "[orisa/halt.opy]: Destroy Halt Orb VFX":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.is_using_halt == false
@@ -90,7 +90,7 @@ rule "[orirsa.opy]: Slow down snared enemies":
     eventPlayer.setMoveSpeed(100)
 
 
-rule "[halt.opy]: Pull halted victims":
+rule "[orisa/halt.opy]: Pull halted victims":
     @Event eachPlayer
     @Condition eventPlayer.is_snared == true
 
@@ -104,7 +104,7 @@ rule "[halt.opy]: Pull halted victims":
     eventPlayer.is_snared = false
 
 
-rule "[halt.opy]: Create Halt pull line vfx when in pull range":
+rule "[orisa/halt.opy]: Create Halt pull line vfx when in pull range":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.is_using_halt == true
     @Condition (distance(eventPlayer, eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS and \
@@ -118,7 +118,7 @@ rule "[halt.opy]: Create Halt pull line vfx when in pull range":
     eventPlayer.entity_huds.append(eventPlayer.halt_pull_line_entity)
 
 
-rule "[halt.opy]: Destroy Halt pull line vfx when not in pull range":
+rule "[orisa/halt.opy]: Destroy Halt pull line vfx when not in pull range":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.is_using_halt == true
     @Condition (distance(eventPlayer, eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS and \
@@ -128,7 +128,7 @@ rule "[halt.opy]: Destroy Halt pull line vfx when not in pull range":
     eventPlayer.entity_huds.remove(eventPlayer.halt_pull_line_entity)
 
 
-rule "[halt.opy]: Destroy Halt pull line vfx when halt is over":
+rule "[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.is_using_halt == false
 

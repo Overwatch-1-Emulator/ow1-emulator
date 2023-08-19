@@ -7,7 +7,7 @@
         / (OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE - OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MIN_DAMAGE)) \
         * (d - OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE))
 
-rule "[meteor.opy]: Deal OW1 Meteor Strike damage":
+rule "[doomfist/meteor.opy]: Deal OW1 Meteor Strike damage":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ULTIMATE

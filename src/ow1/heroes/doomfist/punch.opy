@@ -17,7 +17,7 @@ playervar punch_charge_time
      / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
      * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX) + OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX)
 
-rule "[punch.opy]: Initialize rocket punch":
+rule "[doomfist/punch.opy]: Initialize rocket punch":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isFiringSecondaryFire() == true
@@ -33,7 +33,7 @@ rule "[punch.opy]: Initialize rocket punch":
 
 # DO NOT switch the order of this rule with the next rule
 # The order is functionally significant
-rule "[punch.opy]: Find wall impacted victims":
+rule "[doomfist/punch.opy]: Find wall impacted victims":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.SECONDARY_FIRE
@@ -46,7 +46,7 @@ rule "[punch.opy]: Find wall impacted victims":
 
 # DO NOT switch the order of this rule with the previous rule
 # The order is functionally significant
-rule "[punch.opy]: Find punched victims":
+rule "[doomfist/punch.opy]: Find punched victims":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.SECONDARY_FIRE
@@ -56,7 +56,7 @@ rule "[punch.opy]: Find punched victims":
     attacker.punched_victims.append(victim)
 
 
-rule "[punch.opy]: Remove Empowered Punch from ultimate":
+rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isUsingUltimate() == true

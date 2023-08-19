@@ -8,7 +8,7 @@ playervar is_hit_by_uppercut
 subroutine executeUppercut
 subroutine detectUpercutHit
 
-rule "[uppercut.opy]: Detect e key press by human":
+rule "[doomfist/uppercut.opy]: Detect e key press by human":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
@@ -19,7 +19,7 @@ rule "[uppercut.opy]: Detect e key press by human":
     eventPlayer.pressing_uppercut_key = false
 
 
-rule "[uppercut.opy]: Control flow for uppercut":
+rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.pressing_uppercut_key == true
@@ -35,7 +35,7 @@ rule "[uppercut.opy]: Control flow for uppercut":
 
 
 def executeUppercut():
-    @Name "[uppercut.opy]: executeUppercut()"
+    @Name "[doomfist/uppercut.opy]: executeUppercut()"
 
     eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
 
@@ -62,7 +62,7 @@ def executeUppercut():
     eventPlayer.setGravity(100)
 
 
-rule "[uppercut.opy]: Play uppercut VFX":
+rule "[doomfist/uppercut.opy]: Play uppercut VFX":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_using_uppercut == true
@@ -72,7 +72,7 @@ rule "[uppercut.opy]: Play uppercut VFX":
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
 
 
-rule "[uppercut.opy]: Set uppercut cooldown":
+rule "[doomfist/uppercut.opy]: Set uppercut cooldown":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_using_uppercut == true
@@ -81,7 +81,7 @@ rule "[uppercut.opy]: Set uppercut cooldown":
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_RISING_UPPERCUT_COOLDOWN_TIME)
 
 
-rule "[uppercut.opy]: Disable abilities when uppercutting":
+rule "[doomfist/uppercut.opy]: Disable abilities when uppercutting":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_using_uppercut == true
@@ -95,7 +95,7 @@ rule "[uppercut.opy]: Disable abilities when uppercutting":
     eventPlayer.setSecondaryFireEnabled(true)
 
 
-rule "[uppercut.opy]: Detect uppercut victims":
+rule "[doomfist/uppercut.opy]: Detect uppercut victims":
     @Event eachPlayer
     @Condition eventPlayer.enemy_doomfist_player.is_using_uppercut == true # Enemy doomfist using uppercut
     @Condition distance(eventPlayer.enemy_doomfist_player, eventPlayer) <= OW1_DOOMFIST_RISING_UPPERCUT_RADIUS # Victim within uppercut hitbox range
@@ -108,7 +108,7 @@ rule "[uppercut.opy]: Detect uppercut victims":
     eventPlayer.is_hit_by_uppercut = true
 
 
-rule "[uppercut.opy]: Uppercut victim movement physics":
+rule "[doomfist/uppercut.opy]: Uppercut victim movement physics":
     @Event eachPlayer
     @Condition eventPlayer.is_hit_by_uppercut == true
 
@@ -120,7 +120,7 @@ rule "[uppercut.opy]: Uppercut victim movement physics":
     eventPlayer.is_hit_by_uppercut = false
 
 
-rule "[uppercut.opy]: Damage uppercut victims":
+rule "[doomfist/uppercut.opy]: Damage uppercut victims":
     @Event eachPlayer
     @Condition eventPlayer.is_hit_by_uppercut == true
 
@@ -128,7 +128,7 @@ rule "[uppercut.opy]: Damage uppercut victims":
     eventPlayer.setEnvironmentalKillCreditor(eventPlayer.enemy_doomfist_player)
 
 
-rule "[uppercut.opy]: Play uppercut hit VFX":
+rule "[doomfist/uppercut.opy]: Play uppercut hit VFX":
     @Event eachPlayer
     @Condition eventPlayer.is_hit_by_uppercut == true
 

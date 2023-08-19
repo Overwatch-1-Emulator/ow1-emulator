@@ -1,6 +1,6 @@
 #!mainFile "../../../main.opy"
 
-rule "[fortify.opy]: Remove overhealth during fortify":
+rule "[orisa/fortify.opy]: Remove overhealth during fortify":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.isUsingAbility1()

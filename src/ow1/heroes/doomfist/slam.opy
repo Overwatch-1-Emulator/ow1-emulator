@@ -55,7 +55,7 @@ enum SlamType:
     eventPlayer.isUsingAbility1() == true or \
     distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
 
-rule "[slam.opy]: Detect shift key press by human": 
+rule "[doomfist/slam.opy]: Detect shift key press by human": 
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
@@ -66,7 +66,7 @@ rule "[slam.opy]: Detect shift key press by human":
     eventPlayer.pressing_slam_key = false
 
 
-rule "[slam.opy]: Control flow for slam":
+rule "[doomfist/slam.opy]: Control flow for slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.pressing_slam_key == true
@@ -81,7 +81,7 @@ rule "[slam.opy]: Control flow for slam":
     executeSlam()
 
 
-rule "[slam.opy]: Detect ground slam":
+rule "[doomfist/slam.opy]: Detect ground slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
@@ -89,7 +89,7 @@ rule "[slam.opy]: Detect ground slam":
     eventPlayer.slam_to_use = SlamType.GROUND
 
 
-rule "[slam.opy]: Detect indicator slam":
+rule "[doomfist/slam.opy]: Detect indicator slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition updateEveryTick(eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
@@ -97,7 +97,7 @@ rule "[slam.opy]: Detect indicator slam":
     eventPlayer.slam_to_use = SlamType.INDICATOR
 
 
-rule "[slam.opy]: Start tracking indicator slam destination":
+rule "[doomfist/slam.opy]: Start tracking indicator slam destination":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
@@ -108,7 +108,7 @@ rule "[slam.opy]: Start tracking indicator slam destination":
     chase(eventPlayer.indicator_slam_position, findIndicatorPosition(), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
 
 
-rule "[slam.opy]: Stop tracking indicator slam destination":
+rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
     @Event eachPlayer
     @Hero doomfist
     @Condition not ((eventPlayer.slam_to_use == SlamType.INDICATOR) and \
@@ -120,7 +120,7 @@ rule "[slam.opy]: Stop tracking indicator slam destination":
 
 
 def executeSlam():
-    @Name "[slam.opy]: executeSlam()"
+    @Name "[doomfist/slam.opy]: executeSlam()"
 
     eventPlayer.slammed_victims = [] # clear slammed victims
 
@@ -137,7 +137,7 @@ def executeSlam():
 
 
 def initiateGroundSlam():
-    @Name "[slam.opy]: InitiateGroundSlam()"
+    @Name "[doomfist/slam.opy]: InitiateGroundSlam()"
 
     eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
@@ -152,7 +152,7 @@ def initiateGroundSlam():
 
 
 def initiateIndicatorSlam():
-    @Name "[slam.opy]: InitiateIndicatorSlam()"
+    @Name "[doomfist/slam.opy]: InitiateIndicatorSlam()"
     
     stopChasingVariable(eventPlayer.proto_indicator_slam_position)
     stopChasingVariable(eventPlayer.indicator_slam_position)
@@ -177,7 +177,7 @@ def initiateIndicatorSlam():
 
 
 def startSlamAnimation():
-    @Name "[slam.opy]: startSlamAnimation()"
+    @Name "[doomfist/slam.opy]: startSlamAnimation()"
 
     # Start slam animation
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
@@ -191,7 +191,7 @@ def startSlamAnimation():
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
 
 
-rule "[slam.opy]: Calculate slam damage based on air time":
+rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_using_slam == true
@@ -207,7 +207,7 @@ rule "[slam.opy]: Calculate slam damage based on air time":
 
 
 def createSlamDamageGui():
-    @Name "[slam.opy]: createSlamDamageGui()"
+    @Name "[doomfist/slam.opy]: createSlamDamageGui()"
 
     createInWorldText(eventPlayer, "{0}".format(floor(eventPlayer.slam_damage)), 
     updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
@@ -221,14 +221,14 @@ def createSlamDamageGui():
 
 
 def destroySlamDamageGui():
-    @Name "[slam.opy]: destroySlamDamageGui()"
+    @Name "[doomfist/slam.opy]: destroySlamDamageGui()"
 
     destroyInWorldText(eventPlayer.slam_damage_text_entity)
     eventPlayer.slam_damage_text_entity = null
 
 
 # Need more permanent/robust solution
-rule "[slam.opy]: Remove OW2 slam damage":
+rule "[doomfist/slam.opy]: Remove OW2 slam damage":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
@@ -236,7 +236,7 @@ rule "[slam.opy]: Remove OW2 slam damage":
     heal(victim, null, eventDamage)
 
 
-rule "[slam.opy]: Find slammed victims":
+rule "[doomfist/slam.opy]: Find slammed victims":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
@@ -247,7 +247,7 @@ rule "[slam.opy]: Find slammed victims":
     attacker.slammed_victims.append(victim)
 
 
-rule "[slam.opy]: Slammed victims damage and pull/push effects":
+rule "[doomfist/slam.opy]: Slammed victims damage and pull/push effects":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
@@ -260,7 +260,7 @@ rule "[slam.opy]: Slammed victims damage and pull/push effects":
     victim.setGravity(100)
 
 
-rule "[slam.opy]: Slam indicator VFX":
+rule "[doomfist/slam.opy]: Slam indicator VFX":
     @Event eachPlayer
     @Hero doomfist
     @Condition isIndicatorVisible() == true
@@ -271,7 +271,7 @@ rule "[slam.opy]: Slam indicator VFX":
 
 
 def createSlamIndicatorGui():
-    @Name "[slam.opy]: createSlamIndicatorGui()"
+    @Name "[doomfist/slam.opy]: createSlamIndicatorGui()"
 
     for i in range(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION):
         createBeam(eventPlayer if isIndicatorVisible() else null,
@@ -297,7 +297,7 @@ def createSlamIndicatorGui():
 
 
 def destroySlamIndicatorGui():
-    @Name "[slam.opy]: destroySlamIndicatorGui()"
+    @Name "[doomfist/slam.opy]: destroySlamIndicatorGui()"
 
     for i in range(len(eventPlayer.indicator_entity)):
         destroyEffect(eventPlayer.indicator_entity[i])
