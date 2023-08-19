@@ -21,6 +21,7 @@ def initWinston():
     while (eventPlayer.getMaxHealth() != OW1_WINSTON_HEALTH + OW1_WINSTON_ARMOR)
 
     eventPlayer.setSecondaryFireEnabled(false)
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
 
 rule "[winston.opy]: Set default leap cooldown":

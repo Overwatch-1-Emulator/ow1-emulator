@@ -14,11 +14,12 @@ rule "[sigma.opy]: Detect Sigma initialization":
 def initSigma():
     @Name "[sigma.opy]: initSigma()"
 
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS):
         clearCustomHealth()
         setCustomHealth(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
         wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS)
+
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
 
 rule "[sigma.opy]: Change accretion damage":

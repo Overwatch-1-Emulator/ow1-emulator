@@ -1,10 +1,10 @@
 #!mainFile "../main.opy"
 
 # Remove OW2 passives
-# Remove support self heal passive
+# Remove tank passive
+#!include "ow1/passives/no_tank_ult_negation.opy"
+# Remove support passive
 #!include "ow1/passives/no_support_passive.opy"
-# Remove tank ult negation passive
-#!include "ow1/passives/no_ult_negation.opy"
 
 # Script for resetting hero before initialization
 #!include "ow1/reset_hero.opy"

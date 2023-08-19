@@ -13,5 +13,5 @@ rule "[junkerqueen.opy]: Detect Junkerqueen initialization":
 
 def initJunkerqueen():
     @Name "[junkerqueen.opy]: initJunkerqueen()"
-    # [TODO]
-    pass
+
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))

@@ -18,3 +18,5 @@ def initRamattra():
         clearCustomHealth()
         setCustomHealth(OW1_RAMATTRA_HEALTH, 0, 0)
         wait(1)
+
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))

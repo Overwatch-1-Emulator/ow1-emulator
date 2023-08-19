@@ -4,6 +4,7 @@
 # Ult Costs
 # Compensation ultimate point for healing and damage done to tank
 #!define OW2_TANK_ULT_NEGATION 0.3
+#!define OW2_TANK_KNOCKBACK_REDUCTION 0.3
 
 # Tank
 #!define OW2_DVA_ULT_COST 1540

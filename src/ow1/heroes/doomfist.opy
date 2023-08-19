@@ -118,6 +118,8 @@ def initDoomfist():
     eventPlayer.punched_victims = []
     eventPlayer.wall_impacted_victims = []
 
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
+
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_doomfist_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_doomfist_player = eventPlayer
