@@ -17,16 +17,6 @@ playervar punch_charge_time
      / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
      * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX) + OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX)
 
-
-rule "[doomfist/punch.opy]: Initialize rocket punch ability":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_initialize == true
-
-    eventPlayer.punched_victims = []
-    eventPlayer.wall_impacted_victims = []
-
-
 rule "[doomfist/punch.opy]: Initialize rocket punch":
     @Event eachPlayer
     @Hero doomfist

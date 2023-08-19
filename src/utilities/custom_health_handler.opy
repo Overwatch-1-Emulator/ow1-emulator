@@ -18,14 +18,6 @@ playervar storedSpawnPosition
 subroutine clearCustomHealth
 subroutine applyCustomHealth
 
-
-rule "[custom_health_handler.opy]: Reset hp":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
-
-    clearCustomHealth()
-
-
 def clearCustomHealth():
     @Name "[custom_health_handler.opy]: Clear Custom Health"
 
@@ -35,7 +27,6 @@ def clearCustomHealth():
     wait()
     eventPlayer.setMaxHealth(100)
     heal(eventPlayer, null, Math.INFINITY)
-
 
 def applyCustomHealth():
     @Name "[custom_health_handler.opy]: Apply Custom Health"
@@ -89,7 +80,6 @@ def applyCustomHealth():
         eventPlayer.teleport(eventPlayer.storedSpawnPosition)
         eventPlayer.storedSpawnPosition = null
         eventPlayer.stopCamera()
-
 
 rule "[custom_health_handler.opy]: Remove Custom Health Conditions":
     @Event eachPlayer

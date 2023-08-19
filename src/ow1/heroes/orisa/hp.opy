@@ -3,7 +3,7 @@
 rule "[orisa/hp.opy]: Set Orisa Hp":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.call_initialize == true
+    @Condition eventPlayer.initialized == false
 
     while (eventPlayer.getMaxHealth() != OW1_ORISA_HEALTH + OW1_ORISA_ARMOR):
         clearCustomHealth()

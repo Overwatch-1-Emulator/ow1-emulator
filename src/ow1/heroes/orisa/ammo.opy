@@ -7,7 +7,7 @@ subroutine replanishAmmo
 rule "[orisa/halt.opy]: Disable OW2 Javelin":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.call_initialize == true
+    @Condition eventPlayer.initialized == false
 
     replanishAmmo()
     eventPlayer.setMaxAmmo(0, eventPlayer.current_ammo_count)

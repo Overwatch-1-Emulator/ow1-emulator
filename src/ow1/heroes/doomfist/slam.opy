@@ -55,16 +55,6 @@ enum SlamType:
     eventPlayer.isUsingAbility1() == true or \
     distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
 
-
-rule "[doomfist/slam.opy]: Initialize slam ability":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_initialize == true
-
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.shift_pressed_by_bot = false
-
-
 rule "[doomfist/slam.opy]: Detect shift key press by human": 
     @Event eachPlayer
     @Hero doomfist

@@ -8,16 +8,6 @@ playervar is_hit_by_uppercut
 subroutine executeUppercut
 subroutine detectUpercutHit
 
-
-rule "[doomfist/uppercut.opy]: Initialize uppercut ability":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_initialize == true
-
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.e_pressed_by_bot = false
-
-
 rule "[doomfist/uppercut.opy]: Detect e key press by human":
     @Event eachPlayer
     @Hero doomfist

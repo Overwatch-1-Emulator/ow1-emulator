@@ -5,10 +5,10 @@ subroutine initTracer
 rule "[tracer.opy]: Detect Tracer initialization":
     @Event eachPlayer
     @Hero tracer
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initTracer()
-    eventPlayer.call_initialize = false
+    eventPlayer.initialized = true
 
 
 def initTracer():

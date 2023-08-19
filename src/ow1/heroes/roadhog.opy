@@ -6,10 +6,10 @@ playervar time_hook_was_active
 rule "[roadhog.opy]: Detect Roadhog initialization":
     @Event eachPlayer
     @Hero roadhog
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
 
     initRoadhog()
-    eventPlayer.call_initialize = false
+    eventPlayer.initialized = true
 
 
 def initRoadhog():

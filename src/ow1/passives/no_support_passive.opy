@@ -7,14 +7,6 @@ playervar last_time_damage_taken
 
 subroutine removeSelfHealing
 
-rule "[no_support_passive.opy]: Reset self healing":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
-
-    stopHealingModification(eventPlayer.self_healing_modification)
-    eventPlayer.support_passive_active = true
-
-
 def removeSelfHealing():
     @Name "[no_support_passive.opy]: removeSelfHealing()"
 

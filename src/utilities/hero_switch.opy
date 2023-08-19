@@ -3,6 +3,7 @@
 playervar last_hero_played
 playervar hero_switched
 playervar hero_id
+playervar initialized
 
 rule "[hero_switch.opy]: detect hero switch":
     @Event eachPlayer
