@@ -4,6 +4,14 @@ playervar current_ammo_count
 
 subroutine replanishAmmo
 
+rule "[orisa/halt.opy]: Disable OW2 Javelin":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.initialized == false
+
+    replanishAmmo()
+    eventPlayer.setMaxAmmo(0, eventPlayer.current_ammo_count)
+
 rule "[orisa/ammo.opy]: Save ammo count when finished firing":
     @Event eachPlayer
     @Hero orisa

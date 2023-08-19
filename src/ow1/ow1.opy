@@ -3,6 +3,7 @@
 # Remove OW2 passives
 # Remove tank passive
 #!include "ow1/passives/no_tank_ult_negation.opy"
+#!include "ow1/passives/tank/knockback.opy"
 # Remove support passive
 #!include "ow1/passives/no_support_passive.opy"
 

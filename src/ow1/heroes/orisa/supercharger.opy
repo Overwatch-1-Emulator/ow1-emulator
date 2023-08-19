@@ -11,6 +11,15 @@ playervar orisa_beam_sound_effect
 subroutine startSupercharger
 subroutine endSupercharger
 
+rule "[orisa/supercharger.opy]: Initialize supercharger ability":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.initialized == false
+
+    eventPlayer.disallowButton(Button.ULTIMATE)
+    eventPlayer.is_using_supercharger = false
+
+
 rule "[supercharger.opy]: Trigger Supercharger start":
     @Event eachPlayer
     @Hero orisa
