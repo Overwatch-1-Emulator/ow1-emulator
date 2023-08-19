@@ -13,10 +13,10 @@ If you're interested in submitting code to this gamemode, read this guide carefu
 - Git
     - Version control system
 - GitHub
-    - Remote archive of this repository
-    - Issue tracking and pull request
+    - Remote archive of this source code repository
+    - [Issue](https://github.com/MaxwellJung/ow1_emulator/issues) tracking and [pull request](https://github.com/MaxwellJung/ow1_emulator/pulls)
 - Discord
-    - Direct Communication between developers
+    - Communication between developers
 
 
 ## Setup Instructions
