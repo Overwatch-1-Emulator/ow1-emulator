@@ -5,10 +5,10 @@ subroutine initWinston
 rule "[winston.opy]: Detect Winston initialization":
     @Event eachPlayer
     @Hero winston
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initWinston()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initWinston():
@@ -21,6 +21,7 @@ def initWinston():
     while (eventPlayer.getMaxHealth() != OW1_WINSTON_HEALTH + OW1_WINSTON_ARMOR)
 
     eventPlayer.setSecondaryFireEnabled(false)
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
 
 rule "[winston.opy]: Set default leap cooldown":

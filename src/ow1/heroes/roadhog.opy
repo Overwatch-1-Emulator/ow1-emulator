@@ -6,10 +6,10 @@ playervar time_hook_was_active
 rule "[roadhog.opy]: Detect Roadhog initialization":
     @Event eachPlayer
     @Hero roadhog
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initRoadhog()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initRoadhog():
@@ -25,6 +25,7 @@ def initRoadhog():
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
 
     eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
 
 rule "[roadhog.opy]: Set default hook cooldown":

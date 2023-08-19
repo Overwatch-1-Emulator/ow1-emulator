@@ -5,10 +5,10 @@ subroutine initMoira
 rule "[moira.opy]: Detect Moira initialization":
     @Event eachPlayer
     @Hero moira
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initMoira()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initMoira():

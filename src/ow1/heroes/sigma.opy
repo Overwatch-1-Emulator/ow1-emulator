@@ -5,20 +5,21 @@ subroutine initSigma
 rule "[sigma.opy]: Detect Sigma initialization":
     @Event eachPlayer
     @Hero sigma
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initSigma()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initSigma():
     @Name "[sigma.opy]: initSigma()"
 
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS):
         clearCustomHealth()
         setCustomHealth(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
         wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS)
+
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
 
 rule "[sigma.opy]: Change accretion damage":

@@ -5,10 +5,10 @@ subroutine initDva
 rule "[dva.opy]: Detect Dva initialization":
     @Event eachPlayer
     @Hero dva
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initDva()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initDva():
@@ -21,6 +21,8 @@ def initDva():
 
     waitUntil(not eventPlayer.isInAlternateForm(), 9999)
     eventPlayer.setUltCharge(0)
+
+    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
 
 rule "[dva.opy]: Set default booster cooldown":

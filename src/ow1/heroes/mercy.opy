@@ -5,10 +5,10 @@ subroutine initMercy
 rule "[mercy.opy]: Detect Mercy initialization":
     @Event eachPlayer
     @Hero mercy
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initMercy()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initMercy():

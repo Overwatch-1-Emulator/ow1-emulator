@@ -5,23 +5,21 @@ playervar flashbang_exploded
 
 subroutine initMccree
 
-rule "[mccree.opy]: Detect Mccree initialization":
+rule "[mccree.opy]: Set Cassidy hp":
     @Event eachPlayer
     @Hero mccree
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initMccree()
-    eventPlayer.initialized = true
-
-
-def initMccree():
-    @Name "[mccree.opy]: initMccree()"
-
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_MCCREE_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_MCCREE_HEALTH, 0, 0)
         wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_MCCREE_HEALTH)
+
+
+rule "[mccree.opy]: Initialize flashbang ability":
+    @Event eachPlayer
+    @Hero mccree
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     eventPlayer.disallowButton(Button.ABILITY_2)
 

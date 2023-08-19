@@ -4,6 +4,7 @@
 # Ult Costs
 # Compensation ultimate point for healing and damage done to tank
 #!define OW2_TANK_ULT_NEGATION 0.3
+#!define OW2_TANK_KNOCKBACK_REDUCTION 0.3
 
 # Tank
 #!define OW2_DVA_ULT_COST 1540
@@ -33,8 +34,6 @@
 #!define OW2_WINSTON_ULT_COST 1850
 
 # Support
-#!define OW2_ANA_ULT_COST 2100
-#!define OW2_BAPTISTE_ULT_COST 2310
 #!define OW2_LUCIO_ULT_COST 2420
 #!define OW2_MERCY_ULT_COST 1820
 #!define OW2_MOIRA_ULT_COST 2660
@@ -51,6 +50,12 @@
 # Ana
 #!define OW2_ANA_BIOTIC_GRENADE_HEALING 60
 #!define OW2_ANA_SLEEP_DART_COOLDOWN_TIME 15
+#!define OW2_ANA_ULT_COST 2100
+
+# Baptiste
+#!define OW2_BAPTISTE_REGEN_BURST_ALLY_HPS 10
+#!define OW2_BAPTISTE_REGEN_BURST_SELF_HPS 10
+#!define OW2_BAPTISTE_ULT_COST 2310
 
 ###################################
 # Bastion

@@ -41,6 +41,14 @@ rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.ZENYATTA)] = 1/(roundedPercent(OW2_ZENYATTA_ULT_COST/OW1_ZENYATTA_ULT_COST)/100)*OW2_ZENYATTA_ULT_COST
 
 
+rule "[ult_charge.opy]: Reset ult charge":
+    @Event eachPlayer
+    @Condition eventPlayer.call_reset == true
+
+    eventPlayer.missing_ult_points = 0
+    eventPlayer.ult_percent_compensated = 0
+
+
 rule "[ult_charge.opy]: Remember missing ult charge from damaging tank":
     @Event playerDealtDamage
     @Condition victim != eventPlayer

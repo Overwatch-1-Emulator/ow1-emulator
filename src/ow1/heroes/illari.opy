@@ -5,10 +5,10 @@ subroutine initIllari
 rule "[illari.opy]: Detect Illari initialization":
     @Event eachPlayer
     @Hero illari
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initIllari()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initIllari():

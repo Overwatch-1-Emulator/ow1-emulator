@@ -5,10 +5,10 @@ subroutine initPharah
 rule "[pharah.opy]: Detect Pharah initialization":
     @Event eachPlayer
     @Hero pharah
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initPharah()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initPharah():

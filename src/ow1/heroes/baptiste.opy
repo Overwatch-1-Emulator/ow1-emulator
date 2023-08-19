@@ -5,10 +5,10 @@ subroutine initBaptiste
 rule "[baptiste.opy]: Detect Baptiste initialization":
     @Event eachPlayer
     @Hero baptiste
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initBaptiste()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initBaptiste():
@@ -32,7 +32,7 @@ rule "[baptiste.opy]: Set default immortality field cooldown":
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_BAPTISTE_IMMORTALITY_FIELD_COOLDOWN_TIME)
 
 
-rule "[baptiste.opy]: Allow self healing during Biotic Orb":
+rule "[baptiste.opy]: Allow self healing during regenerative burst":
     @Event eachPlayer
     @Hero baptiste
     @Condition eventPlayer.isUsingAbility1()
@@ -41,3 +41,31 @@ rule "[baptiste.opy]: Allow self healing during Biotic Orb":
     wait(OW1_BAPTISTE_REGEN_BURST_DURATION)
     # waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     eventPlayer.self_healing_percent = 0
+
+
+rule "[baptiste.opy]: Remove instant healing from regenerative burst":
+    @Event eachPlayer
+    @Hero baptiste
+    @Condition eventPlayer.isUsingAbility1()
+
+    eventPlayer.setHealingDealt(0)
+    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
+    eventPlayer.setHealingDealt(100)
+
+
+rule "[baptiste.opy]: Buff regenerative burst heals per second":
+    @Event playerDealtHealing
+    @Hero baptiste
+    @Condition eventAbility == Button.ABILITY_1
+    @Condition healee == eventPlayer
+    
+    heal(healee, healer, eventHealing*(OW1_BAPTISTE_REGEN_BURST_SELF_HPS/OW2_BAPTISTE_REGEN_BURST_SELF_HPS)-eventHealing)
+
+
+rule "[baptiste.opy]: Buff regenerative burst heals per second":
+    @Event playerDealtHealing
+    @Hero baptiste
+    @Condition eventAbility == Button.ABILITY_1
+    @Condition healee != eventPlayer
+    
+    heal(healee, healer, eventHealing*(OW1_BAPTISTE_REGEN_BURST_ALLY_HPS/OW2_BAPTISTE_REGEN_BURST_ALLY_HPS)-eventHealing)
