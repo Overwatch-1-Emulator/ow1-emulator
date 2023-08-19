@@ -5,10 +5,10 @@ subroutine initHanzo
 rule "[hanzo.opy]: Detect Hanzo initialization":
     @Event eachPlayer
     @Hero hanzo
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initHanzo()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 def initHanzo():
     @Name "[hanzo.opy]: initHanzo()"

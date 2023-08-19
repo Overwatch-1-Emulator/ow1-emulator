@@ -7,10 +7,10 @@ subroutine initSombra
 rule "[sombra.opy]: Detect Sombra initialization":
     @Event eachPlayer
     @Hero sombra
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initSombra()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initSombra():

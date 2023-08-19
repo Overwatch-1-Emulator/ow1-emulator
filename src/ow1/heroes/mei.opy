@@ -11,10 +11,10 @@ subroutine clearFreezeEffect
 rule "[mei.opy]: Detect Mei initialization":
     @Event eachPlayer
     @Hero mei
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initMei()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initMei():

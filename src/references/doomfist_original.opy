@@ -87,10 +87,10 @@ subroutine HandleUltimateDamage
 rule "[doomfist.opy]: Detect Doomfist initialization":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initDoomfist()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initDoomfist():

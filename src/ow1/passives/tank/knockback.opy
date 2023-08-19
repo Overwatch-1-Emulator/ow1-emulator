@@ -1,6 +1,6 @@
 rule "[passives/tank/knockback.opy]: Correct knockback resistance":
     @Event eachPlayer
-    @Condition eventPlayer.initialized == false
+    @Condition eventPlayer.call_initialize == true
 
     if eventPlayer.getCurrentHero() not in getTankHeroes(): # Do nothing for non tanks
         return

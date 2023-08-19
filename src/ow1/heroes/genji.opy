@@ -5,11 +5,11 @@ subroutine initGenji
 rule "[genji.opy]: Detect Genji initialization":
     @Event eachPlayer
     @Hero genji
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
 
     initGenji()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initGenji():

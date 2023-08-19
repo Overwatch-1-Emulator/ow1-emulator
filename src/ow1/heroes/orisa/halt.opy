@@ -17,7 +17,7 @@ subroutine explodeHalt
 rule "[orisa/halt.opy]: Initialize Halt ability":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.initialized == false
+    @Condition eventPlayer.call_initialize == true
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.is_using_halt = false

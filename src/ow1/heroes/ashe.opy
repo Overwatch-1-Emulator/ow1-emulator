@@ -7,10 +7,10 @@ subroutine initAshe
 rule "[ashe.opy]: Detect Ashe initialization":
     @Event eachPlayer
     @Hero ashe
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initAshe()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initAshe():

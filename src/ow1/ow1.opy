@@ -7,9 +7,6 @@
 # Remove support passive
 #!include "ow1/passives/no_support_passive.opy"
 
-# Script for resetting hero before initialization
-#!include "ow1/reset_hero.opy"
-
 # OW1 specific hero logic
 #!include "ow1/heroes/ana.opy"
 #!include "ow1/heroes/ashe.opy"

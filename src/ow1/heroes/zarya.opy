@@ -15,10 +15,10 @@ subroutine hideAllyBubbleCD
 rule "[zarya.opy]: Detect Zarya initialization":
     @Event eachPlayer
     @Hero zarya
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
 
     initZarya()
-    eventPlayer.initialized = true
+    eventPlayer.call_initialize = false
 
 
 def initZarya():

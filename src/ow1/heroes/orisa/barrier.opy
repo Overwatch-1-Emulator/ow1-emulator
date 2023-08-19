@@ -42,7 +42,7 @@ subroutine fibonacciSphere
 rule "[orisa/barrier.opy]: Disable OW2 Javelin spin":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.initialized == false
+    @Condition eventPlayer.call_initialize == true
 
     eventPlayer.disallowButton(Button.ABILITY_2)
 
