@@ -5,10 +5,10 @@
 #!include "ow1/passives/no_tank_ult_negation.opy"
 #!include "ow1/passives/tank/knockback.opy"
 # Remove support passive
-#!include "ow1/passives/no_support_passive.opy"
+#!include "ow1/passives/support/self_heal.opy"
 
 # OW1 specific hero logic
-#!include "ow1/heroes/ana.opy"
+#!include "ow1/heroes/ana/ana.opy"
 #!include "ow1/heroes/ashe.opy"
 #!include "ow1/heroes/baptiste.opy"
 #!include "ow1/heroes/bastion/bastion.opy"

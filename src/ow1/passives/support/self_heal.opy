@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../../main.opy"
 
 playervar self_healing_percent
 playervar self_healing_modification
@@ -7,7 +7,16 @@ playervar last_time_damage_taken
 
 subroutine removeSelfHealing
 
-rule "[no_support_passive.opy]: Reset self healing":
+
+rule "[passives/support/self_heal.opy]: Remove support self healing passive":
+    @Event eachPlayer
+    @Condition eventPlayer.call_init == true
+    @Condition eventPlayer.getCurrentHero() in getSupportHeroes()
+
+    removeSelfHealing()
+
+
+rule "[passives/support/self_heal.opy]: Reset self healing":
     @Event eachPlayer
     @Condition eventPlayer.call_reset == true
 
@@ -16,14 +25,14 @@ rule "[no_support_passive.opy]: Reset self healing":
 
 
 def removeSelfHealing():
-    @Name "[no_support_passive.opy]: removeSelfHealing()"
+    @Name "[passives/support/self_heal.opy]: removeSelfHealing()"
 
     eventPlayer.self_healing_percent = 0
     startHealingModification(eventPlayer, eventPlayer, eventPlayer.self_healing_percent, HealingReeval.RECEIVERS_HEALERS_AND_HEALPERCENT)
     eventPlayer.self_healing_modification = getLastHealingModification()
 
 
-rule "[no_support_passive.opy]: Get time when support hero take damage":
+rule "[passives/support/self_heal.opy]: Get time when support hero take damage":
     @Event playerTookDamage
     @Condition eventPlayer.getCurrentHero() in support_heroes
 
@@ -31,7 +40,7 @@ rule "[no_support_passive.opy]: Get time when support hero take damage":
     eventPlayer.support_passive_active = false
 
 
-rule "[no_support_passive.opy]: Check if support passive is active":
+rule "[passives/support/self_heal.opy]: Check if support passive is active":
     @Event eachPlayer
     @Condition not eventPlayer.support_passive_active
     @Condition eventPlayer.getCurrentHero() in support_heroes
