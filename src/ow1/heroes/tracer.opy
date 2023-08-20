@@ -1,18 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initTracer
-
-rule "[tracer.opy]: Detect Tracer initialization":
+rule "[tracer.opy]: Initialize Tracer":
     @Event eachPlayer
     @Hero tracer
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initTracer()
-    eventPlayer.call_init = false
-
-
-def initTracer():
-    @Name "[tracer.opy]: initTracer()"
 
 
 rule "[tracer.opy]: Deal OW1 tracer primary fire damage":

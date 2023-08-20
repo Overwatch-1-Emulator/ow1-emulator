@@ -1,20 +1,10 @@
 #!mainFile "../../main.opy"
 
-subroutine initIllari
 
-rule "[illari.opy]: Detect Illari initialization":
+rule "[illari.opy]: Initialize Illari":
     @Event eachPlayer
     @Hero illari
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initIllari()
-    eventPlayer.call_init = false
-
-
-def initIllari():
-    @Name "[illari.opy]: initIllari()"
-
-    # removeSelfHealing()
 
 
 rule "[illari.opy]: Allow self healing during Pylon":

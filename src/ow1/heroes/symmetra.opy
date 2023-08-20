@@ -1,18 +1,10 @@
 #!mainFile "../../main.opy"
 
-subroutine initSymmetra
-
-rule "[symmetra.opy]: Detect Symmetra initialization":
+rule "[symmetra.opy]: Initialize Symmetra":
     @Event eachPlayer
     @Hero symmetra
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initSymmetra()
-    eventPlayer.call_init = false
-
-
-def initSymmetra():
-    @Name "[symmetra.opy]: initSymmetra()"
+    
     eventPlayer.setAmmo(0, OW1_SYMMETRA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_SYMMETRA_CLIP_SIZE)
 

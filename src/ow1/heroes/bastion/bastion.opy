@@ -14,19 +14,12 @@ playervar machine_gun_reload_timer
 playervar machine_gun_ammo
 playervar self_repair
 
-subroutine initBastion
 
-rule "[bastion.opy]: Detect Bastion initialization":
+rule "[bastion.opy]: Initialize Bastion":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true
     
-    initBastion()
-    eventPlayer.call_init = false
-
-
-def initBastion():
-    @Name "[bastion.opy]: initBastion()"
     eventPlayer.self_repair_time_left = OW1_BASTION_MAX_SELF_REPAIR_DURATION
     eventPlayer.machine_gun_ammo = OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE
     eventPlayer.machine_gun_reload_timer = 0

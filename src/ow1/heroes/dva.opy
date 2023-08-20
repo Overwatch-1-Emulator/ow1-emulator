@@ -1,18 +1,11 @@
 #!mainFile "../../main.opy"
 
-subroutine initDva
 
-rule "[dva.opy]: Detect Dva initialization":
+rule "[dva.opy]: Initialize Dva":
     @Event eachPlayer
     @Hero dva
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initDva()
-    eventPlayer.call_init = false
-
-
-def initDva():
-    @Name "[dva.opy]: initDva()"
     do:
         clearCustomHealth()
         setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)

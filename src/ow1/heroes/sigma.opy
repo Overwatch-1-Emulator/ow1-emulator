@@ -1,18 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initSigma
-
-rule "[sigma.opy]: Detect Sigma initialization":
+rule "[sigma.opy]: Initialize Sigma":
     @Event eachPlayer
     @Hero sigma
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initSigma()
-    eventPlayer.call_init = false
-
-
-def initSigma():
-    @Name "[sigma.opy]: initSigma()"
 
     while (eventPlayer.getMaxHealth() != OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS):
         clearCustomHealth()

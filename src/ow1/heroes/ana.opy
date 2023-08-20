@@ -1,18 +1,11 @@
 #!mainFile "../../main.opy"
 
-subroutine initAna
 
-rule "[ana.opy]: Detect Ana initialization":
+rule "[ana.opy]: Initialize Ana":
     @Event eachPlayer
     @Hero ana
-    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true
 
-    initAna()
-    eventPlayer.call_init = false
-
-
-def initAna():
-    @Name "[ana.opy]: initAna()"
     eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
 

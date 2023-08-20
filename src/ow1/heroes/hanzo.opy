@@ -1,19 +1,10 @@
 #!mainFile "../../main.opy"
 
-subroutine initHanzo
 
-rule "[hanzo.opy]: Detect Hanzo initialization":
+rule "[hanzo.opy]: Initialize Hanzo":
     @Event eachPlayer
     @Hero hanzo
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initHanzo()
-    eventPlayer.call_init = false
-
-def initHanzo():
-    @Name "[hanzo.opy]: initHanzo()"
-    # [TODO]
-    pass
 
 
 rule "[hanzo.opy]: Deal OW1 primary fire damage":

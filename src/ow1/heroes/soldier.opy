@@ -1,18 +1,10 @@
 #!mainFile "../../main.opy"
 
-subroutine initSoldier
-
 rule "[soldier.opy]: Initialize Soldier 76":
     @Event eachPlayer
     @Hero soldier
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initSoldier()
-    eventPlayer.call_init = false
-
-
-def initSoldier():
-    @Name "[soldier.opy]: initSoldier()"
     eventPlayer.setHealingDealt(percent(OW1_SOLDIER_BIOTIC_FIELD_HEAL/OW2_SOLDIER_BIOTIC_FIELD_HEAL))
 
 

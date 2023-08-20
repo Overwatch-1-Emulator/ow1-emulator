@@ -1,19 +1,11 @@
 #!mainFile "../../main.opy"
 
-subroutine initBaptiste
 
-rule "[baptiste.opy]: Detect Baptiste initialization":
+rule "[baptiste.opy]: Initialize Baptiste":
     @Event eachPlayer
     @Hero baptiste
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initBaptiste()
-    eventPlayer.call_init = false
-
-
-def initBaptiste():
-    @Name "[baptiste.opy]: initBaptiste()"
-    
     eventPlayer.setAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
 

@@ -1,19 +1,10 @@
 #!mainFile "../../main.opy"
 
-subroutine initReinhardt
-
-rule "[reinhardt.opy]: Detect Reinhardt initialization":
+rule "[reinhardt.opy]: Initialize Reinhardt":
     @Event eachPlayer
     @Hero reinhardt
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initReinhardt()
-    eventPlayer.call_init = false
-
-
-def initReinhardt():
-    @Name "[reinhardt.opy]: initReinhardt()"
-    
     do:
         clearCustomHealth()
         setCustomHealth(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)

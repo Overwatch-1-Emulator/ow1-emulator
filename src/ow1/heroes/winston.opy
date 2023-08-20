@@ -1,18 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initWinston
-
-rule "[winston.opy]: Detect Winston initialization":
+rule "[winston.opy]: Initialize Winston":
     @Event eachPlayer
     @Hero winston
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initWinston()
-    eventPlayer.call_init = false
-
-
-def initWinston():
-    @Name "[winston.opy]: initWinston()"
 
     do:
         clearCustomHealth()

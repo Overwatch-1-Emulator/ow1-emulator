@@ -8,17 +8,12 @@ playervar freeze_move_penalty
 subroutine initMei
 subroutine clearFreezeEffect
 
-rule "[mei.opy]: Detect Mei initialization":
+
+rule "[mei.opy]: Initialize Mei":
     @Event eachPlayer
     @Hero mei
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initMei()
-    eventPlayer.call_init = false
-
-
-def initMei():
-    @Name "[mei.opy]: initMei()"
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
 

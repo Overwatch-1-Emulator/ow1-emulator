@@ -1,18 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initLifeweaver
-
-rule "[lifeweaver.opy]: Detect Lifeweaver initialization":
+rule "[lifeweaver.opy]: Initialize Lifeweaver":
     @Event eachPlayer
     @Hero lifeweaver
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initLifeweaver()
-    eventPlayer.call_init = false
-
-
-def initLifeweaver():
-    @Name "[lifeweaver.opy]: initLifeweaver()"
 
     removeSelfHealing()
 

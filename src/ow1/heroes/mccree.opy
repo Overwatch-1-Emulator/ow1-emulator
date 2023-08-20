@@ -3,8 +3,6 @@
 playervar flashbang_origin_position
 playervar flashbang_exploded
 
-subroutine initMccree
-
 rule "[mccree.opy]: Set Cassidy hp":
     @Event eachPlayer
     @Hero mccree

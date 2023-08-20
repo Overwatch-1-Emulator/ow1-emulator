@@ -4,20 +4,12 @@
 
 playervar inspire_duration
 
-subroutine initBrigitte
 
-rule "[brigitte.opy]: Detect Brigitte initialization":
+rule "[brigitte.opy]: Initialize Brigitte":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initBrigitte()
-    eventPlayer.call_init = false
-
-
-def initBrigitte():
-    @Name "[brigitte.opy]: initBrigitte()"
-    
     do:
         clearCustomHealth()
         setCustomHealth(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)

@@ -1,7 +1,5 @@
 #!mainFile "../../main.opy"
 
-subroutine initEcho
-
 globalvar  health_pool
 
 playervar hero_id_duplicated
@@ -16,19 +14,12 @@ rule "[echo.opy]: Tank armor, shields and health for every tank":
     health_pool[heroID(Hero.WINSTON)] = [OW1_WINSTON_HEALTH,OW1_WINSTON_ARMOR,OW1_WINSTON_SHIELDS]
     health_pool[heroID(Hero.ZARYA)] = [OW1_ZARYA_HEALTH,OW1_ZARYA_ARMOR,OW1_ZARYA_SHIELDS]
 
-rule "[echo.opy]: Detect Echo initialization":
+
+rule "[echo.opy]: Initialize Echo":
     @Event eachPlayer
     @Hero echo
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initEcho()
-    eventPlayer.call_init = false
-
-
-def initEcho():
-    @Name "[echo.opy]: initEcho()"
-    # [TODO]
-    pass
 
 rule "[echo.opy]: Deal OW1 echo focusing beam under 50% hp":
     @Event playerDealtDamage

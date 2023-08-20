@@ -1,18 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initMoira
-
-rule "[moira.opy]: Detect Moira initialization":
+rule "[moira.opy]: Initialize Moira":
     @Event eachPlayer
     @Hero moira
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initMoira()
-    eventPlayer.call_init = false
-
-
-def initMoira():
-    @Name "[moira.opy]: initMoira()"
 
     removeSelfHealing()
 

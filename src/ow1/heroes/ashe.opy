@@ -2,21 +2,12 @@
 
 playervar ult_point_while_ult_active
 playervar start_time_ult
-subroutine initAshe
 
-rule "[ashe.opy]: Detect Ashe initialization":
+
+rule "[ashe.opy]: Initialize Ashe":
     @Event eachPlayer
     @Hero ashe
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initAshe()
-    eventPlayer.call_init = false
-
-
-def initAshe():
-    @Name "[ashe.opy]: initAshe()"
-    # [TODO]
-    pass
 
 
 rule "[ashe.opy]: Add ultimate charge while using BOB":
