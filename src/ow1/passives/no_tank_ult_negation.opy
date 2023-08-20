@@ -47,6 +47,7 @@ rule "[ult_charge.opy]: Reset ult charge":
 
     eventPlayer.missing_ult_points = 0
     eventPlayer.ult_percent_compensated = 0
+    eventPlayer.setUltCharge(0)
 
 
 rule "[ult_charge.opy]: Remember missing ult charge from damaging tank":

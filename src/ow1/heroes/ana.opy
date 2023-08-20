@@ -5,10 +5,10 @@ subroutine initAna
 rule "[ana.opy]: Detect Ana initialization":
     @Event eachPlayer
     @Hero ana
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     initAna()
-    eventPlayer.call_initialize = false
+    eventPlayer.call_init = false
 
 
 def initAna():

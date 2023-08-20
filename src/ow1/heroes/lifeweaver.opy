@@ -5,10 +5,10 @@ subroutine initLifeweaver
 rule "[lifeweaver.opy]: Detect Lifeweaver initialization":
     @Event eachPlayer
     @Hero lifeweaver
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     initLifeweaver()
-    eventPlayer.call_initialize = false
+    eventPlayer.call_init = false
 
 
 def initLifeweaver():

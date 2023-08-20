@@ -12,7 +12,7 @@ subroutine detectUpercutHit
 rule "[doomfist/uppercut.opy]: Initialize uppercut ability":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.call_initialize == true
+    @Condition eventPlayer.call_init == true
 
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.e_pressed_by_bot = false

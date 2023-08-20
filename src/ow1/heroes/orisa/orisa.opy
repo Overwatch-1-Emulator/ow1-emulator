@@ -10,7 +10,7 @@
 rule "[orisa/orisa.opy]: Initialize Orisa":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.call_initialize == true
+    @Condition eventPlayer.call_init == true
     
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer

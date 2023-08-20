@@ -59,7 +59,7 @@ enum SlamType:
 rule "[doomfist/slam.opy]: Initialize slam ability":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.call_initialize == true
+    @Condition eventPlayer.call_init == true
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.shift_pressed_by_bot = false

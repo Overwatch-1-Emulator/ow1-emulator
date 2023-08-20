@@ -18,10 +18,10 @@ subroutine initWidowmaker
 rule "[widowmaker.opy]: Detect Widowmaker initialization":
     @Event eachPlayer
     @Hero widowmaker
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     initWidowmaker()
-    eventPlayer.call_initialize = false
+    eventPlayer.call_init = false
 
 
 def initWidowmaker():

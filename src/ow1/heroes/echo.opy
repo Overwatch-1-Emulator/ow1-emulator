@@ -19,10 +19,10 @@ rule "[echo.opy]: Tank armor, shields and health for every tank":
 rule "[echo.opy]: Detect Echo initialization":
     @Event eachPlayer
     @Hero echo
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     initEcho()
-    eventPlayer.call_initialize = false
+    eventPlayer.call_init = false
 
 
 def initEcho():

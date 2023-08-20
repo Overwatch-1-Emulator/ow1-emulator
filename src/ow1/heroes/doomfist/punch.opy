@@ -21,7 +21,7 @@ playervar punch_charge_time
 rule "[doomfist/punch.opy]: Initialize rocket punch ability":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.call_initialize == true
+    @Condition eventPlayer.call_init == true
 
     eventPlayer.punched_victims = []
     eventPlayer.wall_impacted_victims = []

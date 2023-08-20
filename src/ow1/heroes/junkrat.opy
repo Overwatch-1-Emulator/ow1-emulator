@@ -5,10 +5,10 @@ subroutine initJunkrat
 rule "[junkrat.opy]: Detect Junkrat initialization":
     @Event eachPlayer
     @Hero junkrat
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     initJunkrat()
-    eventPlayer.call_initialize = false
+    eventPlayer.call_init = false
 
 
 def initJunkrat():

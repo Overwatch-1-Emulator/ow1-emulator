@@ -1,7 +1,7 @@
 #!mainFile "../main.opy"
 
 playervar call_reset
-playervar call_initialize
+playervar call_init
 
 playervar text_huds
 playervar progress_bar_huds
@@ -17,62 +17,51 @@ playervar enemy_doomfist_player
 playervar enemy_orisa_player
 playervar enemy_sombra_player
 
+subroutine resetHero
+subroutine initHero
 
-rule "[reset.opy]: Call reset rules":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
+def resetHero():
+    @Name "[reset.opy]: resetHero()"
 
-    wait() # Call other reset rules
-
-    eventPlayer.friendly_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, eventPlayer.getTeam())[0]
-    eventPlayer.enemy_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam()))[0]
-    eventPlayer.friendly_orisa_player = getPlayersOnHero(Hero.ORISA, eventPlayer.getTeam())[0]
-    eventPlayer.enemy_orisa_player = getPlayersOnHero(Hero.ORISA, getOppositeTeam(eventPlayer.getTeam()))[0]
-    eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
-    eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
-
-    # Clear GUI
-    for i in range(len(eventPlayer.text_huds)):
-        destroyHudText(eventPlayer.text_huds[i])
-    for i in range(len(eventPlayer.progress_bar_huds)):
-        destroyProgressBarHud(eventPlayer.progress_bar_huds[i])
-    for i in range(len(eventPlayer.entity_huds)):
-        destroyEffect(eventPlayer.entity_huds[i])
-    
-
-    eventPlayer.text_huds = []
-    eventPlayer.progress_bar_huds = []
-    eventPlayer.entity_huds = []
-
+    eventPlayer.call_reset = true
+    wait() # Call other reset functions
     eventPlayer.call_reset = false
-    eventPlayer.call_initialize = true
 
 
-rule "[reset.opy]: Call initialization rules":
-    @Event eachPlayer
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code executes out of order
+def initHero():
+    @Name "[reset.opy]: initHero()"
 
-    wait() # Call other initialization rules
-    eventPlayer.call_initialize = false
+    eventPlayer.call_init = true
+    wait() # Call other init functions
+    eventPlayer.call_init = false
 
 
-rule "[reset.opy]: Reset general hero":
+rule "[reset.opy]: Reset abilities":
     @Event eachPlayer
     @Condition eventPlayer.call_reset == true
+
+    eventPlayer.allowButton(Button.PRIMARY_FIRE)
+    eventPlayer.allowButton(Button.SECONDARY_FIRE)
+    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.allowButton(Button.ABILITY_2)
+    eventPlayer.allowButton(Button.ULTIMATE)
+
+    eventPlayer.allowButton(Button.MELEE)
+    eventPlayer.allowButton(Button.JUMP)
+    eventPlayer.allowButton(Button.CROUCH)
+    eventPlayer.allowButton(Button.RELOAD)
+    eventPlayer.allowButton(Button.INTERACT)
 
     eventPlayer.setPrimaryFireEnabled(true)
-    eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.setSecondaryFireEnabled(true)
-    eventPlayer.allowButton(Button.SECONDARY_FIRE)
-    eventPlayer.setMeleeEnabled(true)
-    eventPlayer.allowButton(Button.MELEE)
     eventPlayer.setAbility1Enabled(true)
-    eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.setAbility2Enabled(true)
-    eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.setUltEnabled(true)
-    eventPlayer.allowButton(Button.ULTIMATE)
-    eventPlayer.setUltCharge(0)
+
+    eventPlayer.setMeleeEnabled(true)
+    eventPlayer.setJumpEnabled(true)
+    eventPlayer.setCrouchEnabled(true)
+    eventPlayer.setReloadEnabled(true)
 
     eventPlayer.setDamageDealt(100)
     eventPlayer.setDamageReceived(100)
@@ -83,23 +72,68 @@ rule "[reset.opy]: Reset general hero":
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.setKnockbackDealt(100)
 
+
+rule "[reset.opy]: Reset statuses":
+    @Event eachPlayer
+    @Condition eventPlayer.call_reset == true
+
+    eventPlayer.clearStatusEffect(Status.ASLEEP)
+    eventPlayer.clearStatusEffect(Status.BURNING)
+    eventPlayer.clearStatusEffect(Status.FROZEN)
+    eventPlayer.clearStatusEffect(Status.HACKED)
+    eventPlayer.clearStatusEffect(Status.INVINCIBLE)
+    eventPlayer.clearStatusEffect(Status.KNOCKED_DOWN)
+    eventPlayer.clearStatusEffect(Status.PHASED_OUT)
     eventPlayer.clearStatusEffect(Status.ROOTED)
+    eventPlayer.clearStatusEffect(Status.STUNNED)
+    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
+
+
+rule "[reset.opy]: Reset friendly/enemy players":
+    @Event eachPlayer
+    @Condition eventPlayer.call_reset == true
+
+    eventPlayer.friendly_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, eventPlayer.getTeam())[0]
+    eventPlayer.enemy_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam()))[0]
+    eventPlayer.friendly_orisa_player = getPlayersOnHero(Hero.ORISA, eventPlayer.getTeam())[0]
+    eventPlayer.enemy_orisa_player = getPlayersOnHero(Hero.ORISA, getOppositeTeam(eventPlayer.getTeam()))[0]
+    eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
+    eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
+
+
+rule "[reset.opy]: Reset HUDs and GUI":
+    @Event eachPlayer
+    @Condition eventPlayer.call_reset == true
+
+    # Clear GUI
+    for i in range(len(eventPlayer.text_huds)):
+        destroyHudText(eventPlayer.text_huds[i])
+    for i in range(len(eventPlayer.progress_bar_huds)):
+        destroyProgressBarHud(eventPlayer.progress_bar_huds[i])
+    for i in range(len(eventPlayer.entity_huds)):
+        destroyEffect(eventPlayer.entity_huds[i])
+
+    eventPlayer.text_huds = []
+    eventPlayer.progress_bar_huds = []
+    eventPlayer.entity_huds = []
 
     
-rule "[reset.opy]: Reset hero on new round":
+rule "[reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
     @Condition isMatchBetweenRounds() == true
 
     waitUntil(not isMatchBetweenRounds(), 9999)
-    eventPlayer.call_reset = true
+    resetHero()
+    initHero()
 
 
-rule "[reset.opy]: Reset hero on hero switch":
+rule "[reset.opy]: Reinitialize hero on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
 
     wait()
-    eventPlayer.call_reset = true
+    resetHero()
+    initHero()
 
 
 def respawnSameState():

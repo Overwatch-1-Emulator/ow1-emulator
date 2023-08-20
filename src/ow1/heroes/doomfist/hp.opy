@@ -3,7 +3,7 @@
 rule "[doomfist/hp.opy]: Set Doomfist Hp":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.call_initialize == true
+    @Condition eventPlayer.call_init == true
 
     while (eventPlayer.getMaxHealth() != OW1_DOOMFIST_HEALTH):
         clearCustomHealth()

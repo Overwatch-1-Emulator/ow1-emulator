@@ -5,10 +5,10 @@ subroutine initTorbjorn
 rule "[torbjorn.opy]: Detect Torbjorn initialization":
     @Event eachPlayer
     @Hero torbjorn
-    @Condition eventPlayer.call_initialize == true # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     initTorbjorn()
-    eventPlayer.call_initialize = false
+    eventPlayer.call_init = false
 
 
 def initTorbjorn():

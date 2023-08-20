@@ -14,7 +14,7 @@ subroutine endSupercharger
 rule "[orisa/supercharger.opy]: Initialize supercharger ability":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.call_initialize == true
+    @Condition eventPlayer.call_init == true
 
     eventPlayer.disallowButton(Button.ULTIMATE)
     eventPlayer.is_using_supercharger = false

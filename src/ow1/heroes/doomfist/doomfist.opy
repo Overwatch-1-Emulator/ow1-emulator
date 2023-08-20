@@ -20,7 +20,7 @@ playervar is_using_slam
 rule "[doomfist.opy]: Initialize Doomfist":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.call_initialize == true
+    @Condition eventPlayer.call_init == true
 
     getPlayers(eventPlayer.getTeam()).friendly_doomfist_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_doomfist_player = eventPlayer
