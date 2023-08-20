@@ -27,7 +27,7 @@ rule "[custom_health_handler.opy]: Reset hp":
 
 
 def clearCustomHealth():
-    @Name "[custom_health_handler.opy]: Clear Custom Health"
+    @Name "[custom_health_handler.opy]: clearCustomHealth()"
 
     eventPlayer.removeAllHealthPools()
     wait()
@@ -38,7 +38,7 @@ def clearCustomHealth():
 
 
 def applyCustomHealth():
-    @Name "[custom_health_handler.opy]: Apply Custom Health"
+    @Name "[custom_health_handler.opy]: applyCustomHealth()"
     
     # If the player is in spawn, teleport them out as they are invulnerable in spawn
     if eventPlayer.isInSpawnRoom():

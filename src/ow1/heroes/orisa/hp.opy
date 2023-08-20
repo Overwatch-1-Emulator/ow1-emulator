@@ -1,6 +1,6 @@
 #!mainFile "../../../main.opy"
 
-rule "[orisa/hp.opy]: Set Orisa Hp":
+rule "[orisa/hp.opy]: Initialize Orisa Hp":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.call_init == true
