@@ -1,18 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initLucio
-
-rule "[lucio.opy]: Detect Lucio initialization":
+rule "[lucio.opy]: Initialize Lucio":
     @Event eachPlayer
     @Hero lucio
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initLucio()
-    eventPlayer.initialized = true
-
-
-def initLucio():
-    @Name "[lucio.opy]: initLucio()"
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     removeSelfHealing()
 

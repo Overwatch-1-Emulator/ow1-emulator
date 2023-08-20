@@ -1,18 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initRamattra
-
-rule "[ramattra.opy]: Detect Ramattra initialization":
+rule "[ramattra.opy]: Initialize Ramattra":
     @Event eachPlayer
     @Hero ramattra
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initRamattra()
-    eventPlayer.initialized = true
-
-
-def initRamattra():
-    @Name "[ramattra.opy]: initRamattra()"
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     while (eventPlayer.getMaxHealth() != OW1_RAMATTRA_HEALTH):
         clearCustomHealth()

@@ -7,10 +7,11 @@
 # Useful functions
 #!include "utilities/macro_functions.opy"
 #!include "utilities/hero_switch.opy"
+#!include "utilities/reset.opy"
 #!include "utilities/role_lock.opy"
 #!include "utilities/ready.opy"
-#!include "utilities/custom_health_handler.opy"
 #!include "utilities/hit_detection.opy"
+#!include "utilities/custom_health_handler.opy"
 
 # Custom game lobby settings
 #!include "lobby_settings.opy"

@@ -1,18 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initKiriko
-
-rule "[kiriko.opy]: Detect Kiriko initialization":
+rule "[kiriko.opy]: Initialize Kiriko":
     @Event eachPlayer
     @Hero kiriko
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initKiriko()
-    eventPlayer.initialized = true
-
-
-def initKiriko():
-    @Name "[kiriko.opy]: initKiriko()"
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     removeSelfHealing()
 

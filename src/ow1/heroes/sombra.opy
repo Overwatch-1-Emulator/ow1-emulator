@@ -2,19 +2,10 @@
 
 playervar hack_damage_modifier
 
-subroutine initSombra
-
-rule "[sombra.opy]: Detect Sombra initialization":
+rule "[sombra.opy]: Initialize Sombra":
     @Event eachPlayer
     @Hero sombra
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initSombra()
-    eventPlayer.initialized = true
-
-
-def initSombra():
-    @Name "[sombra.opy]: initSombra()"
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra_player = eventPlayer

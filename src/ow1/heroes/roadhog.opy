@@ -3,18 +3,11 @@
 subroutine initRoadhog
 playervar time_hook_was_active
 
-rule "[roadhog.opy]: Detect Roadhog initialization":
+rule "[roadhog.opy]: Initialize Roadhog":
     @Event eachPlayer
     @Hero roadhog
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initRoadhog()
-    eventPlayer.initialized = true
-
-
-def initRoadhog():
-    @Name "[roadhog.opy]: initRoadhog()"
-    
     do:
         clearCustomHealth()
         setCustomHealth(OW1_ROADHOG_HEALTH, 0, 0)

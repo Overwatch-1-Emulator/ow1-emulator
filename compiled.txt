@@ -1165,7 +1165,7 @@ rule ("[reset_hero.opy]: respawnSameState()") {
     }
 }
 
-rule ("[ana.opy]: Detect Ana initialization") {
+rule ("[ana.opy]: Initialize Ana") {
     event {
         Ongoing - Each Player;
         All;
@@ -1254,7 +1254,7 @@ rule ("[ana.opy]: Allow self healing during Biotic Grenade") {
     }
 }
 
-rule ("[ashe.opy]: Detect Ashe initialization") {
+rule ("[ashe.opy]: Initialize Ashe") {
     event {
         Ongoing - Each Player;
         All;
@@ -1308,7 +1308,7 @@ rule ("[ashe.opy]: Calcul of the damage made while BOB is active") {
     }
 }
 
-rule ("[baptiste.opy]: Detect Baptiste initialization") {
+rule ("[baptiste.opy]: Initialize Baptiste") {
     event {
         Ongoing - Each Player;
         All;
@@ -1370,7 +1370,7 @@ rule ("[baptiste.opy]: Allow self healing during Biotic Orb") {
     }
 }
 
-rule ("[bastion.opy]: Detect Bastion initialization") {
+rule ("[bastion.opy]: Initialize Bastion") {
     event {
         Ongoing - Each Player;
         All;
@@ -1974,7 +1974,7 @@ rule ("[bastion.opy]: Reload tank shells") {
     }
 }
 
-rule ("[brigitte.opy]: Detect Brigitte initialization") {
+rule ("[brigitte.opy]: Initialize Brigitte") {
     event {
         Ongoing - Each Player;
         All;
@@ -2090,7 +2090,7 @@ rule ("[brigitte.opy]: Rally 30% speed boost") {
     }
 }
 
-rule ("[doomfist.opy]: Detect Doomfist initialization") {
+rule ("[doomfist.opy]: Initialize Doomfist") {
     event {
         Ongoing - Each Player;
         All;
@@ -2789,7 +2789,7 @@ rule ("[doomfist.opy]: Deal OW1 hand cannon damage") {
     }
 }
 
-rule ("[dva.opy]: Detect Dva initialization") {
+rule ("[dva.opy]: Initialize Dva") {
     event {
         Ongoing - Each Player;
         All;
@@ -2903,7 +2903,7 @@ rule ("[echo.opy]: Tank armor, shields and health for every tank") {
     }
 }
 
-rule ("[echo.opy]: Detect Echo initialization") {
+rule ("[echo.opy]: Initialize Echo") {
     event {
         Ongoing - Each Player;
         All;
@@ -2955,7 +2955,7 @@ rule ("[echo.opy]: Set Life for echo when duplicating a tank") {
     }
 }
 
-rule ("[genji.opy]: Detect Genji initialization") {
+rule ("[genji.opy]: Initialize Genji") {
     event {
         Ongoing - Each Player;
         All;
@@ -2996,7 +2996,7 @@ rule ("[genji.opy]: Deal OW1 shuriken damage") {
     }
 }
 
-rule ("[hanzo.opy]: Detect Hanzo initialization") {
+rule ("[hanzo.opy]: Initialize Hanzo") {
     event {
         Ongoing - Each Player;
         All;
@@ -3040,7 +3040,7 @@ rule ("[hanzo.opy]: Deal OW1 storm arrow damage") {
     }
 }
 
-rule ("[illari.opy]: Detect Illari initialization") {
+rule ("[illari.opy]: Initialize Illari") {
     event {
         Ongoing - Each Player;
         All;
@@ -3072,7 +3072,7 @@ rule ("[illari.opy]: Allow self healing during Pylon") {
     }
 }
 
-rule ("[junkerqueen.opy]: Detect Junkerqueen initialization") {
+rule ("[junkerqueen.opy]: Initialize Junkerqueen") {
     event {
         Ongoing - Each Player;
         All;
@@ -3088,7 +3088,7 @@ rule ("[junkerqueen.opy]: Detect Junkerqueen initialization") {
     }
 }
 
-rule ("[junkrat.opy]: Detect Junkrat initialization") {
+rule ("[junkrat.opy]: Initialize Junkrat") {
     event {
         Ongoing - Each Player;
         All;
@@ -3134,7 +3134,7 @@ rule ("[junkrat.opy]: Deal extra damage on ability other than steel trap and inc
     }
 }
 
-rule ("[kiriko.opy]: Detect Kiriko initialization") {
+rule ("[kiriko.opy]: Initialize Kiriko") {
     event {
         Ongoing - Each Player;
         All;
@@ -3176,7 +3176,7 @@ rule ("[kiriko.opy]: Allow self healing during Suzu") {
     }
 }
 
-rule ("[lifeweaver.opy]: Detect Lifeweaver initialization") {
+rule ("[lifeweaver.opy]: Initialize Lifeweaver") {
     event {
         Ongoing - Each Player;
         All;
@@ -3236,7 +3236,7 @@ rule ("[lifeweaver.opy]: Allow self healing during Tree of Life") {
     }
 }
 
-rule ("[lucio.opy]: Detect Lucio initialization") {
+rule ("[lucio.opy]: Initialize Lucio") {
     event {
         Ongoing - Each Player;
         All;
@@ -3340,7 +3340,7 @@ rule ("[lucio.opy]: If lucio uses speed aura remove self healing") {
     }
 }
 
-rule ("[mccree.opy]: Detect Mccree initialization") {
+rule ("[mccree.opy]: Initialize Mccree") {
     event {
         Ongoing - Each Player;
         All;
@@ -3450,7 +3450,7 @@ rule ("[mccree.opy]: Remove damage reduction during deadeye") {
     }
 }
 
-rule ("[mei.opy]: Detect Mei initialization") {
+rule ("[mei.opy]: Initialize Mei") {
     event {
         Ongoing - Each Player;
         All;
@@ -3544,7 +3544,7 @@ rule ("[mei.opy]: clearFreezeEffect()") {
     }
 }
 
-rule ("[mercy.opy]: Detect Mercy initialization") {
+rule ("[mercy.opy]: Initialize Mercy") {
     event {
         Ongoing - Each Player;
         All;
@@ -3586,7 +3586,7 @@ rule ("[mercy.opy]: Change GA Cooldown") {
     }
 }
 
-rule ("[moira.opy]: Detect Moira initialization") {
+rule ("[moira.opy]: Initialize Moira") {
     event {
         Ongoing - Each Player;
         All;
@@ -3677,7 +3677,7 @@ rule ("[moira.opy]: Allow self healing during Coalescence") {
     }
 }
 
-rule ("[orisa.opy]: Detect Orisa initialization") {
+rule ("[orisa.opy]: Initialize Orisa") {
     event {
         Ongoing - Each Player;
         All;
@@ -4330,7 +4330,7 @@ rule ("[orisa.opy]: Remove overhealth during fortify") {
     }
 }
 
-rule ("[ramattra.opy]: Detect Ramattra initialization") {
+rule ("[ramattra.opy]: Initialize Ramattra") {
     event {
         Ongoing - Each Player;
         All;
@@ -4363,7 +4363,7 @@ rule ("[ramattra.opy]: initRamattra()") {
     }
 }
 
-rule ("[reaper.opy]: Detect Reaper initialization") {
+rule ("[reaper.opy]: Initialize Reaper") {
     event {
         Ongoing - Each Player;
         All;
@@ -4393,7 +4393,7 @@ rule ("[reaper.opy]: Deal OW1 Reaper primary fire damage") {
     }
 }
 
-rule ("[reinhardt.opy]: Detect Reinhardt initialization") {
+rule ("[reinhardt.opy]: Initialize Reinhardt") {
     event {
         Ongoing - Each Player;
         All;
@@ -4489,7 +4489,7 @@ rule ("[reinhardt.opy]: OW1 one shot earthshatter") {
     }
 }
 
-rule ("[roadhog.opy]: Detect Roadhog initialization") {
+rule ("[roadhog.opy]: Initialize Roadhog") {
     event {
         Ongoing - Each Player;
         All;
@@ -4649,7 +4649,7 @@ rule ("[roadhog.opy]: Reduce ultimate duration") {
     }
 }
 
-rule ("[sigma.opy]: Detect Sigma initialization") {
+rule ("[sigma.opy]: Initialize Sigma") {
     event {
         Ongoing - Each Player;
         All;
@@ -4737,7 +4737,7 @@ rule ("[soldier.opy]: Deal OW1 soldier primary fire damage") {
     }
 }
 
-rule ("[sombra.opy]: Detect Sombra initialization") {
+rule ("[sombra.opy]: Initialize Sombra") {
     event {
         Ongoing - Each Player;
         All;
@@ -4872,7 +4872,7 @@ rule ("[sombra.opy]: Set default hack cooldown") {
     }
 }
 
-rule ("[symmetra.opy]: Detect Symmetra initialization") {
+rule ("[symmetra.opy]: Initialize Symmetra") {
     event {
         Ongoing - Each Player;
         All;
@@ -4915,7 +4915,7 @@ rule ("[symmetra.opy]: Set OW1 Symmetra Photo Projector projectile speed") {
     }
 }
 
-rule ("[torbjorn.opy]: Detect Torbjorn initialization") {
+rule ("[torbjorn.opy]: Initialize Torbjorn") {
     event {
         Ongoing - Each Player;
         All;
@@ -4962,7 +4962,7 @@ rule ("[torbjorn.opy]: Correct overload hp") {
     }
 }
 
-rule ("[tracer.opy]: Detect Tracer initialization") {
+rule ("[tracer.opy]: Initialize Tracer") {
     event {
         Ongoing - Each Player;
         All;
@@ -4992,7 +4992,7 @@ rule ("[tracer.opy]: Deal OW1 tracer primary fire damage") {
     }
 }
 
-rule ("[widowmaker.opy]: Detect Widowmaker initialization") {
+rule ("[widowmaker.opy]: Initialize Widowmaker") {
     event {
         Ongoing - Each Player;
         All;
@@ -5060,7 +5060,7 @@ rule ("[widowmaker.opy]: Revert sniper damage falloff") {
     }
 }
 
-rule ("[winston.opy]: Detect Winston initialization") {
+rule ("[winston.opy]: Initialize Winston") {
     event {
         Ongoing - Each Player;
         All;
@@ -5155,7 +5155,7 @@ rule ("[wreckingball.opy]: initWreckingball()") {
     }
 }
 
-rule ("[zarya.opy]: Detect Zarya initialization") {
+rule ("[zarya.opy]: Initialize Zarya") {
     event {
         Ongoing - Each Player;
         All;
@@ -5385,7 +5385,7 @@ rule ("[zarya.opy]: Erase self bubble cooldown") {
     }
 }
 
-rule ("[zenyatta.opy]: Detect Zenyatta initialization") {
+rule ("[zenyatta.opy]: Initialize Zenyatta") {
     event {
         Ongoing - Each Player;
         All;
