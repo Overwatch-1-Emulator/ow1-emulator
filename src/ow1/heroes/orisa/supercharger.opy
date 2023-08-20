@@ -20,7 +20,7 @@ rule "[orisa/supercharger.opy]: Initialize supercharger ability":
     eventPlayer.is_using_supercharger = false
 
 
-rule "[supercharger.opy]: Trigger Supercharger start":
+rule "[orisa/supercharger.opy]: Trigger Supercharger start":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
@@ -31,7 +31,7 @@ rule "[supercharger.opy]: Trigger Supercharger start":
     startSupercharger() # Start supercharger
 
 
-rule "[supercharger.opy]: Trigger Supercharger end":
+rule "[orisa/supercharger.opy]: Trigger Supercharger end":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.orisa_supercharger_uptime >= OW1_ORISA_SUPERCHARGER_MAX_DURATION
@@ -40,7 +40,7 @@ rule "[supercharger.opy]: Trigger Supercharger end":
 
 
 def startSupercharger():
-    @Name "[supercharger.opy]: startSupercharger()"
+    @Name "[orisa/supercharger.opy]: startSupercharger()"
 
     eventPlayer.setUltCharge(0)
     eventPlayer.setUltEnabled(false)
@@ -59,7 +59,7 @@ def startSupercharger():
 
 
 def endSupercharger():
-    @Name "[supercharger.opy]: endSupercharger()"
+    @Name "[orisa/supercharger.opy]: endSupercharger()"
 
     eventPlayer.setUltEnabled(true)
     stopChasingVariable(eventPlayer.orisa_supercharger_uptime)
@@ -68,7 +68,7 @@ def endSupercharger():
     eventPlayer.is_using_supercharger = false
 
 
-rule "[supercharger.opy]: Supercharge teammates in supercharger range":
+rule "[orisa/supercharger.opy]: Supercharge teammates in supercharger range":
     @Event eachPlayer
     @Hero all
     @Condition eventPlayer.isAlive() == true
@@ -79,7 +79,7 @@ rule "[supercharger.opy]: Supercharge teammates in supercharger range":
     eventPlayer.is_supercharged = true
 
 
-rule "[supercharger.opy]: De-supercharge teammates outside supercharger range":
+rule "[orisa/supercharger.opy]: De-supercharge teammates outside supercharger range":
     @Event eachPlayer
     @Hero all
     @Condition eventPlayer.is_supercharged == true
@@ -91,7 +91,7 @@ rule "[supercharger.opy]: De-supercharge teammates outside supercharger range":
     eventPlayer.is_supercharged = false
 
 
-rule "[supercharger.opy]: De-supercharge teammates when supercharger ends":
+rule "[orisa/supercharger.opy]: De-supercharge teammates when supercharger ends":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.is_using_supercharger == false
@@ -99,7 +99,7 @@ rule "[supercharger.opy]: De-supercharge teammates when supercharger ends":
     getPlayers(eventPlayer.getTeam()).is_supercharged = false
 
 
-rule "[supercharger.opy]: De-supercharge teammates when they die":
+rule "[orisa/supercharger.opy]: De-supercharge teammates when they die":
     @Event eachPlayer
     @Hero all
     @Condition eventPlayer.isDead()
@@ -108,7 +108,7 @@ rule "[supercharger.opy]: De-supercharge teammates when they die":
     eventPlayer.is_supercharged = false
 
 
-rule "[supercharger.opy]: Damage boost player when supercharged":
+rule "[orisa/supercharger.opy]: Damage boost player when supercharged":
     @Event eachPlayer
     @Condition eventPlayer.is_supercharged == true
 
@@ -119,7 +119,7 @@ rule "[supercharger.opy]: Damage boost player when supercharged":
     eventPlayer.setDamageDealt(percent(OW1_ORISA_SUPERCHARGER_DAMAGE_MULTIPLIER))
 
 
-rule "[supercharger.opy]: Revert damage boost if not supercharged":
+rule "[orisa/supercharger.opy]: Revert damage boost if not supercharged":
     @Event eachPlayer
     @Condition eventPlayer.is_supercharged == false
 
