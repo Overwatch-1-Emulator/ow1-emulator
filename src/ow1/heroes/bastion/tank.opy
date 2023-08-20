@@ -26,8 +26,8 @@ rule "[bastion/tank.opy]: Initialize tank mode":
     eventPlayer.setKnockbackReceived(100)
 
 
-def transformInToTank():
-    @Name "[bastion/tank.opy]: Transform into tank"
+def startTank():
+    @Name "[bastion/tank.opy]: startTank()"
 
     wait(OW1_BASTION_TANK_CONFIG_TRANSFORM_TIME-OW2_BASTION_ASSAULT_CONFIG_TRANSFORM_TIME)
     eventPlayer.cancelPrimaryAction() # interrupt ultimate animation right before it completes
@@ -36,8 +36,8 @@ def transformInToTank():
     eventPlayer.disallowButton(Button.ABILITY_1) # Disable reconfiguring out of turret mode
 
 
-def transformOutOfTank():
-    @Name "[bastion/tank.opy]: Transform out of tank"
+def endTank():
+    @Name "[bastion/tank.opy]: endTank()"
 
     if eventPlayer.isUsingAbility1():
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
@@ -45,14 +45,14 @@ def transformOutOfTank():
     eventPlayer.allowButton(Button.ABILITY_1)
 
 
-rule "[bastion/tank.opy]: Enter tank mode":
+rule "[bastion/tank.opy]: Activate tank mode":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.TANK
     
-    transformInToTank()
+    startTank()
     waitUntil(not eventPlayer.isUsingAbility1(), OW1_BASTION_TANK_CONFIG_DURATION)
-    transformOutOfTank()
+    endTank()
 
 
 rule "[bastion/tank.opy]: Fire tank shells":
