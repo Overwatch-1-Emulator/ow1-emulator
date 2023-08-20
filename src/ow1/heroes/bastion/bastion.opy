@@ -7,13 +7,12 @@ enum Configuration:
 
 playervar current_configuration
 playervar sentry_gui_visibility
-playervar heal_gui_visibility
-playervar self_repair_time_left
+
 playervar machine_gun_ready
 playervar machine_gun_reload_timer
 playervar machine_gun_ammo
-playervar self_repair
 
+#!include "ow1/heroes/bastion/repair.opy"
 
 rule "[bastion.opy]: Initialize Bastion":
     @Event eachPlayer
@@ -26,7 +25,6 @@ rule "[bastion.opy]: Initialize Bastion":
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
     eventPlayer.sentry_gui_visibility = null
-    eventPlayer.heal_gui_visibility = null
 
     # Initialize GUI
     progressBarHud(eventPlayer.sentry_gui_visibility, 
@@ -40,17 +38,6 @@ rule "[bastion.opy]: Initialize Bastion":
                    SpecVisibility.DEFAULT)
     eventPlayer.progress_bar_huds.append(getLastCreatedText())
 
-    progressBarHud(eventPlayer.heal_gui_visibility, 
-                   roundedPercent(eventPlayer.self_repair_time_left/OW1_BASTION_MAX_SELF_REPAIR_DURATION), 
-                   "Self-Repair", 
-                   HudPosition.LEFT, 
-                   1, 
-                   Color.YELLOW, 
-                   Color.YELLOW, 
-                   ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
-                   SpecVisibility.DEFAULT)
-    eventPlayer.progress_bar_huds.append(getLastCreatedText())
-
 
 rule "[bastion.opy]: Hide Bastion HUD on hero switch":
     @Event eachPlayer
@@ -58,7 +45,6 @@ rule "[bastion.opy]: Hide Bastion HUD on hero switch":
     @Condition eventPlayer.getCurrentHero() != Hero.BASTION
 
     eventPlayer.sentry_gui_visibility = null
-    eventPlayer.heal_gui_visibility = null
 
 
 rule "[bastion.opy]: No cooldown on reconfigure (ability 1)":
@@ -242,106 +228,6 @@ rule "[bastion.opy]: Disallow machine gun shooting when machine gun not ready":
     @Condition eventPlayer.machine_gun_ready == false # gun not ready to shoot
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE)
-
-
-def selfRepair():
-    @Name "[bastion.opy]: Execute self-repair ability"
-    wait(OW1_BASTION_SELF_REPAIR_CAST_TIME)
-    while eventPlayer.self_repair == true: # Approximate 90 healing over time using discrete healing at high frequency
-        heal(eventPlayer, eventPlayer, OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT)
-        wait(OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT/OW1_BASTION_SELF_REPAIR_HEALING_RATE)
-        eventPlayer.missing_ult_points += OW1_BASTION_SELF_REPAIR_HEAL_INCREMENT
-
-
-rule "[bastion.opy]: Activate self-repair":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.self_repair == true
-
-    selfRepair()
-
-
-rule "[bastion.opy]: Start self-repair on ability 2 or secondary fire":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
-    @Condition not eventPlayer.isFiringPrimaryFire()
-    @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
-    @Condition eventPlayer.isDead() == false
-    
-    eventPlayer.self_repair = true
-
-
-rule "[bastion.opy]: Stop self-repair on ability 2 release":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition not (eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)) or eventPlayer.isFiringPrimaryFire()
-
-    eventPlayer.self_repair = false
-
-
-rule "[bastion.opy]: Stop self-repair and hide its GUI on death":
-    @Event playerDied
-    @Hero bastion
-
-    eventPlayer.self_repair = false
-    eventPlayer.heal_gui_visibility = null
-
-
-rule "[bastion.opy]: Stop self-repair when no healing resource left":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.self_repair_time_left <= 0
-
-    eventPlayer.self_repair = false
-
-
-rule "[bastion.opy]: Stop self-repair when full hp":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.getHealth() >= eventPlayer.getMaxHealth()
-
-    eventPlayer.self_repair = false
-
-
-rule "[bastion.opy]: Show self-repair GUI":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.self_repair_time_left < OW1_BASTION_MAX_SELF_REPAIR_DURATION
-
-    eventPlayer.heal_gui_visibility = eventPlayer
-
-
-rule "[bastion.opy]: Hide self-repair GUI":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.self_repair_time_left >= OW1_BASTION_MAX_SELF_REPAIR_DURATION
-
-    eventPlayer.heal_gui_visibility = null
-
-
-rule "[bastion.opy]: Consume heal resource on self-repair":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.self_repair == true
-
-    stopChasingVariable(eventPlayer.self_repair_time_left) # Stop any ongoing resource modification
-    waitUntil(not eventPlayer.self_repair, OW1_BASTION_SELF_REPAIR_CAST_TIME) # wait self-repair animation casttime
-    if not eventPlayer.self_repair: # player interrupted self-repair
-        return
-    chase(eventPlayer.self_repair_time_left, 0, rate=1, ChaseReeval.DESTINATION_AND_RATE) # Start depleting
-
-
-rule "[bastion.opy]: Recharge heal resource when not self-repairing":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.self_repair == false
-
-    stopChasingVariable(eventPlayer.self_repair_time_left) # Stop any ongoing resource modification
-    waitUntil(eventPlayer.self_repair, OW1_BASTION_SELF_REPAIR_COOLDOWN_TIME) # Wait 1 second cooldown before recharging heal resource
-    if eventPlayer.self_repair:  # player interrupted self-repair
-        return
-    chase(eventPlayer.self_repair_time_left, OW1_BASTION_MAX_SELF_REPAIR_DURATION, rate=OW1_BASTION_MAX_SELF_REPAIR_DURATION/OW1_BASTION_SELF_REPAIR_RECHARGE_DURATION, ChaseReeval.DESTINATION_AND_RATE) # Start recharging
 
 
 def transformInToTank():
