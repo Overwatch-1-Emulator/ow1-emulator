@@ -12,6 +12,15 @@ subroutine createSelfRepairGUI
 subroutine destroySelfRepairGUI
 
 
+rule "[bastion/repair.opy]: Initialize self repair ability":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.call_init == true
+    
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.self_repair_time_left = OW1_BASTION_MAX_SELF_REPAIR_DURATION
+
+
 def startSelfRepair():
     @Name "[bastion/repair.opy]: startSelfRepair()"
     
