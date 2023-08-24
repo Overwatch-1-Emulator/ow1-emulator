@@ -100,3 +100,13 @@ def destroyOrisaAmmoHud():
     @Name "[orisa/ammo.opy]: destroyOrisaAmmoHud()"
 
     destroyInWorldText(eventPlayer.orisa_ammo_hud)
+
+
+rule "[orisa/ammo.opy]: Slow down Orisa when shooting":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
+
+    eventPlayer.setMoveSpeed(100-percent(OW1_ORISA_MOVEMENT_PENALTY))
+    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 9999)
+    eventPlayer.setMoveSpeed(100)
