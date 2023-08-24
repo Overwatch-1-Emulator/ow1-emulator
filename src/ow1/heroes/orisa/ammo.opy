@@ -1,43 +1,112 @@
 #!mainFile "../../../main.opy"
 
-playervar current_ammo_count
+playervar orisa_ammo
+playervar orisa_ammo_hud
 
-subroutine replanishAmmo
+subroutine resetFusionDriver
+subroutine reloadFusionDriver
+subroutine refreshAmmo
 
-rule "[orisa/halt.opy]: Disable OW2 Javelin":
+subroutine createOrisaAmmoHud
+subroutine destroyOrisaAmmoHud
+
+rule "[orisa/ammo.opy]: Initialize OW1 Orisa clip size":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.call_init == true
 
-    replanishAmmo()
-    eventPlayer.setMaxAmmo(0, eventPlayer.current_ammo_count)
+    resetFusionDriver()
+    createOrisaAmmoHud()
 
-rule "[orisa/ammo.opy]: Save ammo count when finished firing":
+
+rule "[orisa/ammo.opy]: Remove ammo hud":
+    @Event eachPlayer
+    @Condition eventPlayer.call_reset == true
+
+    destroyOrisaAmmoHud()
+
+
+rule "[orisa/ammo.opy]: Decrease ammo when shooting gun":
     @Event eachPlayer
     @Hero orisa
-    @Condition not eventPlayer.isFiringPrimaryFire()
+    @Condition eventPlayer.isFiringPrimaryFire()
+    
+    eventPlayer.orisa_ammo -= 1
+    refreshAmmo()
+    eventPlayer.setPrimaryFireEnabled(false)
+    wait(1/OW1_ORISA_FIRE_RATE)
+    eventPlayer.setPrimaryFireEnabled(true)
 
-    eventPlayer.current_ammo_count = eventPlayer.getAmmo(0)
 
-
-rule "[orisa/ammo.opy]: Correct ammo count when wrong":
+rule "[orisa/ammo.opy]: Reload on key press":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.current_ammo_count != eventPlayer.getAmmo(0)
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    
+    reloadFusionDriver()
 
-    eventPlayer.setAmmo(0, eventPlayer.current_ammo_count)
 
-
-rule "[orisa/ammo.opy]: Replanish ammo on reload":
+rule "[orisa/ammo.opy]: Reload when out of ammo":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.isReloading()
+    @Condition eventPlayer.orisa_ammo <= 0
+    
+    reloadFusionDriver()
 
-    replanishAmmo()
+
+def resetFusionDriver():
+    @Name "[orisa/ammo.opy]: resetFusionDriver()"
+
+    eventPlayer.setMaxAmmo(0, OW1_ORISA_CLIP_SIZE + 1)
+    eventPlayer.orisa_ammo = OW1_ORISA_CLIP_SIZE
+    refreshAmmo()
 
 
-def replanishAmmo():
-    @Name "[orisa/ammo.opy]: replanishAmmo()"
+def reloadFusionDriver():
+    @Name "[orisa/ammo.opy]: reloadFusionDriver()"
 
-    eventPlayer.current_ammo_count = OW1_ORISA_AMMO/OW1_ORISA_FIRE_RATE*OW2_ORISA_FIRE_RATE
-    eventPlayer.setAmmo(0, eventPlayer.current_ammo_count)
+    if eventPlayer.orisa_ammo >= OW1_ORISA_CLIP_SIZE:
+        return # Abort if ammo already full
+
+    eventPlayer.setAmmo(0, 0) # Play reload animation
+    wait(OW1_ORISA_RELOAD_TIME)
+    resetFusionDriver()
+
+
+def refreshAmmo():
+    @Name "[orisa/ammo.opy]: refreshAmmo()"
+
+    eventPlayer.setAmmo(0, eventPlayer.orisa_ammo + 1)
+
+
+def createOrisaAmmoHud():
+    @Name "[orisa/ammo.opy]: createOrisaAmmoHud()"
+    
+    createInWorldText(eventPlayer, 
+                      "{0}".format(ceil(eventPlayer.orisa_ammo)),
+                      updateEveryTick(eventPlayer.getEyePosition() + \
+                      (100 * (3.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + \
+                      ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+                      verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
+                      2, 
+                      Clip.NONE, 
+                      WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
+                      Color.WHITE, 
+                      SpecVisibility.DEFAULT)
+    eventPlayer.orisa_ammo_hud = getLastCreatedText()
+
+
+def destroyOrisaAmmoHud():
+    @Name "[orisa/ammo.opy]: destroyOrisaAmmoHud()"
+
+    destroyInWorldText(eventPlayer.orisa_ammo_hud)
+
+
+rule "[orisa/ammo.opy]: Slow down Orisa when shooting":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
+
+    eventPlayer.setMoveSpeed(100-percent(OW1_ORISA_MOVEMENT_PENALTY))
+    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 9999)
+    eventPlayer.setMoveSpeed(100)
