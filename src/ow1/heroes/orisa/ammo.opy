@@ -1,12 +1,14 @@
 #!mainFile "../../../main.opy"
 
 playervar orisa_ammo
-playervar reloading_
+playervar orisa_ammo_hud
 
 subroutine resetFusionDriver
 subroutine reloadFusionDriver
 subroutine refreshAmmo
 
+subroutine createOrisaAmmoHud
+subroutine destroyOrisaAmmoHud
 
 rule "[orisa/ammo.opy]: Initialize OW1 Orisa clip size":
     @Event eachPlayer
@@ -14,6 +16,14 @@ rule "[orisa/ammo.opy]: Initialize OW1 Orisa clip size":
     @Condition eventPlayer.call_init == true
 
     resetFusionDriver()
+    createOrisaAmmoHud()
+
+
+rule "[orisa/ammo.opy]: Remove ammo hud":
+    @Event eachPlayer
+    @Condition eventPlayer.call_reset == true
+
+    destroyOrisaAmmoHud()
 
 
 rule "[orisa/ammo.opy]: Decrease ammo when shooting gun":
@@ -67,3 +77,26 @@ def refreshAmmo():
     @Name "[orisa/ammo.opy]: refreshAmmo()"
 
     eventPlayer.setAmmo(0, eventPlayer.orisa_ammo + 1)
+
+
+def createOrisaAmmoHud():
+    @Name "[orisa/ammo.opy]: createOrisaAmmoHud()"
+    
+    createInWorldText(eventPlayer, 
+                      "{0}".format(ceil(eventPlayer.orisa_ammo)),
+                      updateEveryTick(eventPlayer.getEyePosition() + \
+                      (100 * (3.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + \
+                      ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+                      verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
+                      2, 
+                      Clip.NONE, 
+                      WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
+                      Color.WHITE, 
+                      SpecVisibility.DEFAULT)
+    eventPlayer.orisa_ammo_hud = getLastCreatedText()
+
+
+def destroyOrisaAmmoHud():
+    @Name "[orisa/ammo.opy]: destroyOrisaAmmoHud()"
+
+    destroyInWorldText(eventPlayer.orisa_ammo_hud)
