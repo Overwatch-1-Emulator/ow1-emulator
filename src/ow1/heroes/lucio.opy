@@ -5,8 +5,6 @@ rule "[lucio.opy]: Initialize Lucio":
     @Hero lucio
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    removeSelfHealing()
-
 
 rule "[lucio.opy]: Handle lucio self healing while amp is not active and supp passive is active":
     @Event eachPlayer

@@ -26,7 +26,8 @@ rule "[passives/support/self_heal.opy]: Reset self healing":
 
 def removeSelfHealing():
     @Name "[passives/support/self_heal.opy]: removeSelfHealing()"
-
+    
+    stopHealingModification(eventPlayer.self_healing_modification)
     eventPlayer.self_healing_percent = 0
     startHealingModification(eventPlayer, eventPlayer, eventPlayer.self_healing_percent, HealingReeval.RECEIVERS_HEALERS_AND_HEALPERCENT)
     eventPlayer.self_healing_modification = getLastHealingModification()

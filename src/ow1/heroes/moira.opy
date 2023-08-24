@@ -5,8 +5,6 @@ rule "[moira.opy]: Initialize Moira":
     @Hero moira
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    removeSelfHealing()
-
 
 rule "[moira.opy]: Deny fade during coalescence":
     @Event eachPlayer
