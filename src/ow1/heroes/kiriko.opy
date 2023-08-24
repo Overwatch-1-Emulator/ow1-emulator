@@ -5,8 +5,6 @@ rule "[kiriko.opy]: Initialize Kiriko":
     @Hero kiriko
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    removeSelfHealing()
-
 
 rule "[kiriko.opy]: Allow self healing during Suzu":
     @Event eachPlayer

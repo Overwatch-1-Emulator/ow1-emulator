@@ -5,8 +5,6 @@ rule "[lifeweaver.opy]: Initialize Lifeweaver":
     @Hero lifeweaver
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    removeSelfHealing()
-
 
 rule "[lifeweaver.opy]: Allow self healing during Rejuvanating Dash":
     @Event eachPlayer

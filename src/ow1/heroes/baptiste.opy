@@ -12,8 +12,6 @@ rule "[baptiste.opy]: Initialize Baptiste":
     eventPlayer.setAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
     eventPlayer.setMaxAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
 
-    removeSelfHealing()
-
 
 rule "[baptiste.opy]: Set default immortality field cooldown":
     @Event eachPlayer

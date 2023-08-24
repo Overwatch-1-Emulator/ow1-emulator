@@ -16,8 +16,6 @@ rule "[brigitte.opy]: Initialize Brigitte":
         wait(1)
     while (eventPlayer.getMaxHealth() != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR)
 
-    removeSelfHealing()
-
 
 rule "[brigitte.opy]: Fix inspire self heal":
     @Event playerDealtDamage

@@ -9,8 +9,6 @@ rule "[zenyatta.opy]: Initialize Zenyatta":
     eventPlayer.setMaxAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
     eventPlayer.setKnockbackDealt(5)
 
-    removeSelfHealing()
-
 
 rule "[zenyatta.opy]: Allow self healing during Transcendence":
     @Event eachPlayer
