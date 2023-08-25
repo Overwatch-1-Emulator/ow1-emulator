@@ -12,6 +12,7 @@ rule "[passives/support/self_heal.opy]: Remove support self healing passive":
     @Event eachPlayer
     @Condition eventPlayer.call_init == true
     @Condition eventPlayer.getCurrentHero() in getSupportHeroes()
+    @Condition eventPlayer.getCurrentHero() not in [Hero.MERCY] # Exception to support healing passive
 
     removeSelfHealing()
 
