@@ -8,4 +8,4 @@ rule "[doomfist/hp.opy]: Initialize Doomfist Hp":
     while (eventPlayer.getMaxHealth() != OW1_DOOMFIST_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_DOOMFIST_HEALTH, 0, 0)
-        wait(1)
+        wait()
