@@ -8,7 +8,7 @@ rule "[reinhardt.opy]: Initialize Reinhardt":
     while (eventPlayer.getMaxHealth() != OW1_REINHARDT_HEALTH + OW1_REINHARDT_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)
-        wait(1)
+        wait()
 
 
 rule "[reinhardt.opy]: Set default charge cooldown":

@@ -8,7 +8,7 @@ rule "[winston.opy]: Initialize Winston":
     while (eventPlayer.getMaxHealth() != OW1_WINSTON_HEALTH + OW1_WINSTON_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
-        wait(1)
+        wait()
 
 
     eventPlayer.setSecondaryFireEnabled(false)

@@ -8,6 +8,6 @@ rule "[wreckingball.opy]: Initialize Wrecking Ball":
     while (eventPlayer.getMaxHealth() != OW1_WRECKING_BALL_HEALTH + OW1_WRECKING_BALL_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)
-        wait(1)
+        wait()
     
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))

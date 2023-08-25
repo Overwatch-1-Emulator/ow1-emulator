@@ -9,7 +9,7 @@ rule "[dva.opy]: Initialize Dva":
     while (eventPlayer.getMaxHealth() != OW1_DVA_HEALTH + OW1_DVA_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
-        wait(1)
+        wait()
 
     waitUntil(not eventPlayer.isInAlternateForm(), 9999)
     eventPlayer.setUltCharge(0)

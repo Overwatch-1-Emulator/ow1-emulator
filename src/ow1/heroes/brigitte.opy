@@ -13,7 +13,7 @@ rule "[brigitte.opy]: Initialize Brigitte":
     while (eventPlayer.getMaxHealth() != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
-        wait(1)
+        wait()
 
 
 rule "[brigitte.opy]: Fix inspire self heal":

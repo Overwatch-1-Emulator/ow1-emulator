@@ -11,7 +11,7 @@ rule "[roadhog.opy]: Initialize Roadhog":
     while (eventPlayer.getMaxHealth() != OW1_ROADHOG_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_ROADHOG_HEALTH, 0, 0)
-        wait(1)
+        wait()
 
 
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)

@@ -11,7 +11,7 @@ rule "[mccree.opy]: Set Cassidy hp":
     while (eventPlayer.getMaxHealth() != OW1_MCCREE_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_MCCREE_HEALTH, 0, 0)
-        wait(1)
+        wait()
 
 
 rule "[mccree.opy]: Initialize flashbang ability":

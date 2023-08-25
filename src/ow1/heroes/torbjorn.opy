@@ -8,7 +8,7 @@ rule "[torbjorn.opy]: Initialize Torbjorn":
     while (eventPlayer.getMaxHealth() != OW1_TORBJORN_HEALTH + OW1_TORBJORN_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
-        wait(1)
+        wait()
 
 
 rule "[torbjorn.opy]: Correct overload hp":

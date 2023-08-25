@@ -19,7 +19,7 @@ rule "[zarya.opy]: Initialize Zarya":
     while (eventPlayer.getMaxHealth() != OW1_ZARYA_HEALTH + OW1_ZARYA_SHIELDS):
         clearCustomHealth()
         setCustomHealth(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
-        wait(1)
+        wait()
     
 
     eventPlayer.self_bubble_cooldown = 0
