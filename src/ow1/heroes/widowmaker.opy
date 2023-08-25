@@ -21,7 +21,7 @@ rule "[widowmaker.opy]: Initialize Widowmaker":
     while (eventPlayer.getMaxHealth() != OW1_WIDOWMAKER_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_WIDOWMAKER_HEALTH, 0, 0)
-        wait(1)
+        wait()
 
 
 rule "[widowmaker.opy]: Revert sniper damage falloff":

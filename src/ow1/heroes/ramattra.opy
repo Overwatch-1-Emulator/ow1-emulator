@@ -8,6 +8,6 @@ rule "[ramattra.opy]: Initialize Ramattra":
     while (eventPlayer.getMaxHealth() != OW1_RAMATTRA_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_RAMATTRA_HEALTH, 0, 0)
-        wait(1)
+        wait()
 
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))

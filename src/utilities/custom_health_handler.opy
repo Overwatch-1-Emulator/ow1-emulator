@@ -43,8 +43,6 @@ def applyCustomHealth():
     # If the player is in spawn, teleport them out as they are invulnerable in spawn
     if eventPlayer.isInSpawnRoom():
         eventPlayer.startCamera(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection(), 0.001)
-        wait()
-        wait()
         eventPlayer.stored_spawn_pos = eventPlayer.getPosition()
         eventPlayer.teleport(eventPlayer.getPosition() + 100 * Vector.UP)
         waitUntil(not (eventPlayer.isInSpawnRoom() or eventPlayer.hasStatusEffect(Status.INVINCIBLE) or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), 1)
@@ -56,23 +54,21 @@ def applyCustomHealth():
 
     ## Applying Custom Health ##
     # Apply an unkillable status so we don't accidentally kill the player
-    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, 1)
+    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
     # Damage the player so they're at one health
     damage(eventPlayer, null, Math.INFINITY)
 
-    wait()
+    waitUntil(eventPlayer.getHealth() <= 1, 1)
 
     # Apply temporary base health to the player
     eventPlayer.addHealthPool(Health.NORMAL, Math.INFINITY, true, true)
     eventPlayer.addHealthPool(Health.ARMOR, Math.INFINITY, true, true)
     eventPlayer.addHealthPool(Health.SHIELDS, Math.INFINITY, true, true)
 
-    wait()
-
     # Remove temporary base health from the player
     eventPlayer.removeAllHealthPools()
 
-    wait()
+    waitUntil(eventPlayer.getMaxHealth() <= 1, 1)
 
 
     # Apply custom health pool to player
@@ -83,6 +79,7 @@ def applyCustomHealth():
     if eventPlayer.hp_shields > 0:
         eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer.hp_shields), true, true)
     heal(eventPlayer, null, Math.INFINITY)
+    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
 
     # Teleport player back if they were in spawn.
     if eventPlayer.stored_spawn_pos != null:

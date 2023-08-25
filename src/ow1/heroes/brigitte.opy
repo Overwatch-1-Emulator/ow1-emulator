@@ -10,11 +10,10 @@ rule "[brigitte.opy]: Initialize Brigitte":
     @Hero brigitte
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
-        wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR)
+        wait()
 
 
 rule "[brigitte.opy]: Fix inspire self heal":

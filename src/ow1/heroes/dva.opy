@@ -6,11 +6,10 @@ rule "[dva.opy]: Initialize Dva":
     @Hero dva
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_DVA_HEALTH + OW1_DVA_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
-        wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_DVA_HEALTH + OW1_DVA_ARMOR)
+        wait()
 
     waitUntil(not eventPlayer.isInAlternateForm(), 9999)
     eventPlayer.setUltCharge(0)

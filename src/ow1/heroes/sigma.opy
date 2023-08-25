@@ -8,7 +8,7 @@ rule "[sigma.opy]: Initialize Sigma":
     while (eventPlayer.getMaxHealth() != OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS):
         clearCustomHealth()
         setCustomHealth(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
-        wait(1)
+        wait()
 
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 

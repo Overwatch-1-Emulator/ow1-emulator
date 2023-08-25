@@ -8,11 +8,11 @@ rule "[roadhog.opy]: Initialize Roadhog":
     @Hero roadhog
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_ROADHOG_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_ROADHOG_HEALTH, 0, 0)
-        wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_ROADHOG_HEALTH)
+        wait()
+
 
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
