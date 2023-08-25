@@ -4,27 +4,16 @@
 
 playervar inspire_duration
 
-subroutine initBrigitte
 
-rule "[brigitte.opy]: Detect Brigitte initialization":
+rule "[brigitte.opy]: Initialize Brigitte":
     @Event eachPlayer
     @Hero brigitte
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initBrigitte()
-    eventPlayer.initialized = true
-
-
-def initBrigitte():
-    @Name "[brigitte.opy]: initBrigitte()"
-    
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
-        wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR)
-
-    removeSelfHealing()
+        wait()
 
 
 rule "[brigitte.opy]: Fix inspire self heal":

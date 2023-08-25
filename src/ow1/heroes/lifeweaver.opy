@@ -1,20 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initLifeweaver
-
-rule "[lifeweaver.opy]: Detect Lifeweaver initialization":
+rule "[lifeweaver.opy]: Initialize Lifeweaver":
     @Event eachPlayer
     @Hero lifeweaver
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initLifeweaver()
-    eventPlayer.initialized = true
-
-
-def initLifeweaver():
-    @Name "[lifeweaver.opy]: initLifeweaver()"
-
-    removeSelfHealing()
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
 
 rule "[lifeweaver.opy]: Allow self healing during Rejuvanating Dash":

@@ -13,24 +13,15 @@ playervar expected_scoped_damage
 #!define OW1WidowmakerFalloff(d) ((OW1WidowmakerN(d)) * OW1_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR + (1 - OW1WidowmakerN(d)))
 #!define OW2WidowmakerFalloff(d) ((OW2WidowmakerN(d)) * OW2_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR + (1 - OW2WidowmakerN(d)))
 
-subroutine initWidowmaker
-
-rule "[widowmaker.opy]: Detect Widowmaker initialization":
+rule "[widowmaker.opy]: Initialize Widowmaker":
     @Event eachPlayer
     @Hero widowmaker
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initWidowmaker()
-    eventPlayer.initialized = true
-
-
-def initWidowmaker():
-    @Name "[widowmaker.opy]: initWidowmaker()"
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     while (eventPlayer.getMaxHealth() != OW1_WIDOWMAKER_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_WIDOWMAKER_HEALTH, 0, 0)
-        wait(1)
+        wait()
 
 
 rule "[widowmaker.opy]: Revert sniper damage falloff":

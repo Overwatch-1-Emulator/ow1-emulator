@@ -6,29 +6,21 @@ playervar ally_bubble_cooldown
 playervar self_bubble_cd_text
 playervar ally_bubble_cd_text
 
-subroutine initZarya
 subroutine showSelfBubbleCD
 subroutine hideSelfBubbleCD
 subroutine showAllyBubbleCD
 subroutine hideAllyBubbleCD
 
-rule "[zarya.opy]: Detect Zarya initialization":
+rule "[zarya.opy]: Initialize Zarya":
     @Event eachPlayer
     @Hero zarya
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initZarya()
-    eventPlayer.initialized = true
-
-
-def initZarya():
-    @Name "[zarya.opy]: initZarya()"
-
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_ZARYA_HEALTH + OW1_ZARYA_SHIELDS):
         clearCustomHealth()
         setCustomHealth(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
-        wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_ZARYA_HEALTH + OW1_ZARYA_SHIELDS)
+        wait()
+    
 
     eventPlayer.self_bubble_cooldown = 0
     eventPlayer.ally_bubble_cooldown = 0

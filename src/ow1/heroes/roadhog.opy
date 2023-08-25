@@ -3,23 +3,16 @@
 subroutine initRoadhog
 playervar time_hook_was_active
 
-rule "[roadhog.opy]: Detect Roadhog initialization":
+rule "[roadhog.opy]: Initialize Roadhog":
     @Event eachPlayer
     @Hero roadhog
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initRoadhog()
-    eventPlayer.initialized = true
-
-
-def initRoadhog():
-    @Name "[roadhog.opy]: initRoadhog()"
-    
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_ROADHOG_HEALTH):
         clearCustomHealth()
         setCustomHealth(OW1_ROADHOG_HEALTH, 0, 0)
-        wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_ROADHOG_HEALTH)
+        wait()
+
 
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
@@ -98,7 +91,11 @@ rule "[roadhog.opy]: Move hooked enemies closer":
 
     waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     if distance(victim, attacker) <= OW2_ROADHOG_HOOK_PROXIMITY + 0.5:
-        victim.teleport(raycast(attacker.getPosition(), attacker.getPosition() + OW1_ROADHOG_HOOK_PROXIMITY*directionTowards(attacker, victim), null, null, false).getHitPosition())
+        victim.teleport(raycast(victim.getPosition(), 
+                        victim.getPosition() + (OW2_ROADHOG_HOOK_PROXIMITY - OW1_ROADHOG_HOOK_PROXIMITY)*directionTowards(victim, attacker), 
+                        null, 
+                        null, 
+                        false).getHitPosition()) 
 
 
 rule "[roadhog.opy]: Reduce ultimate duration":

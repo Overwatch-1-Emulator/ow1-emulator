@@ -1,23 +1,14 @@
 #!mainFile "../../main.opy"
 
-subroutine initSigma
-
-rule "[sigma.opy]: Detect Sigma initialization":
+rule "[sigma.opy]: Initialize Sigma":
     @Event eachPlayer
     @Hero sigma
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initSigma()
-    eventPlayer.initialized = true
-
-
-def initSigma():
-    @Name "[sigma.opy]: initSigma()"
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     while (eventPlayer.getMaxHealth() != OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS):
         clearCustomHealth()
         setCustomHealth(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
-        wait(1)
+        wait()
 
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 

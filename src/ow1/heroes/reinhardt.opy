@@ -1,24 +1,14 @@
 #!mainFile "../../main.opy"
 
-subroutine initReinhardt
-
-rule "[reinhardt.opy]: Detect Reinhardt initialization":
+rule "[reinhardt.opy]: Initialize Reinhardt":
     @Event eachPlayer
     @Hero reinhardt
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initReinhardt()
-    eventPlayer.initialized = true
-
-
-def initReinhardt():
-    @Name "[reinhardt.opy]: initReinhardt()"
-    
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_REINHARDT_HEALTH + OW1_REINHARDT_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)
-        wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_REINHARDT_HEALTH + OW1_REINHARDT_ARMOR)
+        wait()
 
 
 rule "[reinhardt.opy]: Set default charge cooldown":

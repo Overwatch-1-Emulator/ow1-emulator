@@ -1,24 +1,15 @@
 #!mainFile "../../main.opy"
 
-subroutine initWinston
-
-rule "[winston.opy]: Detect Winston initialization":
+rule "[winston.opy]: Initialize Winston":
     @Event eachPlayer
     @Hero winston
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    initWinston()
-    eventPlayer.initialized = true
-
-
-def initWinston():
-    @Name "[winston.opy]: initWinston()"
-
-    do:
+    while (eventPlayer.getMaxHealth() != OW1_WINSTON_HEALTH + OW1_WINSTON_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
-        wait(1)
-    while (eventPlayer.getMaxHealth() != OW1_WINSTON_HEALTH + OW1_WINSTON_ARMOR)
+        wait()
+
 
     eventPlayer.setSecondaryFireEnabled(false)
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))

@@ -1,23 +1,14 @@
 #!mainFile "../../main.opy"
 
-subroutine initTorbjorn
-
-rule "[torbjorn.opy]: Detect Torbjorn initialization":
+rule "[torbjorn.opy]: Initialize Torbjorn":
     @Event eachPlayer
     @Hero torbjorn
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initTorbjorn()
-    eventPlayer.initialized = true
-
-
-def initTorbjorn():
-    @Name "[torbjorn.opy]: initTorbjorn()"
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
     while (eventPlayer.getMaxHealth() != OW1_TORBJORN_HEALTH + OW1_TORBJORN_ARMOR):
         clearCustomHealth()
         setCustomHealth(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
-        wait(1)
+        wait()
 
 
 rule "[torbjorn.opy]: Correct overload hp":

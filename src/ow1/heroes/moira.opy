@@ -1,20 +1,9 @@
 #!mainFile "../../main.opy"
 
-subroutine initMoira
-
-rule "[moira.opy]: Detect Moira initialization":
+rule "[moira.opy]: Initialize Moira":
     @Event eachPlayer
     @Hero moira
-    @Condition eventPlayer.initialized == false # without this flag, the reset code in generic.opy executes after initialization
-
-    initMoira()
-    eventPlayer.initialized = true
-
-
-def initMoira():
-    @Name "[moira.opy]: initMoira()"
-
-    removeSelfHealing()
+    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
 
 rule "[moira.opy]: Deny fade during coalescence":
