@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.7.2 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.8.0 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -253,58 +253,58 @@ variables {
         0: last_hero_played
         1: hero_switched
         2: hero_id
-        3: initialized
-        4: role
-        5: allowed_heroes
-        6: ready
-        7: health_normal
-        8: health_armor
-        9: health_shields
-        10: storedSpawnPosition
-        11: lsi_o
-        12: lsi_c
-        13: lsi_r
-        14: lsi_u
-        15: lsi_d
-        16: lsi_nabla
-        17: lsi_i
-        18: lsi_x
-        19: self_healing_percent
-        20: self_healing_modification
-        21: support_passive_active
-        22: last_time_damage_taken
-        23: missing_ult_points
-        24: ult_percent_compensated
-        25: ult_charge_compensated
-        26: text_huds
-        27: progress_bar_huds
-        28: entity_huds
-        29: player_health
-        30: friendly_doomfist_player
-        31: friendly_orisa_player
-        32: friendly_sombra_player
-        33: enemy_doomfist_player
-        34: enemy_orisa_player
-        35: enemy_sombra_player
-        36: ult_point_while_ult_active
-        37: start_time_ult
-        38: current_configuration
-        39: sentry_gui_visibility
-        40: heal_gui_visibility
-        41: self_repair_time_left
-        42: machine_gun_ready
-        43: machine_gun_reload_timer
-        44: machine_gun_ammo
-        45: self_repair
-        46: inspire_duration
-        47: i
-        48: pressing_uppercut_key
-        49: shift_pressed_by_bot
-        50: is_using_uppercut
-        51: is_hit_by_uppercut
-        52: pressing_slam_key
-        53: e_pressed_by_bot
-        54: is_using_slam
+        3: call_reset
+        4: call_init
+        5: text_huds
+        6: progress_bar_huds
+        7: entity_huds
+        8: player_health
+        9: friendly_doomfist_player
+        10: friendly_orisa_player
+        11: friendly_sombra_player
+        12: enemy_doomfist_player
+        13: enemy_orisa_player
+        14: enemy_sombra_player
+        15: role
+        16: allowed_heroes
+        17: ready
+        18: lsi_o
+        19: lsi_c
+        20: lsi_r
+        21: lsi_u
+        22: lsi_d
+        23: lsi_nabla
+        24: lsi_i
+        25: lsi_x
+        26: hp_health
+        27: hp_armor
+        28: hp_shields
+        29: stored_spawn_pos
+        30: missing_ult_points
+        31: ult_percent_compensated
+        32: ult_charge_compensated
+        33: self_healing_percent
+        34: self_healing_modification
+        35: support_passive_active
+        36: last_time_damage_taken
+        37: ult_point_while_ult_active
+        38: start_time_ult
+        39: current_configuration
+        40: self_repair_time_left
+        41: self_repair_instance
+        42: self_repair_gui
+        43: machine_gun_ammo
+        44: machine_gun_ready
+        45: machine_gun_reload_timer
+        46: machine_gun_gui
+        47: inspire_duration
+        48: is_using_uppercut
+        49: is_using_slam
+        50: e_pressed_by_bot
+        51: pressing_uppercut_key
+        52: is_hit_by_uppercut
+        53: shift_pressed_by_bot
+        54: pressing_slam_key
         55: slam_to_use
         56: current_position
         57: proto_indicator_slam_position
@@ -359,97 +359,74 @@ variables {
         106: barrier_active
         107: barrier_health
         108: orisa_barrier_hit_positions
-        109: current_ammo_count
-        110: time_hook_was_active
-        111: hack_damage_modifier
-        112: scoped_shot_distance
-        113: scoped_damage_base
-        114: ow2_scoped_damage_falloff_scalar
-        115: ow1_scoped_damage_falloff_scalar
-        116: expected_scoped_damage
-        117: self_bubble_cooldown
-        118: ally_bubble_cooldown
-        119: self_bubble_cd_text
-        120: ally_bubble_cd_text
+        109: orisa_ammo
+        110: orisa_ammo_hud
+        111: time_hook_was_active
+        112: hack_damage_modifier
+        113: scoped_shot_distance
+        114: scoped_damage_base
+        115: ow2_scoped_damage_falloff_scalar
+        116: ow1_scoped_damage_falloff_scalar
+        117: expected_scoped_damage
+        118: self_bubble_cooldown
+        119: ally_bubble_cooldown
+        120: self_bubble_cd_text
+        121: ally_bubble_cd_text
 }
 subroutines {
-    0: lockTank
-    1: lockDamage
-    2: lockSupport
-    3: unlockTank
-    4: unlockDamage
-    5: unlockSupport
-    6: resetRoleLock
-    7: clearCustomHealth
-    8: applyCustomHealth
-    9: findLineSphereIntersection
-    10: removeSelfHealing
-    11: resetHero
-    12: respawnSameState
-    13: initAna
-    14: initAshe
-    15: initBaptiste
-    16: initBastion
-    17: startMachineGunReload
-    18: selfRepair
-    19: transformInToTank
-    20: transformOutOfTank
-    21: initBrigitte
-    22: createSlamDamageGui
-    23: destroySlamDamageGui
-    24: createSlamIndicatorGui
-    25: destroySlamIndicatorGui
-    26: initDoomfist
-    27: executeUppercut
-    28: detectUpercutHit
-    29: executeSlam
-    30: startSlamAnimation
-    31: initiateGroundSlam
-    32: initiateIndicatorSlam
-    33: initDva
-    34: initEcho
-    35: initGenji
-    36: initHanzo
-    37: initIllari
-    38: initJunkerqueen
-    39: initJunkrat
-    40: initKiriko
-    41: initLifeweaver
-    42: initLucio
-    43: initMccree
-    44: initMei
-    45: clearFreezeEffect
-    46: initMercy
-    47: initMoira
-    48: initOrisa
-    49: startSupercharger
-    50: endSupercharger
-    51: shootHalt
-    52: explodeHalt
-    53: throwBarrier
-    54: deployBarrier
-    55: destroyBarrier
-    56: fibonacciSphere
-    57: replanishAmmo
-    58: initRamattra
-    59: initReaper
-    60: initReinhardt
-    61: initRoadhog
-    62: initSigma
-    63: initSoldier
-    64: initSombra
-    65: initSymmetra
-    66: initTorbjorn
-    67: initTracer
-    68: initWidowmaker
-    69: initWinston
-    70: initWreckingball
-    71: initZarya
-    72: showSelfBubbleCD
-    73: hideSelfBubbleCD
-    74: showAllyBubbleCD
-    75: hideAllyBubbleCD
-    76: initZenyatta
+    0: resetHero
+    1: initHero
+    2: respawnSameState
+    3: lockTank
+    4: lockDamage
+    5: lockSupport
+    6: unlockTank
+    7: unlockDamage
+    8: unlockSupport
+    9: resetRoleLock
+    10: findLineSphereIntersection
+    11: clearCustomHealth
+    12: applyCustomHealth
+    13: removeSelfHealing
+    14: startTank
+    15: endTank
+    16: startSelfRepair
+    17: stopSelfRepair
+    18: createSelfRepairGUI
+    19: destroySelfRepairGUI
+    20: startMachineGunReload
+    21: createMachineGunGUI
+    22: destroyMachineGunGUI
+    23: executeUppercut
+    24: detectUpercutHit
+    25: executeSlam
+    26: startSlamAnimation
+    27: initiateGroundSlam
+    28: initiateIndicatorSlam
+    29: createSlamDamageGui
+    30: destroySlamDamageGui
+    31: createSlamIndicatorGui
+    32: destroySlamIndicatorGui
+    33: initMei
+    34: clearFreezeEffect
+    35: startSupercharger
+    36: endSupercharger
+    37: shootHalt
+    38: explodeHalt
+    39: throwBarrier
+    40: deployBarrier
+    41: destroyBarrier
+    42: fibonacciSphere
+    43: resetFusionDriver
+    44: reloadFusionDriver
+    45: refreshAmmo
+    46: createOrisaAmmoHud
+    47: destroyOrisaAmmoHud
+    48: initRoadhog
+    49: showSelfBubbleCD
+    50: hideSelfBubbleCD
+    51: showAllyBubbleCD
+    52: hideAllyBubbleCD
 }
 rule ("Initialize global variables") {
     event {
@@ -481,6 +458,188 @@ rule ("[hero_switch.opy]: detect hero switch") {
         Set Player Variable(Event Player, last_hero_played, Hero Of(Event Player));
         Set Player Variable(Event Player, hero_id, Index Of Array Value(All Heroes, (Event Player).last_hero_played));
         Set Player Variable(Event Player, hero_switched, False);
+    }
+}
+
+rule ("[reset.opy]: resetHero()") {
+    event {
+        Subroutine;
+        resetHero;
+    }
+    actions {
+        Set Player Variable(Event Player, call_reset, True);
+        "Call other reset functions"
+        Wait(0.016, Ignore Condition);
+        Set Player Variable(Event Player, call_reset, False);
+    }
+}
+
+rule ("[reset.opy]: initHero()") {
+    event {
+        Subroutine;
+        initHero;
+    }
+    actions {
+        Set Player Variable(Event Player, call_init, True);
+        "Call other init functions"
+        Wait(0.016, Ignore Condition);
+        Set Player Variable(Event Player, call_init, False);
+    }
+}
+
+rule ("[reset.opy]: Reset abilities") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_reset == True;
+    }
+    actions {
+        Allow Button(Event Player, Button(Primary Fire));
+        Allow Button(Event Player, Button(Secondary Fire));
+        Allow Button(Event Player, Button(Ability 1));
+        Allow Button(Event Player, Button(Ability 2));
+        Allow Button(Event Player, Button(Ultimate));
+        Allow Button(Event Player, Button(Melee));
+        Allow Button(Event Player, Button(Jump));
+        Allow Button(Event Player, Button(Crouch));
+        Allow Button(Event Player, Button(Reload));
+        Allow Button(Event Player, Button(Interact));
+        Set Primary Fire Enabled(Event Player, True);
+        Set Secondary Fire Enabled(Event Player, True);
+        Set Ability 1 Enabled(Event Player, True);
+        Set Ability 2 Enabled(Event Player, True);
+        Set Ultimate Ability Enabled(Event Player, True);
+        Set Melee Enabled(Event Player, True);
+        Set Jump Enabled(Event Player, True);
+        Set Crouch Enabled(Event Player, True);
+        Set Reload Enabled(Event Player, True);
+        Set Damage Dealt(Event Player, 100);
+        Set Damage Received(Event Player, 100);
+        Set Projectile Speed(Event Player, 100);
+        Set Projectile Gravity(Event Player, 100);
+        Set Healing Dealt(Event Player, 100);
+        Set Healing Received(Event Player, 100);
+        Set Knockback Received(Event Player, 100);
+        Set Knockback Dealt(Event Player, 100);
+    }
+}
+
+rule ("[reset.opy]: Reset statuses") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_reset == True;
+    }
+    actions {
+        Clear Status(Event Player, Asleep);
+        Clear Status(Event Player, Burning);
+        Clear Status(Event Player, Frozen);
+        Clear Status(Event Player, Hacked);
+        Clear Status(Event Player, Invincible);
+        Clear Status(Event Player, Knocked Down);
+        Clear Status(Event Player, Phased Out);
+        Clear Status(Event Player, Rooted);
+        Clear Status(Event Player, Stunned);
+        Clear Status(Event Player, Unkillable);
+    }
+}
+
+rule ("[reset.opy]: Reset friendly/enemy players") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_reset == True;
+    }
+    actions {
+        Set Player Variable(Event Player, friendly_doomfist_player, First Of(Players On Hero(Hero(Doomfist), Team Of(Event Player))));
+        Set Player Variable(Event Player, enemy_doomfist_player, First Of(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player)))));
+        Set Player Variable(Event Player, friendly_orisa_player, First Of(Players On Hero(Hero(Orisa), Team Of(Event Player))));
+        Set Player Variable(Event Player, enemy_orisa_player, First Of(Players On Hero(Hero(Orisa), Opposite Team Of(Team Of(Event Player)))));
+        Set Player Variable(Event Player, friendly_sombra_player, First Of(Players On Hero(Hero(Sombra), Team Of(Event Player))));
+        Set Player Variable(Event Player, enemy_sombra_player, First Of(Players On Hero(Hero(Sombra), Opposite Team Of(Team Of(Event Player)))));
+    }
+}
+
+rule ("[reset.opy]: Reset HUDs and GUI") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_reset == True;
+    }
+    actions {
+        "Clear GUI"
+        For Global Variable(i, 0, Count Of((Event Player).text_huds), 1);
+            Destroy HUD Text(Value In Array((Event Player).text_huds, Global.i));
+        End;
+        For Global Variable(i, 0, Count Of((Event Player).progress_bar_huds), 1);
+            Destroy Progress Bar HUD Text(Value In Array((Event Player).progress_bar_huds, Global.i));
+        End;
+        For Global Variable(i, 0, Count Of((Event Player).entity_huds), 1);
+            Destroy Effect(Value In Array((Event Player).entity_huds, Global.i));
+        End;
+        Set Player Variable(Event Player, text_huds, Empty Array);
+        Set Player Variable(Event Player, progress_bar_huds, Empty Array);
+        Set Player Variable(Event Player, entity_huds, Empty Array);
+    }
+}
+
+rule ("[reset.opy]: Reinitialize hero on new round") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Is Between Rounds == True;
+    }
+    actions {
+        Wait Until(Not(Is Between Rounds), 9999);
+        Call Subroutine(resetHero);
+        Call Subroutine(initHero);
+    }
+}
+
+rule ("[reset.opy]: Reinitialize hero on hero switch") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).hero_switched == True;
+    }
+    actions {
+        Wait Until(Not((Event Player).hero_switched), 999999999999999);
+        Call Subroutine(resetHero);
+        Call Subroutine(initHero);
+    }
+}
+
+rule ("[reset.opy]: respawnSameState()") {
+    event {
+        Subroutine;
+        respawnSameState;
+    }
+    actions {
+        Set Player Variable(Event Player, player_health, Health(Event Player));
+        Kill(Event Player, Null);
+        "Use resurrect to keep the same position and angle"
+        Resurrect(Event Player);
+        "Wait to set health else the player will be full life"
+        Wait(0.016, Ignore Condition);
+        Set Player Health(Event Player, (Event Player).player_health);
     }
 }
 
@@ -533,6 +692,7 @@ rule ("[role_lock.opy]: Find player's role") {
         (Event Player).hero_switched == True;
     }
     actions {
+        Wait Until(Not((Event Player).hero_switched), 999999999999999);
         If(Array Contains(Global.tank_heroes, Hero Of(Event Player)));
             Set Player Variable(Event Player, role, 1);
         Else If(Array Contains(Global.damage_heroes, Hero Of(Event Player)));
@@ -806,90 +966,6 @@ rule ("[ready.opy]: Start match when everyone ready") {
     }
 }
 
-rule ("[custom_health_handler.opy]: Clear Custom Health") {
-    event {
-        Subroutine;
-        clearCustomHealth;
-    }
-    actions {
-        Remove All Health Pools From Player(Event Player);
-        Wait(0.016, Ignore Condition);
-        Set Max Health(Event Player, 100.001);
-        Wait(0.016, Ignore Condition);
-        Set Max Health(Event Player, 100);
-        Heal(Event Player, Null, 999999999999999);
-    }
-}
-
-rule ("[custom_health_handler.opy]: Apply Custom Health") {
-    event {
-        Subroutine;
-        applyCustomHealth;
-    }
-    actions {
-        "If the player is in spawn, teleport them out as they are invulnerable in spawn"
-        If(Is In Spawn Room(Event Player));
-            Start Camera(Event Player, Eye Position(Event Player), Add(Eye Position(Event Player), Facing Direction Of(Event Player)), 0.001);
-            Wait(0.032, Ignore Condition);
-            Set Player Variable(Event Player, storedSpawnPosition, Position Of(Event Player));
-            Teleport(Event Player, Add(Position Of(Event Player), Vector(0, 100, 0)));
-            Wait Until(And(And(Not(Is In Spawn Room(Event Player)), Not(Has Status(Event Player, Invincible))), Not(Has Status(Event Player, Unkillable))), 1);
-            Wait(0.016, Ignore Condition);
-        End;
-        "If the player is duplicating a hero, wait until Echo is no longer invulnerable"
-        If(Is Duplicating(Event Player));
-            Wait Until(And(Not(Has Status(Event Player, Invincible)), Not(Has Status(Event Player, Unkillable))), 1);
-            Wait(0.016, Ignore Condition);
-        End;
-        "# Applying Custom Health ##\r\n Apply an unkillable status so we don't accidentally kill the player"
-        Set Status(Event Player, Event Player, Unkillable, 1);
-        "Damage the player so they're at one health"
-        Damage(Event Player, Null, 999999999999999);
-        Wait(0.016, Ignore Condition);
-        "Apply temporary base health to the player"
-        Add Health Pool To Player(Event Player, Health, 999999999999999, True, True);
-        Add Health Pool To Player(Event Player, Armor, 999999999999999, True, True);
-        Add Health Pool To Player(Event Player, Shields, 999999999999999, True, True);
-        Wait(0.016, Ignore Condition);
-        "Remove temporary base health from the player"
-        Remove All Health Pools From Player(Event Player);
-        Wait(0.016, Ignore Condition);
-        "Apply custom health pool to player"
-        If(Compare((Event Player).health_normal, >, 0));
-            Add Health Pool To Player(Event Player, Health, Max(1, Subtract((Event Player).health_normal, 1)), True, True);
-        End;
-        If(Compare((Event Player).health_armor, >, 0));
-            Add Health Pool To Player(Event Player, Armor, Max(1, (Event Player).health_armor), True, True);
-        End;
-        If(Compare((Event Player).health_shields, >, 0));
-            Add Health Pool To Player(Event Player, Shields, Max(1, (Event Player).health_shields), True, True);
-        End;
-        Heal(Event Player, Null, 999999999999999);
-        "Teleport player back if they were in spawn."
-        If((Event Player).storedSpawnPosition);
-            Wait(0.016, Ignore Condition);
-            Teleport(Event Player, (Event Player).storedSpawnPosition);
-            Set Player Variable(Event Player, storedSpawnPosition, Null);
-            Stop Camera(Event Player);
-        End;
-    }
-}
-
-rule ("[custom_health_handler.opy]: Remove Custom Health Conditions") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    actions {
-        "Health pools persist between hero switching, so we remove it when player's switch or duplicate to another hero, or when D.Va switches between forms."
-        Wait Until(Or(Or(Compare(Hero Of(Event Player), !=, Evaluate Once(Hero Of(Event Player))), Compare(Hero Being Duplicated(Event Player), !=, Evaluate Once(Hero Being Duplicated(Event Player)))), And(Or(Compare(Hero Of(Event Player), ==, Hero(D.Va)), Compare(Hero Being Duplicated(Event Player), ==, Hero(D.Va))), Compare(Is In Alternate Form(Event Player), !=, Evaluate Once(Is In Alternate Form(Event Player))))), 9999);
-        Call Subroutine(clearCustomHealth);
-        Wait(0.016, Ignore Condition);
-        Loop If Condition Is True;
-    }
-}
-
 rule ("[hit_detection.opy]: findLineSphereIntersection()") {
     event {
         Subroutine;
@@ -918,46 +994,100 @@ rule ("[hit_detection.opy]: findLineSphereIntersection()") {
     }
 }
 
-rule ("[no_support_passive.opy]: removeSelfHealing()") {
-    event {
-        Subroutine;
-        removeSelfHealing;
-    }
-    actions {
-        Set Player Variable(Event Player, self_healing_percent, 0);
-        Start Healing Modification(Event Player, Event Player, (Event Player).self_healing_percent, Receivers Healers and Healing Percent);
-        Set Player Variable(Event Player, self_healing_modification, Last Healing Modification ID);
-    }
-}
-
-rule ("[no_support_passive.opy]: Get time when support hero take damage") {
-    event {
-        Player Took Damage;
-        All;
-        All;
-    }
-    conditions {
-        Array Contains(Global.support_heroes, Hero Of(Event Player)) == True;
-    }
-    actions {
-        Set Player Variable(Event Player, last_time_damage_taken, Total Time Elapsed);
-        Set Player Variable(Event Player, support_passive_active, False);
-    }
-}
-
-rule ("[no_support_passive.opy]: Check if support passive is active") {
+rule ("[custom_health_handler.opy]: Reset hp") {
     event {
         Ongoing - Each Player;
         All;
         All;
     }
     conditions {
-        (Event Player).support_passive_active == False;
-        Array Contains(Global.support_heroes, Hero Of(Event Player)) == True;
-        Subtract(Total Time Elapsed, (Event Player).last_time_damage_taken) > 1.5;
+        (Event Player).call_reset == True;
     }
     actions {
-        Set Player Variable(Event Player, support_passive_active, True);
+        Call Subroutine(clearCustomHealth);
+    }
+}
+
+rule ("[custom_health_handler.opy]: clearCustomHealth()") {
+    event {
+        Subroutine;
+        clearCustomHealth;
+    }
+    actions {
+        Remove All Health Pools From Player(Event Player);
+        Wait(0.016, Ignore Condition);
+        Set Max Health(Event Player, 100.001);
+        Wait(0.016, Ignore Condition);
+        Set Max Health(Event Player, 100);
+        Heal(Event Player, Null, 999999999999999);
+    }
+}
+
+rule ("[custom_health_handler.opy]: applyCustomHealth()") {
+    event {
+        Subroutine;
+        applyCustomHealth;
+    }
+    actions {
+        "If the player is in spawn, teleport them out as they are invulnerable in spawn"
+        If(Is In Spawn Room(Event Player));
+            Start Camera(Event Player, Eye Position(Event Player), Add(Eye Position(Event Player), Facing Direction Of(Event Player)), 0.001);
+            Set Player Variable(Event Player, stored_spawn_pos, Position Of(Event Player));
+            Teleport(Event Player, Add(Position Of(Event Player), Multiply(100, Up)));
+            Wait Until(Not(Or(Or(Is In Spawn Room(Event Player), Has Status(Event Player, Invincible)), Has Status(Event Player, Unkillable))), 1);
+            Wait(0.016, Ignore Condition);
+        End;
+        "If the player is duplicating a hero, wait until Echo is no longer invulnerable"
+        If(Is Duplicating(Event Player));
+            Wait Until(Not(Or(Has Status(Event Player, Invincible), Has Status(Event Player, Unkillable))), 1);
+            Wait(0.016, Ignore Condition);
+        End;
+        "# Applying Custom Health ##\n Apply an unkillable status so we don't accidentally kill the player"
+        Set Status(Event Player, Event Player, Unkillable, 999999999999999);
+        "Damage the player so they're at one health"
+        Damage(Event Player, Null, 999999999999999);
+        Wait Until(Compare(Health(Event Player), <=, 1), 1);
+        "Apply temporary base health to the player"
+        Add Health Pool To Player(Event Player, Health, 999999999999999, True, True);
+        Add Health Pool To Player(Event Player, Armor, 999999999999999, True, True);
+        Add Health Pool To Player(Event Player, Shields, 999999999999999, True, True);
+        "Remove temporary base health from the player"
+        Remove All Health Pools From Player(Event Player);
+        Wait Until(Compare(Max Health(Event Player), <=, 1), 1);
+        "Apply custom health pool to player"
+        If(Compare((Event Player).hp_health, >, 0));
+            Add Health Pool To Player(Event Player, Health, Max(1, Subtract((Event Player).hp_health, 1)), True, True);
+        End;
+        If(Compare((Event Player).hp_armor, >, 0));
+            Add Health Pool To Player(Event Player, Armor, Max(1, (Event Player).hp_armor), True, True);
+        End;
+        If(Compare((Event Player).hp_shields, >, 0));
+            Add Health Pool To Player(Event Player, Shields, Max(1, (Event Player).hp_shields), True, True);
+        End;
+        Heal(Event Player, Null, 999999999999999);
+        Clear Status(Event Player, Unkillable);
+        "Teleport player back if they were in spawn."
+        If(Compare((Event Player).stored_spawn_pos, !=, Null));
+            Wait(0.016, Ignore Condition);
+            Teleport(Event Player, (Event Player).stored_spawn_pos);
+            Set Player Variable(Event Player, stored_spawn_pos, Null);
+            Stop Camera(Event Player);
+        End;
+    }
+}
+
+disabled rule ("[custom_health_handler.opy]: Remove Custom Health Conditions") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    actions {
+        "Health pools persist between hero switching, so we remove it when player's switch or duplicate to another hero, or when D.Va switches between forms."
+        Wait Until(Or(Or(Compare(Hero Of(Event Player), !=, Evaluate Once(Hero Of(Event Player))), Compare(Hero Being Duplicated(Event Player), !=, Evaluate Once(Hero Being Duplicated(Event Player)))), And(Or(Compare(Hero Of(Event Player), ==, Hero(D.Va)), Compare(Hero Being Duplicated(Event Player), ==, Hero(D.Va))), Compare(Is In Alternate Form(Event Player), !=, Evaluate Once(Is In Alternate Form(Event Player))))), 9999);
+        Call Subroutine(clearCustomHealth);
+        Wait(0.016, Ignore Condition);
+        Loop If Condition Is True;
     }
 }
 
@@ -996,6 +1126,22 @@ rule ("[ult_charge.opy]: initialize overwatch 1 ultimate costs") {
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Mercy)), 1820);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Moira)), 2800);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Zenyatta)), 2310);
+    }
+}
+
+rule ("[ult_charge.opy]: Reset ult charge") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_reset == True;
+    }
+    actions {
+        Set Player Variable(Event Player, missing_ult_points, 0);
+        Set Player Variable(Event Player, ult_percent_compensated, 0);
+        Set Ultimate Charge(Event Player, 0);
     }
 }
 
@@ -1063,137 +1209,115 @@ rule ("[ult_charge.opy]: Reset ult compensation after using ult") {
     }
 }
 
-rule ("[reset_hero.opy]: Reset hero stats/gui") {
+rule ("[passives/tank/knockback.opy]: Correct knockback resistance") {
     event {
-        Subroutine;
-        resetHero;
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_init == True;
+        Array Contains(All Tank Heroes, Hero Of(Event Player)) == True;
+        "Exception for Reinhardt (Steadfast passive)"
+        Array Contains(Array(Hero(Reinhardt)), Hero Of(Event Player)) == False;
     }
     actions {
-        Set Primary Fire Enabled(Event Player, True);
-        Allow Button(Event Player, Button(Primary Fire));
-        Set Secondary Fire Enabled(Event Player, True);
-        Allow Button(Event Player, Button(Secondary Fire));
-        Set Melee Enabled(Event Player, True);
-        Allow Button(Event Player, Button(Melee));
-        Set Ability 1 Enabled(Event Player, True);
-        Allow Button(Event Player, Button(Ability 1));
-        Set Ability 2 Enabled(Event Player, True);
-        Allow Button(Event Player, Button(Ability 2));
-        Set Ultimate Ability Enabled(Event Player, True);
-        Allow Button(Event Player, Button(Ultimate));
-        Set Ultimate Charge(Event Player, 0);
-        Set Player Variable(Event Player, missing_ult_points, 0);
-        Set Player Variable(Event Player, ult_percent_compensated, 0);
-        Set Damage Dealt(Event Player, 100);
-        Set Damage Received(Event Player, 100);
-        Set Projectile Speed(Event Player, 100);
-        Set Projectile Gravity(Event Player, 100);
-        Set Healing Dealt(Event Player, 100);
-        Set Healing Received(Event Player, 100);
+        Set Knockback Received(Event Player, 142.85714285714286);
+    }
+}
+
+rule ("[passives/support/self_heal.opy]: Remove support self healing passive") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_init == True;
+        Array Contains(All Support Heroes, Hero Of(Event Player)) == True;
+        "Exception to support healing passive"
+        Array Contains(Array(Hero(Mercy)), Hero Of(Event Player)) == False;
+    }
+    actions {
+        Call Subroutine(removeSelfHealing);
+    }
+}
+
+rule ("[passives/support/self_heal.opy]: Reset self healing") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_reset == True;
+    }
+    actions {
         Stop Healing Modification((Event Player).self_healing_modification);
-        Set Knockback Received(Event Player, 100);
-        Set Knockback Dealt(Event Player, 100);
-        Call Subroutine(clearCustomHealth);
         Set Player Variable(Event Player, support_passive_active, True);
-        Clear Status(Event Player, Rooted);
-        Set Player Variable(Event Player, friendly_doomfist_player, First Of(Players On Hero(Hero(Doomfist), Team Of(Event Player))));
-        Set Player Variable(Event Player, enemy_doomfist_player, First Of(Players On Hero(Hero(Doomfist), Opposite Team Of(Team Of(Event Player)))));
-        Set Player Variable(Event Player, friendly_orisa_player, First Of(Players On Hero(Hero(Orisa), Team Of(Event Player))));
-        Set Player Variable(Event Player, enemy_orisa_player, First Of(Players On Hero(Hero(Orisa), Opposite Team Of(Team Of(Event Player)))));
-        Set Player Variable(Event Player, friendly_sombra_player, First Of(Players On Hero(Hero(Sombra), Team Of(Event Player))));
-        Set Player Variable(Event Player, enemy_sombra_player, First Of(Players On Hero(Hero(Sombra), Opposite Team Of(Team Of(Event Player)))));
-        "Clear GUI"
-        For Global Variable(i, 0, Count Of((Event Player).text_huds), 1);
-            Destroy HUD Text(Value In Array((Event Player).text_huds, Global.i));
-        End;
-        For Global Variable(i, 0, Count Of((Event Player).progress_bar_huds), 1);
-            Destroy Progress Bar HUD Text(Value In Array((Event Player).progress_bar_huds, Global.i));
-        End;
-        For Global Variable(i, 0, Count Of((Event Player).entity_huds), 1);
-            Destroy Effect(Value In Array((Event Player).entity_huds, Global.i));
-        End;
-        Set Player Variable(Event Player, text_huds, Empty Array);
-        Set Player Variable(Event Player, progress_bar_huds, Empty Array);
-        Set Player Variable(Event Player, entity_huds, Empty Array);
-        Set Player Variable(Event Player, initialized, False);
     }
 }
 
-rule ("[reset_hero.opy]: Reset hero on new round") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        Is Between Rounds == True;
-    }
-    actions {
-        Wait Until(Not(Is Between Rounds), 9999);
-        Call Subroutine(resetHero);
-    }
-}
-
-rule ("[reset_hero.opy]: Reset hero on hero switch") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    conditions {
-        (Event Player).hero_switched == True;
-    }
-    actions {
-        Wait(0.016, Ignore Condition);
-        Call Subroutine(resetHero);
-    }
-}
-
-rule ("[reset_hero.opy]: respawnSameState()") {
+rule ("[passives/support/self_heal.opy]: removeSelfHealing()") {
     event {
         Subroutine;
-        respawnSameState;
+        removeSelfHealing;
     }
     actions {
-        Set Player Variable(Event Player, player_health, Health(Event Player));
-        Kill(Event Player, Null);
-        "Use resurrect to keep the same position and angle"
-        Resurrect(Event Player);
-        "Wait to set health else the player will be full life"
-        Wait(0.016, Ignore Condition);
-        Set Player Health(Event Player, (Event Player).player_health);
+        Stop Healing Modification((Event Player).self_healing_modification);
+        Set Player Variable(Event Player, self_healing_percent, 0);
+        Start Healing Modification(Event Player, Event Player, (Event Player).self_healing_percent, Receivers Healers and Healing Percent);
+        Set Player Variable(Event Player, self_healing_modification, Last Healing Modification ID);
     }
 }
 
-rule ("[ana.opy]: Initialize Ana") {
+rule ("[passives/support/self_heal.opy]: Get time when support hero take damage") {
+    event {
+        Player Took Damage;
+        All;
+        All;
+    }
+    conditions {
+        Array Contains(Global.support_heroes, Hero Of(Event Player)) == True;
+    }
+    actions {
+        Set Player Variable(Event Player, last_time_damage_taken, Total Time Elapsed);
+        Set Player Variable(Event Player, support_passive_active, False);
+    }
+}
+
+rule ("[passives/support/self_heal.opy]: Check if support passive is active") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).support_passive_active == False;
+        Array Contains(Global.support_heroes, Hero Of(Event Player)) == True;
+        Subtract(Total Time Elapsed, (Event Player).last_time_damage_taken) > 1.5;
+    }
+    actions {
+        Set Player Variable(Event Player, support_passive_active, True);
+    }
+}
+
+rule ("[ana/ammo.opy]: Initialize Ana clip size") {
     event {
         Ongoing - Each Player;
         All;
         Ana;
     }
     conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initAna);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[ana.opy]: initAna()") {
-    event {
-        Subroutine;
-        initAna;
+        (Event Player).call_init == True;
     }
     actions {
         Set Ammo(Event Player, 0, 12);
         Set Max Ammo(Event Player, 0, 12);
-        Call Subroutine(removeSelfHealing);
     }
 }
 
-rule ("[ana.opy]: Set default sleep dart cooldown") {
+rule ("[ana/sleep.opy]: Set default sleep dart cooldown") {
     event {
         Ongoing - Each Player;
         All;
@@ -1208,7 +1332,7 @@ rule ("[ana.opy]: Set default sleep dart cooldown") {
     }
 }
 
-rule ("[ana.opy]: Sleep tanks for longer duration") {
+rule ("[ana/sleep.opy]: Sleep tanks for longer duration") {
     event {
         Ongoing - Each Player;
         All;
@@ -1224,7 +1348,7 @@ rule ("[ana.opy]: Sleep tanks for longer duration") {
     }
 }
 
-rule ("[ana.opy]: Heal OW1 healing with biotic grenade") {
+rule ("[ana/nade.opy]: Heal OW1 healing with biotic grenade") {
     event {
         Player Dealt Healing;
         All;
@@ -1238,7 +1362,7 @@ rule ("[ana.opy]: Heal OW1 healing with biotic grenade") {
     }
 }
 
-rule ("[ana.opy]: Allow self healing during Biotic Grenade") {
+rule ("[ana/nade.opy]: Allow self healing during Biotic Grenade") {
     event {
         Ongoing - Each Player;
         All;
@@ -1251,22 +1375,6 @@ rule ("[ana.opy]: Allow self healing during Biotic Grenade") {
         Set Player Variable(Event Player, self_healing_percent, 100);
         Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
         Set Player Variable(Event Player, self_healing_percent, 0);
-    }
-}
-
-rule ("[ashe.opy]: Initialize Ashe") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Ashe;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initAshe);
-        Set Player Variable(Event Player, initialized, True);
     }
 }
 
@@ -1316,25 +1424,13 @@ rule ("[baptiste.opy]: Initialize Baptiste") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initBaptiste);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[baptiste.opy]: initBaptiste()") {
-    event {
-        Subroutine;
-        initBaptiste;
+        (Event Player).call_init == True;
     }
     actions {
         Set Ammo(Event Player, 0, 45);
         Set Max Ammo(Event Player, 0, 45);
         Set Ammo(Event Player, 1, 10);
         Set Max Ammo(Event Player, 1, 10);
-        Call Subroutine(removeSelfHealing);
     }
 }
 
@@ -1353,7 +1449,7 @@ rule ("[baptiste.opy]: Set default immortality field cooldown") {
     }
 }
 
-rule ("[baptiste.opy]: Allow self healing during Biotic Orb") {
+rule ("[baptiste.opy]: Allow self healing during regenerative burst") {
     event {
         Ongoing - Each Player;
         All;
@@ -1370,59 +1466,53 @@ rule ("[baptiste.opy]: Allow self healing during Biotic Orb") {
     }
 }
 
-rule ("[bastion.opy]: Initialize Bastion") {
+rule ("[baptiste.opy]: Remove instant healing from regenerative burst") {
     event {
         Ongoing - Each Player;
         All;
-        Bastion;
+        Baptiste;
     }
     conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        Is Using Ability 1(Event Player) == True;
     }
     actions {
-        Call Subroutine(initBastion);
-        Set Player Variable(Event Player, initialized, True);
+        Set Healing Dealt(Event Player, 0);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Set Healing Dealt(Event Player, 100);
     }
 }
 
-rule ("[bastion.opy]: initBastion()") {
+rule ("[baptiste.opy]: Buff regenerative burst heals per second") {
     event {
-        Subroutine;
-        initBastion;
-    }
-    actions {
-        Set Player Variable(Event Player, self_repair_time_left, 3.333333333333333);
-        Set Player Variable(Event Player, machine_gun_ammo, 300);
-        Set Player Variable(Event Player, machine_gun_reload_timer, 0);
-        Disallow Button(Event Player, Button(Secondary Fire));
-        Set Player Variable(Event Player, sentry_gui_visibility, Null);
-        Set Player Variable(Event Player, heal_gui_visibility, Null);
-        "Initialize GUI"
-        Create Progress Bar HUD Text((Event Player).sentry_gui_visibility, Round To Integer(Divide(Multiply(100, (Event Player).machine_gun_ammo), 300), To Nearest), Custom String("Ammo: {0}", Round To Integer((Event Player).machine_gun_ammo, Up), Null, Null), Top, 0, Color(Orange), Color(Orange), Visible To Values and Color, Default Visibility);
-        Modify Player Variable(Event Player, progress_bar_huds, Append To Array, Last Text ID);
-        Create Progress Bar HUD Text((Event Player).heal_gui_visibility, Round To Integer(Divide(Multiply(100, (Event Player).self_repair_time_left), 3.333333333333333), To Nearest), Custom String("Self-Repair", Null, Null, Null), Left, 1, Color(Yellow), Color(Yellow), Visible To Values and Color, Default Visibility);
-        Modify Player Variable(Event Player, progress_bar_huds, Append To Array, Last Text ID);
-    }
-}
-
-rule ("[bastion.opy]: Hide Bastion HUD on hero switch") {
-    event {
-        Ongoing - Each Player;
+        Player Dealt Healing;
         All;
-        All;
+        Baptiste;
     }
     conditions {
-        (Event Player).hero_switched == True;
-        Hero Of(Event Player) != Hero(Bastion);
+        Event Ability == Button(Ability 1);
+        Healee == Event Player;
     }
     actions {
-        Set Player Variable(Event Player, sentry_gui_visibility, Null);
-        Set Player Variable(Event Player, heal_gui_visibility, Null);
+        Heal(Healee, Healer, Subtract(Multiply(Event Healing, 3), Event Healing));
     }
 }
 
-rule ("[bastion.opy]: No cooldown on reconfigure (ability 1)") {
+rule ("[baptiste.opy]: Buff regenerative burst heals per second") {
+    event {
+        Player Dealt Healing;
+        All;
+        Baptiste;
+    }
+    conditions {
+        Event Ability == Button(Ability 1);
+        Healee != Event Player;
+    }
+    actions {
+        Heal(Healee, Healer, Subtract(Multiply(Event Healing, 1.5), Event Healing));
+    }
+}
+
+rule ("[bastion/configuration.opy]: No cooldown on reconfigure (ability 1)") {
     event {
         Ongoing - Each Player;
         All;
@@ -1436,40 +1526,7 @@ rule ("[bastion.opy]: No cooldown on reconfigure (ability 1)") {
     }
 }
 
-rule ("[bastion.opy]: start machine gun reload timer") {
-    event {
-        Subroutine;
-        startMachineGunReload;
-    }
-    actions {
-        Abort If(Compare((Event Player).machine_gun_ammo, >=, 300));
-        If(Compare((Event Player).current_configuration, ==, 1));
-            Small Message(Event Player, Custom String("Reloading . . .", Null, Null, Null));
-        End;
-        Set Player Variable(Event Player, machine_gun_ready, False);
-        Set Player Variable(Event Player, machine_gun_reload_timer, 1.984);
-        Chase Player Variable At Rate(Event Player, machine_gun_reload_timer, 0, 1, Destination and Rate);
-    }
-}
-
-rule ("[bastion.opy]: finish reloading machine gun") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).machine_gun_reload_timer <= 0;
-    }
-    actions {
-        Set Player Variable(Event Player, machine_gun_ammo, 300);
-        Set Player Variable(Event Player, machine_gun_ready, True);
-        If(Compare((Event Player).current_configuration, ==, 1));
-            Small Message(Event Player, Custom String("Done", Null, Null, Null));
-    }
-}
-
-rule ("[bastion.opy]: Define recon mode") {
+rule ("[bastion/recon.opy]: Detect recon mode") {
     event {
         Ongoing - Each Player;
         All;
@@ -1484,7 +1541,7 @@ rule ("[bastion.opy]: Define recon mode") {
     }
 }
 
-rule ("[bastion.opy]: Initialize recon mode") {
+rule ("[bastion/recon.opy]: Initialize recon mode") {
     event {
         Ongoing - Each Player;
         All;
@@ -1505,7 +1562,7 @@ rule ("[bastion.opy]: Initialize recon mode") {
     }
 }
 
-rule ("[bastion.opy]: Define sentry mode") {
+rule ("[bastion/sentry.opy]: Detect sentry mode") {
     event {
         Ongoing - Each Player;
         All;
@@ -1524,7 +1581,7 @@ rule ("[bastion.opy]: Define sentry mode") {
     }
 }
 
-rule ("[bastion.opy]: Initialize sentry mode") {
+rule ("[bastion/sentry.opy]: Initialize sentry mode") {
     event {
         Ongoing - Each Player;
         All;
@@ -1538,12 +1595,10 @@ rule ("[bastion.opy]: Initialize sentry mode") {
         Set Status(Event Player, Null, Rooted, 9999);
         Set Knockback Received(Event Player, 0);
         Disallow Button(Event Player, Button(Secondary Fire));
-        Set Player Variable(Event Player, machine_gun_ready, True);
-        Stop Chasing Player Variable(Event Player, machine_gun_reload_timer);
     }
 }
 
-rule ("[bastion.opy]: Define tank mode") {
+rule ("[bastion/tank.opy]: Detect tank mode") {
     event {
         Ongoing - Each Player;
         All;
@@ -1557,7 +1612,7 @@ rule ("[bastion.opy]: Define tank mode") {
     }
 }
 
-rule ("[bastion.opy]: Initialize tank mode") {
+rule ("[bastion/tank.opy]: Initialize tank mode") {
     event {
         Ongoing - Each Player;
         All;
@@ -1582,314 +1637,10 @@ rule ("[bastion.opy]: Initialize tank mode") {
     }
 }
 
-rule ("[bastion.opy]: Show sentry gui when in sentry mode") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).current_configuration == 1;
-    }
-    actions {
-        Set Player Variable(Event Player, sentry_gui_visibility, Event Player);
-    }
-}
-
-rule ("[bastion.opy]: Hide sentry gui when not in sentry mode") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).current_configuration != 1;
-    }
-    actions {
-        Set Player Variable(Event Player, sentry_gui_visibility, Null);
-    }
-}
-
-rule ("[bastion.opy]: Consume machine gun ammo when shooting") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).current_configuration == 1;
-        Is Firing Primary(Event Player) == True;
-    }
-    actions {
-        Chase Player Variable At Rate(Event Player, machine_gun_ammo, 0, 30, Destination and Rate);
-    }
-}
-
-rule ("[bastion.opy]: Stop machine gun ammo consumption when not shooting") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        And(Compare((Event Player).current_configuration, ==, 1), Is Firing Primary(Event Player)) == False;
-    }
-    actions {
-        Stop Chasing Player Variable(Event Player, machine_gun_ammo);
-    }
-}
-
-rule ("[bastion.opy]: Reload machine gun on reload key") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).current_configuration == 1;
-        Is Button Held(Event Player, Button(Reload)) == True;
-    }
-    actions {
-        Call Subroutine(startMachineGunReload);
-    }
-}
-
-rule ("[bastion.opy]: Reload machine gun if out of ammo") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).current_configuration == 1;
-        (Event Player).machine_gun_ammo <= 0;
-    }
-    actions {
-        Call Subroutine(startMachineGunReload);
-    }
-}
-
-rule ("[bastion.opy]: Reload machine gun when not in sentry mode") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).current_configuration != 1;
-    }
-    actions {
-        Call Subroutine(startMachineGunReload);
-    }
-}
-
-rule ("[bastion.opy]: Allow machine gun shooting when machine gun ready") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).current_configuration == 1;
-        "gun ready to shoot"
-        (Event Player).machine_gun_ready == True;
-    }
-    actions {
-        Allow Button(Event Player, Button(Primary Fire));
-    }
-}
-
-rule ("[bastion.opy]: Disallow machine gun shooting when machine gun not ready") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).current_configuration == 1;
-        "gun not ready to shoot"
-        (Event Player).machine_gun_ready == False;
-    }
-    actions {
-        Disallow Button(Event Player, Button(Primary Fire));
-    }
-}
-
-rule ("[bastion.opy]: Execute self-repair ability") {
+rule ("[bastion/tank.opy]: startTank()") {
     event {
         Subroutine;
-        selfRepair;
-    }
-    actions {
-        Wait(0.5, Ignore Condition);
-        "Approximate 90 healing over time using discrete healing at high frequency"
-        While(Compare((Event Player).self_repair, ==, True));
-            Heal(Event Player, Event Player, 7);
-            Wait(0.077777777777777, Ignore Condition);
-            Modify Player Variable(Event Player, missing_ult_points, Add, 7);
-        End;
-    }
-}
-
-rule ("[bastion.opy]: Activate self-repair") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).self_repair == True;
-    }
-    actions {
-        Call Subroutine(selfRepair);
-    }
-}
-
-rule ("[bastion.opy]: Start self-repair on ability 2 or secondary fire") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire))) == True;
-        Is Firing Primary(Event Player) == False;
-        Health(Event Player) < Max Health(Event Player);
-        Is Alive(Event Player) == True;
-    }
-    actions {
-        Set Player Variable(Event Player, self_repair, True);
-    }
-}
-
-rule ("[bastion.opy]: Stop self-repair on ability 2 release") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        Or(Not(Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire)))), Is Firing Primary(Event Player)) == True;
-    }
-    actions {
-        Set Player Variable(Event Player, self_repair, False);
-    }
-}
-
-rule ("[bastion.opy]: Stop self-repair and hide its GUI on death") {
-    event {
-        Player Died;
-        All;
-        Bastion;
-    }
-    actions {
-        Set Player Variable(Event Player, self_repair, False);
-        Set Player Variable(Event Player, heal_gui_visibility, Null);
-    }
-}
-
-rule ("[bastion.opy]: Stop self-repair when no healing resource left") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).self_repair_time_left <= 0;
-    }
-    actions {
-        Set Player Variable(Event Player, self_repair, False);
-    }
-}
-
-rule ("[bastion.opy]: Stop self-repair when full hp") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        Health(Event Player) >= Max Health(Event Player);
-    }
-    actions {
-        Set Player Variable(Event Player, self_repair, False);
-    }
-}
-
-rule ("[bastion.opy]: Show self-repair GUI") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).self_repair_time_left < 3.333333333333333;
-    }
-    actions {
-        Set Player Variable(Event Player, heal_gui_visibility, Event Player);
-    }
-}
-
-rule ("[bastion.opy]: Hide self-repair GUI") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).self_repair_time_left >= 3.333333333333333;
-    }
-    actions {
-        Set Player Variable(Event Player, heal_gui_visibility, Null);
-    }
-}
-
-rule ("[bastion.opy]: Consume heal resource on self-repair") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).self_repair == True;
-    }
-    actions {
-        "Stop any ongoing resource modification"
-        Stop Chasing Player Variable(Event Player, self_repair_time_left);
-        "wait self-repair animation casttime"
-        Wait Until(Not((Event Player).self_repair), 0.5);
-        "player interrupted self-repair"
-        Abort If(Not((Event Player).self_repair));
-        "Start depleting"
-        Chase Player Variable At Rate(Event Player, self_repair_time_left, 0, 1, Destination and Rate);
-    }
-}
-
-rule ("[bastion.opy]: Recharge heal resource when not self-repairing") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).self_repair == False;
-    }
-    actions {
-        "Stop any ongoing resource modification"
-        Stop Chasing Player Variable(Event Player, self_repair_time_left);
-        "Wait 1 second cooldown before recharging heal resource"
-        Wait Until((Event Player).self_repair, 1);
-        "player interrupted self-repair"
-        Abort If((Event Player).self_repair);
-        "Start recharging"
-        Chase Player Variable At Rate(Event Player, self_repair_time_left, 3.333333333333333, 0.476190476190476, Destination and Rate);
-    }
-}
-
-rule ("[bastion.opy]: Transform into tank") {
-    event {
-        Subroutine;
-        transformInToTank;
+        startTank;
     }
     actions {
         Wait(0.5, Ignore Condition);
@@ -1903,10 +1654,10 @@ rule ("[bastion.opy]: Transform into tank") {
     }
 }
 
-rule ("[bastion.opy]: Transform out of tank") {
+rule ("[bastion/tank.opy]: endTank()") {
     event {
         Subroutine;
-        transformOutOfTank;
+        endTank;
     }
     actions {
         If(Is Using Ability 1(Event Player));
@@ -1918,7 +1669,7 @@ rule ("[bastion.opy]: Transform out of tank") {
     }
 }
 
-rule ("[bastion.opy]: Enter tank mode") {
+rule ("[bastion/tank.opy]: Activate tank mode") {
     event {
         Ongoing - Each Player;
         All;
@@ -1928,13 +1679,13 @@ rule ("[bastion.opy]: Enter tank mode") {
         (Event Player).current_configuration == 2;
     }
     actions {
-        Call Subroutine(transformInToTank);
+        Call Subroutine(startTank);
         Wait Until(Not(Is Using Ability 1(Event Player)), 8);
-        Call Subroutine(transformOutOfTank);
+        Call Subroutine(endTank);
     }
 }
 
-rule ("[bastion.opy]: Fire tank shells") {
+rule ("[bastion/tank.opy]: Fire tank shells") {
     event {
         Ongoing - Each Player;
         All;
@@ -1954,7 +1705,7 @@ rule ("[bastion.opy]: Fire tank shells") {
     }
 }
 
-rule ("[bastion.opy]: Reload tank shells") {
+rule ("[bastion/tank.opy]: Reload tank shells") {
     event {
         Ongoing - Each Player;
         All;
@@ -1974,6 +1725,401 @@ rule ("[bastion.opy]: Reload tank shells") {
     }
 }
 
+rule ("[bastion/repair.opy]: Initialize self repair ability") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).call_init == True;
+    }
+    actions {
+        Disallow Button(Event Player, Button(Secondary Fire));
+        Set Player Variable(Event Player, self_repair_time_left, 3.333333333333333);
+    }
+}
+
+rule ("[bastion/repair.opy]: startSelfRepair()") {
+    event {
+        Subroutine;
+        startSelfRepair;
+    }
+    actions {
+        Wait(0.5, Ignore Condition);
+        Start Heal Over Time(Event Player, Event Player, (Event Player).self_repair_time_left, 90);
+        Set Player Variable(Event Player, self_repair_instance, Last Heal Over Time ID);
+        "Start depleting"
+        Chase Player Variable At Rate(Event Player, self_repair_time_left, 0, 1, Destination and Rate);
+    }
+}
+
+rule ("[bastion/repair.opy]: stopSelfRepair()") {
+    event {
+        Subroutine;
+        stopSelfRepair;
+    }
+    actions {
+        Stop Heal Over Time((Event Player).self_repair_instance);
+        "Stop any ongoing resource modification"
+        Stop Chasing Player Variable(Event Player, self_repair_time_left);
+        "Wait 1 second cooldown before recharging heal resource"
+        Wait(1, Ignore Condition);
+        "Start recharging"
+        Chase Player Variable At Rate(Event Player, self_repair_time_left, 3.333333333333333, 0.476190476190476, Destination and Rate);
+    }
+}
+
+rule ("[bastion/repair.opy]: Give ult charge for self repair") {
+    event {
+        Player Dealt Healing;
+        All;
+        Bastion;
+    }
+    conditions {
+        Healer == Healee;
+    }
+    actions {
+        Modify Player Variable(Event Player, missing_ult_points, Add, Event Healing);
+    }
+}
+
+rule ("[bastion/repair.opy]: Start self-repair on ability 2 or secondary fire") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire))) == True;
+        Is Firing Primary(Event Player) == False;
+        Health(Event Player) < Max Health(Event Player);
+        Is Alive(Event Player) == True;
+    }
+    actions {
+        Call Subroutine(startSelfRepair);
+    }
+}
+
+rule ("[bastion/repair.opy]: Stop self-repair on key release") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Or(Not(Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire)))), Is Firing Primary(Event Player)) == True;
+    }
+    actions {
+        Call Subroutine(stopSelfRepair);
+    }
+}
+
+rule ("[bastion/repair.opy]: Stop self-repair and hide its GUI on death") {
+    event {
+        Player Died;
+        All;
+        Bastion;
+    }
+    actions {
+        Call Subroutine(stopSelfRepair);
+    }
+}
+
+rule ("[bastion/repair.opy]: Stop self-repair when no healing resource left") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).self_repair_time_left <= 0;
+    }
+    actions {
+        Call Subroutine(stopSelfRepair);
+    }
+}
+
+rule ("[bastion/repair.opy]: Stop self-repair when full hp") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Health(Event Player) >= Max Health(Event Player);
+    }
+    actions {
+        Call Subroutine(stopSelfRepair);
+    }
+}
+
+rule ("[bastion/repair.opy]: createSelfRepairGUI()") {
+    event {
+        Subroutine;
+        createSelfRepairGUI;
+    }
+    actions {
+        Create Progress Bar HUD Text(Event Player, Round To Integer(Divide(Multiply(100, (Event Player).self_repair_time_left), 3.333333333333333), To Nearest), Custom String("Self-Repair", Null, Null, Null), Left, 1, Color(Yellow), Color(Yellow), Visible To Values and Color, Default Visibility);
+        Set Player Variable(Event Player, self_repair_gui, Last Text ID);
+    }
+}
+
+rule ("[bastion/repair.opy]: destroySelfRepairGUI()") {
+    event {
+        Subroutine;
+        destroySelfRepairGUI;
+    }
+    actions {
+        Destroy Progress Bar HUD Text((Event Player).self_repair_gui);
+    }
+}
+
+rule ("[bastion/repair.opy]: Show self-repair GUI") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).self_repair_time_left < 3.333333333333333;
+    }
+    actions {
+        Call Subroutine(createSelfRepairGUI);
+    }
+}
+
+rule ("[bastion/repair.opy]: Hide self-repair GUI") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).self_repair_time_left >= 3.333333333333333;
+    }
+    actions {
+        Call Subroutine(destroySelfRepairGUI);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Initialize machine gun") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).call_init == True;
+    }
+    actions {
+        Set Player Variable(Event Player, machine_gun_ammo, 300);
+        Set Player Variable(Event Player, machine_gun_reload_timer, 0);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Activate machine gun in sentry mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+    }
+    actions {
+        Set Player Variable(Event Player, machine_gun_ready, True);
+        Stop Chasing Player Variable(Event Player, machine_gun_reload_timer);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: createMachineGunGUI()") {
+    event {
+        Subroutine;
+        createMachineGunGUI;
+    }
+    actions {
+        Create Progress Bar HUD Text(Event Player, Round To Integer(Divide(Multiply(100, (Event Player).machine_gun_ammo), 300), To Nearest), Custom String("Ammo: {0}", Round To Integer((Event Player).machine_gun_ammo, Up), Null, Null), Top, 0, Color(Orange), Color(Orange), Visible To Values and Color, Default Visibility);
+        Set Player Variable(Event Player, machine_gun_gui, Last Text ID);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: destroyMachineGunGUI()") {
+    event {
+        Subroutine;
+        destroyMachineGunGUI;
+    }
+    actions {
+        Destroy Progress Bar HUD Text((Event Player).machine_gun_gui);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: start machine gun reload timer") {
+    event {
+        Subroutine;
+        startMachineGunReload;
+    }
+    actions {
+        Abort If(Compare((Event Player).machine_gun_ammo, >=, 300));
+        If(Compare((Event Player).current_configuration, ==, 1));
+            Small Message(Event Player, Custom String("Reloading . . .", Null, Null, Null));
+        End;
+        Set Player Variable(Event Player, machine_gun_ready, False);
+        Set Player Variable(Event Player, machine_gun_reload_timer, 1.984);
+        Chase Player Variable At Rate(Event Player, machine_gun_reload_timer, 0, 1, Destination and Rate);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: finish reloading machine gun") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).machine_gun_reload_timer <= 0;
+    }
+    actions {
+        Set Player Variable(Event Player, machine_gun_ammo, 300);
+        Set Player Variable(Event Player, machine_gun_ready, True);
+        If(Compare((Event Player).current_configuration, ==, 1));
+            Small Message(Event Player, Custom String("Done", Null, Null, Null));
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Show machine gun gui when in sentry mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+    }
+    actions {
+        Call Subroutine(createMachineGunGUI);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Hide machine gun gui when not in sentry mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration != 1;
+    }
+    actions {
+        Call Subroutine(destroyMachineGunGUI);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Consume machine gun ammo when shooting") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        Is Firing Primary(Event Player) == True;
+    }
+    actions {
+        Chase Player Variable At Rate(Event Player, machine_gun_ammo, 0, 30, Destination and Rate);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Stop machine gun ammo consumption when not shooting") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        And(Compare((Event Player).current_configuration, ==, 1), Is Firing Primary(Event Player)) == False;
+    }
+    actions {
+        Stop Chasing Player Variable(Event Player, machine_gun_ammo);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Reload machine gun on reload key") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        Is Button Held(Event Player, Button(Reload)) == True;
+    }
+    actions {
+        Call Subroutine(startMachineGunReload);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Reload machine gun if out of ammo") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        (Event Player).machine_gun_ammo <= 0;
+    }
+    actions {
+        Call Subroutine(startMachineGunReload);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Reload machine gun when not in sentry mode") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration != 1;
+    }
+    actions {
+        Call Subroutine(startMachineGunReload);
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Allow machine gun shooting when machine gun ready") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        "gun ready to shoot"
+        (Event Player).machine_gun_ready == True;
+    }
+    actions {
+        Allow Button(Event Player, Button(Primary Fire));
+    }
+}
+
+rule ("[bastion/machine_gun.opy]: Disallow machine gun shooting when machine gun not ready") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).current_configuration == 1;
+        "gun not ready to shoot"
+        (Event Player).machine_gun_ready == False;
+    }
+    actions {
+        Disallow Button(Event Player, Button(Primary Fire));
+    }
+}
+
 rule ("[brigitte.opy]: Initialize Brigitte") {
     event {
         Ongoing - Each Player;
@@ -1982,28 +2128,17 @@ rule ("[brigitte.opy]: Initialize Brigitte") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initBrigitte);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[brigitte.opy]: initBrigitte()") {
-    event {
-        Subroutine;
-        initBrigitte;
-    }
-    actions {
-        Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, 150);
-        Set Player Variable(Event Player, health_armor, 50);
-        Set Player Variable(Event Player, health_shields, 0);
-        Call Subroutine(applyCustomHealth);
-        Wait(1, Ignore Condition);
-        Loop If(Compare(Max Health(Event Player), !=, 200));
-        Call Subroutine(removeSelfHealing);
+        While(Compare(Max Health(Event Player), !=, 200));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, hp_health, 150);
+            Set Player Variable(Event Player, hp_armor, 50);
+            Set Player Variable(Event Player, hp_shields, 0);
+            Call Subroutine(applyCustomHealth);
+            Wait(0.016, Ignore Condition);
+        End;
     }
 }
 
@@ -2090,69 +2225,43 @@ rule ("[brigitte.opy]: Rally 30% speed boost") {
     }
 }
 
-rule ("[doomfist.opy]: Initialize Doomfist") {
+rule ("[doomfist/hp.opy]: Initialize Doomfist Hp") {
     event {
         Ongoing - Each Player;
         All;
         Doomfist;
     }
     conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initDoomfist);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[doomfist.opy]: initDoomfist()") {
-    event {
-        Subroutine;
-        initDoomfist;
-    }
-    actions {
-        "Set Doomfist health to OW1"
         While(Compare(Max Health(Event Player), !=, 250));
             Call Subroutine(clearCustomHealth);
-            Set Player Variable(Event Player, health_normal, 250);
-            Set Player Variable(Event Player, health_armor, 0);
-            Set Player Variable(Event Player, health_shields, 0);
+            Set Player Variable(Event Player, hp_health, 250);
+            Set Player Variable(Event Player, hp_armor, 0);
+            Set Player Variable(Event Player, hp_shields, 0);
             Call Subroutine(applyCustomHealth);
-            Wait(1, Ignore Condition);
+            Wait(0.016, Ignore Condition);
         End;
-        "Decouple ability button press from trigerring ability"
-        Disallow Button(Event Player, Button(Ability 1));
-        Disallow Button(Event Player, Button(Ability 2));
-        "Variables for swapping keybinds"
-        Set Player Variable(Event Player, shift_pressed_by_bot, False);
-        Set Player Variable(Event Player, e_pressed_by_bot, False);
-        Set Player Variable(Event Player, punched_victims, Empty Array);
-        Set Player Variable(Event Player, wall_impacted_victims, Empty Array);
-        "Below variables are also declared and initialized in reset_hero.opy"
-        Set Player Variable(All Players(Team Of(Event Player)), friendly_doomfist_player, Event Player);
-        Set Player Variable(All Players(Opposite Team Of(Team Of(Event Player))), enemy_doomfist_player, Event Player);
     }
 }
 
-rule ("[doomfist.opy]: Detect shift key press by human") {
+rule ("[doomfist/uppercut.opy]: Initialize uppercut ability") {
     event {
         Ongoing - Each Player;
         All;
         Doomfist;
     }
     conditions {
-        Is Button Held(Event Player, Button(Ability 1)) == True;
-        (Event Player).shift_pressed_by_bot == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Set Player Variable(Event Player, pressing_slam_key, True);
-        Wait Until(Not(Is Button Held(Event Player, Button(Ability 1))), 9999);
-        Set Player Variable(Event Player, pressing_slam_key, False);
+        Disallow Button(Event Player, Button(Ability 2));
+        Set Player Variable(Event Player, e_pressed_by_bot, False);
     }
 }
 
-rule ("[doomfist.opy]: Detect e key press by human") {
+rule ("[doomfist/uppercut.opy]: Detect e key press by human") {
     event {
         Ongoing - Each Player;
         All;
@@ -2169,7 +2278,7 @@ rule ("[doomfist.opy]: Detect e key press by human") {
     }
 }
 
-rule ("[doomfist.opy]: Control flow for uppercut") {
+rule ("[doomfist/uppercut.opy]: Control flow for uppercut") {
     event {
         Ongoing - Each Player;
         All;
@@ -2179,7 +2288,7 @@ rule ("[doomfist.opy]: Control flow for uppercut") {
         (Event Player).pressing_uppercut_key == True;
         (Event Player).is_using_slam == False;
         Ability Cooldown(Event Player, Button(Ability 2)) <= 0;
-        "@Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\r\n Ensure Doomfist is not frozen"
+        "@Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\n Ensure Doomfist is not frozen"
         Has Status(Event Player, Frozen) == False;
         "Ensure Doomfist is not knocked down"
         Has Status(Event Player, Knocked Down) == False;
@@ -2193,31 +2302,7 @@ rule ("[doomfist.opy]: Control flow for uppercut") {
     }
 }
 
-rule ("[doomfist.opy]: Control flow for slam") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Doomfist;
-    }
-    conditions {
-        (Event Player).pressing_slam_key == True;
-        (Event Player).is_using_uppercut == False;
-        Ability Cooldown(Event Player, Button(Ability 1)) <= 0;
-        "@Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\r\n Ensure Doomfist is not frozen"
-        Has Status(Event Player, Frozen) == False;
-        "Ensure Doomfist is not knocked down"
-        Has Status(Event Player, Knocked Down) == False;
-        "Ensure Doomfist is not asleep"
-        Has Status(Event Player, Asleep) == False;
-        "Ensure Doomfist is not stunned"
-        Has Status(Event Player, Stunned) == False;
-    }
-    actions {
-        Call Subroutine(executeSlam);
-    }
-}
-
-rule ("[doomfist.opy]: executeUppercut()") {
+rule ("[doomfist/uppercut.opy]: executeUppercut()") {
     event {
         Subroutine;
         executeUppercut;
@@ -2225,7 +2310,7 @@ rule ("[doomfist.opy]: executeUppercut()") {
     actions {
         "Doomfist phases through enemies during uppercut"
         Disable Movement Collision With Players(Event Player);
-        "Uppercut physics\r\n Start of uppercut"
+        "Uppercut physics\n Start of uppercut"
         Set Player Variable(Event Player, is_using_uppercut, True);
         "Cancel current momentum"
         Apply Impulse(Event Player, Velocity Of(Event Player), Multiply(-1, Speed Of(Event Player)), To World, Incorporate Contrary Motion);
@@ -2255,7 +2340,7 @@ rule ("[doomfist.opy]: executeUppercut()") {
     }
 }
 
-rule ("[doomfist.opy]: Play uppercut VFX") {
+rule ("[doomfist/uppercut.opy]: Play uppercut VFX") {
     event {
         Ongoing - Each Player;
         All;
@@ -2271,7 +2356,7 @@ rule ("[doomfist.opy]: Play uppercut VFX") {
     }
 }
 
-rule ("[doomfist.opy]: Set uppercut cooldown") {
+rule ("[doomfist/uppercut.opy]: Set uppercut cooldown") {
     event {
         Ongoing - Each Player;
         All;
@@ -2286,7 +2371,7 @@ rule ("[doomfist.opy]: Set uppercut cooldown") {
     }
 }
 
-rule ("[doomfist.opy]: Disable abilities when uppercutting") {
+rule ("[doomfist/uppercut.opy]: Disable abilities when uppercutting") {
     event {
         Ongoing - Each Player;
         All;
@@ -2309,7 +2394,7 @@ rule ("[doomfist.opy]: Disable abilities when uppercutting") {
     }
 }
 
-rule ("[doomfist.opy]: Detect uppercut victims") {
+rule ("[doomfist/uppercut.opy]: Detect uppercut victims") {
     event {
         Ongoing - Each Player;
         All;
@@ -2334,7 +2419,7 @@ rule ("[doomfist.opy]: Detect uppercut victims") {
     }
 }
 
-rule ("[doomfist.opy]: Uppercut victim movement physics") {
+rule ("[doomfist/uppercut.opy]: Uppercut victim movement physics") {
     event {
         Ongoing - Each Player;
         All;
@@ -2355,7 +2440,7 @@ rule ("[doomfist.opy]: Uppercut victim movement physics") {
     }
 }
 
-rule ("[doomfist.opy]: Damage uppercut victims") {
+rule ("[doomfist/uppercut.opy]: Damage uppercut victims") {
     event {
         Ongoing - Each Player;
         All;
@@ -2370,7 +2455,7 @@ rule ("[doomfist.opy]: Damage uppercut victims") {
     }
 }
 
-rule ("[doomfist.opy]: Play uppercut hit VFX") {
+rule ("[doomfist/uppercut.opy]: Play uppercut hit VFX") {
     event {
         Ongoing - Each Player;
         All;
@@ -2384,7 +2469,63 @@ rule ("[doomfist.opy]: Play uppercut hit VFX") {
     }
 }
 
-rule ("[doomfist.opy]: Detect ground slam") {
+rule ("[doomfist/slam.opy]: Initialize slam ability") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).call_init == True;
+    }
+    actions {
+        Disallow Button(Event Player, Button(Ability 1));
+        Set Player Variable(Event Player, shift_pressed_by_bot, False);
+    }
+}
+
+rule ("[doomfist/slam.opy]: Detect shift key press by human") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        Is Button Held(Event Player, Button(Ability 1)) == True;
+        (Event Player).shift_pressed_by_bot == False;
+    }
+    actions {
+        Set Player Variable(Event Player, pressing_slam_key, True);
+        Wait Until(Not(Is Button Held(Event Player, Button(Ability 1))), 9999);
+        Set Player Variable(Event Player, pressing_slam_key, False);
+    }
+}
+
+rule ("[doomfist/slam.opy]: Control flow for slam") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).pressing_slam_key == True;
+        (Event Player).is_using_uppercut == False;
+        Ability Cooldown(Event Player, Button(Ability 1)) <= 0;
+        "@Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\n Ensure Doomfist is not frozen"
+        Has Status(Event Player, Frozen) == False;
+        "Ensure Doomfist is not knocked down"
+        Has Status(Event Player, Knocked Down) == False;
+        "Ensure Doomfist is not asleep"
+        Has Status(Event Player, Asleep) == False;
+        "Ensure Doomfist is not stunned"
+        Has Status(Event Player, Stunned) == False;
+    }
+    actions {
+        Call Subroutine(executeSlam);
+    }
+}
+
+rule ("[doomfist/slam.opy]: Detect ground slam") {
     event {
         Ongoing - Each Player;
         All;
@@ -2398,7 +2539,7 @@ rule ("[doomfist.opy]: Detect ground slam") {
     }
 }
 
-rule ("[doomfist.opy]: Detect indicator slam") {
+rule ("[doomfist/slam.opy]: Detect indicator slam") {
     event {
         Ongoing - Each Player;
         All;
@@ -2412,7 +2553,7 @@ rule ("[doomfist.opy]: Detect indicator slam") {
     }
 }
 
-rule ("[doomfist.opy]: Start tracking indicator slam destination") {
+rule ("[doomfist/slam.opy]: Start tracking indicator slam destination") {
     event {
         Ongoing - Each Player;
         All;
@@ -2429,7 +2570,7 @@ rule ("[doomfist.opy]: Start tracking indicator slam destination") {
     }
 }
 
-rule ("[doomfist.opy]: Stop tracking indicator slam destination") {
+rule ("[doomfist/slam.opy]: Stop tracking indicator slam destination") {
     event {
         Ongoing - Each Player;
         All;
@@ -2444,7 +2585,7 @@ rule ("[doomfist.opy]: Stop tracking indicator slam destination") {
     }
 }
 
-rule ("[doomfist.opy]: executeSlam()") {
+rule ("[doomfist/slam.opy]: executeSlam()") {
     event {
         Subroutine;
         executeSlam;
@@ -2468,7 +2609,7 @@ rule ("[doomfist.opy]: executeSlam()") {
     }
 }
 
-rule ("[doomfist.opy]: InitiateGroundSlam()") {
+rule ("[doomfist/slam.opy]: InitiateGroundSlam()") {
     event {
         Subroutine;
         initiateGroundSlam;
@@ -2487,7 +2628,7 @@ rule ("[doomfist.opy]: InitiateGroundSlam()") {
     }
 }
 
-rule ("[doomfist.opy]: InitiateIndicatorSlam()") {
+rule ("[doomfist/slam.opy]: InitiateIndicatorSlam()") {
     event {
         Subroutine;
         initiateIndicatorSlam;
@@ -2517,7 +2658,7 @@ rule ("[doomfist.opy]: InitiateIndicatorSlam()") {
     }
 }
 
-rule ("[doomfist.opy]: startSlamAnimation()") {
+rule ("[doomfist/slam.opy]: startSlamAnimation()") {
     event {
         Subroutine;
         startSlamAnimation;
@@ -2536,7 +2677,7 @@ rule ("[doomfist.opy]: startSlamAnimation()") {
     }
 }
 
-rule ("[doomfist.opy]: Calculate slam damage based on air time") {
+rule ("[doomfist/slam.opy]: Calculate slam damage based on air time") {
     event {
         Ongoing - Each Player;
         All;
@@ -2557,7 +2698,7 @@ rule ("[doomfist.opy]: Calculate slam damage based on air time") {
     }
 }
 
-rule ("[doomfist.opy]: createSlamDamageGui()") {
+rule ("[doomfist/slam.opy]: createSlamDamageGui()") {
     event {
         Subroutine;
         createSlamDamageGui;
@@ -2568,7 +2709,7 @@ rule ("[doomfist.opy]: createSlamDamageGui()") {
     }
 }
 
-rule ("[doomfist.opy]: destroySlamDamageGui()") {
+rule ("[doomfist/slam.opy]: destroySlamDamageGui()") {
     event {
         Subroutine;
         destroySlamDamageGui;
@@ -2579,7 +2720,7 @@ rule ("[doomfist.opy]: destroySlamDamageGui()") {
     }
 }
 
-rule ("[doomfist.opy]: Remove OW2 slam damage") {
+rule ("[doomfist/slam.opy]: Remove OW2 slam damage") {
     event {
         Player Dealt Damage;
         All;
@@ -2594,7 +2735,7 @@ rule ("[doomfist.opy]: Remove OW2 slam damage") {
     }
 }
 
-rule ("[doomfist.opy]: Find slammed victims") {
+rule ("[doomfist/slam.opy]: Find slammed victims") {
     event {
         Player Dealt Damage;
         All;
@@ -2612,7 +2753,7 @@ rule ("[doomfist.opy]: Find slammed victims") {
     }
 }
 
-rule ("[doomfist.opy]: Slammed victims damage and pull/push effects") {
+rule ("[doomfist/slam.opy]: Slammed victims damage and pull/push effects") {
     event {
         Player Dealt Damage;
         All;
@@ -2635,7 +2776,7 @@ rule ("[doomfist.opy]: Slammed victims damage and pull/push effects") {
     }
 }
 
-rule ("[doomfist.opy]: Slam indicator VFX") {
+rule ("[doomfist/slam.opy]: Slam indicator VFX") {
     event {
         Ongoing - Each Player;
         All;
@@ -2654,7 +2795,7 @@ rule ("[doomfist.opy]: Slam indicator VFX") {
     }
 }
 
-rule ("[doomfist.opy]: createSlamIndicatorGui()") {
+rule ("[doomfist/slam.opy]: createSlamIndicatorGui()") {
     event {
         Subroutine;
         createSlamIndicatorGui;
@@ -2667,7 +2808,7 @@ rule ("[doomfist.opy]: createSlamIndicatorGui()") {
     }
 }
 
-rule ("[doomfist.opy]: destroySlamIndicatorGui()") {
+rule ("[doomfist/slam.opy]: destroySlamIndicatorGui()") {
     event {
         Subroutine;
         destroySlamIndicatorGui;
@@ -2680,7 +2821,22 @@ rule ("[doomfist.opy]: destroySlamIndicatorGui()") {
     }
 }
 
-rule ("[doomfist.opy]: Initialize rocket punch") {
+rule ("[doomfist/punch.opy]: Initialize rocket punch ability") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).call_init == True;
+    }
+    actions {
+        Set Player Variable(Event Player, punched_victims, Empty Array);
+        Set Player Variable(Event Player, wall_impacted_victims, Empty Array);
+    }
+}
+
+rule ("[doomfist/punch.opy]: Initialize rocket punch") {
     event {
         Ongoing - Each Player;
         All;
@@ -2700,7 +2856,7 @@ rule ("[doomfist.opy]: Initialize rocket punch") {
     }
 }
 
-rule ("[doomfist.opy]: Find wall impacted victims") {
+rule ("[doomfist/punch.opy]: Find wall impacted victims") {
     event {
         Player Dealt Damage;
         All;
@@ -2717,7 +2873,7 @@ rule ("[doomfist.opy]: Find wall impacted victims") {
     }
 }
 
-rule ("[doomfist.opy]: Find punched victims") {
+rule ("[doomfist/punch.opy]: Find punched victims") {
     event {
         Player Dealt Damage;
         All;
@@ -2733,7 +2889,7 @@ rule ("[doomfist.opy]: Find punched victims") {
     }
 }
 
-rule ("[doomfist.opy]: Remove Empowered Punch from ultimate") {
+rule ("[doomfist/punch.opy]: Remove Empowered Punch from ultimate") {
     event {
         Ongoing - Each Player;
         All;
@@ -2743,7 +2899,7 @@ rule ("[doomfist.opy]: Remove Empowered Punch from ultimate") {
         Is Using Ultimate(Event Player) == True;
     }
     actions {
-        "eventPlayer.disallowButton(Button.ABILITY_1)\r\n eventPlayer.disallowButton(Button.ABILITY_2)"
+        "eventPlayer.disallowButton(Button.ABILITY_1)\n eventPlayer.disallowButton(Button.ABILITY_2)"
         Wait Until(Is Button Held(Event Player, Button(Primary Fire)), 4.8);
         Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
         Start Holding Button(Event Player, Button(Secondary Fire));
@@ -2754,12 +2910,12 @@ rule ("[doomfist.opy]: Remove Empowered Punch from ultimate") {
         Set Secondary Fire Enabled(Event Player, False);
         Wait(0.016, Ignore Condition);
         Set Secondary Fire Enabled(Event Player, True);
-        "eventPlayer.allowButton(Button.ABILITY_1)\r\n eventPlayer.allowButton(Button.ABILITY_2)"
+        "eventPlayer.allowButton(Button.ABILITY_1)\n eventPlayer.allowButton(Button.ABILITY_2)"
         Allow Button(Event Player, Button(Secondary Fire));
     }
 }
 
-rule ("[doomfist.opy]: Deal OW1 Meteor Strike damage") {
+rule ("[doomfist/meteor.opy]: Deal OW1 Meteor Strike damage") {
     event {
         Player Dealt Damage;
         All;
@@ -2774,7 +2930,7 @@ rule ("[doomfist.opy]: Deal OW1 Meteor Strike damage") {
     }
 }
 
-rule ("[doomfist.opy]: Deal OW1 hand cannon damage") {
+rule ("[doomfist/cannon.opy]: Deal OW1 hand cannon damage") {
     event {
         Player Dealt Damage;
         All;
@@ -2789,6 +2945,21 @@ rule ("[doomfist.opy]: Deal OW1 hand cannon damage") {
     }
 }
 
+rule ("[doomfist.opy]: Initialize Doomfist") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Doomfist;
+    }
+    conditions {
+        (Event Player).call_init == True;
+    }
+    actions {
+        Set Player Variable(All Players(Team Of(Event Player)), friendly_doomfist_player, Event Player);
+        Set Player Variable(All Players(Opposite Team Of(Team Of(Event Player))), enemy_doomfist_player, Event Player);
+    }
+}
+
 rule ("[dva.opy]: Initialize Dva") {
     event {
         Ongoing - Each Player;
@@ -2797,29 +2968,20 @@ rule ("[dva.opy]: Initialize Dva") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initDva);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[dva.opy]: initDva()") {
-    event {
-        Subroutine;
-        initDva;
-    }
-    actions {
-        Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, 300);
-        Set Player Variable(Event Player, health_armor, 300);
-        Set Player Variable(Event Player, health_shields, 0);
-        Call Subroutine(applyCustomHealth);
-        Wait(1, Ignore Condition);
-        Loop If(Compare(Max Health(Event Player), !=, 600));
+        While(Compare(Max Health(Event Player), !=, 600));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, hp_health, 300);
+            Set Player Variable(Event Player, hp_armor, 300);
+            Set Player Variable(Event Player, hp_shields, 0);
+            Call Subroutine(applyCustomHealth);
+            Wait(0.016, Ignore Condition);
+        End;
         Wait Until(Not(Is In Alternate Form(Event Player)), 9999);
         Set Ultimate Charge(Event Player, 0);
+        Set Knockback Received(Event Player, 142.85714285714286);
     }
 }
 
@@ -2903,22 +3065,6 @@ rule ("[echo.opy]: Tank armor, shields and health for every tank") {
     }
 }
 
-rule ("[echo.opy]: Initialize Echo") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Echo;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initEcho);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
 rule ("[echo.opy]: Deal OW1 echo focusing beam under 50% hp") {
     event {
         Player Dealt Damage;
@@ -2948,9 +3094,9 @@ rule ("[echo.opy]: Set Life for echo when duplicating a tank") {
     actions {
         Set Player Variable(Event Player, hero_id_duplicated, Index Of Array Value(All Heroes, Hero Being Duplicated(Event Player)));
         Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, First Of(Value In Array(Global.health_pool, (Event Player).hero_id_duplicated)));
-        Set Player Variable(Event Player, health_armor, Value In Array(Value In Array(Global.health_pool, (Event Player).hero_id_duplicated), 1));
-        Set Player Variable(Event Player, health_shields, Value In Array(Value In Array(Global.health_pool, (Event Player).hero_id_duplicated), 2));
+        Set Player Variable(Event Player, hp_health, First Of(Value In Array(Global.health_pool, (Event Player).hero_id_duplicated)));
+        Set Player Variable(Event Player, hp_armor, Value In Array(Value In Array(Global.health_pool, (Event Player).hero_id_duplicated), 1));
+        Set Player Variable(Event Player, hp_shields, Value In Array(Value In Array(Global.health_pool, (Event Player).hero_id_duplicated), 2));
         Call Subroutine(applyCustomHealth);
     }
 }
@@ -2963,18 +3109,7 @@ rule ("[genji.opy]: Initialize Genji") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initGenji);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[genji.opy]: initGenji()") {
-    event {
-        Subroutine;
-        initGenji;
+        (Event Player).call_init == True;
     }
     actions {
         Set Ammo(Event Player, 0, 30);
@@ -2996,22 +3131,6 @@ rule ("[genji.opy]: Deal OW1 shuriken damage") {
     }
 }
 
-rule ("[hanzo.opy]: Initialize Hanzo") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Hanzo;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initHanzo);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
 rule ("[hanzo.opy]: Deal OW1 primary fire damage") {
     event {
         Player Dealt Damage;
@@ -3019,7 +3138,7 @@ rule ("[hanzo.opy]: Deal OW1 primary fire damage") {
         Hanzo;
     }
     conditions {
-        Event Ability == Button(Primary Fire);
+        Or(Compare(Event Ability, ==, Button(Primary Fire)), Compare(Event Ability, ==, Button(Ability 1))) == True;
     }
     actions {
         Damage(Victim, Attacker, Subtract(Multiply(Event Damage, 1.041666666666666), Event Damage));
@@ -3037,22 +3156,6 @@ rule ("[hanzo.opy]: Deal OW1 storm arrow damage") {
     }
     actions {
         Damage(Victim, Attacker, Subtract(Multiply(Event Damage, 1.076923076923076), Event Damage));
-    }
-}
-
-rule ("[illari.opy]: Initialize Illari") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Illari;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initIllari);
-        Set Player Variable(Event Player, initialized, True);
     }
 }
 
@@ -3080,11 +3183,10 @@ rule ("[junkerqueen.opy]: Initialize Junkerqueen") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initJunkerqueen);
-        Set Player Variable(Event Player, initialized, True);
+        Set Knockback Received(Event Player, 142.85714285714286);
     }
 }
 
@@ -3096,18 +3198,7 @@ rule ("[junkrat.opy]: Initialize Junkrat") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initJunkrat);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[junkrat.opy]: initJunkrat()") {
-    event {
-        Subroutine;
-        initJunkrat;
+        (Event Player).call_init == True;
     }
     actions {
         "Reduce damage to the trap"
@@ -3134,32 +3225,6 @@ rule ("[junkrat.opy]: Deal extra damage on ability other than steel trap and inc
     }
 }
 
-rule ("[kiriko.opy]: Initialize Kiriko") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Kiriko;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initKiriko);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[kiriko.opy]: initKiriko()") {
-    event {
-        Subroutine;
-        initKiriko;
-    }
-    actions {
-        Call Subroutine(removeSelfHealing);
-    }
-}
-
 rule ("[kiriko.opy]: Allow self healing during Suzu") {
     event {
         Ongoing - Each Player;
@@ -3173,32 +3238,6 @@ rule ("[kiriko.opy]: Allow self healing during Suzu") {
         Set Player Variable(Event Player, self_healing_percent, 100);
         Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
         Set Player Variable(Event Player, self_healing_percent, 0);
-    }
-}
-
-rule ("[lifeweaver.opy]: Initialize Lifeweaver") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Lifeweaver;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initLifeweaver);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[lifeweaver.opy]: initLifeweaver()") {
-    event {
-        Subroutine;
-        initLifeweaver;
-    }
-    actions {
-        Call Subroutine(removeSelfHealing);
     }
 }
 
@@ -3233,32 +3272,6 @@ rule ("[lifeweaver.opy]: Allow self healing during Tree of Life") {
         Set Player Variable(Event Player, self_healing_percent, 100);
         Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
         Set Player Variable(Event Player, self_healing_percent, 0);
-    }
-}
-
-rule ("[lucio.opy]: Initialize Lucio") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Lúcio;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initLucio);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[lucio.opy]: initLucio()") {
-    event {
-        Subroutine;
-        initLucio;
-    }
-    actions {
-        Call Subroutine(removeSelfHealing);
     }
 }
 
@@ -3340,7 +3353,7 @@ rule ("[lucio.opy]: If lucio uses speed aura remove self healing") {
     }
 }
 
-rule ("[mccree.opy]: Initialize Mccree") {
+rule ("[mccree.opy]: Set Cassidy hp") {
     event {
         Ongoing - Each Player;
         All;
@@ -3348,27 +3361,31 @@ rule ("[mccree.opy]: Initialize Mccree") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initMccree);
-        Set Player Variable(Event Player, initialized, True);
+        While(Compare(Max Health(Event Player), !=, 225));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, hp_health, 225);
+            Set Player Variable(Event Player, hp_armor, 0);
+            Set Player Variable(Event Player, hp_shields, 0);
+            Call Subroutine(applyCustomHealth);
+            Wait(0.016, Ignore Condition);
+        End;
     }
 }
 
-rule ("[mccree.opy]: initMccree()") {
+rule ("[mccree.opy]: Initialize flashbang ability") {
     event {
-        Subroutine;
-        initMccree;
+        Ongoing - Each Player;
+        All;
+        Cassidy;
+    }
+    conditions {
+        "without this flag, the reset code in generic.opy executes after initialization"
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, 225);
-        Set Player Variable(Event Player, health_armor, 0);
-        Set Player Variable(Event Player, health_shields, 0);
-        Call Subroutine(applyCustomHealth);
-        Wait(1, Ignore Condition);
-        Loop If(Compare(Max Health(Event Player), !=, 225));
         Disallow Button(Event Player, Button(Ability 2));
     }
 }
@@ -3458,18 +3475,7 @@ rule ("[mei.opy]: Initialize Mei") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initMei);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[mei.opy]: initMei()") {
-    event {
-        Subroutine;
-        initMei;
+        (Event Player).call_init == True;
     }
     actions {
         Set Ammo(Event Player, 0, 120);
@@ -3552,18 +3558,7 @@ rule ("[mercy.opy]: Initialize Mercy") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initMercy);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[mercy.opy]: initMercy()") {
-    event {
-        Subroutine;
-        initMercy;
+        (Event Player).call_init == True;
     }
     actions {
         Set Ammo(Event Player, 0, 20);
@@ -3583,32 +3578,6 @@ rule ("[mercy.opy]: Change GA Cooldown") {
     actions {
         Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
         Set Ability Cooldown(Event Player, Button(Ability 1), 0);
-    }
-}
-
-rule ("[moira.opy]: Initialize Moira") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Moira;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initMoira);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[moira.opy]: initMoira()") {
-    event {
-        Subroutine;
-        initMoira;
-    }
-    actions {
-        Call Subroutine(removeSelfHealing);
     }
 }
 
@@ -3677,53 +3646,43 @@ rule ("[moira.opy]: Allow self healing during Coalescence") {
     }
 }
 
-rule ("[orisa.opy]: Initialize Orisa") {
+rule ("[orisa/hp.opy]: Initialize Orisa Hp") {
     event {
         Ongoing - Each Player;
         All;
         Orisa;
     }
     conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initOrisa);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[orisa.opy]: initOrisa()") {
-    event {
-        Subroutine;
-        initOrisa;
+        (Event Player).call_init == True;
     }
     actions {
         While(Compare(Max Health(Event Player), !=, 450));
             Call Subroutine(clearCustomHealth);
-            Set Player Variable(Event Player, health_normal, 200);
-            Set Player Variable(Event Player, health_armor, 250);
-            Set Player Variable(Event Player, health_shields, 0);
+            Set Player Variable(Event Player, hp_health, 200);
+            Set Player Variable(Event Player, hp_armor, 250);
+            Set Player Variable(Event Player, hp_shields, 0);
             Call Subroutine(applyCustomHealth);
-            Wait(1, Ignore Condition);
+            Wait(0.016, Ignore Condition);
         End;
-        "Disable OW2 Javelin"
-        Disallow Button(Event Player, Button(Secondary Fire));
-        "Disable OW2 Javelin Spin"
-        Disallow Button(Event Player, Button(Ability 2));
-        "Disable Terra Surge"
-        Disallow Button(Event Player, Button(Ultimate));
-        "Below variables are also declared and initialized in reset_hero.opy"
-        Set Player Variable(All Players(Team Of(Event Player)), friendly_orisa_player, Event Player);
-        Set Player Variable(All Players(Opposite Team Of(Team Of(Event Player))), enemy_orisa_player, Event Player);
-        Call Subroutine(replanishAmmo);
-        Set Max Ammo(Event Player, 0, (Event Player).current_ammo_count);
-        Set Player Variable(Event Player, is_using_supercharger, False);
-        Set Player Variable(Event Player, is_using_halt, False);
     }
 }
 
-rule ("[orisa.opy]: Trigger Supercharger start") {
+rule ("[orisa/supercharger.opy]: Initialize supercharger ability") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        (Event Player).call_init == True;
+    }
+    actions {
+        Disallow Button(Event Player, Button(Ultimate));
+        Set Player Variable(Event Player, is_using_supercharger, False);
+    }
+}
+
+rule ("[orisa/supercharger.opy]: Trigger Supercharger start") {
     event {
         Ongoing - Each Player;
         All;
@@ -3742,7 +3701,7 @@ rule ("[orisa.opy]: Trigger Supercharger start") {
     }
 }
 
-rule ("[orisa.opy]: Trigger Supercharger end") {
+rule ("[orisa/supercharger.opy]: Trigger Supercharger end") {
     event {
         Ongoing - Each Player;
         All;
@@ -3756,7 +3715,7 @@ rule ("[orisa.opy]: Trigger Supercharger end") {
     }
 }
 
-rule ("[orisa.opy]: startSupercharger()") {
+rule ("[orisa/supercharger.opy]: startSupercharger()") {
     event {
         Subroutine;
         startSupercharger;
@@ -3779,7 +3738,7 @@ rule ("[orisa.opy]: startSupercharger()") {
     }
 }
 
-rule ("[orisa.opy]: endSupercharger()") {
+rule ("[orisa/supercharger.opy]: endSupercharger()") {
     event {
         Subroutine;
         endSupercharger;
@@ -3793,7 +3752,7 @@ rule ("[orisa.opy]: endSupercharger()") {
     }
 }
 
-rule ("[orisa.opy]: Supercharge teammates in supercharger range") {
+rule ("[orisa/supercharger.opy]: Supercharge teammates in supercharger range") {
     event {
         Ongoing - Each Player;
         All;
@@ -3810,7 +3769,7 @@ rule ("[orisa.opy]: Supercharge teammates in supercharger range") {
     }
 }
 
-rule ("[orisa.opy]: De-supercharge teammates outside supercharger range") {
+rule ("[orisa/supercharger.opy]: De-supercharge teammates outside supercharger range") {
     event {
         Ongoing - Each Player;
         All;
@@ -3827,7 +3786,7 @@ rule ("[orisa.opy]: De-supercharge teammates outside supercharger range") {
     }
 }
 
-rule ("[orisa.opy]: De-supercharge teammates when supercharger ends") {
+rule ("[orisa/supercharger.opy]: De-supercharge teammates when supercharger ends") {
     event {
         Ongoing - Each Player;
         All;
@@ -3841,7 +3800,7 @@ rule ("[orisa.opy]: De-supercharge teammates when supercharger ends") {
     }
 }
 
-rule ("[orisa.opy]: De-supercharge teammates when they die") {
+rule ("[orisa/supercharger.opy]: De-supercharge teammates when they die") {
     event {
         Ongoing - Each Player;
         All;
@@ -3856,7 +3815,7 @@ rule ("[orisa.opy]: De-supercharge teammates when they die") {
     }
 }
 
-rule ("[orisa.opy]: Damage boost player when supercharged") {
+rule ("[orisa/supercharger.opy]: Damage boost player when supercharged") {
     event {
         Ongoing - Each Player;
         All;
@@ -3874,7 +3833,7 @@ rule ("[orisa.opy]: Damage boost player when supercharged") {
     }
 }
 
-rule ("[orisa.opy]: Revert damage boost if not supercharged") {
+rule ("[orisa/supercharger.opy]: Revert damage boost if not supercharged") {
     event {
         Ongoing - Each Player;
         All;
@@ -3890,7 +3849,22 @@ rule ("[orisa.opy]: Revert damage boost if not supercharged") {
     }
 }
 
-rule ("[orisa.opy]: Trigger Halt ability start") {
+rule ("[orisa/halt.opy]: Initialize Halt ability") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        (Event Player).call_init == True;
+    }
+    actions {
+        Disallow Button(Event Player, Button(Secondary Fire));
+        Set Player Variable(Event Player, is_using_halt, False);
+    }
+}
+
+rule ("[orisa/halt.opy]: Trigger Halt ability start") {
     event {
         Ongoing - Each Player;
         All;
@@ -3911,7 +3885,7 @@ rule ("[orisa.opy]: Trigger Halt ability start") {
     }
 }
 
-rule ("[orisa.opy]: Shoot Halt Orb") {
+rule ("[orisa/halt.opy]: Shoot Halt Orb") {
     event {
         Subroutine;
         shootHalt;
@@ -3938,7 +3912,7 @@ rule ("[orisa.opy]: Shoot Halt Orb") {
     }
 }
 
-rule ("[orisa.opy]: Explode Halt Orb") {
+rule ("[orisa/halt.opy]: Explode Halt Orb") {
     event {
         Subroutine;
         explodeHalt;
@@ -3975,7 +3949,7 @@ rule ("[orirsa.opy]: Slow down snared enemies") {
     }
 }
 
-rule ("[orisa.opy]: Pull halted victims") {
+rule ("[orisa/halt.opy]: Pull halted victims") {
     event {
         Ongoing - Each Player;
         All;
@@ -3997,7 +3971,7 @@ rule ("[orisa.opy]: Pull halted victims") {
     }
 }
 
-rule ("[orisa.opy]: Create Halt pull line vfx when in pull range") {
+rule ("[orisa/halt.opy]: Create Halt pull line vfx when in pull range") {
     event {
         Ongoing - Each Player;
         All;
@@ -4017,7 +3991,7 @@ rule ("[orisa.opy]: Create Halt pull line vfx when in pull range") {
     }
 }
 
-rule ("[orisa.opy]: Destroy Halt pull line vfx when not in pull range") {
+rule ("[orisa/halt.opy]: Destroy Halt pull line vfx when not in pull range") {
     event {
         Ongoing - Each Player;
         All;
@@ -4033,7 +4007,7 @@ rule ("[orisa.opy]: Destroy Halt pull line vfx when not in pull range") {
     }
 }
 
-rule ("[orisa.opy]: Destroy Halt pull line vfx when halt is over") {
+rule ("[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over") {
     event {
         Ongoing - Each Player;
         All;
@@ -4048,7 +4022,21 @@ rule ("[orisa.opy]: Destroy Halt pull line vfx when halt is over") {
     }
 }
 
-rule ("[orisa.opy]: Trigger Projectile Barrier ability") {
+rule ("[orisa/barrier.opy]: Disable OW2 Javelin spin") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        (Event Player).call_init == True;
+    }
+    actions {
+        Disallow Button(Event Player, Button(Ability 2));
+    }
+}
+
+rule ("[orisa/barrier.opy]: Trigger Projectile Barrier ability") {
     event {
         Ongoing - Each Player;
         All;
@@ -4066,7 +4054,7 @@ rule ("[orisa.opy]: Trigger Projectile Barrier ability") {
     }
 }
 
-rule ("[orisa.opy]: throwBarrier()") {
+rule ("[orisa/barrier.opy]: throwBarrier()") {
     event {
         Subroutine;
         throwBarrier;
@@ -4098,7 +4086,7 @@ rule ("[orisa.opy]: throwBarrier()") {
     }
 }
 
-rule ("[orisa.opy]: deployBarrier()") {
+rule ("[orisa/barrier.opy]: deployBarrier()") {
     event {
         Subroutine;
         deployBarrier;
@@ -4106,7 +4094,7 @@ rule ("[orisa.opy]: deployBarrier()") {
     actions {
         "Define barrer by the sphere center position"
         Set Player Variable(Event Player, barrier_position, Subtract((Event Player).barrier_proj_position, Multiply(3.5, (Event Player).barrier_orientation)));
-        "Debug barrier center\r\n createEffect(eventPlayer, Effect.SPHERE, Color.BLACK, eventPlayer.barrier_position, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)"
+        "Debug barrier center\n createEffect(eventPlayer, Effect.SPHERE, Color.BLACK, eventPlayer.barrier_position, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)"
         Call Subroutine(fibonacciSphere);
         "Draw each barrier sample"
         For Global Variable(i, 0, Count Of((Event Player).barrier_entity_positions), 1);
@@ -4121,13 +4109,13 @@ rule ("[orisa.opy]: deployBarrier()") {
     }
 }
 
-rule ("[orisa.opy]: fibonacciSphere()") {
+rule ("[orisa/barrier.opy]: fibonacciSphere()") {
     event {
         Subroutine;
         fibonacciSphere;
     }
     actions {
-        "Evenly distribute N points around a sphere\r\n Store coodrindate of those points to barrier_entity_positions array\r\n See https://stackoverflow.com/a/26127012 for algorithm"
+        "Evenly distribute N points around a sphere\n Store coodrindate of those points to barrier_entity_positions array\n See https://stackoverflow.com/a/26127012 for algorithm"
         Set Player Variable(Event Player, barrier_entity_positions, Empty Array);
         For Global Variable(i, 0, 140, 1);
             Set Player Variable(Event Player, barrier_sample_y, Subtract(1, Multiply(Divide(Global.i, 139), 2)));
@@ -4147,7 +4135,7 @@ rule ("[orisa.opy]: fibonacciSphere()") {
     }
 }
 
-rule ("[orisa.opy]: destroyBarrier()") {
+rule ("[orisa/barrier.opy]: destroyBarrier()") {
     event {
         Subroutine;
         destroyBarrier;
@@ -4162,7 +4150,7 @@ rule ("[orisa.opy]: destroyBarrier()") {
     }
 }
 
-rule ("[orisa.opy]: destroy barrier on hero switch") {
+rule ("[orisa/barrier.opy]: destroy barrier on hero switch") {
     event {
         Ongoing - Each Player;
         All;
@@ -4177,7 +4165,7 @@ rule ("[orisa.opy]: destroy barrier on hero switch") {
     }
 }
 
-rule ("[orisa.opy]: Destroy barrier on barrier timeout") {
+rule ("[orisa/barrier.opy]: Destroy barrier on barrier timeout") {
     event {
         Ongoing - Each Player;
         All;
@@ -4192,7 +4180,7 @@ rule ("[orisa.opy]: Destroy barrier on barrier timeout") {
     }
 }
 
-rule ("[orisa.opy]: Destroy barrier when barrier hp runs out") {
+rule ("[orisa/barrier.opy]: Destroy barrier when barrier hp runs out") {
     event {
         Ongoing - Each Player;
         All;
@@ -4207,7 +4195,7 @@ rule ("[orisa.opy]: Destroy barrier when barrier hp runs out") {
     }
 }
 
-rule ("[orisa.opy]: Take no damage when behind barrier") {
+rule ("[orisa/barrier.opy]: Take no damage when behind barrier") {
     event {
         Player Dealt Damage;
         All;
@@ -4235,7 +4223,7 @@ rule ("[orisa.opy]: Take no damage when behind barrier") {
     }
 }
 
-rule ("[orisa.opy]: Receive no healing when behind barrier") {
+rule ("[orisa/barrier.opy]: Receive no healing when behind barrier") {
     event {
         Player Received Healing;
         All;
@@ -4263,60 +4251,155 @@ rule ("[orisa.opy]: Receive no healing when behind barrier") {
     }
 }
 
-rule ("[orisa.opy]: Save ammo count when finished firing") {
+rule ("[orisa/ammo.opy]: Initialize OW1 Orisa clip size") {
     event {
         Ongoing - Each Player;
         All;
         Orisa;
     }
     conditions {
-        Is Firing Primary(Event Player) == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Set Player Variable(Event Player, current_ammo_count, Ammo(Event Player, 0));
+        Call Subroutine(resetFusionDriver);
+        Call Subroutine(createOrisaAmmoHud);
     }
 }
 
-rule ("[orisa.opy]: Correct ammo count when wrong") {
+rule ("[orisa/ammo.opy]: Remove ammo hud") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_reset == True;
+    }
+    actions {
+        Call Subroutine(destroyOrisaAmmoHud);
+    }
+}
+
+rule ("[orisa/ammo.opy]: Decrease ammo when shooting gun") {
     event {
         Ongoing - Each Player;
         All;
         Orisa;
     }
     conditions {
-        (Event Player).current_ammo_count != Ammo(Event Player, 0);
+        Is Firing Primary(Event Player) == True;
     }
     actions {
-        Set Ammo(Event Player, 0, (Event Player).current_ammo_count);
+        Modify Player Variable(Event Player, orisa_ammo, Subtract, 1);
+        Call Subroutine(refreshAmmo);
+        Set Primary Fire Enabled(Event Player, False);
+        Wait(0.083333333333333, Ignore Condition);
+        Set Primary Fire Enabled(Event Player, True);
     }
 }
 
-rule ("[orisa.opy]: Replanish ammo on reload") {
+rule ("[orisa/ammo.opy]: Reload on key press") {
     event {
         Ongoing - Each Player;
         All;
         Orisa;
     }
     conditions {
-        Is Reloading(Event Player) == True;
+        Is Button Held(Event Player, Button(Reload)) == True;
     }
     actions {
-        Call Subroutine(replanishAmmo);
+        Call Subroutine(reloadFusionDriver);
     }
 }
 
-rule ("[orisa.opy]: replanishAmmo()") {
+rule ("[orisa/ammo.opy]: Reload when out of ammo") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        (Event Player).orisa_ammo <= 0;
+    }
+    actions {
+        Call Subroutine(reloadFusionDriver);
+    }
+}
+
+rule ("[orisa/ammo.opy]: resetFusionDriver()") {
     event {
         Subroutine;
-        replanishAmmo;
+        resetFusionDriver;
     }
     actions {
-        Set Player Variable(Event Player, current_ammo_count, 125);
-        Set Ammo(Event Player, 0, (Event Player).current_ammo_count);
+        Set Max Ammo(Event Player, 0, 151);
+        Set Player Variable(Event Player, orisa_ammo, 150);
+        Call Subroutine(refreshAmmo);
     }
 }
 
-rule ("[orisa.opy]: Remove overhealth during fortify") {
+rule ("[orisa/ammo.opy]: reloadFusionDriver()") {
+    event {
+        Subroutine;
+        reloadFusionDriver;
+    }
+    actions {
+        Abort If(Compare((Event Player).orisa_ammo, >=, 150));
+        "Play reload animation"
+        Set Ammo(Event Player, 0, 0);
+        Wait(2.5, Ignore Condition);
+        Call Subroutine(resetFusionDriver);
+    }
+}
+
+rule ("[orisa/ammo.opy]: refreshAmmo()") {
+    event {
+        Subroutine;
+        refreshAmmo;
+    }
+    actions {
+        Set Ammo(Event Player, 0, Add((Event Player).orisa_ammo, 1));
+    }
+}
+
+rule ("[orisa/ammo.opy]: createOrisaAmmoHud()") {
+    event {
+        Subroutine;
+        createOrisaAmmoHud;
+    }
+    actions {
+        Create In-World Text(Event Player, Custom String("{0}", Round To Integer((Event Player).orisa_ammo, Up), Null, Null), Update Every Frame(Add(Eye Position(Event Player), Multiply(100, Add(Add(Multiply(3.3, World Vector Of(Right, Event Player, Rotation)), Multiply(-1.5, Direction From Angles(Horizontal Angle From Direction(Facing Direction Of(Event Player)), Subtract(Vertical Angle From Direction(Facing Direction Of(Event Player)), 90)))), Multiply(3, Facing Direction Of(Event Player)))))), 2, Do Not Clip, Visible To Position String and Color, Color(White), Default Visibility);
+        Set Player Variable(Event Player, orisa_ammo_hud, Last Text ID);
+    }
+}
+
+rule ("[orisa/ammo.opy]: destroyOrisaAmmoHud()") {
+    event {
+        Subroutine;
+        destroyOrisaAmmoHud;
+    }
+    actions {
+        Destroy In-World Text((Event Player).orisa_ammo_hud);
+    }
+}
+
+rule ("[orisa/ammo.opy]: Slow down Orisa when shooting") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        Is Button Held(Event Player, Button(Primary Fire)) == True;
+    }
+    actions {
+        Set Move Speed(Event Player, 70);
+        Wait Until(Not(Is Button Held(Event Player, Button(Primary Fire))), 9999);
+        Set Move Speed(Event Player, 100);
+    }
+}
+
+rule ("[orisa/fortify.opy]: Remove overhealth during fortify") {
     event {
         Ongoing - Each Player;
         All;
@@ -4330,6 +4413,22 @@ rule ("[orisa.opy]: Remove overhealth during fortify") {
     }
 }
 
+rule ("[orisa/orisa.opy]: Initialize Orisa") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Orisa;
+    }
+    conditions {
+        (Event Player).call_init == True;
+    }
+    actions {
+        "Below variables are also declared and initialized in reset_hero.opy"
+        Set Player Variable(All Players(Team Of(Event Player)), friendly_orisa_player, Event Player);
+        Set Player Variable(All Players(Opposite Team Of(Team Of(Event Player))), enemy_orisa_player, Event Player);
+    }
+}
+
 rule ("[ramattra.opy]: Initialize Ramattra") {
     event {
         Ongoing - Each Player;
@@ -4338,44 +4437,18 @@ rule ("[ramattra.opy]: Initialize Ramattra") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initRamattra);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[ramattra.opy]: initRamattra()") {
-    event {
-        Subroutine;
-        initRamattra;
+        (Event Player).call_init == True;
     }
     actions {
         While(Compare(Max Health(Event Player), !=, 400));
             Call Subroutine(clearCustomHealth);
-            Set Player Variable(Event Player, health_normal, 400);
-            Set Player Variable(Event Player, health_armor, 0);
-            Set Player Variable(Event Player, health_shields, 0);
+            Set Player Variable(Event Player, hp_health, 400);
+            Set Player Variable(Event Player, hp_armor, 0);
+            Set Player Variable(Event Player, hp_shields, 0);
             Call Subroutine(applyCustomHealth);
-            Wait(1, Ignore Condition);
+            Wait(0.016, Ignore Condition);
         End;
-    }
-}
-
-rule ("[reaper.opy]: Initialize Reaper") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Reaper;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initReaper);
-        Set Player Variable(Event Player, initialized, True);
+        Set Knockback Received(Event Player, 142.85714285714286);
     }
 }
 
@@ -4401,27 +4474,17 @@ rule ("[reinhardt.opy]: Initialize Reinhardt") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initReinhardt);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[reinhardt.opy]: initReinhardt()") {
-    event {
-        Subroutine;
-        initReinhardt;
-    }
-    actions {
-        Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, 300);
-        Set Player Variable(Event Player, health_armor, 200);
-        Set Player Variable(Event Player, health_shields, 0);
-        Call Subroutine(applyCustomHealth);
-        Wait(1, Ignore Condition);
-        Loop If(Compare(Max Health(Event Player), !=, 500));
+        While(Compare(Max Health(Event Player), !=, 500));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, hp_health, 300);
+            Set Player Variable(Event Player, hp_armor, 200);
+            Set Player Variable(Event Player, hp_shields, 0);
+            Call Subroutine(applyCustomHealth);
+            Wait(0.016, Ignore Condition);
+        End;
     }
 }
 
@@ -4497,30 +4560,21 @@ rule ("[roadhog.opy]: Initialize Roadhog") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initRoadhog);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[roadhog.opy]: initRoadhog()") {
-    event {
-        Subroutine;
-        initRoadhog;
-    }
-    actions {
-        Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, 600);
-        Set Player Variable(Event Player, health_armor, 0);
-        Set Player Variable(Event Player, health_shields, 0);
-        Call Subroutine(applyCustomHealth);
-        Wait(1, Ignore Condition);
-        Loop If(Compare(Max Health(Event Player), !=, 600));
+        While(Compare(Max Health(Event Player), !=, 600));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, hp_health, 600);
+            Set Player Variable(Event Player, hp_armor, 0);
+            Set Player Variable(Event Player, hp_shields, 0);
+            Call Subroutine(applyCustomHealth);
+            Wait(0.016, Ignore Condition);
+        End;
         Set Ammo(Event Player, 0, 5);
         Set Max Ammo(Event Player, 0, 5);
         Set Damage Dealt(Event Player, 110);
+        Set Knockback Received(Event Player, 142.85714285714286);
     }
 }
 
@@ -4628,7 +4682,7 @@ rule ("[roadhog.opy]: Move hooked enemies closer") {
     actions {
         Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
         If(Compare(Distance Between(Victim, Attacker), <=, 4.5));
-            Teleport(Victim, Ray Cast Hit Position(Position Of(Attacker), Add(Position Of(Attacker), Multiply(3, Direction Towards(Attacker, Victim))), Null, Null, False));
+            Teleport(Victim, Ray Cast Hit Position(Position Of(Victim), Add(Position Of(Victim), Direction Towards(Victim, Attacker)), Null, Null, False));
     }
 }
 
@@ -4657,27 +4711,18 @@ rule ("[sigma.opy]: Initialize Sigma") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initSigma);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[sigma.opy]: initSigma()") {
-    event {
-        Subroutine;
-        initSigma;
-    }
-    actions {
-        Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, 300);
-        Set Player Variable(Event Player, health_armor, 0);
-        Set Player Variable(Event Player, health_shields, 100);
-        Call Subroutine(applyCustomHealth);
-        Wait(1, Ignore Condition);
-        Loop If(Compare(Max Health(Event Player), !=, 400));
+        While(Compare(Max Health(Event Player), !=, 400));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, hp_health, 300);
+            Set Player Variable(Event Player, hp_armor, 0);
+            Set Player Variable(Event Player, hp_shields, 100);
+            Call Subroutine(applyCustomHealth);
+            Wait(0.016, Ignore Condition);
+        End;
+        Set Knockback Received(Event Player, 142.85714285714286);
     }
 }
 
@@ -4705,18 +4750,7 @@ rule ("[soldier.opy]: Initialize Soldier 76") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initSoldier);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[soldier.opy]: initSoldier()") {
-    event {
-        Subroutine;
-        initSoldier;
+        (Event Player).call_init == True;
     }
     actions {
         Set Healing Dealt(Event Player, 87.5);
@@ -4745,18 +4779,7 @@ rule ("[sombra.opy]: Initialize Sombra") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initSombra);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[sombra.opy]: initSombra()") {
-    event {
-        Subroutine;
-        initSombra;
+        (Event Player).call_init == True;
     }
     actions {
         Set Player Variable(All Players(Team Of(Event Player)), friendly_sombra_player, Event Player);
@@ -4880,18 +4903,7 @@ rule ("[symmetra.opy]: Initialize Symmetra") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initSymmetra);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[symmetra.opy]: initSymmetra()") {
-    event {
-        Subroutine;
-        initSymmetra;
+        (Event Player).call_init == True;
     }
     actions {
         Set Ammo(Event Player, 0, 70);
@@ -4923,27 +4935,16 @@ rule ("[torbjorn.opy]: Initialize Torbjorn") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initTorbjorn);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[torbjorn.opy]: initTorbjorn()") {
-    event {
-        Subroutine;
-        initTorbjorn;
+        (Event Player).call_init == True;
     }
     actions {
         While(Compare(Max Health(Event Player), !=, 250));
             Call Subroutine(clearCustomHealth);
-            Set Player Variable(Event Player, health_normal, 200);
-            Set Player Variable(Event Player, health_armor, 50);
-            Set Player Variable(Event Player, health_shields, 0);
+            Set Player Variable(Event Player, hp_health, 200);
+            Set Player Variable(Event Player, hp_armor, 50);
+            Set Player Variable(Event Player, hp_shields, 0);
             Call Subroutine(applyCustomHealth);
-            Wait(1, Ignore Condition);
+            Wait(0.016, Ignore Condition);
         End;
     }
 }
@@ -4959,22 +4960,6 @@ rule ("[torbjorn.opy]: Correct overload hp") {
     }
     actions {
         Damage(Event Player, Null, 11.111111111111114);
-    }
-}
-
-rule ("[tracer.opy]: Initialize Tracer") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Tracer;
-    }
-    conditions {
-        "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initTracer);
-        Set Player Variable(Event Player, initialized, True);
     }
 }
 
@@ -5000,27 +4985,16 @@ rule ("[widowmaker.opy]: Initialize Widowmaker") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initWidowmaker);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[widowmaker.opy]: initWidowmaker()") {
-    event {
-        Subroutine;
-        initWidowmaker;
+        (Event Player).call_init == True;
     }
     actions {
         While(Compare(Max Health(Event Player), !=, 175));
             Call Subroutine(clearCustomHealth);
-            Set Player Variable(Event Player, health_normal, 175);
-            Set Player Variable(Event Player, health_armor, 0);
-            Set Player Variable(Event Player, health_shields, 0);
+            Set Player Variable(Event Player, hp_health, 175);
+            Set Player Variable(Event Player, hp_armor, 0);
+            Set Player Variable(Event Player, hp_shields, 0);
             Call Subroutine(applyCustomHealth);
-            Wait(1, Ignore Condition);
+            Wait(0.016, Ignore Condition);
         End;
     }
 }
@@ -5039,7 +5013,7 @@ rule ("[widowmaker.opy]: Revert sniper damage falloff") {
     actions {
         Set Player Variable(Event Player, scoped_shot_distance, Distance Between(Eye Position(Attacker), Victim));
         Set Player Variable(Event Player, ow2_scoped_damage_falloff_scalar, Add(Multiply(Divide(Subtract((Event Player).scoped_shot_distance, 40), 20), 0.5), Subtract(1, Divide(Subtract((Event Player).scoped_shot_distance, 40), 20))));
-        "Cap min/max scalar\r\n Max damage scalar"
+        "Cap min/max scalar\n Max damage scalar"
         If(Compare((Event Player).ow2_scoped_damage_falloff_scalar, >, 1));
             Set Player Variable(Event Player, ow2_scoped_damage_falloff_scalar, 1);
         "Min damage scalar"
@@ -5048,7 +5022,7 @@ rule ("[widowmaker.opy]: Revert sniper damage falloff") {
         End;
         Set Player Variable(Event Player, scoped_damage_base, Divide(Event Damage, (Event Player).ow2_scoped_damage_falloff_scalar));
         Set Player Variable(Event Player, ow1_scoped_damage_falloff_scalar, Add(Multiply(Divide(Subtract((Event Player).scoped_shot_distance, 70), 30), 0.3), Subtract(1, Divide(Subtract((Event Player).scoped_shot_distance, 70), 30))));
-        "Cap min/max scalar\r\n Max damage scalar"
+        "Cap min/max scalar\n Max damage scalar"
         If(Compare((Event Player).ow1_scoped_damage_falloff_scalar, >, 1));
             Set Player Variable(Event Player, ow1_scoped_damage_falloff_scalar, 1);
         "Min damage scalar"
@@ -5068,28 +5042,19 @@ rule ("[winston.opy]: Initialize Winston") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initWinston);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[winston.opy]: initWinston()") {
-    event {
-        Subroutine;
-        initWinston;
-    }
-    actions {
-        Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, 350);
-        Set Player Variable(Event Player, health_armor, 150);
-        Set Player Variable(Event Player, health_shields, 0);
-        Call Subroutine(applyCustomHealth);
-        Wait(1, Ignore Condition);
-        Loop If(Compare(Max Health(Event Player), !=, 500));
+        While(Compare(Max Health(Event Player), !=, 500));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, hp_health, 350);
+            Set Player Variable(Event Player, hp_armor, 150);
+            Set Player Variable(Event Player, hp_shields, 0);
+            Call Subroutine(applyCustomHealth);
+            Wait(0.016, Ignore Condition);
+        End;
         Set Secondary Fire Enabled(Event Player, False);
+        Set Knockback Received(Event Player, 142.85714285714286);
     }
 }
 
@@ -5131,27 +5096,18 @@ rule ("[wreckingball.opy]: Initialize Wrecking Ball") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initWreckingball);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[wreckingball.opy]: initWreckingball()") {
-    event {
-        Subroutine;
-        initWreckingball;
-    }
-    actions {
-        Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, 500);
-        Set Player Variable(Event Player, health_armor, 100);
-        Set Player Variable(Event Player, health_shields, 0);
-        Call Subroutine(applyCustomHealth);
-        Wait(1, Ignore Condition);
-        Loop If(Compare(Max Health(Event Player), !=, 600));
+        While(Compare(Max Health(Event Player), !=, 600));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, hp_health, 500);
+            Set Player Variable(Event Player, hp_armor, 100);
+            Set Player Variable(Event Player, hp_shields, 0);
+            Call Subroutine(applyCustomHealth);
+            Wait(0.016, Ignore Condition);
+        End;
+        Set Knockback Received(Event Player, 142.85714285714286);
     }
 }
 
@@ -5163,29 +5119,20 @@ rule ("[zarya.opy]: Initialize Zarya") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
+        (Event Player).call_init == True;
     }
     actions {
-        Call Subroutine(initZarya);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[zarya.opy]: initZarya()") {
-    event {
-        Subroutine;
-        initZarya;
-    }
-    actions {
-        Call Subroutine(clearCustomHealth);
-        Set Player Variable(Event Player, health_normal, 200);
-        Set Player Variable(Event Player, health_armor, 0);
-        Set Player Variable(Event Player, health_shields, 200);
-        Call Subroutine(applyCustomHealth);
-        Wait(1, Ignore Condition);
-        Loop If(Compare(Max Health(Event Player), !=, 400));
+        While(Compare(Max Health(Event Player), !=, 400));
+            Call Subroutine(clearCustomHealth);
+            Set Player Variable(Event Player, hp_health, 200);
+            Set Player Variable(Event Player, hp_armor, 0);
+            Set Player Variable(Event Player, hp_shields, 200);
+            Call Subroutine(applyCustomHealth);
+            Wait(0.016, Ignore Condition);
+        End;
         Set Player Variable(Event Player, self_bubble_cooldown, 0);
         Set Player Variable(Event Player, ally_bubble_cooldown, 0);
+        Set Knockback Received(Event Player, 142.85714285714286);
     }
 }
 
@@ -5393,24 +5340,12 @@ rule ("[zenyatta.opy]: Initialize Zenyatta") {
     }
     conditions {
         "without this flag, the reset code in generic.opy executes after initialization"
-        (Event Player).initialized == False;
-    }
-    actions {
-        Call Subroutine(initZenyatta);
-        Set Player Variable(Event Player, initialized, True);
-    }
-}
-
-rule ("[zenyatta.opy]: initZenyatta()") {
-    event {
-        Subroutine;
-        initZenyatta;
+        (Event Player).call_init == True;
     }
     actions {
         Set Ammo(Event Player, 0, 20);
         Set Max Ammo(Event Player, 0, 20);
         Set Knockback Dealt(Event Player, 5);
-        Call Subroutine(removeSelfHealing);
     }
 }
 
@@ -5471,6 +5406,16 @@ rule ("[debug.opy]: player debug (Top Right)") {
         Create HUD Text(Event Player, Null, Custom String("getSpeed() = {0}", Speed Of(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
         Create HUD Text(Event Player, Null, Custom String("ult_cost[hero_id] = {0}", Value In Array(Global.ult_cost, (Event Player).hero_id), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
         Create HUD Text(Event Player, Null, Custom String("ult_percent_compensated = {0}", (Event Player).ult_percent_compensated, Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("call_reset = {0}", (Event Player).call_reset, Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("call_init = {0}", (Event Player).call_init, Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getMaxHealth() = {0}", Max Health(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("orisa_ammo = {0}", (Event Player).orisa_ammo, Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isReloading() = {0}", Is Reloading(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getAmmo(0) = {0}", Ammo(Event Player, 0), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("isHoldingButton(Button.PRIMARY_FIRE) = {0}", Is Button Held(Event Player, Button(Primary Fire)), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("self_healing_percent = {0}", (Event Player).self_healing_percent, Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("getPosition() = {0}", Position Of(Event Player), Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
+        Create HUD Text(Event Player, Null, Custom String("role = {0}", (Event Player).role, Null, Null), Null, Right, 1, Null, Color(White), Null, String, Default Visibility);
     }
 }
 
@@ -5501,7 +5446,21 @@ rule ("[debug.opy]: Debug damage instance") {
         Global.debug == True;
     }
     actions {
-        Log To Inspector(Custom String("{0} {1} {2}", Hero Of(Event Player), Event Ability, Event Damage));
+        Log To Inspector(Custom String("hero={0}, ability={1}, amount={2}", Hero Of(Event Player), Event Ability, Event Damage));
+    }
+}
+
+rule ("[debug.opy]: Debug healing instance") {
+    event {
+        Player Dealt Healing;
+        All;
+        All;
+    }
+    conditions {
+        Global.debug == True;
+    }
+    actions {
+        Log To Inspector(Custom String("hero={0}, ability={1}, amount={2}", Hero Of(Event Player), Event Ability, Event Healing));
     }
 }
 
