@@ -26,3 +26,12 @@ rule "[brigitte/bash.opy]: Reduce shield bash distance":
         eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF))
     else:
         eventPlayer.setMoveSpeed(100)
+
+
+rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
+    @Event playerDealtDamage
+    @Hero brigitte
+    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition eventPlayer.isFiringSecondaryFire()
+
+    heal(victim, null, OW2_BRIGITTE_SHIELD_BASH_DAMAGE - OW1_BRIGITTE_SHIELD_BASH_DAMAGE)
