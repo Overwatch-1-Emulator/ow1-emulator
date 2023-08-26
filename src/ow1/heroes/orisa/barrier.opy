@@ -120,7 +120,14 @@ def deployBarrier(): # Create shield visual object
     # Draw each barrier sample
     for i in range(len(eventPlayer.barrier_entity_positions)):
         eventPlayer.barrier_sample_point = eventPlayer.barrier_entity_positions[i]
-        createEffect(getAllPlayers(), Effect.SPHERE, eventPlayer.getTeam(), evalOnce(eventPlayer.barrier_sample_point), sqrt(1*OW1_ORISA_PROTECTIVE_BARRIER_RADIUS**2/OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION), EffectReeval.NONE)
+        createEffect(getAllPlayers(), 
+                     Effect.SPHERE, 
+                     eventPlayer.getTeam() 
+                        if random.uniform(0, 1) <= eventPlayer.barrier_health/OW1_ORISA_PROJECTILE_BARRIER_HEALTH
+                        else Color.WHITE, 
+                     evalOnce(eventPlayer.barrier_sample_point), 
+                     OW1_ORISA_BARRIER_ORB_SIZE, 
+                     EffectReeval.COLOR)
         eventPlayer.barrier_entities.append(getLastCreatedEntity())
 
     eventPlayer.barrier_active = true
@@ -243,3 +250,5 @@ def destroyBarrierHud():
     @Name "[orisa/barrier.opy]: destroyBarrierHud()"
 
     destroyProgressBarHud(eventPlayer.barrier_health_hud)
+
+
