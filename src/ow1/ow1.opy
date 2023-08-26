@@ -14,7 +14,7 @@
 #!include "ow1/heroes/bastion/bastion.opy"
 #!include "ow1/heroes/brigitte.opy"
 #!include "ow1/heroes/doomfist/doomfist.opy"
-#!include "ow1/heroes/dva.opy"
+#!include "ow1/heroes/dva/dva.opy"
 #!include "ow1/heroes/echo.opy"
 #!include "ow1/heroes/genji.opy"
 #!include "ow1/heroes/hanzo.opy"
