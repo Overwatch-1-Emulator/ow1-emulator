@@ -18,6 +18,7 @@ rule "[orisa/gun.opy]: Initialize OW1 Orisa clip size":
 
     resetFusionDriver()
     createOrisaAmmoHud()
+    eventPlayer.is_orisa_reloading = false
 
 
 rule "[orisa/gun.opy]: Remove ammo hud":
