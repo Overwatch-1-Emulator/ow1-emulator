@@ -31,7 +31,7 @@
 #!include "ow1/heroes/orisa/orisa.opy"
 #!include "ow1/heroes/ramattra.opy"
 #!include "ow1/heroes/reaper.opy"
-#!include "ow1/heroes/reinhardt.opy"
+#!include "ow1/heroes/reinhardt/reinhardt.opy"
 #!include "ow1/heroes/roadhog.opy"
 #!include "ow1/heroes/sigma.opy"
 #!include "ow1/heroes/soldier.opy"
