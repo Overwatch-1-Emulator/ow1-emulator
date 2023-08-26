@@ -43,3 +43,5 @@ rule "[echo.opy]: Set Life for echo when duplicating a tank":
         health_pool[eventPlayer.hero_id_duplicated][1],
         health_pool[eventPlayer.hero_id_duplicated][2],
     )
+    waitUntil(not eventPlayer.isDuplicatingAHero(), OW1_ECHO_DUPLICATE_DURATION)
+    clearCustomHealth()
