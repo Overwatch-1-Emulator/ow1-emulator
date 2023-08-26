@@ -2,6 +2,7 @@
 
 playervar orisa_ammo
 playervar orisa_ammo_hud
+playervar is_orisa_reloading
 
 subroutine resetFusionDriver
 subroutine reloadFusionDriver
@@ -69,7 +70,9 @@ def reloadFusionDriver():
         return # Abort if ammo already full
 
     eventPlayer.setAmmo(0, 0) # Play reload animation
+    eventPlayer.is_orisa_reloading = true
     wait(OW1_ORISA_RELOAD_TIME)
+    eventPlayer.is_orisa_reloading = false
     resetFusionDriver()
 
 
@@ -106,7 +109,8 @@ rule "[orisa/gun.opy]: Slow down Orisa when shooting":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
+    @Condition not eventPlayer.is_orisa_reloading
 
     eventPlayer.setMoveSpeed(100-percent(OW1_ORISA_MOVEMENT_PENALTY))
-    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 9999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) or eventPlayer.is_orisa_reloading, 9999)
     eventPlayer.setMoveSpeed(100)
