@@ -12,7 +12,7 @@
 #!include "ow1/heroes/ashe.opy"
 #!include "ow1/heroes/baptiste.opy"
 #!include "ow1/heroes/bastion/bastion.opy"
-#!include "ow1/heroes/brigitte.opy"
+#!include "ow1/heroes/brigitte/brigitte.opy"
 #!include "ow1/heroes/doomfist/doomfist.opy"
 #!include "ow1/heroes/dva/dva.opy"
 #!include "ow1/heroes/echo.opy"
