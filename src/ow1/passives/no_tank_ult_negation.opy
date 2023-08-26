@@ -44,6 +44,7 @@ rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
 rule "[ult_charge.opy]: Reset ult charge":
     @Event eachPlayer
     @Condition eventPlayer.call_reset == true
+    @Condition not eventPlayer.isInAlternateForm() # This condition is needed for DVa
 
     eventPlayer.missing_ult_points = 0
     eventPlayer.ult_percent_compensated = 0
