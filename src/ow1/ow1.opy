@@ -2,7 +2,7 @@
 
 # Remove OW2 passives
 # Remove tank passive
-#!include "ow1/passives/no_tank_ult_negation.opy"
+#!include "ow1/passives/ult_charge.opy"
 #!include "ow1/passives/tank/knockback.opy"
 # Remove support passive
 #!include "ow1/passives/support/self_heal.opy"
@@ -12,9 +12,9 @@
 #!include "ow1/heroes/ashe.opy"
 #!include "ow1/heroes/baptiste.opy"
 #!include "ow1/heroes/bastion/bastion.opy"
-#!include "ow1/heroes/brigitte.opy"
+#!include "ow1/heroes/brigitte/brigitte.opy"
 #!include "ow1/heroes/doomfist/doomfist.opy"
-#!include "ow1/heroes/dva.opy"
+#!include "ow1/heroes/dva/dva.opy"
 #!include "ow1/heroes/echo.opy"
 #!include "ow1/heroes/genji.opy"
 #!include "ow1/heroes/hanzo.opy"
@@ -31,7 +31,7 @@
 #!include "ow1/heroes/orisa/orisa.opy"
 #!include "ow1/heroes/ramattra.opy"
 #!include "ow1/heroes/reaper.opy"
-#!include "ow1/heroes/reinhardt.opy"
+#!include "ow1/heroes/reinhardt/reinhardt.opy"
 #!include "ow1/heroes/roadhog.opy"
 #!include "ow1/heroes/sigma.opy"
 #!include "ow1/heroes/soldier.opy"

@@ -50,10 +50,20 @@ rule "[ult_charge.opy]: Reset ult charge":
     eventPlayer.setUltCharge(0)
 
 
+rule "[ult_charge.opy]: Reset ult charge for DVa (special case)":
+    @Event eachPlayer
+    @Hero dva
+    @Condition eventPlayer.call_reset == true
+
+    waitUntil(eventPlayer.getUltCharge() > 0, 1)
+    eventPlayer.setUltCharge(0)
+
+
 rule "[ult_charge.opy]: Remember missing ult charge from damaging tank":
     @Event playerDealtDamage
     @Condition victim != eventPlayer
     @Condition victim.getCurrentHero() in getTankHeroes()
+    @Condition victim.getCurrentHero() not in [Hero.ROADHOG] # Roadhog passive
     @Condition not eventPlayer.isUsingUltimate()
 
     eventPlayer.missing_ult_points += OW2_TANK_ULT_NEGATION * eventDamage

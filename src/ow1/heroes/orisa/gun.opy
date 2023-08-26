@@ -2,6 +2,7 @@
 
 playervar orisa_ammo
 playervar orisa_ammo_hud
+playervar is_orisa_reloading
 
 subroutine resetFusionDriver
 subroutine reloadFusionDriver
@@ -10,23 +11,24 @@ subroutine refreshAmmo
 subroutine createOrisaAmmoHud
 subroutine destroyOrisaAmmoHud
 
-rule "[orisa/ammo.opy]: Initialize OW1 Orisa clip size":
+rule "[orisa/gun.opy]: Initialize OW1 Orisa clip size":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.call_init == true
 
     resetFusionDriver()
     createOrisaAmmoHud()
+    eventPlayer.is_orisa_reloading = false
 
 
-rule "[orisa/ammo.opy]: Remove ammo hud":
+rule "[orisa/gun.opy]: Remove ammo hud":
     @Event eachPlayer
     @Condition eventPlayer.call_reset == true
 
     destroyOrisaAmmoHud()
 
 
-rule "[orisa/ammo.opy]: Decrease ammo when shooting gun":
+rule "[orisa/gun.opy]: Decrease ammo when shooting gun":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.isFiringPrimaryFire()
@@ -38,7 +40,7 @@ rule "[orisa/ammo.opy]: Decrease ammo when shooting gun":
     eventPlayer.setPrimaryFireEnabled(true)
 
 
-rule "[orisa/ammo.opy]: Reload on key press":
+rule "[orisa/gun.opy]: Reload on key press":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
@@ -46,7 +48,7 @@ rule "[orisa/ammo.opy]: Reload on key press":
     reloadFusionDriver()
 
 
-rule "[orisa/ammo.opy]: Reload when out of ammo":
+rule "[orisa/gun.opy]: Reload when out of ammo":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.orisa_ammo <= 0
@@ -55,7 +57,7 @@ rule "[orisa/ammo.opy]: Reload when out of ammo":
 
 
 def resetFusionDriver():
-    @Name "[orisa/ammo.opy]: resetFusionDriver()"
+    @Name "[orisa/gun.opy]: resetFusionDriver()"
 
     eventPlayer.setMaxAmmo(0, OW1_ORISA_CLIP_SIZE + 1)
     eventPlayer.orisa_ammo = OW1_ORISA_CLIP_SIZE
@@ -63,24 +65,26 @@ def resetFusionDriver():
 
 
 def reloadFusionDriver():
-    @Name "[orisa/ammo.opy]: reloadFusionDriver()"
+    @Name "[orisa/gun.opy]: reloadFusionDriver()"
 
     if eventPlayer.orisa_ammo >= OW1_ORISA_CLIP_SIZE:
         return # Abort if ammo already full
 
     eventPlayer.setAmmo(0, 0) # Play reload animation
+    eventPlayer.is_orisa_reloading = true
     wait(OW1_ORISA_RELOAD_TIME)
+    eventPlayer.is_orisa_reloading = false
     resetFusionDriver()
 
 
 def refreshAmmo():
-    @Name "[orisa/ammo.opy]: refreshAmmo()"
+    @Name "[orisa/gun.opy]: refreshAmmo()"
 
     eventPlayer.setAmmo(0, eventPlayer.orisa_ammo + 1)
 
 
 def createOrisaAmmoHud():
-    @Name "[orisa/ammo.opy]: createOrisaAmmoHud()"
+    @Name "[orisa/gun.opy]: createOrisaAmmoHud()"
     
     createInWorldText(eventPlayer, 
                       "{0}".format(ceil(eventPlayer.orisa_ammo)),
@@ -97,16 +101,17 @@ def createOrisaAmmoHud():
 
 
 def destroyOrisaAmmoHud():
-    @Name "[orisa/ammo.opy]: destroyOrisaAmmoHud()"
+    @Name "[orisa/gun.opy]: destroyOrisaAmmoHud()"
 
     destroyInWorldText(eventPlayer.orisa_ammo_hud)
 
 
-rule "[orisa/ammo.opy]: Slow down Orisa when shooting":
+rule "[orisa/gun.opy]: Slow down Orisa when shooting":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
+    @Condition not eventPlayer.is_orisa_reloading
 
     eventPlayer.setMoveSpeed(100-percent(OW1_ORISA_MOVEMENT_PENALTY))
-    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 9999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) or eventPlayer.is_orisa_reloading, 9999)
     eventPlayer.setMoveSpeed(100)
