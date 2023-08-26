@@ -126,7 +126,7 @@ def deployBarrier(): # Create shield visual object
                         if random.uniform(0, 1) <= eventPlayer.barrier_health/OW1_ORISA_PROJECTILE_BARRIER_HEALTH
                         else Color.WHITE, 
                      evalOnce(eventPlayer.barrier_sample_point), 
-                     sqrt(1*OW1_ORISA_PROTECTIVE_BARRIER_RADIUS**2/OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION), 
+                     OW1_ORISA_BARRIER_ORB_SIZE, 
                      EffectReeval.COLOR)
         eventPlayer.barrier_entities.append(getLastCreatedEntity())
 
