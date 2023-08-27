@@ -49,7 +49,7 @@ rule "[ready.opy]: Start match when everyone ready":
     @Condition isGameInProgress() == false # Guard to prevent incorrect match time modification
     @Condition isAssemblingHeroes() == false # Guard to prevent incorrect match time modification
     @Condition isInSetup() == true
-    @Condition getMatchTime() > MATCH_START_BUFFER_TIME
+    @Condition getMatchTime() > SETUP_BUFFER_TIME
     @Condition all([player.ready for player in getAllPlayers()]) == true
 
-    setMatchTime(MATCH_START_BUFFER_TIME)
+    setMatchTime(SETUP_BUFFER_TIME)

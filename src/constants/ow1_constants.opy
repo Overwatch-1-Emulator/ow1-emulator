@@ -1,7 +1,7 @@
 #!mainFile "../main.opy"
 
 # Generic
-#!define MATCH_START_BUFFER_TIME 5
+#!define SETUP_BUFFER_TIME 5
 
 ###################################
 # Ult Costs
