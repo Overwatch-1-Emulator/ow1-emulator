@@ -244,10 +244,7 @@ github.com/MaxwellJung/ow1_emulator",
             },
             "zenyatta": {
                 "ultGen%": percent(OW2_ZENYATTA_ULT_COST/OW1_ZENYATTA_ULT_COST)
-            },
-            "enabledHeroes": [
-                "tracer"
-            ],
+            }
         }
     }
 }

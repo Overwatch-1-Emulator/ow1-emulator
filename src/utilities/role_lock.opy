@@ -30,13 +30,28 @@ subroutine lockSupport
 subroutine unlockTank
 subroutine unlockDamage
 subroutine unlockSupport
-subroutine resetRoleLock
 
 enum Role:
     MISSING, # role has not been picked
     TANK,
     DAMAGE,
     SUPPORT
+
+
+rule "[role_lock.opy]: Find player's role":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_switched == true
+
+    waitUntil(not eventPlayer.hero_switched, Math.INFINITY)
+    
+    if eventPlayer.getCurrentHero() in tank_heroes:
+        eventPlayer.role = Role.TANK
+    elif eventPlayer.getCurrentHero() in damage_heroes:
+        eventPlayer.role = Role.DAMAGE
+    elif eventPlayer.getCurrentHero() in support_heroes:
+        eventPlayer.role = Role.SUPPORT
+    else:
+        eventPlayer.role = Role.MISSING
 
 
 rule "[role_lock.opy]: Define tank, damage, support heroes array":
@@ -79,37 +94,26 @@ rule "[role_lock.opy]: Define tank, damage, support heroes array":
     all_heroes.append(support_heroes)
 
 
-rule "[role_lock.opy]: Find player's role":
+rule "[role_lock.opy]: Reset allowed heroes for each player":
     @Event eachPlayer
-    @Condition eventPlayer.hero_switched == true
 
-    waitUntil(not eventPlayer.hero_switched, Math.INFINITY)
-    
-    if eventPlayer.getCurrentHero() in tank_heroes:
-        eventPlayer.role = Role.TANK
-    elif eventPlayer.getCurrentHero() in damage_heroes:
-        eventPlayer.role = Role.DAMAGE
-    elif eventPlayer.getCurrentHero() in support_heroes:
-        eventPlayer.role = Role.SUPPORT
-    else:
-        eventPlayer.role = Role.MISSING
+    eventPlayer.setAllowedHeroes(all_heroes)
 
 
-rule "[role_lock.opy]: Skip Assemble Heroes":
+rule "[role_lock.opy]: Skip hero assembly":
     @Event global
-    @Condition isAssemblingHeroes() == true
+    @Condition isAssemblingHeroes()
 
     hero_select_time = getMatchTime() # Save assemble hero time
-    wait() # Let built-in game logic reset "allowed hero list"
     setMatchTime(0) # Go to the end of the assembling heroes
-    waitUntil(isAssemblingHeroes() == false, 9999)
-    setMatchTime(getMatchTime() + hero_select_time) # Give back assemble hero time
+    waitUntil(not isAssemblingHeroes(), 9999)
+    setMatchTime(getMatchTime() + hero_select_time) # Give back assemble hero timel
 
 
 rule "[role_lock.opy]: Lock tanks above role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) >= max_tank_count
-    @Condition isAssemblingHeroes() == false
+    @Condition not isAssemblingHeroes()
 
     lockTank()
 
@@ -117,7 +121,7 @@ rule "[role_lock.opy]: Lock tanks above role limit":
 rule "[role_lock.opy]: Lock damage above role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) >= max_damage_count
-    @Condition isAssemblingHeroes() == false
+    @Condition not isAssemblingHeroes()
 
     lockDamage()
 
@@ -125,7 +129,7 @@ rule "[role_lock.opy]: Lock damage above role limit":
 rule "[role_lock.opy]: Lock supports above role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) >= max_support_count
-    @Condition isAssemblingHeroes() == false
+    @Condition not isAssemblingHeroes()
 
     lockSupport()
 
@@ -133,7 +137,7 @@ rule "[role_lock.opy]: Lock supports above role limit":
 rule "[role_lock.opy]: Unlock tanks below role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) < max_tank_count
-    @Condition isAssemblingHeroes() == false
+    @Condition not isAssemblingHeroes()
 
     unlockTank()
 
@@ -141,7 +145,7 @@ rule "[role_lock.opy]: Unlock tanks below role limit":
 rule "[role_lock.opy]: Unlock damage below role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) < max_damage_count
-    @Condition isAssemblingHeroes() == false
+    @Condition not isAssemblingHeroes()
 
     unlockDamage()
 
@@ -149,7 +153,7 @@ rule "[role_lock.opy]: Unlock damage below role limit":
 rule "[role_lock.opy]: Unlock supports below role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) < max_support_count
-    @Condition isAssemblingHeroes() == false
+    @Condition not isAssemblingHeroes()
 
     unlockSupport()
 
@@ -158,7 +162,8 @@ def lockTank():
     @Name "[role_lock.opy]: lockTank()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
-    eventPlayer.allowed_heroes.remove(tank_heroes)
+    eventPlayer.allowed_heroes.remove(ow1_tank_heroes)
+    eventPlayer.allowed_heroes.remove(ow2_tank_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -166,7 +171,8 @@ def lockDamage():
     @Name "[role_lock.opy]: lockDamage()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
-    eventPlayer.allowed_heroes.remove(damage_heroes)
+    eventPlayer.allowed_heroes.remove(ow1_damage_heroes)
+    eventPlayer.allowed_heroes.remove(ow2_damage_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -174,7 +180,8 @@ def lockSupport():
     @Name "[role_lock.opy]: lockSupport()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
-    eventPlayer.allowed_heroes.remove(support_heroes)
+    eventPlayer.allowed_heroes.remove(ow1_support_heroes)
+    eventPlayer.allowed_heroes.remove(ow2_support_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -202,11 +209,4 @@ def unlockSupport():
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
     # eventPlayer.allowed_heroes.remove(support_heroes)
     eventPlayer.allowed_heroes.append(support_heroes)
-    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
-
-
-def resetRoleLock():
-    @Name "[role_lock.opy]: resetRoleLock()"
-
-    eventPlayer.allowed_heroes = all_heroes
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
