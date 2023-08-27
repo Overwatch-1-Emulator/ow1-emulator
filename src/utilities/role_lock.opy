@@ -162,8 +162,7 @@ def lockTank():
     @Name "[role_lock.opy]: lockTank()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
-    eventPlayer.allowed_heroes.remove(ow1_tank_heroes)
-    eventPlayer.allowed_heroes.remove(ow2_tank_heroes)
+    eventPlayer.allowed_heroes.remove(tank_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -171,8 +170,7 @@ def lockDamage():
     @Name "[role_lock.opy]: lockDamage()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
-    eventPlayer.allowed_heroes.remove(ow1_damage_heroes)
-    eventPlayer.allowed_heroes.remove(ow2_damage_heroes)
+    eventPlayer.allowed_heroes.remove(damage_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -180,8 +178,7 @@ def lockSupport():
     @Name "[role_lock.opy]: lockSupport()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
-    eventPlayer.allowed_heroes.remove(ow1_support_heroes)
-    eventPlayer.allowed_heroes.remove(ow2_support_heroes)
+    eventPlayer.allowed_heroes.remove(support_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -189,7 +186,6 @@ def unlockTank():
     @Name "[role_lock.opy]: unlockTank()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
-    # eventPlayer.allowed_heroes.remove(tank_heroes)
     eventPlayer.allowed_heroes.append(tank_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
@@ -198,7 +194,6 @@ def unlockDamage():
     @Name "[role_lock.opy]: unlockDamage()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
-    # eventPlayer.allowed_heroes.remove(damage_heroes)
     eventPlayer.allowed_heroes.append(damage_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
@@ -207,6 +202,5 @@ def unlockSupport():
     @Name "[role_lock.opy]: unlockSupport()"
 
     eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
-    # eventPlayer.allowed_heroes.remove(support_heroes)
     eventPlayer.allowed_heroes.append(support_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
