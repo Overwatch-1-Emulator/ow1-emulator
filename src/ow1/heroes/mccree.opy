@@ -8,10 +8,7 @@ rule "[mccree.opy]: Set Cassidy hp":
     @Hero mccree
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    while (eventPlayer.getMaxHealth() != OW1_MCCREE_HEALTH):
-        clearCustomHealth()
-        setCustomHealth(OW1_MCCREE_HEALTH, 0, 0)
-        wait()
+    setCustomHealth(OW1_MCCREE_HEALTH, 0, 0)
 
 
 rule "[mccree.opy]: Initialize flashbang ability":

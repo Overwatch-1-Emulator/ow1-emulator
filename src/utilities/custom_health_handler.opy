@@ -88,6 +88,12 @@ def applyCustomHealth():
         eventPlayer.stored_spawn_pos = null
         eventPlayer.stopCamera()
 
+    
+    wait()
+    if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
+        clearCustomHealth()
+        goto RULE_START
+
 
 rule "[custom_health_handler.opy]: Remove Custom Health Conditions":
     @Event eachPlayer
