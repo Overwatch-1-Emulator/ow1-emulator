@@ -8,6 +8,7 @@ rule "[mccree.opy]: Set Cassidy hp":
     @Hero mccree
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
+    wait()
     setCustomHealth(OW1_MCCREE_HEALTH, 0, 0)
 
 

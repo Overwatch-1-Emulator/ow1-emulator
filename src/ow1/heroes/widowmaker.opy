@@ -18,6 +18,7 @@ rule "[widowmaker.opy]: Initialize Widowmaker":
     @Hero widowmaker
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
+    wait()
     setCustomHealth(OW1_WIDOWMAKER_HEALTH, 0, 0)
 
 

@@ -5,4 +5,5 @@ rule "[doomfist/hp.opy]: Initialize Doomfist Hp":
     @Hero doomfist
     @Condition eventPlayer.call_init == true
 
+    wait()
     setCustomHealth(OW1_DOOMFIST_HEALTH, 0, 0)
