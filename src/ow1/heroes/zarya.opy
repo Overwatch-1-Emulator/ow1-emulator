@@ -16,10 +16,7 @@ rule "[zarya.opy]: Initialize Zarya":
     @Hero zarya
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    while (eventPlayer.getMaxHealth() != OW1_ZARYA_HEALTH + OW1_ZARYA_SHIELDS):
-        clearCustomHealth()
-        setCustomHealth(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
-        wait()
+    setCustomHealth(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
     
 
     eventPlayer.self_bubble_cooldown = 0

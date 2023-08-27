@@ -20,11 +20,14 @@ playervar barrier_uptime
 playervar barrier_active
 playervar barrier_health
 playervar orisa_barrier_hit_positions
+playervar barrier_health_hud
 
 subroutine throwBarrier
 subroutine deployBarrier
 subroutine destroyBarrier
 subroutine fibonacciSphere
+subroutine createBarrierHud
+subroutine destroyBarrierHud
 
 #!define getBarrierVelocity(t) vect(eventPlayer.barrier_proj_v0.x, \
                                    -9.8 * eventPlayer.barrier_proj_t + eventPlayer.barrier_proj_v0.y, \
@@ -117,13 +120,22 @@ def deployBarrier(): # Create shield visual object
     # Draw each barrier sample
     for i in range(len(eventPlayer.barrier_entity_positions)):
         eventPlayer.barrier_sample_point = eventPlayer.barrier_entity_positions[i]
-        createEffect(getAllPlayers(), Effect.SPHERE, eventPlayer.getTeam(), evalOnce(eventPlayer.barrier_sample_point), sqrt(1*OW1_ORISA_PROTECTIVE_BARRIER_RADIUS**2/OW1_ORISA_PROTECTIVE_BARRIER_RESOLUTION), EffectReeval.NONE)
+        createEffect(getAllPlayers(), 
+                     Effect.SPHERE, 
+                     eventPlayer.getTeam() 
+                        if random.uniform(0, 1) <= eventPlayer.barrier_health/OW1_ORISA_PROJECTILE_BARRIER_HEALTH
+                        else Color.WHITE, 
+                     evalOnce(eventPlayer.barrier_sample_point), 
+                     OW1_ORISA_BARRIER_ORB_SIZE, 
+                     EffectReeval.COLOR)
         eventPlayer.barrier_entities.append(getLastCreatedEntity())
 
     eventPlayer.barrier_active = true
     eventPlayer.barrier_health = OW1_ORISA_PROJECTILE_BARRIER_HEALTH
     eventPlayer.barrier_uptime = 0
     chase(eventPlayer.barrier_uptime, OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME, rate=1, ChaseReeval.NONE)
+
+    createBarrierHud()
 
 
 def fibonacciSphere():
@@ -160,11 +172,13 @@ def destroyBarrier():
 
     eventPlayer.barrier_active = false
 
+    destroyBarrierHud()
 
-rule "[orisa/barrier.opy]: destroy barrier on hero switch":
+
+rule "[orisa/barrier.opy]: destroy barrier on reset":
     @Event eachPlayer
-    @Condition eventPlayer.hero_switched == true
-    @Condition eventPlayer.getCurrentHero() != Hero.ORISA
+    @Condition eventPlayer.barrier_active == true
+    @Condition eventPlayer.call_reset == true
 
     destroyBarrier()
 
@@ -215,3 +229,26 @@ rule "[orisa/barrier.opy]: Receive no healing when behind barrier":
             damage(healee, null, eventHealing)
             healee.enemy_orisa_player.barrier_health -= eventHealing
             return
+
+
+def createBarrierHud():
+    @Name "[orisa/barrier.opy]: createBarrierHud()"
+
+    progressBarHud(eventPlayer, 
+                   percent(eventPlayer.barrier_health/OW1_ORISA_PROJECTILE_BARRIER_HEALTH), 
+                   "{}".format(ceil(eventPlayer.barrier_health)), 
+                   HudPosition.TOP, 
+                   Math.INFINITY, 
+                   Color.SKY_BLUE, 
+                   Color.WHITE, 
+                   ProgressHudReeval.VALUES, 
+                   SpecVisibility.DEFAULT)
+    eventPlayer.barrier_health_hud = getLastCreatedText()
+
+
+def destroyBarrierHud():
+    @Name "[orisa/barrier.opy]: destroyBarrierHud()"
+
+    destroyProgressBarHud(eventPlayer.barrier_health_hud)
+
+
