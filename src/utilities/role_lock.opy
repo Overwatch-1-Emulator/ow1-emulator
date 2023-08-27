@@ -94,7 +94,7 @@ rule "[role_lock.opy]: Define tank, damage, support heroes array":
     all_heroes.append(support_heroes)
 
 
-rule "[role_lock.opy]: Reset allowed heroes for each player":
+rule "[role_lock.opy]: Override allowed heroes when player joins":
     @Event eachPlayer
 
     eventPlayer.setAllowedHeroes(all_heroes)
