@@ -86,3 +86,12 @@ rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     # eventPlayer.allowButton(Button.ABILITY_1)
     # eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
+
+
+rule "[doomfist/punch.opy]: Remove stun from wall impact":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility == Button.SECONDARY_FIRE
+    @Condition victim in eventPlayer.wall_impacted_victims
+    
+    victim.clearStatusEffect(Status.STUNNED)
