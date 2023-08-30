@@ -3,7 +3,7 @@
 settings {
     "main": {
         "description": \
-"Overwatch 1 Emulator v0.8.2 (main build)\r\n\
+"Overwatch 1 Emulator v0.8.3 (main build)\r\n\
 \r\n\
 ecksdee#11729's attempt to accurately recreate \r\n\
 the last version of Overwatch 1 using workshop.\r\n\
@@ -244,10 +244,7 @@ github.com/MaxwellJung/ow1_emulator",
             },
             "zenyatta": {
                 "ultGen%": percent(OW2_ZENYATTA_ULT_COST/OW1_ZENYATTA_ULT_COST)
-            },
-            "enabledHeroes": [
-                "tracer"
-            ],
+            }
         }
     }
 }

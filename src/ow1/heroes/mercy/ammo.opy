@@ -1,10 +1,10 @@
 #!mainFile "../../../main.opy"
 
 
-rule "[reinhardt/hp.opy]: Initialize Reinhardt hp":
+rule "[mercy/ammo.opy]: Initialize Mercy clip size":
     @Event eachPlayer
-    @Hero reinhardt
+    @Hero mercy
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    wait()
-    setCustomHealth(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)
+    eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)
+    eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)

@@ -5,6 +5,7 @@ rule "[winston.opy]: Initialize Winston":
     @Hero winston
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
+    wait()
     setCustomHealth(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
 
     eventPlayer.setSecondaryFireEnabled(false)

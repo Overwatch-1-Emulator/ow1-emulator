@@ -1,7 +1,8 @@
 #!mainFile "../main.opy"
 
 # Generic
-#!define MATCH_START_BUFFER_TIME 5
+#!define SETUP_BUFFER_TIME 5
+#!define OW1_JUMP_SPEED 5.44
 
 ###################################
 # Ult Costs
@@ -32,7 +33,6 @@
 
 # Support
 #!define OW1_LUCIO_ULT_COST 2940
-#!define OW1_MERCY_ULT_COST 1820
 #!define OW1_MOIRA_ULT_COST 2800
 #!define OW1_ZENYATTA_ULT_COST 2310
 
@@ -175,6 +175,11 @@
 # Mercy
 #!define OW1_MERCY_CLIP_SIZE 20
 #!define OW1_MERCY_GUARDIAN_ANGEL_COOLDOWN_TIME 1
+#!define OW1_MERCY_ULT_COST 1820
+#!define OW1_MERCY_MAX_REGULAR_MOVE_SPEED 5.85
+#!define OW1_MERCY_GUARDIAN_ANGEL_COOLDOWN 1.5
+#!define OW1_MERCY_GUARDIAN_ANGEL_MAX_SPEED 17
+#!define OW1_MERCY_GUARDIAN_ANGEL_RECOVERY_TIME 1
 
 # Orisa
 #!define OW1_ORISA_CLIP_SIZE 150

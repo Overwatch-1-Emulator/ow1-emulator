@@ -5,6 +5,7 @@ rule "[torbjorn.opy]: Initialize Torbjorn":
     @Hero torbjorn
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
+    wait()
     setCustomHealth(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
 
 

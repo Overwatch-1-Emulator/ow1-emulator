@@ -44,6 +44,7 @@ def applyCustomHealth():
     if eventPlayer.isInSpawnRoom():
         eventPlayer.startCamera(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection(), 0.001)
         eventPlayer.stored_spawn_pos = eventPlayer.getPosition()
+        wait()
         eventPlayer.teleport(eventPlayer.getPosition() + 100 * Vector.UP)
         waitUntil(not (eventPlayer.isInSpawnRoom() or eventPlayer.hasStatusEffect(Status.INVINCIBLE) or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), 1)
         wait()
@@ -83,13 +84,12 @@ def applyCustomHealth():
 
     # Teleport player back if they were in spawn.
     if eventPlayer.stored_spawn_pos != null:
-        wait()
         eventPlayer.teleport(eventPlayer.stored_spawn_pos)
         eventPlayer.stored_spawn_pos = null
-        eventPlayer.stopCamera()
-
     
-    wait()
+    eventPlayer.stopCamera()
+    
+    wait(1) # Wait 1 second for everything to settle
     if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
         clearCustomHealth()
         goto RULE_START
@@ -104,6 +104,6 @@ rule "[custom_health_handler.opy]: Remove Custom Health Conditions":
 
     clearCustomHealth()
 
-    wait(0.016)
+    wait()
 
     if RULE_CONDITION: goto RULE_START

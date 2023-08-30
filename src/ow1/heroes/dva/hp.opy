@@ -6,6 +6,7 @@ rule "[dva/hp.opy]: Correct DVa mech health":
     @Hero dva
     @Condition not eventPlayer.isInAlternateForm()
 
+    wait()
     setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
 
 

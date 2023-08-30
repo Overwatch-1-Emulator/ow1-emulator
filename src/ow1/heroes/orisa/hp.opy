@@ -5,4 +5,5 @@ rule "[orisa/hp.opy]: Initialize Orisa Hp":
     @Hero orisa
     @Condition eventPlayer.call_init == true
 
+    wait()
     setCustomHealth(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
