@@ -49,12 +49,10 @@ rule "[mercy/guardian.opy]: Define GA slingshot":
 
 def startSlingshot():
     @Name "[mercy/guardian.opy]: startSlingshot()"
-    # if eventPlayer.isHoldingButton(Button.CROUCH): # add extra vertical momentum for superjump
-    #     eventPlayer.slingshot_initial_velocity += eventPlayer.getVelocity()/3
 
     eventPlayer.is_slingshotting = true
-    eventPlayer.applyImpulse(eventPlayer.getVelocity() + OW1_JUMP_SPEED*Vector.UP, 
-                             magnitude(eventPlayer.getVelocity() + OW1_JUMP_SPEED*Vector.UP), 
+    eventPlayer.applyImpulse(normalize(eventPlayer.getVelocity()) + 0.5 * Vector.UP, 
+                             updateEveryTick(eventPlayer.getSpeed()), 
                              Relativity.TO_WORLD, 
                              Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.cancelPrimaryAction()
