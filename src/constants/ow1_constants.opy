@@ -2,6 +2,7 @@
 
 # Generic
 #!define SETUP_BUFFER_TIME 5
+#!define OW1_JUMP_SPEED 5.44
 
 ###################################
 # Ult Costs

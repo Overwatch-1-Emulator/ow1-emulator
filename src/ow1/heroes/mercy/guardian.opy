@@ -3,8 +3,6 @@
 playervar is_using_guardian_angel
 playervar is_slingshotting
 
-subroutine startSlingshot
-
 
 rule "[mercy/guardian.opy]: Initialize Guardian Angel Ability":
     @Event eachPlayer
@@ -44,24 +42,44 @@ rule "[mercy/guardian.opy]: Define GA slingshot":
     @Condition eventPlayer.is_using_guardian_angel == true
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
 
-    startSlingshot()
-
-
-def startSlingshot():
-    @Name "[mercy/guardian.opy]: startSlingshot()"
-
+    eventPlayer.cancelPrimaryAction()
     eventPlayer.is_slingshotting = true
-    eventPlayer.applyImpulse(normalize(eventPlayer.getVelocity()) + 0.5 * Vector.UP, 
-                             updateEveryTick(eventPlayer.getSpeed()), 
+    waitUntil(not eventPlayer.isHoldingButton(Button.JUMP) or eventPlayer.isOnGround(), 3)
+    eventPlayer.is_slingshotting = false
+
+
+rule "[mercy/guardian.opy]: Apply upwards momentum when starting slingshot":
+    @Event eachPlayer
+    @Hero mercy
+    @Condition eventPlayer.is_slingshotting == true
+
+    eventPlayer.applyImpulse(Vector.UP, 
+                             OW1_JUMP_SPEED , 
                              Relativity.TO_WORLD, 
                              Impulse.INCORPORATE_CONTRARY_MOTION)
-    eventPlayer.cancelPrimaryAction()
-    # Force angelic descent
+
+
+rule "[mercy/guardian.opy]: Give speed boost during slingshot":
+    @Event eachPlayer
+    @Hero mercy
+    @Condition eventPlayer.is_slingshotting == true
+    
+    eventPlayer.setMoveSpeed(300)
+    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
+    waitUntil(eventPlayer.isOnGround(), 1)
+    eventPlayer.setMoveSpeed(100)
+    eventPlayer.stopForcingThrottle()
+
+
+rule "[mercy/guardian.opy]: Force angelic descent during slingshot":
+    @Event eachPlayer
+    @Hero mercy
+    @Condition eventPlayer.is_slingshotting == true
+    
     eventPlayer.allowButton(Button.JUMP)
     eventPlayer.startForcingButton(Button.JUMP)
     waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), 99999)
     eventPlayer.stopForcingButton(Button.JUMP)
-    eventPlayer.is_slingshotting = false
 
 
 rule "[mercy/guardian.opy]: Slingshot GA cooldown logic":
