@@ -2,6 +2,7 @@
 
 playervar is_using_guardian_angel
 playervar is_slingshotting
+playervar slingshot_velocity
 
 
 rule "[mercy/guardian.opy]: Initialize Guardian Angel Ability":
@@ -43,8 +44,9 @@ rule "[mercy/guardian.opy]: Define GA slingshot":
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
 
     eventPlayer.cancelPrimaryAction()
+    eventPlayer.slingshot_velocity = eventPlayer.getVelocity()
     eventPlayer.is_slingshotting = true
-    waitUntil(not eventPlayer.isHoldingButton(Button.JUMP) or eventPlayer.isOnGround(), 3)
+    waitUntil(not eventPlayer.isHoldingButton(Button.JUMP) or eventPlayer.isOnGround(), OW1_MERCY_SLINGSHOT_DURATION)
     eventPlayer.is_slingshotting = false
 
 
@@ -64,11 +66,12 @@ rule "[mercy/guardian.opy]: Give speed boost during slingshot":
     @Hero mercy
     @Condition eventPlayer.is_slingshotting == true
     
-    eventPlayer.setMoveSpeed(300)
-    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-    waitUntil(eventPlayer.isOnGround(), 1)
-    eventPlayer.setMoveSpeed(100)
-    eventPlayer.stopForcingThrottle()
+    while eventPlayer.is_slingshotting:
+        eventPlayer.applyImpulse(eventPlayer.slingshot_velocity, 
+                                0.8, # Arbitrarily decided based on trial & error
+                                Relativity.TO_WORLD, 
+                                Impulse.INCORPORATE_CONTRARY_MOTION)
+        wait()
 
 
 rule "[mercy/guardian.opy]: Force angelic descent during slingshot":
