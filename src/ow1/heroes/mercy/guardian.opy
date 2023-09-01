@@ -37,7 +37,7 @@ rule "[mercy/guardian.opy]: Disable jump and crouch during guardian angel":
     eventPlayer.allowButton(Button.CROUCH)
 
 
-rule "[mercy/guardian.opy]: Define GA slingshot":
+rule "[mercy/guardian.opy]: Activate GA slingshot":
     @Event eachPlayer
     @Hero mercy
     @Condition eventPlayer.is_using_guardian_angel == true
