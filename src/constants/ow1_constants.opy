@@ -2,7 +2,7 @@
 
 # Generic
 #!define SETUP_BUFFER_TIME 5
-#!define OW1_JUMP_SPEED 5.44
+#!define OW1_JUMP_SPEED 6
 
 ###################################
 # Ult Costs
@@ -180,6 +180,7 @@
 #!define OW1_MERCY_GUARDIAN_ANGEL_COOLDOWN 1.5
 #!define OW1_MERCY_GUARDIAN_ANGEL_MAX_SPEED 17
 #!define OW1_MERCY_GUARDIAN_ANGEL_RECOVERY_TIME 1
+#!define OW1_MERCY_SLINGSHOT_DURATION 0.33
 
 # Orisa
 #!define OW1_ORISA_CLIP_SIZE 150
