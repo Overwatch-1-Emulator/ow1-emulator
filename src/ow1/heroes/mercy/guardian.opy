@@ -44,7 +44,8 @@ rule "[mercy/guardian.opy]: Activate GA slingshot":
     @Condition not eventPlayer.isHoldingButton(Button.JUMP)
 
     waitUntil(eventPlayer.isHoldingButton(Button.JUMP), Math.INFINITY)
-    eventPlayer.cancelPrimaryAction()
+    eventPlayer.startForcingButton(Button.ABILITY_1)
+    eventPlayer.stopForcingButton(Button.ABILITY_1)
     eventPlayer.slingshot_velocity = eventPlayer.getVelocity()
     eventPlayer.is_slingshotting = true
     waitUntil(not eventPlayer.isHoldingButton(Button.JUMP) or eventPlayer.isOnGround(), OW1_MERCY_SLINGSHOT_DURATION)
