@@ -41,8 +41,9 @@ rule "[mercy/guardian.opy]: Activate GA slingshot":
     @Event eachPlayer
     @Hero mercy
     @Condition eventPlayer.is_using_guardian_angel == true
-    @Condition eventPlayer.isHoldingButton(Button.JUMP)
+    @Condition not eventPlayer.isHoldingButton(Button.JUMP)
 
+    waitUntil(eventPlayer.isHoldingButton(Button.JUMP), Math.INFINITY)
     eventPlayer.cancelPrimaryAction()
     eventPlayer.slingshot_velocity = eventPlayer.getVelocity()
     eventPlayer.is_slingshotting = true
