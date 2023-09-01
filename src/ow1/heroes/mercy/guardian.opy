@@ -37,13 +37,15 @@ rule "[mercy/guardian.opy]: Disable jump and crouch during guardian angel":
     eventPlayer.allowButton(Button.CROUCH)
 
 
-rule "[mercy/guardian.opy]: Define GA slingshot":
+rule "[mercy/guardian.opy]: Activate GA slingshot":
     @Event eachPlayer
     @Hero mercy
     @Condition eventPlayer.is_using_guardian_angel == true
-    @Condition eventPlayer.isHoldingButton(Button.JUMP)
+    @Condition not eventPlayer.isHoldingButton(Button.JUMP) # wait until below acts as the final condition for activating slingshot
+    waitUntil(eventPlayer.isHoldingButton(Button.JUMP), Math.INFINITY)
 
-    eventPlayer.cancelPrimaryAction()
+    eventPlayer.startForcingButton(Button.ABILITY_1) # Cancel GA by pressing and unpressing button
+    eventPlayer.stopForcingButton(Button.ABILITY_1)
     eventPlayer.slingshot_velocity = eventPlayer.getVelocity()
     eventPlayer.is_slingshotting = true
     waitUntil(not eventPlayer.isHoldingButton(Button.JUMP) or eventPlayer.isOnGround(), OW1_MERCY_SLINGSHOT_DURATION)
@@ -68,7 +70,7 @@ rule "[mercy/guardian.opy]: Give speed boost during slingshot":
     
     while eventPlayer.is_slingshotting:
         eventPlayer.applyImpulse(eventPlayer.slingshot_velocity, 
-                                0.8, # Arbitrarily decided based on trial & error
+                                0.6, # Arbitrarily decided based on trial & error
                                 Relativity.TO_WORLD, 
                                 Impulse.INCORPORATE_CONTRARY_MOTION)
         wait()
