@@ -95,15 +95,14 @@ def applyCustomHealth():
         goto RULE_START
 
 
-rule "[custom_health_handler.opy]: Remove Custom Health Conditions":
-    @Event eachPlayer
-    @Disabled
+# rule "[custom_health_handler.opy]: Remove Custom Health Conditions":
+#     @Event eachPlayer
 
-    # Health pools persist between hero switching, so we remove it when player's switch or duplicate to another hero, or when D.Va switches between forms.
-    waitUntil(eventPlayer.getCurrentHero() != evalOnce(eventPlayer.getCurrentHero()) or eventPlayer.getHeroOfDuplication() != evalOnce(eventPlayer.getHeroOfDuplication()) or (isHero(eventPlayer, Hero.DVA) and eventPlayer.isInAlternateForm() != evalOnce(eventPlayer.isInAlternateForm())), Math.INFINITY)
+#     # Health pools persist between hero switching, so we remove it when player's switch or duplicate to another hero, or when D.Va switches between forms.
+#     waitUntil(eventPlayer.getCurrentHero() != evalOnce(eventPlayer.getCurrentHero()) or eventPlayer.getHeroOfDuplication() != evalOnce(eventPlayer.getHeroOfDuplication()) or (isHero(eventPlayer, Hero.DVA) and eventPlayer.isInAlternateForm() != evalOnce(eventPlayer.isInAlternateForm())), Math.INFINITY)
 
-    clearCustomHealth()
+#     clearCustomHealth()
 
-    wait()
+#     wait()
 
-    if RULE_CONDITION: goto RULE_START
+#     if RULE_CONDITION: goto RULE_START
