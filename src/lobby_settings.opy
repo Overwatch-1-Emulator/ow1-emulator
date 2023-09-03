@@ -209,7 +209,7 @@ github.com/MaxwellJung/ow1_emulator",
             },
             "sigma": {
                 "secondaryFireRechargeRate%": 80,
-                "health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH),  # for barrier
+                "health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH), # for barrier
                 "ultGen%": percent(OW2_SIGMA_ULT_COST/OW1_SIGMA_ULT_COST),
             },
             "soldier": {
