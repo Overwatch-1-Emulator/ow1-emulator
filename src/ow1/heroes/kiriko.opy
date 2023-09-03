@@ -12,5 +12,5 @@ rule "[kiriko.opy]: Allow self healing during Suzu":
     @Condition eventPlayer.isUsingAbility2()
 
     eventPlayer.self_healing_percent = 100
-    waitUntil(eventPlayer.isUsingAbility2() == false, 9999)
+    waitUntil(eventPlayer.isUsingAbility2() == false, Math.INFINITY)
     eventPlayer.self_healing_percent = 0

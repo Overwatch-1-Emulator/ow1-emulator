@@ -93,6 +93,6 @@ rule "[mercy/guardian.opy]: Slingshot GA cooldown logic":
     @Condition eventPlayer.is_slingshotting == true
 
     eventPlayer.setAbility1Enabled(false)
-    waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_1) or eventPlayer.isOnGround(), 9999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_1) or eventPlayer.isOnGround(), Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_MERCY_GUARDIAN_ANGEL_COOLDOWN)
     eventPlayer.setAbility1Enabled(true)

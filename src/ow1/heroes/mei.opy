@@ -44,7 +44,7 @@ rule "[mei.opy]: Freeze enemy":
     @Condition victim.freeze_progress >= 100
 
     victim.setStatusEffect(eventPlayer, Status.FROZEN, OW1_MEI_FREEZE_DURATION)
-    waitUntil(victim.hasStatusEffect(Status.FROZEN) == false, 9999)
+    waitUntil(victim.hasStatusEffect(Status.FROZEN) == false, Math.INFINITY)
     clearFreezeEffect()
     
 

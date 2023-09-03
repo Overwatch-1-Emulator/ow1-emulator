@@ -6,7 +6,7 @@ rule "[reinhardt/charge.opy]: Set default charge cooldown":
     @Hero reinhardt
     @Condition eventPlayer.isUsingAbility1()
     
-    waitUntil(not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_REINHARDT_CHARGE_COOLDOWN_TIME)
 
 

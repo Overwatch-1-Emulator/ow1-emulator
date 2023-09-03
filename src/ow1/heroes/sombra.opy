@@ -32,10 +32,10 @@ rule "[sombra.opy]: No damage with EMP":
     @Hero sombra
     @Condition eventPlayer.getUltCharge() >= 100
     
-    waitUntil(eventPlayer.isHoldingButton(Button.ULTIMATE) == true, 9999)
-    waitUntil(eventPlayer.getUltCharge() <= 0, 9999)
+    waitUntil(eventPlayer.isHoldingButton(Button.ULTIMATE) == true, Math.INFINITY)
+    waitUntil(eventPlayer.getUltCharge() <= 0, Math.INFINITY)
     eventPlayer.setDamageDealt(0)
-    waitUntil(eventPlayer.isUsingUltimate() == true, 9999)
+    waitUntil(eventPlayer.isUsingUltimate() == true, Math.INFINITY)
     eventPlayer.setDamageDealt(100)
 
 
@@ -53,7 +53,7 @@ rule "[sombra.opy]: Remove hack bonus damage":
 
     startDamageModification(eventPlayer, eventPlayer.enemy_sombra_player, percent(1/OW2_SOMBRA_HACK_DAMAGE_MULTIPLIER), DamageReeval.NONE)
     eventPlayer.hack_damage_modifier = getLastDamageModification()
-    waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, 9999)
+    waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, Math.INFINITY)
     stopDamageModification(eventPlayer.hack_damage_modifier)
 
 
@@ -63,7 +63,7 @@ rule "[sombra.opy]: Increase stealth movement speed":
     @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer.setMoveSpeed(percent(OW1_SOMBRA_STEALTH_MOVEMENT_BONUS/OW2_SOMBRA_STEALTH_MOVEMENT_BONUS))
-    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
+    waitUntil(eventPlayer.isUsingAbility1() == false, Math.INFINITY)
     eventPlayer.setMoveSpeed(100)
 
 
