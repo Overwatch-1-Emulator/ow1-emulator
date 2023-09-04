@@ -29,7 +29,6 @@ rule "[baptiste.opy]: Allow self healing during regenerative burst":
 
     eventPlayer.self_healing_percent = 100
     wait(OW1_BAPTISTE_REGEN_BURST_DURATION)
-    # waitUntil(eventPlayer.isUsingAbility1() == false, Math.INFINITY)
     eventPlayer.self_healing_percent = 0
 
 
