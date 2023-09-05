@@ -72,7 +72,7 @@ rule "[doomfist/slam.opy]: Detect shift key press by human":
     @Condition eventPlayer.shift_pressed_by_bot == false
     
     eventPlayer.pressing_slam_key = true
-    waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_1), 9999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_1), Math.INFINITY)
     eventPlayer.pressing_slam_key = false
 
 
@@ -141,7 +141,7 @@ def executeSlam():
         initiateGroundSlam()
 
     if eventPlayer.is_using_slam == true:
-        waitUntil(not eventPlayer.isUsingAbility1(), 9999)
+        waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
         eventPlayer.is_using_slam = false
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
 
@@ -157,7 +157,7 @@ def initiateGroundSlam():
     eventPlayer.applyImpulse(getLateralFacingDirection(eventPlayer) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
     wait(0.3)
     eventPlayer.setGravity(100)
-    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.stopForcingThrottle()
 
 
@@ -178,7 +178,7 @@ def initiateIndicatorSlam():
     chase(eventPlayer.current_position, eventPlayer.indicator_slam_position, rate=OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
     eventPlayer.applyImpulse(eventPlayer.indicator_slam_direction, OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Helps prevent clipping through map geometry
-    waitUntil(distance(eventPlayer.current_position, eventPlayer.indicator_slam_position) <= 0.01 or not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil(distance(eventPlayer.current_position, eventPlayer.indicator_slam_position) <= 0.01 or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.stopForcingPosition()
     stopChasingVariable(eventPlayer.current_position)
     eventPlayer.stopForcingThrottle()
@@ -207,10 +207,10 @@ rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     @Condition eventPlayer.is_using_slam == true
     
     eventPlayer.slam_damage = 0 
-    waitUntil(updateEveryTick(eventPlayer.isOnGround() == false), 9999)
+    waitUntil(updateEveryTick(eventPlayer.isOnGround() == false), Math.INFINITY)
     createSlamDamageGui()
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
-    waitUntil(updateEveryTick(eventPlayer.isOnGround() == true), 9999)
+    waitUntil(updateEveryTick(eventPlayer.isOnGround() == true), Math.INFINITY)
     stopChasingVariable(eventPlayer.slam_damage)
     wait(1)
     destroySlamDamageGui()
@@ -276,7 +276,7 @@ rule "[doomfist/slam.opy]: Slam indicator VFX":
     @Condition isIndicatorVisible() == true
 
     createSlamIndicatorGui()
-    waitUntil(isIndicatorNotVisible() == true, 9999)
+    waitUntil(isIndicatorNotVisible() == true, Math.INFINITY)
     destroySlamIndicatorGui()
 
 

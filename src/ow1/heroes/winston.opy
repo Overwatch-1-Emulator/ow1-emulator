@@ -25,6 +25,6 @@ rule "[winston.opy]: Set leap after ultimate":
     @Hero winston
     @Condition eventPlayer.isUsingUltimate() == true
 
-    waitUntil(eventPlayer.isUsingUltimate() == false, 9999)
+    waitUntil(eventPlayer.isUsingUltimate() == false, Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     

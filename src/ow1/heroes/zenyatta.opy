@@ -16,5 +16,5 @@ rule "[zenyatta.opy]: Allow self healing during Transcendence":
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.self_healing_percent = 100
-    waitUntil(eventPlayer.isUsingUltimate() == false, 9999)
+    waitUntil(eventPlayer.isUsingUltimate() == false, Math.INFINITY)
     eventPlayer.self_healing_percent = 0

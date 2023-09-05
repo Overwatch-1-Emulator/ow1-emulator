@@ -23,7 +23,7 @@ rule "[ready.opy]: Create ready HUD":
                  Color.WHITE, \
                  HudReeval.STRING_AND_COLOR)
     ready_description_hud = getLastCreatedText()
-    waitUntil(not isInSetup(), 9999)
+    waitUntil(not isInSetup(), Math.INFINITY)
     destroyHudText(ready_hud)
     destroyHudText(ready_description_hud)
 

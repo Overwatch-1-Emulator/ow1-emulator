@@ -66,7 +66,7 @@ rule "[bastion/tank.opy]: Fire tank shells":
         eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
         eventPlayer.disallowButton(Button.SECONDARY_FIRE)
         wait()
-        waitUntil(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0, 9999)
+        waitUntil(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0, Math.INFINITY)
     while RULE_CONDITION
 
 

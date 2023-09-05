@@ -63,6 +63,11 @@ rule "[reset.opy]: Reset abilities":
     eventPlayer.setCrouchEnabled(true)
     eventPlayer.setReloadEnabled(true)
 
+
+rule "[reset.opy]: Reset stats":
+    @Event eachPlayer
+    @Condition eventPlayer.call_reset == true
+
     eventPlayer.setDamageDealt(100)
     eventPlayer.setDamageReceived(100)
     eventPlayer.setProjectileSpeed(100)
@@ -122,7 +127,7 @@ rule "[reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
     @Condition isMatchBetweenRounds() == true
 
-    waitUntil(not isMatchBetweenRounds(), 9999)
+    waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
     resetHero()
     initHero()
 

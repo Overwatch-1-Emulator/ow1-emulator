@@ -113,5 +113,5 @@ rule "[orisa/gun.opy]: Slow down Orisa when shooting":
     @Condition not eventPlayer.is_orisa_reloading
 
     eventPlayer.setMoveSpeed(100-percent(OW1_ORISA_MOVEMENT_PENALTY))
-    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) or eventPlayer.is_orisa_reloading, 9999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) or eventPlayer.is_orisa_reloading, Math.INFINITY)
     eventPlayer.setMoveSpeed(100)

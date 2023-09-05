@@ -37,7 +37,7 @@ rule "[doomfist/punch.opy]: Initialize rocket punch":
     eventPlayer.wall_impacted_victims = []
     eventPlayer.punch_charge_time = 0
     chase(eventPlayer.punch_charge_time, OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX, rate=1, ChaseReeval.NONE)
-    waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false, 9999)
+    waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false, Math.INFINITY)
     stopChasingVariable(eventPlayer.punch_charge_time)
 
 
@@ -74,7 +74,7 @@ rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     # eventPlayer.disallowButton(Button.ABILITY_1)
     # eventPlayer.disallowButton(Button.ABILITY_2)
     waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 4.8)
-    waitUntil(not eventPlayer.isUsingUltimate(), 9999)
+    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.setStatusEffect(null, Status.STUNNED, 0.016)

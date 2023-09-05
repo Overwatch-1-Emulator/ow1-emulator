@@ -3,7 +3,7 @@
 settings {
     "main": {
         "description": \
-"Overwatch 1 Emulator v0.8.4 (main build)\r\n\
+"Overwatch 1 Emulator v0.8.5 (staging build)\r\n\
 \r\n\
 ecksdee#11729's attempt to accurately recreate \r\n\
 the last version of Overwatch 1 using workshop.\r\n\
@@ -11,7 +11,7 @@ the last version of Overwatch 1 using workshop.\r\n\
 Main build: KHTG0\r\n\
 Staging build: ESMXJ\r\n\
 \r\n\
-Dev Team:\r\n\
+Contributors:\r\n\
 ecksdee#11729\r\n\
 Snappy#11809\r\n\
 KingDonMike#2694\r\n\
@@ -209,7 +209,7 @@ github.com/MaxwellJung/ow1_emulator",
             },
             "sigma": {
                 "secondaryFireRechargeRate%": 80,
-                "health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH),  # for barrier
+                "health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH), # for barrier
                 "ultGen%": percent(OW2_SIGMA_ULT_COST/OW1_SIGMA_ULT_COST),
             },
             "soldier": {
