@@ -106,6 +106,7 @@ rule "[role_lock.opy]: Skip hero assembly":
 
     getAllPlayers().role = Role.MISSING # Reset every player's role
     hero_select_time = getMatchTime() # Save assemble hero time
+    wait()
     setMatchTime(0) # Go to the end of the assembling heroes
     waitUntil(not isAssemblingHeroes(), Math.INFINITY)
     setMatchTime(getMatchTime() + hero_select_time) # Give back assemble hero time
