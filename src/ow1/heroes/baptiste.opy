@@ -18,7 +18,7 @@ rule "[baptiste.opy]: Set default immortality field cooldown":
     @Hero baptiste
     @Condition eventPlayer.isUsingAbility2()
     
-    waitUntil(not eventPlayer.isUsingAbility2(), 9999)
+    waitUntil(not eventPlayer.isUsingAbility2(), Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_BAPTISTE_IMMORTALITY_FIELD_COOLDOWN_TIME)
 
 
@@ -29,7 +29,6 @@ rule "[baptiste.opy]: Allow self healing during regenerative burst":
 
     eventPlayer.self_healing_percent = 100
     wait(OW1_BAPTISTE_REGEN_BURST_DURATION)
-    # waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
     eventPlayer.self_healing_percent = 0
 
 
@@ -39,7 +38,7 @@ rule "[baptiste.opy]: Remove instant healing from regenerative burst":
     @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer.setHealingDealt(0)
-    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
+    waitUntil(eventPlayer.isUsingAbility1() == false, Math.INFINITY)
     eventPlayer.setHealingDealt(100)
 
 

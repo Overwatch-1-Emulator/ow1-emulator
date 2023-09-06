@@ -30,8 +30,8 @@ rule "[orisa/halt.opy]: Trigger Halt ability start":
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
 
     shootHalt()
-    waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false, 9999) # Make sure player releases right click
-    waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true or (eventPlayer.halt_position == eventPlayer.halt_ending_position), 9999) # Detect halt pull activation on right click
+    waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false, Math.INFINITY) # Make sure player releases right click
+    waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true or (eventPlayer.halt_position == eventPlayer.halt_ending_position), Math.INFINITY) # Detect halt pull activation on right click
     explodeHalt()
 
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_ORISA_HALT_COOLDOWN_TIME)
@@ -106,7 +106,7 @@ rule "[orisa/halt.opy]: Pull halted victims":
     eventPlayer.position = eventPlayer.getPosition()
     eventPlayer.startForcingPosition(eventPlayer.position, true)
     chase(eventPlayer.position, eventPlayer.enemy_orisa_player.halt_position, rate=OW1_ORISA_HALT_PULL_SPEED, ChaseReeval.DESTINATION_AND_RATE)
-    waitUntil(eventPlayer.position == eventPlayer.enemy_orisa_player.halt_position, 9999)
+    waitUntil(eventPlayer.position == eventPlayer.enemy_orisa_player.halt_position, Math.INFINITY)
     stopChasingVariable(eventPlayer.position)
     eventPlayer.stopForcingPosition()
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum

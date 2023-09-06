@@ -37,7 +37,7 @@ rule "[roadhog.opy]: Disable all abilities during ult":
     eventPlayer.setMeleeEnabled(false)
     eventPlayer.setAbility1Enabled(false)
     eventPlayer.setAbility2Enabled(false)
-    waitUntil(not eventPlayer.isUsingUltimate(), 9999)
+    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
@@ -67,15 +67,15 @@ rule "[roadhog.opy]: Cancel ult when stunned":
     @Condition eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.STUNNED)
 
     if eventPlayer.hasStatusEffect(Status.HACKED):
-        #waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, 9999) if hacked, instantly cancel ult
+        #waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, Math.INFINITY) if hacked, instantly cancel ult
     elif eventPlayer.hasStatusEffect(Status.FROZEN):
-        waitUntil(eventPlayer.hasStatusEffect(Status.FROZEN) == false, 9999)
+        waitUntil(eventPlayer.hasStatusEffect(Status.FROZEN) == false, Math.INFINITY)
     elif eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN):
-        waitUntil(eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) == false, 9999)
+        waitUntil(eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) == false, Math.INFINITY)
     elif eventPlayer.hasStatusEffect(Status.ASLEEP):
-        waitUntil(eventPlayer.hasStatusEffect(Status.ASLEEP) == false, 9999)
+        waitUntil(eventPlayer.hasStatusEffect(Status.ASLEEP) == false, Math.INFINITY)
     elif eventPlayer.hasStatusEffect(Status.STUNNED):
-        waitUntil(eventPlayer.hasStatusEffect(Status.STUNNED) == false, 9999)
+        waitUntil(eventPlayer.hasStatusEffect(Status.STUNNED) == false, Math.INFINITY)
     
     if eventPlayer.isUsingUltimate() == true:
         respawnSameState()
@@ -86,7 +86,7 @@ rule "[roadhog.opy]: Move hooked enemies closer":
     @Hero roadhog
     @Condition eventPlayer.isUsingAbility1() == true
 
-    waitUntil(eventPlayer.isUsingAbility1() == false, 9999)
+    waitUntil(eventPlayer.isUsingAbility1() == false, Math.INFINITY)
     if distance(victim, attacker) <= OW2_ROADHOG_HOOK_PROXIMITY + 0.5:
         victim.teleport(raycast(victim.getPosition(), 
                         victim.getPosition() + (OW2_ROADHOG_HOOK_PROXIMITY - OW1_ROADHOG_HOOK_PROXIMITY)*directionTowards(victim, attacker), 

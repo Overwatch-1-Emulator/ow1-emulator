@@ -25,7 +25,7 @@ rule "[doomfist/uppercut.opy]: Detect e key press by human":
     @Condition eventPlayer.e_pressed_by_bot == false
 
     eventPlayer.pressing_uppercut_key = true
-    waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), 9999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
     eventPlayer.pressing_uppercut_key = false
 
 
@@ -87,7 +87,7 @@ rule "[doomfist/uppercut.opy]: Set uppercut cooldown":
     @Hero doomfist
     @Condition eventPlayer.is_using_uppercut == true
 
-    waitUntil(eventPlayer.is_using_uppercut == false, 9999)
+    waitUntil(eventPlayer.is_using_uppercut == false, Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_RISING_UPPERCUT_COOLDOWN_TIME)
 
 
@@ -99,7 +99,7 @@ rule "[doomfist/uppercut.opy]: Disable abilities when uppercutting":
     eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
     eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
     eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
-    waitUntil(eventPlayer.is_using_uppercut == false, 9999)
+    waitUntil(eventPlayer.is_using_uppercut == false, Math.INFINITY)
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setPrimaryFireEnabled(true)
     eventPlayer.setSecondaryFireEnabled(true)

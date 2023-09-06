@@ -12,7 +12,7 @@ rule "[moira.opy]: Deny fade during coalescence":
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.setAbility1Enabled(false)
-    waitUntil(not eventPlayer.isUsingUltimate(), 9999)
+    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.setAbility1Enabled(true)
 
 
@@ -22,7 +22,7 @@ rule "[moira.opy]: Allow self healing during Biotic Grasp":
     @Condition eventPlayer.isFiringSecondaryFire()
 
     eventPlayer.self_healing_percent = 100
-    waitUntil(eventPlayer.isFiringSecondaryFire() == false, 9999)
+    waitUntil(eventPlayer.isFiringSecondaryFire() == false, Math.INFINITY)
     eventPlayer.self_healing_percent = 0
 
 
@@ -43,5 +43,5 @@ rule "[moira.opy]: Allow self healing during Coalescence":
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.self_healing_percent = 100
-    waitUntil(eventPlayer.isUsingUltimate() == false, 9999)
+    waitUntil(eventPlayer.isUsingUltimate() == false, Math.INFINITY)
     eventPlayer.self_healing_percent = 0

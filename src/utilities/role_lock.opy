@@ -94,7 +94,7 @@ rule "[role_lock.opy]: Define tank, damage, support heroes array":
     all_heroes.append(support_heroes)
 
 
-rule "[role_lock.opy]: Override allowed heroes when player joins":
+rule "[role_lock.opy]: Override allowed heroes list when player joins lobby":
     @Event eachPlayer
 
     eventPlayer.setAllowedHeroes(all_heroes)
@@ -104,10 +104,12 @@ rule "[role_lock.opy]: Skip hero assembly":
     @Event global
     @Condition isAssemblingHeroes()
 
+    getAllPlayers().role = Role.MISSING # Reset every player's role
     hero_select_time = getMatchTime() # Save assemble hero time
+    wait()
     setMatchTime(0) # Go to the end of the assembling heroes
-    waitUntil(not isAssemblingHeroes(), 9999)
-    setMatchTime(getMatchTime() + hero_select_time) # Give back assemble hero timel
+    waitUntil(not isAssemblingHeroes(), Math.INFINITY)
+    setMatchTime(getMatchTime() + hero_select_time) # Give back assemble hero time
 
 
 rule "[role_lock.opy]: Lock tanks above role limit":

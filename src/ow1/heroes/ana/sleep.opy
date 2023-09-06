@@ -5,7 +5,7 @@ rule "[ana/sleep.opy]: Set default sleep dart cooldown":
     @Hero ana
     @Condition eventPlayer.isUsingAbility1()
     
-    waitUntil(not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_ANA_SLEEP_DART_COOLDOWN_TIME)
 
 

@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.8.4 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nDev Team:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.8.5 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nContributors:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -518,6 +518,19 @@ rule ("[reset.opy]: Reset abilities") {
         Set Jump Enabled(Event Player, True);
         Set Crouch Enabled(Event Player, True);
         Set Reload Enabled(Event Player, True);
+    }
+}
+
+rule ("[reset.opy]: Reset stats") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        (Event Player).call_reset == True;
+    }
+    actions {
         Set Damage Dealt(Event Player, 100);
         Set Damage Received(Event Player, 100);
         Set Projectile Speed(Event Player, 100);
@@ -607,7 +620,7 @@ rule ("[reset.opy]: Reinitialize hero on new round") {
         Is Between Rounds == True;
     }
     actions {
-        Wait Until(Not(Is Between Rounds), 9999);
+        Wait Until(Not(Is Between Rounds), 999999999999999);
         Call Subroutine(resetHero);
         Call Subroutine(initHero);
     }
@@ -706,7 +719,7 @@ rule ("[role_lock.opy]: Define tank, damage, support heroes array") {
     }
 }
 
-rule ("[role_lock.opy]: Override allowed heroes when player joins") {
+rule ("[role_lock.opy]: Override allowed heroes list when player joins lobby") {
     event {
         Ongoing - Each Player;
         All;
@@ -725,12 +738,15 @@ rule ("[role_lock.opy]: Skip hero assembly") {
         Is Assembling Heroes == True;
     }
     actions {
+        "Reset every player's role"
+        Set Player Variable(All Players(All Teams), role, 0);
         "Save assemble hero time"
         Set Global Variable(hero_select_time, Match Time);
+        Wait(0.016, Ignore Condition);
         "Go to the end of the assembling heroes"
         Set Match Time(0);
-        Wait Until(Not(Is Assembling Heroes), 9999);
-        "Give back assemble hero timel"
+        Wait Until(Not(Is Assembling Heroes), 999999999999999);
+        "Give back assemble hero time"
         Set Match Time(Add(Match Time, Global.hero_select_time));
     }
 }
@@ -909,7 +925,7 @@ rule ("[ready.opy]: Create ready HUD") {
         Set Global Variable(ready_hud, Last Text ID);
         Create HUD Text(All Players(All Teams), Null, Custom String("Press {0} + {1} to ready", Input Binding String(Button(Interact)), Input Binding String(Button(Reload)), Null), Null, Top, 9999, Null, Color(White), Null, String and Color, Default Visibility);
         Set Global Variable(ready_description_hud, Last Text ID);
-        Wait Until(Not(Is In Setup), 9999);
+        Wait Until(Not(Is In Setup), 999999999999999);
         Destroy HUD Text(Global.ready_hud);
         Destroy HUD Text(Global.ready_description_hud);
     }
@@ -1076,21 +1092,6 @@ rule ("[custom_health_handler.opy]: applyCustomHealth()") {
             Call Subroutine(clearCustomHealth);
             Loop;
         End;
-    }
-}
-
-disabled rule ("[custom_health_handler.opy]: Remove Custom Health Conditions") {
-    event {
-        Ongoing - Each Player;
-        All;
-        All;
-    }
-    actions {
-        "Health pools persist between hero switching, so we remove it when player's switch or duplicate to another hero, or when D.Va switches between forms."
-        Wait Until(Or(Or(Compare(Hero Of(Event Player), !=, Evaluate Once(Hero Of(Event Player))), Compare(Hero Being Duplicated(Event Player), !=, Evaluate Once(Hero Being Duplicated(Event Player)))), And(Or(Compare(Hero Of(Event Player), ==, Hero(D.Va)), Compare(Hero Being Duplicated(Event Player), ==, Hero(D.Va))), Compare(Is In Alternate Form(Event Player), !=, Evaluate Once(Is In Alternate Form(Event Player))))), 9999);
-        Call Subroutine(clearCustomHealth);
-        Wait(0.016, Ignore Condition);
-        Loop If Condition Is True;
     }
 }
 
@@ -1347,7 +1348,7 @@ rule ("[ana/sleep.opy]: Set default sleep dart cooldown") {
         Is Using Ability 1(Event Player) == True;
     }
     actions {
-        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 999999999999999);
         Set Ability Cooldown(Event Player, Button(Ability 1), 12);
     }
 }
@@ -1393,7 +1394,7 @@ rule ("[ana/nade.opy]: Allow self healing during Biotic Grenade") {
     }
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
-        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 999999999999999);
         Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
@@ -1464,7 +1465,7 @@ rule ("[baptiste.opy]: Set default immortality field cooldown") {
         Is Using Ability 2(Event Player) == True;
     }
     actions {
-        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 999999999999999);
         Set Ability Cooldown(Event Player, Button(Ability 2), 25);
     }
 }
@@ -1481,7 +1482,6 @@ rule ("[baptiste.opy]: Allow self healing during regenerative burst") {
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
         Wait(5, Ignore Condition);
-        "waitUntil(eventPlayer.isUsingAbility1() == false, 9999)"
         Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
@@ -1497,7 +1497,7 @@ rule ("[baptiste.opy]: Remove instant healing from regenerative burst") {
     }
     actions {
         Set Healing Dealt(Event Player, 0);
-        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 999999999999999);
         Set Healing Dealt(Event Player, 100);
     }
 }
@@ -1720,7 +1720,7 @@ rule ("[bastion/tank.opy]: Fire tank shells") {
         Press Button(Event Player, Button(Secondary Fire));
         Disallow Button(Event Player, Button(Secondary Fire));
         Wait(0.016, Ignore Condition);
-        Wait Until(Compare(Ability Cooldown(Event Player, Button(Secondary Fire)), <=, 0), 9999);
+        Wait Until(Compare(Ability Cooldown(Event Player, Button(Secondary Fire)), <=, 0), 999999999999999);
         Loop If Condition Is True;
     }
 }
@@ -2302,7 +2302,7 @@ rule ("[doomfist/uppercut.opy]: Detect e key press by human") {
     }
     actions {
         Set Player Variable(Event Player, pressing_uppercut_key, True);
-        Wait Until(Not(Is Button Held(Event Player, Button(Ability 2))), 9999);
+        Wait Until(Not(Is Button Held(Event Player, Button(Ability 2))), 999999999999999);
         Set Player Variable(Event Player, pressing_uppercut_key, False);
     }
 }
@@ -2395,7 +2395,7 @@ rule ("[doomfist/uppercut.opy]: Set uppercut cooldown") {
         (Event Player).is_using_uppercut == True;
     }
     actions {
-        Wait Until(Compare((Event Player).is_using_uppercut, ==, False), 9999);
+        Wait Until(Compare((Event Player).is_using_uppercut, ==, False), 999999999999999);
         Set Ability Cooldown(Event Player, Button(Ability 2), 6);
     }
 }
@@ -2416,7 +2416,7 @@ rule ("[doomfist/uppercut.opy]: Disable abilities when uppercutting") {
         Set Primary Fire Enabled(Event Player, False);
         "Doomfist cannot punch during uppercut"
         Set Secondary Fire Enabled(Event Player, False);
-        Wait Until(Compare((Event Player).is_using_uppercut, ==, False), 9999);
+        Wait Until(Compare((Event Player).is_using_uppercut, ==, False), 999999999999999);
         Set Melee Enabled(Event Player, True);
         Set Primary Fire Enabled(Event Player, True);
         Set Secondary Fire Enabled(Event Player, True);
@@ -2525,7 +2525,7 @@ rule ("[doomfist/slam.opy]: Detect shift key press by human") {
     }
     actions {
         Set Player Variable(Event Player, pressing_slam_key, True);
-        Wait Until(Not(Is Button Held(Event Player, Button(Ability 1))), 9999);
+        Wait Until(Not(Is Button Held(Event Player, Button(Ability 1))), 999999999999999);
         Set Player Variable(Event Player, pressing_slam_key, False);
     }
 }
@@ -2631,7 +2631,7 @@ rule ("[doomfist/slam.opy]: executeSlam()") {
             Call Subroutine(initiateGroundSlam);
         End;
         If(Compare((Event Player).is_using_slam, ==, True));
-            Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+            Wait Until(Not(Is Using Ability 1(Event Player)), 999999999999999);
             Set Player Variable(Event Player, is_using_slam, False);
             Set Ability Cooldown(Event Player, Button(Ability 1), 6);
         End;
@@ -2652,7 +2652,7 @@ rule ("[doomfist/slam.opy]: InitiateGroundSlam()") {
         Apply Impulse(Event Player, Add(Normalize(Multiply(Facing Direction Of(Event Player), Add(Forward, Left))), Vector(0, 0.075, 0)), 16, To World, Incorporate Contrary Motion);
         Wait(0.3, Ignore Condition);
         Set Gravity(Event Player, 100);
-        Wait Until(Or(Is On Ground(Event Player), Not(Is Using Ability 1(Event Player))), 9999);
+        Wait Until(Or(Is On Ground(Event Player), Not(Is Using Ability 1(Event Player))), 999999999999999);
         Stop Forcing Throttle(Event Player);
     }
 }
@@ -2677,7 +2677,7 @@ rule ("[doomfist/slam.opy]: InitiateIndicatorSlam()") {
         Start Forcing Player Position(Event Player, (Event Player).current_position, True);
         "Helps prevent clipping through map geometry"
         Apply Impulse(Event Player, (Event Player).indicator_slam_direction, 25, To World, Cancel Contrary Motion XYZ);
-        Wait Until(Or(Compare(Distance Between((Event Player).current_position, (Event Player).indicator_slam_position), <=, 0.01), Not(Is Using Ability 1(Event Player))), 9999);
+        Wait Until(Or(Compare(Distance Between((Event Player).current_position, (Event Player).indicator_slam_position), <=, 0.01), Not(Is Using Ability 1(Event Player))), 999999999999999);
         Stop Forcing Player Position(Event Player);
         Stop Chasing Player Variable(Event Player, current_position);
         Stop Forcing Throttle(Event Player);
@@ -2717,10 +2717,10 @@ rule ("[doomfist/slam.opy]: Calculate slam damage based on air time") {
     }
     actions {
         Set Player Variable(Event Player, slam_damage, 0);
-        Wait Until(Update Every Frame(Not(Is On Ground(Event Player))), 9999);
+        Wait Until(Update Every Frame(Not(Is On Ground(Event Player))), 999999999999999);
         Call Subroutine(createSlamDamageGui);
         Chase Player Variable At Rate(Event Player, slam_damage, 125, 100, None);
-        Wait Until(Update Every Frame(Is On Ground(Event Player)), 9999);
+        Wait Until(Update Every Frame(Is On Ground(Event Player)), 999999999999999);
         Stop Chasing Player Variable(Event Player, slam_damage);
         Wait(1, Ignore Condition);
         Call Subroutine(destroySlamDamageGui);
@@ -2819,7 +2819,7 @@ rule ("[doomfist/slam.opy]: Slam indicator VFX") {
     }
     actions {
         Call Subroutine(createSlamIndicatorGui);
-        Wait Until(Or(Or(Or(Compare((Event Player).slam_to_use, !=, 1), Compare(Ability Cooldown(Event Player, Button(Ability 1)), >, 0)), Is Using Ability 1(Event Player)), Compare(Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position), >=, 5)), 9999);
+        Wait Until(Or(Or(Or(Compare((Event Player).slam_to_use, !=, 1), Compare(Ability Cooldown(Event Player, Button(Ability 1)), >, 0)), Is Using Ability 1(Event Player)), Compare(Distance Between((Event Player).indicator_slam_position, (Event Player).proto_indicator_slam_position), >=, 5)), 999999999999999);
         Call Subroutine(destroySlamIndicatorGui);
     }
 }
@@ -2880,7 +2880,7 @@ rule ("[doomfist/punch.opy]: Initialize rocket punch") {
         Set Player Variable(Event Player, wall_impacted_victims, Empty Array);
         Set Player Variable(Event Player, punch_charge_time, 0);
         Chase Player Variable At Rate(Event Player, punch_charge_time, 1.4, 1, None);
-        Wait Until(Not(Is Button Held(Event Player, Button(Secondary Fire))), 9999);
+        Wait Until(Not(Is Button Held(Event Player, Button(Secondary Fire))), 999999999999999);
         Stop Chasing Player Variable(Event Player, punch_charge_time);
     }
 }
@@ -2930,7 +2930,7 @@ rule ("[doomfist/punch.opy]: Remove Empowered Punch from ultimate") {
     actions {
         "eventPlayer.disallowButton(Button.ABILITY_1)\n eventPlayer.disallowButton(Button.ABILITY_2)"
         Wait Until(Is Button Held(Event Player, Button(Primary Fire)), 4.8);
-        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 999999999999999);
         Start Holding Button(Event Player, Button(Secondary Fire));
         Disallow Button(Event Player, Button(Secondary Fire));
         Set Status(Event Player, Null, Stunned, 0.016);
@@ -2967,10 +2967,28 @@ rule ("[doomfist/meteor.opy]: Deal OW1 Meteor Strike damage") {
     }
     conditions {
         Event Ability == Button(Ultimate);
+        "Only activate this rule when damage is dealt by inner ring (/2 accounts for damage reduction from armor, nanoboost, etc)"
         Event Damage < 200;
     }
     actions {
         Damage(Victim, Attacker, Subtract(Add(200, Multiply(2.176470588235294, Subtract(Event Damage, 100))), Event Damage));
+    }
+}
+
+rule ("[doomfist/meteor.opy]: Remove Meteor Strike slow effect") {
+    event {
+        Player Took Damage;
+        All;
+        All;
+    }
+    conditions {
+        Hero Of(Attacker) == Hero(Doomfist);
+        Event Ability == Button(Ultimate);
+    }
+    actions {
+        Set Move Speed(Victim, 200);
+        Wait(3, Ignore Condition);
+        Set Move Speed(Victim, 100);
     }
 }
 
@@ -3046,7 +3064,7 @@ rule ("[dva/booster.opy]: Set default booster cooldown") {
         Is Using Ability 1(Event Player) == True;
     }
     actions {
-        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 999999999999999);
         Set Ability Cooldown(Event Player, Button(Ability 1), 4);
     }
 }
@@ -3062,7 +3080,7 @@ rule ("[dva/booster.opy]: Decouple melee button from activating melee animation 
     }
     actions {
         Disallow Button(Event Player, Button(Melee));
-        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 999999999999999);
         Allow Button(Event Player, Button(Melee));
     }
 }
@@ -3109,7 +3127,7 @@ rule ("[dva/missile.opy]: Set default missile cooldown") {
         Is Using Ability 2(Event Player) == True;
     }
     actions {
-        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 999999999999999);
         Set Ability Cooldown(Event Player, Button(Ability 2), 8);
     }
 }
@@ -3237,7 +3255,7 @@ rule ("[illari.opy]: Allow self healing during Pylon") {
     }
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
-        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 999999999999999);
         Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
@@ -3303,7 +3321,7 @@ rule ("[kiriko.opy]: Allow self healing during Suzu") {
     }
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
-        Wait Until(Not(Is Using Ability 2(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 2(Event Player)), 999999999999999);
         Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
@@ -3321,7 +3339,7 @@ rule ("[lifeweaver.opy]: Allow self healing during Rejuvanating Dash") {
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
         "[TODO] Replace with better condition"
-        Wait Until(Not(Is Jumping(Event Player)), 9999);
+        Wait Until(Not(Is Jumping(Event Player)), 999999999999999);
         Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
@@ -3337,7 +3355,7 @@ rule ("[lifeweaver.opy]: Allow self healing during Tree of Life") {
     }
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
-        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 999999999999999);
         Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
@@ -3510,7 +3528,7 @@ rule ("[mccree.opy]: Remove damage reduction during roll") {
     }
     actions {
         Set Damage Received(Event Player, 200);
-        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 999999999999999);
         Set Damage Received(Event Player, 100);
     }
 }
@@ -3526,7 +3544,7 @@ rule ("[mccree.opy]: Remove damage reduction during deadeye") {
     }
     actions {
         Set Damage Received(Event Player, 166.66666666666666);
-        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 999999999999999);
         Set Damage Received(Event Player, 100);
     }
 }
@@ -3583,7 +3601,7 @@ rule ("[mei.opy]: Freeze enemy") {
     }
     actions {
         Set Status(Victim, Event Player, Frozen, 1.3);
-        Wait Until(Not(Has Status(Victim, Frozen)), 9999);
+        Wait Until(Not(Has Status(Victim, Frozen)), 999999999999999);
         Call Subroutine(clearFreezeEffect);
     }
 }
@@ -3692,7 +3710,7 @@ rule ("[mercy/guardian.opy]: Activate GA slingshot") {
         Is Button Held(Event Player, Button(Jump)) == False;
     }
     actions {
-        Wait Until(Is Button Held(Event Player, Button(Jump)), 999999999999999);
+        Wait Until(And((Event Player).is_using_guardian_angel, Is Button Held(Event Player, Button(Jump))), 999999999999999);
         "Cancel GA by pressing and unpressing button"
         Start Holding Button(Event Player, Button(Ability 1));
         Stop Holding Button(Event Player, Button(Ability 1));
@@ -3762,7 +3780,7 @@ rule ("[mercy/guardian.opy]: Slingshot GA cooldown logic") {
     }
     actions {
         Set Ability 1 Enabled(Event Player, False);
-        Wait Until(Or(Not(Is Button Held(Event Player, Button(Ability 1))), Is On Ground(Event Player)), 9999);
+        Wait Until(Or(Not(Is Button Held(Event Player, Button(Ability 1))), Is On Ground(Event Player)), 999999999999999);
         Set Ability Cooldown(Event Player, Button(Ability 1), 1.5);
         Set Ability 1 Enabled(Event Player, True);
     }
@@ -3779,7 +3797,7 @@ rule ("[moira.opy]: Deny fade during coalescence") {
     }
     actions {
         Set Ability 1 Enabled(Event Player, False);
-        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 999999999999999);
         Set Ability 1 Enabled(Event Player, True);
     }
 }
@@ -3795,7 +3813,7 @@ rule ("[moira.opy]: Allow self healing during Biotic Grasp") {
     }
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
-        Wait Until(Not(Is Firing Secondary(Event Player)), 9999);
+        Wait Until(Not(Is Firing Secondary(Event Player)), 999999999999999);
         Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
@@ -3828,7 +3846,7 @@ rule ("[moira.opy]: Allow self healing during Coalescence") {
     }
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
-        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 999999999999999);
         Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }
@@ -4061,9 +4079,9 @@ rule ("[orisa/halt.opy]: Trigger Halt ability start") {
     actions {
         Call Subroutine(shootHalt);
         "Make sure player releases right click"
-        Wait Until(Not(Is Button Held(Event Player, Button(Secondary Fire))), 9999);
+        Wait Until(Not(Is Button Held(Event Player, Button(Secondary Fire))), 999999999999999);
         "Detect halt pull activation on right click"
-        Wait Until(Or(Is Button Held(Event Player, Button(Secondary Fire)), Compare((Event Player).halt_position, ==, (Event Player).halt_ending_position)), 9999);
+        Wait Until(Or(Is Button Held(Event Player, Button(Secondary Fire)), Compare((Event Player).halt_position, ==, (Event Player).halt_ending_position)), 999999999999999);
         Call Subroutine(explodeHalt);
         Set Ability Cooldown(Event Player, Button(Secondary Fire), 6);
     }
@@ -4146,7 +4164,7 @@ rule ("[orisa/halt.opy]: Pull halted victims") {
         Set Player Variable(Event Player, position, Position Of(Event Player));
         Start Forcing Player Position(Event Player, (Event Player).position, True);
         Chase Player Variable At Rate(Event Player, position, ((Event Player).enemy_orisa_player).halt_position, 20, Destination and Rate);
-        Wait Until(Compare((Event Player).position, ==, ((Event Player).enemy_orisa_player).halt_position), 9999);
+        Wait Until(Compare((Event Player).position, ==, ((Event Player).enemy_orisa_player).halt_position), 999999999999999);
         Stop Chasing Player Variable(Event Player, position);
         Stop Forcing Player Position(Event Player);
         "Cancel current momentum"
@@ -4302,8 +4320,8 @@ rule ("[orisa/barrier.opy]: fibonacciSphere()") {
     actions {
         "Evenly distribute N points around a sphere\n Store coodrindate of those points to barrier_entity_positions array\n See https://stackoverflow.com/a/26127012 for algorithm"
         Set Player Variable(Event Player, barrier_entity_positions, Empty Array);
-        For Global Variable(i, 0, 200, 1);
-            Set Player Variable(Event Player, barrier_sample_y, Subtract(1, Multiply(Divide(Global.i, 199), 2)));
+        For Global Variable(i, 0, 160, 1);
+            Set Player Variable(Event Player, barrier_sample_y, Subtract(1, Multiply(Divide(Global.i, 159), 2)));
             "Do not draw bottom half of sphere"
             If(Compare((Event Player).barrier_sample_y, <, -0.2));
                 Break;
@@ -4605,7 +4623,7 @@ rule ("[orisa/gun.opy]: Slow down Orisa when shooting") {
     }
     actions {
         Set Move Speed(Event Player, 70);
-        Wait Until(Or(Not(Is Button Held(Event Player, Button(Primary Fire))), (Event Player).is_orisa_reloading), 9999);
+        Wait Until(Or(Not(Is Button Held(Event Player, Button(Primary Fire))), (Event Player).is_orisa_reloading), 999999999999999);
         Set Move Speed(Event Player, 100);
     }
 }
@@ -4721,7 +4739,7 @@ rule ("[reinhardt/charge.opy]: Set default charge cooldown") {
         Is Using Ability 1(Event Player) == True;
     }
     actions {
-        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 999999999999999);
         Set Ability Cooldown(Event Player, Button(Ability 1), 10);
     }
 }
@@ -4826,7 +4844,7 @@ rule ("[roadhog.opy]: Disable all abilities during ult") {
         Set Melee Enabled(Event Player, False);
         Set Ability 1 Enabled(Event Player, False);
         Set Ability 2 Enabled(Event Player, False);
-        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 999999999999999);
         Set Melee Enabled(Event Player, True);
         Set Ability 1 Enabled(Event Player, True);
         Set Ability 2 Enabled(Event Player, True);
@@ -4875,13 +4893,13 @@ rule ("[roadhog.opy]: Cancel ult when stunned") {
     actions {
         If(Has Status(Event Player, Hacked));
         Else If(Has Status(Event Player, Frozen));
-            Wait Until(Not(Has Status(Event Player, Frozen)), 9999);
+            Wait Until(Not(Has Status(Event Player, Frozen)), 999999999999999);
         Else If(Has Status(Event Player, Knocked Down));
-            Wait Until(Not(Has Status(Event Player, Knocked Down)), 9999);
+            Wait Until(Not(Has Status(Event Player, Knocked Down)), 999999999999999);
         Else If(Has Status(Event Player, Asleep));
-            Wait Until(Not(Has Status(Event Player, Asleep)), 9999);
+            Wait Until(Not(Has Status(Event Player, Asleep)), 999999999999999);
         Else If(Has Status(Event Player, Stunned));
-            Wait Until(Not(Has Status(Event Player, Stunned)), 9999);
+            Wait Until(Not(Has Status(Event Player, Stunned)), 999999999999999);
         End;
         If(Is Using Ultimate(Event Player));
             Call Subroutine(respawnSameState);
@@ -4898,7 +4916,7 @@ rule ("[roadhog.opy]: Move hooked enemies closer") {
         Is Using Ability 1(Event Player) == True;
     }
     actions {
-        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 999999999999999);
         If(Compare(Distance Between(Victim, Attacker), <=, 4.5));
             Teleport(Victim, Ray Cast Hit Position(Position Of(Victim), Add(Position Of(Victim), Direction Towards(Victim, Attacker)), Null, Null, False));
     }
@@ -5041,10 +5059,10 @@ rule ("[sombra.opy]: No damage with EMP") {
         Ultimate Charge Percent(Event Player) >= 100;
     }
     actions {
-        Wait Until(Is Button Held(Event Player, Button(Ultimate)), 9999);
-        Wait Until(Compare(Ultimate Charge Percent(Event Player), <=, 0), 9999);
+        Wait Until(Is Button Held(Event Player, Button(Ultimate)), 999999999999999);
+        Wait Until(Compare(Ultimate Charge Percent(Event Player), <=, 0), 999999999999999);
         Set Damage Dealt(Event Player, 0);
-        Wait Until(Is Using Ultimate(Event Player), 9999);
+        Wait Until(Is Using Ultimate(Event Player), 999999999999999);
         Set Damage Dealt(Event Player, 100);
     }
 }
@@ -5075,7 +5093,7 @@ rule ("[sombra.opy]: Remove hack bonus damage") {
     actions {
         Start Damage Modification(Event Player, (Event Player).enemy_sombra_player, 80, None);
         Set Player Variable(Event Player, hack_damage_modifier, Last Damage Modification ID);
-        Wait Until(Not(Has Status(Event Player, Hacked)), 9999);
+        Wait Until(Not(Has Status(Event Player, Hacked)), 999999999999999);
         Stop Damage Modification((Event Player).hack_damage_modifier);
     }
 }
@@ -5091,7 +5109,7 @@ rule ("[sombra.opy]: Increase stealth movement speed") {
     }
     actions {
         Set Move Speed(Event Player, 103.125);
-        Wait Until(Not(Is Using Ability 1(Event Player)), 9999);
+        Wait Until(Not(Is Using Ability 1(Event Player)), 999999999999999);
         Set Move Speed(Event Player, 100);
     }
 }
@@ -5137,7 +5155,7 @@ rule ("[symmetra.opy]: Set OW1 Symmetra Photo Projector projectile speed") {
     }
     actions {
         Set Projectile Speed(Event Player, 50);
-        Wait Until(Not(Is Firing Secondary(Event Player)), 9999);
+        Wait Until(Not(Is Firing Secondary(Event Player)), 999999999999999);
         Set Projectile Speed(Event Player, 100);
     }
 }
@@ -5289,7 +5307,7 @@ rule ("[winston.opy]: Set leap after ultimate") {
         Is Using Ultimate(Event Player) == True;
     }
     actions {
-        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 999999999999999);
         Set Ability Cooldown(Event Player, Button(Ability 1), 0);
     }
 }
@@ -5560,7 +5578,7 @@ rule ("[zenyatta.opy]: Allow self healing during Transcendence") {
     }
     actions {
         Set Player Variable(Event Player, self_healing_percent, 100);
-        Wait Until(Not(Is Using Ultimate(Event Player)), 9999);
+        Wait Until(Not(Is Using Ultimate(Event Player)), 999999999999999);
         Set Player Variable(Event Player, self_healing_percent, 0);
     }
 }

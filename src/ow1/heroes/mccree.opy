@@ -51,7 +51,7 @@ rule "[mccree.opy]: Remove damage reduction during roll":
     @Condition eventPlayer.isUsingAbility1() == true
 
     eventPlayer.setDamageReceived(percent(100/(100-OW2_MCCREE_COMBAT_ROLL_DAMAGE_REDUCTION)))
-    waitUntil(not eventPlayer.isUsingAbility1(), 9999)
+    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.setDamageReceived(100)
 
 
@@ -61,5 +61,5 @@ rule "[mccree.opy]: Remove damage reduction during deadeye":
     @Condition eventPlayer.isUsingUltimate() == true
 
     eventPlayer.setDamageReceived(percent(100/(100-OW2_MCCREE_DEADEYE_DAMAGE_REDUCTION)))
-    waitUntil(not eventPlayer.isUsingUltimate(), 9999)
+    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.setDamageReceived(100)
