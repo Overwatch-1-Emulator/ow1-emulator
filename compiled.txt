@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.8.5 (staging build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nContributors:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.8.5 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nContributors:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -742,6 +742,7 @@ rule ("[role_lock.opy]: Skip hero assembly") {
         Set Player Variable(All Players(All Teams), role, 0);
         "Save assemble hero time"
         Set Global Variable(hero_select_time, Match Time);
+        Wait(0.016, Ignore Condition);
         "Go to the end of the assembling heroes"
         Set Match Time(0);
         Wait Until(Not(Is Assembling Heroes), 999999999999999);
@@ -2966,10 +2967,28 @@ rule ("[doomfist/meteor.opy]: Deal OW1 Meteor Strike damage") {
     }
     conditions {
         Event Ability == Button(Ultimate);
+        "Only activate this rule when damage is dealt by inner ring (/2 accounts for damage reduction from armor, nanoboost, etc)"
         Event Damage < 200;
     }
     actions {
         Damage(Victim, Attacker, Subtract(Add(200, Multiply(2.176470588235294, Subtract(Event Damage, 100))), Event Damage));
+    }
+}
+
+rule ("[doomfist/meteor.opy]: Remove Meteor Strike slow effect") {
+    event {
+        Player Took Damage;
+        All;
+        All;
+    }
+    conditions {
+        Hero Of(Attacker) == Hero(Doomfist);
+        Event Ability == Button(Ultimate);
+    }
+    actions {
+        Set Move Speed(Victim, 200);
+        Wait(3, Ignore Condition);
+        Set Move Speed(Victim, 100);
     }
 }
 
@@ -3691,7 +3710,7 @@ rule ("[mercy/guardian.opy]: Activate GA slingshot") {
         Is Button Held(Event Player, Button(Jump)) == False;
     }
     actions {
-        Wait Until(Is Button Held(Event Player, Button(Jump)), 999999999999999);
+        Wait Until(And((Event Player).is_using_guardian_angel, Is Button Held(Event Player, Button(Jump))), 999999999999999);
         "Cancel GA by pressing and unpressing button"
         Start Holding Button(Event Player, Button(Ability 1));
         Stop Holding Button(Event Player, Button(Ability 1));
@@ -4301,8 +4320,8 @@ rule ("[orisa/barrier.opy]: fibonacciSphere()") {
     actions {
         "Evenly distribute N points around a sphere\n Store coodrindate of those points to barrier_entity_positions array\n See https://stackoverflow.com/a/26127012 for algorithm"
         Set Player Variable(Event Player, barrier_entity_positions, Empty Array);
-        For Global Variable(i, 0, 200, 1);
-            Set Player Variable(Event Player, barrier_sample_y, Subtract(1, Multiply(Divide(Global.i, 199), 2)));
+        For Global Variable(i, 0, 160, 1);
+            Set Player Variable(Event Player, barrier_sample_y, Subtract(1, Multiply(Divide(Global.i, 159), 2)));
             "Do not draw bottom half of sphere"
             If(Compare((Event Player).barrier_sample_y, <, -0.2));
                 Break;
