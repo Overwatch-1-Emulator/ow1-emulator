@@ -58,8 +58,7 @@ def applyCustomHealth():
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
     # Damage the player so they're at one health
     damage(eventPlayer, null, Math.INFINITY)
-
-    waitUntil(eventPlayer.getHealth() <= 1, 1)
+    wait()
 
     # Apply temporary base health to the player
     eventPlayer.addHealthPool(Health.NORMAL, Math.INFINITY, true, true)
@@ -68,8 +67,7 @@ def applyCustomHealth():
 
     # Remove temporary base health from the player
     eventPlayer.removeAllHealthPools()
-
-    waitUntil(eventPlayer.getMaxHealth() <= 1, 1)
+    wait()
 
 
     # Apply custom health pool to player
