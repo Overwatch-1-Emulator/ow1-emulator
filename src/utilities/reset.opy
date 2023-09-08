@@ -136,7 +136,6 @@ rule "[reset.opy]: Reinitialize hero on hero switch":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched == true
 
-    waitUntil(not eventPlayer.hero_switched, Math.INFINITY)
     resetHero()
     initHero()
 
