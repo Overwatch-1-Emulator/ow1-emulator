@@ -89,7 +89,10 @@ github.com/MaxwellJung/ow1_emulator",
                         "morning"
                     ]
                 },
-                "rialto",
+                {
+                    "rialto" : [
+                    ]
+                },
                 {
                     "route66": [
                         "morning"
