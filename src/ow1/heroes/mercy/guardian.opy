@@ -70,9 +70,9 @@ rule "[mercy/guardian.opy]: Give speed boost during slingshot":
     
     while eventPlayer.is_slingshotting:
         eventPlayer.applyImpulse(eventPlayer.slingshot_velocity, 
-                                0.6, # Arbitrarily decided based on trial & error
-                                Relativity.TO_WORLD, 
-                                Impulse.INCORPORATE_CONTRARY_MOTION)
+                                 0.55, # Arbitrarily decided based on trial & error
+                                 Relativity.TO_WORLD, 
+                                 Impulse.INCORPORATE_CONTRARY_MOTION)
         wait()
 
 

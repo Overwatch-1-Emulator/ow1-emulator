@@ -118,6 +118,7 @@ rule "[orisa/halt.opy]: Create Halt pull line vfx when in pull range":
     @Condition eventPlayer.enemy_orisa_player.is_using_halt == true
     @Condition (distance(eventPlayer, eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS and \
                isInLoS(eventPlayer, eventPlayer.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS)) == true
+    @Condition eventPlayer.isAlive()
                
     # Halt orb explosion sounds
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.LIME_GREEN, eventPlayer, 100)
@@ -140,6 +141,13 @@ rule "[orisa/halt.opy]: Destroy Halt pull line vfx when not in pull range":
 rule "[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.is_using_halt == false
+
+    destroyEffect(eventPlayer.halt_pull_line_entity)
+    eventPlayer.entity_huds.remove(eventPlayer.halt_pull_line_entity)
+
+rule "[orisa/halt.opy]: Destroy Halt pull line vfx when dead":
+    @Event eachPlayer
+    @Condition eventPlayer.isDead()
 
     destroyEffect(eventPlayer.halt_pull_line_entity)
     eventPlayer.entity_huds.remove(eventPlayer.halt_pull_line_entity)
