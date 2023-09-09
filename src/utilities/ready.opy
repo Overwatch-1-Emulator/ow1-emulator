@@ -2,6 +2,7 @@
 
 globalvar ready_hud
 globalvar ready_description_hud
+globalvar READY_THRESHOLD = createWorkshopSetting(float[0.5:1], "Lobby", "Ready Threshold", DEFAULT_READY_THRESHOLD)
 
 playervar ready
 
@@ -50,6 +51,6 @@ rule "[ready.opy]: Start match when everyone ready":
     @Condition isAssemblingHeroes() == false # Guard to prevent incorrect match time modification
     @Condition isInSetup() == true
     @Condition getMatchTime() > SETUP_BUFFER_TIME
-    @Condition all([player.ready for player in getAllPlayers()]) == true
+    @Condition len([player for player in getAllPlayers() if player.ready])/len(getAllPlayers()) >= READY_THRESHOLD
 
     setMatchTime(SETUP_BUFFER_TIME)
