@@ -2,7 +2,7 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.8.5 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nContributors:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Description: "Overwatch 1 Emulator v0.8.6 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nContributors:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
 		Mode Name: "Overwatch 1 Emulator"
 	}
 	lobby
@@ -45,7 +45,7 @@ settings
 			{
 				Dorado 972777519512068153
 				Havana 972777519512068154
-				Rialto
+				Rialto 
 				Route 66 972777519512068154
 				Watchpoint: Gibraltar 972777519512068292
 			}
@@ -241,10 +241,11 @@ variables {
         16: allow_ow2_heroes
         17: ready_hud
         18: ready_description_hud
-        19: ult_cost
-        20: health_pool
-        21: PHI
-        22: debug
+        19: READY_THRESHOLD
+        20: ult_cost
+        21: health_pool
+        22: PHI
+        23: debug
     player:
         0: last_hero_played
         1: hero_switched
@@ -440,6 +441,7 @@ rule ("Initialize global variables") {
         Set Global Variable(max_support_count, Workshop Setting Integer(Custom String("Role limit", Null, Null, Null), Custom String("Support", Null, Null, Null), 2, 0, 6, 2));
         Set Global Variable(allow_ow1_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Overwatch 1", Null, Null, Null), True, 0));
         Set Global Variable(allow_ow2_heroes, Workshop Setting Toggle(Custom String("Heroes", Null, Null, Null), Custom String("Overwatch 2", Null, Null, Null), False, 0));
+        Set Global Variable(READY_THRESHOLD, Workshop Setting Real(Custom String("Lobby", Null, Null, Null), Custom String("Ready Threshold", Null, Null, Null), 0.7, 0.5, 1, 0));
         Set Global Variable(PHI, 3.883222077450933);
         Set Global Variable(debug, Workshop Setting Toggle(Custom String("Dev Tools", Null, Null, Null), Custom String("debug mode", Null, Null, Null), False, 0));
     }
@@ -636,7 +638,6 @@ rule ("[reset.opy]: Reinitialize hero on hero switch") {
         (Event Player).hero_switched == True;
     }
     actions {
-        Wait Until(Not((Event Player).hero_switched), 999999999999999);
         Call Subroutine(resetHero);
         Call Subroutine(initHero);
     }
@@ -668,7 +669,6 @@ rule ("[role_lock.opy]: Find player's role") {
         (Event Player).hero_switched == True;
     }
     actions {
-        Wait Until(Not((Event Player).hero_switched), 999999999999999);
         If(Array Contains(Global.tank_heroes, Hero Of(Event Player)));
             Set Player Variable(Event Player, role, 1);
         Else If(Array Contains(Global.damage_heroes, Hero Of(Event Player)));
@@ -972,7 +972,7 @@ rule ("[ready.opy]: Start match when everyone ready") {
         Is Assembling Heroes == False;
         Is In Setup == True;
         Match Time > 5;
-        Is True For All(All Players(All Teams), (Current Array Element).ready) == True;
+        Divide(Count Of(Filtered Array(All Players(All Teams), (Current Array Element).ready)), Number Of Players(All Teams)) >= Global.READY_THRESHOLD;
     }
     actions {
         Set Match Time(5);
@@ -1044,7 +1044,6 @@ rule ("[custom_health_handler.opy]: applyCustomHealth()") {
     actions {
         "If the player is in spawn, teleport them out as they are invulnerable in spawn"
         If(Is In Spawn Room(Event Player));
-            Start Camera(Event Player, Eye Position(Event Player), Add(Eye Position(Event Player), Facing Direction Of(Event Player)), 0.001);
             Set Player Variable(Event Player, stored_spawn_pos, Position Of(Event Player));
             Wait(0.016, Ignore Condition);
             Teleport(Event Player, Add(Position Of(Event Player), Multiply(100, Up)));
@@ -1060,14 +1059,14 @@ rule ("[custom_health_handler.opy]: applyCustomHealth()") {
         Set Status(Event Player, Event Player, Unkillable, 999999999999999);
         "Damage the player so they're at one health"
         Damage(Event Player, Null, 999999999999999);
-        Wait Until(Compare(Health(Event Player), <=, 1), 1);
+        Wait(0.016, Ignore Condition);
         "Apply temporary base health to the player"
         Add Health Pool To Player(Event Player, Health, 999999999999999, True, True);
         Add Health Pool To Player(Event Player, Armor, 999999999999999, True, True);
         Add Health Pool To Player(Event Player, Shields, 999999999999999, True, True);
         "Remove temporary base health from the player"
         Remove All Health Pools From Player(Event Player);
-        Wait Until(Compare(Max Health(Event Player), <=, 1), 1);
+        Wait(0.016, Ignore Condition);
         "Apply custom health pool to player"
         If(Compare((Event Player).hp_health, >, 0));
             Add Health Pool To Player(Event Player, Health, Max(1, Subtract((Event Player).hp_health, 1)), True, True);
@@ -1085,7 +1084,6 @@ rule ("[custom_health_handler.opy]: applyCustomHealth()") {
             Teleport(Event Player, (Event Player).stored_spawn_pos);
             Set Player Variable(Event Player, stored_spawn_pos, Null);
         End;
-        Stop Camera(Event Player);
         "Wait 1 second for everything to settle"
         Wait(1, Ignore Condition);
         If(Compare(Max Health(Event Player), !=, Add(Add((Event Player).hp_health, (Event Player).hp_armor), (Event Player).hp_shields)));
@@ -1645,7 +1643,7 @@ rule ("[bastion/tank.opy]: Initialize tank mode") {
         "move faster in tank mode"
         Set Move Speed(Event Player, 153.84615384615384);
         "deal more damage in tank mode"
-        Set Damage Dealt(Event Player, 178.2608695652174);
+        Set Damage Dealt(Event Player, 205);
         "increase grenade travel speed (to mimic tank shells)"
         Set Projectile Speed(Event Player, 150);
         Set Projectile Gravity(Event Player, 5);
@@ -3746,7 +3744,7 @@ rule ("[mercy/guardian.opy]: Give speed boost during slingshot") {
     }
     actions {
         While((Event Player).is_slingshotting);
-            Apply Impulse(Event Player, (Event Player).slingshot_velocity, 0.6, To World, Incorporate Contrary Motion);
+            Apply Impulse(Event Player, (Event Player).slingshot_velocity, 0.55, To World, Incorporate Contrary Motion);
             Wait(0.016, Ignore Condition);
         End;
     }
@@ -4183,6 +4181,7 @@ rule ("[orisa/halt.opy]: Create Halt pull line vfx when in pull range") {
         ((Event Player).enemy_orisa_player).is_using_halt == True;
         Distance Between(Event Player, ((Event Player).enemy_orisa_player).halt_position) <= 5;
         Is In Line of Sight(Event Player, ((Event Player).enemy_orisa_player).halt_position, All Barriers Block LOS) == True;
+        Is Alive(Event Player) == True;
     }
     actions {
         "Halt orb explosion sounds"
@@ -4217,6 +4216,21 @@ rule ("[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over") {
     }
     conditions {
         ((Event Player).enemy_orisa_player).is_using_halt == False;
+    }
+    actions {
+        Destroy Effect((Event Player).halt_pull_line_entity);
+        Modify Player Variable(Event Player, entity_huds, Remove From Array By Value, (Event Player).halt_pull_line_entity);
+    }
+}
+
+rule ("[orisa/halt.opy]: Destroy Halt pull line vfx when dead") {
+    event {
+        Ongoing - Each Player;
+        All;
+        All;
+    }
+    conditions {
+        Is Dead(Event Player) == True;
     }
     actions {
         Destroy Effect((Event Player).halt_pull_line_entity);
@@ -4638,7 +4652,7 @@ rule ("[orisa/fortify.opy]: Remove overhealth during fortify") {
         Is Using Ability 1(Event Player) == True;
     }
     actions {
-        Damage(Event Player, Null, 250);
+        Damage(Event Player, Null, 200);
     }
 }
 
