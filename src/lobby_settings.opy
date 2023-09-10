@@ -163,6 +163,7 @@ github.com/MaxwellJung/ow1_emulator",
             },
             "doomfist": {
                 "ammoRegenerationTime%": 162,
+                "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
             },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
@@ -192,6 +193,9 @@ github.com/MaxwellJung/ow1_emulator",
             },
             "moira": {
                 "ultGen%": percent(OW2_MOIRA_ULT_COST/OW1_MOIRA_ULT_COST)
+            },
+            "orisa": {
+                "ultGen%": percent(OW2_ORISA_ULT_COST/OW1_ORISA_ULT_COST)
             },
             "pharah": {
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST)
