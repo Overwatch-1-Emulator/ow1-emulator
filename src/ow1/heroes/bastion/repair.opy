@@ -22,6 +22,15 @@ rule "[bastion/repair.opy]: Initialize self repair ability":
     eventPlayer.self_repair_gui = null
     eventPlayer.is_pressing_self_repair_key = false
     eventPlayer.is_using_self_repair = false
+    createSelfRepairGUI()
+
+
+rule "[bastion/repair.opy]: Remove self repair ability":
+    @Event eachPlayer
+    @Condition eventPlayer.call_reset == true
+    @Condition eventPlayer.last_hero_played == Hero.BASTION
+
+    destroySelfRepairGUI()
 
 
 rule "[bastion/repair.opy]: Detect Self Repair key press":
@@ -41,9 +50,8 @@ rule "[bastion/repair.opy]: Activate self-repair":
     @Condition eventPlayer.is_pressing_self_repair_key
     @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition eventPlayer.isAlive()
-
-    if eventPlayer.self_repair_gui == null:
-        createSelfRepairGUI()
+    
+    stopChasingVariable(eventPlayer.self_repair_time_left) # Stop any ongoing resource recharging
     wait(OW1_BASTION_SELF_REPAIR_CAST_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.is_using_self_repair = true
     waitUntil(not eventPlayer.is_pressing_self_repair_key or \
@@ -83,8 +91,8 @@ rule "[bastion/repair.opy]: Replanish healing resource":
     @Hero bastion
     @Condition not eventPlayer.is_using_self_repair
 
-    stopChasingVariable(eventPlayer.self_repair_time_left) # Stop any ongoing resource modification
-    wait(OW1_BASTION_SELF_REPAIR_COOLDOWN_TIME) # Wait 1 second cooldown before recharging heal resource
+    stopChasingVariable(eventPlayer.self_repair_time_left) # Stop any ongoing resource depletion
+    wait(OW1_BASTION_SELF_REPAIR_COOLDOWN_TIME, Wait.ABORT_WHEN_FALSE) # Wait 1 second cooldown before recharging heal resource
     chase(eventPlayer.self_repair_time_left, \
           OW1_BASTION_MAX_SELF_REPAIR_DURATION, \
           rate=OW1_BASTION_MAX_SELF_REPAIR_DURATION/OW1_BASTION_SELF_REPAIR_RECHARGE_DURATION, \
@@ -102,7 +110,7 @@ rule "[bastion/repair.opy]: Give ult charge for self repair":
 def createSelfRepairGUI():
     @Name "[bastion/repair.opy]: createSelfRepairGUI()"
 
-    progressBarHud(eventPlayer, 
+    progressBarHud(eventPlayer if eventPlayer.self_repair_time_left < OW1_BASTION_MAX_SELF_REPAIR_DURATION else null, 
                    roundedPercent(eventPlayer.self_repair_time_left/OW1_BASTION_MAX_SELF_REPAIR_DURATION), 
                    "Self-Repair", 
                    HudPosition.LEFT, 
@@ -119,11 +127,3 @@ def destroySelfRepairGUI():
 
     destroyProgressBarHud(eventPlayer.self_repair_gui)
     eventPlayer.self_repair_gui = null
-
-
-rule "[bastion/repair.opy]: Hide self-repair GUI":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.self_repair_time_left >= OW1_BASTION_MAX_SELF_REPAIR_DURATION
-
-    destroySelfRepairGUI()
