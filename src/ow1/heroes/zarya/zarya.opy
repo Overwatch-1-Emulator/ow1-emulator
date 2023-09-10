@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../../main.opy"
 
 #!include "ow1/heroes/zarya/hp.opy"
 #!include "ow1/heroes/zarya/self_bubble.opy"
