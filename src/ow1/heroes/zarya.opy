@@ -25,6 +25,16 @@ rule "[zarya.opy]: Initialize Zarya":
 
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
+
+rule "[zarya.opy]: Remove Zarya bubble HUD":
+    @Event eachPlayer
+    @Condition eventPlayer.last_hero_played == Hero.ZARYA
+    @Condition eventPlayer.call_reset == true
+
+    hideSelfBubbleCD()
+    hideAllyBubbleCD()
+
+
 /*
 Below HUD code is sourced from https://workshop.codes/wiki/articles/rendering-an-inworld-text-at-a-specific-onscreen-position
 
@@ -55,6 +65,7 @@ def showSelfBubbleCD():
     eventPlayer.self_bubble_cd_text = getLastCreatedText()
     eventPlayer.text_huds.append(eventPlayer.self_bubble_cd_text)
 
+
 def hideSelfBubbleCD():
     @Name "[zarya.opy]: hideSelfBubbleCD()"
 
@@ -76,6 +87,7 @@ def showAllyBubbleCD():
                       SpecVisibility.DEFAULT)
     eventPlayer.ally_bubble_cd_text = getLastCreatedText()
     eventPlayer.text_huds.append(eventPlayer.ally_bubble_cd_text)
+
 
 def hideAllyBubbleCD():
     @Name "[zarya.opy]: hideAllyBubbleCD()"
