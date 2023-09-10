@@ -25,10 +25,10 @@ rule "[bastion/repair.opy]: Initialize self repair ability":
     createSelfRepairGUI()
 
 
-rule "[bastion/repair.opy]: Remove self repair ability":
+rule "[bastion/repair.opy]: Remove self repair HUD":
     @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
     @Condition eventPlayer.last_hero_played == Hero.BASTION
+    @Condition eventPlayer.call_reset == true
 
     destroySelfRepairGUI()
 
