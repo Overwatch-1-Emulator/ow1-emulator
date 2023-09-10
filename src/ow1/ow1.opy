@@ -27,7 +27,7 @@
 #!include "ow1/heroes/mccree.opy"
 #!include "ow1/heroes/mei.opy"
 #!include "ow1/heroes/mercy/mercy.opy"
-#!include "ow1/heroes/moira.opy"
+#!include "ow1/heroes/moira/moira.opy"
 #!include "ow1/heroes/orisa/orisa.opy"
 #!include "ow1/heroes/ramattra.opy"
 #!include "ow1/heroes/reaper.opy"

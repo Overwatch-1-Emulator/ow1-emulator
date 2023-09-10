@@ -1,5 +1,7 @@
 #!mainFile "../../../main.opy"
 
+playervar self_healing_source
+
 playervar self_healing_percent
 playervar self_healing_modification
 playervar support_passive_active
@@ -29,6 +31,7 @@ def removeSelfHealing():
     @Name "[passives/support/self_heal.opy]: removeSelfHealing()"
     
     stopHealingModification(eventPlayer.self_healing_modification)
+    eventPlayer.self_healing_source = []
     eventPlayer.self_healing_percent = 0
     startHealingModification(eventPlayer, eventPlayer, eventPlayer.self_healing_percent, HealingReeval.RECEIVERS_HEALERS_AND_HEALPERCENT)
     eventPlayer.self_healing_modification = getLastHealingModification()
@@ -49,3 +52,12 @@ rule "[passives/support/self_heal.opy]: Check if support passive is active":
     @Condition getTotalTimeElapsed() - eventPlayer.last_time_damage_taken > OW1_ACTIVATION_TIME_PASSIVE_HEALING
 
     eventPlayer.support_passive_active = true
+
+
+rule "[moira.opy]: Activate self healing if self healing source non-empty":
+    @Event eachPlayer
+    @Condition len(eventPlayer.self_healing_source) > 0
+
+    eventPlayer.self_healing_percent = 100
+    waitUntil(len(eventPlayer.self_healing_source) <= 0, Math.INFINITY)
+    eventPlayer.self_healing_percent = 0
