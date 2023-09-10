@@ -1,7 +1,6 @@
 #!mainFile "../../main.opy"
 
 playervar freeze_progress
-playervar is_frozen
 playervar freeze_slow_linger_time
 playervar freeze_move_penalty
 
