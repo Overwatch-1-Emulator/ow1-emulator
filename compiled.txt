@@ -2,8 +2,8 @@ settings
 {
 	main
 	{
-		Description: "Overwatch 1 Emulator v0.8.6 (main build)\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nContributors:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
-		Mode Name: "Overwatch 1 Emulator"
+		Description: "Overwatch 1 Emulator\r\n\r\necksdee#11729's attempt to accurately recreate \r\nthe last version of Overwatch 1 using workshop.\r\n\r\nMain build: KHTG0\r\nStaging build: ESMXJ\r\n\r\nContributors:\r\necksdee#11729\r\nSnappy#11809\r\nKingDonMike#2694\r\nthenova#21104\r\npretz#11551\r\n\r\nGamemode:\r\nworkshop.codes/ow1-emulator\r\n\r\nDiscord:\r\ndsc.gg/ow1\r\ndiscord.gg/GMVqwYXbWB\r\n\r\nSource code:\r\ngithub.com/MaxwellJung/ow1_emulator"
+		Mode Name: "Overwatch 1 Emulator v0.8.7"
 	}
 	lobby
 	{
@@ -107,6 +107,7 @@ settings
 			Doomfist
 			{
 				Ammunition Regeneration Time Scalar: 162%
+				Ultimate Generation Meteor Strike: 100%
 			}
 			D.Va
 			{
@@ -145,6 +146,10 @@ settings
 			Moira
 			{
 				Ultimate Generation Coalescence: 95%
+			}
+			Orisa
+			{
+				Ultimate Generation Terra Surge: 116.07142857142857%
 			}
 			Pharah
 			{
@@ -287,93 +292,92 @@ variables {
         37: ult_point_while_ult_active
         38: start_time_ult
         39: current_configuration
-        40: self_repair_time_left
-        41: self_repair_instance
-        42: self_repair_gui
-        43: machine_gun_ammo
-        44: machine_gun_ready
-        45: machine_gun_reload_timer
-        46: machine_gun_gui
-        47: inspire_duration
-        48: is_using_uppercut
-        49: is_using_slam
-        50: e_pressed_by_bot
-        51: pressing_uppercut_key
-        52: is_hit_by_uppercut
-        53: shift_pressed_by_bot
-        54: pressing_slam_key
-        55: slam_to_use
-        56: current_position
-        57: proto_indicator_slam_position
-        58: indicator_slam_position
-        59: indicator_slam_direction
-        60: slam_damage
-        61: slam_damage_text_entity
-        62: slammed_victims
-        63: indicator_entity
-        64: punched_victims
-        65: wall_impacted_victims
-        66: punch_charge_time
-        67: hero_id_duplicated
-        68: flashbang_origin_position
-        69: flashbang_exploded
+        40: is_pressing_self_repair_key
+        41: is_using_self_repair
+        42: self_repair_time_left
+        43: self_repair_instance
+        44: self_repair_gui
+        45: machine_gun_ammo
+        46: machine_gun_ready
+        47: machine_gun_reload_timer
+        48: machine_gun_gui
+        49: inspire_duration
+        50: is_using_uppercut
+        51: is_using_slam
+        52: e_pressed_by_bot
+        53: pressing_uppercut_key
+        54: is_hit_by_uppercut
+        55: shift_pressed_by_bot
+        56: pressing_slam_key
+        57: slam_to_use
+        58: current_position
+        59: proto_indicator_slam_position
+        60: indicator_slam_position
+        61: indicator_slam_direction
+        62: slam_damage
+        63: slam_damage_text_entity
+        64: slammed_victims
+        65: indicator_entity
+        66: punched_victims
+        67: wall_impacted_victims
+        68: punch_charge_time
+        69: hero_id_duplicated
         70: freeze_progress
-        71: is_frozen
-        72: freeze_slow_linger_time
-        73: freeze_move_penalty
-        74: is_using_guardian_angel
-        75: is_slingshotting
-        76: slingshot_velocity
-        77: is_using_supercharger
-        78: is_supercharged
-        79: orisa_supercharger_entity
-        80: orisa_supercharger_uptime
-        81: orisa_supercharger_position
-        82: orisa_beam_entity
-        83: orisa_beam_sound_effect
-        84: is_using_halt
-        85: is_snared
-        86: halt_position
-        87: halt_ending_position
-        88: halt_entity1
-        89: halt_entity2
-        90: halt_pull_line_entity
-        91: position
-        92: barrier_projectile
-        93: barrier_proj_v0
-        94: barrier_proj_p0
-        95: barrier_proj_t
-        96: barrier_proj_velocity
-        97: barrier_proj_position
-        98: barrier_position
-        99: barrier_orientation
-        100: barrier_sample_x
-        101: barrier_sample_y
-        102: barrier_sample_z
-        103: barrier_sample_radius
-        104: barrier_sample_theta
-        105: barrier_sample_point
-        106: barrier_entity_positions
-        107: barrier_entities
-        108: barrier_uptime
-        109: barrier_active
-        110: barrier_health
-        111: orisa_barrier_hit_positions
-        112: barrier_health_hud
-        113: orisa_ammo
-        114: orisa_ammo_hud
-        115: is_orisa_reloading
-        116: time_hook_was_active
-        117: hack_damage_modifier
-        118: scoped_shot_distance
-        119: scoped_damage_base
-        120: ow2_scoped_damage_falloff_scalar
-        121: ow1_scoped_damage_falloff_scalar
-        122: expected_scoped_damage
-        123: self_bubble_cooldown
-        124: ally_bubble_cooldown
-        125: self_bubble_cd_text
-        126: ally_bubble_cd_text
+        71: freeze_slow_linger_time
+        72: freeze_move_penalty
+        73: is_using_guardian_angel
+        74: is_slingshotting
+        75: slingshot_velocity
+        76: is_using_supercharger
+        77: is_supercharged
+        78: orisa_supercharger_entity
+        79: orisa_supercharger_uptime
+        80: orisa_supercharger_position
+        81: orisa_beam_entity
+        82: orisa_beam_sound_effect
+        83: is_using_halt
+        84: is_snared
+        85: halt_position
+        86: halt_ending_position
+        87: halt_entity1
+        88: halt_entity2
+        89: halt_pull_line_entity
+        90: position
+        91: barrier_projectile
+        92: barrier_proj_v0
+        93: barrier_proj_p0
+        94: barrier_proj_t
+        95: barrier_proj_velocity
+        96: barrier_proj_position
+        97: barrier_position
+        98: barrier_orientation
+        99: barrier_sample_x
+        100: barrier_sample_y
+        101: barrier_sample_z
+        102: barrier_sample_radius
+        103: barrier_sample_theta
+        104: barrier_sample_point
+        105: barrier_entity_positions
+        106: barrier_entities
+        107: barrier_uptime
+        108: barrier_active
+        109: barrier_health
+        110: orisa_barrier_hit_positions
+        111: barrier_health_hud
+        112: orisa_ammo
+        113: orisa_ammo_hud
+        114: is_orisa_reloading
+        115: time_hook_was_active
+        116: hack_damage_modifier
+        117: scoped_shot_distance
+        118: scoped_damage_base
+        119: ow2_scoped_damage_falloff_scalar
+        120: ow1_scoped_damage_falloff_scalar
+        121: expected_scoped_damage
+        122: self_bubble_cooldown
+        123: ally_bubble_cooldown
+        124: self_bubble_cd_text
+        125: ally_bubble_cd_text
 }
 subroutines {
     0: resetHero
@@ -391,45 +395,43 @@ subroutines {
     12: removeSelfHealing
     13: startTank
     14: endTank
-    15: startSelfRepair
-    16: stopSelfRepair
-    17: createSelfRepairGUI
-    18: destroySelfRepairGUI
-    19: startMachineGunReload
-    20: createMachineGunGUI
-    21: destroyMachineGunGUI
-    22: executeUppercut
-    23: detectUpercutHit
-    24: executeSlam
-    25: startSlamAnimation
-    26: initiateGroundSlam
-    27: initiateIndicatorSlam
-    28: createSlamDamageGui
-    29: destroySlamDamageGui
-    30: createSlamIndicatorGui
-    31: destroySlamIndicatorGui
-    32: initMei
-    33: clearFreezeEffect
-    34: startSupercharger
-    35: endSupercharger
-    36: shootHalt
-    37: explodeHalt
-    38: throwBarrier
-    39: deployBarrier
-    40: destroyBarrier
-    41: fibonacciSphere
-    42: createBarrierHud
-    43: destroyBarrierHud
-    44: resetFusionDriver
-    45: reloadFusionDriver
-    46: refreshAmmo
-    47: createOrisaAmmoHud
-    48: destroyOrisaAmmoHud
-    49: initRoadhog
-    50: showSelfBubbleCD
-    51: hideSelfBubbleCD
-    52: showAllyBubbleCD
-    53: hideAllyBubbleCD
+    15: createSelfRepairGUI
+    16: destroySelfRepairGUI
+    17: startMachineGunReload
+    18: createMachineGunGUI
+    19: destroyMachineGunGUI
+    20: executeUppercut
+    21: detectUpercutHit
+    22: executeSlam
+    23: startSlamAnimation
+    24: initiateGroundSlam
+    25: initiateIndicatorSlam
+    26: createSlamDamageGui
+    27: destroySlamDamageGui
+    28: createSlamIndicatorGui
+    29: destroySlamIndicatorGui
+    30: initMei
+    31: clearFreezeEffect
+    32: startSupercharger
+    33: endSupercharger
+    34: shootHalt
+    35: explodeHalt
+    36: throwBarrier
+    37: deployBarrier
+    38: destroyBarrier
+    39: fibonacciSphere
+    40: createBarrierHud
+    41: destroyBarrierHud
+    42: resetFusionDriver
+    43: reloadFusionDriver
+    44: refreshAmmo
+    45: createOrisaAmmoHud
+    46: destroyOrisaAmmoHud
+    47: initRoadhog
+    48: showSelfBubbleCD
+    49: hideSelfBubbleCD
+    50: showAllyBubbleCD
+    51: hideAllyBubbleCD
 }
 rule ("Initialize global variables") {
     event {
@@ -1099,32 +1101,34 @@ rule ("[ult_charge.opy]: initialize overwatch 1 ultimate costs") {
     }
     actions {
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(D.Va)), 1540);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Reinhardt)), 1542.056074766355);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Roadhog)), 2240.7407407407404);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Sigma)), 1962.6168224299065);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Winston)), 1541.6666666666667);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Wrecking Ball)), 1536.6972477064219);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Zarya)), 2101.8518518518517);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Orisa)), 1680);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Reinhardt)), 1540);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Roadhog)), 2240);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Sigma)), 1960);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Winston)), 1540);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Wrecking Ball)), 1540);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Zarya)), 2100);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Ashe)), 2240);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Bastion)), 2310);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Cassidy)), 1681.8181818181818);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Echo)), 2254.6666666666665);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Doomfist)), 1680);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Cassidy)), 1680);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Echo)), 2254);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Genji)), 1932);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Hanzo)), 1680);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Junkrat)), 1925);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Mei)), 1605.5045871559632);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Pharah)), 2105.2631578947367);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Reaper)), 2097.8260869565215);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Mei)), 1610);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Pharah)), 2100);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Reaper)), 2100);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Soldier: 76)), 2310);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Sombra)), 1400.0000000000002);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Sombra)), 1400);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Symmetra)), 1680);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Torbjörn)), 2142);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Tracer)), 1260);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Widowmaker)), 1540);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Ana)), 2100);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Baptiste)), 2310);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Brigitte)), 2786.5979381443303);
-        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Lúcio)), 2951.2195121951218);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Brigitte)), 2800);
+        Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Lúcio)), 2940);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Mercy)), 1820);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Moira)), 2800);
         Set Global Variable At Index(ult_cost, Index Of Array Value(All Heroes, Hero(Zenyatta)), 2310);
@@ -1755,30 +1759,105 @@ rule ("[bastion/repair.opy]: Initialize self repair ability") {
     actions {
         Disallow Button(Event Player, Button(Secondary Fire));
         Set Player Variable(Event Player, self_repair_time_left, 3.333333333333333);
+        Set Player Variable(Event Player, self_repair_gui, Null);
+        Set Player Variable(Event Player, is_pressing_self_repair_key, False);
+        Set Player Variable(Event Player, is_using_self_repair, False);
     }
 }
 
-rule ("[bastion/repair.opy]: startSelfRepair()") {
+rule ("[bastion/repair.opy]: Detect Self Repair key press") {
     event {
-        Subroutine;
-        startSelfRepair;
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire))) == True;
     }
     actions {
-        Wait(0.5, Ignore Condition);
+        Set Player Variable(Event Player, is_pressing_self_repair_key, True);
+        Wait Until(Not(Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire)))), 999999999999999);
+        Set Player Variable(Event Player, is_pressing_self_repair_key, False);
+    }
+}
+
+rule ("[bastion/repair.opy]: Start self-repair") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).is_using_self_repair == False;
+        (Event Player).is_pressing_self_repair_key != False;
+        Is Firing Primary(Event Player) == False;
+        Is Alive(Event Player) == True;
+    }
+    actions {
+        If(Compare((Event Player).self_repair_gui, ==, Null));
+            Call Subroutine(createSelfRepairGUI);
+        End;
+        Wait(0.5, Abort When False);
+        Set Player Variable(Event Player, is_using_self_repair, True);
+        Wait Until(Or(Or(Or(Not((Event Player).is_pressing_self_repair_key), Is Firing Primary(Event Player)), Is Dead(Event Player)), Compare((Event Player).self_repair_time_left, <=, 0)), 999999999999999);
+        Set Player Variable(Event Player, is_using_self_repair, False);
+    }
+}
+
+rule ("[bastion/repair.opy]: Heal on self-repair") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).is_using_self_repair != False;
+    }
+    actions {
         Start Heal Over Time(Event Player, Event Player, (Event Player).self_repair_time_left, 90);
         Set Player Variable(Event Player, self_repair_instance, Last Heal Over Time ID);
+    }
+}
+
+rule ("[bastion/repair.opy]: Deplete healing resource") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).is_using_self_repair != False;
+    }
+    actions {
         "Start depleting"
         Chase Player Variable At Rate(Event Player, self_repair_time_left, 0, 1, Destination and Rate);
     }
 }
 
-rule ("[bastion/repair.opy]: stopSelfRepair()") {
+rule ("[bastion/repair.opy]: Stop healing when not self-repairing") {
     event {
-        Subroutine;
-        stopSelfRepair;
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).is_using_self_repair == False;
     }
     actions {
         Stop Heal Over Time((Event Player).self_repair_instance);
+    }
+}
+
+rule ("[bastion/repair.opy]: Replanish healing resource") {
+    event {
+        Ongoing - Each Player;
+        All;
+        Bastion;
+    }
+    conditions {
+        (Event Player).is_using_self_repair == False;
+    }
+    actions {
         "Stop any ongoing resource modification"
         Stop Chasing Player Variable(Event Player, self_repair_time_left);
         "Wait 1 second cooldown before recharging heal resource"
@@ -1802,76 +1881,6 @@ rule ("[bastion/repair.opy]: Give ult charge for self repair") {
     }
 }
 
-rule ("[bastion/repair.opy]: Start self-repair on ability 2 or secondary fire") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire))) == True;
-        Is Firing Primary(Event Player) == False;
-        Health(Event Player) < Max Health(Event Player);
-        Is Alive(Event Player) == True;
-    }
-    actions {
-        Call Subroutine(startSelfRepair);
-    }
-}
-
-rule ("[bastion/repair.opy]: Stop self-repair on key release") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        Or(Not(Or(Is Button Held(Event Player, Button(Ability 2)), Is Button Held(Event Player, Button(Secondary Fire)))), Is Firing Primary(Event Player)) == True;
-    }
-    actions {
-        Call Subroutine(stopSelfRepair);
-    }
-}
-
-rule ("[bastion/repair.opy]: Stop self-repair and hide its GUI on death") {
-    event {
-        Player Died;
-        All;
-        Bastion;
-    }
-    actions {
-        Call Subroutine(stopSelfRepair);
-    }
-}
-
-rule ("[bastion/repair.opy]: Stop self-repair when no healing resource left") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).self_repair_time_left <= 0;
-    }
-    actions {
-        Call Subroutine(stopSelfRepair);
-    }
-}
-
-rule ("[bastion/repair.opy]: Stop self-repair when full hp") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        Health(Event Player) >= Max Health(Event Player);
-    }
-    actions {
-        Call Subroutine(stopSelfRepair);
-    }
-}
-
 rule ("[bastion/repair.opy]: createSelfRepairGUI()") {
     event {
         Subroutine;
@@ -1890,20 +1899,7 @@ rule ("[bastion/repair.opy]: destroySelfRepairGUI()") {
     }
     actions {
         Destroy Progress Bar HUD Text((Event Player).self_repair_gui);
-    }
-}
-
-rule ("[bastion/repair.opy]: Show self-repair GUI") {
-    event {
-        Ongoing - Each Player;
-        All;
-        Bastion;
-    }
-    conditions {
-        (Event Player).self_repair_time_left < 3.333333333333333;
-    }
-    actions {
-        Call Subroutine(createSelfRepairGUI);
+        Set Player Variable(Event Player, self_repair_gui, Null);
     }
 }
 

@@ -3,7 +3,7 @@
 settings {
     "main": {
         "description": \
-"Overwatch 1 Emulator v0.8.6 (main build)\r\n\
+"Overwatch 1 Emulator\r\n\
 \r\n\
 ecksdee#11729's attempt to accurately recreate \r\n\
 the last version of Overwatch 1 using workshop.\r\n\
@@ -27,7 +27,7 @@ discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
 github.com/MaxwellJung/ow1_emulator",
-        "modeName": "Overwatch 1 Emulator"
+        "modeName": "Overwatch 1 Emulator v0.8.7"
     },
     "lobby": {
         "mapRotation": "afterGame",
@@ -163,6 +163,7 @@ github.com/MaxwellJung/ow1_emulator",
             },
             "doomfist": {
                 "ammoRegenerationTime%": 162,
+                "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
             },
             "dva": {
                 "secondaryFireMaximumTime%": 67,
@@ -192,6 +193,9 @@ github.com/MaxwellJung/ow1_emulator",
             },
             "moira": {
                 "ultGen%": percent(OW2_MOIRA_ULT_COST/OW1_MOIRA_ULT_COST)
+            },
+            "orisa": {
+                "ultGen%": percent(OW2_ORISA_ULT_COST/OW1_ORISA_ULT_COST)
             },
             "pharah": {
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST)
