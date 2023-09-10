@@ -34,7 +34,7 @@ rule "[bastion/repair.opy]: Detect Self Repair key press":
     eventPlayer.is_pressing_self_repair_key = false
 
 
-rule "[bastion/repair.opy]: Start self-repair":
+rule "[bastion/repair.opy]: Activate self-repair":
     @Event eachPlayer
     @Hero bastion
     @Condition not eventPlayer.is_using_self_repair
