@@ -36,7 +36,7 @@
 #!include "ow1/heroes/sigma.opy"
 #!include "ow1/heroes/soldier.opy"
 #!include "ow1/heroes/sombra.opy"
-#!include "ow1/heroes/symmetra.opy"
+#!include "ow1/heroes/symmetra/symmetra.opy"
 #!include "ow1/heroes/torbjorn.opy"
 #!include "ow1/heroes/tracer.opy"
 #!include "ow1/heroes/widowmaker.opy"
