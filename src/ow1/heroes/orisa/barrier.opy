@@ -165,6 +165,9 @@ def deployBarrier(): # Create shield visual object
                      EffectReeval.COLOR)
         eventPlayer.barrier_entities.append(getLastCreatedEntity())
 
+    # Play barrier deploying sound
+    playEffect(getAllPlayers(), DynamicEffect.BUFF_IMPACT_SOUND, Color.LIME_GREEN, eventPlayer.barrier_proj_position, 100)
+
     eventPlayer.barrier_active = true
     eventPlayer.barrier_health = OW1_ORISA_PROJECTILE_BARRIER_HEALTH
     eventPlayer.barrier_uptime = 0
