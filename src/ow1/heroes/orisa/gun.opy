@@ -11,7 +11,7 @@ subroutine refreshAmmo
 subroutine createOrisaAmmoHud
 subroutine destroyOrisaAmmoHud
 
-rule "[orisa/gun.opy]: Initialize OW1 Orisa clip size":
+rule "[orisa/gun.opy]: Initialize OW1 Orisa Gun":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.call_init == true
@@ -19,6 +19,7 @@ rule "[orisa/gun.opy]: Initialize OW1 Orisa clip size":
     resetFusionDriver()
     createOrisaAmmoHud()
     eventPlayer.is_orisa_reloading = false
+    eventPlayer.setDamageDealt(percent(OW1_ORISA_GUN_DAMAGE/OW2_ORISA_GUN_DAMAGE))
 
 
 rule "[orisa/gun.opy]: Remove ammo hud":
@@ -116,3 +117,19 @@ rule "[orisa/gun.opy]: Slow down Orisa when shooting":
     eventPlayer.setMoveSpeed(100-percent(OW1_ORISA_MOVEMENT_PENALTY))
     waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) or eventPlayer.is_orisa_reloading, Math.INFINITY)
     eventPlayer.setMoveSpeed(100)
+
+
+rule "[orisa/gun.opy]: Deal OW1 Orisa primary fire damage":
+    @Event playerDealtDamage
+    @Hero orisa
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, OW1_ORISA_GUN_DAMAGE - eventDamage)
+
+
+rule "[orisa/gun.opy]: Deal OW1 Orisa melee damage":
+    @Event playerDealtDamage
+    @Hero orisa
+    @Condition eventAbility == Button.MELEE
+
+    damage(victim, attacker, eventDamage*(OW2_ORISA_GUN_DAMAGE/OW1_ORISA_GUN_DAMAGE) - eventDamage + 1) # +1 compensates for rounding error
