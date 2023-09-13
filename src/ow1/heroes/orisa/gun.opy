@@ -23,6 +23,7 @@ rule "[orisa/gun.opy]: Initialize OW1 Orisa clip size":
 
 rule "[orisa/gun.opy]: Remove ammo hud":
     @Event eachPlayer
+    @Condition eventPlayer.last_hero_played == Hero.ORISA
     @Condition eventPlayer.call_reset == true
 
     destroyOrisaAmmoHud()
