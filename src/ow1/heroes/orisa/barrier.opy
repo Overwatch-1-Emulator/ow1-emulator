@@ -8,6 +8,7 @@ playervar barrier_proj_velocity
 playervar barrier_proj_position
 playervar barrier_position
 playervar barrier_orientation
+playervar surface_normal
 playervar barrier_sample_x
 playervar barrier_sample_y
 playervar barrier_sample_z
@@ -41,6 +42,9 @@ subroutine destroyBarrierHud
     ((distance(center, point) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) and \
     (angleBetweenVectors(Vector.UP, directionTowards(center, point)) <= 90) and \
     (angleBetweenVectors(direction, directionTowards(center, point)) <= 90))
+
+# Angle of reflection formula from https://math.stackexchange.com/q/13261
+#!define reflection(d, n) (d - 2 * (dotProduct(d, n)) * n)
 
 rule "[orisa/barrier.opy]: Disable OW2 Javelin spin":
     @Event eachPlayer
@@ -81,7 +85,7 @@ def throwBarrier(): # Select shield position and orientation
     createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.barrier_proj_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
     eventPlayer.barrier_projectile = getLastCreatedEntity()
 
-    # Wait for barrier projectile to land
+    # Wait for barrier projectile to hit wall
     waitUntil(updateEveryTick(
                 distance(eventPlayer.barrier_proj_position, \
                          raycast(eventPlayer.barrier_proj_position, \
@@ -95,6 +99,37 @@ def throwBarrier(): # Select shield position and orientation
     stopChasingVariable(eventPlayer.barrier_proj_t)
     stopChasingVariable(eventPlayer.barrier_proj_velocity)
     stopChasingVariable(eventPlayer.barrier_proj_position)
+    
+    # Fall down to floor after bouncing off wall
+    eventPlayer.surface_normal = (raycast(eventPlayer.barrier_proj_position, \
+                                  eventPlayer.barrier_proj_position + eventPlayer.barrier_proj_velocity, \
+                                  null, \
+                                  null, \
+                                  false).getNormal())
+    eventPlayer.barrier_proj_v0 = 0.03 * reflection(eventPlayer.barrier_proj_velocity, eventPlayer.surface_normal)
+    eventPlayer.barrier_proj_p0 = eventPlayer.barrier_proj_position
+    eventPlayer.barrier_proj_t = 0
+    chase(eventPlayer.barrier_proj_t, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME, rate=1, ChaseReeval.DESTINATION_AND_RATE)
+    eventPlayer.barrier_proj_velocity = eventPlayer.barrier_proj_v0
+    chase(eventPlayer.barrier_proj_velocity, getBarrierVelocity(eventPlayer.barrier_proj_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
+    eventPlayer.barrier_proj_position = eventPlayer.barrier_proj_p0
+    chase(eventPlayer.barrier_proj_position, getBarrierPosition(eventPlayer.barrier_proj_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
+
+    # Wait for barrier projectile to hit ground
+    waitUntil(updateEveryTick(
+                distance(eventPlayer.barrier_proj_position, \
+                         raycast(eventPlayer.barrier_proj_position, \
+                                 eventPlayer.barrier_proj_position + eventPlayer.barrier_proj_velocity, \
+                                 null, \
+                                 null, \
+                                 false).getHitPosition()) \ 
+                         < 0.5), OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME)
+    
+    # Freeze barrier projectile
+    stopChasingVariable(eventPlayer.barrier_proj_t)
+    stopChasingVariable(eventPlayer.barrier_proj_velocity)
+    stopChasingVariable(eventPlayer.barrier_proj_position)
+
     # Move projectile to where it collided with the ground
     eventPlayer.barrier_proj_position = raycast(eventPlayer.barrier_proj_position, \
                                                 eventPlayer.barrier_proj_position + eventPlayer.barrier_proj_velocity, \
