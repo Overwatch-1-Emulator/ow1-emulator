@@ -82,6 +82,7 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     @Condition eventPlayer.pressing_slam_key == true
     @Condition eventPlayer.is_using_uppercut == false
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
+    @Condition not eventPlayer.isMeleeing()
     # @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
     @Condition not eventPlayer.hasStatusEffect(Status.FROZEN) # Ensure Doomfist is not frozen
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
@@ -206,11 +207,11 @@ rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     @Hero doomfist
     @Condition eventPlayer.is_using_slam == true
     
-    eventPlayer.slam_damage = 0 
-    waitUntil(updateEveryTick(eventPlayer.isOnGround() == false), Math.INFINITY)
+    eventPlayer.slam_damage = 0
     createSlamDamageGui()
+    waitUntil(not eventPlayer.isOnGround(), Math.INFINITY)
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
-    waitUntil(updateEveryTick(eventPlayer.isOnGround() == true), Math.INFINITY)
+    waitUntil(eventPlayer.isOnGround() or not eventPlayer.is_using_slam, Math.INFINITY)
     stopChasingVariable(eventPlayer.slam_damage)
     wait(1)
     destroySlamDamageGui()
@@ -220,14 +221,14 @@ def createSlamDamageGui():
     @Name "[doomfist/slam.opy]: createSlamDamageGui()"
 
     createInWorldText(eventPlayer, "{0}".format(floor(eventPlayer.slam_damage)), 
-    updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
-    verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
-    2, 
-    Clip.NONE, 
-    WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
-    Color.WHITE, 
-    SpecVisibility.DEFAULT)
-    eventPlayer.slam_damage_text_entity = getLastCreatedText()
+                      updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+                                      verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
+                                      2, 
+                                      Clip.NONE, 
+                                      WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
+                                      Color.WHITE, 
+                                      SpecVisibility.DEFAULT)
+                                      eventPlayer.slam_damage_text_entity = getLastCreatedText()
 
 
 def destroySlamDamageGui():
@@ -257,13 +258,21 @@ rule "[doomfist/slam.opy]: Find slammed victims":
     attacker.slammed_victims.append(victim)
 
 
-rule "[doomfist/slam.opy]: Slammed victims damage and pull/push effects":
+rule "[doomfist/slam.opy]: Slammed victims damage":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.slammed_victims
 
     damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
+
+
+rule "[doomfist/slam.opy]: Slammed victims bounce effect":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
+    @Condition victim in attacker.slammed_victims
+
     victim.setGravity(50) 
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
     victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-(OW1_DOOMFIST_RISING_UPPERCUT_RADIUS-1)), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
