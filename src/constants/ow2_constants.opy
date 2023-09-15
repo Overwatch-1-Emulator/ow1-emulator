@@ -41,7 +41,7 @@
 # Barrier Healths
 #!define OW2_SIGMA_BARRIER_HEALTH 700
 #!define OW2_WINSTON_BARRIER_HEALTH 650
-#!define OW2_ZARYA_BARRIER_HEALTH 200
+#!define OW2_ZARYA_BARRIER_HEALTH 225
 
 ###################################
 # Ana
