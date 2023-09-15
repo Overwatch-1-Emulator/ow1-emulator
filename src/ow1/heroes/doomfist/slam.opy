@@ -63,6 +63,7 @@ rule "[doomfist/slam.opy]: Initialize slam ability":
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.shift_pressed_by_bot = false
+    eventPlayer.slam_damage = 0
 
 
 rule "[doomfist/slam.opy]: Detect shift key press by human": 
@@ -213,13 +214,14 @@ rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.is_using_slam, Math.INFINITY)
     stopChasingVariable(eventPlayer.slam_damage)
-    wait(1)
+    wait(1, Wait.RESTART_WHEN_TRUE)
     destroySlamDamageGui()
 
 
 def createSlamDamageGui():
     @Name "[doomfist/slam.opy]: createSlamDamageGui()"
 
+    if eventPlayer.slam_damage_text_entity != null: return
     createInWorldText(eventPlayer, "{0}".format(floor(eventPlayer.slam_damage)), 
                       updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
                                       verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
@@ -228,7 +230,7 @@ def createSlamDamageGui():
                                       WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
                                       Color.WHITE, 
                                       SpecVisibility.DEFAULT)
-                                      eventPlayer.slam_damage_text_entity = getLastCreatedText()
+    eventPlayer.slam_damage_text_entity = getLastCreatedText()
 
 
 def destroySlamDamageGui():
