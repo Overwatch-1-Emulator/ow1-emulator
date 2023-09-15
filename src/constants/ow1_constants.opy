@@ -177,9 +177,9 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME = createWorkshopSetting(float[
 #!define OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME 10
 #!define OW1_ORISA_PROJECTILE_BARRIER_HEALTH 600
 #!define OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME 20
-globalvar OW1_ORISA_PROTECTIVE_BARRIER_ORB_SIZE = createWorkshopSetting(float[0:3], 'Orisa', 'Barrier Orb Radius', 0.2)
+globalvar OW1_ORISA_PROTECTIVE_BARRIER_ORB_SIZE = createWorkshopSetting(float[0:3], 'Orisa', 'Barrier Orb Radius', 0.25)
 #!define OW1_ORISA_PROTECTIVE_BARRIER_RADIUS 3.5
-globalvar OW1_ORISA_PROTECTIVE_BARRIER_ORB_COUNT = createWorkshopSetting(int[0:400], 'Orisa', 'Barrier Orb Count', 160)
+globalvar OW1_ORISA_PROTECTIVE_BARRIER_ORB_COUNT = createWorkshopSetting(int[0:400], 'Orisa', 'Barrier Orb Count', 140)
 #!define OW1_ORISA_RELOAD_TIME 2.5
 #!define OW1_ORISA_SHIELDS 0
 #!define OW1_ORISA_SUPERCHARGER_AOE_RADIUS 25
