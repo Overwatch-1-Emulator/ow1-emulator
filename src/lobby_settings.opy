@@ -30,6 +30,7 @@ github.com/MaxwellJung/ow1_emulator",
         "modeName": "Overwatch 1 Emulator v0.8.10"
     },
     "lobby": {
+        "allowPlayersInQueue": true,
         "mapRotation": "afterGame",
         "enableMatchVoiceChat": true,
         "spectatorSlots": 12,
