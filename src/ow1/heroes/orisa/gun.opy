@@ -37,9 +37,7 @@ rule "[orisa/gun.opy]: Decrease ammo when shooting gun":
     
     eventPlayer.orisa_ammo -= 1
     refreshAmmo()
-    eventPlayer.setPrimaryFireEnabled(false)
     wait(1/OW1_ORISA_FIRE_RATE)
-    eventPlayer.setPrimaryFireEnabled(true)
 
 
 rule "[orisa/gun.opy]: Reload on key press":
