@@ -43,8 +43,8 @@ github.com/MaxwellJung/ow1_emulator",
         "assault": {
             "enabledMaps": [
                 "hanamura",
-                "horizonLunarColony",
-                "paris",
+                # "horizonLunarColony",
+                # "paris",
                 "templeOfAnubis",
                 "volskaya"
             ]
