@@ -1,8 +1,5 @@
 #!mainFile "../../../main.opy"
 
-playervar shift_pressed_by_bot
-
-playervar pressing_slam_key
 playervar slam_to_use
 playervar current_position
 playervar proto_indicator_slam_position
@@ -62,25 +59,13 @@ rule "[doomfist/slam.opy]: Initialize slam ability":
     @Condition eventPlayer.call_init == true
 
     eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.shift_pressed_by_bot = false
     eventPlayer.slam_damage = 0
-
-
-rule "[doomfist/slam.opy]: Detect shift key press by human": 
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
-    @Condition eventPlayer.shift_pressed_by_bot == false
-    
-    eventPlayer.pressing_slam_key = true
-    waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_1), Math.INFINITY)
-    eventPlayer.pressing_slam_key = false
 
 
 rule "[doomfist/slam.opy]: Control flow for slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.pressing_slam_key == true
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
     @Condition eventPlayer.is_using_uppercut == false
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
     @Condition not eventPlayer.isMeleeing()
@@ -145,7 +130,7 @@ def executeSlam():
     if eventPlayer.is_using_slam == true:
         waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
         eventPlayer.is_using_slam = false
-        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
+        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
 
 
 def initiateGroundSlam():
@@ -194,9 +179,7 @@ def startSlamAnimation():
     # Start slam animation
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.allowButton(Button.ABILITY_1)
-    eventPlayer.shift_pressed_by_bot = true
     eventPlayer.forceButtonPress(Button.ABILITY_1)
-    eventPlayer.shift_pressed_by_bot = false
     eventPlayer.disallowButton(Button.ABILITY_1)
 
     wait()

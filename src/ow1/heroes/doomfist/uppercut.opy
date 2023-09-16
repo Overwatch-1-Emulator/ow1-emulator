@@ -1,8 +1,5 @@
 #!mainFile "../../../main.opy"
 
-playervar e_pressed_by_bot
-
-playervar pressing_uppercut_key
 playervar is_hit_by_uppercut
 
 subroutine executeUppercut
@@ -15,24 +12,12 @@ rule "[doomfist/uppercut.opy]: Initialize uppercut ability":
     @Condition eventPlayer.call_init == true
 
     eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.e_pressed_by_bot = false
-
-
-rule "[doomfist/uppercut.opy]: Detect e key press by human":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
-    @Condition eventPlayer.e_pressed_by_bot == false
-
-    eventPlayer.pressing_uppercut_key = true
-    waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
-    eventPlayer.pressing_uppercut_key = false
 
 
 rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.pressing_uppercut_key == true
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.is_using_slam == false
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     # @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
@@ -88,7 +73,7 @@ rule "[doomfist/uppercut.opy]: Set uppercut cooldown":
     @Condition eventPlayer.is_using_uppercut == true
 
     waitUntil(eventPlayer.is_using_uppercut == false, Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_RISING_UPPERCUT_COOLDOWN_TIME)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_UPPERCUT_CD)
 
 
 rule "[doomfist/uppercut.opy]: Disable abilities when uppercutting":

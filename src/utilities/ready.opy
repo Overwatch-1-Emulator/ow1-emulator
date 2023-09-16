@@ -1,32 +1,40 @@
 #!mainFile "../main.opy"
 
-globalvar ready_hud
-globalvar ready_description_hud
-globalvar READY_THRESHOLD = createWorkshopSetting(float[0.5:1], "Lobby", "Ready Threshold", DEFAULT_READY_THRESHOLD)
+globalvar ready_color
 
+playervar ready_hud
+playervar ready_description_hud
 playervar ready
 
 rule "[ready.opy]: Create ready HUD":
-    @Event global
+    @Event eachPlayer
     @Condition isInSetup()
-    
-    hudHeader(getAllPlayers(), \
-              "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), \
+
+    hudHeader(eventPlayer, \
+              "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), \
+                                   len(getAllPlayers())), \
               HudPosition.TOP, \
-              9999, \
-              Color.GREEN if all([player.ready for player in getAllPlayers()]) == true else Color.RED, \
+              Math.INFINITY, \
+              ready_color if eventPlayer.ready else Color.RED, \
               HudReeval.STRING_AND_COLOR)
-    ready_hud = getLastCreatedText()
-    hudSubheader(getAllPlayers(), \
+    eventPlayer.ready_hud = getLastCreatedText()
+    hudSubheader(eventPlayer, \
                  "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), \
                  HudPosition.TOP, \
-                 9999, \
+                 Math.INFINITY, \
                  Color.WHITE, \
                  HudReeval.STRING_AND_COLOR)
-    ready_description_hud = getLastCreatedText()
+    eventPlayer.ready_description_hud = getLastCreatedText()
     waitUntil(not isInSetup(), Math.INFINITY)
-    destroyHudText(ready_hud)
-    destroyHudText(ready_description_hud)
+    destroyHudText(eventPlayer.ready_hud)
+    destroyHudText(eventPlayer.ready_description_hud)
+
+
+rule "[ready.opy]: Set initial ready color":
+    @Event global
+    @Condition isInSetup() == true
+
+    ready_color = Color.YELLOW
 
 
 rule "[ready.opy]: Unready all players when entering setup":
@@ -53,4 +61,5 @@ rule "[ready.opy]: Start match when everyone ready":
     @Condition getMatchTime() > SETUP_BUFFER_TIME
     @Condition len([player for player in getAllPlayers() if player.ready])/len(getAllPlayers()) >= READY_THRESHOLD
 
+    ready_color = Color.GREEN
     setMatchTime(SETUP_BUFFER_TIME)
