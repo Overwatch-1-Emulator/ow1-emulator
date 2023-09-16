@@ -145,7 +145,7 @@ def executeSlam():
     if eventPlayer.is_using_slam == true:
         waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
         eventPlayer.is_using_slam = false
-        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SEISMIC_SLAM_COOLDOWN_TIME)
+        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
 
 
 def initiateGroundSlam():

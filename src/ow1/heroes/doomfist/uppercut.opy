@@ -88,7 +88,7 @@ rule "[doomfist/uppercut.opy]: Set uppercut cooldown":
     @Condition eventPlayer.is_using_uppercut == true
 
     waitUntil(eventPlayer.is_using_uppercut == false, Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_RISING_UPPERCUT_COOLDOWN_TIME)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_UPPERCUT_CD)
 
 
 rule "[doomfist/uppercut.opy]: Disable abilities when uppercutting":

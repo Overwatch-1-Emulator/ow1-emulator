@@ -161,7 +161,7 @@ def deployBarrier(): # Create shield visual object
                         if random.uniform(0, 1) <= eventPlayer.barrier_health/OW1_ORISA_PROJECTILE_BARRIER_HEALTH
                         else Color.WHITE, 
                      evalOnce(eventPlayer.barrier_sample_point), 
-                     OW1_ORISA_PROTECTIVE_BARRIER_ORB_SIZE, 
+                     OW1_ORISA_BARRIER_ORB_SIZE, 
                      EffectReeval.COLOR)
         eventPlayer.barrier_entities.append(getLastCreatedEntity())
 
@@ -184,8 +184,8 @@ def fibonacciSphere():
 
     eventPlayer.barrier_entity_positions = []
 
-    for i in range(OW1_ORISA_PROTECTIVE_BARRIER_ORB_COUNT):
-        eventPlayer.barrier_sample_y = 1 - (i / (OW1_ORISA_PROTECTIVE_BARRIER_ORB_COUNT-1)) * 2
+    for i in range(OW1_ORISA_BARRIER_ORB_COUNT):
+        eventPlayer.barrier_sample_y = 1 - (i / (OW1_ORISA_BARRIER_ORB_COUNT-1)) * 2
         if (eventPlayer.barrier_sample_y < -0.2): break # Do not draw bottom half of sphere
         eventPlayer.barrier_sample_radius = sqrt(1 - eventPlayer.barrier_sample_y * eventPlayer.barrier_sample_y)
 
