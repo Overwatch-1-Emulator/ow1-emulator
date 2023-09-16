@@ -40,6 +40,7 @@ def clearCustomHealth():
 def applyCustomHealth():
     @Name "[custom_health_handler.opy]: applyCustomHealth()"
     
+    waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
     # If the player is in spawn, teleport them out as they are invulnerable in spawn
     if eventPlayer.isInSpawnRoom():
         eventPlayer.stored_spawn_pos = eventPlayer.getPosition()
@@ -84,7 +85,7 @@ def applyCustomHealth():
         eventPlayer.teleport(eventPlayer.stored_spawn_pos)
         eventPlayer.stored_spawn_pos = null
     
-    wait(1) # Wait 1 second for everything to settle
+    wait(3) # Wait 3 second for everything to settle
     if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
         clearCustomHealth()
         goto RULE_START
