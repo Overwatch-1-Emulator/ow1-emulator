@@ -3,7 +3,6 @@
 playervar is_using_supercharger
 playervar is_supercharged
 playervar orisa_supercharger_entity
-playervar orisa_supercharger_uptime
 playervar orisa_supercharger_position
 playervar orisa_beam_entity
 playervar orisa_beam_sound_effect
@@ -29,13 +28,7 @@ rule "[orisa/supercharger.opy]: Trigger Supercharger start":
 
     endSupercharger() # Destroy any existing Supercharger
     startSupercharger() # Start supercharger
-
-
-rule "[orisa/supercharger.opy]: Trigger Supercharger end":
-    @Event eachPlayer
-    @Hero orisa
-    @Condition eventPlayer.orisa_supercharger_uptime >= OW1_ORISA_SUPERCHARGER_MAX_DURATION
-
+    wait(OW1_ORISA_SUPERCHARGER_MAX_DURATION, Wait.RESTART_WHEN_TRUE) # Start supercharger timer
     endSupercharger()
 
 
@@ -52,9 +45,7 @@ def startSupercharger():
     # Supercharge Effect
     playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.GREEN, eventPlayer.orisa_supercharger_position, 3)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.GREEN, eventPlayer.orisa_supercharger_position, 200)
-    # Start supercharger timer
-    eventPlayer.orisa_supercharger_uptime = 0
-    chase(eventPlayer.orisa_supercharger_uptime, OW1_ORISA_SUPERCHARGER_MAX_DURATION, rate=1, ChaseReeval.NONE)
+    # Announce supercharger active
     eventPlayer.is_using_supercharger = true
 
 
@@ -62,7 +53,6 @@ def endSupercharger():
     @Name "[orisa/supercharger.opy]: endSupercharger()"
 
     eventPlayer.setUltEnabled(true)
-    stopChasingVariable(eventPlayer.orisa_supercharger_uptime)
     destroyEffect(eventPlayer.orisa_supercharger_entity)
     getPlayers(eventPlayer.getTeam()).is_supercharged = false
     eventPlayer.is_using_supercharger = false

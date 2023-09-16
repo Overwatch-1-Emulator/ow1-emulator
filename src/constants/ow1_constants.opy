@@ -16,6 +16,8 @@ globalvar READY_THRESHOLD = createWorkshopSetting(float[0.5:1], "Lobby", "Ready 
 #!define OW1_ANA_ULT_COST 2100
 
 # Ashe
+#!define OW1_ASHE_BOB_HEALTH 1200
+#!define OW1_ASHE_HEALTH 200
 #!define OW1_ASHE_ULT_COST 2240
 
 # Baptiste

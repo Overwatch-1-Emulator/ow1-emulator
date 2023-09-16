@@ -27,7 +27,7 @@ discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
 github.com/MaxwellJung/ow1_emulator",
-        "modeName": "Overwatch 1 Emulator v0.8.10"
+        "modeName": "Overwatch 1 Emulator v0.8.11"
     },
     "lobby": {
         "allowPlayersInQueue": true,
@@ -43,8 +43,8 @@ github.com/MaxwellJung/ow1_emulator",
         "assault": {
             "enabledMaps": [
                 "hanamura",
-                "horizonLunarColony",
-                "paris",
+                # "horizonLunarColony",
+                # "paris",
                 "templeOfAnubis",
                 "volskaya"
             ]
@@ -147,6 +147,7 @@ github.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_ANA_ULT_COST/OW1_ANA_ULT_COST)
             },
             "ashe": {
+                "health%": percent(OW1_ASHE_BOB_HEALTH/OW2_ASHE_BOB_HEALTH), # for BOB hp
                 "ultGen%": percent(OW2_ASHE_ULT_COST/OW1_ASHE_ULT_COST)
             },
             "baptiste": {
