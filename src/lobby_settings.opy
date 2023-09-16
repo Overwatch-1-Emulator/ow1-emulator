@@ -147,6 +147,7 @@ github.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_ANA_ULT_COST/OW1_ANA_ULT_COST)
             },
             "ashe": {
+                "health%": percent(OW1_ASHE_BOB_HEALTH/OW2_ASHE_BOB_HEALTH), # for BOB hp
                 "ultGen%": percent(OW2_ASHE_ULT_COST/OW1_ASHE_ULT_COST)
             },
             "baptiste": {

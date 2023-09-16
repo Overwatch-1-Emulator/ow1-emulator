@@ -1,16 +1,10 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../../main.opy"
 
 playervar ult_point_while_ult_active
 playervar start_time_ult
 
 
-rule "[ashe.opy]: Initialize Ashe":
-    @Event eachPlayer
-    @Hero ashe
-    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-
-rule "[ashe.opy]: Add ultimate charge while using BOB":
+rule "[ashe/bob.opy]: Add ultimate charge while using BOB":
     @Event eachPlayer
     @Hero ashe
     @Condition eventPlayer.isUsingUltimate() 
@@ -26,7 +20,7 @@ rule "[ashe.opy]: Add ultimate charge while using BOB":
  
 
 
-rule "[ashe.opy]: Calcul of the damage made while BOB is active":
+rule "[ashe/bob.opy]: Calcul of the damage made while BOB is active":
     @Event playerDealtDamage
     @Hero ashe
     @Condition eventPlayer.isUsingUltimate()
