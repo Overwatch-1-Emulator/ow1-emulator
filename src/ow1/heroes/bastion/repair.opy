@@ -19,18 +19,8 @@ rule "[bastion/repair.opy]: Initialize self repair ability":
     
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.self_repair_time_left = OW1_BASTION_MAX_SELF_REPAIR_DURATION
-    eventPlayer.self_repair_gui = null
     eventPlayer.is_pressing_self_repair_key = false
     eventPlayer.is_using_self_repair = false
-    createSelfRepairGUI()
-
-
-rule "[bastion/repair.opy]: Remove self repair HUD":
-    @Event eachPlayer
-    @Condition eventPlayer.last_hero_played == Hero.BASTION
-    @Condition eventPlayer.call_reset == true
-
-    destroySelfRepairGUI()
 
 
 rule "[bastion/repair.opy]: Detect Self Repair key press":
@@ -51,6 +41,7 @@ rule "[bastion/repair.opy]: Activate self-repair":
     @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition eventPlayer.isAlive()
     
+    createSelfRepairGUI()
     stopChasingVariable(eventPlayer.self_repair_time_left) # Stop any ongoing resource recharging
     wait(OW1_BASTION_SELF_REPAIR_CAST_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.is_using_self_repair = true
@@ -59,6 +50,14 @@ rule "[bastion/repair.opy]: Activate self-repair":
               eventPlayer.isDead() or \
               eventPlayer.self_repair_time_left <= 0, Math.INFINITY)
     eventPlayer.is_using_self_repair = false
+
+
+rule "[bastion/repair.opy]: Remove self repair GUI":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.self_repair_time_left >= OW1_BASTION_MAX_SELF_REPAIR_DURATION
+
+    destroySelfRepairGUI()
 
 
 rule "[bastion/repair.opy]: Heal on self-repair":
@@ -110,6 +109,8 @@ rule "[bastion/repair.opy]: Give ult charge for self repair":
 def createSelfRepairGUI():
     @Name "[bastion/repair.opy]: createSelfRepairGUI()"
 
+    if eventPlayer.self_repair_gui != null:
+        return
     progressBarHud(eventPlayer if eventPlayer.self_repair_time_left < OW1_BASTION_MAX_SELF_REPAIR_DURATION else null, 
                    roundedPercent(eventPlayer.self_repair_time_left/OW1_BASTION_MAX_SELF_REPAIR_DURATION), 
                    "Self-Repair", 
