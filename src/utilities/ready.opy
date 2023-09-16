@@ -3,31 +3,25 @@
 globalvar ready_color
 
 playervar ready_hud
-playervar ready_description_hud
 playervar ready
 
 rule "[ready.opy]: Create ready HUD":
     @Event eachPlayer
     @Condition isInSetup()
 
-    hudHeader(eventPlayer, \
-              "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), \
-                                   len(getAllPlayers())), \
-              HudPosition.TOP, \
-              Math.INFINITY, \
-              ready_color if eventPlayer.ready else Color.RED, \
-              HudReeval.STRING_AND_COLOR)
+    hudText(eventPlayer, \
+            "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), \
+            "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), \
+            "Overwatch 1 Emulator: dsc.gg/ow1", \
+            HudPosition.TOP, \
+            Math.INFINITY, \
+            ready_color if eventPlayer.ready else Color.RED, \
+            Color.WHITE, \
+            Color.WHITE, \
+            HudReeval.STRING_AND_COLOR)
     eventPlayer.ready_hud = getLastCreatedText()
-    hudSubheader(eventPlayer, \
-                 "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), \
-                 HudPosition.TOP, \
-                 Math.INFINITY, \
-                 Color.WHITE, \
-                 HudReeval.STRING_AND_COLOR)
-    eventPlayer.ready_description_hud = getLastCreatedText()
     waitUntil(not isInSetup(), Math.INFINITY)
     destroyHudText(eventPlayer.ready_hud)
-    destroyHudText(eventPlayer.ready_description_hud)
 
 
 rule "[ready.opy]: Set initial ready color":
