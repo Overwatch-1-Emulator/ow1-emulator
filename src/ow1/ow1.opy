@@ -9,7 +9,7 @@
 
 # OW1 specific hero logic
 #!include "ow1/heroes/ana/ana.opy"
-#!include "ow1/heroes/ashe.opy"
+#!include "ow1/heroes/ashe/ashe.opy"
 #!include "ow1/heroes/baptiste.opy"
 #!include "ow1/heroes/bastion/bastion.opy"
 #!include "ow1/heroes/brigitte/brigitte.opy"
