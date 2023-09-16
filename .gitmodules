@@ -1,0 +1,3 @@
+[submodule "ow1_emulator_issues"]
+	path = ow1_emulator_issues
+	url = https://github.com/MaxwellJung/ow1_emulator_issues
