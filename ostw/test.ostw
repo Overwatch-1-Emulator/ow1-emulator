@@ -1479,9 +1479,9 @@ Event.OngoingPlayer
 Player.Doomfist
 if (is_using_uppercut == true)
 {
-    PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, TeamOf(EventPlayer()), EventPlayer(), 100);
-    PlayEffect(AllPlayers(Team.All), PlayEffect.DebuffImpactSound, TeamOf(EventPlayer()), EventPlayer(), 100);
-    PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosionSound, TeamOf(EventPlayer()), EventPlayer(), 100);
+    PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, <Color>TeamOf(EventPlayer()), EventPlayer(), 100);
+    PlayEffect(AllPlayers(Team.All), PlayEffect.DebuffImpactSound, <Color>TeamOf(EventPlayer()), EventPlayer(), 100);
+    PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosionSound, <Color>TeamOf(EventPlayer()), EventPlayer(), 100);
 }
 
 rule: "[doomfist/uppercut.opy]: Set uppercut cooldown"
