@@ -5,8 +5,11 @@ rule "[winston.opy]: Initialize Winston":
     @Hero winston
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    wait()
+    wait(1)
     setCustomHealth(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
+    if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
+        clearCustomHealth()
+        goto RULE_START
 
     eventPlayer.setSecondaryFireEnabled(false)
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
