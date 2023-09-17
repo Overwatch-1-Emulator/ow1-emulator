@@ -2,6 +2,17 @@
 
 globalvar debug = createWorkshopSetting(bool, "Dev Tools", "debug mode", false)
 
+
+rule "[main.opy]: Overwatch 1 Emulator copyright notice":
+    @Event global
+    @Condition debug == true
+
+    hudSubheader(getAllPlayers(), "This gamemode's workshop codebase is a property of \"Overwatch 1 Emulator\". \n
+Unauthorized copying and modification of this codebase by anyone other than ecskdee and his dev team is explicitly forbidden. \n
+If you need access to the source code, please contact ecksdee4643 through Discord", 
+                 HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+
+
 rule "[debug.opy]: global debug (Top Left)":
     @Event global
     @Condition debug == true
