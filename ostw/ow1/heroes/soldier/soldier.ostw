@@ -1,0 +1,16 @@
+rule: "[soldier.opy]: Initialize Soldier 76"
+Event.OngoingPlayer
+Player.Soldier76
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    SetHealingDealt(EventPlayer(), 87.5);
+}
+
+rule: "[soldier.opy]: Deal OW1 soldier primary fire damage"
+Event.OnDamageDealt
+Player.Soldier76
+if (EventAbility() == Button.PrimaryFire)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.053 - EventDamage());
+}

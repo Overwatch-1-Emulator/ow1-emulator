@@ -1,0 +1,25 @@
+rule: "[symmetra/orb.opy]: Set OW1 Symmetra Photo Projector projectile speed"
+Event.OngoingPlayer
+Player.Symmetra
+if (IsFiringSecondary(EventPlayer()) == true)
+{
+    SetProjectileSpeed(EventPlayer(), 50);
+    WaitUntil(!IsFiringSecondary(EventPlayer()), 999999986991104);
+    SetProjectileSpeed(EventPlayer(), 100);
+}
+
+rule: "[symmetra/orb.opy]: Deal OW1 symmetra secondary fire damage"
+Event.OnDamageDealt
+Player.Symmetra
+if (EventAbility() == Button.SecondaryFire)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.2 - EventDamage());
+}
+
+rule: "[symmetra/teleporter.opy]: Set default teleporter cooldown"
+Event.OngoingPlayer
+Player.Symmetra
+if (AbilityCooldown(EventPlayer(), Button.Ability2) > 0)
+{
+    SetAbilityCooldown(EventPlayer(), Button.Ability2, 10);
+}

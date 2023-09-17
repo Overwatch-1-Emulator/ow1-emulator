@@ -1,0 +1,15 @@
+rule: "[wreckingball.opy]: Initialize Wrecking Ball"
+Event.OngoingPlayer
+Player.WreckingBall
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    Wait(1, WaitBehavior.IgnoreCondition);
+    applyCustomHealth(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0);
+    if (MaxHealth(EventPlayer()) != OW1_WRECKING_BALL_HEALTH + OW1_WRECKING_BALL_ARMOR)
+    {
+        clearCustomHealth();
+        Loop();
+    }
+    SetKnockbackReceived(EventPlayer(), 142.857);
+}

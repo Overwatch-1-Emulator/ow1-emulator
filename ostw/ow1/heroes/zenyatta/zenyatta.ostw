@@ -1,0 +1,20 @@
+rule: "[zenyatta.opy]: Initialize Zenyatta"
+Event.OngoingPlayer
+Player.Zenyatta
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    SetAmmo(EventPlayer(), 0, 20);
+    SetMaxAmmo(EventPlayer(), 0, 20);
+    SetKnockbackDealt(EventPlayer(), 5);
+}
+
+rule: "[zenyatta.opy]: Allow self healing during Transcendence"
+Event.OngoingPlayer
+Player.Zenyatta
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    self_healing_percent = 100;
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    self_healing_percent = 0;
+}

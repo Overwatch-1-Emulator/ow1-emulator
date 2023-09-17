@@ -1,0 +1,81 @@
+globalvar define debug = WorkshopSettingToggle("Dev Tools", "debug mode", false, 0);
+
+rule: "[main.opy]: Overwatch 1 Emulator copyright notice"
+if (debug == true)
+{
+    CreateHudText(AllPlayers(Team.All), null, <"Property of \"Overwatch 1 Emulator\" \n\nDuplication or modification of the codebase without permission is strictly forbidden.<0>", "\n\nContact ecksdee4643 on Discord for source code acess">, null, Location.Top, 1, null, Color.White, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+}
+
+rule: "[debug.opy]: global debug (Top Left)"
+if (debug == true)
+{
+    CreateHudText(AllPlayers(Team.All), "Global", null, null, Location.Left, 0, Color.White, null, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+    CreateHudText(AllPlayers(Team.All), null, <"Server Load: <0>%", ServerLoad()>, null, Location.Left, 1, null, Color.White, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+    CreateHudText(AllPlayers(Team.All), null, <"Server Load Average: <0>%", ServerLoadAverage()>, null, Location.Left, 1, null, Color.White, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+    CreateHudText(AllPlayers(Team.All), null, <"Server Load Peak: <0>%", ServerLoadPeak()>, null, Location.Left, 1, null, Color.White, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+}
+
+rule: "[debug.opy]: player debug (Top Right)"
+Event.OngoingPlayer
+if (debug == true)
+{
+    CreateHudText(EventPlayer(), "Event Player", null, null, Location.Right, 0, Color.White, null, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getAltitude() = <0>", AltitudeOf(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"hasStatusEffect(Status.HACKED) = <0>", HasStatus(EventPlayer(), Status.Hacked)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"hasStatusEffect(Status.STUNNED) = <0>", HasStatus(EventPlayer(), Status.Stunned)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getStatistic(Stat.HERO_DAMAGE_DEALT) = <0>", PlayerStat(EventPlayer(), PlayerStat.HeroDamageDealt)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"len(allowed_heroes) = <0>", CountOf(allowed_heroes)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"len(getAllowedHeroes()) = <0>", CountOf(AllowedHeroes(EventPlayer()))>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isUsingUltimate() = <0>", IsUsingUltimate(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getUltCharge() = <0>", UltimateChargePercent(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getUltCharge() >= 100 = <0>", UltimateChargePercent(EventPlayer()) >= 100>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isFiringPrimaryFire() = <0>", IsFiringPrimary(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isFiringSecondaryFire() = <0>", IsFiringSecondary(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isUsingAbility1() = <0>", IsUsingAbility1(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isUsingAbility2() = <0>", IsUsingAbility2(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getSpeed() = <0>", SpeedOf(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"ult_cost[hero_id] = <0>", ult_cost[hero_id]>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"ult_percent_compensated = <0>", ult_percent_compensated>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"call_reset = <0>", call_reset>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"call_init = <0>", call_init>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getMaxHealth() = <0>", MaxHealth(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"orisa_ammo = <0>", orisa_ammo>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isReloading() = <0>", IsReloading(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getAmmo(0) = <0>", Ammo(EventPlayer(), 0)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isHoldingButton(Button.PRIMARY_FIRE) = <0>", IsButtonHeld(EventPlayer(), Button.PrimaryFire)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"self_healing_percent = <0>", self_healing_percent>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getPosition() = <0>", PositionOf(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"role = <0>", role>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isInAlternateForm() = <0>", IsInAlternateForm(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"Ability 1 Cooldown = <0>", AbilityCooldown(EventPlayer(), Button.Ability1)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"is_using_guardian_angel = <0>", is_using_guardian_angel>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"is_slingshotting = <0>", is_slingshotting>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"Ability 2 Cooldown = <0>", AbilityCooldown(EventPlayer(), Button.Ability2)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"slam_damage = <0>", slam_damage>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"is_using_slam = <0>", is_using_slam>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+}
+
+rule: "[debug.opy]: print to console on interact"
+Event.OngoingPlayer
+if (debug == true)
+if (IsButtonHeld(EventPlayer(), Button.Interact) == true)
+{
+    for (i = 0; CountOf(allowed_heroes); 1)
+    {
+        LogToInspector(<"eventPlayer.allowed_heroes[<0>] = <1>", i, allowed_heroes[i]>);
+    }
+}
+
+rule: "[debug.opy]: Debug damage instance"
+Event.OnDamageDealt
+if (debug == true)
+{
+    LogToInspector(<"hero=<0>, ability=<1>, amount=<2>", HeroOf(EventPlayer()), EventAbility(), EventDamage()>);
+}
+
+rule: "[debug.opy]: Debug healing instance"
+Event.OnHealingDealt
+if (debug == true)
+{
+    LogToInspector(<"hero=<0>, ability=<1>, amount=<2>", HeroOf(EventPlayer()), EventAbility(), EventHealing()>);
+}

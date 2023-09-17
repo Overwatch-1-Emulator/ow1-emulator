@@ -1,0 +1,34 @@
+rule: "[winston.opy]: Initialize Winston"
+Event.OngoingPlayer
+Player.Winston
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    Wait(1, WaitBehavior.IgnoreCondition);
+    applyCustomHealth(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0);
+    if (MaxHealth(EventPlayer()) != OW1_WINSTON_HEALTH + OW1_WINSTON_ARMOR)
+    {
+        clearCustomHealth();
+        Loop();
+    }
+    SetSecondaryFireEnabled(EventPlayer(), false);
+    SetKnockbackReceived(EventPlayer(), 142.857);
+}
+
+rule: "[winston.opy]: Set default leap cooldown"
+Event.OngoingPlayer
+Player.Winston
+if (IsUsingAbility1(EventPlayer()) == true)
+if (IsUsingUltimate(EventPlayer()) == false)
+{
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 6);
+}
+
+rule: "[winston.opy]: Set leap after ultimate"
+Event.OngoingPlayer
+Player.Winston
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 0);
+}
