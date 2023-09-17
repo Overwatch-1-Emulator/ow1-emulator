@@ -18,8 +18,11 @@ rule "[widowmaker.opy]: Initialize Widowmaker":
     @Hero widowmaker
     @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
 
-    wait()
+    wait(1)
     setCustomHealth(OW1_WIDOWMAKER_HEALTH, 0, 0)
+    if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
+        clearCustomHealth()
+        goto RULE_START
 
 
 rule "[widowmaker.opy]: Revert sniper damage falloff":

@@ -84,11 +84,6 @@ def applyCustomHealth():
     if eventPlayer.stored_spawn_pos != null:
         eventPlayer.teleport(eventPlayer.stored_spawn_pos)
         eventPlayer.stored_spawn_pos = null
-    
-    wait(3) # Wait 3 second for everything to settle
-    if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
-        clearCustomHealth()
-        goto RULE_START
 
 
 rule "[custom_health_handler.opy]: Remove Custom Health Conditions":
