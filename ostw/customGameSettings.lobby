@@ -58,7 +58,6 @@
         "Ultimate Generation (Nano Boost)": 100.0
       },
       "Ashe": {
-        "Health": 120.0,
         "Ultimate Generation (B.O.B.)": 100.0
       },
       "Baptiste": {
@@ -68,7 +67,6 @@
         "Ultimate Generation (Configuration: Artillery)": 100.0
       },
       "Brigitte": {
-        "Health": 100.0,
         "Ultimate Generation (Rally)": 97.0
       },
       "Cassidy": {
@@ -114,14 +112,12 @@
         "Ultimate Generation (Barrage)": 95.0
       },
       "Ramattra": {
-        "Health": 100.0
       },
       "Reaper": {
         "Ultimate Generation (Death Blossom)": 92.0
       },
       "Reinhardt": {
         "Barrier Field Recharge Rate": 139.0,
-        "Health": 114.0,
         "Ultimate Generation (Earthshatter)": 107.0
       },
       "Roadhog": {
@@ -129,7 +125,6 @@
       },
       "Sigma": {
         "Experimental Barrier Recharge Rate": 80.0,
-        "Health": 100.0,
         "Ultimate Generation (Gravitic Flux)": 107.0
       },
       "Soldier: 76": {
@@ -142,7 +137,6 @@
         "Ultimate Generation (Photon Barrier)": 100.0
       },
       "Torbjörn": {
-        "Health": 111.0,
         "Ultimate Generation (Molten Core)": 100.0
       },
       "Tracer": {
@@ -152,7 +146,6 @@
         "Ultimate Generation (Infra-sight)": 100.0
       },
       "Winston": {
-        "Health": 108.0,
         "Ultimate Generation (Primal Rage)": 120.0
       },
       "Wrecking Ball": {
@@ -160,7 +153,6 @@
         "Ultimate Generation (Minefield)": 109.0
       },
       "Zarya": {
-        "Health": 89.0
       },
       "Zenyatta": {
         "Ultimate Generation (Transcendence)": 100.0

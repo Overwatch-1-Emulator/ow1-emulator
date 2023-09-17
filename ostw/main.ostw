@@ -1,10 +1,8 @@
+import "constants/ow1_constants.ostw";
+import "constants/ow2_constants.ostw";
+
 import "customGameSettings.lobby";
 
-globalvar define READY_THRESHOLD;
-globalvar define OW1_DOOMFIST_UPPERCUT_CD;
-globalvar define OW1_DOOMFIST_SLAM_CD;
-globalvar define OW1_ORISA_BARRIER_ORB_SIZE;
-globalvar define OW1_ORISA_BARRIER_ORB_COUNT;
 globalvar define i;
 globalvar define ow1_tank_heroes;
 globalvar define ow1_damage_heroes;
@@ -54,9 +52,6 @@ playervar define lsi_d;
 playervar define lsi_nabla;
 playervar define lsi_i;
 playervar define lsi_x;
-playervar define hp_health;
-playervar define hp_armor;
-playervar define hp_shields;
 playervar define stored_spawn_pos;
 playervar define missing_ult_points;
 playervar define ult_percent_compensated;
@@ -154,11 +149,6 @@ playervar define ally_bubble_cd_text;
 
 rule: "Initialize global variables"
 {
-    READY_THRESHOLD = WorkshopSettingReal("Lobby", "Ready Threshold", 0.7, 0.5, 1, 0);
-    OW1_DOOMFIST_UPPERCUT_CD = WorkshopSettingReal("Doomfist", "Uppercut Cooldown", 6, 0, 30, 0);
-    OW1_DOOMFIST_SLAM_CD = WorkshopSettingReal("Doomfist", "Slam Cooldown", 6, 0, 30, 0);
-    OW1_ORISA_BARRIER_ORB_SIZE = WorkshopSettingReal("Orisa", "Barrier Orb Radius", 0.25, 0.1, 3, 0);
-    OW1_ORISA_BARRIER_ORB_COUNT = WorkshopSettingInteger("Orisa", "Barrier Orb Count", 140, 100, 200, 0);
     max_tank_count = WorkshopSettingInteger("Role limit", "Tank", 2, 0, 6, 0);
     max_damage_count = WorkshopSettingInteger("Role limit", "Damage", 2, 0, 6, 1);
     max_support_count = WorkshopSettingInteger("Role limit", "Support", 2, 0, 6, 2);
@@ -574,7 +564,7 @@ void clearCustomHealth() "[custom_health_handler.opy]: clearCustomHealth()"
     Heal(EventPlayer(), null, 999999986991104);
 }
 
-void applyCustomHealth() "[custom_health_handler.opy]: applyCustomHealth()"
+void applyCustomHealth(Any hp_health, Any hp_armor, Any hp_shields) playervar "[custom_health_handler.opy]: applyCustomHealth()"
 {
     WaitUntil(HasSpawned(EventPlayer()), 999999986991104);
     # If the player is in spawn, teleport them out as they are invulnerable in spawn
@@ -835,11 +825,8 @@ Player.Ashe
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 200;
-    hp_armor = 0;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_ASHE_HEALTH, 0, 0);
+    if (MaxHealth(EventPlayer()) != OW1_ASHE_HEALTH)
     {
         clearCustomHealth();
         Loop();
@@ -1327,11 +1314,8 @@ Player.Brigitte
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 150;
-    hp_armor = 50;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0);
+    if (MaxHealth(EventPlayer()) != OW1_BRIGITTE_HEALTH + OW1_BRIGITTE_ARMOR)
     {
         clearCustomHealth();
         Loop();
@@ -1412,11 +1396,8 @@ Player.Doomfist
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 250;
-    hp_armor = 0;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_DOOMFIST_HEALTH, 0, 0);
+    if (MaxHealth(EventPlayer()) != OW1_DOOMFIST_HEALTH)
     {
         clearCustomHealth();
         Loop();
@@ -1927,11 +1908,8 @@ Player.Dva
 if (IsInAlternateForm(EventPlayer()) == false)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 300;
-    hp_armor = 300;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0);
+    if (MaxHealth(EventPlayer()) != OW1_DVA_HEALTH + OW1_DVA_ARMOR)
     {
         clearCustomHealth();
         Loop();
@@ -2024,10 +2002,7 @@ if (HeroBeingDuplicated(EventPlayer()) != Hero.Doomfist)
 {
     hero_id_duplicated = IndexOfArrayValue(AllHeroes(), HeroBeingDuplicated(EventPlayer()));
     clearCustomHealth();
-    hp_health = FirstOf(health_pool[hero_id_duplicated]);
-    hp_armor = health_pool[hero_id_duplicated][1];
-    hp_shields = health_pool[hero_id_duplicated][2];
-    applyCustomHealth();
+    applyCustomHealth(health_pool[hero_id_duplicated][0], health_pool[hero_id_duplicated][1] ,health_pool[hero_id_duplicated][2]);
     WaitUntil(!IsDuplicating(EventPlayer()), 15);
     clearCustomHealth();
 }
@@ -2203,11 +2178,8 @@ Player.Cassidy
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 225;
-    hp_armor = 0;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_MCCREE_HEALTH, 0, 0);
+    if (MaxHealth(EventPlayer()) != OW1_MCCREE_HEALTH)
     {
         clearCustomHealth();
         Loop();
@@ -2478,11 +2450,8 @@ Player.Orisa
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 200;
-    hp_armor = 250;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0);
+    if (MaxHealth(EventPlayer()) != OW1_ORISA_HEALTH + OW1_ORISA_ARMOR)
     {
         clearCustomHealth();
         Loop();
@@ -3053,11 +3022,8 @@ Player.Ramattra
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 400;
-    hp_armor = 0;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_RAMATTRA_BARRIER_HEALTH, 0, 0);
+    if (MaxHealth(EventPlayer()) != OW1_RAMATTRA_BARRIER_HEALTH)
     {
         clearCustomHealth();
         Loop();
@@ -3080,11 +3046,9 @@ Player.Reinhardt
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 300;
-    hp_armor = 200;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    SetMaxHealth(EventPlayer(), 100* OW1_REINHARDT_BARRIER_HEALTH/OW2_REINHARDT_BARRIER_HEALTH);
+    applyCustomHealth(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0);
+    if (MaxHealth(EventPlayer()) != OW1_REINHARDT_HEALTH + OW1_REINHARDT_ARMOR)
     {
         clearCustomHealth();
         Loop();
@@ -3148,11 +3112,8 @@ Player.Roadhog
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 600;
-    hp_armor = 0;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_ROADHOG_HEALTH, 0, 0);
+    if (MaxHealth(EventPlayer()) != OW1_ROADHOG_HEALTH)
     {
         clearCustomHealth();
         Loop();
@@ -3268,11 +3229,8 @@ Player.Sigma
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 300;
-    hp_armor = 0;
-    hp_shields = 100;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS);
+    if (MaxHealth(EventPlayer()) != OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS)
     {
         clearCustomHealth();
         Loop();
@@ -3414,11 +3372,8 @@ Player.Torbjorn
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 200;
-    hp_armor = 50;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0);
+    if (MaxHealth(EventPlayer()) != OW1_TORBJORN_HEALTH + OW1_TORBJORN_ARMOR)
     {
         clearCustomHealth();
         Loop();
@@ -3448,11 +3403,8 @@ Player.Widowmaker
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 175;
-    hp_armor = 0;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_WIDOWMAKER_HEALTH, 0, 0);
+    if (MaxHealth(EventPlayer()) != OW1_WIDOWMAKER_HEALTH)
     {
         clearCustomHealth();
         Loop();
@@ -3499,11 +3451,8 @@ Player.Winston
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 350;
-    hp_armor = 150;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0);
+    if (MaxHealth(EventPlayer()) != OW1_WINSTON_HEALTH + OW1_WINSTON_ARMOR)
     {
         clearCustomHealth();
         Loop();
@@ -3537,11 +3486,8 @@ Player.WreckingBall
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 500;
-    hp_armor = 100;
-    hp_shields = 0;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0);
+    if (MaxHealth(EventPlayer()) != OW1_WRECKING_BALL_HEALTH + OW1_WRECKING_BALL_ARMOR)
     {
         clearCustomHealth();
         Loop();
@@ -3556,11 +3502,8 @@ Player.Zarya
 if (call_init == true)
 {
     Wait(1, WaitBehavior.IgnoreCondition);
-    hp_health = 200;
-    hp_armor = 0;
-    hp_shields = 200;
-    applyCustomHealth();
-    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    applyCustomHealth(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS);
+    if (MaxHealth(EventPlayer()) != OW1_ZARYA_HEALTH + OW1_ZARYA_SHIELDS)
     {
         clearCustomHealth();
         Loop();
@@ -3787,9 +3730,6 @@ if (debug == true)
     CreateHudText(EventPlayer(), null, <"Ability 2 Cooldown = <0>", AbilityCooldown(EventPlayer(), Button.Ability2)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
     CreateHudText(EventPlayer(), null, <"slam_damage = <0>", slam_damage>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
     CreateHudText(EventPlayer(), null, <"is_using_slam = <0>", is_using_slam>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
-    CreateHudText(EventPlayer(), null, <"health = <0>", hp_health>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
-    CreateHudText(EventPlayer(), null, <"armor = <0>", hp_armor>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
-    CreateHudText(EventPlayer(), null, <"shields = <0>", hp_shields>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
 }
 
 rule: "[debug.opy]: print to console on interact"
