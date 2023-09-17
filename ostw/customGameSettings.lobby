@@ -1,0 +1,172 @@
+{
+  "Lobby": {
+    "Allow Players Who Are In Queue": true,
+    "Map Rotation": "After A Game",
+    "Match Voice Chat": true,
+    "Max Spectators": 12,
+    "Max Team 1 Players": 6,
+    "Max Team 2 Players": 6,
+    "Return To Lobby": "Never",
+    "Team Balancing": "After A Game"
+  },
+  "Modes": {
+    "All": {
+      "Hero Limit": "1 Per Team",
+      "Limit Roles": "Off",
+      "Tank Role Passive Health Bonus": "Always Enabled"
+    },
+    "Assault": {
+      "Disabled Maps": [
+        "Hanamura (Winter)",
+        "Horizon Lunar Colony",
+        "Paris"
+      ],
+      "Competitive Rules": true
+    },
+    "Control": {
+      "Disabled Maps": [
+        "Antarctic Peninsula",
+        "Lijiang Tower (Lunar New Year)"
+      ],
+      "Competitive Rules": true
+    },
+    "Escort": {
+      "Disabled Maps": [
+        "Circuit Royal",
+        "Junkertown",
+        "Shambali Monastery"
+      ],
+      "Competitive Rules": true
+    },
+    "Hybrid": {
+      "Enabled Maps": [
+        "Blizzard World",
+        "Eichenwalde",
+        "Hollywood",
+        "King's Row",
+        "Numbani"
+      ],
+      "Competitive Rules": true
+    },
+    "Practice Range": {
+      "Enabled Maps": []
+    }
+  },
+  "Heroes": {
+    "General": {
+      "Ana": {
+        "Ultimate Generation (Nano Boost)": 100.0
+      },
+      "Ashe": {
+        "Health": 120.0,
+        "Ultimate Generation (B.O.B.)": 100.0
+      },
+      "Baptiste": {
+        "Ultimate Generation (Amplification Matrix)": 100.0
+      },
+      "Bastion": {
+        "Ultimate Generation (Configuration: Artillery)": 100.0
+      },
+      "Brigitte": {
+        "Health": 100.0,
+        "Ultimate Generation (Rally)": 97.0
+      },
+      "Cassidy": {
+        "Ultimate Generation (Deadeye)": 110.0
+      },
+      "D.va": {
+        "Defense Matrix Maximum Time": 67.0,
+        "Ultimate Generation (Self-Destruct)": 100.0
+      },
+      "Doomfist": {
+        "Ammunition Regeneration Time Scalar": 162.0,
+        "Ultimate Generation (Meteor Strike)": 100.0
+      },
+      "Echo": {
+        "Ultimate Generation (Duplicate)": 75.0
+      },
+      "Genji": {
+        "Ultimate Generation (Dragonblade)": 100.0
+      },
+      "Hanzo": {
+        "Ultimate Generation (Dragonstrike)": 100.0
+      },
+      "Junkrat": {
+        "Ultimate Generation (Rip-Tire)": 100.0
+      },
+      "Lúcio": {
+        "Ultimate Generation (Sound Barrier)": 82.0
+      },
+      "Mei": {
+        "Ultimate Generation (Blizzard)": 109.0
+      },
+      "Mercy": {
+        "Sympathetic Recovery": false,
+        "Ultimate Generation (Valkyrie)": 100.0
+      },
+      "Moira": {
+        "Ultimate Generation (Coalescence)": 95.0
+      },
+      "Orisa": {
+        "Ultimate Generation (Terra Surge)": 116.0
+      },
+      "Pharah": {
+        "Ultimate Generation (Barrage)": 95.0
+      },
+      "Ramattra": {
+        "Health": 100.0
+      },
+      "Reaper": {
+        "Ultimate Generation (Death Blossom)": 92.0
+      },
+      "Reinhardt": {
+        "Barrier Field Recharge Rate": 139.0,
+        "Health": 114.0,
+        "Ultimate Generation (Earthshatter)": 107.0
+      },
+      "Roadhog": {
+        "Ultimate Generation (Whole Hog)": 108.0
+      },
+      "Sigma": {
+        "Experimental Barrier Recharge Rate": 80.0,
+        "Health": 100.0,
+        "Ultimate Generation (Gravitic Flux)": 107.0
+      },
+      "Soldier: 76": {
+        "Ultimate Generation (Tactical Visor)": 110.0
+      },
+      "Sombra": {
+        "Ultimate Generation (EMP)": 115.0
+      },
+      "Symmetra": {
+        "Ultimate Generation (Photon Barrier)": 100.0
+      },
+      "Torbjörn": {
+        "Health": 111.0,
+        "Ultimate Generation (Molten Core)": 100.0
+      },
+      "Tracer": {
+        "Ultimate Generation (Pulse Bomb)": 100.0
+      },
+      "Widowmaker": {
+        "Ultimate Generation (Infra-sight)": 100.0
+      },
+      "Winston": {
+        "Health": 108.0,
+        "Ultimate Generation (Primal Rage)": 120.0
+      },
+      "Wrecking Ball": {
+        "Piledriver Cooldown Time": 125.0,
+        "Ultimate Generation (Minefield)": 109.0
+      },
+      "Zarya": {
+        "Health": 89.0
+      },
+      "Zenyatta": {
+        "Ultimate Generation (Transcendence)": 100.0
+      }
+    }
+  },
+  "Description": "Overwatch 1 Emulator\\r\\n\\r\\necksdee#11729's attempt to accurately recreate \\r\\nthe last version of Overwatch 1 using workshop.\\r\\n\\r\\nMain build: KHTG0\\r\\nStaging build: ESMXJ\\r\\n\\r\\nContributors:\\r\\necksdee#11729\\r\\nSnappy#11809\\r\\nKingDonMike#2694\\r\\nthenova#21104\\r\\npretz#11551\\r\\n\\r\\nGamemode:\\r\\nworkshop.codes/ow1-emulator\\r\\n\\r\\nDiscord:\\r\\ndsc.gg/ow1\\r\\ndiscord.gg/GMVqwYXbWB\\r\\n\\r\\nSource code:\\r\\ngithub.com/MaxwellJung/ow1_emulator",
+  "Mode Name": "Overwatch 1 Emulator v0.8.11"
+}
