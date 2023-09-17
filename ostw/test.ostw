@@ -1,0 +1,3747 @@
+import "customGameSettings.lobby";
+
+globalvar define READY_THRESHOLD;
+globalvar define OW1_DOOMFIST_UPPERCUT_CD;
+globalvar define OW1_DOOMFIST_SLAM_CD;
+globalvar define OW1_ORISA_BARRIER_ORB_SIZE;
+globalvar define OW1_ORISA_BARRIER_ORB_COUNT;
+globalvar define i;
+globalvar define ow1_tank_heroes;
+globalvar define ow1_damage_heroes;
+globalvar define ow1_support_heroes;
+globalvar define ow2_tank_heroes;
+globalvar define ow2_damage_heroes;
+globalvar define ow2_support_heroes;
+globalvar define tank_heroes;
+globalvar define damage_heroes;
+globalvar define support_heroes;
+globalvar define all_heroes;
+globalvar define hero_select_time;
+globalvar define max_tank_count;
+globalvar define max_damage_count;
+globalvar define max_support_count;
+globalvar define allow_ow1_heroes;
+globalvar define allow_ow2_heroes;
+globalvar define ready_color;
+globalvar define ult_cost;
+globalvar define health_pool;
+globalvar define PHI;
+globalvar define debug;
+playervar define last_hero_played;
+playervar define hero_switched;
+playervar define hero_id;
+playervar define call_reset;
+playervar define call_init;
+playervar define text_huds;
+playervar define progress_bar_huds;
+playervar define entity_huds;
+playervar define player_health;
+playervar define friendly_doomfist_player;
+playervar define friendly_orisa_player;
+playervar define friendly_sombra_player;
+playervar define enemy_doomfist_player;
+playervar define enemy_orisa_player;
+playervar define enemy_sombra_player;
+playervar define role;
+playervar define allowed_heroes;
+playervar define ready_hud;
+playervar define ready;
+playervar define lsi_o;
+playervar define lsi_c;
+playervar define lsi_r;
+playervar define lsi_u;
+playervar define lsi_d;
+playervar define lsi_nabla;
+playervar define lsi_i;
+playervar define lsi_x;
+playervar define hp_health;
+playervar define hp_armor;
+playervar define hp_shields;
+playervar define stored_spawn_pos;
+playervar define missing_ult_points;
+playervar define ult_percent_compensated;
+playervar define ult_charge_compensated;
+playervar define self_healing_source;
+playervar define self_healing_percent;
+playervar define self_healing_modification;
+playervar define support_passive_active;
+playervar define last_time_damage_taken;
+playervar define ult_point_while_ult_active;
+playervar define start_time_ult;
+playervar define current_configuration;
+playervar define is_pressing_self_repair_key;
+playervar define is_using_self_repair;
+playervar define self_repair_time_left;
+playervar define self_repair_instance;
+playervar define self_repair_gui;
+playervar define machine_gun_ammo;
+playervar define machine_gun_ready;
+playervar define machine_gun_reload_timer;
+playervar define machine_gun_gui;
+playervar define inspire_duration;
+playervar define is_using_uppercut;
+playervar define is_using_slam;
+playervar define is_hit_by_uppercut;
+playervar define slam_to_use;
+playervar define current_position;
+playervar define proto_indicator_slam_position;
+playervar define indicator_slam_position;
+playervar define indicator_slam_direction;
+playervar define slam_damage;
+playervar define slam_damage_text_entity;
+playervar define slammed_victims;
+playervar define indicator_entity;
+playervar define punched_victims;
+playervar define wall_impacted_victims;
+playervar define punch_charge_time;
+playervar define hero_id_duplicated;
+playervar define freeze_progress;
+playervar define freeze_slow_linger_time;
+playervar define freeze_move_penalty;
+playervar define is_using_guardian_angel;
+playervar define is_slingshotting;
+playervar define slingshot_velocity;
+playervar define is_using_supercharger;
+playervar define is_supercharged;
+playervar define orisa_supercharger_entity;
+playervar define orisa_supercharger_position;
+playervar define orisa_beam_entity;
+playervar define orisa_beam_sound_effect;
+playervar define is_using_halt;
+playervar define is_snared;
+playervar define halt_position;
+playervar define halt_ending_position;
+playervar define halt_entity1;
+playervar define halt_entity2;
+playervar define halt_pull_line_entity;
+playervar define position;
+playervar define barrier_projectile;
+playervar define barrier_proj_v0;
+playervar define barrier_proj_p0;
+playervar define barrier_proj_t;
+playervar define barrier_proj_velocity;
+playervar define barrier_proj_position;
+playervar define barrier_position;
+playervar define barrier_orientation;
+playervar define surface_normal;
+playervar define barrier_sample_x;
+playervar define barrier_sample_y;
+playervar define barrier_sample_z;
+playervar define barrier_sample_radius;
+playervar define barrier_sample_theta;
+playervar define barrier_sample_point;
+playervar define barrier_entity_positions;
+playervar define barrier_entities;
+playervar define barrier_uptime;
+playervar define barrier_active;
+playervar define barrier_health;
+playervar define orisa_barrier_hit_positions;
+playervar define barrier_health_hud;
+playervar define orisa_ammo;
+playervar define orisa_ammo_hud;
+playervar define is_orisa_reloading;
+playervar define time_hook_was_active;
+playervar define hack_damage_modifier;
+playervar define scoped_shot_distance;
+playervar define scoped_damage_base;
+playervar define ow2_scoped_damage_falloff_scalar;
+playervar define ow1_scoped_damage_falloff_scalar;
+playervar define expected_scoped_damage;
+playervar define self_bubble_cooldown;
+playervar define self_bubble_cd_text;
+playervar define ally_bubble_cooldown;
+playervar define ally_bubble_cd_text;
+
+rule: "Initialize global variables"
+{
+    READY_THRESHOLD = WorkshopSettingReal("Lobby", "Ready Threshold", 0.7, 0.5, 1, 0);
+    OW1_DOOMFIST_UPPERCUT_CD = WorkshopSettingReal("Doomfist", "Uppercut Cooldown", 6, 0, 30, 0);
+    OW1_DOOMFIST_SLAM_CD = WorkshopSettingReal("Doomfist", "Slam Cooldown", 6, 0, 30, 0);
+    OW1_ORISA_BARRIER_ORB_SIZE = WorkshopSettingReal("Orisa", "Barrier Orb Radius", 0.25, 0.1, 3, 0);
+    OW1_ORISA_BARRIER_ORB_COUNT = WorkshopSettingInteger("Orisa", "Barrier Orb Count", 140, 100, 200, 0);
+    max_tank_count = WorkshopSettingInteger("Role limit", "Tank", 2, 0, 6, 0);
+    max_damage_count = WorkshopSettingInteger("Role limit", "Damage", 2, 0, 6, 1);
+    max_support_count = WorkshopSettingInteger("Role limit", "Support", 2, 0, 6, 2);
+    allow_ow1_heroes = WorkshopSettingToggle("Heroes", "Overwatch 1", true, 0);
+    allow_ow2_heroes = WorkshopSettingToggle("Heroes", "Overwatch 2", false, 0);
+    PHI = 3.883;
+    debug = WorkshopSettingToggle("Dev Tools", "debug mode", false, 0);
+}
+
+rule: "[hero_switch.opy]: detect hero switch"
+Event.OngoingPlayer
+if (last_hero_played != HeroOf(EventPlayer()))
+{
+    hero_switched = true;
+    MinWait();
+    last_hero_played = HeroOf(EventPlayer());
+    hero_id = IndexOfArrayValue(AllHeroes(), last_hero_played);
+    hero_switched = false;
+}
+
+void resetHero() "[reset.opy]: resetHero()"
+{
+    call_reset = true;
+    # Call other reset functions
+    MinWait();
+    call_reset = false;
+}
+
+void initHero() "[reset.opy]: initHero()"
+{
+    call_init = true;
+    # Call other init functions
+    MinWait();
+    call_init = false;
+}
+
+rule: "[reset.opy]: Reset abilities"
+Event.OngoingPlayer
+if (call_reset == true)
+{
+    AllowButton(EventPlayer(), Button.PrimaryFire);
+    AllowButton(EventPlayer(), Button.SecondaryFire);
+    AllowButton(EventPlayer(), Button.Ability1);
+    AllowButton(EventPlayer(), Button.Ability2);
+    AllowButton(EventPlayer(), Button.Ultimate);
+    AllowButton(EventPlayer(), Button.Melee);
+    AllowButton(EventPlayer(), Button.Jump);
+    AllowButton(EventPlayer(), Button.Crouch);
+    AllowButton(EventPlayer(), Button.Reload);
+    AllowButton(EventPlayer(), Button.Interact);
+    SetPrimaryFireEnabled(EventPlayer(), true);
+    SetSecondaryFireEnabled(EventPlayer(), true);
+    SetAbility1Enabled(EventPlayer(), true);
+    SetAbility2Enabled(EventPlayer(), true);
+    SetUltimateAbilityEnabled(EventPlayer(), true);
+    SetMeleeEnabled(EventPlayer(), true);
+    SetJumpEnabled(EventPlayer(), true);
+    SetCrouchEnabled(EventPlayer(), true);
+    SetReloadEnabled(EventPlayer(), true);
+}
+
+rule: "[reset.opy]: Reset stats"
+Event.OngoingPlayer
+if (call_reset == true)
+{
+    SetDamageDealt(EventPlayer(), 100);
+    SetDamageReceived(EventPlayer(), 100);
+    SetProjectileSpeed(EventPlayer(), 100);
+    SetProjectileGravity(EventPlayer(), 100);
+    SetHealingDealt(EventPlayer(), 100);
+    SetHealingReceived(EventPlayer(), 100);
+    SetKnockbackReceived(EventPlayer(), 100);
+    SetKnockbackDealt(EventPlayer(), 100);
+}
+
+rule: "[reset.opy]: Reset statuses"
+Event.OngoingPlayer
+if (call_reset == true)
+{
+    ClearStatus(EventPlayer(), Status.Asleep);
+    ClearStatus(EventPlayer(), Status.Burning);
+    ClearStatus(EventPlayer(), Status.Frozen);
+    ClearStatus(EventPlayer(), Status.Hacked);
+    ClearStatus(EventPlayer(), Status.Invincible);
+    ClearStatus(EventPlayer(), Status.KnockedDown);
+    ClearStatus(EventPlayer(), Status.PhasedOut);
+    ClearStatus(EventPlayer(), Status.Rooted);
+    ClearStatus(EventPlayer(), Status.Stunned);
+    ClearStatus(EventPlayer(), Status.Unkillable);
+}
+
+rule: "[reset.opy]: Reset friendly/enemy players"
+Event.OngoingPlayer
+if (call_reset == true)
+{
+    friendly_doomfist_player = FirstOf(PlayersOnHero(Hero.Doomfist, TeamOf(EventPlayer())));
+    enemy_doomfist_player = FirstOf(PlayersOnHero(Hero.Doomfist, OppositeTeamOf(TeamOf(EventPlayer()))));
+    friendly_orisa_player = FirstOf(PlayersOnHero(Hero.Orisa, TeamOf(EventPlayer())));
+    enemy_orisa_player = FirstOf(PlayersOnHero(Hero.Orisa, OppositeTeamOf(TeamOf(EventPlayer()))));
+    friendly_sombra_player = FirstOf(PlayersOnHero(Hero.Sombra, TeamOf(EventPlayer())));
+    enemy_sombra_player = FirstOf(PlayersOnHero(Hero.Sombra, OppositeTeamOf(TeamOf(EventPlayer()))));
+}
+
+rule: "[reset.opy]: Reset HUDs and GUI"
+Event.OngoingPlayer
+if (call_reset == true)
+{
+    # Clear GUI
+    for (i = 0; CountOf(text_huds); 1)
+    {
+        DestroyHudText(text_huds[i]);
+    }
+    for (i = 0; CountOf(progress_bar_huds); 1)
+    {
+        DestroyProgressBarHudText(progress_bar_huds[i]);
+    }
+    for (i = 0; CountOf(entity_huds); 1)
+    {
+        DestroyEffect(entity_huds[i]);
+    }
+    text_huds = [];
+    progress_bar_huds = [];
+    entity_huds = [];
+}
+
+rule: "[reset.opy]: Reinitialize hero on new round"
+Event.OngoingPlayer
+if (IsBetweenRounds() == true)
+{
+    WaitUntil(!IsBetweenRounds(), 999999986991104);
+    resetHero();
+    initHero();
+}
+
+rule: "[reset.opy]: Reinitialize hero on hero switch"
+Event.OngoingPlayer
+if (hero_switched == true)
+{
+    resetHero();
+    initHero();
+}
+
+void respawnSameState() "[reset.opy]: respawnSameState()"
+{
+    player_health = Health(EventPlayer());
+    Kill(EventPlayer(), null);
+    # Use resurrect to keep the same position and angle
+    Resurrect(EventPlayer());
+    # Wait to set health else the player will be full life
+    MinWait();
+    SetPlayerHealth(EventPlayer(), player_health);
+}
+
+rule: "[role_lock.opy]: Find player's role"
+Event.OngoingPlayer
+if (hero_switched == true)
+{
+    if (ArrayContains(tank_heroes, HeroOf(EventPlayer())))
+    {
+        role = 1;
+    }
+    else if (ArrayContains(damage_heroes, HeroOf(EventPlayer())))
+    {
+        role = 2;
+    }
+    else if (ArrayContains(support_heroes, HeroOf(EventPlayer())))
+    {
+        role = 3;
+    }
+    else
+    {
+        role = 0;
+    }
+}
+
+rule: "[role_lock.opy]: Define tank, damage, support heroes array"
+{
+    # Tanks
+    ow1_tank_heroes = AllTankHeroes();
+    ModifyVariable(ow1_tank_heroes, Operation.RemoveFromArrayByValue, Hero.Doomfist);
+    ow2_tank_heroes = [Hero.JunkerQueen, Hero.Ramattra];
+    ModifyVariable(ow1_tank_heroes, Operation.RemoveFromArrayByValue, ow2_tank_heroes);
+    # Damage
+    ow1_damage_heroes = AllDamageHeroes();
+    ModifyVariable(ow1_damage_heroes, Operation.AppendToArray, Hero.Doomfist);
+    ow2_damage_heroes = [Hero.Sojourn];
+    ModifyVariable(ow1_damage_heroes, Operation.RemoveFromArrayByValue, ow2_damage_heroes);
+    # Supports
+    ow1_support_heroes = AllSupportHeroes();
+    ow2_support_heroes = [Hero.Kiriko, Hero.Lifeweaver, Hero.Illari];
+    ModifyVariable(ow1_support_heroes, Operation.RemoveFromArrayByValue, ow2_support_heroes);
+    tank_heroes = [];
+    damage_heroes = [];
+    support_heroes = [];
+    if (allow_ow1_heroes == true)
+    {
+        ModifyVariable(tank_heroes, Operation.AppendToArray, ow1_tank_heroes);
+        ModifyVariable(damage_heroes, Operation.AppendToArray, ow1_damage_heroes);
+        ModifyVariable(support_heroes, Operation.AppendToArray, ow1_support_heroes);
+    }
+    if (allow_ow2_heroes == true)
+    {
+        ModifyVariable(tank_heroes, Operation.AppendToArray, ow2_tank_heroes);
+        ModifyVariable(damage_heroes, Operation.AppendToArray, ow2_damage_heroes);
+        ModifyVariable(support_heroes, Operation.AppendToArray, ow2_support_heroes);
+    }
+    all_heroes = [];
+    ModifyVariable(all_heroes, Operation.AppendToArray, tank_heroes);
+    ModifyVariable(all_heroes, Operation.AppendToArray, damage_heroes);
+    ModifyVariable(all_heroes, Operation.AppendToArray, support_heroes);
+}
+
+rule: "[role_lock.opy]: Override allowed heroes list when player joins lobby"
+Event.OngoingPlayer
+{
+    SetAllowedHeroes(EventPlayer(), all_heroes);
+}
+
+rule: "[role_lock.opy]: Skip hero assembly"
+if (IsAssemblingHeroes() == true)
+{
+    # Reset every player's role
+    AllPlayers(Team.All).role = 0;
+    # Save assemble hero time
+    hero_select_time = MatchTime();
+    MinWait();
+    # Go to the end of the assembling heroes
+    SetMatchTime(0);
+    WaitUntil(!IsAssemblingHeroes(), 999999986991104);
+    # Give back assemble hero time
+    SetMatchTime(MatchTime() + hero_select_time);
+}
+
+rule: "[role_lock.opy]: Lock tanks above role limit"
+Event.OngoingPlayer
+if (CountOf(FilteredArray(AllPlayers(TeamOf(EventPlayer())), ArrayElement() != EventPlayer() && ArrayElement().role == 1)) >= max_tank_count)
+if (IsAssemblingHeroes() == false)
+{
+    lockTank();
+}
+
+rule: "[role_lock.opy]: Lock damage above role limit"
+Event.OngoingPlayer
+if (CountOf(FilteredArray(AllPlayers(TeamOf(EventPlayer())), ArrayElement() != EventPlayer() && ArrayElement().role == 2)) >= max_damage_count)
+if (IsAssemblingHeroes() == false)
+{
+    lockDamage();
+}
+
+rule: "[role_lock.opy]: Lock supports above role limit"
+Event.OngoingPlayer
+if (CountOf(FilteredArray(AllPlayers(TeamOf(EventPlayer())), ArrayElement() != EventPlayer() && ArrayElement().role == 3)) >= max_support_count)
+if (IsAssemblingHeroes() == false)
+{
+    lockSupport();
+}
+
+rule: "[role_lock.opy]: Unlock tanks below role limit"
+Event.OngoingPlayer
+if (CountOf(FilteredArray(AllPlayers(TeamOf(EventPlayer())), ArrayElement() != EventPlayer() && ArrayElement().role == 1)) < max_tank_count)
+if (IsAssemblingHeroes() == false)
+{
+    unlockTank();
+}
+
+rule: "[role_lock.opy]: Unlock damage below role limit"
+Event.OngoingPlayer
+if (CountOf(FilteredArray(AllPlayers(TeamOf(EventPlayer())), ArrayElement() != EventPlayer() && ArrayElement().role == 2)) < max_damage_count)
+if (IsAssemblingHeroes() == false)
+{
+    unlockDamage();
+}
+
+rule: "[role_lock.opy]: Unlock supports below role limit"
+Event.OngoingPlayer
+if (CountOf(FilteredArray(AllPlayers(TeamOf(EventPlayer())), ArrayElement() != EventPlayer() && ArrayElement().role == 3)) < max_support_count)
+if (IsAssemblingHeroes() == false)
+{
+    unlockSupport();
+}
+
+void lockTank() "[role_lock.opy]: lockTank()"
+{
+    allowed_heroes = AllowedHeroes(EventPlayer());
+    ModifyVariable(allowed_heroes, Operation.RemoveFromArrayByValue, tank_heroes);
+    SetAllowedHeroes(EventPlayer(), allowed_heroes);
+}
+
+void lockDamage() "[role_lock.opy]: lockDamage()"
+{
+    allowed_heroes = AllowedHeroes(EventPlayer());
+    ModifyVariable(allowed_heroes, Operation.RemoveFromArrayByValue, damage_heroes);
+    SetAllowedHeroes(EventPlayer(), allowed_heroes);
+}
+
+void lockSupport() "[role_lock.opy]: lockSupport()"
+{
+    allowed_heroes = AllowedHeroes(EventPlayer());
+    ModifyVariable(allowed_heroes, Operation.RemoveFromArrayByValue, support_heroes);
+    SetAllowedHeroes(EventPlayer(), allowed_heroes);
+}
+
+void unlockTank() "[role_lock.opy]: unlockTank()"
+{
+    allowed_heroes = AllowedHeroes(EventPlayer());
+    ModifyVariable(allowed_heroes, Operation.AppendToArray, tank_heroes);
+    SetAllowedHeroes(EventPlayer(), allowed_heroes);
+}
+
+void unlockDamage() "[role_lock.opy]: unlockDamage()"
+{
+    allowed_heroes = AllowedHeroes(EventPlayer());
+    ModifyVariable(allowed_heroes, Operation.AppendToArray, damage_heroes);
+    SetAllowedHeroes(EventPlayer(), allowed_heroes);
+}
+
+void unlockSupport() "[role_lock.opy]: unlockSupport()"
+{
+    allowed_heroes = AllowedHeroes(EventPlayer());
+    ModifyVariable(allowed_heroes, Operation.AppendToArray, support_heroes);
+    SetAllowedHeroes(EventPlayer(), allowed_heroes);
+}
+
+rule: "[ready.opy]: Create ready HUD"
+Event.OngoingPlayer
+if (IsInSetup() == true)
+{
+    CreateHudText(EventPlayer(), <"<0>/<1> ready", CountOf(FilteredArray(AllPlayers(Team.All), ArrayElement().ready == true)), NumberOfPlayers(Team.All)>, <"Press <0> + <1> to ready", InputBindingString(Button.Interact), InputBindingString(Button.Reload)>, "Overwatch 1 Emulator: dsc.gg/ow1", Location.Top, 999999986991104, ready ? ready_color : Color.Red, Color.White, Color.White, HudTextRev.StringAndColor, Spectators.DefaultVisibility);
+    ready_hud = LastTextID();
+    WaitUntil(!IsInSetup(), 999999986991104);
+    DestroyHudText(ready_hud);
+}
+
+rule: "[ready.opy]: Set initial ready color"
+if (IsInSetup() == true)
+{
+    ready_color = Color.Yellow;
+}
+
+rule: "[ready.opy]: Unready all players when entering setup"
+Event.OngoingPlayer
+if (IsInSetup() == true)
+{
+    ready = false;
+}
+
+rule: "[ready.opy]: Toggle ready when pressing Interact + Reload"
+Event.OngoingPlayer
+if (IsInSetup() == true)
+if (IsButtonHeld(EventPlayer(), Button.Interact) == true)
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+{
+    ready = !ready;
+}
+
+rule: "[ready.opy]: Start match when everyone ready"
+# Guard to prevent incorrect match time modification
+if (IsGameInProgress() == false)
+# Guard to prevent incorrect match time modification
+if (IsAssemblingHeroes() == false)
+if (IsInSetup() == true)
+if (MatchTime() > 5)
+if (CountOf(FilteredArray(AllPlayers(Team.All), ArrayElement().ready)) / NumberOfPlayers(Team.All) >= READY_THRESHOLD)
+{
+    ready_color = Color.Green;
+    SetMatchTime(5);
+}
+
+void findLineSphereIntersection() "[hit_detection.opy]: findLineSphereIntersection()"
+{
+    lsi_nabla = AbsoluteValue(DotProduct(lsi_u, lsi_o - lsi_c)) ^ 2 - (DistanceBetween(lsi_o, lsi_c) ^ 2 - lsi_r ^ 2);
+    # line goes through sphere
+    if (lsi_nabla > 0)
+    {
+        lsi_d = [-1 * DotProduct(lsi_u, lsi_o - lsi_c) - SquareRoot(lsi_nabla), -1 * DotProduct(lsi_u, lsi_o - lsi_c) + SquareRoot(lsi_nabla)];
+    }
+    else if (lsi_nabla == 0)
+    {
+        lsi_d = [-1 * DotProduct(lsi_u, lsi_o - lsi_c)];
+    }
+    else if (lsi_nabla < 0)
+    {
+        lsi_d = [];
+    }
+    else
+    {
+        lsi_d = [];
+    }
+    lsi_x = [];
+    for (lsi_i = 0; CountOf(lsi_d); 1)
+    {
+        if (lsi_d[lsi_i] >= 0)
+        {
+            ModifyVariable(lsi_x, Operation.AppendToArray, lsi_o + lsi_d[lsi_i] * lsi_u);
+        }
+    }
+}
+
+rule: "[custom_health_handler.opy]: Reset hp"
+Event.OngoingPlayer
+if (call_reset == true)
+{
+    clearCustomHealth();
+}
+
+void clearCustomHealth() "[custom_health_handler.opy]: clearCustomHealth()"
+{
+    RemoveAllHealthPoolsFromPlayer(EventPlayer());
+    MinWait();
+    SetMaxHealth(EventPlayer(), 100.001);
+    MinWait();
+    SetMaxHealth(EventPlayer(), 100);
+    Heal(EventPlayer(), null, 999999986991104);
+}
+
+void applyCustomHealth() "[custom_health_handler.opy]: applyCustomHealth()"
+{
+    WaitUntil(HasSpawned(EventPlayer()), 999999986991104);
+    # If the player is in spawn, teleport them out as they are invulnerable in spawn
+    if (IsInSpawnRoom(EventPlayer()))
+    {
+        stored_spawn_pos = PositionOf(EventPlayer());
+        MinWait();
+        Teleport(EventPlayer(), PositionOf(EventPlayer()) + 100 * Up());
+        WaitUntil(!(IsInSpawnRoom(EventPlayer()) || HasStatus(EventPlayer(), Status.Invincible) || HasStatus(EventPlayer(), Status.Unkillable)), 1);
+        MinWait();
+    }
+    # If the player is duplicating a hero, wait until Echo is no longer invulnerable
+    if (IsDuplicating(EventPlayer()))
+    {
+        WaitUntil(!(HasStatus(EventPlayer(), Status.Invincible) || HasStatus(EventPlayer(), Status.Unkillable)), 1);
+        MinWait();
+    }
+    # # Applying Custom Health ##\r\n Apply an unkillable status so we don't accidentally kill the player
+    SetStatus(EventPlayer(), EventPlayer(), Status.Unkillable, 999999986991104);
+    # Damage the player so they're at one health
+    Damage(EventPlayer(), null, 999999986991104);
+    MinWait();
+    # Apply temporary base health to the player
+    AddHealthPoolToPlayer(EventPlayer(), HealthType.Health, 999999986991104, true, true);
+    AddHealthPoolToPlayer(EventPlayer(), HealthType.Armor, 999999986991104, true, true);
+    AddHealthPoolToPlayer(EventPlayer(), HealthType.Shields, 999999986991104, true, true);
+    # Remove temporary base health from the player
+    RemoveAllHealthPoolsFromPlayer(EventPlayer());
+    MinWait();
+    # Apply custom health pool to player
+    if (hp_health > 0)
+    {
+        AddHealthPoolToPlayer(EventPlayer(), HealthType.Health, Max(1, hp_health - 1), true, true);
+    }
+    if (hp_armor > 0)
+    {
+        AddHealthPoolToPlayer(EventPlayer(), HealthType.Armor, Max(1, hp_armor), true, true);
+    }
+    if (hp_shields > 0)
+    {
+        AddHealthPoolToPlayer(EventPlayer(), HealthType.Shields, Max(1, hp_shields), true, true);
+    }
+    Heal(EventPlayer(), null, 999999986991104);
+    ClearStatus(EventPlayer(), Status.Unkillable);
+    # Teleport player back if they were in spawn.
+    if (stored_spawn_pos != null)
+    {
+        Teleport(EventPlayer(), stored_spawn_pos);
+        stored_spawn_pos = null;
+    }
+    # Wait 3 second for everything to settle
+    Wait(3, WaitBehavior.IgnoreCondition);
+    if (MaxHealth(EventPlayer()) != hp_health + hp_armor + hp_shields)
+    {
+        clearCustomHealth();
+        Loop();
+    }
+}
+
+rule: "[custom_health_handler.opy]: Remove Custom Health Conditions"
+Event.OngoingPlayer
+{
+    # Health pools persist between hero switching, so we remove it when player's switch or duplicate to another hero, or when D.Va switches between forms.
+    WaitUntil(HeroOf(EventPlayer()) != EvaluateOnce(HeroOf(EventPlayer())) || HeroBeingDuplicated(EventPlayer()) != EvaluateOnce(HeroBeingDuplicated(EventPlayer())) || (HeroOf(EventPlayer()) == Hero.Dva || HeroBeingDuplicated(EventPlayer()) == Hero.Dva) && IsInAlternateForm(EventPlayer()) != EvaluateOnce(IsInAlternateForm(EventPlayer())), 999999986991104);
+    clearCustomHealth();
+    MinWait();
+    LoopIfConditionIsTrue();
+}
+
+rule: "[ult_charge.opy]: initialize overwatch 1 ultimate costs"
+{
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Dva)] = 1540;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Orisa)] = 1680;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Reinhardt)] = 1540;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Roadhog)] = 2240;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Sigma)] = 1960;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Winston)] = 1540;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.WreckingBall)] = 1540;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Zarya)] = 2100;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Ashe)] = 2240;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Bastion)] = 2310;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Doomfist)] = 1680;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Cassidy)] = 1680;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Echo)] = 2254;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Genji)] = 1932;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Hanzo)] = 1680;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Junkrat)] = 1925;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Mei)] = 1610;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Pharah)] = 2100;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Reaper)] = 2100;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Soldier76)] = 2310;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Sombra)] = 1400;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Symmetra)] = 1680;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Torbjorn)] = 2142;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Tracer)] = 1260;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Widowmaker)] = 1540;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Ana)] = 2100;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Baptiste)] = 2310;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Brigitte)] = 2800;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Lucio)] = 2940;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Mercy)] = 1820;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Moira)] = 2800;
+    ult_cost[IndexOfArrayValue(AllHeroes(), Hero.Zenyatta)] = 2310;
+}
+
+rule: "[ult_charge.opy]: Reset ult charge"
+Event.OngoingPlayer
+if (call_reset == true)
+{
+    missing_ult_points = 0;
+    ult_percent_compensated = 0;
+    WaitUntil(UltimateChargePercent(EventPlayer()) > 0, 1);
+    SetUltimateCharge(EventPlayer(), 0);
+}
+
+rule: "[ult_charge.opy]: Remember missing ult charge from damaging tank"
+Event.OnDamageDealt
+if (Victim() != EventPlayer())
+if (ArrayContains(AllTankHeroes(), HeroOf(Victim())) == true)
+# Roadhog passive
+if (ArrayContains([Hero.Roadhog], HeroOf(Victim())) == false)
+if (IsUsingUltimate(EventPlayer()) == false)
+{
+    missing_ult_points += 0.3 * EventDamage();
+}
+
+rule: "[ult_charge.opy]: Remember missing ult charge from healing tank"
+Event.OnHealingDealt
+if (ArrayContains(AllTankHeroes(), HeroOf(Healee())) == true)
+if (IsUsingUltimate(EventPlayer()) == false)
+{
+    missing_ult_points += 0.3 * EventHealing();
+}
+
+rule: "[ult_charge.opy]: Compensate missing ultimate percentage"
+Event.OngoingPlayer
+if (missing_ult_points > 0)
+{
+    # add 3% extra to compensate for rounding error
+    ult_percent_compensated = 100 * missing_ult_points / ult_cost[hero_id] + 3;
+    SetUltimateCharge(EventPlayer(), UltimateChargePercent(EventPlayer()) + ult_percent_compensated);
+    ult_charge_compensated = ult_percent_compensated / 100 * ult_cost[hero_id];
+    missing_ult_points -= ult_charge_compensated;
+}
+
+rule: "[ult_charge.opy]: Reset ult compensation after using ult"
+Event.OngoingPlayer
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    missing_ult_points = 0;
+    ult_percent_compensated = 0;
+}
+
+rule: "[passives/tank/knockback.opy]: Correct knockback resistance"
+Event.OngoingPlayer
+if (call_init == true)
+if (ArrayContains(AllTankHeroes(), HeroOf(EventPlayer())) == true)
+# Exception for Reinhardt (Steadfast passive)
+if (ArrayContains([Hero.Reinhardt], HeroOf(EventPlayer())) == false)
+{
+    SetKnockbackReceived(EventPlayer(), 142.857);
+}
+
+rule: "[passives/support/self_heal.opy]: Remove support self healing passive"
+Event.OngoingPlayer
+if (call_init == true)
+if (ArrayContains(AllSupportHeroes(), HeroOf(EventPlayer())) == true)
+# Exception to support healing passive
+if (ArrayContains([Hero.Mercy], HeroOf(EventPlayer())) == false)
+{
+    removeSelfHealing();
+}
+
+rule: "[passives/support/self_heal.opy]: Reset self healing"
+Event.OngoingPlayer
+if (call_reset == true)
+{
+    StopHealingModification(self_healing_modification);
+    support_passive_active = true;
+}
+
+void removeSelfHealing() "[passives/support/self_heal.opy]: removeSelfHealing()"
+{
+    StopHealingModification(self_healing_modification);
+    self_healing_source = [];
+    self_healing_percent = 0;
+    StartHealingModification(EventPlayer(), EventPlayer(), self_healing_percent, HealingModificationRev.ReceiversDamagersAndDamagePercent);
+    self_healing_modification = LastHealingModificationID();
+}
+
+rule: "[passives/support/self_heal.opy]: Get time when support hero take damage"
+Event.OnDamageTaken
+if (ArrayContains(support_heroes, HeroOf(EventPlayer())) == true)
+{
+    last_time_damage_taken = TotalTimeElapsed();
+    support_passive_active = false;
+}
+
+rule: "[passives/support/self_heal.opy]: Check if support passive is active"
+Event.OngoingPlayer
+if (support_passive_active == false)
+if (ArrayContains(support_heroes, HeroOf(EventPlayer())) == true)
+if (TotalTimeElapsed() - last_time_damage_taken > 1.5)
+{
+    support_passive_active = true;
+}
+
+rule: "[moira.opy]: Activate self healing if self healing source non-empty"
+Event.OngoingPlayer
+if (CountOf(self_healing_source) > 0)
+{
+    self_healing_percent = 100;
+    WaitUntil(CountOf(self_healing_source) <= 0, 999999986991104);
+    self_healing_percent = 0;
+}
+
+rule: "[ana/ammo.opy]: Initialize Ana clip size"
+Event.OngoingPlayer
+Player.Ana
+if (call_init == true)
+{
+    SetAmmo(EventPlayer(), 0, 12);
+    SetMaxAmmo(EventPlayer(), 0, 12);
+}
+
+rule: "[ana/sleep.opy]: Set default sleep dart cooldown"
+Event.OngoingPlayer
+Player.Ana
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 12);
+}
+
+rule: "[ana/sleep.opy]: Sleep tanks for longer duration"
+Event.OngoingPlayer
+if (ArrayContains(AllTankHeroes(), HeroOf(EventPlayer())) == true)
+if (HasStatus(EventPlayer(), Status.Asleep) == true)
+{
+    # 5/3.5 is the ratio of regular sleep time to tank sleep time
+    SetStatus(EventPlayer(), null, Status.Asleep, 7.692);
+}
+
+rule: "[ana/nade.opy]: Heal OW1 healing with biotic grenade"
+Event.OnHealingDealt
+Player.Ana
+if (EventAbility() == Button.Ability2)
+{
+    Heal(Healee(), Healer(), EventHealing() * 1.667 - EventHealing());
+}
+
+rule: "[ana/nade.opy]: Allow self healing during Biotic Grenade"
+Event.OngoingPlayer
+Player.Ana
+if (IsUsingAbility2(EventPlayer()) == true)
+{
+    self_healing_percent = 100;
+    WaitUntil(!IsUsingAbility2(EventPlayer()), 999999986991104);
+    self_healing_percent = 0;
+}
+
+rule: "[ashe.opy]: Initialize Ashe"
+Event.OngoingPlayer
+Player.Ashe
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 200;
+    hp_armor = 0;
+    hp_shields = 0;
+    applyCustomHealth();
+}
+
+rule: "[ashe/bob.opy]: Add ultimate charge while using BOB"
+Event.OngoingPlayer
+Player.Ashe
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    ult_point_while_ult_active = 0;
+    start_time_ult = TotalTimeElapsed();
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 99999);
+    # Check if the user did not switch hero after using B.O.B to add the ult charge
+    if (HeroOf(EventPlayer()) == Hero.Ashe)
+    {
+        # Add charge for passive generation and then the ult charge generated from the damage made by Ashe
+        missing_ult_points = 5 * (TotalTimeElapsed() - start_time_ult) + ult_point_while_ult_active;
+    }
+}
+
+rule: "[ashe/bob.opy]: Calcul of the damage made while BOB is active"
+Event.OnDamageDealt
+Player.Ashe
+if (IsUsingUltimate(EventPlayer()) == true)
+if (Victim() != Attacker())
+{
+    if (ArrayContains(AllTankHeroes(), HeroOf(Victim())))
+    {
+        ult_point_while_ult_active += 1.3 * EventDamage();
+    }
+    else
+    {
+        ult_point_while_ult_active += EventDamage();
+    }
+}
+
+rule: "[baptiste.opy]: Initialize Baptiste"
+Event.OngoingPlayer
+Player.Baptiste
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    SetAmmo(EventPlayer(), 0, 45);
+    SetMaxAmmo(EventPlayer(), 0, 45);
+    SetAmmo(EventPlayer(), 1, 10);
+    SetMaxAmmo(EventPlayer(), 1, 10);
+}
+
+rule: "[baptiste.opy]: Set default immortality field cooldown"
+Event.OngoingPlayer
+Player.Baptiste
+if (IsUsingAbility2(EventPlayer()) == true)
+{
+    WaitUntil(!IsUsingAbility2(EventPlayer()), 999999986991104);
+    SetAbilityCooldown(EventPlayer(), Button.Ability2, 25);
+}
+
+rule: "[baptiste.opy]: Allow self healing during regenerative burst"
+Event.OngoingPlayer
+Player.Baptiste
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    self_healing_percent = 100;
+    Wait(5, WaitBehavior.IgnoreCondition);
+    self_healing_percent = 0;
+}
+
+rule: "[baptiste.opy]: Remove instant healing from regenerative burst"
+Event.OngoingPlayer
+Player.Baptiste
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    SetHealingDealt(EventPlayer(), 0);
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    SetHealingDealt(EventPlayer(), 100);
+}
+
+rule: "[baptiste.opy]: Buff regenerative burst heals per second"
+Event.OnHealingDealt
+Player.Baptiste
+if (EventAbility() == Button.Ability1)
+if (Healee() == EventPlayer())
+{
+    Heal(Healee(), Healer(), EventHealing() * 3 - EventHealing());
+}
+
+rule: "[baptiste.opy]: Buff regenerative burst heals per second"
+Event.OnHealingDealt
+Player.Baptiste
+if (EventAbility() == Button.Ability1)
+if (Healee() != EventPlayer())
+{
+    Heal(Healee(), Healer(), EventHealing() * 1.5 - EventHealing());
+}
+
+rule: "[bastion/configuration.opy]: No cooldown on reconfigure (ability 1)"
+Event.OngoingPlayer
+Player.Bastion
+if (IsUsingAbility1(EventPlayer()) == false)
+{
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 0);
+}
+
+rule: "[bastion/recon.opy]: Detect recon mode"
+Event.OngoingPlayer
+Player.Bastion
+# built in workshop function for detecting default hero form
+if (IsInAlternateForm(EventPlayer()) == false)
+{
+    current_configuration = 0;
+}
+
+rule: "[bastion/recon.opy]: Initialize recon mode"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 0)
+{
+    SetMoveSpeed(EventPlayer(), 100);
+    SetDamageDealt(EventPlayer(), 100);
+    SetProjectileSpeed(EventPlayer(), 100);
+    SetProjectileGravity(EventPlayer(), 100);
+    DisallowButton(EventPlayer(), Button.SecondaryFire);
+    ClearStatus(EventPlayer(), Status.Rooted);
+    SetKnockbackReceived(EventPlayer(), 100);
+    AllowButton(EventPlayer(), Button.PrimaryFire);
+}
+
+rule: "[bastion/sentry.opy]: Detect sentry mode"
+Event.OngoingPlayer
+Player.Bastion
+if (IsInAlternateForm(EventPlayer()) == true)
+# Sentry mode can only be entered from recon mode
+if (current_configuration == 0)
+# prevents incorrectly identifying tank as sentry
+if (current_configuration != 2)
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    current_configuration = 1;
+}
+
+rule: "[bastion/sentry.opy]: Initialize sentry mode"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 1)
+{
+    SetDamageDealt(EventPlayer(), 125);
+    SetStatus(EventPlayer(), null, Status.Rooted, 9999);
+    SetKnockbackReceived(EventPlayer(), 0);
+    DisallowButton(EventPlayer(), Button.SecondaryFire);
+}
+
+rule: "[bastion/tank.opy]: Detect tank mode"
+Event.OngoingPlayer
+Player.Bastion
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    current_configuration = 2;
+}
+
+rule: "[bastion/tank.opy]: Initialize tank mode"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 2)
+{
+    # move faster in tank mode
+    SetMoveSpeed(EventPlayer(), 153.846);
+    # deal more damage in tank mode
+    SetDamageDealt(EventPlayer(), 205);
+    # increase grenade travel speed (to mimic tank shells)
+    SetProjectileSpeed(EventPlayer(), 150);
+    SetProjectileGravity(EventPlayer(), 5);
+    # Disallow firing machine gun
+    DisallowButton(EventPlayer(), Button.PrimaryFire);
+    DisallowButton(EventPlayer(), Button.SecondaryFire);
+    ClearStatus(EventPlayer(), Status.Rooted);
+    SetKnockbackReceived(EventPlayer(), 100);
+}
+
+void startTank() "[bastion/tank.opy]: startTank()"
+{
+    Wait(0.5, WaitBehavior.IgnoreCondition);
+    # interrupt ultimate animation right before it completes
+    CancelPrimaryAction(EventPlayer());
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 0);
+    # Go to turret mode
+    PressButton(EventPlayer(), Button.Ability1);
+    # Disable reconfiguring out of turret mode
+    DisallowButton(EventPlayer(), Button.Ability1);
+}
+
+void endTank() "[bastion/tank.opy]: endTank()"
+{
+    if (IsUsingAbility1(EventPlayer()))
+    {
+        SetAbilityCooldown(EventPlayer(), Button.Ability1, 0);
+        # Go to recon mode
+        PressButton(EventPlayer(), Button.Ability1);
+    }
+    AllowButton(EventPlayer(), Button.Ability1);
+}
+
+rule: "[bastion/tank.opy]: Activate tank mode"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 2)
+{
+    startTank();
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 8);
+    endTank();
+}
+
+rule: "[bastion/tank.opy]: Fire tank shells"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 2)
+if (IsButtonHeld(EventPlayer(), Button.PrimaryFire) == true)
+{
+    AllowButton(EventPlayer(), Button.SecondaryFire);
+    PressButton(EventPlayer(), Button.SecondaryFire);
+    DisallowButton(EventPlayer(), Button.SecondaryFire);
+    MinWait();
+    WaitUntil(AbilityCooldown(EventPlayer(), Button.SecondaryFire) <= 0, 999999986991104);
+    LoopIfConditionIsTrue();
+}
+
+rule: "[bastion/tank.opy]: Reload tank shells"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 2)
+if (IsFiringSecondary(EventPlayer()) == true)
+{
+    # modify cooldown for tank shell
+    SetAbilityCooldown(EventPlayer(), Button.SecondaryFire, 0.75);
+    # Wait tank shell reload time
+    Wait(0.75, WaitBehavior.IgnoreCondition);
+    # Set tank shell as available
+    SetAbilityCooldown(EventPlayer(), Button.SecondaryFire, 0);
+}
+
+rule: "[bastion/repair.opy]: Initialize self repair ability"
+Event.OngoingPlayer
+Player.Bastion
+if (call_init == true)
+{
+    DisallowButton(EventPlayer(), Button.SecondaryFire);
+    self_repair_time_left = 3.333;
+    is_pressing_self_repair_key = false;
+    is_using_self_repair = false;
+}
+
+rule: "[bastion/repair.opy]: Detect Self Repair key press"
+Event.OngoingPlayer
+Player.Bastion
+if ((IsButtonHeld(EventPlayer(), Button.Ability2) || IsButtonHeld(EventPlayer(), Button.SecondaryFire)) == true)
+{
+    is_pressing_self_repair_key = true;
+    WaitUntil(!(IsButtonHeld(EventPlayer(), Button.Ability2) || IsButtonHeld(EventPlayer(), Button.SecondaryFire)), 999999986991104);
+    is_pressing_self_repair_key = false;
+}
+
+rule: "[bastion/repair.opy]: Activate self-repair"
+Event.OngoingPlayer
+Player.Bastion
+if (is_using_self_repair == false)
+if (is_pressing_self_repair_key != false)
+if (IsFiringPrimary(EventPlayer()) == false)
+if (IsAlive(EventPlayer()) == true)
+{
+    createSelfRepairGUI();
+    # Stop any ongoing resource recharging
+    StopChasingVariable(self_repair_time_left);
+    Wait(0.5, WaitBehavior.AbortWhenFalse);
+    is_using_self_repair = true;
+    WaitUntil(!is_pressing_self_repair_key || IsFiringPrimary(EventPlayer()) || IsDead(EventPlayer()) || self_repair_time_left <= 0, 999999986991104);
+    is_using_self_repair = false;
+}
+
+rule: "[bastion/repair.opy]: Remove self repair GUI"
+Event.OngoingPlayer
+Player.Bastion
+if (self_repair_time_left >= 3.333)
+{
+    destroySelfRepairGUI();
+}
+
+rule: "[bastion/repair.opy]: Heal on self-repair"
+Event.OngoingPlayer
+Player.Bastion
+if (is_using_self_repair != false)
+{
+    StartHealOverTime(EventPlayer(), EventPlayer(), self_repair_time_left, 90);
+    self_repair_instance = LastHealOverTime();
+}
+
+rule: "[bastion/repair.opy]: Deplete healing resource"
+Event.OngoingPlayer
+Player.Bastion
+if (is_using_self_repair != false)
+{
+    # Start depleting
+    ChaseVariableAtRate(self_repair_time_left, 0, 1, RateChaseReevaluation.DestinationAndRate);
+}
+
+rule: "[bastion/repair.opy]: Stop healing when not self-repairing"
+Event.OngoingPlayer
+Player.Bastion
+if (is_using_self_repair == false)
+{
+    StopHealOverTime(self_repair_instance);
+}
+
+rule: "[bastion/repair.opy]: Replanish healing resource"
+Event.OngoingPlayer
+Player.Bastion
+if (is_using_self_repair == false)
+{
+    # Stop any ongoing resource depletion
+    StopChasingVariable(self_repair_time_left);
+    # Wait 1 second cooldown before recharging heal resource
+    Wait(1, WaitBehavior.AbortWhenFalse);
+    # Start recharging
+    ChaseVariableAtRate(self_repair_time_left, 3.333, 0.476, RateChaseReevaluation.DestinationAndRate);
+}
+
+rule: "[bastion/repair.opy]: Give ult charge for self repair"
+Event.OnHealingDealt
+Player.Bastion
+if (Healer() == Healee())
+{
+    missing_ult_points += EventHealing();
+}
+
+void createSelfRepairGUI() "[bastion/repair.opy]: createSelfRepairGUI()"
+{
+    AbortIf(self_repair_gui != null);
+    CreateProgressBarHudText(self_repair_time_left < 3.333 ? EventPlayer() : null, RoundToInteger(100 * self_repair_time_left / 3.333, Rounding.Nearest), "Self-Repair", Location.Left, 1, Color.Yellow, Color.Yellow, ProgressBarHudEvaluation.VisibleToValuesAndColor, Spectators.DefaultVisibility);
+    self_repair_gui = LastTextID();
+}
+
+void destroySelfRepairGUI() "[bastion/repair.opy]: destroySelfRepairGUI()"
+{
+    DestroyProgressBarHudText(self_repair_gui);
+    self_repair_gui = null;
+}
+
+rule: "[bastion/machine_gun.opy]: Initialize machine gun"
+Event.OngoingPlayer
+Player.Bastion
+if (call_init == true)
+{
+    machine_gun_ammo = 300;
+    machine_gun_reload_timer = 0;
+}
+
+rule: "[bastion/machine_gun.opy]: Activate machine gun in sentry mode"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 1)
+{
+    machine_gun_ready = true;
+    StopChasingVariable(machine_gun_reload_timer);
+}
+
+void createMachineGunGUI() "[bastion/machine_gun.opy]: createMachineGunGUI()"
+{
+    CreateProgressBarHudText(EventPlayer(), RoundToInteger(100 * machine_gun_ammo / 300, Rounding.Nearest), <"Ammo: <0>", RoundToInteger(machine_gun_ammo, Rounding.Up)>, Location.Top, 0, Color.Orange, Color.Orange, ProgressBarHudEvaluation.VisibleToValuesAndColor, Spectators.DefaultVisibility);
+    machine_gun_gui = LastTextID();
+}
+
+void destroyMachineGunGUI() "[bastion/machine_gun.opy]: destroyMachineGunGUI()"
+{
+    DestroyProgressBarHudText(machine_gun_gui);
+}
+
+void startMachineGunReload() "[bastion/machine_gun.opy]: start machine gun reload timer"
+{
+    AbortIf(machine_gun_ammo >= 300);
+    if (current_configuration == 1)
+    {
+        SmallMessage(EventPlayer(), "Reloading . . .");
+    }
+    machine_gun_ready = false;
+    machine_gun_reload_timer = 1.984;
+    ChaseVariableAtRate(machine_gun_reload_timer, 0, 1, RateChaseReevaluation.DestinationAndRate);
+}
+
+rule: "[bastion/machine_gun.opy]: finish reloading machine gun"
+Event.OngoingPlayer
+Player.Bastion
+if (machine_gun_reload_timer <= 0)
+{
+    machine_gun_ammo = 300;
+    machine_gun_ready = true;
+    if (current_configuration == 1)
+    {
+        SmallMessage(EventPlayer(), "Done");
+    }
+}
+
+rule: "[bastion/machine_gun.opy]: Show machine gun gui when in sentry mode"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 1)
+{
+    createMachineGunGUI();
+}
+
+rule: "[bastion/machine_gun.opy]: Hide machine gun gui when not in sentry mode"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration != 1)
+{
+    destroyMachineGunGUI();
+}
+
+rule: "[bastion/machine_gun.opy]: Consume machine gun ammo when shooting"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 1)
+if (IsFiringPrimary(EventPlayer()) == true)
+{
+    ChaseVariableAtRate(machine_gun_ammo, 0, 30, RateChaseReevaluation.DestinationAndRate);
+}
+
+rule: "[bastion/machine_gun.opy]: Stop machine gun ammo consumption when not shooting"
+Event.OngoingPlayer
+Player.Bastion
+if ((current_configuration == 1 && IsFiringPrimary(EventPlayer())) == false)
+{
+    StopChasingVariable(machine_gun_ammo);
+}
+
+rule: "[bastion/machine_gun.opy]: Reload machine gun on reload key"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 1)
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+{
+    startMachineGunReload();
+}
+
+rule: "[bastion/machine_gun.opy]: Reload machine gun if out of ammo"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 1)
+if (machine_gun_ammo <= 0)
+{
+    startMachineGunReload();
+}
+
+rule: "[bastion/machine_gun.opy]: Reload machine gun when not in sentry mode"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration != 1)
+{
+    startMachineGunReload();
+}
+
+rule: "[bastion/machine_gun.opy]: Allow machine gun shooting when machine gun ready"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 1)
+# gun ready to shoot
+if (machine_gun_ready == true)
+{
+    AllowButton(EventPlayer(), Button.PrimaryFire);
+}
+
+rule: "[bastion/machine_gun.opy]: Disallow machine gun shooting when machine gun not ready"
+Event.OngoingPlayer
+Player.Bastion
+if (current_configuration == 1)
+# gun not ready to shoot
+if (machine_gun_ready == false)
+{
+    DisallowButton(EventPlayer(), Button.PrimaryFire);
+}
+
+rule: "[brigitte/hp.opy]: Initialize Brigitte Hp"
+Event.OngoingPlayer
+Player.Brigitte
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 150;
+    hp_armor = 50;
+    hp_shields = 0;
+    applyCustomHealth();
+}
+
+rule: "[brigitte/bash.opy]: Add stun to shield bash"
+Event.OnDamageDealt
+Player.Brigitte
+if (IsFiringSecondary(EventPlayer()) == true)
+if (EventAbility() == Button.PrimaryFire)
+{
+    SetStatus(Victim(), EventPlayer(), Status.Stunned, 0.75);
+}
+
+rule: "[brigitte/bash.opy]: Reduce shield bash distance"
+Event.OngoingPlayer
+Player.Brigitte
+if (IsFiringSecondary(EventPlayer()) == true)
+if (IsFiringPrimary(EventPlayer()) == true)
+if (IsUsingUltimate(EventPlayer()) == false)
+{
+    # arbitrarily decided based on trial and error
+    SetMoveSpeed(EventPlayer(), 77.8);
+    WaitUntil(!IsFiringPrimary(EventPlayer()), 1);
+    if (IsUsingUltimate(EventPlayer()))
+    {
+        SetMoveSpeed(EventPlayer(), 113.043);
+    }
+    else
+    {
+        SetMoveSpeed(EventPlayer(), 100);
+    }
+}
+
+rule: "[brigitte/bash.opy]: Reduce shield bash damage to OW1"
+Event.OnDamageDealt
+Player.Brigitte
+if (EventAbility() == Button.PrimaryFire)
+if (IsFiringSecondary(EventPlayer()) == true)
+{
+    Heal(Victim(), null, 45);
+}
+
+rule: "[brigitte/rally.opy]: Rally 30% speed boost"
+Event.OngoingPlayer
+Player.Brigitte
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    # 30% movement speed buff during ralley
+    SetMoveSpeed(EventPlayer(), 113.043);
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 10);
+    SetMoveSpeed(EventPlayer(), 100);
+}
+
+rule: "[brigitte/inspire.opy]: Fix inspire self heal"
+Event.OnDamageDealt
+Player.Brigitte
+{
+    StopChasingVariable(inspire_duration);
+    inspire_duration = 0;
+    ChaseVariableAtRate(inspire_duration, 6, 1, RateChaseReevaluation.None);
+    self_healing_percent = 100;
+}
+
+rule: "[brigitte/inspire.opy]: No self healing when inspire timer runs out"
+Event.OngoingPlayer
+Player.Brigitte
+if (inspire_duration >= 6)
+{
+    StopChasingVariable(inspire_duration);
+    self_healing_percent = 0;
+}
+
+rule: "[doomfist/hp.opy]: Initialize Doomfist Hp"
+Event.OngoingPlayer
+Player.Doomfist
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 250;
+    hp_armor = 0;
+    hp_shields = 0;
+    applyCustomHealth();
+}
+
+rule: "[doomfist/uppercut.opy]: Initialize uppercut ability"
+Event.OngoingPlayer
+Player.Doomfist
+if (call_init == true)
+{
+    DisallowButton(EventPlayer(), Button.Ability2);
+}
+
+rule: "[doomfist/uppercut.opy]: Control flow for uppercut"
+Event.OngoingPlayer
+Player.Doomfist
+if (IsButtonHeld(EventPlayer(), Button.Ability2) == true)
+if (is_using_slam == false)
+if (AbilityCooldown(EventPlayer(), Button.Ability2) <= 0)
+# @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\r\n Ensure Doomfist is not frozen
+if (HasStatus(EventPlayer(), Status.Frozen) == false)
+# Ensure Doomfist is not knocked down
+if (HasStatus(EventPlayer(), Status.KnockedDown) == false)
+# Ensure Doomfist is not asleep
+if (HasStatus(EventPlayer(), Status.Asleep) == false)
+# Ensure Doomfist is not stunned
+if (HasStatus(EventPlayer(), Status.Stunned) == false)
+{
+    executeUppercut();
+}
+
+void executeUppercut() "[doomfist/uppercut.opy]: executeUppercut()"
+{
+    # Doomfist phases through enemies during uppercut
+    DisableMovementCollisionWithPlayers(EventPlayer());
+    # Uppercut physics\r\n Start of uppercut
+    is_using_uppercut = true;
+    # Cancel current momentum
+    ApplyImpulse(EventPlayer(), VelocityOf(EventPlayer()), -1 * SpeedOf(EventPlayer()), Relative.ToWorld, ContraryMotion.Incorporate);
+    # Step Forward
+    ApplyImpulse(EventPlayer(), Normalize(FacingDirectionOf(EventPlayer()) * (Forward() + Left())), 5, Relative.ToWorld, ContraryMotion.Incorporate);
+    # Override gravity during uppercut
+    SetGravity(EventPlayer(), 0);
+    # Deny player from inputting movement commands
+    ForceThrottle(EventPlayer(), 0, 0, 0, 0, 0, 0);
+    Wait(0.15, WaitBehavior.IgnoreCondition);
+    # Uppercut
+    ApplyImpulse(EventPlayer(), Up(), 40, Relative.ToWorld, ContraryMotion.Incorporate);
+    Wait(0.1, WaitBehavior.IgnoreCondition);
+    ApplyImpulse(EventPlayer(), Down(), Max(0, SpeedOfInDirection(EventPlayer(), Up())), Relative.ToWorld, ContraryMotion.Incorporate);
+    # End of uppercut
+    is_using_uppercut = false;
+    MinWait();
+    ApplyImpulse(EventPlayer(), Up(), 2.5, Relative.ToWorld, ContraryMotion.Incorporate);
+    SetGravity(EventPlayer(), 0);
+    EnableMovementCollisionWithPlayers(EventPlayer());
+    Wait(0.35, WaitBehavior.IgnoreCondition);
+    StopForcingThrottle(EventPlayer());
+    Wait(0.15, WaitBehavior.IgnoreCondition);
+    SetGravity(EventPlayer(), 50);
+    Wait(0.25, WaitBehavior.IgnoreCondition);
+    SetGravity(EventPlayer(), 100);
+}
+
+rule: "[doomfist/uppercut.opy]: Play uppercut VFX"
+Event.OngoingPlayer
+Player.Doomfist
+if (is_using_uppercut == true)
+{
+    PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, TeamOf(EventPlayer()), EventPlayer(), 100);
+    PlayEffect(AllPlayers(Team.All), PlayEffect.DebuffImpactSound, TeamOf(EventPlayer()), EventPlayer(), 100);
+    PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosionSound, TeamOf(EventPlayer()), EventPlayer(), 100);
+}
+
+rule: "[doomfist/uppercut.opy]: Set uppercut cooldown"
+Event.OngoingPlayer
+Player.Doomfist
+if (is_using_uppercut == true)
+{
+    WaitUntil(is_using_uppercut == false, 999999986991104);
+    SetAbilityCooldown(EventPlayer(), Button.Ability2, OW1_DOOMFIST_UPPERCUT_CD);
+}
+
+rule: "[doomfist/uppercut.opy]: Disable abilities when uppercutting"
+Event.OngoingPlayer
+Player.Doomfist
+if (is_using_uppercut == true)
+{
+    # Doomfist cannot melee during uppercut
+    SetMeleeEnabled(EventPlayer(), false);
+    # Doomfist cannot shoot during uppercut
+    SetPrimaryFireEnabled(EventPlayer(), false);
+    # Doomfist cannot punch during uppercut
+    SetSecondaryFireEnabled(EventPlayer(), false);
+    WaitUntil(is_using_uppercut == false, 999999986991104);
+    SetMeleeEnabled(EventPlayer(), true);
+    SetPrimaryFireEnabled(EventPlayer(), true);
+    SetSecondaryFireEnabled(EventPlayer(), true);
+}
+
+rule: "[doomfist/uppercut.opy]: Detect uppercut victims"
+Event.OngoingPlayer
+# Enemy doomfist using uppercut
+if (enemy_doomfist_player.is_using_uppercut == true)
+# Victim within uppercut hitbox range
+if (DistanceBetween(enemy_doomfist_player, EventPlayer()) <= 5)
+# Victim in los of doomfist
+if (IsInLineOfSight(enemy_doomfist_player, EventPlayer(), BarrierLOS.NoBarriersBlock) == true)
+# Victim visible to doomfist
+if (AngleBetweenVectors(Normalize(FacingDirectionOf(enemy_doomfist_player) * (Forward() + Left())), DirectionTowards(enemy_doomfist_player, EventPlayer())) <= 90)
+# Enemy doomfist alive
+if (IsAlive(enemy_doomfist_player) == true)
+# Victim is alive
+if (IsAlive(EventPlayer()) == true)
+{
+    is_hit_by_uppercut = true;
+}
+
+rule: "[doomfist/uppercut.opy]: Uppercut victim movement physics"
+Event.OngoingPlayer
+if (is_hit_by_uppercut == true)
+{
+    # Lose movement control
+    ForceThrottle(EventPlayer(), 0, 0, 0, 0, 0, 0);
+    ApplyImpulse(EventPlayer(), Up(), 13.5, Relative.ToPlayer, ContraryMotion.CancelXYZ);
+    ApplyImpulse(EventPlayer(), Normalize(FacingDirectionOf(enemy_doomfist_player) * (Forward() + Left())), 8.5, Relative.ToWorld, ContraryMotion.CancelXYZ);
+    Wait(0.6, WaitBehavior.IgnoreCondition);
+    # Regain movement control
+    StopForcingThrottle(EventPlayer());
+    is_hit_by_uppercut = false;
+}
+
+rule: "[doomfist/uppercut.opy]: Damage uppercut victims"
+Event.OngoingPlayer
+if (is_hit_by_uppercut == true)
+{
+    Damage(EventPlayer(), enemy_doomfist_player, 50);
+    SetEnvironmentCreditPlayer(EventPlayer(), enemy_doomfist_player);
+}
+
+rule: "[doomfist/uppercut.opy]: Play uppercut hit VFX"
+Event.OngoingPlayer
+if (is_hit_by_uppercut == true)
+{
+    PlayEffect(AllPlayers(Team.All), PlayEffect.BadExplosion, Color.White, EventPlayer(), 1);
+}
+
+rule: "[doomfist/slam.opy]: Initialize slam ability"
+Event.OngoingPlayer
+Player.Doomfist
+if (call_init == true)
+{
+    DisallowButton(EventPlayer(), Button.Ability1);
+    slam_damage = 0;
+}
+
+rule: "[doomfist/slam.opy]: Control flow for slam"
+Event.OngoingPlayer
+Player.Doomfist
+if (IsButtonHeld(EventPlayer(), Button.Ability1) == true)
+if (is_using_uppercut == false)
+if (AbilityCooldown(EventPlayer(), Button.Ability1) <= 0)
+if (IsMeleeing(EventPlayer()) == false)
+# @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked\r\n Ensure Doomfist is not frozen
+if (HasStatus(EventPlayer(), Status.Frozen) == false)
+# Ensure Doomfist is not knocked down
+if (HasStatus(EventPlayer(), Status.KnockedDown) == false)
+# Ensure Doomfist is not asleep
+if (HasStatus(EventPlayer(), Status.Asleep) == false)
+# Ensure Doomfist is not stunned
+if (HasStatus(EventPlayer(), Status.Stunned) == false)
+{
+    executeSlam();
+}
+
+rule: "[doomfist/slam.opy]: Detect ground slam"
+Event.OngoingPlayer
+Player.Doomfist
+if (UpdateEveryFrame(AltitudeOf(EventPlayer()) < 3) != false)
+{
+    slam_to_use = 0;
+}
+
+rule: "[doomfist/slam.opy]: Detect indicator slam"
+Event.OngoingPlayer
+Player.Doomfist
+if (UpdateEveryFrame(AltitudeOf(EventPlayer()) >= 3) != false)
+{
+    slam_to_use = 1;
+}
+
+rule: "[doomfist/slam.opy]: Start tracking indicator slam destination"
+Event.OngoingPlayer
+Player.Doomfist
+if (slam_to_use == 1)
+if (AbilityCooldown(EventPlayer(), Button.Ability1) <= 0)
+if (IsUsingAbility1(EventPlayer()) == false)
+{
+    ChaseVariableAtRate(proto_indicator_slam_position, RayCastHitPosition(EyePosition(EventPlayer()), EyePosition(EventPlayer()) + 15 * FacingDirectionOf(EventPlayer()), null, null, FirstOf(null)), 9999, RateChaseReevaluation.DestinationAndRate);
+    ChaseVariableAtRate(indicator_slam_position, RayCastHitPosition(proto_indicator_slam_position, proto_indicator_slam_position + 5 * Down(), null, AllPlayers(Team.All), false), 9999, RateChaseReevaluation.DestinationAndRate);
+}
+
+rule: "[doomfist/slam.opy]: Stop tracking indicator slam destination"
+Event.OngoingPlayer
+Player.Doomfist
+if ((slam_to_use == 1 && AbilityCooldown(EventPlayer(), Button.Ability1) <= 0 && !IsUsingAbility1(EventPlayer())) == false)
+{
+    StopChasingVariable(proto_indicator_slam_position);
+    StopChasingVariable(indicator_slam_position);
+}
+
+void executeSlam() "[doomfist/slam.opy]: executeSlam()"
+{
+    # clear slammed victims
+    slammed_victims = [];
+    if (slam_to_use == 1)
+    {
+        # Only execute when indicator slam is valid
+        if (DistanceBetween(indicator_slam_position, proto_indicator_slam_position) < 5)
+        {
+            initiateIndicatorSlam();
+        }
+    }
+    else
+    {
+        initiateGroundSlam();
+    }
+    if (is_using_slam == true)
+    {
+        WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+        is_using_slam = false;
+        SetAbilityCooldown(EventPlayer(), Button.Ability1, OW1_DOOMFIST_SLAM_CD);
+    }
+}
+
+void initiateGroundSlam() "[doomfist/slam.opy]: InitiateGroundSlam()"
+{
+    is_using_slam = true;
+    SetGravity(EventPlayer(), 0);
+    ForceThrottle(EventPlayer(), 0, 0, 0, 0, 0, 0);
+    startSlamAnimation();
+    # apply custom momentum
+    ApplyImpulse(EventPlayer(), Normalize(FacingDirectionOf(EventPlayer()) * (Forward() + Left())) + Vector(0, 0.075, 0), 16, Relative.ToWorld, ContraryMotion.Incorporate);
+    Wait(0.3, WaitBehavior.IgnoreCondition);
+    SetGravity(EventPlayer(), 100);
+    WaitUntil(IsOnGround(EventPlayer()) || !IsUsingAbility1(EventPlayer()), 999999986991104);
+    StopForcingThrottle(EventPlayer());
+}
+
+void initiateIndicatorSlam() "[doomfist/slam.opy]: InitiateIndicatorSlam()"
+{
+    StopChasingVariable(proto_indicator_slam_position);
+    StopChasingVariable(indicator_slam_position);
+    proto_indicator_slam_position = RayCastHitPosition(EyePosition(EventPlayer()), EyePosition(EventPlayer()) + 15 * FacingDirectionOf(EventPlayer()), null, null, FirstOf(null));
+    indicator_slam_position = RayCastHitPosition(proto_indicator_slam_position, proto_indicator_slam_position + 5 * Down(), null, AllPlayers(Team.All), false);
+    indicator_slam_direction = DirectionTowards(PositionOf(EventPlayer()), indicator_slam_position);
+    is_using_slam = true;
+    SetGravity(EventPlayer(), 0.001);
+    ForceThrottle(EventPlayer(), 0, 0, 0, 0, 0, 0);
+    startSlamAnimation();
+    current_position = PositionOf(EventPlayer());
+    ChaseVariableAtRate(current_position, indicator_slam_position, 25, RateChaseReevaluation.None);
+    StartForcingPlayerPosition(EventPlayer(), current_position, true);
+    # Helps prevent clipping through map geometry
+    ApplyImpulse(EventPlayer(), indicator_slam_direction, 25, Relative.ToWorld, ContraryMotion.CancelXYZ);
+    WaitUntil(DistanceBetween(current_position, indicator_slam_position) <= 0.01 || !IsUsingAbility1(EventPlayer()), 999999986991104);
+    StopForcingPlayerPosition(EventPlayer());
+    StopChasingVariable(current_position);
+    StopForcingThrottle(EventPlayer());
+    SetGravity(EventPlayer(), 100);
+    # cancel current momentum
+    ApplyImpulse(EventPlayer(), VelocityOf(EventPlayer()), -1 * SpeedOf(EventPlayer()), Relative.ToWorld, ContraryMotion.Incorporate);
+}
+
+void startSlamAnimation() "[doomfist/slam.opy]: startSlamAnimation()"
+{
+    # Start slam animation
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 0);
+    AllowButton(EventPlayer(), Button.Ability1);
+    PressButton(EventPlayer(), Button.Ability1);
+    DisallowButton(EventPlayer(), Button.Ability1);
+    MinWait();
+    # Cancel current momentum
+    ApplyImpulse(EventPlayer(), VelocityOf(EventPlayer()), -1 * SpeedOf(EventPlayer()), Relative.ToWorld, ContraryMotion.Incorporate);
+}
+
+rule: "[doomfist/slam.opy]: Calculate slam damage based on air time"
+Event.OngoingPlayer
+Player.Doomfist
+if (is_using_slam == true)
+{
+    slam_damage = 0;
+    createSlamDamageGui();
+    WaitUntil(!IsOnGround(EventPlayer()), 999999986991104);
+    ChaseVariableAtRate(slam_damage, 125, 100, RateChaseReevaluation.None);
+    WaitUntil(IsOnGround(EventPlayer()) || !is_using_slam, 999999986991104);
+    StopChasingVariable(slam_damage);
+    Wait(1, WaitBehavior.RestartWhenTrue);
+    destroySlamDamageGui();
+}
+
+void createSlamDamageGui() "[doomfist/slam.opy]: createSlamDamageGui()"
+{
+    AbortIf(slam_damage_text_entity != null);
+    CreateInWorldText(EventPlayer(), <"<0>", RoundToInteger(slam_damage, Rounding.Down)>, UpdateEveryFrame(EyePosition(EventPlayer()) + 100 * (-0.2 * DirectionFromAngles(HorizontalAngleFromDirection(FacingDirectionOf(EventPlayer())), VerticalAngleFromDirection(FacingDirectionOf(EventPlayer())) - 90) + 3 * FacingDirectionOf(EventPlayer()))), 2, Clipping.DoNotClip, InworldTextRev.VisibleToPositionStringAndColor, Color.White, Spectators.DefaultVisibility);
+    slam_damage_text_entity = LastTextID();
+}
+
+void destroySlamDamageGui() "[doomfist/slam.opy]: destroySlamDamageGui()"
+{
+    DestroyInWorldText(slam_damage_text_entity);
+    slam_damage_text_entity = null;
+}
+
+rule: "[doomfist/slam.opy]: Remove OW2 slam damage"
+Event.OnDamageDealt
+Player.Doomfist
+# Ability used to damage player is Seismic Slam
+if (EventAbility() == Button.Ability1)
+{
+    Heal(Victim(), null, EventDamage());
+}
+
+rule: "[doomfist/slam.opy]: Find slammed victims"
+Event.OnDamageDealt
+Player.Doomfist
+# Ability used to damage player is Seismic Slam
+if (EventAbility() == Button.Ability1)
+if (1 <= DistanceBetween(Attacker(), Victim()))
+if (DistanceBetween(Attacker(), Victim()) <= 8)
+{
+    # TODO add condition to check victim in 60 degree cone
+    ModifyVariable(Attacker().slammed_victims, Operation.AppendToArray, Victim());
+}
+
+rule: "[doomfist/slam.opy]: Slammed victims damage"
+Event.OnDamageDealt
+Player.Doomfist
+# Ability used to damage player is Seismic Slam
+if (EventAbility() == Button.Ability1)
+if (ArrayContains(Attacker().slammed_victims, Victim()) == true)
+{
+    # Custom slam damage
+    Damage(Victim(), Attacker(), RoundToInteger(Attacker().slam_damage, Rounding.Down));
+}
+
+rule: "[doomfist/slam.opy]: Slammed victims bounce effect"
+Event.OnDamageDealt
+Player.Doomfist
+# Ability used to damage player is Seismic Slam
+if (EventAbility() == Button.Ability1)
+if (ArrayContains(Attacker().slammed_victims, Victim()) == true)
+{
+    SetGravity(Victim(), 50);
+    # Boop slammed victims up
+    ApplyImpulse(Victim(), Up(), 5.25, Relative.ToWorld, ContraryMotion.CancelXYZ);
+    # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
+    ApplyImpulse(Victim(), DirectionTowards(Victim(), Attacker()), 1.5 * (DistanceBetween(Victim(), Attacker()) - 4), Relative.ToWorld, ContraryMotion.CancelXYZ);
+    SetGravity(Victim(), 100);
+}
+
+rule: "[doomfist/slam.opy]: Slam indicator VFX"
+Event.OngoingPlayer
+Player.Doomfist
+if (slam_to_use == 1)
+if (AbilityCooldown(EventPlayer(), Button.Ability1) <= 0)
+if (IsUsingAbility1(EventPlayer()) == false)
+if (DistanceBetween(indicator_slam_position, proto_indicator_slam_position) < 5)
+{
+    createSlamIndicatorGui();
+    WaitUntil(slam_to_use != 1 || AbilityCooldown(EventPlayer(), Button.Ability1) > 0 || IsUsingAbility1(EventPlayer()) || DistanceBetween(indicator_slam_position, proto_indicator_slam_position) >= 5, 999999986991104);
+    destroySlamIndicatorGui();
+}
+
+void createSlamIndicatorGui() "[doomfist/slam.opy]: createSlamIndicatorGui()"
+{
+    for (i = 0; 2; 1)
+    {
+        CreateBeamEffect(slam_to_use == 1 && AbilityCooldown(EventPlayer(), Button.Ability1) <= 0 && !IsUsingAbility1(EventPlayer()) && DistanceBetween(indicator_slam_position, proto_indicator_slam_position) < 5 ? EventPlayer() : null, BeamType.GoodBeam, UpdateEveryFrame(indicator_slam_position + WorldVectorOf(CosineFromDegrees(30 - EvaluateOnce(i) * 60) * Forward() + SineFromDegrees(30 - EvaluateOnce(i) * 60) * Left(), EventPlayer(), LocalVector.Rotation)), UpdateEveryFrame(indicator_slam_position + 8 * WorldVectorOf(CosineFromDegrees(30 - EvaluateOnce(i) * 60) * Forward() + SineFromDegrees(30 - EvaluateOnce(i) * 60) * Left(), EventPlayer(), LocalVector.Rotation)), Color.Blue, EffectRev.VisibleToPositionAndRadius);
+        ModifyVariable(indicator_entity, Operation.AppendToArray, LastCreatedEntity());
+    }
+}
+
+void destroySlamIndicatorGui() "[doomfist/slam.opy]: destroySlamIndicatorGui()"
+{
+    for (i = 0; CountOf(indicator_entity); 1)
+    {
+        DestroyEffect(indicator_entity[i]);
+    }
+    indicator_entity = [];
+}
+
+rule: "[doomfist/punch.opy]: Initialize rocket punch ability"
+Event.OngoingPlayer
+Player.Doomfist
+if (call_init == true)
+{
+    punched_victims = [];
+    wall_impacted_victims = [];
+}
+
+rule: "[doomfist/punch.opy]: Initialize rocket punch"
+Event.OngoingPlayer
+Player.Doomfist
+if (IsFiringSecondary(EventPlayer()) == true)
+if (IsButtonHeld(EventPlayer(), Button.SecondaryFire) == true)
+{
+    punched_victims = [];
+    wall_impacted_victims = [];
+    punch_charge_time = 0;
+    ChaseVariableAtRate(punch_charge_time, 1.4, 1, RateChaseReevaluation.None);
+    WaitUntil(!IsButtonHeld(EventPlayer(), Button.SecondaryFire), 999999986991104);
+    StopChasingVariable(punch_charge_time);
+}
+
+rule: "[doomfist/punch.opy]: Find wall impacted victims"
+Event.OnDamageDealt
+Player.Doomfist
+if (EventAbility() == Button.SecondaryFire)
+if (ArrayContains(Attacker().punched_victims, Victim()) == true)
+if (ArrayContains(Attacker().wall_impacted_victims, Victim()) == false)
+{
+    Damage(Victim(), Attacker(), 82.781 * (punch_charge_time - 1.4) + 150 - EventDamage());
+    ModifyVariable(Attacker().wall_impacted_victims, Operation.AppendToArray, Victim());
+}
+
+rule: "[doomfist/punch.opy]: Find punched victims"
+Event.OnDamageDealt
+Player.Doomfist
+if (EventAbility() == Button.SecondaryFire)
+if (ArrayContains(Attacker().punched_victims, Victim()) == false)
+{
+    Damage(Victim(), Attacker(), 41.391 * (punch_charge_time - 1.4) + 100 - EventDamage());
+    ModifyVariable(Attacker().punched_victims, Operation.AppendToArray, Victim());
+}
+
+rule: "[doomfist/punch.opy]: Remove Empowered Punch from ultimate"
+Event.OngoingPlayer
+Player.Doomfist
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    # eventPlayer.disallowButton(Button.ABILITY_1)\r\n eventPlayer.disallowButton(Button.ABILITY_2)
+    WaitUntil(IsButtonHeld(EventPlayer(), Button.PrimaryFire), 4.8);
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    StartHoldingButton(EventPlayer(), Button.SecondaryFire);
+    DisallowButton(EventPlayer(), Button.SecondaryFire);
+    SetStatus(EventPlayer(), null, Status.Stunned, 0.016);
+    StopHoldingButton(EventPlayer(), Button.SecondaryFire);
+    SetAbilityCooldown(EventPlayer(), Button.SecondaryFire, 0);
+    SetSecondaryFireEnabled(EventPlayer(), false);
+    MinWait();
+    SetSecondaryFireEnabled(EventPlayer(), true);
+    # eventPlayer.allowButton(Button.ABILITY_1)\r\n eventPlayer.allowButton(Button.ABILITY_2)
+    AllowButton(EventPlayer(), Button.SecondaryFire);
+}
+
+rule: "[doomfist/punch.opy]: Remove stun from wall impact"
+Event.OnDamageDealt
+Player.Doomfist
+if (EventAbility() == Button.SecondaryFire)
+if (ArrayContains(wall_impacted_victims, Victim()) == true)
+{
+    ClearStatus(Victim(), Status.Stunned);
+}
+
+rule: "[doomfist/meteor.opy]: Deal OW1 Meteor Strike damage"
+Event.OnDamageDealt
+Player.Doomfist
+if (EventAbility() == Button.Ultimate)
+# Only activate this rule when damage is dealt by inner ring (/2 accounts for damage reduction from armor, nanoboost, etc)
+if (EventDamage() < 200)
+{
+    Damage(Victim(), Attacker(), 200 + 2.176 * (EventDamage() - 100) - EventDamage());
+}
+
+rule: "[doomfist/meteor.opy]: Remove Meteor Strike slow effect"
+Event.OnDamageTaken
+if (HeroOf(Attacker()) == Hero.Doomfist)
+if (EventAbility() == Button.Ultimate)
+{
+    SetMoveSpeed(Victim(), 200);
+    Wait(3, WaitBehavior.IgnoreCondition);
+    SetMoveSpeed(Victim(), 100);
+}
+
+rule: "[doomfist/cannon.opy]: Deal OW1 hand cannon damage"
+Event.OnDamageDealt
+Player.Doomfist
+if (EventAbility() == Button.PrimaryFire)
+{
+    # Deal additional damage to match OW1 damage
+    Damage(Victim(), Attacker(), EventDamage() * 1.2 - EventDamage());
+}
+
+rule: "[doomfist.opy]: Initialize Doomfist"
+Event.OngoingPlayer
+Player.Doomfist
+if (call_init == true)
+{
+    AllPlayers(TeamOf(EventPlayer())).friendly_doomfist_player = EventPlayer();
+    AllPlayers(OppositeTeamOf(TeamOf(EventPlayer()))).enemy_doomfist_player = EventPlayer();
+}
+
+rule: "[dva/hp.opy]: Correct DVa mech health"
+Event.OngoingPlayer
+Player.Dva
+if (IsInAlternateForm(EventPlayer()) == false)
+{
+    MinWait();
+    hp_health = 300;
+    hp_armor = 300;
+    hp_shields = 0;
+    applyCustomHealth();
+}
+
+rule: "[dva/hp.opy]: Correct DVa pilot health"
+Event.OngoingPlayer
+Player.Dva
+if (IsInAlternateForm(EventPlayer()) == true)
+{
+    clearCustomHealth();
+}
+
+rule: "[dva/booster.opy]: Set default booster cooldown"
+Event.OngoingPlayer
+Player.Dva
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 4);
+}
+
+rule: "[dva/booster.opy]: Decouple melee button from activating melee animation during booster"
+Event.OngoingPlayer
+Player.Dva
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    DisallowButton(EventPlayer(), Button.Melee);
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    AllowButton(EventPlayer(), Button.Melee);
+}
+
+rule: "[dva/booster.opy]: Cancel booster if melee pressed"
+Event.OngoingPlayer
+Player.Dva
+if (IsUsingAbility1(EventPlayer()) == true)
+if (IsButtonHeld(EventPlayer(), Button.Melee) == true)
+{
+    PressButton(EventPlayer(), Button.Ability1);
+    AllowButton(EventPlayer(), Button.Melee);
+    PressButton(EventPlayer(), Button.Melee);
+    DisallowButton(EventPlayer(), Button.Melee);
+}
+
+rule: "[dva/booster.opy]: Reduce boosters damage"
+Event.OnDamageDealt
+Player.Dva
+if (EventAbility() == Button.Ability1)
+{
+    Heal(Victim(), null, 5);
+}
+
+rule: "[dva/missile.opy]: Set default missile cooldown"
+Event.OngoingPlayer
+Player.Dva
+if (IsUsingAbility2(EventPlayer()) == true)
+{
+    WaitUntil(!IsUsingAbility2(EventPlayer()), 999999986991104);
+    SetAbilityCooldown(EventPlayer(), Button.Ability2, 8);
+}
+
+rule: "[echo.opy]: Tank armor, shields and health for every tank"
+{
+    health_pool[IndexOfArrayValue(AllHeroes(), Hero.Dva)] = [300, 300, 0];
+    health_pool[IndexOfArrayValue(AllHeroes(), Hero.WreckingBall)] = [500, 100, 0];
+    health_pool[IndexOfArrayValue(AllHeroes(), Hero.Orisa)] = [200, 250, 0];
+    health_pool[IndexOfArrayValue(AllHeroes(), Hero.Reinhardt)] = [300, 200, 0];
+    health_pool[IndexOfArrayValue(AllHeroes(), Hero.Roadhog)] = [600, 0, 0];
+    health_pool[IndexOfArrayValue(AllHeroes(), Hero.Sigma)] = [300, 0, 100];
+    health_pool[IndexOfArrayValue(AllHeroes(), Hero.Winston)] = [350, 150, 0];
+    health_pool[IndexOfArrayValue(AllHeroes(), Hero.Zarya)] = [200, 0, 200];
+}
+
+rule: "[echo.opy]: Deal OW1 echo focusing beam under 50% hp"
+Event.OnDamageDealt
+Player.Echo
+if (IsUsingAbility2(EventPlayer()) == true)
+if (100 * Health(Victim()) / MaxHealth(Victim()) < 50)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.143 - EventDamage());
+}
+
+rule: "[echo.opy]: Set Life for echo when duplicating a tank"
+Event.OngoingPlayer
+Player.Echo
+if (IsDuplicating(EventPlayer()) == true)
+if (ArrayContains(AllTankHeroes(), HeroBeingDuplicated(EventPlayer())) == true)
+if (HeroBeingDuplicated(EventPlayer()) != Hero.Doomfist)
+{
+    hero_id_duplicated = IndexOfArrayValue(AllHeroes(), HeroBeingDuplicated(EventPlayer()));
+    clearCustomHealth();
+    hp_health = FirstOf(health_pool[hero_id_duplicated]);
+    hp_armor = health_pool[hero_id_duplicated][1];
+    hp_shields = health_pool[hero_id_duplicated][2];
+    applyCustomHealth();
+    WaitUntil(!IsDuplicating(EventPlayer()), 15);
+    clearCustomHealth();
+}
+
+rule: "[genji.opy]: Initialize Genji"
+Event.OngoingPlayer
+Player.Genji
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    SetAmmo(EventPlayer(), 0, 30);
+    SetMaxAmmo(EventPlayer(), 0, 30);
+}
+
+rule: "[genji.opy]: Deal OW1 shuriken damage"
+Event.OnDamageDealt
+Player.Genji
+if ((EventAbility() == Button.PrimaryFire || EventAbility() == Button.SecondaryFire) == true)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.074 - EventDamage());
+}
+
+rule: "[hanzo.opy]: Deal OW1 primary fire damage"
+Event.OnDamageDealt
+Player.Hanzo
+if ((EventAbility() == Button.PrimaryFire || EventAbility() == Button.Ability1) == true)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.042 - EventDamage());
+}
+
+rule: "[hanzo.opy]: Deal OW1 storm arrow damage"
+Event.OnDamageDealt
+Player.Hanzo
+if (EventAbility() == Button.Ability2)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.077 - EventDamage());
+}
+
+rule: "[illari.opy]: Allow self healing during Pylon"
+Event.OngoingPlayer
+Player.Illari
+if (IsUsingAbility2(EventPlayer()) == true)
+{
+    self_healing_percent = 100;
+    WaitUntil(!IsUsingAbility2(EventPlayer()), 999999986991104);
+    self_healing_percent = 0;
+}
+
+rule: "[junkerqueen.opy]: Initialize Junkerqueen"
+Event.OngoingPlayer
+Player.JunkerQueen
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    SetKnockbackReceived(EventPlayer(), 142.857);
+}
+
+rule: "[junkrat.opy]: Initialize Junkrat"
+Event.OngoingPlayer
+Player.Junkrat
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    # Reduce damage to the trap
+    SetDamageDealt(EventPlayer(), 80);
+}
+
+rule: "[junkrat.opy]: Deal extra damage on ability other than steel trap and increase root duration."
+Event.OnDamageDealt
+Player.Junkrat
+{
+    if (EventAbility() == Button.Ability1)
+    {
+        # Increase damage for concussion mine
+        Damage(Victim(), Attacker(), (EventDamage() + (EventDamage() - 30) / 80 * 10) * 1.25 + 1 - EventDamage());
+    }
+    else if (EventAbility() != Button.Ability2)
+    {
+        # Increase damage for every ability except trap and conccusion mine
+        Damage(Victim(), Attacker(), EventDamage() * 1.25 - EventDamage());
+    }
+    else
+    {
+        # Increase root duration
+        SetStatus(Victim(), Attacker(), Status.Rooted, 3);
+    }
+}
+
+rule: "[kiriko.opy]: Allow self healing during Suzu"
+Event.OngoingPlayer
+Player.Kiriko
+if (IsUsingAbility2(EventPlayer()) == true)
+{
+    self_healing_percent = 100;
+    WaitUntil(!IsUsingAbility2(EventPlayer()), 999999986991104);
+    self_healing_percent = 0;
+}
+
+rule: "[lifeweaver.opy]: Allow self healing during Rejuvanating Dash"
+Event.OngoingPlayer
+Player.Lifeweaver
+# [TODO] Replace with better condition
+if (IsJumping(EventPlayer()) == true)
+{
+    self_healing_percent = 100;
+    # [TODO] Replace with better condition
+    WaitUntil(!IsJumping(EventPlayer()), 999999986991104);
+    self_healing_percent = 0;
+}
+
+rule: "[lifeweaver.opy]: Allow self healing during Tree of Life"
+Event.OngoingPlayer
+Player.Lifeweaver
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    self_healing_percent = 100;
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    self_healing_percent = 0;
+}
+
+rule: "[lucio.opy]: Handle lucio self healing while amp is not active and supp passive is active"
+Event.OngoingPlayer
+Player.Lucio
+if (IsUsingAbility2(EventPlayer()) == false)
+if (IsUsingAbility1(EventPlayer()) == false)
+if (support_passive_active != false)
+{
+    self_healing_percent = 48;
+}
+
+rule: "[lucio.opy]: Handle lucio self healing while amp is not active and support passive inactive"
+Event.OngoingPlayer
+Player.Lucio
+if (IsUsingAbility2(EventPlayer()) == false)
+if (IsUsingAbility1(EventPlayer()) == false)
+if (support_passive_active == false)
+{
+    self_healing_percent = 120;
+}
+
+rule: "[lucio.opy]: Handle lucio self when amp is active and supp passive is active"
+Event.OngoingPlayer
+Player.Lucio
+if (IsUsingAbility2(EventPlayer()) == true)
+if (IsUsingAbility1(EventPlayer()) == false)
+if (support_passive_active != false)
+{
+    self_healing_percent = 68.421;
+}
+
+rule: "[lucio.opy]: Handle lucio self when amp is active and supp passive is inactive"
+Event.OngoingPlayer
+Player.Lucio
+if (IsUsingAbility2(EventPlayer()) == true)
+if (IsUsingAbility1(EventPlayer()) == false)
+if (support_passive_active == false)
+{
+    self_healing_percent = 100;
+}
+
+rule: "[lucio.opy]: If lucio uses speed aura remove self healing"
+Event.OngoingPlayer
+Player.Lucio
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    self_healing_percent = 0;
+}
+
+rule: "[mccree.opy]: Set Cassidy hp"
+Event.OngoingPlayer
+Player.Cassidy
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 225;
+    hp_armor = 0;
+    hp_shields = 0;
+    applyCustomHealth();
+}
+
+rule: "[mccree.opy]: Initialize flashbang ability"
+Event.OngoingPlayer
+Player.Cassidy
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    DisallowButton(EventPlayer(), Button.Ability2);
+}
+
+rule: "[mccree.opy]: Throw projectile when pressing e"
+Event.OngoingPlayer
+Player.Cassidy
+if (IsButtonHeld(EventPlayer(), Button.Ability2) == true)
+if (AbilityCooldown(EventPlayer(), Button.Ability2) <= 0)
+# Ensure Cassidy is not rolling
+if (IsUsingAbility1(EventPlayer()) == false)
+# Ensure Cassidy is not hacked
+if (HasStatus(EventPlayer(), Status.Hacked) == false)
+# Ensure Cassidy is not frozen
+if (HasStatus(EventPlayer(), Status.Frozen) == false)
+# Ensure Cassidy is not knocked down
+if (HasStatus(EventPlayer(), Status.KnockedDown) == false)
+# Ensure Cassidy is not asleep
+if (HasStatus(EventPlayer(), Status.Asleep) == false)
+# Ensure Cassidy is not stunned
+if (HasStatus(EventPlayer(), Status.Stunned) == false)
+{
+    CreateProjectile(ProjectileType.OrbProjectile, EventPlayer(), null, null, Relative.ToWorld, ModifyHealthType.Damage, OppositeTeamOf(TeamOf(EventPlayer())), 25, 1, 3, PlayEffect.BadExplosion, PlayEffect.ExplosionSound, 0, 30, 0.233, 0, 0, 1);
+    SetAbilityCooldown(EventPlayer(), Button.Ability2, 10);
+}
+
+rule: "[mccree.opy]: Stun flashed enemy"
+Event.OnDamageTaken
+if (EventAbility() == 0)
+# This check is needed to ensure that the damage source is flashbang
+if (EventDamage() >= 15)
+if ((HeroOf(Attacker()) == Hero.Cassidy || HeroOf(Attacker()) == Hero.Genji) == true)
+{
+    SetStatus(Victim(), EventPlayer(), Status.Stunned, 0.8);
+}
+
+rule: "[mccree.opy]: Remove damage reduction during roll"
+Event.OngoingPlayer
+Player.Cassidy
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    SetDamageReceived(EventPlayer(), 200);
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    SetDamageReceived(EventPlayer(), 100);
+}
+
+rule: "[mccree.opy]: Remove damage reduction during deadeye"
+Event.OngoingPlayer
+Player.Cassidy
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    SetDamageReceived(EventPlayer(), 166.667);
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    SetDamageReceived(EventPlayer(), 100);
+}
+
+rule: "[mei.opy]: Initialize Mei"
+Event.OngoingPlayer
+Player.Mei
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    SetAmmo(EventPlayer(), 0, 120);
+    SetMaxAmmo(EventPlayer(), 0, 120);
+}
+
+rule: "[mei.opy]: Track freezing on enemy"
+Event.OnDamageDealt
+Player.Mei
+if (EventAbility() == Button.PrimaryFire)
+if (Victim().freeze_progress < 100)
+{
+    StopChasingVariable(Victim().freeze_slow_linger_time);
+    # victims started taking freeze damage
+    if (Victim().freeze_progress == 0)
+    {
+        Victim().freeze_progress = 20;
+    }
+    else
+    {
+        Victim().freeze_progress += 2.85;
+    }
+    Victim().freeze_move_penalty = Victim().freeze_progress < 70 ? Victim().freeze_progress : 70;
+    # victim.setMoveSpeed(100-victim.freeze_move_penalty)
+    Victim().freeze_slow_linger_time = 0;
+    ChaseVariableAtRate(Victim().freeze_slow_linger_time, 1, 1, RateChaseReevaluation.None);
+}
+
+rule: "[mei.opy]: Freeze enemy"
+Event.OnDamageTaken
+if (Victim().freeze_progress >= 100)
+{
+    SetStatus(Victim(), EventPlayer(), Status.Frozen, 1.3);
+    WaitUntil(!HasStatus(Victim(), Status.Frozen), 999999986991104);
+    clearFreezeEffect();
+}
+
+rule: "[mei.opy]: clear freeze after exceeding linger time"
+Event.OngoingPlayer
+if (freeze_slow_linger_time >= 1)
+{
+    clearFreezeEffect();
+}
+
+void clearFreezeEffect() "[mei.opy]: clearFreezeEffect()"
+{
+    StopChasingVariable(freeze_slow_linger_time);
+    SetMoveSpeed(EventPlayer(), 100);
+    freeze_progress = 0;
+}
+
+rule: "[mercy/ammo.opy]: Initialize Mercy clip size"
+Event.OngoingPlayer
+Player.Mercy
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    SetAmmo(EventPlayer(), 0, 20);
+    SetMaxAmmo(EventPlayer(), 0, 20);
+}
+
+rule: "[mercy/guardian.opy]: Initialize Guardian Angel Ability"
+Event.OngoingPlayer
+Player.Mercy
+if (call_init == true)
+{
+    is_using_guardian_angel = false;
+    is_slingshotting = false;
+}
+
+rule: "[mercy/guardian.opy]: Detect Guardian Angel activation"
+Event.OngoingPlayer
+Player.Mercy
+if (IsUsingAbility1(EventPlayer()) == true)
+if (SpeedOf(EventPlayer()) >= 8.5)
+{
+    is_using_guardian_angel = true;
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    is_using_guardian_angel = false;
+}
+
+rule: "[mercy/guardian.opy]: Disable jump and crouch during guardian angel"
+Event.OngoingPlayer
+Player.Mercy
+if (is_using_guardian_angel != false)
+{
+    DisallowButton(EventPlayer(), Button.Jump);
+    DisallowButton(EventPlayer(), Button.Crouch);
+    WaitUntil(!is_using_guardian_angel, 999999986991104);
+    AllowButton(EventPlayer(), Button.Jump);
+    AllowButton(EventPlayer(), Button.Crouch);
+}
+
+rule: "[mercy/guardian.opy]: Activate GA slingshot"
+Event.OngoingPlayer
+Player.Mercy
+if (is_using_guardian_angel == true)
+# wait until below acts as the final condition for activating slingshot
+if (IsButtonHeld(EventPlayer(), Button.Jump) == false)
+{
+    WaitUntil(is_using_guardian_angel && IsButtonHeld(EventPlayer(), Button.Jump), 999999986991104);
+    # Cancel GA by pressing and unpressing button
+    StartHoldingButton(EventPlayer(), Button.Ability1);
+    StopHoldingButton(EventPlayer(), Button.Ability1);
+    slingshot_velocity = VelocityOf(EventPlayer());
+    is_slingshotting = true;
+    WaitUntil(!IsButtonHeld(EventPlayer(), Button.Jump) || IsOnGround(EventPlayer()), 0.33);
+    is_slingshotting = false;
+}
+
+rule: "[mercy/guardian.opy]: Apply upwards momentum when starting slingshot"
+Event.OngoingPlayer
+Player.Mercy
+if (is_slingshotting == true)
+{
+    ApplyImpulse(EventPlayer(), Up(), 6, Relative.ToWorld, ContraryMotion.Incorporate);
+}
+
+rule: "[mercy/guardian.opy]: Give speed boost during slingshot"
+Event.OngoingPlayer
+Player.Mercy
+if (is_slingshotting == true)
+{
+    while (is_slingshotting)
+    {
+        ApplyImpulse(EventPlayer(), slingshot_velocity, 0.55, Relative.ToWorld, ContraryMotion.Incorporate);
+        MinWait();
+    }
+}
+
+rule: "[mercy/guardian.opy]: Force angelic descent during slingshot"
+Event.OngoingPlayer
+Player.Mercy
+if (is_slingshotting == true)
+{
+    AllowButton(EventPlayer(), Button.Jump);
+    StartHoldingButton(EventPlayer(), Button.Jump);
+    WaitUntil(!IsButtonHeld(EventPlayer(), Button.Jump), 99999);
+    StopHoldingButton(EventPlayer(), Button.Jump);
+}
+
+rule: "[mercy/guardian.opy]: Slingshot GA cooldown logic"
+Event.OngoingPlayer
+Player.Mercy
+if (is_slingshotting == true)
+{
+    SetAbility1Enabled(EventPlayer(), false);
+    WaitUntil(!IsButtonHeld(EventPlayer(), Button.Ability1) || IsOnGround(EventPlayer()), 999999986991104);
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 1.5);
+    SetAbility1Enabled(EventPlayer(), true);
+}
+
+rule: "[moira/coalescence.opy]: Prevent fading during coalescence"
+Event.OngoingPlayer
+Player.Moira
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    SetAbility1Enabled(EventPlayer(), false);
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    SetAbility1Enabled(EventPlayer(), true);
+}
+
+rule: "[moira.opy]: Allow self healing during Biotic Grasp"
+Event.OngoingPlayer
+Player.Moira
+if (IsFiringSecondary(EventPlayer()) == true)
+{
+    ModifyVariable(self_healing_source, Operation.AppendToArray, Button.SecondaryFire);
+    WaitUntil(!IsFiringSecondary(EventPlayer()), 999999986991104);
+    ModifyVariable(self_healing_source, Operation.RemoveFromArrayByValue, Button.SecondaryFire);
+}
+
+rule: "[moira.opy]: Allow self healing during Biotic Orb"
+Event.OngoingPlayer
+Player.Moira
+if (IsUsingAbility2(EventPlayer()) == true)
+if (IsButtonHeld(EventPlayer(), Button.PrimaryFire) == true)
+{
+    ModifyVariable(self_healing_source, Operation.AppendToArray, Button.Ability2);
+    Wait(7, WaitBehavior.IgnoreCondition);
+    ModifyVariable(self_healing_source, Operation.RemoveFromArrayByValue, Button.Ability2);
+}
+
+rule: "[moira.opy]: Allow self healing during Coalescence"
+Event.OngoingPlayer
+Player.Moira
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    ModifyVariable(self_healing_source, Operation.AppendToArray, Button.Ultimate);
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    ModifyVariable(self_healing_source, Operation.RemoveFromArrayByValue, Button.Ultimate);
+}
+
+rule: "[orisa/hp.opy]: Initialize Orisa Hp"
+Event.OngoingPlayer
+Player.Orisa
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 200;
+    hp_armor = 250;
+    hp_shields = 0;
+    applyCustomHealth();
+}
+
+rule: "[orisa/supercharger.opy]: Initialize supercharger ability"
+Event.OngoingPlayer
+Player.Orisa
+if (call_init == true)
+{
+    DisallowButton(EventPlayer(), Button.Ultimate);
+    is_using_supercharger = false;
+}
+
+rule: "[orisa/supercharger.opy]: Trigger Supercharger start"
+Event.OngoingPlayer
+Player.Orisa
+if (IsButtonHeld(EventPlayer(), Button.Ultimate) == true)
+if (UltimateChargePercent(EventPlayer()) == 100)
+if (IsOnGround(EventPlayer()) == true)
+{
+    # Destroy any existing Supercharger
+    endSupercharger();
+    # Start supercharger
+    startSupercharger();
+    # Start supercharger timer
+    Wait(15, WaitBehavior.RestartWhenTrue);
+    endSupercharger();
+}
+
+void startSupercharger() "[orisa/supercharger.opy]: startSupercharger()"
+{
+    SetUltimateCharge(EventPlayer(), 0);
+    SetUltimateAbilityEnabled(EventPlayer(), false);
+    Communicate(EventPlayer(), Communication.VoiceLineUp);
+    # Supercharge GUI
+    orisa_supercharger_position = PositionOf(EventPlayer()) + 0.5 * Up();
+    CreateEffect(AllPlayers(Team.All), Effect.Sphere, Color.LimeGreen, orisa_supercharger_position, 0.5, EffectRev.None);
+    orisa_supercharger_entity = LastCreatedEntity();
+    # Supercharge Effect
+    PlayEffect(AllPlayers(Team.All), PlayEffect.GoodExplosion, Color.Green, orisa_supercharger_position, 3);
+    PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosionSound, Color.Green, orisa_supercharger_position, 200);
+    # Announce supercharger active
+    is_using_supercharger = true;
+}
+
+void endSupercharger() "[orisa/supercharger.opy]: endSupercharger()"
+{
+    SetUltimateAbilityEnabled(EventPlayer(), true);
+    DestroyEffect(orisa_supercharger_entity);
+    AllPlayers(TeamOf(EventPlayer())).is_supercharged = false;
+    is_using_supercharger = false;
+}
+
+rule: "[orisa/supercharger.opy]: Supercharge teammates in supercharger range"
+Event.OngoingPlayer
+if (IsAlive(EventPlayer()) == true)
+if (friendly_orisa_player.is_using_supercharger == true)
+if (DistanceBetween(EventPlayer(), friendly_orisa_player.orisa_supercharger_position) <= 25)
+if (IsInLineOfSight(EventPlayer(), friendly_orisa_player.orisa_supercharger_position, BarrierLOS.NoBarriersBlock) == true)
+{
+    is_supercharged = true;
+}
+
+rule: "[orisa/supercharger.opy]: De-supercharge teammates outside supercharger range"
+Event.OngoingPlayer
+if (is_supercharged == true)
+if (friendly_orisa_player.is_using_supercharger == true)
+if ((DistanceBetween(EventPlayer(), friendly_orisa_player.orisa_supercharger_position) <= 25 && IsInLineOfSight(EventPlayer(), friendly_orisa_player.orisa_supercharger_position, BarrierLOS.NoBarriersBlock)) == false)
+{
+    Wait(1, WaitBehavior.AbortWhenFalse);
+    is_supercharged = false;
+}
+
+rule: "[orisa/supercharger.opy]: De-supercharge teammates when supercharger ends"
+Event.OngoingPlayer
+Player.Orisa
+if (is_using_supercharger == false)
+{
+    AllPlayers(TeamOf(EventPlayer())).is_supercharged = false;
+}
+
+rule: "[orisa/supercharger.opy]: De-supercharge teammates when they die"
+Event.OngoingPlayer
+if (IsDead(EventPlayer()) == true)
+if (is_supercharged == true)
+{
+    is_supercharged = false;
+}
+
+rule: "[orisa/supercharger.opy]: Damage boost player when supercharged"
+Event.OngoingPlayer
+if (is_supercharged == true)
+{
+    CreateBeamEffect(AllPlayers(Team.All), BeamType.GoodBeam, friendly_orisa_player.orisa_supercharger_position, PositionOf(EventPlayer()), Color.Blue, EffectRev.VisibleToPositionAndRadius);
+    orisa_beam_entity = LastCreatedEntity();
+    CreateEffect(EventPlayer(), Effect.EnergySound, Color.Green, PositionOf(EventPlayer()), 100, EffectRev.PositionAndRadius);
+    orisa_beam_sound_effect = LastCreatedEntity();
+    SetDamageDealt(EventPlayer(), 150);
+}
+
+rule: "[orisa/supercharger.opy]: Revert damage boost if not supercharged"
+Event.OngoingPlayer
+if (is_supercharged == false)
+{
+    DestroyEffect(orisa_beam_entity);
+    DestroyEffect(orisa_beam_sound_effect);
+    SetDamageDealt(EventPlayer(), 100);
+}
+
+rule: "[orisa/halt.opy]: Initialize Halt ability"
+Event.OngoingPlayer
+Player.Orisa
+if (call_init == true)
+{
+    DisallowButton(EventPlayer(), Button.SecondaryFire);
+    is_using_halt = false;
+}
+
+rule: "[orisa/halt.opy]: Trigger Halt ability start"
+Event.OngoingPlayer
+Player.Orisa
+if (AbilityCooldown(EventPlayer(), Button.SecondaryFire) == 0)
+if (IsButtonHeld(EventPlayer(), Button.SecondaryFire) == true)
+{
+    shootHalt();
+    # Make sure player releases right click
+    WaitUntil(!IsButtonHeld(EventPlayer(), Button.SecondaryFire), 999999986991104);
+    # Detect halt pull activation on right click
+    WaitUntil(IsButtonHeld(EventPlayer(), Button.SecondaryFire) || halt_position == halt_ending_position, 999999986991104);
+    explodeHalt();
+    SetAbilityCooldown(EventPlayer(), Button.SecondaryFire, 6);
+}
+
+void shootHalt() "[orisa/halt.opy]: Shoot Halt Orb"
+{
+    # Start halt
+    is_using_halt = true;
+    # Halt orb visuals
+    CreateEffect(AllPlayers(Team.All), Effect.Sphere, Color.LimeGreen, halt_position, 0.6, EffectRev.VisibleToPositionAndRadius);
+    halt_entity1 = LastCreatedEntity();
+    ModifyVariable(entity_huds, Operation.AppendToArray, halt_entity1);
+    CreateEffect(AllPlayers(Team.All), Effect.Sphere, Color.LimeGreen, halt_position, 0.3, EffectRev.VisibleToPositionAndRadius);
+    halt_entity2 = LastCreatedEntity();
+    ModifyVariable(entity_huds, Operation.AppendToArray, halt_entity2);
+    # Halt orb sounds
+    PlayEffect(AllPlayers(Team.All), PlayEffect.RingExplosionSound, Color.LimeGreen, EventPlayer(), 100);
+    # Calculate starting/ending positions
+    halt_position = EyePosition(EventPlayer());
+    halt_ending_position = RayCastHitPosition(EyePosition(EventPlayer()), EyePosition(EventPlayer()) + 1000 * FacingDirectionOf(EventPlayer()), null, null, true);
+    AllPlayers(OppositeTeamOf(TeamOf(EventPlayer()))).is_snared = false;
+    Wait(0.1, WaitBehavior.IgnoreCondition);
+    # Start flying halt orb
+    ChaseVariableAtRate(halt_position, halt_ending_position, 25, RateChaseReevaluation.DestinationAndRate);
+}
+
+void explodeHalt() "[orisa/halt.opy]: Explode Halt Orb"
+{
+    StopChasingVariable(halt_position);
+    Wait(0.45, WaitBehavior.IgnoreCondition);
+    PlayersWithinRadius(halt_position, 5, OppositeTeamOf(TeamOf(EventPlayer())), RadiusLOS.SurfacesAndEnemyBarriers).is_snared = true;
+    SetEnvironmentCreditPlayer(PlayersWithinRadius(halt_position, 5, OppositeTeamOf(TeamOf(EventPlayer())), RadiusLOS.SurfacesAndEnemyBarriers), EventPlayer());
+    # Halt orb explosion sounds
+    PlayEffect(AllPlayers(Team.All), PlayEffect.ExplosionSound, Color.LimeGreen, EventPlayer(), 100);
+    # Clear visuals
+    DestroyEffect(halt_entity1);
+    DestroyEffect(halt_entity2);
+    ModifyVariable(entity_huds, Operation.RemoveFromArrayByValue, halt_entity1);
+    ModifyVariable(entity_huds, Operation.RemoveFromArrayByValue, halt_entity2);
+    is_using_halt = false;
+}
+
+rule: "[orirsa.opy]: Slow down snared enemies"
+Event.OngoingPlayer
+if (is_snared == true)
+{
+    SetMoveSpeed(EventPlayer(), 33);
+    Wait(0.65, WaitBehavior.IgnoreCondition);
+    SetMoveSpeed(EventPlayer(), 100);
+}
+
+rule: "[orisa/halt.opy]: Pull halted victims"
+Event.OngoingPlayer
+if (is_snared == true)
+{
+    position = PositionOf(EventPlayer());
+    StartForcingPlayerPosition(EventPlayer(), position, true);
+    ChaseVariableAtRate(position, enemy_orisa_player.halt_position, 20, RateChaseReevaluation.DestinationAndRate);
+    WaitUntil(position == enemy_orisa_player.halt_position, 999999986991104);
+    StopChasingVariable(position);
+    StopForcingPlayerPosition(EventPlayer());
+    # Cancel current momentum
+    ApplyImpulse(EventPlayer(), VelocityOf(EventPlayer()), -1 * SpeedOf(EventPlayer()), Relative.ToWorld, ContraryMotion.Incorporate);
+    is_snared = false;
+}
+
+rule: "[orisa/halt.opy]: Create Halt pull line vfx when in pull range"
+Event.OngoingPlayer
+if (enemy_orisa_player.is_using_halt == true)
+if (DistanceBetween(EventPlayer(), enemy_orisa_player.halt_position) <= 5)
+if (IsInLineOfSight(EventPlayer(), enemy_orisa_player.halt_position, BarrierLOS.AllBarriersBlock) == true)
+if (IsAlive(EventPlayer()) == true)
+{
+    # Halt orb explosion sounds
+    PlayEffect(AllPlayers(Team.All), PlayEffect.DebuffImpactSound, Color.LimeGreen, EventPlayer(), 100);
+    CreateBeamEffect(AllPlayers(Team.All), BeamType.GoodBeam, enemy_orisa_player.halt_position, EventPlayer(), is_snared ? Color.Green : Color.White, EffectRev.PositionRadiusAndColor);
+    halt_pull_line_entity = LastCreatedEntity();
+    ModifyVariable(entity_huds, Operation.AppendToArray, halt_pull_line_entity);
+}
+
+rule: "[orisa/halt.opy]: Destroy Halt pull line vfx when not in pull range"
+Event.OngoingPlayer
+if (enemy_orisa_player.is_using_halt == true)
+if ((DistanceBetween(EventPlayer(), enemy_orisa_player.halt_position) <= 5 && IsInLineOfSight(EventPlayer(), enemy_orisa_player.halt_position, BarrierLOS.AllBarriersBlock)) == false)
+{
+    DestroyEffect(halt_pull_line_entity);
+    ModifyVariable(entity_huds, Operation.RemoveFromArrayByValue, halt_pull_line_entity);
+}
+
+rule: "[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over"
+Event.OngoingPlayer
+if (enemy_orisa_player.is_using_halt == false)
+{
+    DestroyEffect(halt_pull_line_entity);
+    ModifyVariable(entity_huds, Operation.RemoveFromArrayByValue, halt_pull_line_entity);
+}
+
+rule: "[orisa/halt.opy]: Destroy Halt pull line vfx when dead"
+Event.OngoingPlayer
+if (IsDead(EventPlayer()) == true)
+{
+    DestroyEffect(halt_pull_line_entity);
+    ModifyVariable(entity_huds, Operation.RemoveFromArrayByValue, halt_pull_line_entity);
+}
+
+rule: "[orisa/barrier.opy]: Disable OW2 Javelin spin"
+Event.OngoingPlayer
+Player.Orisa
+if (call_init == true)
+{
+    DisallowButton(EventPlayer(), Button.Ability2);
+}
+
+rule: "[orisa/barrier.opy]: Trigger Projectile Barrier ability"
+Event.OngoingPlayer
+Player.Orisa
+if (AbilityCooldown(EventPlayer(), Button.Ability2) == 0)
+if (IsButtonHeld(EventPlayer(), Button.Ability2) == true)
+{
+    SetAbilityCooldown(EventPlayer(), Button.Ability2, 10);
+    throwBarrier();
+    destroyBarrier();
+    deployBarrier();
+}
+
+void throwBarrier() "[orisa/barrier.opy]: throwBarrier()"
+{
+    # Initialize barrier projectile
+    barrier_orientation = Normalize(FacingDirectionOf(EventPlayer()) * (Forward() + Left()));
+    barrier_proj_v0 = 25 * FacingDirectionOf(EventPlayer());
+    barrier_proj_p0 = EyePosition(EventPlayer());
+    barrier_proj_t = 0;
+    ChaseVariableAtRate(barrier_proj_t, 10, 1, RateChaseReevaluation.DestinationAndRate);
+    barrier_proj_velocity = barrier_proj_v0;
+    ChaseVariableAtRate(barrier_proj_velocity, Vector(XOf(barrier_proj_v0), -9.8 * barrier_proj_t + YOf(barrier_proj_v0), ZOf(barrier_proj_v0)), 9999, RateChaseReevaluation.DestinationAndRate);
+    barrier_proj_position = barrier_proj_p0;
+    ChaseVariableAtRate(barrier_proj_position, Vector(XOf(barrier_proj_v0) * barrier_proj_t + XOf(barrier_proj_p0), -4.9 * barrier_proj_t ^ 2 + YOf(barrier_proj_v0) * barrier_proj_t + YOf(barrier_proj_p0), ZOf(barrier_proj_v0) * barrier_proj_t + ZOf(barrier_proj_p0)), 9999, RateChaseReevaluation.DestinationAndRate);
+    # Draw barrier projectile object
+    CreateEffect(AllPlayers(Team.All), Effect.Sphere, Color.LimeGreen, barrier_proj_position, 0.1, EffectRev.PositionAndRadius);
+    barrier_projectile = LastCreatedEntity();
+    # Wait for barrier projectile to hit wall
+    WaitUntil(UpdateEveryFrame(DistanceBetween(barrier_proj_position, RayCastHitPosition(barrier_proj_position, barrier_proj_position + barrier_proj_velocity, null, null, false)) < 0.5), 10);
+    # Freeze barrier projectile
+    StopChasingVariable(barrier_proj_t);
+    StopChasingVariable(barrier_proj_velocity);
+    StopChasingVariable(barrier_proj_position);
+    # Fall down to floor after bouncing off wall
+    surface_normal = RayCastHitNormal(barrier_proj_position, barrier_proj_position + barrier_proj_velocity, null, null, false);
+    barrier_proj_v0 = 0.03 * (barrier_proj_velocity - 2 * DotProduct(barrier_proj_velocity, surface_normal) * surface_normal);
+    barrier_proj_p0 = barrier_proj_position;
+    barrier_proj_t = 0;
+    ChaseVariableAtRate(barrier_proj_t, 10, 1, RateChaseReevaluation.DestinationAndRate);
+    barrier_proj_velocity = barrier_proj_v0;
+    ChaseVariableAtRate(barrier_proj_velocity, Vector(XOf(barrier_proj_v0), -9.8 * barrier_proj_t + YOf(barrier_proj_v0), ZOf(barrier_proj_v0)), 9999, RateChaseReevaluation.DestinationAndRate);
+    barrier_proj_position = barrier_proj_p0;
+    ChaseVariableAtRate(barrier_proj_position, Vector(XOf(barrier_proj_v0) * barrier_proj_t + XOf(barrier_proj_p0), -4.9 * barrier_proj_t ^ 2 + YOf(barrier_proj_v0) * barrier_proj_t + YOf(barrier_proj_p0), ZOf(barrier_proj_v0) * barrier_proj_t + ZOf(barrier_proj_p0)), 9999, RateChaseReevaluation.DestinationAndRate);
+    # Wait for barrier projectile to hit ground
+    WaitUntil(UpdateEveryFrame(DistanceBetween(barrier_proj_position, RayCastHitPosition(barrier_proj_position, barrier_proj_position + barrier_proj_velocity, null, null, false)) < 0.5), 10);
+    # Freeze barrier projectile
+    StopChasingVariable(barrier_proj_t);
+    StopChasingVariable(barrier_proj_velocity);
+    StopChasingVariable(barrier_proj_position);
+    # Move projectile to where it collided with the ground
+    barrier_proj_position = RayCastHitPosition(barrier_proj_position, barrier_proj_position + barrier_proj_velocity, null, null, false);
+    # Destroy projectile
+    DestroyEffect(barrier_projectile);
+}
+
+void deployBarrier() "[orisa/barrier.opy]: deployBarrier()"
+{
+    # Define barrer by the sphere center position
+    barrier_position = barrier_proj_position - 3.5 * barrier_orientation;
+    # Debug barrier center\r\n createEffect(eventPlayer, Effect.SPHERE, Color.BLACK, eventPlayer.barrier_position, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    fibonacciSphere();
+    # Draw each barrier sample
+    for (i = 0; CountOf(barrier_entity_positions); 1)
+    {
+        barrier_sample_point = barrier_entity_positions[i];
+        CreateEffect(AllPlayers(Team.All), Effect.Sphere, RandomReal(0, 1) <= barrier_health / 600 ? TeamOf(EventPlayer()) : Color.White, EvaluateOnce(barrier_sample_point), OW1_ORISA_BARRIER_ORB_SIZE, EffectRev.Color);
+        ModifyVariable(barrier_entities, Operation.AppendToArray, LastCreatedEntity());
+    }
+    # Play barrier deploying sound
+    PlayEffect(AllPlayers(Team.All), PlayEffect.BuffImpactSound, Color.LimeGreen, barrier_proj_position, 100);
+    barrier_active = true;
+    barrier_health = 600;
+    barrier_uptime = 0;
+    ChaseVariableAtRate(barrier_uptime, 20, 1, RateChaseReevaluation.None);
+    createBarrierHud();
+}
+
+void fibonacciSphere() "[orisa/barrier.opy]: fibonacciSphere()"
+{
+    # Evenly distribute N points around a sphere\r\n Store coodrindate of those points to barrier_entity_positions array\r\n See https://stackoverflow.com/a/26127012 for algorithm
+    barrier_entity_positions = [];
+    for (i = 0; OW1_ORISA_BARRIER_ORB_COUNT; 1)
+    {
+        barrier_sample_y = 1 - i / (OW1_ORISA_BARRIER_ORB_COUNT - 1) * 2;
+        # Do not draw bottom half of sphere
+        if (barrier_sample_y < -0.2)
+        {
+            break;
+        }
+        barrier_sample_radius = SquareRoot(1 - barrier_sample_y * barrier_sample_y);
+        barrier_sample_theta = PHI * i;
+        barrier_sample_x = CosineFromRadians(barrier_sample_theta) * barrier_sample_radius;
+        barrier_sample_z = SineFromRadians(barrier_sample_theta) * barrier_sample_radius;
+        barrier_sample_point = Vector(barrier_sample_x, barrier_sample_y, barrier_sample_z);
+        SkipIf(AngleBetweenVectors(barrier_sample_point, barrier_orientation) > 90, 1);
+        ModifyVariable(barrier_entity_positions, Operation.AppendToArray, 3.5 * barrier_sample_point + barrier_position);
+    }
+}
+
+void destroyBarrier() "[orisa/barrier.opy]: destroyBarrier()"
+{
+    for (i = 0; CountOf(barrier_entities); 1)
+    {
+        DestroyEffect(barrier_entities[i]);
+    }
+    barrier_entities = [];
+    barrier_entity_positions = [];
+    barrier_active = false;
+    destroyBarrierHud();
+}
+
+rule: "[orisa/barrier.opy]: destroy barrier on reset"
+Event.OngoingPlayer
+if (barrier_active == true)
+if (call_reset == true)
+{
+    destroyBarrier();
+}
+
+rule: "[orisa/barrier.opy]: Destroy barrier on barrier timeout"
+Event.OngoingPlayer
+Player.Orisa
+if (barrier_uptime >= 20)
+{
+    StopChasingVariable(barrier_uptime);
+    destroyBarrier();
+}
+
+rule: "[orisa/barrier.opy]: Destroy barrier when barrier hp runs out"
+Event.OngoingPlayer
+Player.Orisa
+if (barrier_health <= 0)
+{
+    StopChasingVariable(barrier_uptime);
+    destroyBarrier();
+}
+
+rule: "[orisa/barrier.opy]: Take no damage when behind barrier"
+Event.OnDamageDealt
+if (Victim().friendly_orisa_player.barrier_active == true)
+if (DistanceBetween(EyePosition(Attacker()), Victim().friendly_orisa_player.barrier_position) * SineFromDegrees(AngleBetweenVectors(FacingDirectionOf(Attacker()), DirectionTowards(EyePosition(Attacker()), Victim().friendly_orisa_player.barrier_position))) <= 3.5)
+{
+    lsi_o = EyePosition(Attacker());
+    lsi_u = DirectionTowards(Attacker(), Victim());
+    lsi_c = Victim().friendly_orisa_player.barrier_position;
+    lsi_r = 3.5;
+    findLineSphereIntersection();
+    orisa_barrier_hit_positions = FilteredArray(lsi_x, DistanceBetween(Victim().friendly_orisa_player.barrier_position, ArrayElement()) <= 3.5 && AngleBetweenVectors(Up(), DirectionTowards(Victim().friendly_orisa_player.barrier_position, ArrayElement())) <= 90 && AngleBetweenVectors(Victim().friendly_orisa_player.barrier_orientation, DirectionTowards(Victim().friendly_orisa_player.barrier_position, ArrayElement())) <= 90);
+    for (i = 0; CountOf(orisa_barrier_hit_positions); 1)
+    {
+        # barrier hit is between the attacker and the victim
+        if (DistanceBetween(EyePosition(Attacker()), orisa_barrier_hit_positions[i]) < DistanceBetween(EyePosition(Attacker()), EyePosition(Victim())))
+        {
+            Heal(Victim(), null, EventDamage());
+            Victim().friendly_orisa_player.barrier_health -= EventDamage();
+            Abort();
+        }
+    }
+}
+
+rule: "[orisa/barrier.opy]: Receive no healing when behind barrier"
+Event.OnHealingTaken
+if (Healee().enemy_orisa_player.barrier_active == true)
+if (DistanceBetween(EyePosition(Healer()), Healee().enemy_orisa_player.barrier_position) * SineFromDegrees(AngleBetweenVectors(DirectionTowards(Healer(), Healee()), DirectionTowards(EyePosition(Healer()), Healee().enemy_orisa_player.barrier_position))) <= 3.5)
+{
+    lsi_o = EyePosition(Healer());
+    lsi_u = DirectionTowards(Healer(), Healee());
+    lsi_c = Healee().enemy_orisa_player.barrier_position;
+    lsi_r = 3.5;
+    findLineSphereIntersection();
+    orisa_barrier_hit_positions = FilteredArray(lsi_x, DistanceBetween(Healee().enemy_orisa_player.barrier_position, ArrayElement()) <= 3.5 && AngleBetweenVectors(Up(), DirectionTowards(Healee().enemy_orisa_player.barrier_position, ArrayElement())) <= 90 && AngleBetweenVectors(Healee().enemy_orisa_player.barrier_orientation, DirectionTowards(Healee().enemy_orisa_player.barrier_position, ArrayElement())) <= 90);
+    for (i = 0; CountOf(orisa_barrier_hit_positions); 1)
+    {
+        # barrier hit is between the healer and the healee
+        if (DistanceBetween(EyePosition(Healer()), orisa_barrier_hit_positions[i]) < DistanceBetween(EyePosition(Healer()), EyePosition(Healee())))
+        {
+            Damage(Healee(), null, EventHealing());
+            Healee().enemy_orisa_player.barrier_health -= EventHealing();
+            Abort();
+        }
+    }
+}
+
+void createBarrierHud() "[orisa/barrier.opy]: createBarrierHud()"
+{
+    CreateProgressBarHudText(EventPlayer(), 100 * barrier_health / 600, <"<0>", RoundToInteger(barrier_health, Rounding.Up)>, Location.Top, 999999986991104, Color.SkyBlue, Color.White, ProgressBarHudEvaluation.Values, Spectators.DefaultVisibility);
+    barrier_health_hud = LastTextID();
+}
+
+void destroyBarrierHud() "[orisa/barrier.opy]: destroyBarrierHud()"
+{
+    DestroyProgressBarHudText(barrier_health_hud);
+}
+
+rule: "[orisa/gun.opy]: Initialize OW1 Orisa Gun"
+Event.OngoingPlayer
+Player.Orisa
+if (call_init == true)
+{
+    resetFusionDriver();
+    createOrisaAmmoHud();
+    is_orisa_reloading = false;
+    SetDamageDealt(EventPlayer(), 84.615);
+}
+
+rule: "[orisa/gun.opy]: Remove ammo hud"
+Event.OngoingPlayer
+if (last_hero_played == Hero.Orisa)
+if (call_reset == true)
+{
+    destroyOrisaAmmoHud();
+}
+
+rule: "[orisa/gun.opy]: Decrease ammo when shooting gun"
+Event.OngoingPlayer
+Player.Orisa
+if (IsFiringPrimary(EventPlayer()) == true)
+{
+    orisa_ammo -= 1;
+    refreshAmmo();
+    Wait(0.083, WaitBehavior.IgnoreCondition);
+}
+
+rule: "[orisa/gun.opy]: Reload on key press"
+Event.OngoingPlayer
+Player.Orisa
+if (IsButtonHeld(EventPlayer(), Button.Reload) == true)
+{
+    reloadFusionDriver();
+}
+
+rule: "[orisa/gun.opy]: Reload when out of ammo"
+Event.OngoingPlayer
+Player.Orisa
+if (orisa_ammo <= 0)
+{
+    reloadFusionDriver();
+}
+
+void resetFusionDriver() "[orisa/gun.opy]: resetFusionDriver()"
+{
+    SetMaxAmmo(EventPlayer(), 0, 151);
+    orisa_ammo = 150;
+    refreshAmmo();
+}
+
+void reloadFusionDriver() "[orisa/gun.opy]: reloadFusionDriver()"
+{
+    AbortIf(orisa_ammo >= 150);
+    # Play reload animation
+    SetAmmo(EventPlayer(), 0, 0);
+    is_orisa_reloading = true;
+    Wait(2.5, WaitBehavior.IgnoreCondition);
+    is_orisa_reloading = false;
+    resetFusionDriver();
+}
+
+void refreshAmmo() "[orisa/gun.opy]: refreshAmmo()"
+{
+    SetAmmo(EventPlayer(), 0, orisa_ammo + 1);
+}
+
+void createOrisaAmmoHud() "[orisa/gun.opy]: createOrisaAmmoHud()"
+{
+    CreateInWorldText(EventPlayer(), <"<0>", RoundToInteger(orisa_ammo, Rounding.Up)>, UpdateEveryFrame(EyePosition(EventPlayer()) + 100 * (3.3 * WorldVectorOf(Right(), EventPlayer(), LocalVector.Rotation) + -1.5 * DirectionFromAngles(HorizontalAngleFromDirection(FacingDirectionOf(EventPlayer())), VerticalAngleFromDirection(FacingDirectionOf(EventPlayer())) - 90) + 3 * FacingDirectionOf(EventPlayer()))), 2, Clipping.DoNotClip, InworldTextRev.VisibleToPositionStringAndColor, Color.White, Spectators.DefaultVisibility);
+    orisa_ammo_hud = LastTextID();
+}
+
+void destroyOrisaAmmoHud() "[orisa/gun.opy]: destroyOrisaAmmoHud()"
+{
+    DestroyInWorldText(orisa_ammo_hud);
+}
+
+rule: "[orisa/gun.opy]: Slow down Orisa when shooting"
+Event.OngoingPlayer
+Player.Orisa
+if (IsButtonHeld(EventPlayer(), Button.PrimaryFire) == true)
+if (is_orisa_reloading == false)
+{
+    SetMoveSpeed(EventPlayer(), 70);
+    WaitUntil(!IsButtonHeld(EventPlayer(), Button.PrimaryFire) || is_orisa_reloading, 999999986991104);
+    SetMoveSpeed(EventPlayer(), 100);
+}
+
+rule: "[orisa/gun.opy]: Deal OW1 Orisa primary fire damage"
+Event.OnDamageDealt
+Player.Orisa
+if (EventAbility() == Button.PrimaryFire)
+{
+    Damage(Victim(), Attacker(), 11 - EventDamage());
+}
+
+rule: "[orisa/gun.opy]: Deal OW1 Orisa melee damage"
+Event.OnDamageDealt
+Player.Orisa
+if (EventAbility() == Button.Melee)
+{
+    # +1 compensates for rounding error
+    Damage(Victim(), Attacker(), EventDamage() * 1.182 - EventDamage() + 1);
+}
+
+rule: "[orisa/fortify.opy]: Remove overhealth during fortify"
+Event.OngoingPlayer
+Player.Orisa
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    Damage(EventPlayer(), null, 200);
+}
+
+rule: "[orisa/orisa.opy]: Initialize Orisa"
+Event.OngoingPlayer
+Player.Orisa
+if (call_init == true)
+{
+    # Below variables are also declared and initialized in reset_hero.opy
+    AllPlayers(TeamOf(EventPlayer())).friendly_orisa_player = EventPlayer();
+    AllPlayers(OppositeTeamOf(TeamOf(EventPlayer()))).enemy_orisa_player = EventPlayer();
+}
+
+rule: "[ramattra.opy]: Initialize Ramattra"
+Event.OngoingPlayer
+Player.Ramattra
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 400;
+    hp_armor = 0;
+    hp_shields = 0;
+    applyCustomHealth();
+    SetKnockbackReceived(EventPlayer(), 142.857);
+}
+
+rule: "[reaper.opy]: Deal OW1 Reaper primary fire damage"
+Event.OnDamageDealt
+Player.Reaper
+if (EventAbility() == Button.PrimaryFire)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.111 - EventDamage());
+}
+
+rule: "[reinhardt/hp.opy]: Initialize Reinhardt hp"
+Event.OngoingPlayer
+Player.Reinhardt
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 300;
+    hp_armor = 200;
+    hp_shields = 0;
+    applyCustomHealth();
+}
+
+rule: "[reinhardt/firestrike.opy]: Force single firestrike"
+Event.OngoingPlayer
+Player.Reinhardt
+if (IsUsingAbility2(EventPlayer()) == true)
+{
+    WaitUntil(!IsUsingAbility2(EventPlayer()), 1);
+    # Every time rein uses firestrike, reset the resource to 0
+    SetAbilityCharge(EventPlayer(), Button.Ability2, 0);
+    Wait(6, WaitBehavior.IgnoreCondition);
+    SetAbilityCharge(EventPlayer(), Button.Ability2, 2);
+}
+
+rule: "[reinhardt/charge.opy]: Set default charge cooldown"
+Event.OngoingPlayer
+Player.Reinhardt
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 10);
+}
+
+rule: "[reinhardt/charge.opy]: Increase charge damage"
+Event.OnDamageDealt
+Player.Reinhardt
+if (EventAbility() == Button.Ability1)
+# Checks for pin vs boop damage (+ 1 because apparently 50.0 > 50 == true for whatever reason)
+if (EventDamage() > 51)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.333 - EventDamage());
+}
+
+rule: "[reinhardt/charge.opy]: Reduce charge radius"
+Event.OngoingPlayer
+Player.Reinhardt
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    ForceThrottle(EventPlayer(), 0, 0.667, 0, 0.667, 0, 0.667);
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    StopForcingThrottle(EventPlayer());
+}
+
+rule: "[reinhardt/shatter.opy]: OW1 one shot earthshatter"
+Event.OnDamageDealt
+Player.Reinhardt
+if (EventAbility() == Button.Ultimate)
+if (EventDamage() > 85)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.471 - EventDamage());
+}
+
+rule: "[roadhog.opy]: Initialize Roadhog"
+Event.OngoingPlayer
+Player.Roadhog
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 600;
+    hp_armor = 0;
+    hp_shields = 0;
+    applyCustomHealth();
+    SetAmmo(EventPlayer(), 0, 5);
+    SetMaxAmmo(EventPlayer(), 0, 5);
+    SetDamageDealt(EventPlayer(), 110);
+    SetKnockbackReceived(EventPlayer(), 142.857);
+}
+
+rule: "[roadhog.opy]: Set default hook cooldown"
+Event.OngoingPlayer
+Player.Roadhog
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    time_hook_was_active = 0;
+    ChaseVariableAtRate(time_hook_was_active, 3, 1, RateChaseReevaluation.None);
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 99999);
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 8 - time_hook_was_active);
+}
+
+rule: "[roadhog.opy]: Disable all abilities during ult"
+Event.OngoingPlayer
+Player.Roadhog
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    SetMeleeEnabled(EventPlayer(), false);
+    SetAbility1Enabled(EventPlayer(), false);
+    SetAbility2Enabled(EventPlayer(), false);
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    SetMeleeEnabled(EventPlayer(), true);
+    SetAbility1Enabled(EventPlayer(), true);
+    SetAbility2Enabled(EventPlayer(), true);
+}
+
+rule: "[roadhog.opy]: Force autofire during ult"
+Event.OngoingPlayer
+Player.Roadhog
+if (IsUsingUltimate(EventPlayer()) == true)
+if (IsButtonHeld(EventPlayer(), Button.PrimaryFire) == false)
+{
+    StartHoldingButton(EventPlayer(), Button.PrimaryFire);
+}
+
+rule: "[roadhog.opy]: Stop autofire when not in ult"
+Event.OngoingPlayer
+Player.Roadhog
+if (IsUsingUltimate(EventPlayer()) == false)
+{
+    StopHoldingButton(EventPlayer(), Button.PrimaryFire);
+}
+
+rule: "[roadhog.opy]: Cancel ult when stunned"
+Event.OngoingPlayer
+Player.Roadhog
+if (IsUsingUltimate(EventPlayer()) == true)
+if ((HasStatus(EventPlayer(), Status.Hacked) || HasStatus(EventPlayer(), Status.Frozen) || HasStatus(EventPlayer(), Status.KnockedDown) || HasStatus(EventPlayer(), Status.Asleep) || HasStatus(EventPlayer(), Status.Stunned)) == true)
+{
+    if (HasStatus(EventPlayer(), Status.Hacked))
+    {
+    }
+    else if (HasStatus(EventPlayer(), Status.Frozen))
+    {
+        WaitUntil(!HasStatus(EventPlayer(), Status.Frozen), 999999986991104);
+    }
+    else if (HasStatus(EventPlayer(), Status.KnockedDown))
+    {
+        WaitUntil(!HasStatus(EventPlayer(), Status.KnockedDown), 999999986991104);
+    }
+    else if (HasStatus(EventPlayer(), Status.Asleep))
+    {
+        WaitUntil(!HasStatus(EventPlayer(), Status.Asleep), 999999986991104);
+    }
+    else if (HasStatus(EventPlayer(), Status.Stunned))
+    {
+        WaitUntil(!HasStatus(EventPlayer(), Status.Stunned), 999999986991104);
+    }
+    if (IsUsingUltimate(EventPlayer()))
+    {
+        respawnSameState();
+    }
+}
+
+rule: "[roadhog.opy]: Move hooked enemies closer"
+Event.OnDamageDealt
+Player.Roadhog
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    if (DistanceBetween(Victim(), Attacker()) <= 4.5)
+    {
+        Teleport(Victim(), RayCastHitPosition(PositionOf(Victim()), PositionOf(Victim()) + DirectionTowards(Victim(), Attacker()), null, null, false));
+    }
+}
+
+rule: "[roadhog.opy]: Reduce ultimate duration"
+Event.OngoingPlayer
+Player.Roadhog
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    Wait(6, WaitBehavior.IgnoreCondition);
+    # Check if the ultimate was not cancelled before
+    if (IsUsingUltimate(EventPlayer()))
+    {
+        respawnSameState();
+    }
+}
+
+rule: "[sigma.opy]: Initialize Sigma"
+Event.OngoingPlayer
+Player.Sigma
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 300;
+    hp_armor = 0;
+    hp_shields = 100;
+    applyCustomHealth();
+    SetKnockbackReceived(EventPlayer(), 142.857);
+}
+
+rule: "[sigma.opy]: Change accretion damage"
+Event.OnDamageDealt
+Player.Sigma
+if (EventAbility() == Button.Ability2)
+# Checks for direct hit vs splash damage
+if (EventDamage() > 40)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.375 - EventDamage());
+}
+
+rule: "[soldier.opy]: Initialize Soldier 76"
+Event.OngoingPlayer
+Player.Soldier76
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    SetHealingDealt(EventPlayer(), 87.5);
+}
+
+rule: "[soldier.opy]: Deal OW1 soldier primary fire damage"
+Event.OnDamageDealt
+Player.Soldier76
+if (EventAbility() == Button.PrimaryFire)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.053 - EventDamage());
+}
+
+rule: "[sombra.opy]: Initialize Sombra"
+Event.OngoingPlayer
+Player.Sombra
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    AllPlayers(TeamOf(EventPlayer())).friendly_sombra_player = EventPlayer();
+    AllPlayers(OppositeTeamOf(TeamOf(EventPlayer()))).enemy_sombra_player = EventPlayer();
+}
+
+rule: "[sombra.opy]: Cancel invis if hack activated"
+Event.OngoingPlayer
+Player.Sombra
+if (IsUsingAbility1(EventPlayer()) == true)
+if (IsFiringSecondary(EventPlayer()) == true)
+{
+    PressButton(EventPlayer(), Button.Ability1);
+}
+
+rule: "[sombra.opy]: OW1 hack duration on enemies"
+Event.OngoingPlayer
+if (HasStatus(EventPlayer(), Status.Hacked) == true)
+{
+    SetStatus(EventPlayer(), null, Status.Hacked, 5);
+}
+
+rule: "[sombra.opy]: No damage with EMP"
+Event.OngoingPlayer
+Player.Sombra
+if (UltimateChargePercent(EventPlayer()) >= 100)
+{
+    WaitUntil(IsButtonHeld(EventPlayer(), Button.Ultimate), 999999986991104);
+    WaitUntil(UltimateChargePercent(EventPlayer()) <= 0, 999999986991104);
+    SetDamageDealt(EventPlayer(), 0);
+    WaitUntil(IsUsingUltimate(EventPlayer()), 999999986991104);
+    SetDamageDealt(EventPlayer(), 100);
+}
+
+rule: "[sombra.opy]: Deal OW1 machine pistol damage"
+Event.OnDamageDealt
+Player.Sombra
+if (EventAbility() == Button.PrimaryFire)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.067 - EventDamage());
+}
+
+rule: "[sombra.opy]: Remove hack bonus damage"
+Event.OngoingPlayer
+if (HasStatus(EventPlayer(), Status.Hacked) == true)
+{
+    StartDamageModification(EventPlayer(), enemy_sombra_player, 80, DamageModificationRev.None);
+    hack_damage_modifier = LastDamageModificationID();
+    WaitUntil(!HasStatus(EventPlayer(), Status.Hacked), 999999986991104);
+    StopDamageModification(hack_damage_modifier);
+}
+
+rule: "[sombra.opy]: Increase stealth movement speed"
+Event.OngoingPlayer
+Player.Sombra
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    SetMoveSpeed(EventPlayer(), 103.125);
+    WaitUntil(!IsUsingAbility1(EventPlayer()), 999999986991104);
+    SetMoveSpeed(EventPlayer(), 100);
+}
+
+rule: "[sombra.opy]: Set default hack cooldown"
+Event.OngoingPlayer
+Player.Sombra
+if (AbilityCooldown(EventPlayer(), Button.SecondaryFire) >= 4)
+{
+    SetAbilityCooldown(EventPlayer(), Button.SecondaryFire, 8);
+}
+
+rule: "[symmetra/orb.opy]: Set OW1 Symmetra Photo Projector projectile speed"
+Event.OngoingPlayer
+Player.Symmetra
+if (IsFiringSecondary(EventPlayer()) == true)
+{
+    SetProjectileSpeed(EventPlayer(), 50);
+    WaitUntil(!IsFiringSecondary(EventPlayer()), 999999986991104);
+    SetProjectileSpeed(EventPlayer(), 100);
+}
+
+rule: "[symmetra/orb.opy]: Deal OW1 symmetra secondary fire damage"
+Event.OnDamageDealt
+Player.Symmetra
+if (EventAbility() == Button.SecondaryFire)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.2 - EventDamage());
+}
+
+rule: "[symmetra/teleporter.opy]: Set default teleporter cooldown"
+Event.OngoingPlayer
+Player.Symmetra
+if (AbilityCooldown(EventPlayer(), Button.Ability2) > 0)
+{
+    SetAbilityCooldown(EventPlayer(), Button.Ability2, 10);
+}
+
+rule: "[torbjorn.opy]: Initialize Torbjorn"
+Event.OngoingPlayer
+Player.Torbjorn
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 200;
+    hp_armor = 50;
+    hp_shields = 0;
+    applyCustomHealth();
+}
+
+rule: "[torbjorn.opy]: Correct overload hp"
+Event.OngoingPlayer
+Player.Torbjorn
+if (IsUsingAbility2(EventPlayer()) == true)
+{
+    Damage(EventPlayer(), null, 11.111);
+}
+
+rule: "[tracer.opy]: Deal OW1 tracer primary fire damage"
+Event.OnDamageDealt
+Player.Tracer
+if (EventAbility() == Button.PrimaryFire)
+{
+    Damage(Victim(), Attacker(), EventDamage() * 1.091 - EventDamage());
+}
+
+rule: "[widowmaker.opy]: Initialize Widowmaker"
+Event.OngoingPlayer
+Player.Widowmaker
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 175;
+    hp_armor = 0;
+    hp_shields = 0;
+    applyCustomHealth();
+}
+
+rule: "[widowmaker.opy]: Revert sniper damage falloff"
+Event.OnDamageDealt
+Player.Widowmaker
+if (IsFiringSecondary(EventPlayer()) == true)
+if (IsFiringPrimary(EventPlayer()) == true)
+if (EventAbility() == Button.PrimaryFire)
+{
+    scoped_shot_distance = DistanceBetween(EyePosition(Attacker()), Victim());
+    ow2_scoped_damage_falloff_scalar = (scoped_shot_distance - 40) / 20 * 0.5 + 1 - (scoped_shot_distance - 40) / 20;
+    # Cap min/max scalar\r\n Max damage scalar
+    if (ow2_scoped_damage_falloff_scalar > 1)
+    {
+        ow2_scoped_damage_falloff_scalar = 1;
+    }
+    else if (ow2_scoped_damage_falloff_scalar < 0.5)
+    {
+        ow2_scoped_damage_falloff_scalar = 0.5;
+    }
+    scoped_damage_base = EventDamage() / ow2_scoped_damage_falloff_scalar;
+    ow1_scoped_damage_falloff_scalar = (scoped_shot_distance - 70) / 30 * 0.3 + 1 - (scoped_shot_distance - 70) / 30;
+    # Cap min/max scalar\r\n Max damage scalar
+    if (ow1_scoped_damage_falloff_scalar > 1)
+    {
+        ow1_scoped_damage_falloff_scalar = 1;
+    }
+    else if (ow1_scoped_damage_falloff_scalar < 0.3)
+    {
+        ow1_scoped_damage_falloff_scalar = 0.3;
+    }
+    expected_scoped_damage = scoped_damage_base * ow1_scoped_damage_falloff_scalar;
+    Damage(Victim(), Attacker(), expected_scoped_damage - EventDamage());
+}
+
+rule: "[winston.opy]: Initialize Winston"
+Event.OngoingPlayer
+Player.Winston
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 350;
+    hp_armor = 150;
+    hp_shields = 0;
+    applyCustomHealth();
+    SetSecondaryFireEnabled(EventPlayer(), false);
+    SetKnockbackReceived(EventPlayer(), 142.857);
+}
+
+rule: "[winston.opy]: Set default leap cooldown"
+Event.OngoingPlayer
+Player.Winston
+if (IsUsingAbility1(EventPlayer()) == true)
+if (IsUsingUltimate(EventPlayer()) == false)
+{
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 6);
+}
+
+rule: "[winston.opy]: Set leap after ultimate"
+Event.OngoingPlayer
+Player.Winston
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    SetAbilityCooldown(EventPlayer(), Button.Ability1, 0);
+}
+
+rule: "[wreckingball.opy]: Initialize Wrecking Ball"
+Event.OngoingPlayer
+Player.WreckingBall
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 500;
+    hp_armor = 100;
+    hp_shields = 0;
+    applyCustomHealth();
+    SetKnockbackReceived(EventPlayer(), 142.857);
+}
+
+rule: "[zarya/hp.opy]: Initialize Zarya HP"
+Event.OngoingPlayer
+Player.Zarya
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    MinWait();
+    hp_health = 200;
+    hp_armor = 0;
+    hp_shields = 200;
+    applyCustomHealth();
+}
+
+rule: "[zarya/self_bubble.opy]: Initialize self bubble ability"
+Event.OngoingPlayer
+Player.Zarya
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    self_bubble_cooldown = 0;
+}
+
+rule: "[zarya/self_bubble.opy]: Remove self bubble HUD"
+Event.OngoingPlayer
+if (last_hero_played == Hero.Zarya)
+if (call_reset == true)
+{
+    hideSelfBubbleCD();
+}
+
+void showSelfBubbleCD() "[zarya/self_bubble.opy]: showSelfBubbleCD()"
+{
+    CreateInWorldText(EventPlayer(), <"<0>", RoundToInteger(self_bubble_cooldown, Rounding.Up)>, UpdateEveryFrame(EyePosition(EventPlayer()) + 100 * (1.99 * WorldVectorOf(Right(), EventPlayer(), LocalVector.Rotation) + -1.64 * DirectionFromAngles(HorizontalAngleFromDirection(FacingDirectionOf(EventPlayer())), VerticalAngleFromDirection(FacingDirectionOf(EventPlayer())) - 90) + 3 * FacingDirectionOf(EventPlayer()))), 3, Clipping.DoNotClip, InworldTextRev.VisibleToPositionStringAndColor, Color.White, Spectators.DefaultVisibility);
+    self_bubble_cd_text = LastTextID();
+    ModifyVariable(text_huds, Operation.AppendToArray, self_bubble_cd_text);
+}
+
+void hideSelfBubbleCD() "[zarya/self_bubble.opy]: hideSelfBubbleCD()"
+{
+    DestroyInWorldText(self_bubble_cd_text);
+    ModifyVariable(text_huds, Operation.RemoveFromArrayByValue, self_bubble_cd_text);
+}
+
+rule: "[zarya/self_bubble.opy]: OW1 zarya self bubble cooldown"
+Event.OngoingPlayer
+Player.Zarya
+if (IsUsingAbility1(EventPlayer()) == true)
+{
+    SetAbilityCharge(EventPlayer(), Button.Ability1, 2);
+    SetAbility1Enabled(EventPlayer(), false);
+    # 2 second bubble duration
+    Wait(2, WaitBehavior.IgnoreCondition);
+    self_bubble_cooldown = 10;
+    ChaseVariableAtRate(self_bubble_cooldown, 0, 1, RateChaseReevaluation.None);
+}
+
+rule: "[zarya/self_bubble.opy]: Disable self bubble if on cooldown"
+Event.OngoingPlayer
+Player.Zarya
+if (self_bubble_cooldown > 0)
+{
+    SetAbility1Enabled(EventPlayer(), false);
+}
+
+rule: "[zarya/self_bubble.opy]: Enable self bubble if not on cooldown"
+Event.OngoingPlayer
+Player.Zarya
+if (self_bubble_cooldown <= 0)
+{
+    SetAbility1Enabled(EventPlayer(), true);
+}
+
+rule: "[zarya/self_bubble.opy]: Show self bubble cooldown"
+Event.OngoingPlayer
+if (self_bubble_cooldown > 0)
+{
+    showSelfBubbleCD();
+}
+
+rule: "[zarya/self_bubble.opy]: Erase self bubble cooldown"
+Event.OngoingPlayer
+if (self_bubble_cooldown <= 0)
+{
+    hideSelfBubbleCD();
+}
+
+rule: "[zarya/ally_bubble.opy]: Initialize ally bubble ability"
+Event.OngoingPlayer
+Player.Zarya
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    ally_bubble_cooldown = 0;
+}
+
+rule: "[zarya/ally_bubble.opy]: Remove ally bubble HUD"
+Event.OngoingPlayer
+if (last_hero_played == Hero.Zarya)
+if (call_reset == true)
+{
+    hideAllyBubbleCD();
+}
+
+void showAllyBubbleCD() "[zarya/ally_bubble.opy]: showAllyBubbleCD()"
+{
+    CreateInWorldText(EventPlayer(), <"<0>", RoundToInteger(ally_bubble_cooldown, Rounding.Up)>, UpdateEveryFrame(EyePosition(EventPlayer()) + 100 * (2.3 * WorldVectorOf(Right(), EventPlayer(), LocalVector.Rotation) + -1.66 * DirectionFromAngles(HorizontalAngleFromDirection(FacingDirectionOf(EventPlayer())), VerticalAngleFromDirection(FacingDirectionOf(EventPlayer())) - 90) + 3 * FacingDirectionOf(EventPlayer()))), 3, Clipping.DoNotClip, InworldTextRev.VisibleToPositionStringAndColor, Color.White, Spectators.DefaultVisibility);
+    ally_bubble_cd_text = LastTextID();
+    ModifyVariable(text_huds, Operation.AppendToArray, ally_bubble_cd_text);
+}
+
+void hideAllyBubbleCD() "[zarya/ally_bubble.opy]: hideAllyBubbleCD()"
+{
+    DestroyInWorldText(ally_bubble_cd_text);
+    ModifyVariable(text_huds, Operation.RemoveFromArrayByValue, ally_bubble_cd_text);
+}
+
+rule: "[zarya/ally_bubble.opy]: OW1 zarya ally bubble cooldown"
+Event.OngoingPlayer
+Player.Zarya
+if (IsUsingAbility2(EventPlayer()) == true)
+{
+    SetAbilityCharge(EventPlayer(), Button.Ability2, 2);
+    SetAbility2Enabled(EventPlayer(), false);
+    # 2 second bubble duration
+    Wait(2, WaitBehavior.IgnoreCondition);
+    ally_bubble_cooldown = 8;
+    ChaseVariableAtRate(ally_bubble_cooldown, 0, 1, RateChaseReevaluation.None);
+}
+
+rule: "[zarya/ally_bubble.opy]: Disable ally bubble if on cooldown"
+Event.OngoingPlayer
+Player.Zarya
+if (ally_bubble_cooldown > 0)
+{
+    SetAbility2Enabled(EventPlayer(), false);
+}
+
+rule: "[zarya/ally_bubble.opy]: Enable ally bubble if not on cooldown"
+Event.OngoingPlayer
+Player.Zarya
+if (ally_bubble_cooldown <= 0)
+{
+    SetAbility2Enabled(EventPlayer(), true);
+}
+
+rule: "[zarya/ally_bubble.opy]: Show ally bubble cooldown"
+Event.OngoingPlayer
+if (ally_bubble_cooldown > 0)
+{
+    showAllyBubbleCD();
+}
+
+rule: "[zarya/ally_bubble.opy]: Erase ally bubble cooldown"
+Event.OngoingPlayer
+if (ally_bubble_cooldown <= 0)
+{
+    hideAllyBubbleCD();
+}
+
+rule: "[zenyatta.opy]: Initialize Zenyatta"
+Event.OngoingPlayer
+Player.Zenyatta
+# without this flag, the reset code in generic.opy executes after initialization
+if (call_init == true)
+{
+    SetAmmo(EventPlayer(), 0, 20);
+    SetMaxAmmo(EventPlayer(), 0, 20);
+    SetKnockbackDealt(EventPlayer(), 5);
+}
+
+rule: "[zenyatta.opy]: Allow self healing during Transcendence"
+Event.OngoingPlayer
+Player.Zenyatta
+if (IsUsingUltimate(EventPlayer()) == true)
+{
+    self_healing_percent = 100;
+    WaitUntil(!IsUsingUltimate(EventPlayer()), 999999986991104);
+    self_healing_percent = 0;
+}
+
+rule: "[main.opy]: Overwatch 1 Emulator copyright notice"
+if (debug == true)
+{
+    CreateHudText(AllPlayers(Team.All), null, <"Property of \"Overwatch 1 Emulator\" \n\nDuplication or modification of the codebase without permission is strictly forbidden.<0>", "\n\nContact ecksdee4643 on Discord for source code acess">, null, Location.Top, 1, null, Color.White, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+}
+
+rule: "[debug.opy]: global debug (Top Left)"
+if (debug == true)
+{
+    CreateHudText(AllPlayers(Team.All), "Global", null, null, Location.Left, 0, Color.White, null, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+    CreateHudText(AllPlayers(Team.All), null, <"Server Load: <0>%", ServerLoad()>, null, Location.Left, 1, null, Color.White, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+    CreateHudText(AllPlayers(Team.All), null, <"Server Load Average: <0>%", ServerLoadAverage()>, null, Location.Left, 1, null, Color.White, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+    CreateHudText(AllPlayers(Team.All), null, <"Server Load Peak: <0>%", ServerLoadPeak()>, null, Location.Left, 1, null, Color.White, null, HudTextRev.VisibleToAndString, Spectators.DefaultVisibility);
+}
+
+rule: "[debug.opy]: player debug (Top Right)"
+Event.OngoingPlayer
+if (debug == true)
+{
+    CreateHudText(EventPlayer(), "Event Player", null, null, Location.Right, 0, Color.White, null, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getAltitude() = <0>", AltitudeOf(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"hasStatusEffect(Status.HACKED) = <0>", HasStatus(EventPlayer(), Status.Hacked)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"hasStatusEffect(Status.STUNNED) = <0>", HasStatus(EventPlayer(), Status.Stunned)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getStatistic(Stat.HERO_DAMAGE_DEALT) = <0>", PlayerStat(EventPlayer(), PlayerStat.HeroDamageDealt)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"len(allowed_heroes) = <0>", CountOf(allowed_heroes)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"len(getAllowedHeroes()) = <0>", CountOf(AllowedHeroes(EventPlayer()))>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isUsingUltimate() = <0>", IsUsingUltimate(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getUltCharge() = <0>", UltimateChargePercent(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getUltCharge() >= 100 = <0>", UltimateChargePercent(EventPlayer()) >= 100>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isFiringPrimaryFire() = <0>", IsFiringPrimary(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isFiringSecondaryFire() = <0>", IsFiringSecondary(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isUsingAbility1() = <0>", IsUsingAbility1(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isUsingAbility2() = <0>", IsUsingAbility2(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getSpeed() = <0>", SpeedOf(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"ult_cost[hero_id] = <0>", ult_cost[hero_id]>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"ult_percent_compensated = <0>", ult_percent_compensated>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"call_reset = <0>", call_reset>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"call_init = <0>", call_init>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getMaxHealth() = <0>", MaxHealth(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"orisa_ammo = <0>", orisa_ammo>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isReloading() = <0>", IsReloading(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getAmmo(0) = <0>", Ammo(EventPlayer(), 0)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isHoldingButton(Button.PRIMARY_FIRE) = <0>", IsButtonHeld(EventPlayer(), Button.PrimaryFire)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"self_healing_percent = <0>", self_healing_percent>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"getPosition() = <0>", PositionOf(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"role = <0>", role>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"isInAlternateForm() = <0>", IsInAlternateForm(EventPlayer())>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"Ability 1 Cooldown = <0>", AbilityCooldown(EventPlayer(), Button.Ability1)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"is_using_guardian_angel = <0>", is_using_guardian_angel>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"is_slingshotting = <0>", is_slingshotting>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"Ability 2 Cooldown = <0>", AbilityCooldown(EventPlayer(), Button.Ability2)>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"slam_damage = <0>", slam_damage>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+    CreateHudText(EventPlayer(), null, <"is_using_slam = <0>", is_using_slam>, null, Location.Right, 1, null, Color.White, null, HudTextRev.String, Spectators.DefaultVisibility);
+}
+
+rule: "[debug.opy]: print to console on interact"
+Event.OngoingPlayer
+if (debug == true)
+if (IsButtonHeld(EventPlayer(), Button.Interact) == true)
+{
+    for (i = 0; CountOf(allowed_heroes); 1)
+    {
+        LogToInspector(<"eventPlayer.allowed_heroes[<0>] = <1>", i, allowed_heroes[i]>);
+    }
+}
+
+rule: "[debug.opy]: Debug damage instance"
+Event.OnDamageDealt
+if (debug == true)
+{
+    LogToInspector(<"hero=<0>, ability=<1>, amount=<2>", HeroOf(EventPlayer()), EventAbility(), EventDamage()>);
+}
+
+rule: "[debug.opy]: Debug healing instance"
+Event.OnHealingDealt
+if (debug == true)
+{
+    LogToInspector(<"hero=<0>, ability=<1>, amount=<2>", HeroOf(EventPlayer()), EventAbility(), EventHealing()>);
+}
