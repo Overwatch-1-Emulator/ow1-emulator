@@ -107,7 +107,7 @@ rule "[role_lock.opy]: Skip hero assembly":
     wait()
     setMatchTime(0) # Go to the end of the assembling heroes
     waitUntil(not isAssemblingHeroes(), Math.INFINITY)
-    setMatchTime(getMatchTime() + hero_select_time) # Give back assemble hero time
+    setMatchTime(getMatchTime() + hero_select_time/3) # Give back assemble hero time
 
 
 rule "[role_lock.opy]: Lock tanks above role limit":
