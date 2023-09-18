@@ -1,0 +1,11 @@
+playervar define hero_switched;
+
+rule: "Detect hero switch"
+Event.OngoingPlayer
+{
+    WaitUntil(EvaluateOnce(HeroOf(EventPlayer())) != HeroOf(EventPlayer()), 999999);
+    hero_switched = true;
+    MinWait();
+    hero_switched = false;
+    LoopIfConditionIsTrue();
+}

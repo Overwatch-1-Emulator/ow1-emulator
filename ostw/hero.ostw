@@ -1,0 +1,102 @@
+import "constants/ow1_constants.ostw";
+import "constants/ow2_constants.ostw";
+
+class OW1_Hero{
+    public virtual void reset() {
+        resetButtons();
+        resetHp();
+        resetUltimate();
+    }
+
+    protected void resetButtons() {
+        AllowButton(EventPlayer(), Button.PrimaryFire);
+        AllowButton(EventPlayer(), Button.SecondaryFire);
+        AllowButton(EventPlayer(), Button.Ability1);
+        AllowButton(EventPlayer(), Button.Ability2);
+        AllowButton(EventPlayer(), Button.Ultimate);
+
+        AllowButton(EventPlayer(), Button.Melee);
+        AllowButton(EventPlayer(), Button.Jump);
+        AllowButton(EventPlayer(), Button.Crouch);
+        AllowButton(EventPlayer(), Button.Reload);
+        AllowButton(EventPlayer(), Button.Interact);
+
+        SetPrimaryFireEnabled(EventPlayer(), true);
+        SetSecondaryFireEnabled(EventPlayer(), true);
+        SetAbility1Enabled(EventPlayer(), true);
+        SetAbility2Enabled(EventPlayer(), true);
+        SetUltimateAbilityEnabled(EventPlayer(), true);
+
+        SetMeleeEnabled(EventPlayer(), true);
+        SetJumpEnabled(EventPlayer(), true);
+        SetCrouchEnabled(EventPlayer(), true);
+        SetReloadEnabled(EventPlayer(), true);
+    }
+
+    protected void resetHp() {
+        RemoveAllHealthPoolsFromPlayer(EventPlayer());
+        MinWait();
+        SetMaxHealth(EventPlayer(), 100.001);
+        MinWait();
+        SetMaxHealth(EventPlayer(), 100);
+        Heal(EventPlayer(), null, 999999986991104);
+    }
+
+    protected void resetUltimate() {
+        SetUltimateCharge(EventPlayer(), 0);
+    }
+
+    protected void setHp(in Any health, in Any armor, in Any shields) {
+        define stored_spawn_pos;
+        # If the player is in spawn, teleport them out as they are invulnerable in spawn
+        if (IsInSpawnRoom(EventPlayer()))
+        {
+            stored_spawn_pos = PositionOf(EventPlayer());
+            MinWait();
+            Teleport(EventPlayer(), PositionOf(EventPlayer()) + 100 * Up());
+            WaitUntil(!(IsInSpawnRoom(EventPlayer()) || HasStatus(EventPlayer(), Status.Invincible) || HasStatus(EventPlayer(), Status.Unkillable)), 1);
+            MinWait();
+        }
+        # If the player is duplicating a hero, wait until Echo is no longer invulnerable
+        if (IsDuplicating(EventPlayer()))
+        {
+            WaitUntil(!(HasStatus(EventPlayer(), Status.Invincible) || HasStatus(EventPlayer(), Status.Unkillable)), 1);
+            MinWait();
+        }
+        # # Applying Custom Health ##\r\n Apply an unkillable status so we don't accidentally kill the player
+        SetStatus(EventPlayer(), EventPlayer(), Status.Unkillable, 999999986991104);
+        # Damage the player so they're at one health
+        Damage(EventPlayer(), null, 999999986991104);
+        MinWait();
+        # Apply temporary base health to the player
+        AddHealthPoolToPlayer(EventPlayer(), HealthType.Health, 999999986991104, true, true);
+        AddHealthPoolToPlayer(EventPlayer(), HealthType.Armor, 999999986991104, true, true);
+        AddHealthPoolToPlayer(EventPlayer(), HealthType.Shields, 999999986991104, true, true);
+        # Remove temporary base health from the player
+        RemoveAllHealthPoolsFromPlayer(EventPlayer());
+        MinWait();
+        # Apply custom health pool to player
+        if (health > 0)
+        {
+            AddHealthPoolToPlayer(EventPlayer(), HealthType.Health, Max(1, health - 1), true, true);
+        }
+        if (armor > 0)
+        {
+            AddHealthPoolToPlayer(EventPlayer(), HealthType.Armor, Max(1, armor), true, true);
+        }
+        if (shields > 0)
+        {
+            AddHealthPoolToPlayer(EventPlayer(), HealthType.Shields, Max(1, shields), true, true);
+        }
+        Heal(EventPlayer(), null, 999999986991104);
+        ClearStatus(EventPlayer(), Status.Unkillable);
+        # Teleport player back if they were in spawn.
+        if (stored_spawn_pos != null)
+        {
+            Teleport(EventPlayer(), stored_spawn_pos);
+            stored_spawn_pos = null;
+        }
+    }
+
+    public virtual void init() {}
+}
