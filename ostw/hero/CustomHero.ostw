@@ -1,11 +1,14 @@
-import "constants/ow1_constants.ostw";
-import "constants/ow2_constants.ostw";
+import "../constants/ow1_constants.ostw";
+import "../constants/ow2_constants.ostw";
 
-class OW1_Hero{
-    public virtual void reset() {
+playervar CustomHero my_hero;
+
+class CustomHero{
+    protected void resetAll() {
         resetButtons();
-        resetHp();
+        resetAbilities();
         resetUltimate();
+        resetHp();
     }
 
     protected void resetButtons() {
@@ -20,7 +23,9 @@ class OW1_Hero{
         AllowButton(EventPlayer(), Button.Crouch);
         AllowButton(EventPlayer(), Button.Reload);
         AllowButton(EventPlayer(), Button.Interact);
+    }
 
+    protected void resetAbilities() {
         SetPrimaryFireEnabled(EventPlayer(), true);
         SetSecondaryFireEnabled(EventPlayer(), true);
         SetAbility1Enabled(EventPlayer(), true);
@@ -39,10 +44,11 @@ class OW1_Hero{
         SetMaxHealth(EventPlayer(), 100.001);
         MinWait();
         SetMaxHealth(EventPlayer(), 100);
-        Heal(EventPlayer(), null, 999999986991104);
+        Heal(EventPlayer(), null, INFINITY);
     }
 
     protected void resetUltimate() {
+        WaitUntil(UltimateChargePercent(EventPlayer()) > 0, INFINITY);
         SetUltimateCharge(EventPlayer(), 0);
     }
 
@@ -64,14 +70,14 @@ class OW1_Hero{
             MinWait();
         }
         # # Applying Custom Health ##\r\n Apply an unkillable status so we don't accidentally kill the player
-        SetStatus(EventPlayer(), EventPlayer(), Status.Unkillable, 999999986991104);
+        SetStatus(EventPlayer(), EventPlayer(), Status.Unkillable, INFINITY);
         # Damage the player so they're at one health
-        Damage(EventPlayer(), null, 999999986991104);
+        Damage(EventPlayer(), null, INFINITY);
         MinWait();
         # Apply temporary base health to the player
-        AddHealthPoolToPlayer(EventPlayer(), HealthType.Health, 999999986991104, true, true);
-        AddHealthPoolToPlayer(EventPlayer(), HealthType.Armor, 999999986991104, true, true);
-        AddHealthPoolToPlayer(EventPlayer(), HealthType.Shields, 999999986991104, true, true);
+        AddHealthPoolToPlayer(EventPlayer(), HealthType.Health, INFINITY, true, true);
+        AddHealthPoolToPlayer(EventPlayer(), HealthType.Armor, INFINITY, true, true);
+        AddHealthPoolToPlayer(EventPlayer(), HealthType.Shields, INFINITY, true, true);
         # Remove temporary base health from the player
         RemoveAllHealthPoolsFromPlayer(EventPlayer());
         MinWait();
@@ -88,7 +94,7 @@ class OW1_Hero{
         {
             AddHealthPoolToPlayer(EventPlayer(), HealthType.Shields, Max(1, shields), true, true);
         }
-        Heal(EventPlayer(), null, 999999986991104);
+        Heal(EventPlayer(), null, INFINITY);
         ClearStatus(EventPlayer(), Status.Unkillable);
         # Teleport player back if they were in spawn.
         if (stored_spawn_pos != null)
@@ -98,5 +104,7 @@ class OW1_Hero{
         }
     }
 
-    public virtual void init() {}
+    public virtual void init() {
+        resetAll();
+    }
 }

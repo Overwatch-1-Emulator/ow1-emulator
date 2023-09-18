@@ -1,47 +1,8 @@
-// Useful constants
-import "constants/ow1_constants.ostw";
-import "constants/ow2_constants.ostw";
-
-// // Useful functions
-// import "utilities/macro_functions.ostw";
-// import "utilities/hero_switch.ostw";
-// import "utilities/reset.ostw";
-// import "utilities/role_lock.ostw";
-// import "utilities/ready.ostw";
-// import "utilities/hit_detection.ostw";
-// import "utilities/custom_health_handler.ostw";
-
-// // Custom game lobby settings
+// Custom game lobby settings
 import "customGameSettings.lobby";
 
-import "reinhardt.ostw";
-import "winston.ostw";
-// // OW1 logic
-// import "ow1/ow1.ostw";
-
-// // Include debug at the end so any variable can be viewed
-// import "utilities/debug.ostw";
-
-import "utilities/hero_switch.ostw";
-
-playervar OW1_Hero ow1_hero;
-
-rule: "Reinhardt"
-Event.OngoingPlayer
-Player.Reinhardt
-{
-    delete(ow1_hero);
-    ow1_hero = new OW1_Reinhardt();
-    ow1_hero.reset();
-    ow1_hero.init();
-}
-
-rule: "Winston"
-Event.OngoingPlayer
-Player.Winston
-{
-    delete(ow1_hero);
-    ow1_hero = new OW1_Winston();
-    ow1_hero.reset();
-    ow1_hero.init();
-}
+import "hero/Doomfist.ostw";
+import "hero/Reinhardt.ostw";
+import "hero/Winston.ostw";
+import "hero/WreckingBall.ostw";
+import "hero/Zarya.ostw";

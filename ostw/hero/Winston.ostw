@@ -1,0 +1,29 @@
+import "CustomHero.ostw";
+
+// Winston
+Any OW1_WINSTON_ARMOR: 150;
+Any OW1_WINSTON_BARRIER_HEALTH: 700;
+Any OW1_WINSTON_HEALTH: 350;
+Any OW1_WINSTON_JUMP_PACK_COOLDOWN_TIME: 6;
+Any OW1_WINSTON_SHIELDS: 0;
+Any OW1_WINSTON_ULT_COST: 1540;
+
+Any OW2_WINSTON_ULT_COST: 1850;
+Any OW2_WINSTON_BARRIER_HEALTH: 650;
+
+class Ow1Winston : CustomHero {
+    public override void init() {
+        resetAll();
+        SetMaxHealth(EventPlayer(), 100*OW1_WINSTON_BARRIER_HEALTH/OW2_WINSTON_BARRIER_HEALTH);
+        setHp(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0);
+    }
+}
+
+rule: "[hero/Winston.ostw]: Initialize OW1 Winston"
+Event.OngoingPlayer
+Player.Winston
+{
+    delete(my_hero);
+    my_hero = new Ow1Winston();
+    my_hero.init();
+}

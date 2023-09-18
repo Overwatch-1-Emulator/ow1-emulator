@@ -1,7 +1,0 @@
-rule: "[tracer.opy]: Deal OW1 tracer primary fire damage"
-Event.OnDamageDealt
-Player.Tracer
-if (EventAbility() == Button.PrimaryFire)
-{
-    Damage(Victim(), Attacker(), EventDamage() * 1.091 - EventDamage());
-}

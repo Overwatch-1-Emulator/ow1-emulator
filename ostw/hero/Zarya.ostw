@@ -1,0 +1,32 @@
+import "CustomHero.ostw";
+
+// Zarya
+Any OW1_ZARYA_ARMOR: 0;
+Any OW1_ZARYA_BARRIER_HEALTH: 200;
+Any OW1_ZARYA_BUBBLE_DURATION: 2;
+Any OW1_ZARYA_HEALTH: 200;
+Any OW1_ZARYA_PARTICLE_BARRIER_COOLDOWN_TIME: 10;
+Any OW1_ZARYA_PROJECTED_BARRIER_COOLDOWN_TIME: 8;
+Any OW1_ZARYA_SHIELDS: 200;
+Any OW1_ZARYA_ULT_COST: 2100;
+
+// Zarya
+Any OW2_ZARYA_ULT_COST: 2270;
+Any OW2_ZARYA_BARRIER_HEALTH: 225;
+
+
+class Ow1Zarya : CustomHero {
+    public override void init() {
+        resetAll();
+        setHp(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS);
+    }
+}
+
+rule: "[hero/Zarya.ostw]: Initialize OW1 Zarya"
+Event.OngoingPlayer
+Player.Zarya
+{
+    delete(my_hero);
+    my_hero = new Ow1Zarya();
+    my_hero.init();
+}
