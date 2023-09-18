@@ -92,6 +92,7 @@ github.com/MaxwellJung/ow1_emulator",
                 },
                 {
                     "rialto" : [
+                        "morning"
                     ]
                 },
                 {
