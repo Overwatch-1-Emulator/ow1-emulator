@@ -16,6 +16,7 @@ playervar barrier_sample_radius
 playervar barrier_sample_theta
 playervar barrier_sample_point
 playervar barrier_entity_positions
+playervar barrier_entity_colors
 playervar barrier_entities
 playervar barrier_uptime
 playervar barrier_active
@@ -29,6 +30,8 @@ subroutine destroyBarrier
 subroutine fibonacciSphere
 subroutine createBarrierHud
 subroutine destroyBarrierHud
+subroutine updateBarrierVisual
+
 
 #!define getBarrierVelocity(t) vect(eventPlayer.barrier_proj_v0.x, \
                                    -9.8 * eventPlayer.barrier_proj_t + eventPlayer.barrier_proj_v0.y, \
@@ -154,13 +157,10 @@ def deployBarrier(): # Create shield visual object
 
     # Draw each barrier sample
     for i in range(len(eventPlayer.barrier_entity_positions)):
-        eventPlayer.barrier_sample_point = eventPlayer.barrier_entity_positions[i]
         createEffect(getAllPlayers(), 
                      Effect.SPHERE, 
-                     eventPlayer.getTeam() 
-                        if random.uniform(0, 1) <= eventPlayer.barrier_health/OW1_ORISA_PROJECTILE_BARRIER_HEALTH
-                        else Color.WHITE, 
-                     evalOnce(eventPlayer.barrier_sample_point), 
+                     eventPlayer.barrier_entity_colors[evalOnce(i)],
+                     eventPlayer.barrier_entity_positions[evalOnce(i)], 
                      OW1_ORISA_BARRIER_ORB_SIZE, 
                      EffectReeval.COLOR)
         eventPlayer.barrier_entities.append(getLastCreatedEntity())
@@ -172,7 +172,8 @@ def deployBarrier(): # Create shield visual object
     eventPlayer.barrier_health = OW1_ORISA_PROJECTILE_BARRIER_HEALTH
     eventPlayer.barrier_uptime = 0
     chase(eventPlayer.barrier_uptime, OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME, rate=1, ChaseReeval.NONE)
-
+    
+    updateBarrierVisual()
     createBarrierHud()
 
 
@@ -290,3 +291,26 @@ def destroyBarrierHud():
     destroyProgressBarHud(eventPlayer.barrier_health_hud)
 
 
+def updateBarrierVisual():
+    @Name "[orisa/barrier.opy]: updateBarrierVisual()"
+    
+    for i in range(len(eventPlayer.barrier_entity_positions)):
+        eventPlayer.barrier_entity_colors[i] = eventPlayer.getTeam() \
+                                               if random.uniform(0, 1) <= (eventPlayer.barrier_health/OW1_ORISA_PROJECTILE_BARRIER_HEALTH) \
+                                               else Color.WHITE
+
+
+rule "[orisa/barrier.opy]: Crack Barrier at half health":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.barrier_health <= OW1_ORISA_PROJECTILE_BARRIER_HEALTH/2
+
+    updateBarrierVisual()
+
+
+rule "[orisa/barrier.opy]: Crack Barrier at quarter health":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.barrier_health <= OW1_ORISA_PROJECTILE_BARRIER_HEALTH/4
+
+    updateBarrierVisual()
