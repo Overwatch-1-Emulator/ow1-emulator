@@ -26,7 +26,7 @@ dsc.gg/ow1\r\n\
 discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
-github.com/MaxwellJung/ow1_emulator",
+github.com/MaxwellJung/ow1_emulator_issues",
         "modeName": "Overwatch 1 Emulator v0.8.13"
     },
     "lobby": {
