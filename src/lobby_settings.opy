@@ -26,8 +26,8 @@ dsc.gg/ow1\r\n\
 discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
-github.com/MaxwellJung/ow1_emulator",
-        "modeName": "Overwatch 1 Emulator v0.8.12"
+github.com/MaxwellJung/ow1_emulator_issues",
+        "modeName": "Overwatch 1 Emulator v0.8.13"
     },
     "lobby": {
         "allowPlayersInQueue": true,
@@ -246,6 +246,7 @@ github.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST)
             },
             "hammond": {
+                "ability1Kb%": percent(1/OW2_WRECKING_BALL_FIREBALL_KB),
                 "ultGen%": percent(OW2_WRECKING_BALL_ULT_COST/OW1_WRECKING_BALL_ULT_COST),
                 "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME/OW2_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME)
             },
