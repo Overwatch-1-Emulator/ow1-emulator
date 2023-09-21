@@ -246,6 +246,7 @@ github.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST)
             },
             "hammond": {
+                "ability1Kb%": percent(1/OW2_WRECKING_BALL_FIREBALL_KB),
                 "ultGen%": percent(OW2_WRECKING_BALL_ULT_COST/OW1_WRECKING_BALL_ULT_COST),
                 "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME/OW2_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME)
             },
