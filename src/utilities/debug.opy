@@ -61,6 +61,7 @@ rule "[debug.opy]: player debug (Top Right)":
     hudSubheader(eventPlayer, "Ability 2 Cooldown = {}".format(eventPlayer.getAbilityCooldown(Button.ABILITY_2)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "slam_damage = {}".format(eventPlayer.slam_damage), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "is_using_slam = {}".format(eventPlayer.is_using_slam), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "is_using_self_repair = {}".format(eventPlayer.is_using_self_repair), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
 rule "[debug.opy]: print to console on interact":
