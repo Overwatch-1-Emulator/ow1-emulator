@@ -8,8 +8,8 @@ playervar self_repair_instance
 
 playervar self_repair_gui
 
-subroutine createSelfRepairGUI
-subroutine destroySelfRepairGUI
+subroutine showSelfRepairGui
+subroutine hideSelfRepairGui
 
 
 rule "[bastion/repair.opy]: Initialize self repair ability":
@@ -41,7 +41,7 @@ rule "[bastion/repair.opy]: Activate self-repair":
     @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition eventPlayer.isAlive()
     
-    createSelfRepairGUI()
+    showSelfRepairGui()
     stopChasingVariable(eventPlayer.self_repair_time_left) # Stop any ongoing resource recharging
     wait(OW1_BASTION_SELF_REPAIR_CAST_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.is_using_self_repair = true
@@ -57,7 +57,7 @@ rule "[bastion/repair.opy]: Remove self repair GUI":
     @Hero bastion
     @Condition eventPlayer.self_repair_time_left >= OW1_BASTION_MAX_SELF_REPAIR_DURATION
 
-    destroySelfRepairGUI()
+    hideSelfRepairGui()
 
 
 rule "[bastion/repair.opy]: Heal on self-repair":
@@ -106,8 +106,8 @@ rule "[bastion/repair.opy]: Give ult charge for self repair":
     eventPlayer.missing_ult_points += eventHealing
 
 
-def createSelfRepairGUI():
-    @Name "[bastion/repair.opy]: createSelfRepairGUI()"
+def showSelfRepairGui():
+    @Name "[bastion/repair.opy]: showSelfRepairGui()"
 
     if eventPlayer.self_repair_gui != null:
         return
@@ -123,8 +123,8 @@ def createSelfRepairGUI():
     eventPlayer.self_repair_gui = getLastCreatedText()
 
 
-def destroySelfRepairGUI():
-    @Name "[bastion/repair.opy]: destroySelfRepairGUI()"
+def hideSelfRepairGui():
+    @Name "[bastion/repair.opy]: hideSelfRepairGui()"
 
     destroyProgressBarHud(eventPlayer.self_repair_gui)
     eventPlayer.self_repair_gui = null
