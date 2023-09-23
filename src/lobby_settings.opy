@@ -165,6 +165,7 @@ github.com/MaxwellJung/ow1_emulator_issues",
                 "ultGen%": percent(OW2_MCCREE_ULT_COST/OW1_MCCREE_ULT_COST)
             },
             "doomfist": {
+                "health%": percent(OW1_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE), # for shield hp
                 "ammoRegenerationTime%": 162,
                 "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
             },
