@@ -44,6 +44,7 @@ def removeSelfHealing():
     eventPlayer.self_healing_source = []
     eventPlayer.self_healing_percent = 0
 
+
 # Evaluates correct self healing percent from self_healing_source array
 # f : x -> y
 # x: array of currently active self-healing sources
