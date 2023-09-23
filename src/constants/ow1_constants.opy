@@ -63,6 +63,7 @@ globalvar READY_THRESHOLD = createWorkshopSetting(float[0.5:1], "Lobby", "Ready 
 #!define OW1_BRIGITTE_ULT_COST 2800
 
 # Doomfist
+#!define OW1_DOOMFIST_BEST_DEFENSE 30
 #!define OW1_DOOMFIST_HEALTH 250
 #!define OW1_DOOMFIST_HAND_CANNON_DAMAGE 66
 #!define OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT 3
