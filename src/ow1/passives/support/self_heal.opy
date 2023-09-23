@@ -8,13 +8,16 @@ playervar support_passive_active
 playervar last_time_damage_taken
 
 subroutine removeSelfHealing
+subroutine evalSelfHealingPercent
+
 #!define pushSelfHealing(button) \
-    eventPlayer.self_healing_source.append(button) \
-    evalSelfHealingPercent()
+    if (button not in eventPlayer.self_healing_source): \
+        eventPlayer.self_healing_source.append(button) \
+evalSelfHealingPercent()
+
 #!define popSelfHealing(button) \
     eventPlayer.self_healing_source.remove(button) \
     evalSelfHealingPercent()
-subroutine evalSelfHealingPercent
 
 
 rule "[passives/support/self_heal.opy]: Remove support self healing passive":
