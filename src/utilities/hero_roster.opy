@@ -81,9 +81,9 @@ rule "[utilities/hero_roster.opy]: Define tank, damage, support heroes array":
         current_hero = getAllHeroes()[i]
         if (current_hero in tank_heroes):
             tank_roaster.append(current_hero)
-        else if (current_hero in damage_heroes):
+        elif (current_hero in damage_heroes):
             damage_roaster.append(current_hero)
-        else if (current_hero in support_heroes):
+        elif (current_hero in support_heroes):
             support_roaster.append(current_hero)
         
 
