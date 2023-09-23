@@ -13,6 +13,6 @@ rule "[ana/nade.opy]: Allow self healing during Biotic Grenade":
     @Hero ana
     @Condition eventPlayer.isUsingAbility2()
 
-    eventPlayer.self_healing_percent = 100
+    pushSelfHealing(Button.ABILITY_2)
     waitUntil(eventPlayer.isUsingAbility2() == false, Math.INFINITY)
-    eventPlayer.self_healing_percent = 0
+    popSelfHealing(Button.ABILITY_2)
