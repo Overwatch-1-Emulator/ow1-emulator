@@ -11,7 +11,7 @@ the last version of Overwatch 1 using workshop.\r\n\
 Main build: KHTG0\r\n\
 Staging build: ESMXJ\r\n\
 \r\n\
-Contributors:\r\n\
+Dev Team:\r\n\
 ecksdee#11729\r\n\
 Snappy#11809\r\n\
 KingDonMike#2694\r\n\

@@ -1,5 +1,8 @@
 #!mainFile "../main.opy"
 
+globalvar global_extended_vars
+playervar player_extended_vars
+
 # Universal
 #!define SETUP_BUFFER_TIME 5
 #!define OW1_JUMP_SPEED 6
