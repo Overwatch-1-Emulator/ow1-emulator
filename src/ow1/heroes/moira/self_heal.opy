@@ -1,7 +1,7 @@
 #!mainFile "../../../main.opy"
 
 
-rule "[moira.opy]: Allow self healing during Biotic Grasp":
+rule "[moira/self_heal.opy]: Allow self healing during Biotic Grasp":
     @Event eachPlayer
     @Hero moira
     @Condition eventPlayer.isFiringSecondaryFire()
@@ -11,7 +11,7 @@ rule "[moira.opy]: Allow self healing during Biotic Grasp":
     popSelfHealing(Button.SECONDARY_FIRE)
 
 
-rule "[moira.opy]: Allow self healing during Biotic Orb":
+rule "[moira/self_heal.opy]: Allow self healing during Biotic Orb":
     @Event eachPlayer
     @Hero moira
     @Condition eventPlayer.isUsingAbility2()
@@ -22,7 +22,7 @@ rule "[moira.opy]: Allow self healing during Biotic Orb":
     popSelfHealing(Button.ABILITY_2)
 
 
-rule "[moira.opy]: Allow self healing during Coalescence":
+rule "[moira/self_heal.opy]: Allow self healing during Coalescence":
     @Event eachPlayer
     @Hero moira
     @Condition eventPlayer.isUsingUltimate()
