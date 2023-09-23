@@ -9,6 +9,7 @@
 #!include "utilities/macro_functions.opy"
 #!include "utilities/hero_switch.opy"
 #!include "utilities/reset.opy"
+#!include "utilities/hero_roster.opy"
 #!include "utilities/role_lock.opy"
 #!include "utilities/ready.opy"
 #!include "utilities/hit_detection.opy"

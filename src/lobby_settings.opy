@@ -11,7 +11,7 @@ the last version of Overwatch 1 using workshop.\r\n\
 Main build: KHTG0\r\n\
 Staging build: ESMXJ\r\n\
 \r\n\
-Contributors:\r\n\
+Dev Team:\r\n\
 ecksdee#11729\r\n\
 Snappy#11809\r\n\
 KingDonMike#2694\r\n\
@@ -27,7 +27,7 @@ discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
 github.com/MaxwellJung/ow1_emulator_issues",
-        "modeName": "Overwatch 1 Emulator v0.8.13"
+        "modeName": "Overwatch 1 Emulator v0.8.14"
     },
     "lobby": {
         "allowPlayersInQueue": true,
@@ -165,6 +165,7 @@ github.com/MaxwellJung/ow1_emulator_issues",
                 "ultGen%": percent(OW2_MCCREE_ULT_COST/OW1_MCCREE_ULT_COST)
             },
             "doomfist": {
+                "health%": percent(OW1_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE), # for shield hp
                 "ammoRegenerationTime%": 162,
                 "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
             },

@@ -11,9 +11,9 @@ rule "[lifeweaver.opy]: Allow self healing during Rejuvanating Dash":
     @Hero lifeweaver
     @Condition eventPlayer.isJumping() # [TODO] Replace with better condition
 
-    eventPlayer.self_healing_percent = 100
+    pushSelfHealing(Button.JUMP)
     waitUntil(eventPlayer.isJumping() == false, Math.INFINITY) # [TODO] Replace with better condition
-    eventPlayer.self_healing_percent = 0
+    popSelfHealing(Button.JUMP)
 
 
 rule "[lifeweaver.opy]: Allow self healing during Tree of Life":
@@ -21,6 +21,6 @@ rule "[lifeweaver.opy]: Allow self healing during Tree of Life":
     @Hero lifeweaver
     @Condition eventPlayer.isUsingUltimate()
 
-    eventPlayer.self_healing_percent = 100
+    pushSelfHealing(Button.ULTIMATE)
     waitUntil(eventPlayer.isUsingUltimate() == false, Math.INFINITY)
-    eventPlayer.self_healing_percent = 0
+    popSelfHealing(Button.ULTIMATE)
