@@ -35,6 +35,8 @@ rule "[passives/support/self_heal.opy]: Reset self healing":
 
     stopHealingModification(eventPlayer.self_healing_id)
     eventPlayer.self_healing_id = null
+    eventPlayer.self_healing_source = []
+    eventPlayer.self_healing_percent = 0
     eventPlayer.support_passive_active = true
 
 
