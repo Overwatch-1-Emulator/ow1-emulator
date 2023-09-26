@@ -33,7 +33,8 @@ release-job:
   before_script:
     - apt-get update && apt-get install -y --no-install-recommends git-core ca-certificates
     - npm install -g semantic-release @semantic-release/gitlab
+    - npm install semantic-release-discord-bot -D
   script:
-    - semantic-release --branches "main" --plugins "@semantic-release/commit-analyzer" "@semantic-release/release-notes-generator" "@semantic-release/gitlab"
+    - semantic-release
   only:
     - main
