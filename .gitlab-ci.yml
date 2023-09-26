@@ -34,6 +34,8 @@ release-job:
     - apt-get update && apt-get install -y --no-install-recommends git-core ca-certificates
     - npm install -g semantic-release @semantic-release/gitlab
     - npm install semantic-release-discord-bot -D
+  variables: 
+    SEMANTIC_RELEASE_PACKAGE: $CI_PROJECT_NAME
   script:
     - semantic-release
   only:
