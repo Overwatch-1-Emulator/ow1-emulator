@@ -9,13 +9,18 @@ playervar punch_charge_time
 #!define getRocketPunchDamage(charge_time) \
     ((OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN) \
      / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
-     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX) + OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX)
+     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN)
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
 #!define getRocketPunchWallImpactDamage(charge_time) \
     ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN) \
      / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
-     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX) + OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX)
+     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN)
+# Calculate punch knockback impulse speed from punch charge time
+#!define getPunchKnockbackSpeed(charge_time) \
+    ((OW1_DOOMFIST_PUNCH_KNOCKBACK_MAX-OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN) \
+     / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
+     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN)
 
 
 rule "[doomfist/punch.opy]: Initialize rocket punch ability":
@@ -39,6 +44,7 @@ rule "[doomfist/punch.opy]: Initialize rocket punch":
     chase(eventPlayer.punch_charge_time, OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX, rate=1, ChaseReeval.NONE)
     waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false, Math.INFINITY)
     stopChasingVariable(eventPlayer.punch_charge_time)
+    eventPlayer.punch_charge_time = max(OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN, eventPlayer.punch_charge_time)
 
 
 # DO NOT switch the order of this rule with the next rule
@@ -50,8 +56,11 @@ rule "[doomfist/punch.opy]: Find wall impacted victims":
     @Condition victim in attacker.punched_victims
     @Condition victim not in attacker.wall_impacted_victims
 
-    damage(victim, attacker, getRocketPunchWallImpactDamage(eventPlayer.punch_charge_time)-eventDamage)
     attacker.wall_impacted_victims.append(victim)
+    if (len(attacker.wall_impacted_victims) == 1): # OW1 single punch victim
+        damage(victim, attacker, getRocketPunchWallImpactDamage(eventPlayer.punch_charge_time)-eventDamage)
+    else: # OW2 multi punch victim
+        heal(victim, null, eventDamage)
 
 
 # DO NOT switch the order of this rule with the previous rule
@@ -62,8 +71,12 @@ rule "[doomfist/punch.opy]: Find punched victims":
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim not in attacker.punched_victims
 
-    damage(victim, attacker, getRocketPunchDamage(eventPlayer.punch_charge_time)-eventDamage)
     attacker.punched_victims.append(victim)
+    if (len(attacker.punched_victims) == 1): # OW1 single punch victim
+        damage(victim, attacker, getRocketPunchDamage(eventPlayer.punch_charge_time)-eventDamage)
+        victim.applyImpulse(attacker.getFacingDirection(), getPunchKnockbackSpeed(eventPlayer.punch_charge_time), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
+    else: # OW2 multi punch victim
+        heal(victim, null, eventDamage)
 
 
 rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":

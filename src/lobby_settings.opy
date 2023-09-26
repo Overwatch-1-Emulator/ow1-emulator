@@ -26,8 +26,8 @@ dsc.gg/ow1\r\n\
 discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
-github.com/MaxwellJung/ow1_emulator_issues",
-        "modeName": "Overwatch 1 Emulator v0.8.14"
+gitlab.com/MaxwellJung/ow1_emulator",
+        "modeName": "Overwatch 1 Emulator"
     },
     "lobby": {
         "allowPlayersInQueue": true,
@@ -91,9 +91,12 @@ github.com/MaxwellJung/ow1_emulator_issues",
                     ]
                 },
                 {
-                    "rialto" : [
+                    "rialto": [
                         "morning"
                     ]
+                },
+                {
+                    "junkertown" : []
                 },
                 {
                     "route66": [
@@ -167,6 +170,7 @@ github.com/MaxwellJung/ow1_emulator_issues",
             "doomfist": {
                 "health%": percent(OW1_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE), # for shield hp
                 "ammoRegenerationTime%": 162,
+                "secondaryFireKb%": 0,
                 "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
             },
             "dva": {
