@@ -91,9 +91,12 @@ gitlab.com/MaxwellJung/ow1_emulator",
                     ]
                 },
                 {
-                    "rialto" : [
+                    "rialto": [
                         "morning"
                     ]
+                },
+                {
+                    "junkertown" : []
                 },
                 {
                     "route66": [
