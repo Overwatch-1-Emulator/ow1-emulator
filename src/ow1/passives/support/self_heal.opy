@@ -7,6 +7,7 @@ playervar self_healing_id
 playervar support_passive_active
 playervar last_time_damage_taken
 
+subroutine resetSelfHealing
 subroutine removeSelfHealing
 subroutine evalSelfHealingPercent
 
@@ -20,18 +21,8 @@ evalSelfHealingPercent()
     evalSelfHealingPercent()
 
 
-rule "[passives/support/self_heal.opy]: Remove support self healing passive":
-    @Event eachPlayer
-    @Condition eventPlayer.call_init == true
-    @Condition eventPlayer.getCurrentHero() in getSupportHeroes()
-    @Condition eventPlayer.getCurrentHero() not in [Hero.MERCY] # Exception to support healing passive
-
-    removeSelfHealing()
-
-
-rule "[passives/support/self_heal.opy]: Reset self healing":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
+def resetSelfHealing():
+    @Name "[passives/support/self_heal.opy]: resetSelfHealing()"
 
     stopHealingModification(eventPlayer.self_healing_id)
     eventPlayer.self_healing_id = null

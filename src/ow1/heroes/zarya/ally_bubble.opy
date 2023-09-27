@@ -3,24 +3,15 @@
 playervar ally_bubble_cooldown
 playervar ally_bubble_cd_text
 
+subroutine initAllyBubble
 subroutine showAllyBubbleCD
 subroutine hideAllyBubbleCD
 
 
-rule "[zarya/ally_bubble.opy]: Initialize ally bubble ability":
-    @Event eachPlayer
-    @Hero zarya
-    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-    
+def initAllyBubble():
+    @Name "[zarya/ally_bubble.opy]: initAllyBubble()"
+
     eventPlayer.ally_bubble_cooldown = 0
-
-
-rule "[zarya/ally_bubble.opy]: Remove ally bubble HUD":
-    @Event eachPlayer
-    @Condition eventPlayer.last_hero_played == Hero.ZARYA
-    @Condition eventPlayer.call_reset == true
-
-    hideAllyBubbleCD()
 
 
 /*
@@ -51,14 +42,12 @@ def showAllyBubbleCD():
                       Color.WHITE, 
                       SpecVisibility.DEFAULT)
     eventPlayer.ally_bubble_cd_text = getLastCreatedText()
-    eventPlayer.text_huds.append(eventPlayer.ally_bubble_cd_text)
 
 
 def hideAllyBubbleCD():
     @Name "[zarya/ally_bubble.opy]: hideAllyBubbleCD()"
 
     destroyInWorldText(eventPlayer.ally_bubble_cd_text)
-    eventPlayer.text_huds.remove(eventPlayer.ally_bubble_cd_text)
 
 
 rule "[zarya/ally_bubble.opy]: OW1 zarya ally bubble cooldown":

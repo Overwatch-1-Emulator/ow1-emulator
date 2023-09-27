@@ -19,13 +19,6 @@ subroutine clearCustomHealth
 subroutine applyCustomHealth
 
 
-rule "[custom_health_handler.opy]: Reset hp":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
-
-    clearCustomHealth()
-
-
 def clearCustomHealth():
     @Name "[custom_health_handler.opy]: clearCustomHealth()"
 
@@ -58,7 +51,7 @@ def applyCustomHealth():
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
     # Damage the player so they're at one health
     damage(eventPlayer, null, Math.INFINITY)
-    wait()
+    waitUntil(eventPlayer.getHealth() <= 1, 1)
 
     # Apply temporary base health to the player
     eventPlayer.addHealthPool(Health.NORMAL, Math.INFINITY, true, true)
@@ -67,7 +60,7 @@ def applyCustomHealth():
 
     # Remove temporary base health from the player
     eventPlayer.removeAllHealthPools()
-    wait()
+    waitUntil(eventPlayer.getMaxHealth() <= 1, 1)
 
 
     # Apply custom health pool to player
@@ -85,10 +78,10 @@ def applyCustomHealth():
         eventPlayer.teleport(eventPlayer.stored_spawn_pos)
         eventPlayer.stored_spawn_pos = null
     
-    wait(3) # Wait 3 second for everything to settle
-    if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
-        clearCustomHealth()
-        goto RULE_START
+    # wait(3) # Wait 3 second for everything to settle
+    # if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
+    #     clearCustomHealth()
+    #     goto RULE_START
 
 
 rule "[custom_health_handler.opy]: Remove Custom Health Conditions":

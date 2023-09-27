@@ -1,5 +1,7 @@
 #!mainFile "../main.opy"
 
+subroutine resetHero
+
 # Remove OW2 passives
 # Remove tank passive
 #!include "ow1/passives/ult_charge.opy"
@@ -7,40 +9,55 @@
 # Remove support passive
 #!include "ow1/passives/support/self_heal.opy"
 
+
+def resetHero():
+    @Name "[ow1.opy]: resetHero()"
+
+    resetAbilities()
+    resetStats()
+    resetStatuses()
+    resetFrenemies()
+    resetUltCharge()
+    clearCustomHealth()
+    resetSelfHealing()
+
+
 # OW1 specific hero logic
-#!include "ow1/heroes/ana/ana.opy"
-#!include "ow1/heroes/ashe/ashe.opy"
-#!include "ow1/heroes/baptiste/baptiste.opy"
-#!include "ow1/heroes/bastion/bastion.opy"
-#!include "ow1/heroes/brigitte/brigitte.opy"
-#!include "ow1/heroes/doomfist/doomfist.opy"
-#!include "ow1/heroes/dva/dva.opy"
-#!include "ow1/heroes/echo.opy"
-#!include "ow1/heroes/genji.opy"
-#!include "ow1/heroes/hanzo.opy"
-#!include "ow1/heroes/illari.opy"
-#!include "ow1/heroes/junkerqueen.opy"
-#!include "ow1/heroes/junkrat.opy"
-#!include "ow1/heroes/kiriko.opy"
-#!include "ow1/heroes/lifeweaver.opy"
-#!include "ow1/heroes/lucio.opy"
-#!include "ow1/heroes/mccree.opy"
-#!include "ow1/heroes/mei.opy"
-#!include "ow1/heroes/mercy/mercy.opy"
-#!include "ow1/heroes/moira/moira.opy"
-#!include "ow1/heroes/orisa/orisa.opy"
-#!include "ow1/heroes/ramattra.opy"
-#!include "ow1/heroes/reaper.opy"
-#!include "ow1/heroes/reinhardt/reinhardt.opy"
-#!include "ow1/heroes/roadhog.opy"
-#!include "ow1/heroes/sigma.opy"
-#!include "ow1/heroes/soldier.opy"
-#!include "ow1/heroes/sombra.opy"
-#!include "ow1/heroes/symmetra/symmetra.opy"
-#!include "ow1/heroes/torbjorn.opy"
-#!include "ow1/heroes/tracer.opy"
-#!include "ow1/heroes/widowmaker.opy"
-#!include "ow1/heroes/winston.opy"
-#!include "ow1/heroes/wreckingball.opy"
-#!include "ow1/heroes/zarya/zarya.opy"
-#!include "ow1/heroes/zenyatta/zenyatta.opy"
+#!include "ow1/heroes/ana/init.opy"
+#!include "ow1/heroes/ashe/init.opy"
+#!include "ow1/heroes/baptiste/init.opy"
+#!include "ow1/heroes/bastion/init.opy"
+#!include "ow1/heroes/brigitte/init.opy"
+#!include "ow1/heroes/doomfist/init.opy"
+#!include "ow1/heroes/dva/init.opy"
+#!include "ow1/heroes/echo/init.opy"
+#!include "ow1/heroes/genji/init.opy"
+#!include "ow1/heroes/hanzo/init.opy"
+#!include "ow1/heroes/illari/init.opy"
+#!include "ow1/heroes/junkerqueen/init.opy"
+#!include "ow1/heroes/junkrat/init.opy"
+#!include "ow1/heroes/kiriko/init.opy"
+#!include "ow1/heroes/lifeweaver/init.opy"
+#!include "ow1/heroes/lucio/init.opy"
+#!include "ow1/heroes/mccree/init.opy"
+#!include "ow1/heroes/mei/init.opy"
+#!include "ow1/heroes/mercy/init.opy"
+#!include "ow1/heroes/moira/init.opy"
+#!include "ow1/heroes/orisa/init.opy"
+#!include "ow1/heroes/pharah/init.opy"
+#!include "ow1/heroes/ramattra/init.opy"
+#!include "ow1/heroes/reaper/init.opy"
+#!include "ow1/heroes/reinhardt/init.opy"
+#!include "ow1/heroes/roadhog/init.opy"
+#!include "ow1/heroes/sigma/init.opy"
+#!include "ow1/heroes/sojourn/init.opy"
+#!include "ow1/heroes/soldier/init.opy"
+#!include "ow1/heroes/sombra/init.opy"
+#!include "ow1/heroes/symmetra/init.opy"
+#!include "ow1/heroes/torbjorn/init.opy"
+#!include "ow1/heroes/tracer/init.opy"
+#!include "ow1/heroes/widowmaker/init.opy"
+#!include "ow1/heroes/winston/init.opy"
+#!include "ow1/heroes/wreckingball/init.opy"
+#!include "ow1/heroes/zarya/init.opy"
+#!include "ow1/heroes/zenyatta/init.opy"

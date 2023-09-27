@@ -4,6 +4,8 @@ playervar punched_victims
 playervar wall_impacted_victims
 playervar punch_charge_time
 
+subroutine initRocketPunch
+
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
 #!define getRocketPunchDamage(charge_time) \
@@ -23,10 +25,8 @@ playervar punch_charge_time
      * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN)
 
 
-rule "[doomfist/punch.opy]: Initialize rocket punch ability":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_init == true
+def initRocketPunch():
+    @Name "[doomfist/punch.opy]: initRocketPunch()"
 
     eventPlayer.punched_victims = []
     eventPlayer.wall_impacted_victims = []

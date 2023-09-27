@@ -3,24 +3,15 @@
 playervar self_bubble_cooldown
 playervar self_bubble_cd_text
 
+subroutine initSelfBubble
 subroutine showSelfBubbleCD
 subroutine hideSelfBubbleCD
 
 
-rule "[zarya/self_bubble.opy]: Initialize self bubble ability":
-    @Event eachPlayer
-    @Hero zarya
-    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
+def initSelfBubble():
+    @Name "[zarya/self_bubble.opy]: initSelfBubble()"
 
     eventPlayer.self_bubble_cooldown = 0
-
-
-rule "[zarya/self_bubble.opy]: Remove self bubble HUD":
-    @Event eachPlayer
-    @Condition eventPlayer.last_hero_played == Hero.ZARYA
-    @Condition eventPlayer.call_reset == true
-
-    hideSelfBubbleCD()
 
 
 /*
@@ -51,14 +42,12 @@ def showSelfBubbleCD():
                       Color.WHITE, 
                       SpecVisibility.DEFAULT)
     eventPlayer.self_bubble_cd_text = getLastCreatedText()
-    eventPlayer.text_huds.append(eventPlayer.self_bubble_cd_text)
 
 
 def hideSelfBubbleCD():
     @Name "[zarya/self_bubble.opy]: hideSelfBubbleCD()"
 
     destroyInWorldText(eventPlayer.self_bubble_cd_text)
-    eventPlayer.text_huds.remove(eventPlayer.self_bubble_cd_text)
 
 
 rule "[zarya/self_bubble.opy]: OW1 zarya self bubble cooldown":

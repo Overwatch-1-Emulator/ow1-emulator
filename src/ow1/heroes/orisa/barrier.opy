@@ -49,13 +49,6 @@ subroutine updateBarrierVisual
 # Angle of reflection formula from https://math.stackexchange.com/q/13261
 #!define reflection(d, n) (d - 2 * (dotProduct(d, n)) * n)
 
-rule "[orisa/barrier.opy]: Disable OW2 Javelin spin":
-    @Event eachPlayer
-    @Hero orisa
-    @Condition eventPlayer.call_init == true
-
-    eventPlayer.disallowButton(Button.ABILITY_2)
-
 
 rule "[orisa/barrier.opy]: Trigger Projectile Barrier ability":
     @Event eachPlayer
@@ -214,14 +207,6 @@ def destroyBarrier():
     eventPlayer.barrier_active = false
 
     destroyBarrierHud()
-
-
-rule "[orisa/barrier.opy]: destroy barrier on reset":
-    @Event eachPlayer
-    @Condition eventPlayer.barrier_active == true
-    @Condition eventPlayer.call_reset == true
-
-    destroyBarrier()
 
 
 rule "[orisa/barrier.opy]: Destroy barrier on barrier timeout":

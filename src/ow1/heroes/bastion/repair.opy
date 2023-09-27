@@ -14,17 +14,6 @@ subroutine showSelfRepairGui
 subroutine hideSelfRepairGui
 
 
-rule "[bastion/repair.opy]: Initialize self repair ability":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.call_init == true
-    
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    eventPlayer.self_repair_time_left = OW1_BASTION_MAX_SELF_REPAIR_DURATION
-    eventPlayer.is_pressing_self_repair_key = false
-    eventPlayer.is_using_self_repair = false
-
-
 rule "[bastion/repair.opy]: Detect Self Repair key press":
     @Event eachPlayer
     @Hero bastion
