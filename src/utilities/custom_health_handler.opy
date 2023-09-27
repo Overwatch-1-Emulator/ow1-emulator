@@ -38,7 +38,7 @@ def applyCustomHealth():
     if eventPlayer.isInSpawnRoom():
         eventPlayer.stored_spawn_pos = eventPlayer.getPosition()
         wait()
-        eventPlayer.teleport(eventPlayer.getPosition() + 100 * Vector.UP)
+        eventPlayer.teleport(eventPlayer.getPosition() + 100 * (Vector.FORWARD if getCurrentGamemode() == Gamemode.CONTROL else Vector.UP)) # TP horizontally on control maps
         waitUntil(not (eventPlayer.isInSpawnRoom() or eventPlayer.hasStatusEffect(Status.INVINCIBLE) or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), 1)
         wait()
     # If the player is duplicating a hero, wait until Echo is no longer invulnerable
