@@ -2,15 +2,8 @@
 
 playervar is_hit_by_uppercut
 
-subroutine initUppercut
 subroutine executeUppercut
 subroutine detectUpercutHit
-
-
-def initUppercut():
-    @Name "[doomfist/uppercut.opy]: initUppercut()"
-
-    eventPlayer.disallowButton(Button.ABILITY_2)
 
 
 rule "[doomfist/uppercut.opy]: Control flow for uppercut":
