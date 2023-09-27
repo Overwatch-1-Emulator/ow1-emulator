@@ -8,7 +8,7 @@ rule "[main.opy]: Overwatch 1 Emulator copyright notice":
     @Condition debug == true
 
     hudSubheader(getAllPlayers(), "Property of \"Overwatch 1 Emulator\" \n
-Duplication or modification of the codebase without permission is strictly forbidden. \n
+Unauthorized duplication or modification of this codebase is strictly forbidden. \n
 Contact ecksdee4643 on Discord for source code acess", 
                  HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
 
