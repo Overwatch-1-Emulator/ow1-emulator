@@ -164,6 +164,8 @@ def deployBarrier(): # Create shield visual object
                      OW1_ORISA_BARRIER_ORB_SIZE, 
                      EffectReeval.COLOR)
         eventPlayer.barrier_entities.append(getLastCreatedEntity())
+        if (i % 2 == 0): # Wait every 3 orbs to reduce server load
+            wait()
 
     # Play barrier deploying sound
     playEffect(getAllPlayers(), DynamicEffect.BUFF_IMPACT_SOUND, Color.LIME_GREEN, eventPlayer.barrier_proj_position, 100)
