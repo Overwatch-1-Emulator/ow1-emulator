@@ -11,6 +11,7 @@ playervar slammed_victims
 
 playervar indicator_entity
 
+subroutine initSlam
 subroutine executeSlam
 subroutine startSlamAnimation
 subroutine initiateGroundSlam
@@ -53,10 +54,8 @@ enum SlamType:
     distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
 
 
-rule "[doomfist/slam.opy]: Initialize slam ability":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_init == true
+def initSlam():
+    @Name "[doomfist/slam.opy]: initSlam()"
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.slam_damage = 0

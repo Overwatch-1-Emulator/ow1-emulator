@@ -84,15 +84,6 @@ subroutine initDoomfist
 subroutine HandleUltimateDamage
 
 
-rule "[doomfist.opy]: Initialize Doomfist":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_init == true # without this flag, the reset code in generic.opy executes after initialization
-
-    initDoomfist()
-    eventPlayer.call_init = false
-
-
 def initDoomfist():
     @Name "[doomfist.opy]: initDoomfist"
     eventPlayer.disallowButton(Button.ABILITY_1)

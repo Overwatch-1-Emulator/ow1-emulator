@@ -1,11 +1,6 @@
 #!mainFile "../main.opy"
 
-playervar call_reset
 playervar call_init
-
-playervar text_huds
-playervar progress_bar_huds
-playervar entity_huds
 
 playervar player_health
 
@@ -17,28 +12,14 @@ playervar enemy_doomfist_player
 playervar enemy_orisa_player
 playervar enemy_sombra_player
 
-subroutine resetHero
-subroutine initHero
-
-def resetHero():
-    @Name "[reset.opy]: resetHero()"
-
-    eventPlayer.call_reset = true
-    wait() # Call other reset functions
-    eventPlayer.call_reset = false
+subroutine resetAbilities
+subroutine resetStats
+subroutine resetStatuses
+subroutine resetFrenemies
 
 
-def initHero():
-    @Name "[reset.opy]: initHero()"
-
-    eventPlayer.call_init = true
-    wait() # Call other init functions
-    eventPlayer.call_init = false
-
-
-rule "[reset.opy]: Reset abilities":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
+def resetAbilities():
+    @Name "[reset.opy]: resetAbilities()"
 
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
@@ -64,9 +45,8 @@ rule "[reset.opy]: Reset abilities":
     eventPlayer.setReloadEnabled(true)
 
 
-rule "[reset.opy]: Reset stats":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
+def resetStats():
+    @Name "[reset.opy]: resetStats()"
 
     eventPlayer.setDamageDealt(100)
     eventPlayer.setDamageReceived(100)
@@ -78,9 +58,8 @@ rule "[reset.opy]: Reset stats":
     eventPlayer.setKnockbackDealt(100)
 
 
-rule "[reset.opy]: Reset statuses":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
+def resetStatuses():
+    @Name "[reset.opy]: resetStatuses()"
 
     eventPlayer.clearStatusEffect(Status.ASLEEP)
     eventPlayer.clearStatusEffect(Status.BURNING)
@@ -94,9 +73,8 @@ rule "[reset.opy]: Reset statuses":
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
 
 
-rule "[reset.opy]: Reset friendly/enemy players":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
+def resetFrenemies():
+    @Name "[reset.opy]: resetFrenemies()"
 
     eventPlayer.friendly_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, eventPlayer.getTeam())[0]
     eventPlayer.enemy_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam()))[0]
@@ -105,39 +83,13 @@ rule "[reset.opy]: Reset friendly/enemy players":
     eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
 
-
-rule "[reset.opy]: Reset HUDs and GUI":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
-
-    # Clear GUI
-    for i in range(len(eventPlayer.text_huds)):
-        destroyHudText(eventPlayer.text_huds[i])
-    for i in range(len(eventPlayer.progress_bar_huds)):
-        destroyProgressBarHud(eventPlayer.progress_bar_huds[i])
-    for i in range(len(eventPlayer.entity_huds)):
-        destroyEffect(eventPlayer.entity_huds[i])
-
-    eventPlayer.text_huds = []
-    eventPlayer.progress_bar_huds = []
-    eventPlayer.entity_huds = []
-
     
 rule "[reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
     @Condition isMatchBetweenRounds() == true
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
-    resetHero()
-    initHero()
-
-
-rule "[reset.opy]: Reinitialize hero on hero switch":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_switched == true
-
-    resetHero()
-    initHero()
+    eventPlayer.call_init = true
 
 
 def respawnSameState():

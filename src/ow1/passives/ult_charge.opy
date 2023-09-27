@@ -8,6 +8,9 @@ playervar missing_ult_points
 playervar ult_percent_compensated
 playervar ult_charge_compensated
 
+subroutine resetUltCharge
+
+
 rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.DVA)] = OW1_DVA_ULT_COST
     ult_cost[heroID(Hero.ORISA)] = OW1_ORISA_ULT_COST
@@ -43,9 +46,8 @@ rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.ZENYATTA)] = OW1_ZENYATTA_ULT_COST
 
 
-rule "[ult_charge.opy]: Reset ult charge":
-    @Event eachPlayer
-    @Condition eventPlayer.call_reset == true
+def resetUltCharge():
+    @Name "[ult_charge.opy]: resetUltCharge()"
 
     eventPlayer.missing_ult_points = 0
     eventPlayer.ult_percent_compensated = 0

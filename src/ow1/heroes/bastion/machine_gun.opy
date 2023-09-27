@@ -12,15 +12,6 @@ subroutine createMachineGunGUI
 subroutine destroyMachineGunGUI
 
 
-rule "[bastion/machine_gun.opy]: Initialize machine gun":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.call_init == true
-    
-    eventPlayer.machine_gun_ammo = OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE
-    eventPlayer.machine_gun_reload_timer = 0
-
-
 rule "[bastion/machine_gun.opy]: Activate machine gun in sentry mode":
     @Event eachPlayer
     @Hero bastion

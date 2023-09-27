@@ -5,15 +5,6 @@ playervar is_slingshotting
 playervar slingshot_velocity
 
 
-rule "[mercy/guardian.opy]: Initialize Guardian Angel Ability":
-    @Event eachPlayer
-    @Hero mercy
-    @Condition eventPlayer.call_init == true
-
-    eventPlayer.is_using_guardian_angel = false
-    eventPlayer.is_slingshotting = false
-
-
 rule "[mercy/guardian.opy]: Detect Guardian Angel activation":
     @Event eachPlayer
     @Hero mercy

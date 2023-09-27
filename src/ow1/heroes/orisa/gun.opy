@@ -8,26 +8,8 @@ subroutine resetFusionDriver
 subroutine reloadFusionDriver
 subroutine refreshAmmo
 
-subroutine createOrisaAmmoHud
-subroutine destroyOrisaAmmoHud
-
-rule "[orisa/gun.opy]: Initialize OW1 Orisa Gun":
-    @Event eachPlayer
-    @Hero orisa
-    @Condition eventPlayer.call_init == true
-
-    resetFusionDriver()
-    createOrisaAmmoHud()
-    eventPlayer.is_orisa_reloading = false
-    eventPlayer.setDamageDealt(percent(OW1_ORISA_GUN_DAMAGE/OW2_ORISA_GUN_DAMAGE))
-
-
-rule "[orisa/gun.opy]: Remove ammo hud":
-    @Event eachPlayer
-    @Condition eventPlayer.last_hero_played == Hero.ORISA
-    @Condition eventPlayer.call_reset == true
-
-    destroyOrisaAmmoHud()
+subroutine showOrisaAmmoHud
+subroutine hideOrisaAmmoHud
 
 
 rule "[orisa/gun.opy]: Decrease ammo when shooting gun":
@@ -83,27 +65,29 @@ def refreshAmmo():
     eventPlayer.setAmmo(0, eventPlayer.orisa_ammo + 1)
 
 
-def createOrisaAmmoHud():
-    @Name "[orisa/gun.opy]: createOrisaAmmoHud()"
+def showOrisaAmmoHud():
+    @Name "[orisa/gun.opy]: showOrisaAmmoHud()"
     
-    createInWorldText(eventPlayer, 
-                      "{0}".format(ceil(eventPlayer.orisa_ammo)),
-                      updateEveryTick(eventPlayer.getEyePosition() + \
-                      (100 * (3.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + \
-                      ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
-                      verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
-                      2, 
-                      Clip.NONE, 
-                      WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
-                      Color.WHITE, 
-                      SpecVisibility.DEFAULT)
-    eventPlayer.orisa_ammo_hud = getLastCreatedText()
+    if eventPlayer.orisa_ammo_hud == null:
+        createInWorldText(eventPlayer, 
+                        "{0}".format(ceil(eventPlayer.orisa_ammo)),
+                        updateEveryTick(eventPlayer.getEyePosition() + \
+                        (100 * (3.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + \
+                        ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+                        verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
+                        2, 
+                        Clip.NONE, 
+                        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
+                        Color.WHITE, 
+                        SpecVisibility.DEFAULT)
+        eventPlayer.orisa_ammo_hud = getLastCreatedText()
 
 
-def destroyOrisaAmmoHud():
-    @Name "[orisa/gun.opy]: destroyOrisaAmmoHud()"
+def hideOrisaAmmoHud():
+    @Name "[orisa/gun.opy]: hideOrisaAmmoHud()"
 
     destroyInWorldText(eventPlayer.orisa_ammo_hud)
+    eventPlayer.orisa_ammo_hud = null
 
 
 rule "[orisa/gun.opy]: Slow down Orisa when shooting":

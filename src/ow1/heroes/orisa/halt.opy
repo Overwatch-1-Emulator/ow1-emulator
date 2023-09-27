@@ -14,14 +14,6 @@ playervar position
 subroutine shootHalt
 subroutine explodeHalt
 
-rule "[orisa/halt.opy]: Initialize Halt ability":
-    @Event eachPlayer
-    @Hero orisa
-    @Condition eventPlayer.call_init == true
-
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    eventPlayer.is_using_halt = false
-
 
 rule "[orisa/halt.opy]: Trigger Halt ability start":
     @Event eachPlayer
@@ -45,10 +37,8 @@ def shootHalt():
     # Halt orb visuals
     createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.halt_position, OW1_ORISA_HALT_PROJECTILE_RADIUS, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.halt_entity1 = getLastCreatedEntity()
-    eventPlayer.entity_huds.append(eventPlayer.halt_entity1)
     createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.halt_position, 0.5*OW1_ORISA_HALT_PROJECTILE_RADIUS, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     eventPlayer.halt_entity2 = getLastCreatedEntity()
-    eventPlayer.entity_huds.append(eventPlayer.halt_entity2)
 
     # Halt orb sounds
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.LIME_GREEN, eventPlayer, 100)
@@ -78,8 +68,6 @@ def explodeHalt():
     # Clear visuals
     destroyEffect(eventPlayer.halt_entity1)
     destroyEffect(eventPlayer.halt_entity2)
-    eventPlayer.entity_huds.remove(eventPlayer.halt_entity1)
-    eventPlayer.entity_huds.remove(eventPlayer.halt_entity2)
 
     eventPlayer.is_using_halt = false
 
@@ -125,7 +113,6 @@ rule "[orisa/halt.opy]: Create Halt pull line vfx when in pull range":
     
     createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.enemy_orisa_player.halt_position, eventPlayer, Color.GREEN if eventPlayer.is_snared else Color.WHITE, EffectReeval.POSITION_RADIUS_AND_COLOR)
     eventPlayer.halt_pull_line_entity = getLastCreatedEntity()
-    eventPlayer.entity_huds.append(eventPlayer.halt_pull_line_entity)
 
 
 rule "[orisa/halt.opy]: Destroy Halt pull line vfx when not in pull range":
@@ -135,7 +122,6 @@ rule "[orisa/halt.opy]: Destroy Halt pull line vfx when not in pull range":
                isInLoS(eventPlayer, eventPlayer.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS)) == false
     
     destroyEffect(eventPlayer.halt_pull_line_entity)
-    eventPlayer.entity_huds.remove(eventPlayer.halt_pull_line_entity)
 
 
 rule "[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over":
@@ -143,11 +129,9 @@ rule "[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over":
     @Condition eventPlayer.enemy_orisa_player.is_using_halt == false
 
     destroyEffect(eventPlayer.halt_pull_line_entity)
-    eventPlayer.entity_huds.remove(eventPlayer.halt_pull_line_entity)
 
 rule "[orisa/halt.opy]: Destroy Halt pull line vfx when dead":
     @Event eachPlayer
     @Condition eventPlayer.isDead()
 
     destroyEffect(eventPlayer.halt_pull_line_entity)
-    eventPlayer.entity_huds.remove(eventPlayer.halt_pull_line_entity)

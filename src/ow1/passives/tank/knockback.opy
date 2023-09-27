@@ -1,9 +1,8 @@
 #!mainFile "../../../main.opy"
 
-rule "[passives/tank/knockback.opy]: Correct knockback resistance":
-    @Event eachPlayer
-    @Condition eventPlayer.call_init == true
-    @Condition eventPlayer.getCurrentHero() in getTankHeroes()
-    @Condition eventPlayer.getCurrentHero() not in [Hero.REINHARDT] # Exception for Reinhardt (Steadfast passive)
-    
+subroutine removeTankPassive
+
+def removeTankPassive():
+    @Name "[passives/tank/knockback.opy]: removeTankPassive()"
+
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))

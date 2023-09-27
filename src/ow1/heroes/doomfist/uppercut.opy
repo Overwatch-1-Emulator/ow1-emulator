@@ -2,14 +2,13 @@
 
 playervar is_hit_by_uppercut
 
+subroutine initUppercut
 subroutine executeUppercut
 subroutine detectUpercutHit
 
 
-rule "[doomfist/uppercut.opy]: Initialize uppercut ability":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_init == true
+def initUppercut():
+    @Name "[doomfist/uppercut.opy]: initUppercut()"
 
     eventPlayer.disallowButton(Button.ABILITY_2)
 
