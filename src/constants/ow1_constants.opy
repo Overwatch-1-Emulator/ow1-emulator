@@ -83,8 +83,8 @@ globalvar OW1_DOOMFIST_UPPERCUT_CD = createWorkshopSetting(float[0:30], 'Doomfis
 #!define OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX 100
 #!define OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN 50
 #!define OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX 150
-#!define OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS 8
-#!define OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS 1
+#!define OW1_DOOMFIST_SLAM_MAX_DISTANCE 8
+#!define OW1_DOOMFIST_SLAM_MIN_DISTANCE 1
 globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 'Slam Cooldown', 6)
 # Slamming on flat ground should deal 49 damage
 # Frame by frame analysis of Youtube videos indicate that slam damage increases at a rate of 100 damage/second

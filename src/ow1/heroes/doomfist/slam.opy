@@ -7,7 +7,7 @@ playervar indicator_slam_position
 playervar indicator_slam_direction
 playervar slam_damage
 playervar slam_damage_text_entity
-playervar slammed_victims
+playervar ow1_slam_victims
 
 playervar indicator_entity
 
@@ -118,7 +118,7 @@ rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
 def executeSlam():
     @Name "[doomfist/slam.opy]: executeSlam()"
 
-    eventPlayer.slammed_victims = [] # clear slammed victims
+    eventPlayer.ow1_slam_victims = [] # clear slammed victims
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
         if distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN: # Only execute when indicator slam is valid
@@ -235,18 +235,20 @@ rule "[doomfist/slam.opy]: Find slammed victims":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-    @Condition OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim)
-    @Condition distance(attacker, victim) <= OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS
-    # TODO add condition to check victim in 60 degree cone
     
-    attacker.slammed_victims.append(victim)
+    if (OW1_DOOMFIST_SLAM_MIN_DISTANCE <= distance(attacker, victim) and \
+        distance(attacker, victim) <= OW1_DOOMFIST_SLAM_MAX_DISTANCE and \
+        true): # [TODO]: add condition to check victim in 60 degree cone
+        attacker.ow1_slam_victims.append(victim)
+    else: # Handle OW2 slam victims
+        damage(attacker, null, OW1_DOOMFIST_BEST_DEFENSE) # Remove shield gained from OW2 slam victims
 
 
 rule "[doomfist/slam.opy]: Slammed victims damage":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-    @Condition victim in attacker.slammed_victims
+    @Condition victim in attacker.ow1_slam_victims
 
     damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
 
@@ -255,7 +257,7 @@ rule "[doomfist/slam.opy]: Slammed victims bounce effect":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-    @Condition victim in attacker.slammed_victims
+    @Condition victim in attacker.ow1_slam_victims
 
     victim.setGravity(50) 
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
@@ -280,13 +282,13 @@ def createSlamIndicatorGui():
         createBeam(eventPlayer if isIndicatorVisible() else null,
                    Beam.GOOD, 
                    updateEveryTick(eventPlayer.indicator_slam_position + \
-                                   OW1_DOOMFIST_SEISMIC_SLAM_AOE_MIN_RADIUS * \
+                                   OW1_DOOMFIST_SLAM_MIN_DISTANCE * \
                                    worldVector(cosDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))*Vector.FORWARD + \
                                                sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))*Vector.LEFT, \
                                                eventPlayer, \
                                                Transform.ROTATION)), 
                    updateEveryTick(eventPlayer.indicator_slam_position + \
-                                   OW1_DOOMFIST_SEISMIC_SLAM_AOE_MAX_RADIUS * \
+                                   OW1_DOOMFIST_SLAM_MAX_DISTANCE * \
                                    worldVector(cosDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))*Vector.FORWARD + \
                                                sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SEISMIC_SLAM_INDICATOR_RESOLUTION-1))*Vector.LEFT, \
                                                eventPlayer, \
