@@ -137,6 +137,7 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 
 # Kiriko
 #!define OW1_KIRIKO_HEALTH 175
 #!define OW1_KIRKIO_OFUDA_HEALING 12
+#!define OW1_KIRIKO_SUZU_COOLDOWN 16
 
 # Lucio
 #!define OW1_LUCIO_AMP_HEALING 32.5

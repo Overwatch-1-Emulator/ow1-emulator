@@ -21,3 +21,6 @@ rule "[kiriko.opy]: Allow self healing during Suzu":
     pushSelfHealing(Button.ABILITY_2)
     waitUntil(eventPlayer.isUsingAbility2() == false, Math.INFINITY)
     popSelfHealing(Button.ABILITY_2)
+
+
+#!include "ow1/heroes/kiriko/suzu.opy"
