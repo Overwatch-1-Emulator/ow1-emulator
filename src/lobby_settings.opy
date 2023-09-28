@@ -3,31 +3,27 @@
 settings {
     "main": {
         "description": \
-"Overwatch 1 Emulator\r\n\
+"Overwatch 1++\r\n\
 \r\n\
-ecksdee#11729's attempt to accurately recreate \r\n\
-the last version of Overwatch 1 using workshop.\r\n\
+Fork of Overwatch 1 Emulator (KHTG0) \r\n\
+with Overwatch 2 Heroes\r\n\
 \r\n\
-Main build: KHTG0\r\n\
-Staging build: ESMXJ\r\n\
+Lead Balance Designer: AiluRed#1813\r\n\
+Lead Developer: ecksdee#11729\r\n\
 \r\n\
-Dev Team:\r\n\
-ecksdee#11729\r\n\
-Snappy#11809\r\n\
-KingDonMike#2694\r\n\
-thenova#21104\r\n\
-pretz#11551\r\n\
+Main build: YKMXH\r\n\
+Staging build: SXGCQ\r\n\
 \r\n\
 Gamemode:\r\n\
-workshop.codes/ow1-emulator\r\n\
+workshop.codes/ow1-plus-plus\r\n\
 \r\n\
 Discord:\r\n\
 dsc.gg/ow1\r\n\
 discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
-gitlab.com/MaxwellJung/ow1_emulator",
-        "modeName": "Overwatch 1 Emulator"
+gitlab.com/MaxwellJung/ow1_plus_plus",
+        "modeName": "Overwatch 1++"
     },
     "lobby": {
         "allowPlayersInQueue": true,
@@ -41,99 +37,30 @@ gitlab.com/MaxwellJung/ow1_emulator",
     },
     "gamemodes": {
         "assault": {
-            "enabledMaps": [
-                "hanamura",
-                # "horizonLunarColony",
-                # "paris",
-                "templeOfAnubis",
-                "volskaya"
-            ]
+            "disabledMaps": [
+                "hanamuraWinter",
+                "horizonLunarColony",
+                "paris"
+            ],
+            "enableCompetitiveRules": true
         },
         "control": {
-            "enabledMaps": [
-                {
-                    "busan": [
-                        "morning"
-                    ]
-                },
-                {
-                    "ilios": [
-                        "morning"
-                    ]
-                },
-                {
-                    "lijiangTower": [
-                        "night"
-                    ]
-                },
-                {
-                    "nepal": [
-                        "morning"
-                    ]
-                },
-                {
-                    "oasis": [
-                        "evening"
-                    ]
-                }
-            ]
+            "disabledMaps": [
+                "lijiangTowerLny"
+            ],
+            "enableCompetitiveRules": true
         },
         "escort": {
-            "enabledMaps": [
-                {
-                    "dorado": [
-                        "night"
-                    ]
-                },
-                {
-                    "havana": [
-                        "morning"
-                    ]
-                },
-                {
-                    "rialto": [
-                        "morning"
-                    ]
-                },
-                {
-                    "junkertown" : []
-                },
-                {
-                    "route66": [
-                        "morning"
-                    ]
-                },
-				{
-                    "watchpointGibraltar": [
-                        "evening"
-                    ]
-                }
-            ]
+            "enableCompetitiveRules": true
         },
         "hybrid": {
-            "enabledMaps": [
-                {
-                    "blizzWorld": [
-                        "morning"
-                    ]
-                },
-                {
-                    "eichenwalde": [
-                        "morning"
-                    ]
-                },
-                {
-                    "hollywood": [
-                        "morning"
-                    ]
-                },
-                {
-                    "kingsRow": [
-                        "night"
-                    ]
-                },
-                "numbani"
-            ]
+            "disabledMaps": [
+                "blizzWorldWinter",
+                "eichenwaldeHalloween",
+                "hollywoodHalloween",
+                "kingsRowWinter"
+            ],
+            "enableCompetitiveRules": true
         },
         "practiceRange": {
             "enabledMaps": []
