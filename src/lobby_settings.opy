@@ -37,99 +37,30 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
     },
     "gamemodes": {
         "assault": {
-            "enabledMaps": [
-                "hanamura",
-                # "horizonLunarColony",
-                # "paris",
-                "templeOfAnubis",
-                "volskaya"
-            ]
+            "disabledMaps": [
+                "hanamuraWinter",
+                "horizonLunarColony",
+                "paris"
+            ],
+            "enableCompetitiveRules": true
         },
         "control": {
-            "enabledMaps": [
-                {
-                    "busan": [
-                        "morning"
-                    ]
-                },
-                {
-                    "ilios": [
-                        "morning"
-                    ]
-                },
-                {
-                    "lijiangTower": [
-                        "night"
-                    ]
-                },
-                {
-                    "nepal": [
-                        "morning"
-                    ]
-                },
-                {
-                    "oasis": [
-                        "evening"
-                    ]
-                }
-            ]
+            "disabledMaps": [
+                "lijiangTowerLny"
+            ],
+            "enableCompetitiveRules": true
         },
         "escort": {
-            "enabledMaps": [
-                {
-                    "dorado": [
-                        "night"
-                    ]
-                },
-                {
-                    "havana": [
-                        "morning"
-                    ]
-                },
-                {
-                    "rialto": [
-                        "morning"
-                    ]
-                },
-                {
-                    "junkertown" : []
-                },
-                {
-                    "route66": [
-                        "morning"
-                    ]
-                },
-				{
-                    "watchpointGibraltar": [
-                        "evening"
-                    ]
-                }
-            ]
+            "enableCompetitiveRules": true
         },
         "hybrid": {
-            "enabledMaps": [
-                {
-                    "blizzWorld": [
-                        "morning"
-                    ]
-                },
-                {
-                    "eichenwalde": [
-                        "morning"
-                    ]
-                },
-                {
-                    "hollywood": [
-                        "morning"
-                    ]
-                },
-                {
-                    "kingsRow": [
-                        "night"
-                    ]
-                },
-                "numbani"
-            ]
+            "disabledMaps": [
+                "blizzWorldWinter",
+                "eichenwaldeHalloween",
+                "hollywoodHalloween",
+                "kingsRowWinter"
+            ],
+            "enableCompetitiveRules": true
         },
         "practiceRange": {
             "enabledMaps": []
