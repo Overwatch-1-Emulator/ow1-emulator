@@ -134,6 +134,9 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 
 #!define OW1_JUNKRAT_STEEL_TRAP_DURATION 3
 #!define OW1_JUNKRAT_ULT_COST 1925
 
+# Kiriko
+#!define OW1_KIRIKO_HEALTH 175
+
 # Lucio
 #!define OW1_LUCIO_AMP_HEALING 32.5
 #!define OW1_LUCIO_SELF_HEALING 12
