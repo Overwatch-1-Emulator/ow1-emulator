@@ -5,8 +5,8 @@ settings {
         "description": \
 "Overwatch 1++\r\n\
 \r\n\
-Fork of Overwatch 1 Emulator (KHTG0) \r\n\
-with Overwatch 2 Heroes\r\n\
+Overwatch 1 Emulator (KHTG0) \r\n\
+extended with Overwatch 2 Heroes\r\n\
 \r\n\
 Lead Balance Designer: AiluRed#1813\r\n\
 Lead Developer: ecksdee#11729\r\n\
@@ -62,6 +62,8 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
             ],
             "enableCompetitiveRules": true
         },
+        "flashpoint": {},
+        "push": {},
         "practiceRange": {
             "enabledMaps": []
         },
@@ -112,6 +114,10 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
             },
             "hanzo": {
                 "ultGen%": percent(OW2_HANZO_ULT_COST/OW1_HANZO_ULT_COST)
+            },
+            "junkerQueen": {
+                "health%": percent(OW1_JUNKERQUEEN_SHOUT_OVERHEALTH/OW2_JUNKERQUEEN_SHOUT_OVERHEALTH), # for shout overhealth
+                # "ultGen%": percent(OW2_JUNKRAT_ULT_COST/OW1_JUNKRAT_ULT_COST)
             },
             "junkrat": {
                 "ultGen%": percent(OW2_JUNKRAT_ULT_COST/OW1_JUNKRAT_ULT_COST)

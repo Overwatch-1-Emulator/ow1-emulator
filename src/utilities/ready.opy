@@ -12,7 +12,7 @@ rule "[ready.opy]: Create ready HUD":
     hudText(eventPlayer, \
             "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), \
             "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), \
-            "Overwatch 1 Emulator: dsc.gg/ow1", \
+            "Overwatch 1++: dsc.gg/ow1", \
             HudPosition.TOP, \
             Math.INFINITY, \
             ready_color if eventPlayer.ready else Color.RED, \
