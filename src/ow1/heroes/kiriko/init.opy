@@ -24,3 +24,4 @@ rule "[kiriko.opy]: Allow self healing during Suzu":
 
 
 #!include "ow1/heroes/kiriko/suzu.opy"
+#!include "ow1/heroes/kiriko/step.opy"
