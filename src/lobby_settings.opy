@@ -5,8 +5,8 @@ settings {
         "description": \
 "Overwatch 1++\r\n\
 \r\n\
-Fork of Overwatch 1 Emulator (KHTG0) \r\n\
-with Overwatch 2 Heroes\r\n\
+Overwatch 1 Emulator (KHTG0) \r\n\
+extended with Overwatch 2 Heroes\r\n\
 \r\n\
 Lead Balance Designer: AiluRed#1813\r\n\
 Lead Developer: ecksdee#11729\r\n\
