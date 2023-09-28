@@ -62,6 +62,8 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
             ],
             "enableCompetitiveRules": true
         },
+        "flashpoint": {},
+        "push": {},
         "practiceRange": {
             "enabledMaps": []
         },
