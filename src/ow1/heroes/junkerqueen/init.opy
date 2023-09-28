@@ -22,3 +22,5 @@ rule "[orisa/init.opy]: Clean up Junkerqueen":
 
     waitUntil(updateEveryTick(eventPlayer.getCurrentHero() != Hero.JUNKER_QUEEN), Math.INFINITY)
     stopHealingModification(eventPlayer.jq_self_heal_id)
+
+#!include "ow1/heroes/junkerqueen/shout.opy"

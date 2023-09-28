@@ -124,6 +124,7 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 
 # JunkerQueen
 #!define OW1_JUNKERQUEEN_HEALTH 400
 #!define OW1_JUNKERQUEEN_ADRENALINE 150
+#!define OW1_JUNKERQUEEN_SHOUT_COOLDOWN_TIME 16
 
 # Junkrat
 #!define OW1_JUNKRAT_CONCUSSION_MINE_MAX_DAMAGE 120
