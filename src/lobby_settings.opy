@@ -8,6 +8,8 @@ settings {
 ecksdee#11729's attempt to accurately recreate \r\n\
 the last version of Overwatch 1 using workshop.\r\n\
 \r\n\
+Version with Overwatch 2 heroes: YKMXH\r\n\
+\r\n\
 Main build: KHTG0\r\n\
 Staging build: ESMXJ\r\n\
 \r\n\
