@@ -121,6 +121,9 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 
 #!define OW1_HANZO_STORM_DAMAGE 70
 #!define OW1_HANZO_ULT_COST 1680
 
+# JunkerQueen
+#!define OW1_JUNKERQUEEN_HEALTH 400
+
 # Junkrat
 #!define OW1_JUNKRAT_CONCUSSION_MINE_MAX_DAMAGE 120
 #!define OW1_JUNKRAT_CONCUSSION_MINE_MIN_DAMAGE 30
