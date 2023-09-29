@@ -24,3 +24,4 @@ rule "[orisa/init.opy]: Clean up Junkerqueen":
     stopHealingModification(eventPlayer.jq_self_heal_id)
 
 #!include "ow1/heroes/junkerqueen/shout.opy"
+#!include "ow1/heroes/junkerqueen/carnage.opy"
