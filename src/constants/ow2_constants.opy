@@ -110,6 +110,7 @@
 
 # Kiriko
 #!define OW2_KIRKIO_OFUDA_HEALING 13
+#!define OW2_KIRIKO_ULT_COST 2300
 
 # Lucio
 #!define OW2_LUCIO_SELF_HEALING 10

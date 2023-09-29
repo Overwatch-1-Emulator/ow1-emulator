@@ -8,5 +8,6 @@ rule "[dva/hp.opy]: Correct DVa pilot health":
 
     clearCustomHealth()
     waitUntil(not eventPlayer.isInAlternateForm(), Math.INFINITY)
-    wait(0.5)
-    setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
+    wait(1)
+    if not eventPlayer.isInAlternateForm():
+        setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
