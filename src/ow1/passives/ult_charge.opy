@@ -12,6 +12,7 @@ subroutine resetUltCharge
 
 
 rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
+    # Tanks
     ult_cost[heroID(Hero.DVA)] = OW1_DVA_ULT_COST
     ult_cost[heroID(Hero.ORISA)] = OW1_ORISA_ULT_COST
     ult_cost[heroID(Hero.REINHARDT)] = OW1_REINHARDT_ULT_COST
@@ -20,6 +21,8 @@ rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.WINSTON)] = OW1_WINSTON_ULT_COST
     ult_cost[heroID(Hero.HAMMOND)] = OW1_WRECKING_BALL_ULT_COST
     ult_cost[heroID(Hero.ZARYA)] = OW1_ZARYA_ULT_COST
+
+    # Damages
     ult_cost[heroID(Hero.ASHE)] = OW1_ASHE_ULT_COST
     ult_cost[heroID(Hero.BASTION)] = OW1_BASTION_ULT_COST
     ult_cost[heroID(Hero.DOOMFIST)] = OW1_DOOMFIST_ULT_COST
@@ -37,9 +40,12 @@ rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
     ult_cost[heroID(Hero.TORBJORN)] = OW1_TORBJORN_ULT_COST
     ult_cost[heroID(Hero.TRACER)] = OW1_TRACER_ULT_COST
     ult_cost[heroID(Hero.WIDOWMAKER)] = OW1_WIDOWMAKER_ULT_COST
+
+    # Supports
     ult_cost[heroID(Hero.ANA)] = OW1_ANA_ULT_COST
     ult_cost[heroID(Hero.BAPTISTE)] = OW1_BAPTISTE_ULT_COST
     ult_cost[heroID(Hero.BRIGITTE)] = OW1_BRIGITTE_ULT_COST
+    ult_cost[heroID(Hero.KIRIKO)] = OW1_KIRIKO_ULT_COST
     ult_cost[heroID(Hero.LUCIO)] = OW1_LUCIO_ULT_COST
     ult_cost[heroID(Hero.MERCY)] = OW1_MERCY_ULT_COST
     ult_cost[heroID(Hero.MOIRA)] = OW1_MOIRA_ULT_COST
