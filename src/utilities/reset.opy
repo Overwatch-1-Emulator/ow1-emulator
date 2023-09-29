@@ -86,7 +86,8 @@ def resetFrenemies():
     
 rule "[reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
-    @Condition isMatchBetweenRounds() == true
+    @Condition isMatchBetweenRounds()
+    @Condition isGameInProgress()
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
     eventPlayer.call_init = true
