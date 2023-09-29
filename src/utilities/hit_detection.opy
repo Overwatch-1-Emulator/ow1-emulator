@@ -3,7 +3,7 @@
 #!define isAimingAtSphere(start_position, direction, sphere_center, sphere_radius)\
     (distance(start_position, sphere_center) * sinDeg(angleBetweenVectors(direction, directionTowards(start_position, sphere_center))) <= sphere_radius)
     
-#!define detectSphereHit(start_position, direction, sphere_center, sphere_radius)\
+#!define findSphereHit(start_position, direction, sphere_center, sphere_radius)\
     eventPlayer.lsi_o = start_position\
     eventPlayer.lsi_u = direction\
     eventPlayer.lsi_c = sphere_center\
