@@ -6,8 +6,15 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     @Hero kiriko
     @Condition eventPlayer.call_init
     
-    resetHero()
+    eventPlayer.setAbility2Enabled(false)
+    resetStats()
+    resetStatuses()
+    resetFrenemies()
+    resetUltCharge()
+    clearCustomHealth()
+    resetSelfHealing()
     setCustomHealth(OW1_KIRIKO_HEALTH, 0, 0)
+    resetAbilities()
     eventPlayer.setHealingDealt(percent(OW1_KIRKIO_OFUDA_HEALING/OW2_KIRKIO_OFUDA_HEALING))
     removeSelfHealing()
     eventPlayer.call_init = false
