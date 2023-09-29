@@ -25,3 +25,4 @@ rule "[sojourn/init.opy]: Deal regular damage for Melee and Disruptor shot":
 
 
 #!include "ow1/heroes/sojourn/railgun.opy"
+#!include "ow1/heroes/sojourn/slide.opy"
