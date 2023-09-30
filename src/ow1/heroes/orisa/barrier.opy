@@ -1,5 +1,8 @@
 #!mainFile "../../../main.opy"
 
+globalvar los_i
+globalvar los_j
+
 playervar barrier_seed_id
 playervar barrier_seed_v0 # Barrier seed initial velocity v0
 playervar barrier_seed_p0 # Barrier seed initial position p0
@@ -19,12 +22,13 @@ playervar barrier_entity_ids
 
 playervar barrier_active
 playervar barrier_uptime
-playervar barrier_health
-playervar barrier_health_hud_id
+playervar barrier_hp
+playervar barrier_hp_hud_id
 playervar orisa_barrier_hit_positions
 
 playervar barrier_damage_block_id
-#!define closestAimedEnemy() eventPlayer.getPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam()))
+playervar barrier_all_enemies
+playervar enemies_behind_barrier
 
 subroutine throwBarrier
 subroutine deployBarrier
@@ -44,9 +48,8 @@ subroutine updateBarrierVisual
                                    eventPlayer.barrier_seed_v0.z * eventPlayer.barrier_seed_t + eventPlayer.barrier_seed_p0.z)
 
 #!define isInsideOrisaBarrier(point, center, direction)\
-    ((distance(center, point) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) and \
-    (angleBetweenVectors(Vector.UP, directionTowards(center, point)) <= 90) and \
-    (angleBetweenVectors(direction, directionTowards(center, point)) <= 90))
+    ((angleBetweenVectors(Vector.UP, directionTowards(center, point)) <= 90) and \
+     (angleBetweenVectors(direction, directionTowards(center, point)) <= 90))
 
 # Angle of reflection formula from https://math.stackexchange.com/q/13261
 #!define reflection(d, n) (d - 2 * (dotProduct(d, n)) * n)
@@ -164,7 +167,7 @@ def deployBarrier(): # Create shield visual object
     playEffect(getAllPlayers(), DynamicEffect.BUFF_IMPACT_SOUND, Color.LIME_GREEN, eventPlayer.barrier_seed_position, 100)
 
     eventPlayer.barrier_active = true
-    eventPlayer.barrier_health = OW1_ORISA_PROJECTILE_BARRIER_HEALTH
+    eventPlayer.barrier_hp = OW1_ORISA_PROJECTILE_BARRIER_HEALTH
     eventPlayer.barrier_uptime = 0
     chase(eventPlayer.barrier_uptime, OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME, rate=1, ChaseReeval.NONE)
     
@@ -219,7 +222,7 @@ rule "[orisa/barrier.opy]: Destroy barrier on barrier timeout":
 rule "[orisa/barrier.opy]: Destroy barrier when barrier hp runs out":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.barrier_health <= 0
+    @Condition eventPlayer.barrier_hp <= 0
 
     stopChasingVariable(eventPlayer.barrier_uptime)
     destroyBarrier()
@@ -228,37 +231,39 @@ rule "[orisa/barrier.opy]: Destroy barrier when barrier hp runs out":
 rule "[orisa/barrier.opy]: Take no damage when behind barrier":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.barrier_active
-    @Condition isAimingAtSphere(eventPlayer.getEyePosition(), 
-                                eventPlayer.getFacingDirection(),
-                                eventPlayer.enemy_orisa_player.barrier_origin,
-                                OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
-    
-    findSphereHit(eventPlayer.getEyePosition(), directionTowards(eventPlayer.getEyePosition(), closestAimedEnemy().getEyePosition()), eventPlayer.enemy_orisa_player.barrier_origin, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
-    eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x if isInsideOrisaBarrier(point, 
-                                                                                                            eventPlayer.enemy_orisa_player.barrier_origin, 
-                                                                                                            eventPlayer.enemy_orisa_player.barrier_orientation)]
 
+    if eventPlayer.barrier_damage_block_id == null:
+        startDamageModification(eventPlayer.enemies_behind_barrier, 
+                                eventPlayer, 
+                                percent(OW1_ORISA_PROJECTILE_BARRIER_BLOCK), 
+                                DamageReeval.RECEIVERS_DAMAGERS_AND_DMGPERCENT)
+        eventPlayer.barrier_damage_block_id = getLastDamageModification()
+
+    while (eventPlayer.enemy_orisa_player.barrier_active):
+        # eventPlayer.barrier_all_enemies = [eventPlayer.getPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam()))] # Scan only enemy closest to reticle
+        eventPlayer.barrier_all_enemies = getPlayers(getOppositeTeam(eventPlayer.getTeam())) # Scan all enemies
+        eventPlayer.enemies_behind_barrier = []
+        
+        for los_i in range(len(eventPlayer.barrier_all_enemies)):
+            findSphereHit(eventPlayer.getEyePosition(), 
+                          directionTowards(eventPlayer.getEyePosition(), eventPlayer.barrier_all_enemies[los_i].getEyePosition()), 
+                          eventPlayer.enemy_orisa_player.barrier_origin, 
+                          OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
+            eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x if isInsideOrisaBarrier(point, 
+                                                                                                                    eventPlayer.enemy_orisa_player.barrier_origin, 
+                                                                                                                    eventPlayer.enemy_orisa_player.barrier_orientation)]
+            for los_j in range(len(eventPlayer.orisa_barrier_hit_positions)):
+                if (distance(eventPlayer.getEyePosition(), 
+                            eventPlayer.orisa_barrier_hit_positions[los_j]) < distance(eventPlayer.getEyePosition(), 
+                                                                                       eventPlayer.barrier_all_enemies[los_i].getEyePosition())): # barrier hit is between the attacker and the victim
+                    eventPlayer.enemies_behind_barrier.append(eventPlayer.barrier_all_enemies[los_i])
+                    break
+        
+        wait(1/OW1_ORISA_BARRIER_LOS_FREQ)
+    
     stopDamageModification(eventPlayer.barrier_damage_block_id)
     eventPlayer.barrier_damage_block_id = null
-    for i in range(len(eventPlayer.orisa_barrier_hit_positions)):
-        if (distance(eventPlayer.getEyePosition(), 
-                     eventPlayer.orisa_barrier_hit_positions[i]) < distance(eventPlayer.getEyePosition(), 
-                                                                            closestAimedEnemy().getEyePosition())): # barrier hit is between the attacker and the victim
-            # Refresh damage modification
-            startDamageModification(closestAimedEnemy(), eventPlayer, percent(1/OW1_ORISA_PROJECTILE_BARRIER_BLOCK), DamageReeval.NONE)
-            eventPlayer.barrier_damage_block_id = getLastDamageModification()
-            break
-    
-    wait(1/OW1_ORISA_BARRIER_LOS_FREQ)
-    if eventPlayer.enemy_orisa_player.barrier_active and \
-       isAimingAtSphere(eventPlayer.getEyePosition(), 
-                        eventPlayer.getFacingDirection(),
-                        eventPlayer.enemy_orisa_player.barrier_origin,
-                        OW1_ORISA_PROTECTIVE_BARRIER_RADIUS):
-        goto RULE_START
-    else:
-        stopDamageModification(eventPlayer.barrier_damage_block_id)
-        eventPlayer.barrier_damage_block_id = null
+    eventPlayer.enemies_behind_barrier = []
 
 
 rule "[orisa/barrier.opy]: Normal damage when no barrier active":
@@ -272,10 +277,9 @@ rule "[orisa/barrier.opy]: Normal damage when no barrier active":
 rule "[orisa/barrier.opy]: Decrease barrier health":
     @Event playerDealtDamage
     @Condition eventPlayer.enemy_orisa_player.barrier_active
-    @Condition eventPlayer.barrier_damage_block_id != null
-    @Condition OW1_ORISA_PROJECTILE_BARRIER_BLOCK*eventDamage <= 300
+    @Condition victim in eventPlayer.enemies_behind_barrier
     
-    eventPlayer.enemy_orisa_player.barrier_health -= OW1_ORISA_PROJECTILE_BARRIER_BLOCK*eventDamage
+    eventPlayer.enemy_orisa_player.barrier_hp -= (eventDamage if not eventWasCriticalHit else eventDamage/2)/OW1_ORISA_PROJECTILE_BARRIER_BLOCK
 
 
 # rule "[orisa/barrier.opy]: Receive no healing when behind barrier":
@@ -289,7 +293,7 @@ rule "[orisa/barrier.opy]: Decrease barrier health":
 #     for i in range(len(eventPlayer.orisa_barrier_hit_positions)):
 #         if (distance(healer.getEyePosition(), eventPlayer.orisa_barrier_hit_positions[i]) < distance(healer.getEyePosition(), healee.getEyePosition())): # barrier hit is between the healer and the healee
 #             damage(healee, null, eventHealing)
-#             healee.enemy_orisa_player.barrier_health -= eventHealing
+#             healee.enemy_orisa_player.barrier_hp -= eventHealing
 #             return
 
 
@@ -297,21 +301,21 @@ def createBarrierHud():
     @Name "[orisa/barrier.opy]: createBarrierHud()"
 
     progressBarHud(eventPlayer, 
-                   percent(eventPlayer.barrier_health/OW1_ORISA_PROJECTILE_BARRIER_HEALTH), 
-                   "{}".format(ceil(eventPlayer.barrier_health)), 
+                   percent(eventPlayer.barrier_hp/OW1_ORISA_PROJECTILE_BARRIER_HEALTH), 
+                   "{}".format(ceil(eventPlayer.barrier_hp)), 
                    HudPosition.TOP, 
                    Math.INFINITY, 
                    Color.SKY_BLUE, 
                    Color.WHITE, 
                    ProgressHudReeval.VALUES, 
                    SpecVisibility.DEFAULT)
-    eventPlayer.barrier_health_hud_id = getLastCreatedText()
+    eventPlayer.barrier_hp_hud_id = getLastCreatedText()
 
 
 def destroyBarrierHud():
     @Name "[orisa/barrier.opy]: destroyBarrierHud()"
 
-    destroyProgressBarHud(eventPlayer.barrier_health_hud_id)
+    destroyProgressBarHud(eventPlayer.barrier_hp_hud_id)
 
 
 def updateBarrierVisual():
@@ -319,14 +323,14 @@ def updateBarrierVisual():
     
     for i in range(len(eventPlayer.barrier_entity_positions)):
         eventPlayer.barrier_entity_colors[i] = eventPlayer.getTeam() \
-                                               if random.uniform(0, 1) <= (eventPlayer.barrier_health/OW1_ORISA_PROJECTILE_BARRIER_HEALTH) \
+                                               if random.uniform(0, 1) <= (eventPlayer.barrier_hp/OW1_ORISA_PROJECTILE_BARRIER_HEALTH) \
                                                else Color.WHITE
 
 
 rule "[orisa/barrier.opy]: Crack Barrier at half health":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.barrier_health <= OW1_ORISA_PROJECTILE_BARRIER_HEALTH/2
+    @Condition eventPlayer.barrier_hp <= OW1_ORISA_PROJECTILE_BARRIER_HEALTH/2
 
     updateBarrierVisual()
 
@@ -334,6 +338,6 @@ rule "[orisa/barrier.opy]: Crack Barrier at half health":
 rule "[orisa/barrier.opy]: Crack Barrier at quarter health":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.barrier_health <= OW1_ORISA_PROJECTILE_BARRIER_HEALTH/4
+    @Condition eventPlayer.barrier_hp <= OW1_ORISA_PROJECTILE_BARRIER_HEALTH/4
 
     updateBarrierVisual()

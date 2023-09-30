@@ -63,7 +63,8 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "is_using_slam = {}".format(eventPlayer.is_using_slam), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "is_using_self_repair = {}".format(eventPlayer.is_using_self_repair), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "barrier_damage_block_id = {}".format(eventPlayer.barrier_damage_block_id), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "len(eventPlayer.orisa_barrier_hit_positions) = {}".format(len(eventPlayer.orisa_barrier_hit_positions)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "len(enemies_behind_barrier) = {}".format(len(eventPlayer.enemies_behind_barrier)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+
 
 rule "[debug.opy]: print to console on interact":
     @Event eachPlayer
