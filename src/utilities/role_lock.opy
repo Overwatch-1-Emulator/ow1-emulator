@@ -40,7 +40,8 @@ rule "[role_lock.opy]: Find player's role":
 rule "[role_lock.opy]: Override allowed heroes list when player joins lobby":
     @Event eachPlayer
 
-    eventPlayer.setAllowedHeroes(hero_roaster)
+    eventPlayer.allowed_heroes = hero_roaster
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
 rule "[role_lock.opy]: Skip hero assembly":
@@ -106,7 +107,6 @@ rule "[role_lock.opy]: Unlock supports below role limit":
 def lockTank():
     @Name "[role_lock.opy]: lockTank()"
 
-    eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
     eventPlayer.allowed_heroes.remove(tank_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
@@ -114,7 +114,6 @@ def lockTank():
 def lockDamage():
     @Name "[role_lock.opy]: lockDamage()"
 
-    eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
     eventPlayer.allowed_heroes.remove(damage_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
@@ -122,7 +121,6 @@ def lockDamage():
 def lockSupport():
     @Name "[role_lock.opy]: lockSupport()"
 
-    eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
     eventPlayer.allowed_heroes.remove(support_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
@@ -130,7 +128,6 @@ def lockSupport():
 def unlockTank():
     @Name "[role_lock.opy]: unlockTank()"
 
-    eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
     eventPlayer.allowed_heroes.append(tank_roaster)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
@@ -138,7 +135,6 @@ def unlockTank():
 def unlockDamage():
     @Name "[role_lock.opy]: unlockDamage()"
 
-    eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
     eventPlayer.allowed_heroes.append(damage_roaster)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
@@ -146,6 +142,5 @@ def unlockDamage():
 def unlockSupport():
     @Name "[role_lock.opy]: unlockSupport()"
 
-    eventPlayer.allowed_heroes = eventPlayer.getAllowedHeroes()
     eventPlayer.allowed_heroes.append(support_roaster)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
