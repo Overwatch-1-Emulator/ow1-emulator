@@ -9,19 +9,21 @@ rule "[ready.opy]: Create ready HUD":
     @Event eachPlayer
     @Condition isInSetup()
 
-    hudText(eventPlayer, \
-            "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), \
-            "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), \
-            "Overwatch 1++: dsc.gg/ow1", \
-            HudPosition.TOP, \
-            Math.INFINITY, \
-            ready_color if eventPlayer.ready else Color.RED, \
-            Color.WHITE, \
-            Color.WHITE, \
-            HudReeval.STRING_AND_COLOR)
-    eventPlayer.ready_hud = getLastCreatedText()
+    if eventPlayer.ready_hud == null:
+        hudText(eventPlayer, \
+                "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), \
+                "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), \
+                "Overwatch 1++: dsc.gg/ow1", \
+                HudPosition.TOP, \
+                Math.INFINITY, \
+                ready_color if eventPlayer.ready else Color.RED, \
+                Color.WHITE, \
+                Color.WHITE, \
+                HudReeval.STRING_AND_COLOR)
+        eventPlayer.ready_hud = getLastCreatedText()
     waitUntil(not isInSetup(), Math.INFINITY)
     destroyHudText(eventPlayer.ready_hud)
+    eventPlayer.ready_hud = null
 
 
 rule "[ready.opy]: Set initial ready color":
