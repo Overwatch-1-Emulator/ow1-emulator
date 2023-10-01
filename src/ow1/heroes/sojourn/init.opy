@@ -7,14 +7,14 @@ rule "[sojourn/init.opy]: Initialize Sojourn":
     @Condition eventPlayer.call_init
 
     resetHero()
-    eventPlayer.setDamageDealt(percent(OW1_SOJOURN_GLOBAL_DAMAGE))
+    eventPlayer.setDamageDealt(percent(OW1_SOJOURN_GLOBAL_DAMAGE)) # Tuned to ow1 disruptor shot damage
     eventPlayer.call_init = false
 
 
-rule "[sojourn/init.opy]: Deal regular damage for Primary, Disruptor shot, and Melee":
+rule "[sojourn/init.opy]: Deal regular damage for Primary and Melee":
     @Event playerDealtDamage
     @Hero sojourn
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_2, Button.MELEE]
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.MELEE]
 
     # Example on melee
     # expected melee damage: eventDamage*(1/OW1_SOJOURN_GLOBAL_DAMAGE) = 30 dmg
