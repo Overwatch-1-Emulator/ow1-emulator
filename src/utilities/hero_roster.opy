@@ -37,7 +37,7 @@ rule "[utilities/hero_roster.opy]: Initiaize hero roster workshop settings":
     heroes_enabled[heroID(Hero.MOIRA)] = createWorkshopSetting(bool, "Hero Roster", "Moira", true, 0)
     heroes_enabled[heroID(Hero.ORISA)] = createWorkshopSetting(bool, "Hero Roster", "Orisa", true, 0)
     heroes_enabled[heroID(Hero.PHARAH)] = createWorkshopSetting(bool, "Hero Roster", "Pharah", true, 0)
-    heroes_enabled[heroID(Hero.RAMATTRA)] = createWorkshopSetting(bool, "Hero Roster", "Ramattra", false, 0)
+    heroes_enabled[heroID(Hero.RAMATTRA)] = createWorkshopSetting(bool, "Hero Roster", "Ramattra", true, 0)
     heroes_enabled[heroID(Hero.REAPER)] = createWorkshopSetting(bool, "Hero Roster", "Reaper", true, 0)
     heroes_enabled[heroID(Hero.REINHARDT)] = createWorkshopSetting(bool, "Hero Roster", "Reinhardt", true, 0)
     heroes_enabled[heroID(Hero.ROADHOG)] = createWorkshopSetting(bool, "Hero Roster", "Roadhog", true, 0)
