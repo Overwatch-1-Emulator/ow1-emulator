@@ -7,7 +7,7 @@ rule "[sojourn/init.opy]: Initialize Sojourn":
     @Condition eventPlayer.call_init
 
     resetHero()
-    eventPlayer.setDamageDealt(percent(OW1_SOJOURN_GLOBAL_DAMAGE)) # Tuned to ow1 disruptor shot damage
+    eventPlayer.setDamageDealt(percent(OW1_SOJOURN_GLOBAL_DAMAGE))
     eventPlayer.call_init = false
 
 

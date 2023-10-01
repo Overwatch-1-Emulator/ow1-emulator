@@ -17,18 +17,18 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     resetAbilities()
     eventPlayer.setHealingDealt(percent(OW1_KIRKIO_OFUDA_HEALING/OW2_KIRKIO_OFUDA_HEALING))
     removeSelfHealing()
+    eventPlayer.setDamageDealt(percent(OW1_KIRIKO_GLOBAL_DAMAGE))
     eventPlayer.call_init = false
 
 
-rule "[kiriko.opy]: Allow self healing during Suzu":
-    @Event eachPlayer
+rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":
+    @Event playerDealtDamage
     @Hero kiriko
-    @Condition eventPlayer.isUsingAbility2()
-
-    pushSelfHealing(Button.ABILITY_2)
-    waitUntil(eventPlayer.isUsingAbility2() == false, Math.INFINITY)
-    popSelfHealing(Button.ABILITY_2)
+    @Condition eventAbility in [Button.MELEE]
+    
+    damage(victim, attacker, (eventDamage/OW1_KIRIKO_GLOBAL_DAMAGE - eventDamage)/OW1_KIRIKO_GLOBAL_DAMAGE)
 
 
+#!include "ow1/heroes/kiriko/kunai.opy"
 #!include "ow1/heroes/kiriko/suzu.opy"
 #!include "ow1/heroes/kiriko/step.opy"

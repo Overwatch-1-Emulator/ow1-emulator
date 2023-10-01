@@ -4,8 +4,8 @@ playervar is_using_supercharger
 playervar is_supercharged
 playervar orisa_supercharger_id
 playervar orisa_supercharger_origin
-playervar orisa_bongo_beam_id
-playervar orisa_bongo_sound_id
+playervar orisa_supercharger_beam_id
+playervar orisa_supercharger_sound_id
 
 subroutine startSupercharger
 subroutine endSupercharger
@@ -103,12 +103,12 @@ rule "[orisa/supercharger.opy]: Damage boost player when supercharged":
     eventPlayer.setDamageDealt(percent(OW1_ORISA_SUPERCHARGER_DAMAGE_MULTIPLIER))
 
     # Beam and sound effects
-    if (eventPlayer.orisa_bongo_beam_id == null):
+    if (eventPlayer.orisa_supercharger_beam_id == null):
         createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.friendly_orisa_player.orisa_supercharger_origin, eventPlayer.getPosition(), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-        eventPlayer.orisa_bongo_beam_id = getLastCreatedEntity()
-    if (eventPlayer.orisa_bongo_sound_id == null):
+        eventPlayer.orisa_supercharger_beam_id = getLastCreatedEntity()
+    if (eventPlayer.orisa_supercharger_sound_id == null):
         createEffect(eventPlayer, Effect.ENERGY_SOUND, Color.GREEN, eventPlayer.getPosition(), 100, EffectReeval.POSITION_AND_RADIUS)
-        eventPlayer.orisa_bongo_sound_id = getLastCreatedEntity()
+        eventPlayer.orisa_supercharger_sound_id = getLastCreatedEntity()
 
 
 rule "[orisa/supercharger.opy]: Revert damage boost if not supercharged":
@@ -118,7 +118,7 @@ rule "[orisa/supercharger.opy]: Revert damage boost if not supercharged":
     eventPlayer.setDamageDealt(100)
 
     # Beam and sound effects
-    destroyEffect(eventPlayer.orisa_bongo_beam_id)
-    eventPlayer.orisa_bongo_beam_id = null
-    destroyEffect(eventPlayer.orisa_bongo_sound_id)
-    eventPlayer.orisa_bongo_sound_id = null
+    destroyEffect(eventPlayer.orisa_supercharger_beam_id)
+    eventPlayer.orisa_supercharger_beam_id = null
+    destroyEffect(eventPlayer.orisa_supercharger_sound_id)
+    eventPlayer.orisa_supercharger_sound_id = null
