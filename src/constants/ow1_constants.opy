@@ -198,7 +198,7 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 
 #!define OW1_ORISA_HALT_SNARE_MOVE_PENALTY 67
 #!define OW1_ORISA_HEALTH 200
 #!define OW1_ORISA_MOVEMENT_PENALTY 0.3
-#!define OW1_ORISA_PROJECTILE_BARRIER_BLOCK 100
+#!define OW1_ORISA_PROJECTILE_BARRIER_BLOCK 0.01
 #!define OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME 10
 #!define OW1_ORISA_PROJECTILE_BARRIER_HEALTH 600
 #!define OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME 20
@@ -213,7 +213,7 @@ globalvar OW1_ORISA_BARRIER_ORB_COUNT = createWorkshopSetting(int[100:200], 'Ori
 #!define OW1_ORISA_SUPERCHARGER_LINGER_TIME 1
 #!define OW1_ORISA_SUPERCHARGER_MAX_DURATION 15
 #!define OW1_ORISA_ULT_COST 1680
-globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[1:60], "Orisa", "Barrier LOS Polling Frequency (Hz)", 10)
+globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "Orisa", "Barrier LOS Polling Frequency (Hz)", 1)
 
 # Pharah
 #!define OW1_PHARAH_ULT_COST 2100
