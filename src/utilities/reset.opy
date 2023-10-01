@@ -56,6 +56,7 @@ def resetStats():
     eventPlayer.setHealingReceived(100)
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.setKnockbackDealt(100)
+    eventPlayer.setGravity(100)
 
 
 def resetStatuses():
