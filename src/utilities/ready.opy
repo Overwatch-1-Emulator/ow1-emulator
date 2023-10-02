@@ -9,21 +9,32 @@ rule "[ready.opy]: Create ready HUD":
     @Event eachPlayer
     @Condition isInSetup()
 
-    if eventPlayer.ready_hud == null:
-        hudText(eventPlayer, \
-                "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), \
-                "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), \
-                "Overwatch 1 Emulator: dsc.gg/ow1", \
-                HudPosition.TOP, \
-                Math.INFINITY, \
-                ready_color if eventPlayer.ready else Color.RED, \
-                Color.WHITE, \
-                Color.WHITE, \
-                HudReeval.STRING_AND_COLOR)
-        eventPlayer.ready_hud = getLastCreatedText()
+    if eventPlayer.ready_hud[0] == null:
+        hudHeader(eventPlayer, "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), HudPosition.TOP, Math.INFINITY, ready_color if eventPlayer.ready else Color.RED, HudReeval.STRING_AND_COLOR)
+        eventPlayer.ready_hud[0] = getLastCreatedText()
+
+    if eventPlayer.ready_hud[1] == null:
+        hudSubheader(eventPlayer, "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), HudPosition.TOP, Math.INFINITY, Color.WHITE, HudReeval.STRING_AND_COLOR)
+        eventPlayer.ready_hud[1] = getLastCreatedText()
+
+    if eventPlayer.ready_hud[2] == null:
+        hudSubtext(eventPlayer, "Overwatch 1 Emulator (KHTG0)", HudPosition.TOP, Math.INFINITY, Color.WHITE, HudReeval.STRING_AND_COLOR)
+        eventPlayer.ready_hud[2] = getLastCreatedText()
+
+    if eventPlayer.ready_hud[3] == null:
+        hudSubtext(eventPlayer, "Ranked Matchmaking: dsc.gg/ow1", HudPosition.TOP, Math.INFINITY, rgb(250, 156, 29), HudReeval.STRING_AND_COLOR)
+        eventPlayer.ready_hud[3] = getLastCreatedText()
+    
     waitUntil(not isInSetup(), Math.INFINITY)
-    destroyHudText(eventPlayer.ready_hud)
-    eventPlayer.ready_hud = null
+    
+    destroyHudText(eventPlayer.ready_hud[0])
+    eventPlayer.ready_hud[0] = null
+    destroyHudText(eventPlayer.ready_hud[1])
+    eventPlayer.ready_hud[1] = null
+    destroyHudText(eventPlayer.ready_hud[2])
+    eventPlayer.ready_hud[2] = null
+    destroyHudText(eventPlayer.ready_hud[3])
+    eventPlayer.ready_hud[3] = null
 
 
 rule "[ready.opy]: Set initial ready color":
