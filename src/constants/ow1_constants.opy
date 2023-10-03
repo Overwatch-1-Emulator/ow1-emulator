@@ -122,6 +122,9 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 
 #!define OW1_HANZO_STORM_DAMAGE 70
 #!define OW1_HANZO_ULT_COST 1680
 
+# Illari
+#!define OW1_ILLARI_ULT_COST 2420
+
 # JunkerQueen
 #!define OW1_JUNKERQUEEN_HEALTH 400
 #!define OW1_JUNKERQUEEN_ADRENALINE 150
@@ -147,6 +150,9 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 
 #!define OW1_KIRIKO_SWIFT_STEP_COOLDOWN 15
 #!define OW1_KIRIKO_SWIFT_STEP_HEALING 75
 #!define OW1_KIRIKO_ULT_COST 2400
+
+# Lifeweaver
+#!define OW1_LIFEWEAVER_ULT_COST 2000
 
 # Lucio
 #!define OW1_LUCIO_AMP_HEALING 32.5
@@ -225,6 +231,7 @@ globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "O
 # Ramattra
 #!define OW1_RAMATTRA_HEALTH 400
 #!define OW1_RAMATTRA_BARRIER_HEALTH 1000
+#!define OW1_RAMATTRA_ULT_COST 2100
 
 # Reaper
 #!define OW1_REAPER_HELLFIRE_SHOTGUNS_DAMAGE 120
