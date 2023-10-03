@@ -115,15 +115,21 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
             "hanzo": {
                 "ultGen%": percent(OW2_HANZO_ULT_COST/OW1_HANZO_ULT_COST)
             },
+            "illari": {
+                "ultGen%": percent(OW2_ILLARI_ULT_COST/OW1_ILLARI_ULT_COST)
+            },
             "junkerQueen": {
-                "health%": percent(OW1_JUNKERQUEEN_SHOUT_OVERHEALTH/OW2_JUNKERQUEEN_SHOUT_OVERHEALTH), # for shout overhealth
-                # "ultGen%": percent(OW2_JUNKRAT_ULT_COST/OW1_JUNKRAT_ULT_COST)
+                # "health%": percent(OW1_JUNKERQUEEN_SHOUT_OVERHEALTH/OW2_JUNKERQUEEN_SHOUT_OVERHEALTH), # for shout overhealth
+                "ultGen%": percent(OW2_JUNKERQUEEN_ULT_COST/OW1_JUNKERQUEEN_ULT_COST)
             },
             "junkrat": {
                 "ultGen%": percent(OW2_JUNKRAT_ULT_COST/OW1_JUNKRAT_ULT_COST)
             },
             "kiriko": {
                 "ultGen%": percent(OW2_KIRIKO_ULT_COST/OW1_KIRIKO_ULT_COST)
+            },
+            "lifeweaver": {
+                "ultGen%": percent(OW2_LIFEWEAVER_ULT_COST/OW1_LIFEWEAVER_ULT_COST)
             },
             "lucio": {
                 "ultGen%": percent(OW2_LUCIO_ULT_COST/OW1_LUCIO_ULT_COST)
@@ -145,7 +151,8 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST)
             },
             "ramattra": {
-                "health%": percent(OW1_RAMATTRA_BARRIER_HEALTH/OW2_RAMATTRA_BARRIER_HEALTH) # for barrier
+                "health%": percent(OW1_RAMATTRA_BARRIER_HEALTH/OW2_RAMATTRA_BARRIER_HEALTH), # for barrier
+                "ultGen%": percent(OW2_RAMATTRA_ULT_COST/OW1_RAMATTRA_ULT_COST)
             },
             "reaper": {
                 "ultGen%": percent(OW2_REAPER_ULT_COST/OW1_REAPER_ULT_COST)
@@ -164,6 +171,7 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
                 "ultGen%": percent(OW2_SIGMA_ULT_COST/OW1_SIGMA_ULT_COST),
             },
             "sojourn": {
+                "ultGen%": percent(OW2_SOJOURN_ULT_COST/OW1_SOJOURN_ULT_COST)
             },
             "soldier": {
                 "ultGen%": percent(OW2_SOLDIER_ULT_COST/OW1_SOLDIER_ULT_COST)
