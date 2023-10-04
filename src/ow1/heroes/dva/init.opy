@@ -11,8 +11,6 @@ rule "[dva/init.opy]: Initialize DVa":
     @Condition eventPlayer.call_init
     
     resetHero()
-    waitUntil(not eventPlayer.isInAlternateForm(), 1)
-    setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
     removeTankPassive()
 
     eventPlayer.call_init = false
