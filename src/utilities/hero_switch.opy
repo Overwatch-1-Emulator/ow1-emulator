@@ -7,7 +7,7 @@ playervar hero_id
 
 rule "[hero_switch.opy]: detect hero switch":
     @Event eachPlayer
-    @Condition eventPlayer.last_hero_played != eventPlayer.getCurrentHero()
+    @Condition updateEveryTick(eventPlayer.last_hero_played != eventPlayer.getCurrentHero())
     
     eventPlayer.hero_switched = true
     wait()
