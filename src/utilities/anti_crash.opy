@@ -7,7 +7,7 @@ rule "[utilities/anti_crash.opy]: anti crash":
     @Condition antiCrashActivated == false
     @Condition getServerLoad() > 230
     
-    wait(1, Wait.ABORT_WHEN_FALSE)
+    wait(3, Wait.ABORT_WHEN_FALSE)
     smallMessage(getAllPlayers(), "Anti crash system activated")
     setSlowMotion(10)
     antiCrashActivated = true
