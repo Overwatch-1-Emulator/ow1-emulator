@@ -1,5 +1,9 @@
 #!mainFile "../main.opy"
 
+# This code is copied from 
+# https://workshop.codes/wiki/articles/help-my-server-is-crashing-a-guide-on-how-to-improve-server-stability-for-your-codes#anti-crash-rules
+
+
 globalvar antiCrashActivated
 
 
