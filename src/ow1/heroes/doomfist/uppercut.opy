@@ -17,13 +17,13 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
-    @Condition eventPlayer.is_using_slam == false
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     # @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
     @Condition not eventPlayer.hasStatusEffect(Status.FROZEN) # Ensure Doomfist is not frozen
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
     @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Doomfist is not asleep
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Doomfist is not stunned
+    @Condition eventPlayer.is_using_slam == false
 
     executeUppercut()
 

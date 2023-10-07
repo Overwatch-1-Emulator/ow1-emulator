@@ -7,7 +7,7 @@
 rule "[brigitte/bash.opy]: Add stun to shield bash":
     @Event playerDealtDamage
     @Hero brigitte
-    @Condition eventPlayer.isFiringSecondaryFire() == true
+    @Condition eventPlayer.isFiringSecondaryFire()
     @Condition eventAbility == Button.PRIMARY_FIRE
     
     victim.setStatusEffect(eventPlayer, Status.STUNNED, OW1_BRIGITTE_SHIELD_BASH_STUN_DURATION)
@@ -16,9 +16,9 @@ rule "[brigitte/bash.opy]: Add stun to shield bash":
 rule "[brigitte/bash.opy]: Reduce shield bash distance":
     @Event eachPlayer
     @Hero brigitte
-    @Condition eventPlayer.isFiringSecondaryFire() == true
-    @Condition eventPlayer.isFiringPrimaryFire() == true
-    @Condition eventPlayer.isUsingUltimate() != true
+    @Condition eventPlayer.isFiringSecondaryFire()
+    @Condition eventPlayer.isFiringPrimaryFire()
+    @Condition not eventPlayer.isUsingUltimate()
     
     eventPlayer.setMoveSpeed(77.8) # arbitrarily decided based on trial and error
     waitUntil(not eventPlayer.isFiringPrimaryFire(), 1)
@@ -31,7 +31,7 @@ rule "[brigitte/bash.opy]: Reduce shield bash distance":
 rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
     @Event playerDealtDamage
     @Hero brigitte
-    @Condition eventAbility == Button.PRIMARY_FIRE
     @Condition eventPlayer.isFiringSecondaryFire()
+    @Condition eventAbility == Button.PRIMARY_FIRE
 
     heal(victim, null, OW2_BRIGITTE_SHIELD_BASH_DAMAGE - OW1_BRIGITTE_SHIELD_BASH_DAMAGE)

@@ -53,18 +53,18 @@ rule "[ready.opy]: Unready all players when entering setup":
 
 rule "[ready.opy]: Toggle ready when pressing Interact + Reload":
     @Event eachPlayer
-    @Condition isInSetup() == true
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
-    @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
+    @Condition isInSetup()
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT)
+    @Condition eventPlayer.isHoldingButton(Button.RELOAD)
 
     eventPlayer.ready = not eventPlayer.ready
 
 
 rule "[ready.opy]: Start match when everyone ready":
     @Event global
-    @Condition isGameInProgress() == false # Guard to prevent incorrect match time modification
-    @Condition isAssemblingHeroes() == false # Guard to prevent incorrect match time modification
-    @Condition isInSetup() == true
+    @Condition not isGameInProgress() # Guard to prevent incorrect match time modification
+    @Condition not isAssemblingHeroes() # Guard to prevent incorrect match time modification
+    @Condition isInSetup()
     @Condition getMatchTime() > SETUP_BUFFER_TIME
     @Condition len([player for player in getAllPlayers() if player.ready])/len(getAllPlayers()) >= READY_THRESHOLD
 

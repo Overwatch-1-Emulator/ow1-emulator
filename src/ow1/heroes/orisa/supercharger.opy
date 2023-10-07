@@ -14,7 +14,7 @@ subroutine endSupercharger
 rule "[orisa/supercharger.opy]: Trigger Supercharger start":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
     @Condition eventPlayer.getUltCharge() >= 100
     # @Condition eventPlayer.isOnGround() == true
 
@@ -89,8 +89,7 @@ rule "[orisa/supercharger.opy]: De-supercharge teammates when supercharger ends"
 
 
 rule "[orisa/supercharger.opy]: De-supercharge teammates when they die":
-    @Event eachPlayer
-    @Condition eventPlayer.isDead()
+    @Event playerDied
     @Condition eventPlayer.is_supercharged
     
     eventPlayer.is_supercharged = false

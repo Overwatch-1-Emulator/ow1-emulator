@@ -22,8 +22,8 @@ rule "[doomfist/meteor.opy]: Remove Meteor Strike slow effect":
     # For some reason, playerDealtDamage activates the rule for only the first ulted victim
     # therefore, we activate the rule from the victim's perspective
     @Event playerTookDamage
-    @Condition attacker.getCurrentHero() == Hero.DOOMFIST
     @Condition eventAbility == Button.ULTIMATE
+    @Condition attacker.getCurrentHero() == Hero.DOOMFIST
 
     victim.setMoveSpeed(percent(1/OW2_DOOMFIST_METEOR_STRIKE_SLOW))
     wait(3)
