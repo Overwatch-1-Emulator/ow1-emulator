@@ -24,8 +24,8 @@ rule "[baptiste/regen_burst.opy]: Allow self healing during regenerative burst":
 rule "[baptiste/regen_burst.opy]: OW1 regenerative burst self hps":
     @Event playerDealtHealing
     @Hero baptiste
+    @Condition healee == healer
     @Condition eventAbility == Button.ABILITY_1
-    @Condition healee == eventPlayer
     
     heal(healee, healer, eventHealing*(OW1_BAPTISTE_REGEN_BURST_SELF_HPS/OW2_BAPTISTE_REGEN_BURST_SELF_HPS)-eventHealing)
 
@@ -34,6 +34,6 @@ rule "[baptiste/regen_burst.opy]: OW1 regenerative burst ally hps":
     @Event playerDealtHealing
     @Hero baptiste
     @Condition eventAbility == Button.ABILITY_1
-    @Condition healee != eventPlayer
+    @Condition healee != healer
     
     heal(healee, healer, eventHealing*(OW1_BAPTISTE_REGEN_BURST_ALLY_HPS/OW2_BAPTISTE_REGEN_BURST_ALLY_HPS)-eventHealing)

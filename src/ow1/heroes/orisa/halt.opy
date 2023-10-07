@@ -17,8 +17,8 @@ subroutine explodeHalt
 rule "[orisa/halt.opy]: Trigger Halt ability":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
+    @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0
 
     shootHalt()
     waitUntil(not eventPlayer.isHoldingButton(Button.SECONDARY_FIRE), Math.INFINITY) # Ensure player releases right click
@@ -143,9 +143,8 @@ rule "[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over":
 
 
 rule "[orisa/halt.opy]: Destroy Halt pull line vfx when dead":
-    @Event eachPlayer
+    @Event playerDied
     @Condition eventPlayer.enemy_orisa_player.is_using_halt
-    @Condition eventPlayer.isDead()
 
     destroyEffect(eventPlayer.halt_snare_line_id)
     eventPlayer.halt_snare_line_id = null
