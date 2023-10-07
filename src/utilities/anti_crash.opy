@@ -5,9 +5,9 @@
 
 
 rule "[utilities/anti_crash.opy]: Activate anti crash":
-    @Condition getServerLoad() > 230
+    @Condition getServerLoad() > 250
     
-    wait(3, Wait.ABORT_WHEN_FALSE)
+    wait(2, Wait.ABORT_WHEN_FALSE)
     smallMessage(getAllPlayers(), "Anti crash system activated")
     setSlowMotion(10)
     waitUntil(getServerLoad() < 200, Math.INFINITY)
