@@ -17,8 +17,8 @@ rule "[sombra/init.opy]: Initialize Sombra":
 rule "[sombra.opy]: Cancel invis if hack activated":
     @Event eachPlayer
     @Hero sombra
-    @Condition eventPlayer.isUsingAbility1()
     @Condition eventPlayer.isFiringSecondaryFire()
+    @Condition eventPlayer.isUsingAbility1()
     
     eventPlayer.forceButtonPress(Button.ABILITY_1)
 

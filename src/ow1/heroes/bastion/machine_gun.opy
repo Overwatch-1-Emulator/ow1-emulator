@@ -100,8 +100,8 @@ rule "[bastion/machine_gun.opy]: Stop machine gun ammo consumption when not shoo
 rule "[bastion/machine_gun.opy]: Reload machine gun on reload key":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
 
     startMachineGunReload()
 
@@ -109,8 +109,8 @@ rule "[bastion/machine_gun.opy]: Reload machine gun on reload key":
 rule "[bastion/machine_gun.opy]: Reload machine gun if out of ammo":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.machine_gun_ammo <= 0
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
 
     startMachineGunReload()
 
@@ -135,7 +135,7 @@ rule "[bastion/machine_gun.opy]: Allow machine gun shooting when machine gun rea
 rule "[bastion/machine_gun.opy]: Disallow machine gun shooting when machine gun not ready":
     @Event eachPlayer
     @Hero bastion
-    @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.machine_gun_ready == false # gun not ready to shoot
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE)

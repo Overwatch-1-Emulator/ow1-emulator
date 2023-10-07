@@ -49,7 +49,7 @@ rule "[roadhog.opy]: Disable all abilities during ult":
 rule "[roadhog.opy]: Force autofire during ult":
     @Event eachPlayer
     @Hero roadhog
-    @Condition eventPlayer.isUsingUltimate() == true
+    @Condition eventPlayer.isUsingUltimate()
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false
     
     eventPlayer.startForcingButton(Button.PRIMARY_FIRE)
@@ -58,7 +58,7 @@ rule "[roadhog.opy]: Force autofire during ult":
 rule "[roadhog.opy]: Stop autofire when not in ult":
     @Event eachPlayer
     @Hero roadhog
-    @Condition eventPlayer.isUsingUltimate() == false
+    @Condition not eventPlayer.isUsingUltimate()
     
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
 
