@@ -87,8 +87,8 @@ def resetFrenemies():
     
 rule "[reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
+    @Condition getCurrentGamemode() == Gamemode.CONTROL
     @Condition isMatchBetweenRounds()
-    @Condition isGameInProgress()
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
     eventPlayer.call_init = true
@@ -98,7 +98,7 @@ def respawnSameState():
     @Name "[reset.opy]: respawnSameState()"
     
     eventPlayer.player_health = eventPlayer.getHealth()
-    kill(eventPlayer,null)
+    kill(eventPlayer, null)
     # Use resurrect to keep the same position and angle
     eventPlayer.resurrect()
     # Wait to set health else the player will be full life

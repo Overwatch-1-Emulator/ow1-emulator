@@ -8,8 +8,8 @@ playervar slingshot_velocity
 rule "[mercy/guardian.opy]: Detect Guardian Angel activation":
     @Event eachPlayer
     @Hero mercy
-    @Condition eventPlayer.isUsingAbility1()
     @Condition eventPlayer.getSpeed() >= OW1_MERCY_GUARDIAN_ANGEL_MAX_SPEED/2
+    @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer.is_using_guardian_angel = true
     waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
@@ -31,7 +31,7 @@ rule "[mercy/guardian.opy]: Disable jump and crouch during guardian angel":
 rule "[mercy/guardian.opy]: Activate GA slingshot":
     @Event eachPlayer
     @Hero mercy
-    @Condition eventPlayer.is_using_guardian_angel == true
+    @Condition eventPlayer.is_using_guardian_angel
     @Condition not eventPlayer.isHoldingButton(Button.JUMP) # wait until below acts as the final condition for activating slingshot
     waitUntil(eventPlayer.is_using_guardian_angel and eventPlayer.isHoldingButton(Button.JUMP), Math.INFINITY)
 

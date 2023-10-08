@@ -58,8 +58,8 @@ subroutine updateBarrierVisual
 rule "[orisa/barrier.opy]: Trigger Projectile Barrier ability":
     @Event eachPlayer
     @Hero orisa
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) == 0
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
 
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME)
 
@@ -276,8 +276,8 @@ rule "[orisa/barrier.opy]: Normal damage when no barrier active":
 
 rule "[orisa/barrier.opy]: Decrease barrier health":
     @Event playerDealtDamage
-    @Condition eventPlayer.enemy_orisa_player.barrier_active
     @Condition victim in eventPlayer.enemies_behind_barrier
+    @Condition eventPlayer.enemy_orisa_player.barrier_active
     
     eventPlayer.enemy_orisa_player.barrier_hp -= (eventDamage if not eventWasCriticalHit else eventDamage/2)/OW1_ORISA_PROJECTILE_BARRIER_BLOCK
 

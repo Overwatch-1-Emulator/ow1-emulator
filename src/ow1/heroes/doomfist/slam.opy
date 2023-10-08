@@ -65,7 +65,6 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
-    @Condition eventPlayer.is_using_uppercut == false
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
     @Condition not eventPlayer.isMeleeing()
     # @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
@@ -73,6 +72,7 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
     @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Doomfist is not asleep
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Doomfist is not stunned
+    @Condition eventPlayer.is_using_uppercut == false
 
     executeSlam()
 
@@ -98,7 +98,7 @@ rule "[doomfist/slam.opy]: Start tracking indicator slam destination":
     @Hero doomfist
     @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
-    @Condition eventPlayer.isUsingAbility1() == false
+    @Condition not eventPlayer.isUsingAbility1()
 
     chase(eventPlayer.proto_indicator_slam_position, findProtoIndicatorPosition(), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
     chase(eventPlayer.indicator_slam_position, findIndicatorPosition(), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
