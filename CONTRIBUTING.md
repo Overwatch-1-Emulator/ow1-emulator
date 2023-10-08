@@ -12,9 +12,9 @@ If you're interested in submitting code to this gamemode, read this guide carefu
     - VScode extension for compiling OverPy source code -> workshop script
 - Git
     - Version control system
-- GitHub
+- GitLab
     - Remote archive of this source code repository
-    - [Issue](https://github.com/MaxwellJung/ow1_emulator/issues) tracking and [pull request](https://github.com/MaxwellJung/ow1_emulator/pulls)
+    - [Issue](https://gitlab.com/MaxwellJung/ow1_emulator/-/issues) tracking and [pull request](https://gitlab.com/MaxwellJung/ow1_emulator/-/merge_requests)
 - Discord
     - Communication between developers
 
@@ -22,8 +22,7 @@ If you're interested in submitting code to this gamemode, read this guide carefu
 ## Setup Instructions
 1. Download [Visual Studio Code](https://code.visualstudio.com/download).
 2. Go to extension tab in VScode and install `OverPy` extension.
-4. Go back to GitHub and fork this repository to your own GitHub account.
-5. Clone the forked repository to your local computer (use [GitHub Desktop](https://desktop.github.com/) if you don't know how to clone using terminal).
+5. Clone the repository to your local computer (use [GitHub Desktop](https://desktop.gitlab.com/) if you don't know how to clone using terminal).
 6. Open cloned repository folder on VScode.
 7. Try building gamemode using instructions [below](#building).
 8. Follow [general workflow](#general-workflow) to start development.
@@ -31,21 +30,21 @@ If you're interested in submitting code to this gamemode, read this guide carefu
 
 ## Building
 
-For instructions on how to use OverPy, see [here](https://github.com/Zezombye/overpy/wiki)
+For instructions on how to use OverPy, see [here](https://gitlab.com/Zezombye/overpy/wiki)
   
-1. Compile main.opy using the compiling instructions at [OverPy Wiki](https://github.com/Zezombye/overpy/wiki/General-usage#Compiling)
+1. Compile main.opy using the compiling instructions at [OverPy Wiki](https://gitlab.com/Zezombye/overpy/wiki/General-usage#Compiling)
 2. Open a custom game in Overwatch
 3. Paste the compiled gamemode code
 
 
 ## General workflow
 
-1. Find an [issue](https://github.com/MaxwellJung/ow1_emulator/issues) to fix (or submit one yourself).
+1. Find an [issue](https://gitlab.com/MaxwellJung/ow1_emulator/issues) to fix (or submit one yourself).
 2. Create new branch dedicated to that issue.
 3. Modify codebase using VScode. Be sure to follow [styling guidelines](#coding-style-guidelines).
 4. Compile and test new codebase.
 6. Commit working changes.
-7. Submit [Pull Request](https://github.com/MaxwellJung/ow1_emulator/pulls) to merge your branch into staging branch.
+7. Submit [Pull Request](https://gitlab.com/MaxwellJung/ow1_emulator/pulls) to merge your branch into staging branch.
 8. Wait for your Pull Request to be approved and merged.
 
 

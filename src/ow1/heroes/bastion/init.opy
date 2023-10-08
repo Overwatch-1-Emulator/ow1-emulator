@@ -19,3 +19,13 @@ rule "[bastion/init.opy]: Initialize Bastion":
     eventPlayer.is_using_self_repair = false
 
     eventPlayer.call_init = false
+
+
+rule "[bastion/init.opy]: Clean up Bastion":
+    @Event eachPlayer
+    @Condition eventPlayer.getCurrentHero() == Hero.BASTION
+
+    waitUntil(updateEveryTick(eventPlayer.getCurrentHero() != Hero.BASTION), Math.INFINITY)
+    
+    hideMachineGunAmmoBar()
+    hideSelfRepairGui()
