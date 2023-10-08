@@ -17,8 +17,8 @@ subroutine explodeHalt
 rule "[orisa/halt.opy]: Trigger Halt ability":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
+    @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0
 
     shootHalt()
     waitUntil(not eventPlayer.isHoldingButton(Button.SECONDARY_FIRE), Math.INFINITY) # Ensure player releases right click
@@ -108,33 +108,28 @@ rule "[orisa/halt.opy]: Pull halted victims":
     eventPlayer.is_snared = false
 
 
-rule "[orisa/halt.opy]: Create Halt pull line vfx when in pull range":
+rule "[orisa/halt.opy]: Halt snare line VFX":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.is_using_halt
-    @Condition (distance(eventPlayer, 
-                         eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS \
-                and isInLoS(eventPlayer, 
-                            eventPlayer.enemy_orisa_player.halt_position, 
-                            BarrierLos.BLOCKED_BY_ALL_BARRIERS))
     @Condition eventPlayer.isAlive()
 
     # Halt orb explosion sounds
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.LIME_GREEN, eventPlayer, 100)
     
     if (eventPlayer.halt_snare_line_id == null):
-        createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.enemy_orisa_player.halt_position, eventPlayer, Color.GREEN if eventPlayer.is_snared else Color.WHITE, EffectReeval.POSITION_RADIUS_AND_COLOR)
+        createBeam(getAllPlayers() if (distance(eventPlayer, 
+                                                eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS \
+                                       and isInLoS(eventPlayer, 
+                                                   eventPlayer.enemy_orisa_player.halt_position, 
+                                                   BarrierLos.BLOCKED_BY_ALL_BARRIERS)) else null, 
+                   Beam.GOOD, 
+                   eventPlayer.enemy_orisa_player.halt_position, 
+                   eventPlayer, 
+                   Color.GREEN if eventPlayer.is_snared else Color.WHITE, 
+                   EffectReeval.VISIBILITY_POSITION_RADIUS_AND_COLOR)
         eventPlayer.halt_snare_line_id = getLastCreatedEntity()
-
-
-rule "[orisa/halt.opy]: Destroy Halt pull line vfx when not in pull range":
-    @Event eachPlayer
-    @Condition eventPlayer.enemy_orisa_player.is_using_halt
-    @Condition not (distance(eventPlayer, 
-                             eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS \
-                    and isInLoS(eventPlayer, 
-                                eventPlayer.enemy_orisa_player.halt_position, 
-                                BarrierLos.BLOCKED_BY_ALL_BARRIERS))
     
+    waitUntil(not (eventPlayer.enemy_orisa_player.is_using_halt and eventPlayer.isAlive()), Math.INFINITY)
     destroyEffect(eventPlayer.halt_snare_line_id)
     eventPlayer.halt_snare_line_id = null
 
@@ -148,9 +143,8 @@ rule "[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over":
 
 
 rule "[orisa/halt.opy]: Destroy Halt pull line vfx when dead":
-    @Event eachPlayer
+    @Event playerDied
     @Condition eventPlayer.enemy_orisa_player.is_using_halt
-    @Condition eventPlayer.isDead()
 
     destroyEffect(eventPlayer.halt_snare_line_id)
     eventPlayer.halt_snare_line_id = null

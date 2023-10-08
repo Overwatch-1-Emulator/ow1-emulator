@@ -11,14 +11,30 @@ subroutine startSupercharger
 subroutine endSupercharger
 
 
+rule "[orisa/supercharger.opy]: play Terra Surge voiceline":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
+    @Condition eventPlayer.getUltCharge() >= 100
+    
+    eventPlayer.allowButton(Button.ULTIMATE)
+    getPlayersInRadius(eventPlayer, 
+                       OW2_ORISA_TERRA_SURGE_RADIUS, 
+                       getOppositeTeam(eventPlayer.getTeam()), 
+                       LosCheck.SURFACES).setStatusEffect(null, Status.PHASED_OUT, 0.016)
+    eventPlayer.forceButtonPress(Button.ULTIMATE)
+    eventPlayer.disallowButton(Button.ULTIMATE)
+
+
 rule "[orisa/supercharger.opy]: Trigger Supercharger start":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE) == true
-    @Condition eventPlayer.getUltCharge() >= 100
-    # @Condition eventPlayer.isOnGround() == true
+    @Condition eventPlayer.isUsingUltimate()
+
+    eventPlayer.cancelPrimaryAction()
 
     endSupercharger() # Destroy any existing Supercharger
+    waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
     startSupercharger() # Start new supercharger
     wait(OW1_ORISA_SUPERCHARGER_MAX_DURATION, Wait.RESTART_WHEN_TRUE) # Start supercharger timer
     endSupercharger()
@@ -34,9 +50,22 @@ def startSupercharger():
     eventPlayer.communicate(Comms.VOICE_LINE_UP) # Play ultimate voice line
 
     # Supercharge GUI
-    if eventPlayer.orisa_supercharger_id == null:
-        createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.orisa_supercharger_origin, OW1_ORISA_SUPERCHARGER_HEIGHT/2, EffectReeval.NONE)
-        eventPlayer.orisa_supercharger_id = getLastCreatedEntity()
+    if eventPlayer.orisa_supercharger_id[0] == null:
+        createEffect(getAllPlayers(), 
+                     Effect.SPHERE, 
+                     Color.LIME_GREEN, 
+                     eventPlayer.orisa_supercharger_origin + OW1_ORISA_SUPERCHARGER_HEIGHT/4*Vector.UP, 
+                     OW1_ORISA_SUPERCHARGER_HEIGHT/3, 
+                     EffectReeval.NONE)
+        eventPlayer.orisa_supercharger_id[0] = getLastCreatedEntity()
+    if eventPlayer.orisa_supercharger_id[1] == null:
+        createEffect(getAllPlayers(), 
+                     Effect.SPHERE, 
+                     Color.LIME_GREEN, 
+                     eventPlayer.orisa_supercharger_origin + OW1_ORISA_SUPERCHARGER_HEIGHT/4*Vector.DOWN, 
+                     OW1_ORISA_SUPERCHARGER_HEIGHT/3, 
+                     EffectReeval.NONE)
+        eventPlayer.orisa_supercharger_id[1] = getLastCreatedEntity()
     
     # Supercharger deploy effect
     playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.GREEN, eventPlayer.orisa_supercharger_origin, 3)
@@ -50,8 +79,10 @@ def endSupercharger():
     @Name "[orisa/supercharger.opy]: endSupercharger()"
 
     eventPlayer.setUltEnabled(true)
-    destroyEffect(eventPlayer.orisa_supercharger_id)
-    eventPlayer.orisa_supercharger_id = null
+    destroyEffect(eventPlayer.orisa_supercharger_id[0])
+    eventPlayer.orisa_supercharger_id[0] = null
+    destroyEffect(eventPlayer.orisa_supercharger_id[1])
+    eventPlayer.orisa_supercharger_id[1] = null
     eventPlayer.is_using_supercharger = false
 
 
@@ -89,8 +120,7 @@ rule "[orisa/supercharger.opy]: De-supercharge teammates when supercharger ends"
 
 
 rule "[orisa/supercharger.opy]: De-supercharge teammates when they die":
-    @Event eachPlayer
-    @Condition eventPlayer.isDead()
+    @Event playerDied
     @Condition eventPlayer.is_supercharged
     
     eventPlayer.is_supercharged = false

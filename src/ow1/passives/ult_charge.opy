@@ -68,10 +68,10 @@ def resetUltCharge():
 
 rule "[ult_charge.opy]: Remember missing ult charge from damaging tank":
     @Event playerDealtDamage
-    @Condition victim != eventPlayer
     @Condition victim.getCurrentHero() in getTankHeroes()
     @Condition victim.getCurrentHero() not in [Hero.ROADHOG] # Roadhog passive
     @Condition not eventPlayer.isUsingUltimate()
+    @Condition victim != eventPlayer
 
     eventPlayer.missing_ult_points += OW2_TANK_ULT_NEGATION * eventDamage
 
