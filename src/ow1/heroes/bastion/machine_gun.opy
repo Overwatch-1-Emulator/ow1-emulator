@@ -4,12 +4,12 @@ playervar machine_gun_ammo
 playervar machine_gun_ready
 playervar machine_gun_reload_timer
 
-playervar machine_gun_gui
+playervar machine_gun_ammo_bar
 
 subroutine startMachineGunReload
 
-subroutine createMachineGunGUI
-subroutine destroyMachineGunGUI
+subroutine showMachineGunAmmoBar
+subroutine hideMachineGunAmmoBar
 
 
 rule "[bastion/machine_gun.opy]: Activate machine gun in sentry mode":
@@ -21,25 +21,27 @@ rule "[bastion/machine_gun.opy]: Activate machine gun in sentry mode":
     stopChasingVariable(eventPlayer.machine_gun_reload_timer)
 
 
-def createMachineGunGUI():
-    @Name "[bastion/machine_gun.opy]: createMachineGunGUI()"
+def showMachineGunAmmoBar():
+    @Name "[bastion/machine_gun.opy]: showMachineGunAmmoBar()"
 
-    progressBarHud(eventPlayer, 
-                   roundedPercent(eventPlayer.machine_gun_ammo/OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE), 
-                   "Ammo: {0}".format(ceil(eventPlayer.machine_gun_ammo)), 
-                   HudPosition.TOP, 
-                   0, 
-                   Color.ORANGE, 
-                   Color.ORANGE, 
-                   ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
-                   SpecVisibility.DEFAULT)
-    eventPlayer.machine_gun_gui = getLastCreatedText()
+    if eventPlayer.machine_gun_ammo_bar == null:
+        progressBarHud(eventPlayer, 
+                    roundedPercent(eventPlayer.machine_gun_ammo/OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE), 
+                    "Ammo: {0}".format(ceil(eventPlayer.machine_gun_ammo)), 
+                    HudPosition.TOP, 
+                    0, 
+                    Color.ORANGE, 
+                    Color.ORANGE, 
+                    ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
+                    SpecVisibility.DEFAULT)
+        eventPlayer.machine_gun_ammo_bar = getLastCreatedText()
 
 
-def destroyMachineGunGUI():
-    @Name "[bastion/machine_gun.opy]: destroyMachineGunGUI()"
+def hideMachineGunAmmoBar():
+    @Name "[bastion/machine_gun.opy]: hideMachineGunAmmoBar()"
 
-    destroyProgressBarHud(eventPlayer.machine_gun_gui)
+    destroyProgressBarHud(eventPlayer.machine_gun_ammo_bar)
+    eventPlayer.machine_gun_ammo_bar = null
 
 
 def startMachineGunReload():
@@ -69,7 +71,7 @@ rule "[bastion/machine_gun.opy]: Show machine gun gui when in sentry mode":
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
 
-    createMachineGunGUI()
+    showMachineGunAmmoBar()
 
 
 rule "[bastion/machine_gun.opy]: Hide machine gun gui when not in sentry mode":
@@ -77,7 +79,7 @@ rule "[bastion/machine_gun.opy]: Hide machine gun gui when not in sentry mode":
     @Hero bastion
     @Condition eventPlayer.current_configuration != Configuration.SENTRY
 
-    destroyMachineGunGUI()
+    hideMachineGunAmmoBar()
 
 
 rule "[bastion/machine_gun.opy]: Consume machine gun ammo when shooting":
