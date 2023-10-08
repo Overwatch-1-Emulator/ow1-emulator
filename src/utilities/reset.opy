@@ -98,7 +98,7 @@ def respawnSameState():
     @Name "[reset.opy]: respawnSameState()"
     
     eventPlayer.player_health = eventPlayer.getHealth()
-    kill(eventPlayer,null)
+    kill(eventPlayer, null)
     # Use resurrect to keep the same position and angle
     eventPlayer.resurrect()
     # Wait to set health else the player will be full life
