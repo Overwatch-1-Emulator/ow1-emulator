@@ -15,5 +15,5 @@ rule "[ana/sleep.opy]: Sleep tanks for longer duration":
     @Condition eventAbility == Button.ABILITY_1
     @Condition victim.getCurrentHero() in getTankHeroes()
     
-    wait()
+    waitUntil(victim.hasStatusEffect(Status.ASLEEP), Math.INFINITY)
     victim.setStatusEffect(attacker, Status.ASLEEP, 5/3.25*OW1_ANA_SLEEP_DART_SLEEP_DURATION) # 5/3.5 is the ratio of regular sleep time to tank sleep time
