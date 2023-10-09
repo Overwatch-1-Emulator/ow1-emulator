@@ -133,11 +133,21 @@ rule "[orisa/supercharger.opy]: Damage boost player when supercharged":
     eventPlayer.setDamageDealt(percent(OW1_ORISA_SUPERCHARGER_DAMAGE_MULTIPLIER))
 
     # Beam and sound effects
-    if (eventPlayer.orisa_supercharger_beam_id == null):
-        createBeam(getAllPlayers(), Beam.GOOD, eventPlayer.friendly_orisa_player.orisa_supercharger_origin, eventPlayer.getPosition(), Color.BLUE, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    if (eventPlayer.orisa_supercharger_beam_id == null): # beam
+        createBeam(getAllPlayers(), 
+                   Beam.GOOD, 
+                   eventPlayer.friendly_orisa_player.orisa_supercharger_origin, 
+                   (eventPlayer.getPosition() + eventPlayer.getEyePosition())/2, 
+                   Color.BLUE, 
+                   EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.orisa_supercharger_beam_id = getLastCreatedEntity()
-    if (eventPlayer.orisa_supercharger_sound_id == null):
-        createEffect(eventPlayer, Effect.ENERGY_SOUND, Color.GREEN, eventPlayer.getPosition(), 100, EffectReeval.POSITION_AND_RADIUS)
+    if (eventPlayer.orisa_supercharger_sound_id == null): # sound
+        createEffect(eventPlayer, 
+                     Effect.ENERGY_SOUND, 
+                     Color.GREEN, 
+                     eventPlayer.getPosition(), 
+                     100, 
+                     EffectReeval.POSITION_AND_RADIUS)
         eventPlayer.orisa_supercharger_sound_id = getLastCreatedEntity()
 
 
