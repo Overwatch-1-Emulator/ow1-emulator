@@ -44,7 +44,8 @@ enum SlamType:
 #!define isIndicatorVisible() \
     (eventPlayer.slam_to_use == SlamType.INDICATOR and \
     eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0 and \
-    not eventPlayer.isUsingAbility1() == true and \
+    not eventPlayer.isUsingAbility1() and \
+    not eventPlayer.isUsingUltimate() and \
     distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
 
 
@@ -53,6 +54,7 @@ def initSlam():
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.slam_damage = 0
+    createSlamIndicatorGui()
 
 
 rule "[doomfist/slam.opy]: Control flow for slam":
@@ -75,8 +77,7 @@ rule "[doomfist/slam.opy]: Detect ground slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
-
-    wait(0.1, Wait.ABORT_WHEN_FALSE)
+    
     eventPlayer.slam_to_use = SlamType.GROUND
 
 
@@ -256,16 +257,6 @@ rule "[doomfist/slam.opy]: Slammed victims bounce effect":
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
     victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-(OW1_DOOMFIST_RISING_UPPERCUT_RADIUS-1)), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
     victim.setGravity(100)
-
-
-rule "[doomfist/slam.opy]: Slam indicator VFX":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition isIndicatorVisible() == true
-
-    createSlamIndicatorGui()
-    waitUntil(not isIndicatorVisible(), Math.INFINITY)
-    destroySlamIndicatorGui()
 
 
 def createSlamIndicatorGui():

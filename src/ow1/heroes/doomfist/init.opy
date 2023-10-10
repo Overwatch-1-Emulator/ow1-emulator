@@ -34,3 +34,12 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
     removeTankPassive()
 
     eventPlayer.call_init = false
+
+
+rule "[doomfist/init.opy]: Clean up Doomfist":
+    @Event eachPlayer
+    @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
+
+    waitUntil(updateEveryTick(eventPlayer.getCurrentHero() != Hero.DOOMFIST), Math.INFINITY)
+
+    destroySlamIndicatorGui()
