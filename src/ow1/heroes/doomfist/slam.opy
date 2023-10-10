@@ -9,7 +9,8 @@ playervar slam_damage
 playervar slam_damage_text_entity
 playervar slammed_victims
 
-playervar slam_indicator_id
+playervar slam_indicator_beam_id
+playervar slam_indicator_ring_id
 
 subroutine initSlam
 subroutine executeSlam
@@ -262,19 +263,39 @@ rule "[doomfist/slam.opy]: Slammed victims bounce effect":
 def createSlamIndicatorGui():
     @Name "[doomfist/slam.opy]: createSlamIndicatorGui()"
 
-    for i in range(OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION):
-        if eventPlayer.slam_indicator_id[i] == null:
+    for i in range(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT):
+        if eventPlayer.slam_indicator_beam_id[i] == null:
+            createBeam(eventPlayer if isIndicatorVisible() else null,
+                       Beam.GOOD, 
+                       updateEveryTick(eventPlayer.indicator_slam_position + \
+                                       OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS * \
+                                       worldVector(cosDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT-1))*Vector.FORWARD + \
+                                                   sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT-1))*Vector.LEFT, \
+                                                   eventPlayer, \
+                                                   Transform.ROTATION)), 
+                       updateEveryTick(eventPlayer.indicator_slam_position + \
+                                       OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS * \
+                                       worldVector(cosDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT-1))*Vector.FORWARD + \
+                                                   sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT-1))*Vector.LEFT, \
+                                                   eventPlayer, \
+                                                   Transform.ROTATION)), 
+                       Color.BLUE, 
+                       EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+            eventPlayer.slam_indicator_beam_id[i] = getLastCreatedEntity()
+
+    for i in range(OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT):
+        if eventPlayer.slam_indicator_ring_id[i] == null:
             createEffect(eventPlayer if isIndicatorVisible() else null, 
                          Effect.RING, 
                          Color.BLUE, 
                          updateEveryTick(eventPlayer.indicator_slam_position + \
-                                         evalOnce(i+1)*(OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS)/OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION * \
+                                         evalOnce(i+1)*(OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS)/OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT * \
                                          worldVector(Vector.FORWARD, 
                                                      eventPlayer, 
                                                      Transform.ROTATION)), 
-                         (evalOnce(i+1)*(OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS)/OW1_DOOMFIST_SLAM_INDICATOR_RESOLUTION)*sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2), 
+                         (evalOnce(i+1)*(OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS)/OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT)*sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2), 
                          EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-            eventPlayer.slam_indicator_id[i] = getLastCreatedEntity()
+            eventPlayer.slam_indicator_ring_id[i] = getLastCreatedEntity()
     
     # Sphere for debugging indicator slam
     # if eventPlayer.slam_indicator_id[0] == null:
@@ -290,9 +311,13 @@ def createSlamIndicatorGui():
 def destroySlamIndicatorGui():
     @Name "[doomfist/slam.opy]: destroySlamIndicatorGui()"
 
-    for i in range(len(eventPlayer.slam_indicator_id)):
-        destroyEffect(eventPlayer.slam_indicator_id[i])
-        eventPlayer.slam_indicator_id[i] = null
+    for i in range(len(eventPlayer.slam_indicator_beam_id)):
+        destroyEffect(eventPlayer.slam_indicator_beam_id[i])
+        eventPlayer.slam_indicator_beam_id[i] = null
+
+    for i in range(len(eventPlayer.slam_indicator_ring_id)):
+        destroyEffect(eventPlayer.slam_indicator_ring_id[i])
+        eventPlayer.slam_indicator_ring_id[i] = null
     
     # Sphere for debugging indicator slam
     # destroyEffect(eventPlayer.slam_indicator_id[0])
