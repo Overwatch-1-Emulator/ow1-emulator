@@ -76,6 +76,7 @@ rule "[doomfist/slam.opy]: Detect ground slam":
     @Hero doomfist
     @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
 
+    wait(0.1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.slam_to_use = SlamType.GROUND
 
 
