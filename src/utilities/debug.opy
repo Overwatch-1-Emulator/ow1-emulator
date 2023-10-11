@@ -68,7 +68,7 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "ow1_adaptive_shield_n = {}".format(eventPlayer.ow1_adaptive_shield_n), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "ow2_adaptive_shield_n = {}".format(eventPlayer.ow2_adaptive_shield_n), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "is_using_shield_bash = {}".format(eventPlayer.is_using_shield_bash), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "shield_bash_start_pos = {}".format(eventPlayer.shield_bash_start_pos), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "shield_bash_through_barrier = {}".format(eventPlayer.shield_bash_through_barrier), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
 rule "[debug.opy]: print to console on interact":

@@ -4,7 +4,7 @@
 # see https://workshop.codes/MR5QJ for oreslurpee's 2018 brig implementation
 
 playervar is_using_shield_bash
-playervar shield_bash_start_pos
+playervar shield_bash_through_barrier
 
 rule "[brigitte/bash.opy]: Detect shield bash usage":
     @Event eachPlayer
@@ -13,9 +13,20 @@ rule "[brigitte/bash.opy]: Detect shield bash usage":
 
     waitUntil(eventPlayer.isFiringSecondaryFire() and eventPlayer.isFiringPrimaryFire(), Math.INFINITY)
     eventPlayer.is_using_shield_bash = true
-    eventPlayer.shield_bash_start_pos = eventPlayer.getEyePosition()
+    eventPlayer.shield_bash_through_barrier = false
     waitUntil(eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE) > 0, Math.INFINITY)
     eventPlayer.is_using_shield_bash = false
+
+
+rule "[brigitte/bash.opy]: Detect shield bash going through barrier":
+    @Event eachPlayer
+    @Hero brigitte
+    @Condition eventPlayer.is_using_shield_bash
+    @Condition updateEveryTick(not isInLoS(eventPlayer.getEyePosition(), 
+                                           eventPlayer.getEyePosition() + eventPlayer.getFacingDirection(), 
+                                           BarrierLos.BLOCKED_BY_ALL_BARRIERS))
+
+    eventPlayer.shield_bash_through_barrier = true
 
 
 rule "[brigitte/bash.opy]: Add stun to shield bash":
@@ -23,6 +34,7 @@ rule "[brigitte/bash.opy]: Add stun to shield bash":
     @Hero brigitte
     @Condition attacker.is_using_shield_bash
     @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition not attacker.shield_bash_through_barrier
     
     victim.setStatusEffect(attacker, Status.STUNNED, OW1_BRIGITTE_SHIELD_BASH_STUN_DURATION)
 
