@@ -1,6 +1,7 @@
 #!mainFile "../../../main.opy"
 
 playervar is_hit_by_uppercut
+playervar is_uppercut_locked
 
 subroutine executeUppercut
 subroutine detectUpercutHit
@@ -26,10 +27,7 @@ def executeUppercut():
     eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
     
     # Disable abilities during uppercut
-    eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
-    eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
-    eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
-    eventPlayer.setAbility1Enabled(false) # Doomfist cannot slam during uppercut
+    eventPlayer.is_uppercut_locked = true
 
     # Uppercut physics
     eventPlayer.applyImpulse(getForwardDirection(eventPlayer), 5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Step Forward
@@ -41,10 +39,7 @@ def executeUppercut():
     eventPlayer.applyImpulse(Vector.DOWN, max(0, eventPlayer.getSpeedInDirection(Vector.UP)), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     
     # Reenable abilities
-    eventPlayer.setMeleeEnabled(true)
-    eventPlayer.setPrimaryFireEnabled(true)
-    eventPlayer.setSecondaryFireEnabled(true)
-    eventPlayer.setAbility1Enabled(true)
+    eventPlayer.is_uppercut_locked = false
 
     wait()
     eventPlayer.applyImpulse(Vector.UP, 2.5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
@@ -56,6 +51,23 @@ def executeUppercut():
     eventPlayer.setGravity(50)
     wait(0.25)
     eventPlayer.setGravity(100)
+
+
+rule "[doomfist/uppercut.opy]: Disable abilities when locked into uppercut":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.is_uppercut_locked
+    
+    eventPlayer.is_uppercut_locked = true
+    eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
+    eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
+    eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
+    eventPlayer.setAbility1Enabled(false) # Doomfist cannot slam during uppercut
+    waitUntil(not eventPlayer.is_uppercut_locked, Math.INFINITY)
+    eventPlayer.setMeleeEnabled(true)
+    eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.setSecondaryFireEnabled(true)
+    eventPlayer.setAbility1Enabled(true)
 
 
 rule "[doomfist/uppercut.opy]: Play uppercut VFX":

@@ -73,7 +73,7 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
     @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Doomfist is not asleep
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Doomfist is not stunned
-    @Condition not eventPlayer.is_using_uppercut
+    @Condition not eventPlayer.is_uppercut_locked
 
     executeSlam()
 
