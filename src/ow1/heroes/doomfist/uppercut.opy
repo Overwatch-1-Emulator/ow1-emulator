@@ -10,7 +10,7 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isUsingAbility2()
-    @Condition not eventPlayer.is_using_slam
+    @Condition not eventPlayer.isUsingAbility1()
     @Condition not eventPlayer.isFiringSecondaryFire()
 
     eventPlayer.cancelPrimaryAction() # cancel Power Block animation
