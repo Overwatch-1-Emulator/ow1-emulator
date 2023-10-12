@@ -36,7 +36,7 @@ def executeUppercut():
     # Uppercut physics
     eventPlayer.is_using_uppercut = true # Start of uppercut
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
-    eventPlayer.applyImpulse(getLateralFacingDirection(eventPlayer), 5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Step Forward
+    eventPlayer.applyImpulse(getForwardDirection(eventPlayer), 5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Step Forward
     eventPlayer.setGravity(0) # Override gravity during uppercut
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0) # Deny player from inputting movement commands
     wait(0.15)
@@ -91,13 +91,13 @@ rule "[doomfist/uppercut.opy]: Disable abilities when uppercutting":
 
 rule "[doomfist/uppercut.opy]: Detect uppercut victims":
     @Event eachPlayer
-    @Condition eventPlayer.enemy_doomfist_player.is_using_uppercut == true # Enemy doomfist using uppercut
+    @Condition eventPlayer.enemy_doomfist_player.is_using_uppercut
     @Condition distance(eventPlayer.enemy_doomfist_player, eventPlayer) <= OW1_DOOMFIST_RISING_UPPERCUT_RADIUS # Victim within uppercut hitbox range
     @Condition isInLoS(eventPlayer.enemy_doomfist_player, eventPlayer, BarrierLos.PASS_THROUGH_BARRIERS) # Victim in los of doomfist
-    @Condition angleBetweenVectors(getLateralFacingDirection(eventPlayer.enemy_doomfist_player), \
-                                   directionTowards(eventPlayer.enemy_doomfist_player, eventPlayer)) <= 90 # Victim visible to doomfist
-    @Condition eventPlayer.enemy_doomfist_player.isAlive() == true # Enemy doomfist alive
-    @Condition eventPlayer.isAlive() == true # Victim is alive
+    @Condition angleBetweenVectors(worldVector(Vector.FORWARD, eventPlayer.enemy_doomfist_player, Transform.ROTATION), \
+                                   directionTowards(eventPlayer.enemy_doomfist_player, eventPlayer)) <= 90 # Victim in front of doomfist
+    @Condition eventPlayer.enemy_doomfist_player.isAlive() # attacker alive
+    @Condition eventPlayer.isAlive() # victim alive
 
     eventPlayer.is_hit_by_uppercut = true
 
@@ -108,7 +108,7 @@ rule "[doomfist/uppercut.opy]: Uppercut victim movement physics":
 
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0) # Lose movement control
     eventPlayer.applyImpulse(Vector.UP, 13.5, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
-    eventPlayer.applyImpulse(getLateralFacingDirection(eventPlayer.enemy_doomfist_player), 8.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    eventPlayer.applyImpulse(getForwardDirection(eventPlayer.enemy_doomfist_player), 8.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     wait(OW1_DOOMFIST_RISING_UPPERCUT_AIR_LOCK_TIME)
     eventPlayer.stopForcingThrottle() # Regain movement control
     eventPlayer.is_hit_by_uppercut = false
