@@ -1,5 +1,7 @@
 #!mainFile "../../../main.opy"
 
+#!include "ow1/heroes/wreckingball/shields.opy"
+
 rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
     @Event eachPlayer
     @Hero hammond

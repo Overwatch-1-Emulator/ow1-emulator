@@ -31,7 +31,9 @@ rule "[orisa/supercharger.opy]: Trigger Supercharger start":
     @Hero orisa
     @Condition eventPlayer.isUsingUltimate()
 
-    eventPlayer.cancelPrimaryAction()
+    eventPlayer.cancelPrimaryAction() # Stop Terra Surge animation
+    if eventPlayer.isUsingAbility1():
+        damage(eventPlayer, null, OW2_ORISA_FORTIFY_OVERHEALTH/(1-OW2_ORISA_FORTIFY_DAMAGE_REDUCTION)) # Remove shield gained from Terra Surge
 
     endSupercharger() # Destroy any existing Supercharger
     waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
@@ -84,6 +86,7 @@ def endSupercharger():
     destroyEffect(eventPlayer.orisa_supercharger_id[1])
     eventPlayer.orisa_supercharger_id[1] = null
     eventPlayer.is_using_supercharger = false
+    getPlayers(eventPlayer.getTeam()).is_supercharged = false
 
 
 rule "[orisa/supercharger.opy]: Supercharge teammates in supercharger range":

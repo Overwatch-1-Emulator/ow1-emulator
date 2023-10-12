@@ -43,11 +43,16 @@ enum SlamType:
                                          false).getHitPosition()
 
 #!define isIndicatorVisible() \
-    (eventPlayer.slam_to_use == SlamType.INDICATOR and \
-    eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0 and \
-    not eventPlayer.isUsingAbility1() and \
-    not eventPlayer.isUsingUltimate() and \
-    distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
+    ((eventPlayer.slam_to_use == SlamType.INDICATOR) \
+and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
+and (not eventPlayer.isUsingAbility1()) \
+and (not eventPlayer.isUsingUltimate()) \
+and (distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
+and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= 95))
+
+#!define indicatorSlamValid() \
+    ((distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
+and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= 95))
 
 
 def initSlam():
@@ -79,6 +84,7 @@ rule "[doomfist/slam.opy]: Detect ground slam":
     @Hero doomfist
     @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
     
+    wait(0.1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.slam_to_use = SlamType.GROUND
 
 
@@ -118,7 +124,7 @@ def executeSlam():
     eventPlayer.slammed_victims = [] # clear slammed victims
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
-        if distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN: # Only execute when indicator slam is valid
+        if indicatorSlamValid():
             initiateIndicatorSlam()
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()
@@ -153,20 +159,19 @@ def initiateIndicatorSlam():
     eventPlayer.indicator_slam_position = findIndicatorPosition()
     eventPlayer.indicator_slam_direction = directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position)
     eventPlayer.is_using_slam = true
-    eventPlayer.setGravity(0.001)
+    eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
     startSlamAnimation()
     eventPlayer.current_position = eventPlayer.getPosition()
     chase(eventPlayer.current_position, eventPlayer.indicator_slam_position, rate=OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, ChaseReeval.NONE)
     eventPlayer.startForcingPosition(eventPlayer.current_position, true)
-    eventPlayer.applyImpulse(eventPlayer.indicator_slam_direction, OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Helps prevent clipping through map geometry
-    waitUntil(distance(eventPlayer.current_position, eventPlayer.indicator_slam_position) <= 0.01 or not eventPlayer.isUsingAbility1(), Math.INFINITY)
+    waitUntil((distance(eventPlayer.current_position, eventPlayer.indicator_slam_position) <= 1) or (not eventPlayer.isUsingAbility1()), Math.INFINITY)
     eventPlayer.stopForcingPosition()
+    waitUntil(distance(eventPlayer.current_position, eventPlayer.indicator_slam_position) <= 0.01, Math.INFINITY)
     stopChasingVariable(eventPlayer.current_position)
-    eventPlayer.stopForcingThrottle()
     eventPlayer.setGravity(100)
-    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # cancel current momentum
+    eventPlayer.stopForcingThrottle()
 
 
 def startSlamAnimation():
