@@ -20,11 +20,18 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
 def executeUppercut():
     @Name "[doomfist/uppercut.opy]: executeUppercut()"
 
+    eventPlayer.is_using_uppercut = true # Start of uppercut
+    
+    cancelMomentum(eventPlayer)
     eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
+    
+    # Disable abilities during uppercut
+    eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
+    eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
+    eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
+    eventPlayer.setAbility1Enabled(false) # Doomfist cannot slam during uppercut
 
     # Uppercut physics
-    eventPlayer.is_using_uppercut = true # Start of uppercut
-    cancelMomentum(eventPlayer)
     eventPlayer.applyImpulse(getForwardDirection(eventPlayer), 5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Step Forward
     eventPlayer.setGravity(0) # Override gravity during uppercut
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0) # Deny player from inputting movement commands
@@ -32,12 +39,18 @@ def executeUppercut():
     eventPlayer.applyImpulse(Vector.UP, 40, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Uppercut
     wait(0.1)
     eventPlayer.applyImpulse(Vector.DOWN, max(0, eventPlayer.getSpeedInDirection(Vector.UP)), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
-    eventPlayer.is_using_uppercut = false # End of uppercut
+    
+    # Reenable abilities
+    eventPlayer.setMeleeEnabled(true)
+    eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.setSecondaryFireEnabled(true)
+    eventPlayer.setAbility1Enabled(true)
+
     wait()
     eventPlayer.applyImpulse(Vector.UP, 2.5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
-    eventPlayer.setGravity(0)
     eventPlayer.enablePlayerCollision()
     wait(0.35)
+    eventPlayer.is_using_uppercut = false # End of uppercut
     eventPlayer.stopForcingThrottle()
     wait(0.15)
     eventPlayer.setGravity(50)
@@ -62,20 +75,6 @@ rule "[doomfist/uppercut.opy]: Set uppercut cooldown":
 
     waitUntil(not eventPlayer.is_using_uppercut, Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_UPPERCUT_CD)
-
-
-rule "[doomfist/uppercut.opy]: Disable abilities when uppercutting":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.is_using_uppercut
-    
-    eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
-    eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
-    eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
-    waitUntil(not eventPlayer.is_using_uppercut, Math.INFINITY)
-    eventPlayer.setMeleeEnabled(true)
-    eventPlayer.setPrimaryFireEnabled(true)
-    eventPlayer.setSecondaryFireEnabled(true)
 
 
 rule "[doomfist/uppercut.opy]: Detect uppercut victims":
