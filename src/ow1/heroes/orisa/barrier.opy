@@ -1,5 +1,6 @@
 #!mainFile "../../../main.opy"
 
+globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
 globalvar los_i
 globalvar los_j
 
