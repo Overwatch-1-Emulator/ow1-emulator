@@ -42,17 +42,16 @@ enum SlamType:
                                          getAllPlayers(), \
                                          false).getHitPosition()
 
-#!define isIndicatorVisible() \
-    ((eventPlayer.slam_to_use == SlamType.INDICATOR) \
-and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
-and (not eventPlayer.isUsingAbility1()) \
-and (not eventPlayer.isUsingUltimate()) \
-and (distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
-and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= 95))
-
 #!define indicatorSlamValid() \
     ((distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
 and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= 95))
+
+#!define isIndicatorVisible() \
+    ((indicatorSlamValid()) \
+and (eventPlayer.slam_to_use == SlamType.INDICATOR) \
+and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
+and (not eventPlayer.isUsingAbility1()) \
+and (not eventPlayer.isUsingUltimate()))
 
 
 def initSlam():
