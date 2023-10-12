@@ -48,7 +48,7 @@ def executeUppercut():
 rule "[doomfist/uppercut.opy]: Play uppercut VFX":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.is_using_uppercut == true
+    @Condition eventPlayer.is_using_uppercut
 
     playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
@@ -58,21 +58,21 @@ rule "[doomfist/uppercut.opy]: Play uppercut VFX":
 rule "[doomfist/uppercut.opy]: Set uppercut cooldown":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.is_using_uppercut == true
+    @Condition eventPlayer.is_using_uppercut
 
-    waitUntil(eventPlayer.is_using_uppercut == false, Math.INFINITY)
+    waitUntil(not eventPlayer.is_using_uppercut, Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_UPPERCUT_CD)
 
 
 rule "[doomfist/uppercut.opy]: Disable abilities when uppercutting":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.is_using_uppercut == true
+    @Condition eventPlayer.is_using_uppercut
     
     eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
     eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
     eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
-    waitUntil(eventPlayer.is_using_uppercut == false, Math.INFINITY)
+    waitUntil(not eventPlayer.is_using_uppercut, Math.INFINITY)
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setPrimaryFireEnabled(true)
     eventPlayer.setSecondaryFireEnabled(true)

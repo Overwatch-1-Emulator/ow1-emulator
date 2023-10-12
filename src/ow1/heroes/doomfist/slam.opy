@@ -73,7 +73,7 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
     @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Doomfist is not asleep
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Doomfist is not stunned
-    @Condition eventPlayer.is_using_uppercut == false
+    @Condition not eventPlayer.is_using_uppercut
 
     executeSlam()
 
@@ -128,7 +128,7 @@ def executeSlam():
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()
 
-    waitUntil(eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0, Math.INFINITY)
+    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
 
 
@@ -190,12 +190,12 @@ rule "[doomfist/uppercut.opy]: Disable abilities when slamming":
     eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
     eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during slam
     eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during slam
-    # eventPlayer.setAbility2Enabled(false) # Doomfist cannot uppercut during slam
-    waitUntil(updateEveryTick(not eventPlayer.isUsingAbility1()), Math.INFINITY)
+    eventPlayer.setAbility2Enabled(false) # Doomfist cannot uppercut during slam
+    waitUntil(eventPlayer.getAltitude() <= 0, Math.INFINITY)
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setPrimaryFireEnabled(true)
     eventPlayer.setSecondaryFireEnabled(true)
-    # eventPlayer.setAbility2Enabled(true)
+    eventPlayer.setAbility2Enabled(true)
 
 
 rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
