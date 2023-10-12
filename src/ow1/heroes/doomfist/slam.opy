@@ -43,11 +43,16 @@ enum SlamType:
                                          false).getHitPosition()
 
 #!define isIndicatorVisible() \
-    (eventPlayer.slam_to_use == SlamType.INDICATOR and \
-    eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0 and \
-    not eventPlayer.isUsingAbility1() and \
-    not eventPlayer.isUsingUltimate() and \
-    distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN)
+    ((eventPlayer.slam_to_use == SlamType.INDICATOR) \
+and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
+and (not eventPlayer.isUsingAbility1()) \
+and (not eventPlayer.isUsingUltimate()) \
+and (distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
+and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= 95))
+
+#!define indicatorSlamValid() \
+    ((distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
+and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= 95))
 
 
 def initSlam():
@@ -119,7 +124,7 @@ def executeSlam():
     eventPlayer.slammed_victims = [] # clear slammed victims
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
-        if distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN: # Only execute when indicator slam is valid
+        if indicatorSlamValid():
             initiateIndicatorSlam()
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()

@@ -86,6 +86,7 @@ def endSupercharger():
     destroyEffect(eventPlayer.orisa_supercharger_id[1])
     eventPlayer.orisa_supercharger_id[1] = null
     eventPlayer.is_using_supercharger = false
+    getPlayers(eventPlayer.getTeam()).is_supercharged = false
 
 
 rule "[orisa/supercharger.opy]: Supercharge teammates in supercharger range":

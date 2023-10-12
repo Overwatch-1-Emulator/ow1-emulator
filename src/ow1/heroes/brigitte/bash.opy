@@ -19,12 +19,13 @@ rule "[brigitte/bash.opy]: Detect shield bash usage":
 
 
 rule "[brigitte/bash.opy]: Detect shield bash going through barrier":
+    @Disabled
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.is_using_shield_bash
-    @Condition updateEveryTick(not isInLoS(eventPlayer.getEyePosition(), 
-                                           eventPlayer.getEyePosition() + eventPlayer.getFacingDirection(), 
-                                           BarrierLos.BLOCKED_BY_ALL_BARRIERS))
+    @Condition updateEveryTick(not isInLoS(eventPlayer.getEyePosition() + 1*worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION), 
+                                           eventPlayer.getEyePosition() + 2*worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION), 
+                                           BarrierLos.BLOCKED_BY_ENEMY_BARRIERS))
 
     eventPlayer.shield_bash_through_barrier = true
 
