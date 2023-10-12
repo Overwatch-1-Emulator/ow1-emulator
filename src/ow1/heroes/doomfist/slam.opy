@@ -73,7 +73,7 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
     @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Doomfist is not asleep
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Doomfist is not stunned
-    @Condition not eventPlayer.is_using_uppercut
+    @Condition not eventPlayer.is_uppercut_locked
 
     executeSlam()
 
@@ -128,8 +128,9 @@ def executeSlam():
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()
 
-    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
+    if (eventPlayer.isUsingAbility1()):
+        waitUntil(not eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0, Math.INFINITY)
+        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
 
 
 def initiateGroundSlam():
