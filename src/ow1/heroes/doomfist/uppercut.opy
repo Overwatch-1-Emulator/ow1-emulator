@@ -35,7 +35,7 @@ def executeUppercut():
 
     # Uppercut physics
     eventPlayer.is_using_uppercut = true # Start of uppercut
-    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
+    cancelMomentum(eventPlayer)
     eventPlayer.applyImpulse(getForwardDirection(eventPlayer), 5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Step Forward
     eventPlayer.setGravity(0) # Override gravity during uppercut
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0) # Deny player from inputting movement commands
