@@ -66,6 +66,8 @@ rule "[doomfist/uppercut.opy]: Disable abilities when locked into uppercut":
     waitUntil(not eventPlayer.is_uppercut_locked, Math.INFINITY)
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setPrimaryFireEnabled(true)
+    if (eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)): # Shoot single buffered left click interrupted by power block
+        eventPlayer.forceButtonPress(Button.PRIMARY_FIRE)
     eventPlayer.setSecondaryFireEnabled(true)
     eventPlayer.setAbility1Enabled(true)
 
