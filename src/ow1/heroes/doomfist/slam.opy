@@ -128,8 +128,9 @@ def executeSlam():
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()
 
-    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
+    if (eventPlayer.isUsingAbility1()):
+        waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
+        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
 
 
 def initiateGroundSlam():
