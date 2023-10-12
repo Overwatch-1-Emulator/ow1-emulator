@@ -42,17 +42,16 @@ enum SlamType:
                                          getAllPlayers(), \
                                          false).getHitPosition()
 
-#!define isIndicatorVisible() \
-    ((eventPlayer.slam_to_use == SlamType.INDICATOR) \
-and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
-and (not eventPlayer.isUsingAbility1()) \
-and (not eventPlayer.isUsingUltimate()) \
-and (distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
-and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= 95))
-
 #!define indicatorSlamValid() \
     ((distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
-and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= 95))
+and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= (90 + OW1_DOOMFIST_SLAM_PITCH_ANGLE)))
+
+#!define isIndicatorVisible() \
+    ((indicatorSlamValid()) \
+and (eventPlayer.slam_to_use == SlamType.INDICATOR) \
+and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
+and (not eventPlayer.isUsingAbility1()) \
+and (not eventPlayer.isUsingUltimate()))
 
 
 def initSlam():
@@ -74,7 +73,7 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
     @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Doomfist is not asleep
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Doomfist is not stunned
-    @Condition eventPlayer.is_using_uppercut == false
+    @Condition not eventPlayer.is_using_uppercut
 
     executeSlam()
 
@@ -129,21 +128,18 @@ def executeSlam():
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         initiateGroundSlam()
 
-    if eventPlayer.is_using_slam == true:
-        waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
-        eventPlayer.is_using_slam = false
-        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
+    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
 
 
 def initiateGroundSlam():
     @Name "[doomfist/slam.opy]: InitiateGroundSlam()"
 
-    eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
     startSlamAnimation()
-    eventPlayer.applyImpulse(getLateralFacingDirection(eventPlayer) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
+    eventPlayer.applyImpulse(getForwardDirection(eventPlayer) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
     wait(0.3)
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
@@ -158,7 +154,6 @@ def initiateIndicatorSlam():
     eventPlayer.proto_indicator_slam_position = findProtoIndicatorPosition()
     eventPlayer.indicator_slam_position = findIndicatorPosition()
     eventPlayer.indicator_slam_direction = directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position)
-    eventPlayer.is_using_slam = true
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
@@ -187,16 +182,32 @@ def startSlamAnimation():
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
 
 
+rule "[doomfist/uppercut.opy]: Disable abilities when slamming":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.isUsingAbility1()
+    
+    eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
+    eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during slam
+    eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during slam
+    eventPlayer.setAbility2Enabled(false) # Doomfist cannot uppercut during slam
+    waitUntil(eventPlayer.getAltitude() <= 0, Math.INFINITY)
+    eventPlayer.setMeleeEnabled(true)
+    eventPlayer.setPrimaryFireEnabled(true)
+    eventPlayer.setSecondaryFireEnabled(true)
+    eventPlayer.setAbility2Enabled(true)
+
+
 rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.is_using_slam == true
+    @Condition eventPlayer.isUsingAbility1()
     
     eventPlayer.slam_damage = 0
     createSlamDamageGui()
     waitUntil(not eventPlayer.isOnGround(), Math.INFINITY)
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
-    waitUntil(eventPlayer.isOnGround() or not eventPlayer.is_using_slam, Math.INFINITY)
+    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     stopChasingVariable(eventPlayer.slam_damage)
     wait(1, Wait.RESTART_WHEN_TRUE)
     destroySlamDamageGui()
