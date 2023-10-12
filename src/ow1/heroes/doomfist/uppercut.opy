@@ -2,29 +2,18 @@
 
 playervar is_hit_by_uppercut
 
-subroutine initUppercut
 subroutine executeUppercut
 subroutine detectUpercutHit
-
-
-def initUppercut():
-    @Name "[doomfist/uppercut.opy]: initUppercut()"
-
-    eventPlayer.disallowButton(Button.ABILITY_2)
 
 
 rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
-    # @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Doomfist is not hacked
-    @Condition not eventPlayer.hasStatusEffect(Status.FROZEN) # Ensure Doomfist is not frozen
-    @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Doomfist is not knocked down
-    @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Doomfist is not asleep
-    @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Doomfist is not stunned
-    @Condition eventPlayer.is_using_slam == false
+    @Condition eventPlayer.isUsingAbility2()
+    @Condition not eventPlayer.is_using_slam
+    @Condition not eventPlayer.isFiringSecondaryFire()
 
+    eventPlayer.cancelPrimaryAction() # cancel Power Block animation
     executeUppercut()
 
 

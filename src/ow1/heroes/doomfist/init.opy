@@ -30,7 +30,6 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
 
     initRocketPunch()
     initSlam()
-    initUppercut()
     removeTankPassive()
 
     eventPlayer.call_init = false
