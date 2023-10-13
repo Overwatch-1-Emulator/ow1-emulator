@@ -1,9 +1,13 @@
 #!mainFile "../main.opy"
 
-globalvar ready_color
 
+globalvar ready_gvar
+#!defineMember ready_color ready_gvar[0]
+
+playervar ready_pvar
+#!defineMember ready ready_pvar[0]
 playervar ready_hud
-playervar ready
+
 
 rule "[ready.opy]: Create ready HUD":
     @Event eachPlayer

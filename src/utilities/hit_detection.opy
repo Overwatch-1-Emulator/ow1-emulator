@@ -12,14 +12,23 @@
 
 # lsi stands for line-sphere intersection
 # see https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection for derivation
-playervar lsi_o # start position (line origin)
-playervar lsi_c # sphere center
-playervar lsi_r # sphere radius
-playervar lsi_u # unit vector from start to end
-playervar lsi_d # distance at which line intersects the sphere
-playervar lsi_nabla # upside down triangle symbol in the wiki
-playervar lsi_i # indexing variable for this file
-playervar lsi_x # points of intersection
+playervar hit_detection_pvar
+#!defineMember lsi_o hit_detection_pvar[0]
+#!defineMember lsi_c hit_detection_pvar[1]
+#!defineMember lsi_r hit_detection_pvar[2]
+#!defineMember lsi_u hit_detection_pvar[3]
+#!defineMember lsi_d hit_detection_pvar[4]
+#!defineMember lsi_nabla hit_detection_pvar[5]
+#!defineMember lsi_x hit_detection_pvar[6]
+playervar lsi_i
+# playervar lsi_o # start position (line origin)
+# playervar lsi_c # sphere center
+# playervar lsi_r # sphere radius
+# playervar lsi_u # unit vector from start to end
+# playervar lsi_d # distance at which line intersects the sphere
+# playervar lsi_nabla # upside down triangle symbol in the wiki
+# playervar lsi_x # points of intersection
+# playervar lsi_i # indexing variable for this file
 
 subroutine findLineSphereIntersection
 

@@ -1,9 +1,10 @@
 #!mainFile "../main.opy"
 
+playervar hero_switch_pvar
+#!defineMember last_hero_played hero_switch_pvar[0]
+#!defineMember hero_switched hero_switch_pvar[1]
+#!defineMember hero_id hero_switch_pvar[2]
 
-playervar last_hero_played
-playervar hero_switched
-playervar hero_id
 
 rule "[hero_switch.opy]: detect hero switch":
     @Event eachPlayer

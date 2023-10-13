@@ -1,21 +1,23 @@
 #!mainFile "../main.opy"
 
+globalvar hero_roaster_gvar
+#!defineMember current_hero hero_roaster_gvar[0]
 globalvar heroes_enabled
-globalvar current_hero
 
 # Currently enabled heroes
-globalvar tank_roaster
-globalvar damage_roaster
-globalvar support_roaster
-globalvar hero_roaster
+#!defineMember tank_roaster hero_roaster_gvar[1]
+#!defineMember damage_roaster hero_roaster_gvar[2]
+#!defineMember support_roaster hero_roaster_gvar[3]
+#!defineMember hero_roaster hero_roaster_gvar[4]
 
 # Hero Role Definition
-globalvar tank_heroes
-globalvar damage_heroes
-globalvar support_heroes
+#!defineMember tank_heroes hero_roaster_gvar[5]
+#!defineMember damage_heroes hero_roaster_gvar[6]
+#!defineMember support_heroes hero_roaster_gvar[7]
+
 
 # Hardcode OW1 heroes = true, OW2 heroes = false by default
-rule "[utilities/hero_roster.opy]: Initiaize hero roster workshop settings":
+rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
     heroes_enabled[heroID(Hero.ANA)] = createWorkshopSetting(bool, "Hero Roster", "Ana", true, 0)
     heroes_enabled[heroID(Hero.ASHE)] = createWorkshopSetting(bool, "Hero Roster", "Ashe", true, 0)
     heroes_enabled[heroID(Hero.BAPTISTE)] = createWorkshopSetting(bool, "Hero Roster", "Baptiste", true, 0)
@@ -56,7 +58,7 @@ rule "[utilities/hero_roster.opy]: Initiaize hero roster workshop settings":
     heroes_enabled[heroID(Hero.ZENYATTA)] = createWorkshopSetting(bool, "Hero Roster", "Zenyatta", true, 0)
 
 
-rule "[utilities/hero_roster.opy]: Define tank, damage, support heroes array":
+rule "[hero_roster.opy]: Define tank, damage, support heroes array":
     @Event global
     
     # Tanks

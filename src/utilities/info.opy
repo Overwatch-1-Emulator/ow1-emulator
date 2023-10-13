@@ -1,10 +1,13 @@
 #!mainFile "../main.opy"
 
+globalvar info_gvar
 globalvar rgb_list = [vect(255, 0, 0), vect(255, 255, 0), vect(0, 255, 0), vect(0, 255, 255), vect(0, 0, 255), vect(255, 0, 255)]
-#!define RGB_SPEED 512
 
+playervar info_pvar
+#!defineMember rgb_i info_pvar[0]
 playervar info_id
 playervar rgb_vect
+#!define RGB_SPEED 512
 
 # #!define infoVisible(player) \
 #     ((player.isInSpawnRoom()) \
@@ -15,7 +18,7 @@ playervar rgb_vect
     (true)
 
 
-rule "[utilities/info.opy]: Create info HUD":
+rule "[info.opy]: Create info HUD":
     @Event eachPlayer
 
     if eventPlayer.info_id[0] == null:
@@ -40,7 +43,7 @@ rule "[utilities/info.opy]: Create info HUD":
     eventPlayer.rgb_vect = rgb_list[eventPlayer.rgb_i]
     
 
-rule "[utilities/info.opy]: Create info HUD":
+rule "[info.opy]: Create info HUD":
     @Event eachPlayer
     @Condition infoVisible(eventPlayer)
 
