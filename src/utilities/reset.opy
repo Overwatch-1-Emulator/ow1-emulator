@@ -1,16 +1,17 @@
 #!mainFile "../main.opy"
 
-playervar call_init
+globalvar reset_gvar
+#!defineMember ready_color reset_gvar[0]
 
-playervar player_health
-
-playervar friendly_doomfist_player
-playervar friendly_orisa_player
-playervar friendly_sombra_player
-
-playervar enemy_doomfist_player
-playervar enemy_orisa_player
-playervar enemy_sombra_player
+playervar reset_pvar
+#!defineMember call_init reset_pvar[0]
+#!defineMember player_health reset_pvar[1]
+#!defineMember friendly_doomfist_player reset_pvar[2]
+#!defineMember friendly_orisa_player reset_pvar[3]
+#!defineMember friendly_sombra_player reset_pvar[4]
+#!defineMember enemy_doomfist_player reset_pvar[5]
+#!defineMember enemy_orisa_player reset_pvar[6]
+#!defineMember enemy_sombra_player reset_pvar[7]
 
 subroutine resetAbilities
 subroutine resetStats

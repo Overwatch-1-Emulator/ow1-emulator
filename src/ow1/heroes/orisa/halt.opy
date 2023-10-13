@@ -98,7 +98,7 @@ rule "[orisa/halt.opy]: Pull halted victims":
     waitUntil(eventPlayer.position == eventPlayer.enemy_orisa_player.halt_position, Math.INFINITY)
     stopChasingVariable(eventPlayer.position)
     eventPlayer.stopForcingPosition()
-    cancelMomentum()
+    cancelMomentum(eventPlayer)
     eventPlayer.is_snared = false
 
 
