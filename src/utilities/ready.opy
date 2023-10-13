@@ -14,16 +14,8 @@ rule "[ready.opy]: Create ready HUD":
         eventPlayer.ready_hud[0] = getLastCreatedText()
 
     if eventPlayer.ready_hud[1] == null:
-        hudSubheader(eventPlayer, "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), HudPosition.TOP, Math.INFINITY, Color.WHITE, HudReeval.STRING_AND_COLOR)
+        hudSubtext(eventPlayer, "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), HudPosition.TOP, Math.INFINITY, Color.WHITE, HudReeval.STRING_AND_COLOR)
         eventPlayer.ready_hud[1] = getLastCreatedText()
-
-    if eventPlayer.ready_hud[2] == null:
-        hudSubtext(eventPlayer, "Overwatch 1 Emulator (KHTG0)", HudPosition.TOP, Math.INFINITY, Color.WHITE, HudReeval.STRING_AND_COLOR)
-        eventPlayer.ready_hud[2] = getLastCreatedText()
-
-    if eventPlayer.ready_hud[3] == null:
-        hudSubtext(eventPlayer, "Ranked Matchmaking: dsc.gg/ow1", HudPosition.TOP, Math.INFINITY, rgb(250, 156, 29), HudReeval.STRING_AND_COLOR)
-        eventPlayer.ready_hud[3] = getLastCreatedText()
     
     waitUntil(not isInSetup(), Math.INFINITY)
     
@@ -31,10 +23,6 @@ rule "[ready.opy]: Create ready HUD":
     eventPlayer.ready_hud[0] = null
     destroyHudText(eventPlayer.ready_hud[1])
     eventPlayer.ready_hud[1] = null
-    destroyHudText(eventPlayer.ready_hud[2])
-    eventPlayer.ready_hud[2] = null
-    destroyHudText(eventPlayer.ready_hud[3])
-    eventPlayer.ready_hud[3] = null
 
 
 rule "[ready.opy]: Set initial ready color":
