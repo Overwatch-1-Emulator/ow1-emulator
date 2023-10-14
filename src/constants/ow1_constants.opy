@@ -90,8 +90,8 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:12], 'Doomfist', 
 #!define OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS 8
 #!define OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS 1
 #!define OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT 0
-#!define OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT 10
-globalvar OW1_DOOMFIST_SLAM_PITCH_ANGLE = createWorkshopSetting(float[-90:90], 'Doomfist', 'Max Indicator Slam Pitch',10)
+#!define OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT 6
+globalvar OW1_DOOMFIST_SLAM_PITCH_ANGLE = createWorkshopSetting(float[-90:90], 'Doomfist', 'Max Indicator Slam Pitch', 90)
 globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 'Doomfist', 'Max Indicator Slam Range', 15)
 #!define OW1_DOOMFIST_ULT_COST 1680
 
