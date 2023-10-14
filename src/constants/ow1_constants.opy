@@ -1,8 +1,5 @@
 #!mainFile "../main.opy"
 
-globalvar global_extended_vars
-playervar player_extended_vars
-
 # Universal
 #!define SETUP_BUFFER_TIME 5
 #!define OW1_JUMP_SPEED 6
@@ -75,7 +72,7 @@ globalvar READY_THRESHOLD = createWorkshopSetting(float[0.5:1], "Lobby", "Ready 
 #!define OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN 15
 #!define OW1_DOOMFIST_PUNCH_KNOCKBACK_MAX 30
 #!define OW1_DOOMFIST_RISING_UPPERCUT_AIR_LOCK_TIME 0.6
-globalvar OW1_DOOMFIST_UPPERCUT_CD = createWorkshopSetting(float[0:30], 'Doomfist', 'Uppercut Cooldown', 6)
+globalvar OW1_DOOMFIST_UPPERCUT_CD = createWorkshopSetting(float[0:12], 'Doomfist', 'Uppercut Cooldown', 6)
 #!define OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE 50
 #!define OW1_DOOMFIST_RISING_UPPERCUT_RADIUS 5
 #!define OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX 1.4
@@ -84,17 +81,18 @@ globalvar OW1_DOOMFIST_UPPERCUT_CD = createWorkshopSetting(float[0:30], 'Doomfis
 #!define OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX 100
 #!define OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN 50
 #!define OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX 150
-#!define OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS 8
-#!define OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS 1
-globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 'Slam Cooldown', 6)
+globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:12], 'Doomfist', 'Slam Cooldown', 6)
 # Slamming on flat ground should deal 49 damage
 # Frame by frame analysis of Youtube videos indicate that slam damage increases at a rate of 100 damage/second
 #!define OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE 100
 #!define OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX 125
 #!define OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE 60
+#!define OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS 8
+#!define OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS 1
 #!define OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT 0
-#!define OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT 10
-#!define OW1_DOOMFIST_SEISMIC_SLAM_RADIUS 15
+#!define OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT 6
+globalvar OW1_DOOMFIST_SLAM_PITCH_ANGLE = createWorkshopSetting(float[-90:90], 'Doomfist', 'Max Indicator Slam Pitch', 90)
+globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 'Doomfist', 'Max Indicator Slam Range', 15)
 #!define OW1_DOOMFIST_ULT_COST 1680
 
 # Dva
@@ -124,6 +122,8 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 
 #!define OW1_HANZO_ULT_COST 1680
 
 # Illari
+#!define OW1_ILLARI_HEALTH 200
+#!define OW1_ILLARI_PYLON_HP 75
 #!define OW1_ILLARI_ULT_COST 2420
 
 # JunkerQueen
@@ -154,6 +154,7 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:30], 'Doomfist', 
 
 # Lifeweaver
 #!define OW1_LIFEWEAVER_ULT_COST 2000
+#!define OW1_LIFEWEAVER_HEALTH 200
 
 # Lucio
 #!define OW1_LUCIO_AMP_HEALING 32.5
@@ -335,10 +336,13 @@ globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "O
 #!define OW1_WINSTON_ULT_COST 1540
 
 # Wrecking Ball
+#!define OW1_WRECKING_BALL_ADAPTIVE_SHIELD_BASE 100
+#!define OW1_WRECKING_BALL_ADAPTIVE_SHIELD_RADIUS 8
 #!define OW1_WRECKING_BALL_ARMOR 100
 #!define OW1_WRECKING_BALL_HEALTH 500
 #!define OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME 10
 #!define OW1_WRECKING_BALL_SHIELDS 0
+#!define OW1_WRECKING_BALL_SHIELD_PER_TARGET 75
 #!define OW1_WRECKING_BALL_ULT_COST 1540
 
 # Zarya

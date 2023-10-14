@@ -116,6 +116,7 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
                 "ultGen%": percent(OW2_HANZO_ULT_COST/OW1_HANZO_ULT_COST)
             },
             "illari": {
+                "health%": percent(OW1_ILLARI_PYLON_HP/OW2_ILLARI_PYLON_HP), # for pylon hp
                 "ultGen%": percent(OW2_ILLARI_ULT_COST/OW1_ILLARI_ULT_COST)
             },
             "junkerQueen": {

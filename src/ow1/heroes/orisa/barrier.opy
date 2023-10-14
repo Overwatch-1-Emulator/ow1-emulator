@@ -1,5 +1,6 @@
 #!mainFile "../../../main.opy"
 
+globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
 globalvar los_i
 globalvar los_j
 
@@ -72,7 +73,7 @@ def throwBarrier(): # Select shield position and orientation
     @Name "[orisa/barrier.opy]: throwBarrier()"
 
     # Initialize barrier projectile
-    eventPlayer.barrier_orientation = getLateralFacingDirection(eventPlayer)
+    eventPlayer.barrier_orientation = getForwardDirection(eventPlayer)
     eventPlayer.barrier_seed_v0 = OW1_ORISA_BARRIER_PROJECTILE_SPEED * eventPlayer.getFacingDirection()
     eventPlayer.barrier_seed_p0 = eventPlayer.getEyePosition()
     eventPlayer.barrier_seed_t = 0

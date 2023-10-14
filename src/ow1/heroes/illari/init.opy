@@ -7,7 +7,8 @@ rule "[illari/init.opy]: Initialize Illari":
     @Condition eventPlayer.call_init
     
     resetHero()
-    # removeSelfHealing()
+    setCustomHealth(OW1_ILLARI_HEALTH, 0, 0)
+    removeSelfHealing()
     eventPlayer.call_init = false
 
 

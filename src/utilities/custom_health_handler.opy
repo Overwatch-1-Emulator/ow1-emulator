@@ -2,9 +2,14 @@
 
 # Credit to https://discord.com/channels/570672959799164958/1095384108504465488
 # Base code written by CaptCaptain
-playervar hp_health
-playervar hp_armor
-playervar hp_shields
+playervar custom_hp_pvar
+#!defineMember hp_health custom_hp_pvar[0]
+#!defineMember hp_armor custom_hp_pvar[1]
+#!defineMember hp_shields custom_hp_pvar[2]
+#!defineMember stored_spawn_pos custom_hp_pvar[3]
+
+subroutine clearCustomHealth
+subroutine applyCustomHealth
 
 #!define setCustomHealth(health, armor, shields)\
     eventPlayer.hp_health = health\
@@ -12,11 +17,6 @@ playervar hp_shields
     eventPlayer.hp_shields = shields\
     applyCustomHealth()
 #!define isHero(player, hero) (player.getCurrentHero() == hero or player.getHeroOfDuplication() == hero)
-
-playervar stored_spawn_pos
-
-subroutine clearCustomHealth
-subroutine applyCustomHealth
 
 
 def clearCustomHealth():

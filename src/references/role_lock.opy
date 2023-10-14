@@ -54,7 +54,7 @@ rule "[hero_switch.opy]: detect hero switch":
 
 
 # Hardcode OW1 heroes = true, OW2 heroes = false by default
-rule "[utilities/hero_roster.opy]: Initiaize hero roster workshop settings":
+rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
     heroes_enabled[heroID(Hero.ANA)] = createWorkshopSetting(bool, "Hero Roster", "Ana", true, 0)
     heroes_enabled[heroID(Hero.ASHE)] = createWorkshopSetting(bool, "Hero Roster", "Ashe", true, 0)
     heroes_enabled[heroID(Hero.BAPTISTE)] = createWorkshopSetting(bool, "Hero Roster", "Baptiste", true, 0)
@@ -95,7 +95,7 @@ rule "[utilities/hero_roster.opy]: Initiaize hero roster workshop settings":
     heroes_enabled[heroID(Hero.ZENYATTA)] = createWorkshopSetting(bool, "Hero Roster", "Zenyatta", true, 0)
 
 
-rule "[utilities/hero_roster.opy]: Define tank, damage, support heroes array":
+rule "[hero_roster.opy]: Define tank, damage, support heroes array":
     @Event global
     
     # Tanks
