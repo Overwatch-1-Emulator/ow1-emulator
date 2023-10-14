@@ -122,6 +122,8 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 
 #!define OW1_HANZO_ULT_COST 1680
 
 # Illari
+#!define OW1_ILLARI_HEALTH 200
+#!define OW1_ILLARI_PYLON_HP 75
 #!define OW1_ILLARI_ULT_COST 2420
 
 # JunkerQueen
