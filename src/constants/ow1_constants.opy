@@ -152,6 +152,7 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 
 
 # Lifeweaver
 #!define OW1_LIFEWEAVER_ULT_COST 2000
+#!define OW1_LIFEWEAVER_HEALTH 200
 
 # Lucio
 #!define OW1_LUCIO_AMP_HEALING 32.5
