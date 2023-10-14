@@ -4,7 +4,6 @@ playervar slam_to_use
 playervar current_position
 playervar proto_indicator_slam_position
 playervar indicator_slam_position
-playervar indicator_slam_direction
 playervar slam_damage
 playervar slam_damage_text_entity
 playervar slammed_victims
@@ -29,18 +28,22 @@ enum SlamType:
     INDICATOR
 
 # First raycast max range towards the direction the crosshair is aimed at
-#!define findProtoIndicatorPosition() raycast(eventPlayer.getEyePosition(), \
-                                              eventPlayer.getEyePosition()+OW1_DOOMFIST_SEISMIC_SLAM_RADIUS*eventPlayer.getFacingDirection(), \
-                                              null, \
-                                              getAllPlayers(), \
-                                              false).getHitPosition()
+#!define findProtoIndicatorPosition() \
+(raycast(eventPlayer.getEyePosition(), \
+         eventPlayer.getEyePosition()+OW1_DOOMFIST_SEISMIC_SLAM_RADIUS*eventPlayer.getFacingDirection(), \
+         null, \
+         getAllPlayers(), \
+         false).getHitPosition())
 
 # Then drop straight down vertically to find the final indicator position
-#!define findIndicatorPosition() raycast(eventPlayer.proto_indicator_slam_position, \
-                                         eventPlayer.proto_indicator_slam_position + OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, \
-                                         null, \
-                                         getAllPlayers(), \
-                                         false).getHitPosition()
+#!define findIndicatorPosition() \
+(raycast(eventPlayer.proto_indicator_slam_position, \
+         eventPlayer.proto_indicator_slam_position + OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, \
+         null, \
+         getAllPlayers(), \
+         false).getHitPosition() \
+if distance(eventPlayer.getEyePosition(), eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_SEISMIC_SLAM_RADIUS \
+else eventPlayer.proto_indicator_slam_position)
 
 #!define indicatorSlamValid() \
     ((distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
@@ -83,7 +86,6 @@ rule "[doomfist/slam.opy]: Detect ground slam":
     @Hero doomfist
     @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
     
-    wait(0.1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.slam_to_use = SlamType.GROUND
 
 
@@ -154,7 +156,6 @@ def initiateIndicatorSlam():
     stopChasingVariable(eventPlayer.indicator_slam_position)
     eventPlayer.proto_indicator_slam_position = findProtoIndicatorPosition()
     eventPlayer.indicator_slam_position = findIndicatorPosition()
-    eventPlayer.indicator_slam_direction = directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position)
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 

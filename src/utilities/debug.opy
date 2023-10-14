@@ -3,7 +3,7 @@
 globalvar debug = createWorkshopSetting(bool, "Dev Tools", "debug mode", false)
 
 
-rule "[main.opy]: Overwatch 1 Emulator copyright notice":
+rule "[debug.opy]: Overwatch 1 Emulator copyright notice":
     @Event global
     @Condition debug == true
 
