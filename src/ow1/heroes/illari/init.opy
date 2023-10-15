@@ -1,5 +1,8 @@
 #!mainFile "../../../main.opy"
 
+#!include "ow1/heroes/illari/outburst.opy"
+#!include "ow1/heroes/illari/pylon.opy"
+
 
 rule "[illari/init.opy]: Initialize Illari":
     @Event eachPlayer
@@ -10,13 +13,3 @@ rule "[illari/init.opy]: Initialize Illari":
     setCustomHealth(OW1_ILLARI_HEALTH, 0, 0)
     removeSelfHealing()
     eventPlayer.call_init = false
-
-
-rule "[illari.opy]: Allow self healing during Pylon":
-    @Event eachPlayer
-    @Hero illari
-    @Condition eventPlayer.isUsingAbility2()
-
-    pushSelfHealing(Button.ABILITY_2)
-    waitUntil(not eventPlayer.isUsingAbility2(), Math.INFINITY)
-    popSelfHealing(Button.ABILITY_2)
