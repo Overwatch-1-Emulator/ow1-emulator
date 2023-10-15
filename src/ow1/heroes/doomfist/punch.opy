@@ -84,8 +84,8 @@ rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     @Hero doomfist
     @Condition eventPlayer.isUsingUltimate() == true
     
-    # eventPlayer.disallowButton(Button.ABILITY_1)
-    # eventPlayer.disallowButton(Button.ABILITY_2)
+    eventPlayer.disallowButton(Button.ABILITY_1)
+    eventPlayer.disallowButton(Button.ABILITY_2)
     waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 4.8)
     waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
@@ -96,8 +96,12 @@ rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     eventPlayer.setSecondaryFireEnabled(false)
     wait()
     eventPlayer.setSecondaryFireEnabled(true)
-    # eventPlayer.allowButton(Button.ABILITY_1)
-    # eventPlayer.allowButton(Button.ABILITY_2)
+    eventPlayer.allowButton(Button.ABILITY_1)
+    if eventPlayer.isHoldingButton(Button.ABILITY_1):
+        eventPlayer.forceButtonPress(Button.ABILITY_1)
+    eventPlayer.allowButton(Button.ABILITY_2)
+    if eventPlayer.isHoldingButton(Button.ABILITY_2):
+        eventPlayer.forceButtonPress(Button.ABILITY_2)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
 
 
