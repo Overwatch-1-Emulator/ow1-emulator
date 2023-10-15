@@ -7,7 +7,7 @@ playervar info_pvar
 #!defineMember rgb_i info_pvar[0]
 playervar info_id
 playervar rgb_vect
-#!define RGB_SPEED 512
+#!define RGB_DURATION 0.5
 
 # #!define infoVisible(player) \
 #     ((player.isInSpawnRoom()) \
@@ -48,7 +48,7 @@ rule "[info.opy]: Create info HUD":
     @Condition infoVisible(eventPlayer)
 
     eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))
-    chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], rate=RGB_SPEED, ChaseReeval.NONE)
+    chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], duration=RGB_DURATION, ChaseReeval.NONE)
     waitUntil(eventPlayer.rgb_vect == rgb_list[eventPlayer.rgb_i], Math.INFINITY)
     if RULE_CONDITION:
         goto RULE_START
