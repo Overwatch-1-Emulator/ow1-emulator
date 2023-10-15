@@ -1,5 +1,8 @@
 #!mainFile "../../../main.opy"
 
+# #!include "ow1/heroes/kiriko/kunai.opy"
+#!include "ow1/heroes/kiriko/suzu.opy"
+# #!include "ow1/heroes/kiriko/step.opy"
 
 rule "[kiriko/init.opy]: Initialize Kiriko":
     @Event eachPlayer
@@ -27,8 +30,3 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
 #     @Condition eventAbility in [Button.MELEE]
     
 #     damage(victim, attacker, (eventDamage/OW1_KIRIKO_GLOBAL_DAMAGE - eventDamage)/OW1_KIRIKO_GLOBAL_DAMAGE)
-
-
-# #!include "ow1/heroes/kiriko/kunai.opy"
-# #!include "ow1/heroes/kiriko/suzu.opy"
-# #!include "ow1/heroes/kiriko/step.opy"
