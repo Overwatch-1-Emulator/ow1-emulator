@@ -2,7 +2,7 @@
 
 # #!include "ow1/heroes/kiriko/kunai.opy"
 #!include "ow1/heroes/kiriko/suzu.opy"
-# #!include "ow1/heroes/kiriko/step.opy"
+#!include "ow1/heroes/kiriko/step.opy"
 
 rule "[kiriko/init.opy]: Initialize Kiriko":
     @Event eachPlayer
