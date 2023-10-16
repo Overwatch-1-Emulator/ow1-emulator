@@ -85,6 +85,7 @@ def applyCustomHealth():
 
 
 rule "[custom_health_handler.opy]: Remove Custom Health Conditions":
+    @Disabled
     @Event eachPlayer
 
     # Health pools persist between hero switching, so we remove it when player's switch or duplicate to another hero, or when D.Va switches between forms.
