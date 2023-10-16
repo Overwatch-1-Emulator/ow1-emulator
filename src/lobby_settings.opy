@@ -152,7 +152,7 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST)
             },
             "ramattra": {
-                "health%": percent(OW1_RAMATTRA_BARRIER_HEALTH/OW2_RAMATTRA_BARRIER_HEALTH), # for barrier
+                "health%": percent(OW1_RAMATTRA_NEMESIS_ARMOR/OW2_RAMATTRA_NEMESIS_ARMOR), # for nemesis armor
                 "ultGen%": percent(OW2_RAMATTRA_ULT_COST/OW1_RAMATTRA_ULT_COST)
             },
             "reaper": {
