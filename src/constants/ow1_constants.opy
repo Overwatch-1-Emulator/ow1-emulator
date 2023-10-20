@@ -85,7 +85,7 @@ globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:12], 'Doomfist', 
 # Slamming on flat ground should deal 49 damage
 # Frame by frame analysis of Youtube videos indicate that slam damage increases at a rate of 100 damage/second
 #!define OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE 100
-#!define OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX 125
+globalvar OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX = createWorkshopSetting(int[0:1000], 'Doomfist', 'Slam Max Damage', 125)
 #!define OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE 60
 #!define OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS 8
 #!define OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS 1
