@@ -2,6 +2,7 @@
 
 
 rule "[illari/pylon.opy]: Allow self healing during Pylon":
+    @Disabled
     @Event eachPlayer
     @Hero illari
     @Condition eventPlayer.isUsingAbility2()
