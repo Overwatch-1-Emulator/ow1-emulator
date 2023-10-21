@@ -18,16 +18,15 @@ rule "[brigitte/bash.opy]: Detect shield bash usage":
     eventPlayer.is_using_shield_bash = false
 
 
-rule "[brigitte/bash.opy]: Detect shield bash going through barrier":
-    @Disabled
-    @Event eachPlayer
-    @Hero brigitte
-    @Condition eventPlayer.is_using_shield_bash
-    @Condition updateEveryTick(not isInLoS(eventPlayer.getEyePosition() + 1*worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION), 
-                                           eventPlayer.getEyePosition() + 2*worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION), 
-                                           BarrierLos.BLOCKED_BY_ENEMY_BARRIERS))
+# rule "[brigitte/bash.opy]: Detect shield bash going through barrier":
+#     @Event eachPlayer
+#     @Hero brigitte
+#     @Condition eventPlayer.is_using_shield_bash
+#     @Condition updateEveryTick(not isInLoS(eventPlayer.getEyePosition() + 1*worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION), 
+#                                            eventPlayer.getEyePosition() + 2*worldVector(Vector.FORWARD, eventPlayer, Transform.ROTATION), 
+#                                            BarrierLos.BLOCKED_BY_ENEMY_BARRIERS))
 
-    eventPlayer.shield_bash_through_barrier = true
+#     eventPlayer.shield_bash_through_barrier = true
 
 
 rule "[brigitte/bash.opy]: Add stun to shield bash":

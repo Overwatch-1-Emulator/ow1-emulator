@@ -41,4 +41,4 @@ rule "[doomfist/init.opy]: Clean up Doomfist":
     waitUntil(updateEveryTick(eventPlayer.getCurrentHero() != Hero.DOOMFIST), Math.INFINITY)
 
     destroySlamIndicatorGui()
-    destroySlamDamageGui()
+    hideSlamDamageGui()

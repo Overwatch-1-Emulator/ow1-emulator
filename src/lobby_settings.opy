@@ -71,7 +71,7 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
             "heroLimit": "1PerTeam",
             "roleLimit": "off",
             "tankPassiveHealthBonus": "alwaysEnabled",
-            "enableCompetitiveRules": true
+            "enableCompetitiveRules": false
         }
     },
     "heroes": {
