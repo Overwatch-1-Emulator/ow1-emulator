@@ -145,7 +145,7 @@ gitlab.com/MaxwellJung/ow1_emulator",
             "heroLimit": "1PerTeam",
             "roleLimit": "off",
             "tankPassiveHealthBonus": "alwaysEnabled",
-            "enableCompetitiveRules": true
+            "enableCompetitiveRules": false
         }
     },
     "heroes": {
