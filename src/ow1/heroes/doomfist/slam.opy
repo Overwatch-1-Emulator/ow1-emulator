@@ -17,8 +17,8 @@ subroutine startSlamAnimation
 subroutine initiateGroundSlam
 subroutine initiateIndicatorSlam
 
-subroutine createSlamDamageGui
-subroutine destroySlamDamageGui
+subroutine showSlamDamageGui
+subroutine hideSlamDamageGui
 
 subroutine createSlamIndicatorGui
 subroutine destroySlamIndicatorGui
@@ -206,17 +206,17 @@ rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     @Condition eventPlayer.isUsingAbility1()
     
     eventPlayer.slam_damage = 0
-    createSlamDamageGui()
+    showSlamDamageGui()
     waitUntil(not eventPlayer.isOnGround(), Math.INFINITY)
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     stopChasingVariable(eventPlayer.slam_damage)
     wait(1, Wait.RESTART_WHEN_TRUE)
-    destroySlamDamageGui()
+    hideSlamDamageGui()
 
 
-def createSlamDamageGui():
-    @Name "[doomfist/slam.opy]: createSlamDamageGui()"
+def showSlamDamageGui():
+    @Name "[doomfist/slam.opy]: showSlamDamageGui()"
 
     if eventPlayer.slam_damage_text_entity != null: return
     createInWorldText(eventPlayer, "{0}".format(floor(eventPlayer.slam_damage)), 
@@ -230,8 +230,8 @@ def createSlamDamageGui():
     eventPlayer.slam_damage_text_entity = getLastCreatedText()
 
 
-def destroySlamDamageGui():
-    @Name "[doomfist/slam.opy]: destroySlamDamageGui()"
+def hideSlamDamageGui():
+    @Name "[doomfist/slam.opy]: hideSlamDamageGui()"
 
     destroyInWorldText(eventPlayer.slam_damage_text_entity)
     eventPlayer.slam_damage_text_entity = null
