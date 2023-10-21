@@ -84,7 +84,7 @@ rule "[doomfist/slam.opy]: Control flow for slam":
 rule "[doomfist/slam.opy]: Detect ground slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
+    @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_GROUND_SLAM_HEIGHT)
     
     eventPlayer.slam_to_use = SlamType.GROUND
 
@@ -92,7 +92,7 @@ rule "[doomfist/slam.opy]: Detect ground slam":
 rule "[doomfist/slam.opy]: Detect indicator slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition updateEveryTick(eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
+    @Condition updateEveryTick(eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT)
 
     eventPlayer.slam_to_use = SlamType.INDICATOR
 
