@@ -6,7 +6,7 @@
 #!define OW1_SUPPORT_PASSIVE_HEALING 15
 #!define OW1_ACTIVATION_TIME_PASSIVE_HEALING 1.5
 #!define ULT_CHARGE_PER_SECOND 5
-globalvar READY_THRESHOLD = createWorkshopSetting(float[0.5:1], "Lobby", "Ready Threshold", 0.7)
+globalvar READY_THRESHOLD = createWorkshopSetting(float[0:1], "Lobby", "Ready Threshold", 0.7)
 #!define HEADSHOT_MULTIPLIER 2
 
 # Ana
@@ -55,6 +55,7 @@ globalvar READY_THRESHOLD = createWorkshopSetting(float[0.5:1], "Lobby", "Ready 
 #!define OW1_BRIGITTE_BARRIER_HEALTH 250
 #!define OW1_BRIGITTE_HEALTH 150
 #!define OW1_BRIGITTE_INSPIRE_DURATION 6
+#!define OW1_BRIGITTE_RALLY_HEAL_RATE 15
 #!define OW1_BRIGITTE_RALLY_SPEED_BUFF 1.3
 #!define OW1_BRIGITTE_SHIELD_BASH_DAMAGE 5
 #!define OW1_BRIGITTE_SHIELD_BASH_STUN_DURATION 0.75
@@ -63,6 +64,8 @@ globalvar READY_THRESHOLD = createWorkshopSetting(float[0.5:1], "Lobby", "Ready 
 
 # Doomfist
 #!define OW1_DOOMFIST_BEST_DEFENSE 30
+#!define OW1_DOOMFIST_BEST_DEFENSE_LINGER 1
+#!define OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE 3
 #!define OW1_DOOMFIST_GROUND_SLAM_HEIGHT 1
 #!define OW1_DOOMFIST_HEALTH 250
 #!define OW1_DOOMFIST_HAND_CANNON_DAMAGE 66
@@ -93,7 +96,7 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX = createWorkshopSetting(int[0:100
 #!define OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS 1
 #!define OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT 0
 #!define OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT 6
-globalvar OW1_DOOMFIST_SLAM_PITCH_ANGLE = createWorkshopSetting(float[-90:90], 'Doomfist', 'Max Indicator Slam Pitch', 90)
+globalvar OW1_DOOMFIST_SLAM_PITCH_ANGLE = createWorkshopSetting(float[-90:90], 'Doomfist', 'Max Indicator Slam Pitch', 10)
 globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 'Doomfist', 'Max Indicator Slam Range', 15)
 #!define OW1_DOOMFIST_ULT_COST 1680
 
