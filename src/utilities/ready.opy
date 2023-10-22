@@ -50,7 +50,7 @@ rule "[ready.opy]: Set initial ready color":
 
 rule "[ready.opy]: Unready all players when entering setup":
     @Event eachPlayer
-    @Condition isInSetup() == true
+    @Condition isInSetup()
 
     eventPlayer.ready = false
 
@@ -66,11 +66,12 @@ rule "[ready.opy]: Toggle ready when pressing Interact + Reload":
 
 rule "[ready.opy]: Start match when everyone ready":
     @Event global
-    @Condition not isGameInProgress() # Guard to prevent incorrect match time modification
-    @Condition not isAssemblingHeroes() # Guard to prevent incorrect match time modification
     @Condition isInSetup()
     @Condition getMatchTime() > SETUP_BUFFER_TIME
-    @Condition len([player for player in getAllPlayers() if player.ready])/len(getAllPlayers()) >= READY_THRESHOLD
+    @Condition len([player for player in getAllPlayers() if player.ready]) == 0
+    @Condition not isGameInProgress() # Guard to prevent incorrect match time modification
+    @Condition not isAssemblingHeroes() # Guard to prevent incorrect match time modification
+    waitUntil(len([player for player in getAllPlayers() if player.ready])/len(getAllPlayers()) >= READY_THRESHOLD, Math.INFINITY)
 
     ready_color = Color.GREEN
     setMatchTime(SETUP_BUFFER_TIME)
