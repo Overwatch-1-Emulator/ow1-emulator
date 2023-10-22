@@ -2,6 +2,8 @@
 
 playervar is_hit_by_uppercut
 playervar is_uppercut_locked
+playervar uppercut_shields
+playervar hp_before_uppercut
 
 subroutine executeUppercut
 subroutine detectUpercutHit
@@ -103,6 +105,11 @@ rule "[doomfist/uppercut.opy]: Detect uppercut victims":
 
     eventPlayer.is_hit_by_uppercut = true
 
+    stopChasingVariable(eventPlayer.enemy_doomfist_player.uppercut_shields)
+    eventPlayer.enemy_doomfist_player.uppercut_shields += OW1_DOOMFIST_BEST_DEFENSE
+    wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER)
+    chase(eventPlayer.enemy_doomfist_player.uppercut_shields, 0, rate=OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE, ChaseReeval.NONE)
+
 
 rule "[doomfist/uppercut.opy]: Uppercut victim movement physics":
     @Event eachPlayer
@@ -129,3 +136,17 @@ rule "[doomfist/uppercut.opy]: Play uppercut hit VFX":
     @Condition eventPlayer.is_hit_by_uppercut == true
 
     playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer, 1)
+
+
+rule "[doomfist/uppercut.opy]: Heal doomfist uppercut shields":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition updateEveryTick(eventPlayer.uppercut_shields > 0)
+    @Condition updateEveryTick(eventPlayer.getHealth() < eventPlayer.getMaxHealth())
+    
+    eventPlayer.hp_before_uppercut = eventPlayer.getHealth()
+    heal(eventPlayer, null, eventPlayer.uppercut_shields)
+    eventPlayer.uppercut_shields -= min(eventPlayer.getMaxHealth() - eventPlayer.hp_before_uppercut, eventPlayer.uppercut_shields)
+    wait()
+    if RULE_CONDITION:
+        goto RULE_START

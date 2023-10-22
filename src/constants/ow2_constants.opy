@@ -1,6 +1,8 @@
 #!mainFile "../main.opy"
 
-###################################
+# Universal
+#!define OW2_ARMOR_DAMAGE_REDUCTION 0.3
+
 # Ult Costs
 # Compensation ultimate point for healing and damage done to tank
 #!define OW2_TANK_ULT_NEGATION 0.3
@@ -63,6 +65,7 @@
 
 # Brigitte
 #!define OW2_BRIGITTE_BARRIER_HEALTH 250
+#!define OW2_BRIGITTE_RALLY_INSTANT_ARMOR 100
 #!define OW2_BRIGITTE_RALLY_SPEED_BUFF 1.15
 #!define OW2_BRIGITTE_SHIELD_BASH_DAMAGE 50
 #!define OW2_BRIGITTE_ULT_COST 2703

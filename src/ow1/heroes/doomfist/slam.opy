@@ -6,7 +6,7 @@ playervar proto_indicator_slam_position
 playervar indicator_slam_position
 playervar slam_damage
 playervar slam_damage_text_entity
-playervar slammed_victims
+playervar ow1_slam_victims
 
 playervar slam_indicator_beam_id
 playervar slam_indicator_ring_id
@@ -17,8 +17,8 @@ subroutine startSlamAnimation
 subroutine initiateGroundSlam
 subroutine initiateIndicatorSlam
 
-subroutine createSlamDamageGui
-subroutine destroySlamDamageGui
+subroutine showSlamDamageGui
+subroutine hideSlamDamageGui
 
 subroutine createSlamIndicatorGui
 subroutine destroySlamIndicatorGui
@@ -84,7 +84,7 @@ rule "[doomfist/slam.opy]: Control flow for slam":
 rule "[doomfist/slam.opy]: Detect ground slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
+    @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_GROUND_SLAM_HEIGHT)
     
     eventPlayer.slam_to_use = SlamType.GROUND
 
@@ -92,7 +92,7 @@ rule "[doomfist/slam.opy]: Detect ground slam":
 rule "[doomfist/slam.opy]: Detect indicator slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition updateEveryTick(eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_HEIGHT)
+    @Condition updateEveryTick(eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT)
 
     eventPlayer.slam_to_use = SlamType.INDICATOR
 
@@ -122,7 +122,7 @@ rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
 def executeSlam():
     @Name "[doomfist/slam.opy]: executeSlam()"
 
-    eventPlayer.slammed_victims = [] # clear slammed victims
+    eventPlayer.ow1_slam_victims = [] # clear slammed victims
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
         if indicatorSlamValid():
@@ -206,17 +206,17 @@ rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     @Condition eventPlayer.isUsingAbility1()
     
     eventPlayer.slam_damage = 0
-    createSlamDamageGui()
+    showSlamDamageGui()
     waitUntil(not eventPlayer.isOnGround(), Math.INFINITY)
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     stopChasingVariable(eventPlayer.slam_damage)
     wait(1, Wait.RESTART_WHEN_TRUE)
-    destroySlamDamageGui()
+    hideSlamDamageGui()
 
 
-def createSlamDamageGui():
-    @Name "[doomfist/slam.opy]: createSlamDamageGui()"
+def showSlamDamageGui():
+    @Name "[doomfist/slam.opy]: showSlamDamageGui()"
 
     if eventPlayer.slam_damage_text_entity != null: return
     createInWorldText(eventPlayer, "{0}".format(floor(eventPlayer.slam_damage)), 
@@ -230,8 +230,8 @@ def createSlamDamageGui():
     eventPlayer.slam_damage_text_entity = getLastCreatedText()
 
 
-def destroySlamDamageGui():
-    @Name "[doomfist/slam.opy]: destroySlamDamageGui()"
+def hideSlamDamageGui():
+    @Name "[doomfist/slam.opy]: hideSlamDamageGui()"
 
     destroyInWorldText(eventPlayer.slam_damage_text_entity)
     eventPlayer.slam_damage_text_entity = null
@@ -250,18 +250,20 @@ rule "[doomfist/slam.opy]: Find slammed victims":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-    @Condition OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim)
-    @Condition distance(attacker, victim) <= OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS
-    # TODO add condition to check victim in 60 degree cone
     
-    attacker.slammed_victims.append(victim)
+    if (OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim) and \
+        distance(attacker, victim) <= OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS and \
+        true): # [TODO]: add condition to check victim in 60 degree cone
+        attacker.ow1_slam_victims.append(victim)
+    else: # Handle OW2 slam victims
+        damage(attacker, null, OW1_DOOMFIST_BEST_DEFENSE) # Remove shield gained from OW2 slam victims
 
 
 rule "[doomfist/slam.opy]: Slammed victims damage":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-    @Condition victim in attacker.slammed_victims
+    @Condition victim in attacker.ow1_slam_victims
 
     damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
 
@@ -270,7 +272,7 @@ rule "[doomfist/slam.opy]: Slammed victims bounce effect":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-    @Condition victim in attacker.slammed_victims
+    @Condition victim in attacker.ow1_slam_victims
 
     victim.setGravity(50) 
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up

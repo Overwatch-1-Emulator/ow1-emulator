@@ -29,6 +29,7 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
 
     initRocketPunch()
     initSlam()
+    eventPlayer.uppercut_shields = 0
     removeTankPassive()
 
     eventPlayer.call_init = false
@@ -41,4 +42,4 @@ rule "[doomfist/init.opy]: Clean up Doomfist":
     waitUntil(updateEveryTick(eventPlayer.getCurrentHero() != Hero.DOOMFIST), Math.INFINITY)
 
     destroySlamIndicatorGui()
-    destroySlamDamageGui()
+    hideSlamDamageGui()
