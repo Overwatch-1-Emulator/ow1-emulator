@@ -43,7 +43,7 @@ rule "[ready.opy]: Create ready HUD":
 
 rule "[ready.opy]: Set initial ready color":
     @Event global
-    @Condition isInSetup() == true
+    @Condition isInSetup()
 
     ready_color = Color.YELLOW
 
@@ -68,10 +68,16 @@ rule "[ready.opy]: Start match when everyone ready":
     @Event global
     @Condition isInSetup()
     @Condition getMatchTime() > SETUP_BUFFER_TIME
-    @Condition len([player for player in getAllPlayers() if player.ready]) == 0
+    @Condition len([player for player in getAllPlayers() if player.ready])/len(getAllPlayers()) >= READY_THRESHOLD
     @Condition not isGameInProgress() # Guard to prevent incorrect match time modification
     @Condition not isAssemblingHeroes() # Guard to prevent incorrect match time modification
-    waitUntil(len([player for player in getAllPlayers() if player.ready])/len(getAllPlayers()) >= READY_THRESHOLD, Math.INFINITY)
 
     ready_color = Color.GREEN
     setMatchTime(SETUP_BUFFER_TIME)
+
+
+rule "[ready.opy]: Reset ready when match starts":
+    @Event global
+    @Condition isGameInProgress()
+
+    getAllPlayers().ready = false
