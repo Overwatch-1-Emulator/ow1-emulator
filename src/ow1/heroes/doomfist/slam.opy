@@ -53,6 +53,7 @@ and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= (90 +
     ((indicatorSlamValid()) \
 and (eventPlayer.slam_to_use == SlamType.INDICATOR) \
 and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
+and (not eventPlayer.isFiringSecondaryFire()) \
 and (not eventPlayer.isUsingAbility1()) \
 and (not eventPlayer.isUsingUltimate()))
 
