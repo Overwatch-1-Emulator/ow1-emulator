@@ -13,6 +13,7 @@ rule "[sombra/stealth.opy]: Remove Stealth passive":
     @Event eachPlayer
     @Hero sombra
     @Condition not eventPlayer.is_using_stealth
+    @Condition not eventPlayer.isFiringSecondaryFire()
 
     damage(eventPlayer, null, 0.01)
     heal(eventPlayer, null, 0.01)
@@ -37,6 +38,7 @@ def enterStealth():
     @Name "[sombra/stealth.opy]: enterStealth()"
 
     eventPlayer.setAbility1Enabled(false)
+    eventPlayer.setSecondaryFireEnabled(false) # Disable hacking during invis
     showStealthHud()
     wait(OW1_SOMBRA_STEALTH_CAST_TIME)
     eventPlayer.setInvisibility(Invis.ENEMIES)
@@ -76,6 +78,7 @@ def exitStealth():
 
     damage(eventPlayer, null, 0.01)
     heal(eventPlayer, null, 0.01)
+    eventPlayer.setSecondaryFireEnabled(true) # Enable hacking after exiting invis
     eventPlayer.setInvisibility(Invis.NONE)
     eventPlayer.setMoveSpeed(100)
     hideStealthHud()
