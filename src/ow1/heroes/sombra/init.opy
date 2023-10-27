@@ -1,6 +1,7 @@
 #!mainFile "../../../main.opy"
 
 #!include "ow1/heroes/sombra/stealth.opy"
+#!include "ow1/heroes/sombra/hack.opy"
 
 
 rule "[sombra/init.opy]: Initialize Sombra":
@@ -9,6 +10,10 @@ rule "[sombra/init.opy]: Initialize Sombra":
     @Condition eventPlayer.call_init
 
     resetHero()
+
+    getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
+    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra_player = eventPlayer
+    
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
 
