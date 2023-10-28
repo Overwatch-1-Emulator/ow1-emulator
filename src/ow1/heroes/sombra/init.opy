@@ -3,6 +3,7 @@
 #!include "ow1/heroes/sombra/hack.opy"
 #!include "ow1/heroes/sombra/stealth.opy"
 #!include "ow1/heroes/sombra/translocator.opy"
+#!include "ow1/heroes/sombra/emp.opy"
 
 
 rule "[sombra/init.opy]: Initialize Sombra":
