@@ -28,9 +28,10 @@ subroutine hideTranslocator
 rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     @Event eachPlayer
     @Hero sombra
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
+    @Condition not eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not eventPlayer.is_using_translocator
+    waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
 
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
     destroyTranslocator()
@@ -69,6 +70,7 @@ def throwTranslocator():
 
     showTranslocator()
     eventPlayer.is_using_translocator = true
+    playEffect(getAllPlayers(), DynamicEffect.BUFF_EXPLOSION_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
 
     # Wait for translocator projectile to hit wall
     waitUntil(updateEveryTick(
