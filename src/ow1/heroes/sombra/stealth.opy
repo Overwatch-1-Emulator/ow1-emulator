@@ -60,7 +60,8 @@ rule "[sombra/stealth.opy]: Exit Stealth when shooting":
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) \
             or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) \
             or eventPlayer.isHoldingButton(Button.MELEE) \
-            or eventPlayer.isHoldingButton(Button.ABILITY_1)
+            or eventPlayer.isHoldingButton(Button.ABILITY_1) \
+            or eventPlayer.isHoldingButton(Button.ULTIMATE)
 
     exitStealth()
 
