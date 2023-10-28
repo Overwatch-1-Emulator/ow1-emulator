@@ -17,6 +17,8 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     @Condition not eventPlayer.isFiringSecondaryFire()
 
     eventPlayer.cancelPrimaryAction() # cancel Power Block animation
+    eventPlayer.setAbility2Enabled(false)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
     executeUppercut()
 
 
@@ -91,6 +93,7 @@ rule "[doomfist/uppercut.opy]: Set uppercut cooldown":
 
     waitUntil(not eventPlayer.is_using_uppercut, Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_UPPERCUT_CD)
+    eventPlayer.setAbility2Enabled(true)
 
 
 rule "[doomfist/uppercut.opy]: Detect uppercut victims":
