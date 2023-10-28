@@ -74,6 +74,7 @@ def throwTranslocator():
 
     showTranslocator()
     eventPlayer.is_using_translocator = true
+    eventPlayer.setAbility2Enabled(false)
     playEffect(getAllPlayers(), DynamicEffect.BUFF_EXPLOSION_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
 
     # Wait for translocator projectile to hit wall
@@ -139,6 +140,8 @@ def destroyTranslocator():
     eventPlayer.trasnloc_velocity = null
     hideTranslocator()
     eventPlayer.is_using_translocator = false
+    eventPlayer.setAbility2Enabled(true)
+
 
 
 def showTranslocator():
