@@ -9,7 +9,12 @@ playervar transloc_time
 
 playervar translocator_id
 
-subroutine deployTranslocator
+playervar call_throwTranslocator
+
+subroutine throwTranslocator
+subroutine destroyTranslocator
+subroutine showTranslocator
+subroutine hideTranslocator
 
 #!define getTranslocVelocity(t) vect(eventPlayer.transloc_v0.x, \
                                      -9.8 * t + eventPlayer.transloc_v0.y, \
@@ -23,37 +28,34 @@ subroutine deployTranslocator
 rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     @Event eachPlayer
     @Hero sombra
-    @Condition not eventPlayer.isHoldingButton(Button.ABILITY_2)
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not eventPlayer.is_using_translocator
-    waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
 
-    eventPlayer.is_using_translocator = true
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
-    deployTranslocator()
+    destroyTranslocator()
+    eventPlayer.call_throwTranslocator = true
+    wait()
+    eventPlayer.call_throwTranslocator = false
+    waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
+    waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.INTERACT), Math.INFINITY)
+    if (eventPlayer.isHoldingButton(Button.ABILITY_2)):
+        eventPlayer.teleport(eventPlayer.transloc_position)
+    if (eventPlayer.isHoldingButton(Button.INTERACT)):
+        eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
+    destroyTranslocator()
 
 
-rule "[sombra/translocator.opy]: Teleport to translocator":
+rule "[sombra/translocator.opy]: Call throwTranslocator() in background":
     @Event eachPlayer
     @Hero sombra
-    @Condition not eventPlayer.isHoldingButton(Button.ABILITY_2)
-    @Condition eventPlayer.is_using_translocator
-    waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
+    @Condition eventPlayer.call_throwTranslocator
 
-    # Freeze translocator projectile
-    eventPlayer.teleport(eventPlayer.transloc_position)
-    stopChasingVariable(eventPlayer.transloc_time)
-    stopChasingVariable(eventPlayer.transloc_position)
-    stopChasingVariable(eventPlayer.trasnloc_velocity)
-    eventPlayer.transloc_time = null
-    eventPlayer.transloc_position = null
-    eventPlayer.trasnloc_velocity = null
-    destroyEffect(eventPlayer.translocator_id)
-    eventPlayer.is_using_translocator = false
+    throwTranslocator()
 
 
-def deployTranslocator():
-    @Name "[sombra/translocator.opy]: deployTranslocator()"
+def throwTranslocator():
+    @Name "[sombra/translocator.opy]: throwTranslocator()"
 
     # Initialize translocator projectile
     eventPlayer.transloc_v0 = OW1_SOMBRA_TRANSLOCATOR_PROJECTILE_SPEED * eventPlayer.getFacingDirection()
@@ -65,9 +67,8 @@ def deployTranslocator():
     eventPlayer.transloc_position = eventPlayer.transloc_p0
     chase(eventPlayer.transloc_position, getTranslocPosition(eventPlayer.transloc_time), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
 
-    # Draw translocator projectile object
-    createEffect(getAllPlayers(), Effect.SPHERE, Color.PURPLE, eventPlayer.transloc_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
-    eventPlayer.translocator_id = getLastCreatedEntity()
+    showTranslocator()
+    eventPlayer.is_using_translocator = true
 
     # Wait for translocator projectile to hit wall
     waitUntil(updateEveryTick(
@@ -113,3 +114,32 @@ def deployTranslocator():
     stopChasingVariable(eventPlayer.transloc_time)
     stopChasingVariable(eventPlayer.trasnloc_velocity)
     stopChasingVariable(eventPlayer.transloc_position)
+
+
+def destroyTranslocator():
+    @Name "[sombra/translocator.opy]: destroyTranslocator()"
+
+    stopChasingVariable(eventPlayer.transloc_time)
+    stopChasingVariable(eventPlayer.transloc_position)
+    stopChasingVariable(eventPlayer.trasnloc_velocity)
+    eventPlayer.transloc_time = null
+    eventPlayer.transloc_position = null
+    eventPlayer.trasnloc_velocity = null
+    hideTranslocator()
+    eventPlayer.is_using_translocator = false
+
+
+def showTranslocator():
+    @Name "[sombra/translocator.opy]: showTranslocator()"
+
+    if eventPlayer.translocator_id == null:
+        # Draw translocator projectile object
+        createEffect(getAllPlayers(), Effect.SPHERE, Color.PURPLE, eventPlayer.transloc_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
+        eventPlayer.translocator_id = getLastCreatedEntity()
+
+    
+def hideTranslocator():
+    @Name "[sombra/translocator.opy]: hideTranslocator()"
+
+    destroyEffect(eventPlayer.translocator_id)
+    eventPlayer.translocator_id = null
