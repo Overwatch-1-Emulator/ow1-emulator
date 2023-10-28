@@ -13,7 +13,9 @@ rule "[sombra/stealth.opy]: Remove Stealth passive":
     @Event eachPlayer
     @Hero sombra
     @Condition not eventPlayer.is_using_stealth
+    @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition not eventPlayer.isFiringSecondaryFire()
+    @Condition not eventPlayer.isMeleeing()
 
     damage(eventPlayer, null, 0.01)
     heal(eventPlayer, null, 0.01)
