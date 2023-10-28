@@ -41,6 +41,7 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
     waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2) or eventPlayer.isHoldingButton(Button.INTERACT), Math.INFINITY)
     if (eventPlayer.isHoldingButton(Button.ABILITY_2)):
+        playEffect(getAllPlayers(), DynamicEffect.BUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
         eventPlayer.teleport(eventPlayer.transloc_position)
     if (eventPlayer.isHoldingButton(Button.INTERACT)):
         eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
