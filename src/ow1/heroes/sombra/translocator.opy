@@ -90,7 +90,10 @@ def throwTranslocator():
     stopChasingVariable(eventPlayer.transloc_time)
     stopChasingVariable(eventPlayer.trasnloc_velocity)
     stopChasingVariable(eventPlayer.transloc_position)
-    
+
+    # Play bouncing sound
+    playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
+
     # Fall down to floor after bouncing off wall
     eventPlayer.seed_hit_surface_normal = (raycast(eventPlayer.transloc_position, \
                                   eventPlayer.transloc_position + eventPlayer.trasnloc_velocity, \
@@ -120,6 +123,9 @@ def throwTranslocator():
     stopChasingVariable(eventPlayer.transloc_time)
     stopChasingVariable(eventPlayer.trasnloc_velocity)
     stopChasingVariable(eventPlayer.transloc_position)
+
+    # Play landing sound
+    playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
 
 
 def destroyTranslocator():
