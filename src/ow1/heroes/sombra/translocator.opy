@@ -43,6 +43,7 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
            or eventPlayer.isHoldingButton(Button.INTERACT) \
            or eventPlayer.isDead(), Math.INFINITY)
     if (eventPlayer.isHoldingButton(Button.ABILITY_2)):
+        playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer.getPosition(), 100)
         playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer, 100)
         playEffect(getAllPlayers(), DynamicEffect.BUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
         eventPlayer.teleport(eventPlayer.transloc_position)
@@ -91,7 +92,7 @@ def throwTranslocator():
     showTranslocator()
     eventPlayer.is_using_translocator = true
     eventPlayer.setAbility2Enabled(false)
-    playEffect(getAllPlayers(), DynamicEffect.BUFF_EXPLOSION_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
+    playEffect(getAllPlayers(), DynamicEffect.BUFF_EXPLOSION_SOUND, Color.PURPLE, eventPlayer, 100)
 
     # Wait for translocator projectile to hit wall
     waitUntil(updateEveryTick(
