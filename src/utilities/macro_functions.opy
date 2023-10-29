@@ -24,4 +24,6 @@
 
 #!define cancelMomentum(player) (player.applyImpulse(player.getVelocity(), -player.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION))
 
+#!define centerMass(player) ((player.getPosition() + player.getEyePosition())/2)
+
 globalvar i

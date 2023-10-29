@@ -11,6 +11,14 @@ playervar position
 
 subroutine shootHalt
 subroutine explodeHalt
+subroutine showSnareLine
+subroutine hideSnareLine
+
+#!define snareVisible(player) \
+    (player.enemy_orisa_player.is_using_halt \
+ and distance(centerMass(player), player.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS \
+ and isInLoS(centerMass(player), player.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS) \
+ and player.isAlive())
 
 
 rule "[orisa/halt.opy]: Trigger Halt ability":
@@ -104,26 +112,32 @@ rule "[orisa/halt.opy]: Pull halted victims":
 
 rule "[orisa/halt.opy]: Halt snare line VFX":
     @Event eachPlayer
-    @Condition eventPlayer.enemy_orisa_player.is_using_halt
-    @Condition eventPlayer.isAlive()
+    @Condition snareVisible(eventPlayer)
 
     # Halt orb explosion sounds
+    showSnareLine()
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.LIME_GREEN, eventPlayer, 100)
     
+    waitUntil(not (snareVisible(eventPlayer)), Math.INFINITY)
+    hideSnareLine()
+
+
+def showSnareLine():
+    @Name "[orisa/halt.opy]: showSnareLine()"
+
     if (eventPlayer.halt_snare_line_id == null):
-        createBeam(getAllPlayers() if (distance((eventPlayer.getPosition() + eventPlayer.getEyePosition())/2, 
-                                                eventPlayer.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS \
-                                       and isInLoS((eventPlayer.getPosition() + eventPlayer.getEyePosition())/2, 
-                                                   eventPlayer.enemy_orisa_player.halt_position, 
-                                                   BarrierLos.BLOCKED_BY_ALL_BARRIERS)) else null, 
+        createBeam(getAllPlayers() if snareVisible(eventPlayer) else null, 
                    Beam.GOOD, 
                    eventPlayer.enemy_orisa_player.halt_position, 
-                   (eventPlayer.getPosition() + eventPlayer.getEyePosition())/2, 
+                   centerMass(eventPlayer), 
                    Color.GREEN if eventPlayer.is_snared else Color.WHITE, 
                    EffectReeval.VISIBILITY_POSITION_RADIUS_AND_COLOR)
         eventPlayer.halt_snare_line_id = getLastCreatedEntity()
-    
-    waitUntil(not (eventPlayer.enemy_orisa_player.is_using_halt and eventPlayer.isAlive()), Math.INFINITY)
+
+
+def hideSnareLine():
+    @Name "[orisa/halt.opy]: hideSnareLine()"
+
     destroyEffect(eventPlayer.halt_snare_line_id)
     eventPlayer.halt_snare_line_id = null
 
