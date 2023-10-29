@@ -151,7 +151,7 @@ def showTranslocator():
 
     if eventPlayer.translocator_id == null:
         # Draw translocator projectile object
-        createEffect(getAllPlayers(), Effect.SPHERE, Color.PURPLE, eventPlayer.transloc_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
+        createEffect(getAllPlayers(), Effect.ORB, Color.PURPLE, eventPlayer.transloc_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
         eventPlayer.translocator_id = getLastCreatedEntity()
 
 
