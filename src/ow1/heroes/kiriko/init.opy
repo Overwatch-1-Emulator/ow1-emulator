@@ -9,6 +9,7 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     @Hero kiriko
     @Condition eventPlayer.call_init
     
+    eventPlayer.setAbility1Enabled(false)
     eventPlayer.setAbility2Enabled(false)
     resetStats()
     resetStatuses()
