@@ -9,7 +9,15 @@ rule "[mccree/init.opy]: Initialize Cassidy":
     @Hero mccree
     @Condition eventPlayer.call_init
 
-    resetHero()
+    eventPlayer.setAbility2Enabled(false) # Prevents throwing magnetic grenade
+    resetStats()
+    resetStatuses()
+    resetFrenemies()
+    resetUltCharge()
+    clearCustomHealth()
+    resetSelfHealing()
     setCustomHealth(OW1_MCCREE_HEALTH, 0, 0)
+    resetAbilities()
+    
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.call_init = false
