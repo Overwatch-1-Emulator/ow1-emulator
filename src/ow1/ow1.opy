@@ -1,25 +1,11 @@
 #!mainFile "../main.opy"
 
-subroutine resetHero
-
 # Remove OW2 passives
 # Remove tank passive
 #!include "ow1/passives/ult_charge.opy"
 #!include "ow1/passives/tank/knockback.opy"
 # Remove support passive
 #!include "ow1/passives/support/self_heal.opy"
-
-
-def resetHero():
-    @Name "[ow1.opy]: resetHero()"
-
-    resetAbilities()
-    resetStats()
-    resetStatuses()
-    resetFrenemies()
-    resetUltCharge()
-    clearCustomHealth()
-    resetSelfHealing()
 
 
 # OW1 specific hero logic

@@ -19,6 +19,16 @@ subroutine resetStatuses
 subroutine resetFrenemies
 
 
+#!define resetHero() \
+    resetAbilities() \
+    resetStats() \
+    resetStatuses() \
+    resetFrenemies() \
+    resetUltCharge() \
+    clearCustomHealth() \
+    resetSelfHealing() \
+
+
 def resetAbilities():
     @Name "[reset.opy]: resetAbilities()"
 
