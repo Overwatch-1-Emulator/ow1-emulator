@@ -28,6 +28,7 @@ rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
     heroes_enabled[heroID(Hero.WINSTON)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Winston", true)
     heroes_enabled[heroID(Hero.HAMMOND)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Wrecking Ball", true)
     heroes_enabled[heroID(Hero.ZARYA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Zarya", true)
+
     heroes_enabled[heroID(Hero.ASHE)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Ashe", true)
     heroes_enabled[heroID(Hero.BASTION)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Bastion", true)
     heroes_enabled[heroID(Hero.MCCREE)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Cassidy", true)
@@ -46,6 +47,7 @@ rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
     heroes_enabled[heroID(Hero.TORBJORN)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Torbjorn", true)
     heroes_enabled[heroID(Hero.TRACER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Tracer", true)
     heroes_enabled[heroID(Hero.WIDOWMAKER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Widowmaker", true)
+    
     heroes_enabled[heroID(Hero.ANA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Ana", true)
     heroes_enabled[heroID(Hero.BAPTISTE)] = createWorkshopSetting(bool, "Hero Roster - Support", "Baptiste", true)
     heroes_enabled[heroID(Hero.BRIGITTE)] = createWorkshopSetting(bool, "Hero Roster - Support", "Brigitte", true)
