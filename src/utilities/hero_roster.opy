@@ -1,19 +1,19 @@
 #!mainFile "../main.opy"
 
-globalvar hero_roaster_gvar
-#!defineMember current_hero hero_roaster_gvar[0]
+globalvar hero_roster_gvar
+#!defineMember current_hero hero_roster_gvar[0]
 globalvar heroes_enabled
 
 # Currently enabled heroes
-#!defineMember tank_roaster hero_roaster_gvar[1]
-#!defineMember damage_roaster hero_roaster_gvar[2]
-#!defineMember support_roaster hero_roaster_gvar[3]
-#!defineMember hero_roaster hero_roaster_gvar[4]
+#!defineMember tank_roaster hero_roster_gvar[1]
+#!defineMember damage_roaster hero_roster_gvar[2]
+#!defineMember support_roaster hero_roster_gvar[3]
+#!defineMember hero_roaster hero_roster_gvar[4]
 
 # Hero Role Definition
-#!defineMember tank_heroes hero_roaster_gvar[5]
-#!defineMember damage_heroes hero_roaster_gvar[6]
-#!defineMember support_heroes hero_roaster_gvar[7]
+#!defineMember tank_heroes hero_roster_gvar[5]
+#!defineMember damage_heroes hero_roster_gvar[6]
+#!defineMember support_heroes hero_roster_gvar[7]
 
 
 # Hardcode OW1 heroes = true, OW2 heroes = false by default
