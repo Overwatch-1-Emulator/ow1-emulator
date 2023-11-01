@@ -1,5 +1,14 @@
 #!mainFile "../../../main.opy"
 
+
+rule "[ana/nade.opy]: OW1 biotic grenade cooldown":
+    @Event eachPlayer
+    @Hero ana
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2)
+
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ANA_BIOTIC_GRENADE_COOLDOWN)
+
+
 rule "[ana/nade.opy]: Heal OW1 healing with biotic grenade":
     @Event playerDealtHealing
     @Hero ana
