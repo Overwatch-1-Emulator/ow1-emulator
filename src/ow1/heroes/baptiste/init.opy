@@ -10,6 +10,7 @@ rule "[baptiste/init.opy]: Initialize Baptiste":
 
     
     resetHero()
+    setCustomHealth(OW1_BAPTISTE_HEALTH, 0, 0)
 
     eventPlayer.setAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)

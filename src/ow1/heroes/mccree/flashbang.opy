@@ -1,7 +1,7 @@
 #!mainFile "../../../main.opy"
 
 
-rule "[mccree.opy]: Throw projectile when pressing e":
+rule "[mccree/flashbang.opy]: Throw projectile when pressing e":
     @Event eachPlayer
     @Hero mccree
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
@@ -14,10 +14,10 @@ rule "[mccree.opy]: Throw projectile when pressing e":
     @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Cassidy is not stunned
 
     createProjectile(Projectile.ORB, eventPlayer, null, null, Relativity.TO_WORLD, ModifyHealth.DAMAGE, getOppositeTeam(eventPlayer.getTeam()), OW1_MCCREE_FLASHBANG_DAMAGE, 1, OW1_MCCREE_FLASHBANG_AOE_RADIUS, DynamicEffect.BAD_EXPLOSION, DynamicEffect.EXPLOSION_SOUND, 0, OW1_MCCREE_FLASHBANG_SPEED, OW1_MCCREE_FLASHBANG_RANGE/OW1_MCCREE_FLASHBANG_SPEED, 0, 0, 1)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_MCCREE_FLASHBANG_COOLDOWN_TIME)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_MCCREE_FLASHBANG_COOLDOWN)
 
 
-rule "[mccree.opy]: Stun flashed enemy":
+rule "[mccree/flashbang.opy]: Stun flashed enemy":
     @Event playerDealtDamage
     @Hero mccree
     @Condition eventAbility == 0

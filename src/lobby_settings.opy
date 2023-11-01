@@ -54,11 +54,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
         },
         "control": {
             "enabledMaps": [
-                {
-                    "busan": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "busan": [
+                #         "morning"
+                #     ]
+                # },
                 {
                     "ilios": [
                         "morning"
@@ -159,6 +159,7 @@ gitlab.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_ASHE_ULT_COST/OW1_ASHE_ULT_COST)
             },
             "baptiste": {
+                "health%": percent(OW1_BAPTISTE_LAMP_HP/OW2_BAPTISTE_LAMP_HP), # for immortality field hp
                 "ultGen%": percent(OW2_BAPTISTE_ULT_COST/OW1_BAPTISTE_ULT_COST)
             },
             "bastion": {
