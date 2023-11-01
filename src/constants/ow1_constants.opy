@@ -9,6 +9,7 @@
 globalvar READY_THRESHOLD = createWorkshopSetting(float[0:1], "Lobby", "Ready Threshold", 0.7)
 
 # Ana
+#!define OW1_ANA_BIOTIC_GRENADE_COOLDOWN 10
 #!define OW1_ANA_BIOTIC_GRENADE_HEALING 100
 #!define OW1_ANA_CLIP_SIZE 12
 #!define OW1_ANA_SLEEP_DART_COOLDOWN_TIME 12
