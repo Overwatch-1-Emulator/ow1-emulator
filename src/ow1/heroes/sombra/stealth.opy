@@ -66,6 +66,7 @@ rule "[sombra/stealth.opy]: Exit Stealth when shooting":
             or eventPlayer.isHoldingButton(Button.ULTIMATE)
 
     exitStealth()
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_SOMBRA_STEALTH_COOLDOWN)
 
 
 rule "[sombra/stealth.opy]: Exit Stealth when taking damage":
@@ -74,6 +75,7 @@ rule "[sombra/stealth.opy]: Exit Stealth when taking damage":
     @Condition eventPlayer.is_using_stealth
 
     exitStealth()
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_SOMBRA_STEALTH_COOLDOWN)
 
 
 def exitStealth():
@@ -87,7 +89,6 @@ def exitStealth():
     hideStealthHud()
     wait(OW1_SOMBRA_STEALTH_RECOVERY_TIME)
     eventPlayer.setAbility1Enabled(true)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_SOMBRA_STEALTH_COOLDOWN)
     eventPlayer.is_using_stealth = false
 
 
