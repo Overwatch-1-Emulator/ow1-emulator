@@ -322,4 +322,6 @@ globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "O
 
 # Zenyatta
 #!define OW1_ZENYATTA_CLIP_SIZE 20
+#!define OW1_ZENYATTA_HEALTH 50
+#!define OW1_ZENYATTA_SHIELDS 150
 #!define OW1_ZENYATTA_ULT_COST 2310
