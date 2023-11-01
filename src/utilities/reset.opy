@@ -19,6 +19,16 @@ subroutine resetStatuses
 subroutine resetFrenemies
 
 
+#!define resetHero() \
+    resetAbilities() \
+    resetStats() \
+    resetStatuses() \
+    resetFrenemies() \
+    resetUltCharge() \
+    clearCustomHealth() \
+    resetSelfHealing() \
+
+
 def resetAbilities():
     @Name "[reset.opy]: resetAbilities()"
 
@@ -58,6 +68,7 @@ def resetStats():
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.setKnockbackDealt(100)
     eventPlayer.setGravity(100)
+    eventPlayer.setMoveSpeed(100)
 
 
 def resetStatuses():

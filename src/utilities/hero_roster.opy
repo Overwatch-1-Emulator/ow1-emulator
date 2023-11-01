@@ -1,60 +1,62 @@
 #!mainFile "../main.opy"
 
-globalvar hero_roaster_gvar
-#!defineMember current_hero hero_roaster_gvar[0]
+globalvar hero_roster_gvar
+#!defineMember current_hero hero_roster_gvar[0]
 globalvar heroes_enabled
 
 # Currently enabled heroes
-#!defineMember tank_roaster hero_roaster_gvar[1]
-#!defineMember damage_roaster hero_roaster_gvar[2]
-#!defineMember support_roaster hero_roaster_gvar[3]
-#!defineMember hero_roaster hero_roaster_gvar[4]
+#!defineMember tank_roaster hero_roster_gvar[1]
+#!defineMember damage_roaster hero_roster_gvar[2]
+#!defineMember support_roaster hero_roster_gvar[3]
+#!defineMember hero_roaster hero_roster_gvar[4]
 
 # Hero Role Definition
-#!defineMember tank_heroes hero_roaster_gvar[5]
-#!defineMember damage_heroes hero_roaster_gvar[6]
-#!defineMember support_heroes hero_roaster_gvar[7]
+#!defineMember tank_heroes hero_roster_gvar[5]
+#!defineMember damage_heroes hero_roster_gvar[6]
+#!defineMember support_heroes hero_roster_gvar[7]
 
 
 rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
-    heroes_enabled[heroID(Hero.ANA)] = createWorkshopSetting(bool, "Hero Roster", "Ana", true, 0)
-    heroes_enabled[heroID(Hero.ASHE)] = createWorkshopSetting(bool, "Hero Roster", "Ashe", true, 0)
-    heroes_enabled[heroID(Hero.BAPTISTE)] = createWorkshopSetting(bool, "Hero Roster", "Baptiste", true, 0)
-    heroes_enabled[heroID(Hero.BASTION)] = createWorkshopSetting(bool, "Hero Roster", "Bastion", true, 0)
-    heroes_enabled[heroID(Hero.BRIGITTE)] = createWorkshopSetting(bool, "Hero Roster", "Brigitte", true, 0)
-    heroes_enabled[heroID(Hero.MCCREE)] = createWorkshopSetting(bool, "Hero Roster", "Cassidy", true, 0)
-    heroes_enabled[heroID(Hero.DOOMFIST)] = createWorkshopSetting(bool, "Hero Roster", "Doomfist", true, 0)
-    heroes_enabled[heroID(Hero.DVA)] = createWorkshopSetting(bool, "Hero Roster", "DVa", true, 0)
-    heroes_enabled[heroID(Hero.ECHO)] = createWorkshopSetting(bool, "Hero Roster", "Echo", true, 0)
-    heroes_enabled[heroID(Hero.GENJI)] = createWorkshopSetting(bool, "Hero Roster", "Genji", true, 0)
-    heroes_enabled[heroID(Hero.HANZO)] = createWorkshopSetting(bool, "Hero Roster", "Hanzo", true, 0)
-    heroes_enabled[heroID(Hero.ILLARI)] = createWorkshopSetting(bool, "Hero Roster", "Illari", false, 0)
-    heroes_enabled[heroID(Hero.JUNKER_QUEEN)] = createWorkshopSetting(bool, "Hero Roster", "Junker Queen", false, 0)
-    heroes_enabled[heroID(Hero.JUNKRAT)] = createWorkshopSetting(bool, "Hero Roster", "Junkrat", true, 0)
-    heroes_enabled[heroID(Hero.KIRIKO)] = createWorkshopSetting(bool, "Hero Roster", "Kiriko", true, 0)
-    heroes_enabled[heroID(Hero.LIFEWEAVER)] = createWorkshopSetting(bool, "Hero Roster", "Lifeweaver", false, 0)
-    heroes_enabled[heroID(Hero.LUCIO)] = createWorkshopSetting(bool, "Hero Roster", "Lucio", true, 0)
-    heroes_enabled[heroID(Hero.MEI)] = createWorkshopSetting(bool, "Hero Roster", "Mei", true, 0)
-    heroes_enabled[heroID(Hero.MERCY)] = createWorkshopSetting(bool, "Hero Roster", "Mercy", true, 0)
-    heroes_enabled[heroID(Hero.MOIRA)] = createWorkshopSetting(bool, "Hero Roster", "Moira", true, 0)
-    heroes_enabled[heroID(Hero.ORISA)] = createWorkshopSetting(bool, "Hero Roster", "Orisa", true, 0)
-    heroes_enabled[heroID(Hero.PHARAH)] = createWorkshopSetting(bool, "Hero Roster", "Pharah", true, 0)
-    heroes_enabled[heroID(Hero.RAMATTRA)] = createWorkshopSetting(bool, "Hero Roster", "Ramattra", false, 0)
-    heroes_enabled[heroID(Hero.REAPER)] = createWorkshopSetting(bool, "Hero Roster", "Reaper", true, 0)
-    heroes_enabled[heroID(Hero.REINHARDT)] = createWorkshopSetting(bool, "Hero Roster", "Reinhardt", true, 0)
-    heroes_enabled[heroID(Hero.ROADHOG)] = createWorkshopSetting(bool, "Hero Roster", "Roadhog", true, 0)
-    heroes_enabled[heroID(Hero.SIGMA)] = createWorkshopSetting(bool, "Hero Roster", "Sigma", true, 0)
-    heroes_enabled[heroID(Hero.SOJOURN)] = createWorkshopSetting(bool, "Hero Roster", "Sojourn", false, 0)
-    heroes_enabled[heroID(Hero.SOLDIER)] = createWorkshopSetting(bool, "Hero Roster", "Soldier", true, 0)
-    heroes_enabled[heroID(Hero.SOMBRA)] = createWorkshopSetting(bool, "Hero Roster", "Sombra", true, 0)
-    heroes_enabled[heroID(Hero.SYMMETRA)] = createWorkshopSetting(bool, "Hero Roster", "Symmetra", true, 0)
-    heroes_enabled[heroID(Hero.TORBJORN)] = createWorkshopSetting(bool, "Hero Roster", "Torbjorn", true, 0)
-    heroes_enabled[heroID(Hero.TRACER)] = createWorkshopSetting(bool, "Hero Roster", "Tracer", true, 0)
-    heroes_enabled[heroID(Hero.WIDOWMAKER)] = createWorkshopSetting(bool, "Hero Roster", "Widowmaker", true, 0)
-    heroes_enabled[heroID(Hero.WINSTON)] = createWorkshopSetting(bool, "Hero Roster", "Winston", true, 0)
-    heroes_enabled[heroID(Hero.HAMMOND)] = createWorkshopSetting(bool, "Hero Roster", "Wrecking Ball", true, 0)
-    heroes_enabled[heroID(Hero.ZARYA)] = createWorkshopSetting(bool, "Hero Roster", "Zarya", true, 0)
-    heroes_enabled[heroID(Hero.ZENYATTA)] = createWorkshopSetting(bool, "Hero Roster", "Zenyatta", true, 0)
+    heroes_enabled[heroID(Hero.DVA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "DVa", true)
+    heroes_enabled[heroID(Hero.JUNKER_QUEEN)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Junker Queen", false)
+    heroes_enabled[heroID(Hero.ORISA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Orisa", true)
+    heroes_enabled[heroID(Hero.RAMATTRA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Ramattra", false)
+    heroes_enabled[heroID(Hero.REINHARDT)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Reinhardt", true)
+    heroes_enabled[heroID(Hero.ROADHOG)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Roadhog", true)
+    heroes_enabled[heroID(Hero.SIGMA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Sigma", true)
+    heroes_enabled[heroID(Hero.WINSTON)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Winston", true)
+    heroes_enabled[heroID(Hero.HAMMOND)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Wrecking Ball", true)
+    heroes_enabled[heroID(Hero.ZARYA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Zarya", true)
+
+    heroes_enabled[heroID(Hero.ASHE)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Ashe", true)
+    heroes_enabled[heroID(Hero.BASTION)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Bastion", true)
+    heroes_enabled[heroID(Hero.MCCREE)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Cassidy", true)
+    heroes_enabled[heroID(Hero.DOOMFIST)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Doomfist", true)
+    heroes_enabled[heroID(Hero.ECHO)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Echo", true)
+    heroes_enabled[heroID(Hero.GENJI)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Genji", true)
+    heroes_enabled[heroID(Hero.HANZO)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Hanzo", true)
+    heroes_enabled[heroID(Hero.JUNKRAT)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Junkrat", true)
+    heroes_enabled[heroID(Hero.MEI)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Mei", true)
+    heroes_enabled[heroID(Hero.PHARAH)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Pharah", true)
+    heroes_enabled[heroID(Hero.REAPER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Reaper", true)
+    heroes_enabled[heroID(Hero.SOJOURN)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Sojourn", false)
+    heroes_enabled[heroID(Hero.SOLDIER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Soldier", true)
+    heroes_enabled[heroID(Hero.SOMBRA)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Sombra", true)
+    heroes_enabled[heroID(Hero.SYMMETRA)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Symmetra", true)
+    heroes_enabled[heroID(Hero.TORBJORN)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Torbjorn", true)
+    heroes_enabled[heroID(Hero.TRACER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Tracer", true)
+    heroes_enabled[heroID(Hero.WIDOWMAKER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Widowmaker", true)
+    
+    heroes_enabled[heroID(Hero.ANA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Ana", true)
+    heroes_enabled[heroID(Hero.BAPTISTE)] = createWorkshopSetting(bool, "Hero Roster - Support", "Baptiste", true)
+    heroes_enabled[heroID(Hero.BRIGITTE)] = createWorkshopSetting(bool, "Hero Roster - Support", "Brigitte", true)
+    heroes_enabled[heroID(Hero.ILLARI)] = createWorkshopSetting(bool, "Hero Roster - Support", "Illari", false)
+    heroes_enabled[heroID(Hero.KIRIKO)] = createWorkshopSetting(bool, "Hero Roster - Support", "Kiriko", true)
+    heroes_enabled[heroID(Hero.LIFEWEAVER)] = createWorkshopSetting(bool, "Hero Roster - Support", "Lifeweaver", false)
+    heroes_enabled[heroID(Hero.LUCIO)] = createWorkshopSetting(bool, "Hero Roster - Support", "Lucio", true)
+    heroes_enabled[heroID(Hero.MERCY)] = createWorkshopSetting(bool, "Hero Roster - Support", "Mercy", true)
+    heroes_enabled[heroID(Hero.MOIRA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Moira", true)
+    heroes_enabled[heroID(Hero.ZENYATTA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Zenyatta", true)
 
 
 rule "[hero_roster.opy]: Define tank, damage, support heroes array":

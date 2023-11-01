@@ -11,6 +11,8 @@ subroutine refreshAmmo
 subroutine showOrisaAmmoHud
 subroutine hideOrisaAmmoHud
 
+#!define refreshAmmo() eventPlayer.setAmmo(0, eventPlayer.orisa_ammo + 1)
+
 
 rule "[orisa/gun.opy]: Decrease ammo when shooting gun":
     @Event eachPlayer
@@ -38,19 +40,10 @@ rule "[orisa/gun.opy]: Reload when out of ammo":
     reloadFusionDriver()
 
 
-def resetFusionDriver():
-    @Name "[orisa/gun.opy]: resetFusionDriver()"
-
-    eventPlayer.setMaxAmmo(0, OW1_ORISA_CLIP_SIZE + 1)
-    eventPlayer.orisa_ammo = OW1_ORISA_CLIP_SIZE
-    refreshAmmo()
-
-
 def reloadFusionDriver():
     @Name "[orisa/gun.opy]: reloadFusionDriver()"
 
-    if eventPlayer.orisa_ammo >= OW1_ORISA_CLIP_SIZE:
-        return # Abort if ammo already full
+    if eventPlayer.orisa_ammo >= OW1_ORISA_CLIP_SIZE: return # Abort if ammo already full
 
     eventPlayer.setAmmo(0, 0) # Play reload animation
     eventPlayer.is_orisa_reloading = true
@@ -59,10 +52,12 @@ def reloadFusionDriver():
     resetFusionDriver()
 
 
-def refreshAmmo():
-    @Name "[orisa/gun.opy]: refreshAmmo()"
+def resetFusionDriver():
+    @Name "[orisa/gun.opy]: resetFusionDriver()"
 
-    eventPlayer.setAmmo(0, eventPlayer.orisa_ammo + 1)
+    eventPlayer.setMaxAmmo(0, OW1_ORISA_CLIP_SIZE + 1)
+    eventPlayer.orisa_ammo = OW1_ORISA_CLIP_SIZE
+    refreshAmmo()
 
 
 def showOrisaAmmoHud():
@@ -115,3 +110,10 @@ rule "[orisa/gun.opy]: Deal OW1 Orisa melee damage":
     @Condition eventAbility == Button.MELEE
 
     damage(victim, attacker, eventDamage*(OW2_ORISA_GUN_DAMAGE/OW1_ORISA_GUN_DAMAGE) - eventDamage + 1) # +1 compensates for rounding error
+
+
+rule "[orisa/gun.opy]: Reload after dying":
+    @Event playerDied
+    @Hero orisa
+
+    resetFusionDriver()
