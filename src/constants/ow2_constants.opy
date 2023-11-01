@@ -115,7 +115,7 @@
 #!define OW2_JUNKRAT_STEEL_TRAP_DMG 100
 
 # Illari
-#!define OW2_ILLARI_PYLON_HP 125
+#!define OW2_ILLARI_PYLON_HP 100
 #!define OW2_ILLARI_ULT_COST 2420
 
 # Kiriko
