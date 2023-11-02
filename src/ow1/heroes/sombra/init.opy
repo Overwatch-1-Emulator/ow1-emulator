@@ -25,9 +25,7 @@ rule "[sombra/init.opy]: Initialize Sombra":
 
 rule "[sombra/init.opy]: Clean up Sombra":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() == Hero.SOMBRA
-
-    waitUntil(updateEveryTick(eventPlayer.getCurrentHero() != Hero.SOMBRA), Math.INFINITY)
+    @Condition eventPlayer.getCurrentHero() != Hero.SOMBRA
 
     exitStealth()
     destroyTranslocator()

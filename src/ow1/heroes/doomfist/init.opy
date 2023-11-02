@@ -37,9 +37,7 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
 
 rule "[doomfist/init.opy]: Clean up Doomfist":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
-
-    waitUntil(updateEveryTick(eventPlayer.getCurrentHero() != Hero.DOOMFIST), Math.INFINITY)
+    @Condition eventPlayer.getCurrentHero() != Hero.DOOMFIST
 
     destroySlamIndicatorGui()
     hideSlamDamageGui()
