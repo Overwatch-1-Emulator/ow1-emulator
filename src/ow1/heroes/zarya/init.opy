@@ -10,6 +10,7 @@ rule "[zarya/init.opy]: Initialize Zarya":
 
 
     eventPlayer.setAbility1Enabled(false) # Prevents zarya getting infinite hp when bubbling herself immediately after spawning
+    eventPlayer.setAbility2Enabled(false) # Prevents ally from getting infinite hp when bubbling immediately after spawning
     resetStats()
     resetStatuses()
     resetFrenemies()
@@ -28,9 +29,7 @@ rule "[zarya/init.opy]: Initialize Zarya":
 
 rule "[zarya/init.opy]: Clean up Zarya":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() == Hero.ZARYA
-
-    waitUntil(updateEveryTick(eventPlayer.getCurrentHero() != Hero.ZARYA), Math.INFINITY)
+    @Condition eventPlayer.getCurrentHero() != Hero.ZARYA
 
     hideSelfBubbleCD()
     hideAllyBubbleCD()

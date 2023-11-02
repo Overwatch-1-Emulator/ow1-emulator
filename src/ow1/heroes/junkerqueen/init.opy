@@ -18,9 +18,8 @@ rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
 
 rule "[orisa/init.opy]: Clean up Junkerqueen":
     @Event eachPlayer
-    @Condition updateEveryTick(eventPlayer.getCurrentHero() == Hero.JUNKER_QUEEN)
+    @Condition eventPlayer.getCurrentHero() != Hero.JUNKER_QUEEN
 
-    waitUntil(updateEveryTick(eventPlayer.getCurrentHero() != Hero.JUNKER_QUEEN), Math.INFINITY)
     stopHealingModification(eventPlayer.jq_self_heal_id)
 
 
