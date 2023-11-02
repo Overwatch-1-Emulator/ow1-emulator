@@ -37,35 +37,155 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
     },
     "gamemodes": {
         "assault": {
-            "disabledMaps": [
+            "enabledMaps": [
                 "hanamuraWinter",
-                "horizonLunarColony",
-                "paris"
-            ],
-            "enableCompetitiveRules": true
+                # "horizonLunarColony",
+                # "paris",
+                "templeOfAnubis",
+                "volskaya"
+            ]
         },
         "control": {
-            "disabledMaps": [
-                "lijiangTowerLny"
-            ],
-            "enableCompetitiveRules": true
+            "enabledMaps": [
+                {
+                    "busan": [
+                        "morning"
+                    ]
+                },
+                {
+                    "antarcticPeninsula": []
+                },
+                {
+                    "ilios": [
+                        "morning"
+                    ]
+                },
+                {
+                    "lijiangTower": [
+                        "night"
+                    ]
+                },
+                {
+                    "nepal": [
+                        "morning"
+                    ]
+                },
+                {
+                    "oasis": [
+                        "evening"
+                    ]
+                },
+                {
+                    "samoa": []
+                }
+            ]
         },
         "escort": {
-            "enableCompetitiveRules": true
+            "enabledMaps": [
+                {
+                    "circuitRoyal": [
+                        "night"
+                    ]
+                },
+                {
+                    "dorado": [
+                        "night"
+                    ]
+                },
+                {
+                    "havana": [
+                        "morning"
+                    ]
+                },
+                {
+                    "rialto": [
+                        "morning"
+                    ]
+                },
+                {
+                    "junkertown" : []
+                },
+                {
+                    "route66": [
+                        "morning"
+                    ]
+                },
+                {
+                    "shambaliMonastery": []
+                },
+				{
+                    "watchpointGibraltar": [
+                        "evening"
+                    ]
+                }
+            ]
         },
         "hybrid": {
-            "disabledMaps": [
-                "blizzWorldWinter",
-                "eichenwaldeHalloween",
-                "hollywoodHalloween",
-                "kingsRowWinter"
-            ],
-            "enableCompetitiveRules": true
+            "enabledMaps": [
+                {
+                    "blizzWorld": [
+                        "morning"
+                    ]
+                },
+                {
+                    "eichenwalde": [
+                        "morning"
+                    ]
+                },
+                {
+                    "hollywood": [
+                        "morning"
+                    ]
+                },
+                {
+                    "kingsRow": [
+                        "night"
+                    ]
+                },
+                {
+                    "midtown": [
+                        "morning"
+                    ]
+                },
+                {
+                    "numbani": []
+                },
+                {
+                    "paraiso": [
+                        "morning"
+                    ]
+                },
+            ]
         },
-        "flashpoint": {},
-        "push": {},
         "practiceRange": {
             "enabledMaps": []
+        },
+        "flashpoint": {
+            "enabledMaps": [
+                {
+                    "newJunkCity": []
+                },
+                {
+                    "suravasa": []
+                },
+            ]
+        },
+        "push": {
+            "enabledMaps": [
+                {
+                    "colosseo": [
+                        "evening"
+                    ]
+                },
+                {
+                    "esperanca": []
+                },
+                {
+                    "newQueenStreet": [
+                        "morning"
+                    ]
+                },
+            ]
         },
         "general": {
             "heroLimit": "1PerTeam",
