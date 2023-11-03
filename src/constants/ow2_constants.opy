@@ -115,6 +115,10 @@
 # Mei
 #!define OW2_MEI_ULT_COST 1750
 
+# Moira
+#!define OW2_MOIRA_HEAL_GRASP_AMMO 156
+#!define OW2_MOIRA_HEAL_GRASP_AMMO_USAGE 20
+
 # Orisa
 #!define OW2_ORISA_AMMO 50
 #!define OW2_ORISA_FIRE_RATE 10

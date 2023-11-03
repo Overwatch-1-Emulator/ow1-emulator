@@ -170,6 +170,8 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 
 #!define OW1_MERCY_ULT_COST 1820
 
 # Moira
+#!define OW1_MOIRA_HEAL_GRASP_AMMO 160
+#!define OW1_MOIRA_HEAL_GRASP_AMMO_USAGE 12.5
 #!define OW1_MOIRA_ULT_COST 2800
 
 # Orisa
