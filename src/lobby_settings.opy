@@ -205,7 +205,8 @@ gitlab.com/MaxwellJung/ow1_emulator",
                 "enablePassive": false
             },
             "moira": {
-                "ultGen%": percent(OW2_MOIRA_ULT_COST/OW1_MOIRA_ULT_COST)
+                "ultGen%": percent(OW2_MOIRA_ULT_COST/OW1_MOIRA_ULT_COST),
+                "primaryFireMaximumTime%": percent((OW2_MOIRA_HEAL_GRASP_AMMO_USAGE/OW1_MOIRA_HEAL_GRASP_AMMO_USAGE)*(OW1_MOIRA_HEAL_GRASP_AMMO/OW2_MOIRA_HEAL_GRASP_AMMO)),
             },
             "orisa": {
                 "ultGen%": percent(OW2_ORISA_ULT_COST/OW1_ORISA_ULT_COST)

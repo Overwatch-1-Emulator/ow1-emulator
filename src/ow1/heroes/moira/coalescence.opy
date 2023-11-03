@@ -7,5 +7,7 @@ rule "[moira/coalescence.opy]: Prevent fading during coalescence":
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.setAbility1Enabled(false)
+    eventPlayer.setMoveSpeed(percent(OW1_MOIRA_COALESCENCE_SPEED_BUFF/OW2_MOIRA_COALESCENCE_SPEED_BUFF))
     waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
+    eventPlayer.setMoveSpeed(100)
     eventPlayer.setAbility1Enabled(true)

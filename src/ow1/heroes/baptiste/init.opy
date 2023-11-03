@@ -12,6 +12,8 @@ rule "[baptiste/init.opy]: Initialize Baptiste":
     resetHero()
     setCustomHealth(OW1_BAPTISTE_HEALTH, 0, 0)
 
+    eventPlayer.setDamageDealt(percent(OW1_BAPTISTE_PRIMARY_DAMAGE/OW2_BAPTISTE_PRIMARY_DAMAGE))
+
     eventPlayer.setAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
 
@@ -21,3 +23,11 @@ rule "[baptiste/init.opy]: Initialize Baptiste":
     removeSelfHealing()
 
     eventPlayer.call_init = false
+
+
+rule "[baptiste/init.opy]: Correct all damage other than primary fire":
+    @Event playerDealtDamage
+    @Hero baptiste
+    @Condition eventAbility not in [Button.PRIMARY_FIRE]
+
+    damage(victim, attacker, (OW2_BAPTISTE_PRIMARY_DAMAGE/OW1_BAPTISTE_PRIMARY_DAMAGE)*eventDamage - eventDamage)
