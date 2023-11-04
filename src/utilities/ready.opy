@@ -68,7 +68,7 @@ rule "[ready.opy]: Start match when everyone ready":
     @Event global
     @Condition isInSetup()
     @Condition getMatchTime() > SETUP_BUFFER_TIME
-    @Condition len([player for player in getAllPlayers() if player.ready])/len(getAllPlayers()) >= READY_THRESHOLD
+    @Condition len([player for player in getAllPlayers() if player.ready])/len(getAllPlayers()) >= READY_THRESHOLD_PERCENT/100
     @Condition not isGameInProgress() # Guard to prevent incorrect match time modification
     @Condition not isAssemblingHeroes() # Guard to prevent incorrect match time modification
 
