@@ -19,8 +19,13 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     resetSelfHealing()
     setCustomHealth(OW1_KIRIKO_HEALTH, 0, 0)
     resetAbilities()
-    eventPlayer.setHealingDealt(percent(OW1_KIRKIO_OFUDA_HEALING/OW2_KIRIKO_OFUDA_HEALING))
+
     removeSelfHealing()
+
+    eventPlayer.setHealingDealt(percent(OW1_KIRKIO_OFUDA_HEALING/OW2_KIRIKO_OFUDA_HEALING))
+
+    eventPlayer.setMaxAmmo(0, 6)
+    eventPlayer.setAmmo(0, 12)
     # eventPlayer.setDamageDealt(percent(OW1_KIRIKO_GLOBAL_DAMAGE))
     eventPlayer.call_init = false
 
