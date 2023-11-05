@@ -60,7 +60,9 @@
 #!define OW2_DOOMFIST_ULT_COST 1680
 
 # DVa
+#!define OW2_DVA_ARMOR 300
 #!define OW2_DVA_BOOSTERS_DAMAGE 15
+#!define OW2_DVA_HEALTH 350
 #!define OW2_DVA_ULT_COST 1540
 
 # Echo
