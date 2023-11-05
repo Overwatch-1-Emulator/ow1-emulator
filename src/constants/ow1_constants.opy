@@ -6,7 +6,8 @@
 #!define OW1_SUPPORT_PASSIVE_HEALING 15
 #!define OW1_ACTIVATION_TIME_PASSIVE_HEALING 1.5
 #!define ULT_CHARGE_PER_SECOND 5
-globalvar READY_THRESHOLD = createWorkshopSetting(float[0:1], "Lobby", "Ready Threshold", 0.7)
+globalvar READY_THRESHOLD_PERCENT = createWorkshopSetting(int[0:100], "Lobby", "Ready Threshold", 75)
+#!define HEADSHOT_MULTIPLIER 2
 
 # Ana
 #!define OW1_ANA_BIOTIC_GRENADE_COOLDOWN 10
@@ -109,6 +110,7 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 
 #!define OW1_DVA_BOOSTERS_DAMAGE 10
 #!define OW1_DVA_HEALTH 300
 #!define OW1_DVA_MICRO_MISSILES_COOLDOWN_TIME 8
+#!define OW1_DVA_MOVE_PENALTY 0.4
 #!define OW1_DVA_PILOT_HEALTH 150
 #!define OW1_DVA_SHIELDS 0
 #!define OW1_DVA_ULT_COST 1540
