@@ -54,11 +54,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
         },
         "control": {
             "enabledMaps": [
-                # {
-                #     "busan": [
-                #         "morning"
-                #     ]
-                # },
+                {
+                    "busan": [
+                        "morning"
+                    ]
+                },
                 {
                     "ilios": [
                         "morning"
