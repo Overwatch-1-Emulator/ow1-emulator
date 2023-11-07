@@ -29,6 +29,7 @@ rule "[bastion/tank.opy]: Initialize tank mode":
 def startTank():
     @Name "[bastion/tank.opy]: startTank()"
 
+    eventPlayer.setUltEnabled(false) # Prevent Bastion from getting ult charge during ultimate
     wait(OW1_BASTION_TANK_CONFIG_TRANSFORM_TIME-OW2_BASTION_ASSAULT_CONFIG_TRANSFORM_TIME)
     eventPlayer.cancelPrimaryAction() # interrupt ultimate animation right before it completes
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
@@ -43,6 +44,7 @@ def endTank():
         eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
         eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to recon mode
     eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.setUltEnabled(true)
 
 
 rule "[bastion/tank.opy]: Activate tank mode":

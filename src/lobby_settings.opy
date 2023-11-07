@@ -20,6 +20,7 @@ Snappy#11809\r\n\
 KingDonMike#2694\r\n\
 thenova#21104\r\n\
 pretz#11551\r\n\
+Hikigaeru#11863\r\n\
 \r\n\
 Gamemode:\r\n\
 workshop.codes/ow1-emulator\r\n\
@@ -54,11 +55,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
         },
         "control": {
             "enabledMaps": [
-                # {
-                #     "busan": [
-                #         "morning"
-                #     ]
-                # },
+                {
+                    "busan": [
+                        "morning"
+                    ]
+                },
                 {
                     "ilios": [
                         "morning"
