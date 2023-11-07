@@ -52,8 +52,10 @@ def executeUppercut():
     eventPlayer.is_using_uppercut = false # End of uppercut
     eventPlayer.stopForcingThrottle()
     wait(0.15)
+    if (eventPlayer.isUsingAbility1()): return
     eventPlayer.setGravity(50)
     wait(0.25)
+    if (eventPlayer.isUsingAbility1()): return
     eventPlayer.setGravity(100)
 
 
