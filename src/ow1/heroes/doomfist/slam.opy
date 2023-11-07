@@ -57,6 +57,11 @@ and (not eventPlayer.isFiringSecondaryFire()) \
 and (not eventPlayer.isUsingAbility1()) \
 and (not eventPlayer.isUsingUltimate()))
 
+#Conditions for when to stop an indicator slam and drop the player
+#!define indicatorCanContinue() \
+    (distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_position) > 2) \
+and (eventPlayer.isUsingAbility1()) \
+and (eventPlayer.getSpeed() > 0) \
 
 def initSlam():
     @Name "[doomfist/slam.opy]: initSlam()"
@@ -82,10 +87,80 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     executeSlam()
 
 
+def executeSlam():
+    @Name "[doomfist/slam.opy]: executeSlam()"
+
+    eventPlayer.ow1_slam_victims = [] # clear slammed victims
+
+    if eventPlayer.slam_to_use == SlamType.INDICATOR:
+        if indicatorSlamValid():
+            initiateIndicatorSlam()
+    else if eventPlayer.slam_to_use == SlamType.GROUND:
+        initiateGroundSlam()
+
+    if (eventPlayer.isUsingAbility1()):
+        waitUntil(eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0, Math.INFINITY)
+        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
+
+
+def initiateGroundSlam():
+    @Name "[doomfist/slam.opy]: InitiateGroundSlam()"
+
+    eventPlayer.setGravity(0)
+    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
+
+    startSlamAnimation()
+    eventPlayer.applyImpulse(getForwardDirection(eventPlayer) + 0.075*Vector.UP, 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
+    wait(0.3)
+    eventPlayer.setGravity(100)
+    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
+    eventPlayer.stopForcingThrottle()
+
+
+def initiateIndicatorSlam():
+    @Name "[doomfist/slam.opy]: InitiateIndicatorSlam()"
+    
+    stopChasingVariable(eventPlayer.proto_indicator_slam_position)
+    stopChasingVariable(eventPlayer.indicator_slam_position)
+    eventPlayer.proto_indicator_slam_position = findProtoIndicatorPosition()
+    eventPlayer.indicator_slam_position = findIndicatorPosition()
+    eventPlayer.setGravity(0)
+    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
+    wait()
+    startSlamAnimation()
+    while (indicatorCanContinue()): 
+        eventPlayer.applyImpulse(directionTowards(eventPlayer.getPosition(), 
+                                                  eventPlayer.indicator_slam_position), 
+                                 OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, 
+                                 Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+        wait()
+        eventPlayer.applyImpulse(eventPlayer.getVelocity(), 
+                                 OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED - eventPlayer.getSpeed(), 
+                                 Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # somewhat prevents doom from speeding up after getting caught on objects
+        wait(0.05) # slight wait makes hitting objects give more damage
+    eventPlayer.setGravity(100)
+    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
+    cancelMomentum(eventPlayer)
+    eventPlayer.stopForcingThrottle()
+
+
+def startSlamAnimation():
+    @Name "[doomfist/slam.opy]: startSlamAnimation()"
+
+    # Start slam animation
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
+    eventPlayer.disallowButton(Button.ABILITY_1)
+
+    wait()
+    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
+
+
 rule "[doomfist/slam.opy]: Detect ground slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_GROUND_SLAM_HEIGHT)
+    @Condition eventPlayer.getAltitude() < OW1_DOOMFIST_GROUND_SLAM_HEIGHT
     
     eventPlayer.slam_to_use = SlamType.GROUND
 
@@ -93,7 +168,7 @@ rule "[doomfist/slam.opy]: Detect ground slam":
 rule "[doomfist/slam.opy]: Detect indicator slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition updateEveryTick(eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT)
+    @Condition eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT
 
     eventPlayer.slam_to_use = SlamType.INDICATOR
 
@@ -120,71 +195,6 @@ rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
     stopChasingVariable(eventPlayer.indicator_slam_position)
 
 
-def executeSlam():
-    @Name "[doomfist/slam.opy]: executeSlam()"
-
-    eventPlayer.ow1_slam_victims = [] # clear slammed victims
-
-    if eventPlayer.slam_to_use == SlamType.INDICATOR:
-        if indicatorSlamValid():
-            initiateIndicatorSlam()
-    else if eventPlayer.slam_to_use == SlamType.GROUND:
-        initiateGroundSlam()
-
-    if (eventPlayer.isUsingAbility1()):
-        waitUntil(eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0, Math.INFINITY)
-        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
-
-
-def initiateGroundSlam():
-    @Name "[doomfist/slam.opy]: InitiateGroundSlam()"
-
-    eventPlayer.setGravity(0)
-    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-
-    startSlamAnimation()
-    eventPlayer.applyImpulse(getForwardDirection(eventPlayer) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
-    wait(0.3)
-    eventPlayer.setGravity(100)
-    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
-    eventPlayer.stopForcingThrottle()
-
-
-def initiateIndicatorSlam():
-    @Name "[doomfist/slam.opy]: InitiateIndicatorSlam()"
-    
-    stopChasingVariable(eventPlayer.proto_indicator_slam_position)
-    stopChasingVariable(eventPlayer.indicator_slam_position)
-    eventPlayer.proto_indicator_slam_position = findProtoIndicatorPosition()
-    eventPlayer.indicator_slam_position = findIndicatorPosition()
-    eventPlayer.setGravity(0)
-    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-
-    startSlamAnimation()
-    eventPlayer.current_position = eventPlayer.getPosition()
-    chase(eventPlayer.current_position, eventPlayer.indicator_slam_position, rate=OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, ChaseReeval.NONE)
-    eventPlayer.startForcingPosition(eventPlayer.current_position, true)
-    waitUntil((distance(eventPlayer.current_position, eventPlayer.indicator_slam_position) <= 1) or (not eventPlayer.isUsingAbility1()), Math.INFINITY)
-    eventPlayer.stopForcingPosition()
-    waitUntil(distance(eventPlayer.current_position, eventPlayer.indicator_slam_position) <= 0.01, Math.INFINITY)
-    stopChasingVariable(eventPlayer.current_position)
-    eventPlayer.setGravity(100)
-    eventPlayer.stopForcingThrottle()
-
-
-def startSlamAnimation():
-    @Name "[doomfist/slam.opy]: startSlamAnimation()"
-
-    # Start slam animation
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-    eventPlayer.allowButton(Button.ABILITY_1)
-    eventPlayer.forceButtonPress(Button.ABILITY_1)
-    eventPlayer.disallowButton(Button.ABILITY_1)
-
-    wait()
-    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
-
-
 rule "[doomfist/uppercut.opy]: Disable abilities when slamming":
     @Event eachPlayer
     @Hero doomfist
@@ -209,6 +219,8 @@ rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     eventPlayer.slam_damage = 0
     showSlamDamageGui()
     waitUntil(not eventPlayer.isOnGround(), Math.INFINITY)
+    if eventPlayer.slam_to_use == SlamType.GROUND: # Makes ground slam damage 49    
+        wait()
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     stopChasingVariable(eventPlayer.slam_damage)

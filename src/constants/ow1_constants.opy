@@ -81,16 +81,17 @@ globalvar READY_THRESHOLD_PERCENT = createWorkshopSetting(int[0:100], "Lobby", "
 #!define OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN 15
 #!define OW1_DOOMFIST_PUNCH_KNOCKBACK_MAX 30
 #!define OW1_DOOMFIST_RISING_UPPERCUT_AIR_LOCK_TIME 0.6
-globalvar OW1_DOOMFIST_UPPERCUT_CD = createWorkshopSetting(float[0:12], 'Doomfist', 'Uppercut Cooldown', 6)
+globalvar OW1_DOOMFIST_UPPERCUT_CD = createWorkshopSetting(float[0:12], 'Doomfist', 'Cooldown - Uppercut', 6)
 #!define OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE 50
 #!define OW1_DOOMFIST_RISING_UPPERCUT_RADIUS 5
 #!define OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX 1.4
 #!define OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN 0.192
+globalvar OW1_DOOMFIST_ROCKET_PUNCH_COOLDOWN = createWorkshopSetting(float[0:12], 'Doomfist', 'Cooldown - Punch', 4)
 #!define OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN 50
 #!define OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX 100
 #!define OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN 50
 #!define OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX 150
-globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:12], 'Doomfist', 'Slam Cooldown', 6)
+globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:12], 'Doomfist', 'Cooldown - Slam', 6)
 # Slamming on flat ground should deal 49 damage
 # Frame by frame analysis of Youtube videos indicate that slam damage increases at a rate of 100 damage/second
 #!define OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE 100
