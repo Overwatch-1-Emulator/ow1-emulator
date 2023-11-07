@@ -140,7 +140,6 @@ def initiateIndicatorSlam():
         wait(0.05) # slight wait makes hitting objects give more damage
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
-    cancelMomentum(eventPlayer)
     eventPlayer.stopForcingThrottle()
 
 
