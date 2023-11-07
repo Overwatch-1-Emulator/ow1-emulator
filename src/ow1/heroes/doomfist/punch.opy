@@ -35,16 +35,20 @@ def initRocketPunch():
 rule "[doomfist/punch.opy]: Initialize rocket punch":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.isFiringSecondaryFire() == true
-    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
+    @Condition eventPlayer.isFiringSecondaryFire()
+    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
 
     eventPlayer.punched_victims = []
     eventPlayer.wall_impacted_victims = []
     eventPlayer.punch_charge_time = 0
     chase(eventPlayer.punch_charge_time, OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX, rate=1, ChaseReeval.NONE)
-    waitUntil(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == false, Math.INFINITY)
+    waitUntil(not eventPlayer.isHoldingButton(Button.SECONDARY_FIRE), Math.INFINITY)
     stopChasingVariable(eventPlayer.punch_charge_time)
     eventPlayer.punch_charge_time = max(OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN, eventPlayer.punch_charge_time)
+    
+    # cooldown
+    waitUntil(not eventPlayer.isFiringSecondaryFire(), Math.INFINITY)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_DOOMFIST_ROCKET_PUNCH_COOLDOWN) # workshop bug (doesn't work)
 
 
 # DO NOT switch the order of this rule with the next rule

@@ -22,8 +22,7 @@ If you're interested in submitting code to this gamemode, read this guide carefu
 ## Setup Instructions
 1. Download [Visual Studio Code](https://code.visualstudio.com/download).
 2. Go to extension tab in VScode and install `OverPy` extension.
-4. Go back to GitLab and fork this repository to your own GitLab account.
-5. Clone the forked repository to your local computer (use [GitHub Desktop](https://desktop.github.com/) if you don't know how to clone using terminal).
+5. Clone the repository to your local computer (use [GitHub Desktop](https://desktop.github.com/) if you don't know how to clone using terminal).
 6. Open cloned repository folder on VScode.
 7. Try building gamemode using instructions [below](#building).
 8. Follow [general workflow](#general-workflow) to start development.
@@ -46,13 +45,13 @@ For instructions on how to use OverPy, see [here](https://gitlab.com/Zezombye/ov
 4. Compile and test new codebase.
 6. Commit working changes.
 7. Submit [Merge Request](https://gitlab.com/MaxwellJung/ow1_plus_plus/-/merge_requests) to merge your branch into staging branch.
-8. Wait for your Pull Request to be approved and merged.
+8. Wait for owner to approve and merge your Merge Request.
 
 
 ## Release Cycle
 
 1. For every 3~5 features added to staging branch, the devs will compile a staging build and test each feature manually.
-2. If your feature fails the test or fails to meet quality expectations, the PR corresponding to that feature will be reverted to drop the changes.
+2. If your feature fails to meet quality expectations, the MR corresponding to that feature will be reverted to drop the changes.
 3. After each feature in staging build is confirmed, the staging branch will be merged to main branch and a new main release build will be announced.
 
 
