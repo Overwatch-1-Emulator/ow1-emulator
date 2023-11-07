@@ -87,44 +87,6 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     executeSlam()
 
 
-rule "[doomfist/slam.opy]: Detect ground slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition updateEveryTick(eventPlayer.getAltitude() < OW1_DOOMFIST_GROUND_SLAM_HEIGHT)
-    
-    eventPlayer.slam_to_use = SlamType.GROUND
-
-
-rule "[doomfist/slam.opy]: Detect indicator slam":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition updateEveryTick(eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT)
-
-    eventPlayer.slam_to_use = SlamType.INDICATOR
-
-
-rule "[doomfist/slam.opy]: Start tracking indicator slam destination":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
-    @Condition not eventPlayer.isUsingAbility1()
-
-    chase(eventPlayer.proto_indicator_slam_position, findProtoIndicatorPosition(), rate=Math.INFINITY, ChaseReeval.DESTINATION_AND_RATE)
-    chase(eventPlayer.indicator_slam_position, findIndicatorPosition(), rate=Math.INFINITY, ChaseReeval.DESTINATION_AND_RATE)
-
-
-rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition not ((eventPlayer.slam_to_use == SlamType.INDICATOR) \
-                    and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
-                    and (not eventPlayer.isUsingAbility1()))
-
-    stopChasingVariable(eventPlayer.proto_indicator_slam_position)
-    stopChasingVariable(eventPlayer.indicator_slam_position)
-
-
 def executeSlam():
     @Name "[doomfist/slam.opy]: executeSlam()"
 
@@ -193,6 +155,44 @@ def startSlamAnimation():
 
     wait()
     eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
+
+
+rule "[doomfist/slam.opy]: Detect ground slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.getAltitude() < OW1_DOOMFIST_GROUND_SLAM_HEIGHT
+    
+    eventPlayer.slam_to_use = SlamType.GROUND
+
+
+rule "[doomfist/slam.opy]: Detect indicator slam":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT
+
+    eventPlayer.slam_to_use = SlamType.INDICATOR
+
+
+rule "[doomfist/slam.opy]: Start tracking indicator slam destination":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
+    @Condition not eventPlayer.isUsingAbility1()
+
+    chase(eventPlayer.proto_indicator_slam_position, findProtoIndicatorPosition(), rate=Math.INFINITY, ChaseReeval.DESTINATION_AND_RATE)
+    chase(eventPlayer.indicator_slam_position, findIndicatorPosition(), rate=Math.INFINITY, ChaseReeval.DESTINATION_AND_RATE)
+
+
+rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition not ((eventPlayer.slam_to_use == SlamType.INDICATOR) \
+                    and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
+                    and (not eventPlayer.isUsingAbility1()))
+
+    stopChasingVariable(eventPlayer.proto_indicator_slam_position)
+    stopChasingVariable(eventPlayer.indicator_slam_position)
 
 
 rule "[doomfist/uppercut.opy]: Disable abilities when slamming":
