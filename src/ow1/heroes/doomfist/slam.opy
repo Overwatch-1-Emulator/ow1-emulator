@@ -148,7 +148,7 @@ def initiateGroundSlam():
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
     startSlamAnimation()
-    eventPlayer.applyImpulse(getForwardDirection(eventPlayer) + vect(0, 0.075, 0), 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
+    eventPlayer.applyImpulse(getForwardDirection(eventPlayer) + 0.075*Vector.UP, 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
     wait(0.3)
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
@@ -167,10 +167,15 @@ def initiateIndicatorSlam():
     wait()
     startSlamAnimation()
     while (indicatorCanContinue()): 
-        eventPlayer.applyImpulse(directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position), OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+        eventPlayer.applyImpulse(directionTowards(eventPlayer.getPosition(), 
+                                                  eventPlayer.indicator_slam_position), 
+                                 OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, 
+                                 Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
         wait()
-        eventPlayer.applyImpulse(-eventPlayer.getVelocity(), eventPlayer.getSpeed() - OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # somewhat prevents doom from speeding up after getting caught on objects
-        wait(0.05) # slight wait makes hitting objects give more damage 
+        eventPlayer.applyImpulse(eventPlayer.getVelocity(), 
+                                 OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED - eventPlayer.getSpeed(), 
+                                 Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # somewhat prevents doom from speeding up after getting caught on objects
+        wait(0.05) # slight wait makes hitting objects give more damage
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     cancelMomentum(eventPlayer)
