@@ -137,10 +137,9 @@ def initiateIndicatorSlam():
         eventPlayer.applyImpulse(eventPlayer.getVelocity(), 
                                  OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED - eventPlayer.getSpeed(), 
                                  Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # somewhat prevents doom from speeding up after getting caught on objects
-        wait(0.05) # slight wait makes hitting objects give more damage
+        wait(OW1_DOOMFIST_INDICATOR_SLAM_IMPULSE_PERIOD) # slight wait makes hitting objects give more damage
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
-    cancelMomentum(eventPlayer)
     eventPlayer.stopForcingThrottle()
 
 
