@@ -97,10 +97,10 @@ rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.setStatusEffect(null, Status.STUNNED, 0.016)
     eventPlayer.stopForcingButton(Button.SECONDARY_FIRE)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setSecondaryFireEnabled(false)
     wait()
     eventPlayer.setSecondaryFireEnabled(true)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.allowButton(Button.ABILITY_1)
     if eventPlayer.isHoldingButton(Button.ABILITY_1):
         eventPlayer.forceButtonPress(Button.ABILITY_1)
