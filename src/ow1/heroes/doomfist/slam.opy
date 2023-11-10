@@ -9,6 +9,7 @@ playervar slam_damage_text_entity
 playervar ow1_slam_victims
 
 playervar slam_velocity_correction
+playervar stop_slam
 
 playervar slam_indicator_beam_id
 playervar slam_indicator_ring_id
@@ -63,7 +64,8 @@ and (not eventPlayer.isUsingUltimate()))
 #!define impulseTrainActive() \
    ((distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_position) > 2) \
 and (eventPlayer.isUsingAbility1()) \
-and (eventPlayer.getSpeed() > 0)) \
+and (eventPlayer.getSpeed() > 2) \
+and not eventPlayer.stop_slam) \
 
 def initSlam():
     @Name "[doomfist/slam.opy]: initSlam()"
@@ -124,6 +126,7 @@ def initiateIndicatorSlam():
     
     stopChasingVariable(eventPlayer.proto_indicator_slam_position)
     stopChasingVariable(eventPlayer.indicator_slam_position)
+    eventPlayer.stop_slam = false
     eventPlayer.proto_indicator_slam_position = findProtoIndicatorPosition()
     eventPlayer.indicator_slam_position = findIndicatorPosition()
     eventPlayer.setGravity(0)
@@ -140,6 +143,16 @@ def initiateIndicatorSlam():
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.stopForcingThrottle()
+
+
+rule "[doomfist/slam.opy]: Check for LOS during indicator":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition impulseTrainActive()
+    @Condition not isInLoS(eventPlayer.getEyePosition(), eventPlayer.indicator_slam_position, BarrierLos.PASS_THROUGH_BARRIERS)
+    
+    wait(0.5, Wait.ABORT_WHEN_FALSE)
+    eventPlayer.stop_slam = true
 
 
 def startSlamAnimation():
