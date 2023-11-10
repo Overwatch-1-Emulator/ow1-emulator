@@ -8,6 +8,8 @@ playervar slam_damage
 playervar slam_damage_text_entity
 playervar ow1_slam_victims
 
+playervar slam_velocity_correction
+
 playervar slam_indicator_beam_id
 playervar slam_indicator_ring_id
 
@@ -58,10 +60,10 @@ and (not eventPlayer.isUsingAbility1()) \
 and (not eventPlayer.isUsingUltimate()))
 
 #Conditions for when to stop an indicator slam and drop the player
-#!define indicatorCanContinue() \
-    (distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_position) > 2) \
+#!define impulseTrainActive() \
+   ((distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_position) > 2) \
 and (eventPlayer.isUsingAbility1()) \
-and (eventPlayer.getSpeed() > 0) \
+and (eventPlayer.getSpeed() > 0)) \
 
 def initSlam():
     @Name "[doomfist/slam.opy]: initSlam()"
@@ -126,18 +128,15 @@ def initiateIndicatorSlam():
     eventPlayer.indicator_slam_position = findIndicatorPosition()
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-    wait()
     startSlamAnimation()
-    while (indicatorCanContinue()): 
-        eventPlayer.applyImpulse(directionTowards(eventPlayer.getPosition(), 
-                                                  eventPlayer.indicator_slam_position), 
-                                 OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, 
-                                 Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+    while(impulseTrainActive()):
+        eventPlayer.slam_velocity_correction = OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED * directionTowards(eventPlayer.getPosition(), 
+                                                                                                            eventPlayer.indicator_slam_position) \
+                                               - eventPlayer.getVelocity()
+        eventPlayer.applyImpulse(eventPlayer.slam_velocity_correction, 
+                                 magnitude(eventPlayer.slam_velocity_correction), 
+                                 Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
         wait()
-        eventPlayer.applyImpulse(eventPlayer.getVelocity(), 
-                                 OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED - eventPlayer.getSpeed(), 
-                                 Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # somewhat prevents doom from speeding up after getting caught on objects
-        wait(OW1_DOOMFIST_INDICATOR_SLAM_IMPULSE_PERIOD) # slight wait makes hitting objects give more damage
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.stopForcingThrottle()
@@ -153,7 +152,7 @@ def startSlamAnimation():
     eventPlayer.disallowButton(Button.ABILITY_1)
 
     wait()
-    eventPlayer.applyImpulse(eventPlayer.getVelocity(), -eventPlayer.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Cancel current momentum
+    cancelMomentum(eventPlayer)
 
 
 rule "[doomfist/slam.opy]: Detect ground slam":
@@ -203,7 +202,7 @@ rule "[doomfist/uppercut.opy]: Disable abilities when slamming":
     eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during slam
     eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during slam
     eventPlayer.setAbility2Enabled(false) # Doomfist cannot uppercut during slam
-    waitUntil(eventPlayer.getAltitude() <= 0, Math.INFINITY)
+    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setPrimaryFireEnabled(true)
     eventPlayer.setSecondaryFireEnabled(true)
