@@ -9,7 +9,6 @@ playervar slam_damage_text_entity
 playervar ow1_slam_victims
 
 playervar last_slam_velocity
-playervar slam_velocity_correction
 playervar stop_slam
 
 playervar slam_indicator_beam_id
@@ -145,12 +144,8 @@ def initiateIndicatorSlam():
         eventPlayer.last_slam_velocity = eventPlayer.getVelocity()
         wait()
         if collisionDuringSlam(): continue # do not apply impulse if doom collides with map geometry
-        eventPlayer.slam_velocity_correction = OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED \
-                                               * directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position) \
-                                               - eventPlayer.getVelocity()
-        eventPlayer.applyImpulse(eventPlayer.slam_velocity_correction, 
-                                 magnitude(eventPlayer.slam_velocity_correction), 
-                                 Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+        eventPlayer.applyImpulse(directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position), 
+                                 OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
 
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
