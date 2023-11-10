@@ -8,6 +8,7 @@ playervar slam_damage
 playervar slam_damage_text_entity
 playervar ow1_slam_victims
 
+playervar last_slam_velocity
 playervar slam_velocity_correction
 playervar stop_slam
 
@@ -68,8 +69,7 @@ and (eventPlayer.getSpeed() > 2) \
 and not eventPlayer.stop_slam) \
 
 #!define collisionDuringSlam() \
-   (angleBetweenVectors(directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position), \
-                        eventPlayer.getVelocity()) > 45)
+   (angleBetweenVectors(eventPlayer.last_slam_velocity, eventPlayer.getVelocity()) > 1)
 
 def initSlam():
     @Name "[doomfist/slam.opy]: initSlam()"
@@ -136,10 +136,13 @@ def initiateIndicatorSlam():
     eventPlayer.setGravity(0)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
     startSlamAnimation()
+
+    # indicator movement physics
     # apply initial impulse towards indicator
     eventPlayer.applyImpulse(directionTowards(eventPlayer.getPosition(), eventPlayer.indicator_slam_position), 
                              OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
     while (impulseTrainActive()): # apply impulse every tick
+        eventPlayer.last_slam_velocity = eventPlayer.getVelocity()
         wait()
         if collisionDuringSlam(): continue # do not apply impulse if doom collides with map geometry
         eventPlayer.slam_velocity_correction = OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED \
@@ -148,6 +151,7 @@ def initiateIndicatorSlam():
         eventPlayer.applyImpulse(eventPlayer.slam_velocity_correction, 
                                  magnitude(eventPlayer.slam_velocity_correction), 
                                  Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.stopForcingThrottle()
