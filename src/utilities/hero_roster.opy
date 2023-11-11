@@ -18,7 +18,7 @@ globalvar heroes_enabled
 
 rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
     heroes_enabled[heroID(Hero.DVA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "DVa", true)
-    heroes_enabled[heroID(Hero.JUNKER_QUEEN)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Junker Queen", false)
+    heroes_enabled[heroID(Hero.JUNKER_QUEEN)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Junker Queen", true)
     # heroes_enabled[heroID(Hero.MAUGA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Mauga", false)
     heroes_enabled[heroID(Hero.ORISA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Orisa", true)
     heroes_enabled[heroID(Hero.RAMATTRA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Ramattra", false)
