@@ -89,20 +89,21 @@ rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     @Hero doomfist
     @Condition eventPlayer.isUsingUltimate() == true
     
-    eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
+    eventPlayer.is_ultimate_locked = true
     waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 4.8)
     waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.setStatusEffect(null, Status.STUNNED, 0.016)
     eventPlayer.stopForcingButton(Button.SECONDARY_FIRE)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setSecondaryFireEnabled(false)
     wait()
     eventPlayer.setSecondaryFireEnabled(true)
-    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.is_ultimate_locked = false
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     if eventPlayer.isHoldingButton(Button.ABILITY_1):
+        wait() # Without wait, doom gets extra slam damage
         eventPlayer.forceButtonPress(Button.ABILITY_1)
     eventPlayer.allowButton(Button.ABILITY_2)
     if eventPlayer.isHoldingButton(Button.ABILITY_2):
