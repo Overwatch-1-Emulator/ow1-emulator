@@ -227,6 +227,9 @@ gitlab.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_REINHARDT_ULT_COST/OW1_REINHARDT_ULT_COST)
             },
             "roadhog": {
+                # "secondaryFireRechargeRate%": percent(OW2_ROADHOG_BREATER_RECHARGE_DURATION/OW1_ROADHOG_BREATER_RECHARGE_DURATION),
+                # "secondaryFireCooldown%": percent(OW1_ROADHOG_BREATHER_COOLDOWN/OW2_ROADHOG_BREATHER_COOLDOWN),
+                # "ability2Cooldown%": percent(OW1_ROADHOG_BREATHER_COOLDOWN/OW2_ROADHOG_TRAP_COOLDOWN),
                 "ultGen%": percent(OW2_ROADHOG_ULT_COST/OW1_ROADHOG_ULT_COST)
             },
             "sigma": {
