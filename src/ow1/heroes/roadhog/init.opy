@@ -16,7 +16,12 @@ rule "[roadhog/init.opy]: Initialize Roadhog":
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
 
-    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
+    # eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
+
+    # Breather init
+    eventPlayer.disallowButton(Button.ABILITY_2)
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_RATE/OW2_ROADHOG_BREATHER_HEAL_RATE))
 
     removeTankPassive()
     eventPlayer.call_init = false
