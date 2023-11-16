@@ -3,7 +3,7 @@
 #!include "ow1/heroes/orisa/supercharger.opy"
 #!include "ow1/heroes/orisa/halt.opy"
 #!include "ow1/heroes/orisa/barrier.opy"
-#!include "ow1/heroes/orisa/gun.opy"
+#!include "ow1/heroes/orisa/fusion_driver.opy"
 #!include "ow1/heroes/orisa/fortify.opy"
 
 rule "[orisa/init.opy]: Initialize Orisa":
