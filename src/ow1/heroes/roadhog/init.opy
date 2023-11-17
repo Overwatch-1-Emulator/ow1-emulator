@@ -21,7 +21,6 @@ rule "[roadhog/init.opy]: Initialize Roadhog":
     # Breather init
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_RATE/OW2_ROADHOG_BREATHER_HEAL_RATE))
 
     removeTankPassive()
     eventPlayer.call_init = false
