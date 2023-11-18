@@ -6,7 +6,6 @@ playervar uppercut_shields
 playervar hp_before_uppercut
 
 subroutine executeUppercut
-subroutine detectUpercutHit
 
 
 rule "[doomfist/uppercut.opy]: Control flow for uppercut":

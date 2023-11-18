@@ -1,7 +1,6 @@
 #!mainFile "../../../main.opy"
 
 playervar slam_to_use
-playervar current_position
 playervar proto_indicator_slam_position
 playervar indicator_slam_position
 playervar slam_damage
