@@ -9,7 +9,7 @@ rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
     @Condition eventPlayer.call_init
     
     resetHero()
-    setCustomHealth(OW1_JUNKERQUEEN_HEALTH, 0, 0)
+    setCustomHealth(OW1_JUNKERQUEEN_HEALTH, OW1_JUNKERQUEEN_ARMOR, 0)
     startHealingModification(eventPlayer, eventPlayer, percent(OW1_JUNKERQUEEN_ADRENALINE/OW2_JUNKERQUEEN_ADRENALINE), HealingReeval.NONE)
     eventPlayer.jq_self_heal_id = getLastHealingModification()
     removeTankPassive()
