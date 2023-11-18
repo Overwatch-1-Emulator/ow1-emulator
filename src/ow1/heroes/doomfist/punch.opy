@@ -48,7 +48,7 @@ rule "[doomfist/punch.opy]: Initialize rocket punch":
     
     # cooldown
     waitUntil(not eventPlayer.isFiringSecondaryFire(), Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_DOOMFIST_ROCKET_PUNCH_COOLDOWN) # workshop bug (doesn't work)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_DOOMFIST_PUNCH_COOLDOWN) # workshop bug (doesn't work)
 
 
 # DO NOT switch the order of this rule with the next rule

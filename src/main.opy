@@ -1,5 +1,6 @@
 #!mainFile "main.opy"
-#!obfuscate noConstantObfuscation
+
+rule "[main.opy] Disable Inspector for performance": disableInspector()
 
 # Useful constants
 #!include "constants/ow1_constants.opy"
