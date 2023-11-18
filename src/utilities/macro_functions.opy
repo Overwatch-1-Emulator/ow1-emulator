@@ -1,7 +1,12 @@
 #!mainFile "../main.opy"
 
+globalvar i
+
 # Macro function for retrieving id of hero
 #!define heroID(h) (getAllHeroes().index(h))
+
+# Check if player is playing hero
+#!define isHero(player, hero) ((player.getCurrentHero() == hero) or (player.getHeroOfDuplication() == hero))
 
 # Macro function for converting decimal to percent
 #!define percent(p) (100*p)
@@ -25,5 +30,3 @@
 #!define cancelMomentum(player) (player.applyImpulse(player.getVelocity(), -player.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION))
 
 #!define centerMass(player) ((player.getPosition() + player.getEyePosition())/2)
-
-globalvar i

@@ -16,7 +16,6 @@ subroutine applyCustomHealth
     eventPlayer.hp_armor = armor\
     eventPlayer.hp_shields = shields\
     applyCustomHealth()
-#!define isHero(player, hero) (player.getCurrentHero() == hero or player.getHeroOfDuplication() == hero)
 
 
 def clearCustomHealth():
