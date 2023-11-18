@@ -112,7 +112,7 @@ def showSelfRepairGui():
     progressBarHud(eventPlayer if eventPlayer.self_repair_time_left < OW1_BASTION_MAX_SELF_REPAIR_DURATION else null, 
                    roundedPercent(eventPlayer.self_repair_time_left/OW1_BASTION_MAX_SELF_REPAIR_DURATION), 
                    "Self-Repair", 
-                   HudPosition.LEFT, 
+                   HudPosition.TOP, 
                    1, 
                    Color.YELLOW, 
                    Color.YELLOW, 
