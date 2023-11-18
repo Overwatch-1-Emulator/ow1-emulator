@@ -86,7 +86,7 @@ globalvar OW1_DOOMFIST_UPPERCUT_CD = createWorkshopSetting(float[0:12], 'Doomfis
 #!define OW1_DOOMFIST_RISING_UPPERCUT_RADIUS 5
 #!define OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX 1.4
 #!define OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN 0.192
-globalvar OW1_DOOMFIST_ROCKET_PUNCH_COOLDOWN = createWorkshopSetting(float[0:12], 'Doomfist', 'Cooldown - Punch', 4)
+globalvar OW1_DOOMFIST_PUNCH_COOLDOWN = createWorkshopSetting(float[0:12], 'Doomfist', 'Cooldown - Punch', 4)
 #!define OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN 50
 #!define OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX 100
 #!define OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN 50

@@ -1,5 +1,4 @@
 #!mainFile "main.opy"
-#!obfuscate noConstantObfuscation
 
 # Useful constants
 #!include "constants/ow1_constants.opy"
