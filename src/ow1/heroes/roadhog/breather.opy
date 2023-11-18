@@ -19,6 +19,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition not eventPlayer.isUsingAbility1()
     @Condition not eventPlayer.isUsingUltimate()
+    @Condition not eventPlayer.isMeleeing()
 
     # activate ability
     eventPlayer.setAbility2Enabled(false)
