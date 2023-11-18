@@ -1,11 +1,11 @@
 #!mainFile "../../../main.opy"
 
-playervar self_healing_source
-
-playervar self_healing_percent
-playervar self_healing_id
-playervar support_passive_active
-playervar last_time_damage_taken
+playervar self_heal_pvar
+#!defineMember self_healing_source self_heal_pvar[0]
+#!defineMember self_healing_percent self_heal_pvar[1]
+#!defineMember self_healing_id self_heal_pvar[2]
+#!defineMember support_passive_active self_heal_pvar[3]
+#!defineMember last_time_damage_taken self_heal_pvar[4]
 
 subroutine resetSelfHealing
 subroutine removeSelfHealing

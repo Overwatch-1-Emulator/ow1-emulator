@@ -4,9 +4,10 @@
 globalvar ult_cost
 
 # Player variables
-playervar missing_ult_points
-playervar ult_percent_compensated
-playervar ult_charge_compensated
+playervar ult_charge_pvar
+#!defineMember missing_ult_points ult_charge_pvar[0]
+#!defineMember ult_percent_compensated ult_charge_pvar[1]
+#!defineMember ult_charge_compensated ult_charge_pvar[2]
 
 subroutine resetUltCharge
 
