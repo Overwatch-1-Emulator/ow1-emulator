@@ -40,7 +40,7 @@ rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
     heroes_enabled[heroID(Hero.MEI)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Mei", true)
     heroes_enabled[heroID(Hero.PHARAH)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Pharah", true)
     heroes_enabled[heroID(Hero.REAPER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Reaper", true)
-    heroes_enabled[heroID(Hero.SOJOURN)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Sojourn", false)
+    heroes_enabled[heroID(Hero.SOJOURN)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Sojourn", true)
     heroes_enabled[heroID(Hero.SOLDIER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Soldier", true)
     heroes_enabled[heroID(Hero.SOMBRA)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Sombra", true)
     heroes_enabled[heroID(Hero.SYMMETRA)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Symmetra", true)

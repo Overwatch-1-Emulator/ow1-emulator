@@ -8,14 +8,30 @@
  * (d-OW2_SOJOURN_RAILGUN_ALT_DAMAGE_MIN) + OW1_SOJOURN_RAILGUN_ALT_DAMAGE_MIN)
 
 
-rule "[sojourn/railgun.opy]: OW1 Railgun alt fire damage":
+# corrects railgun total bodyshot damage to range [ow1_min, ow1_max]
+rule "[sojourn/railgun.opy]: OW1 Railgun alt fire bodyshot damage":
     @Event playerDealtDamage
     @Hero sojourn
     @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ULTIMATE]
+    @Condition not eventWasCriticalHit
 
-    if not eventWasCriticalHit: # corrects total bodyshot damage to range [ow1_min, ow1_max]
-        damage(victim, attacker, (getRailgunAltDamage(eventDamage/OW1_SOJOURN_GLOBAL_DAMAGE) - eventDamage)/OW1_SOJOURN_GLOBAL_DAMAGE)
-    elif eventWasCriticalHit: # corrects total headshot damage to range [2*ow1_min, 2*ow1_max]
-        damage(victim, attacker, (OW1_SOJOURN_RAILGUN_ALT_HEADSHOT_MULTIPLIER * \
-                                  getRailgunAltDamage((eventDamage/OW2_SOJOURN_RAILGUN_ALT_HEADSHOT_MULTIPLIER)/OW1_SOJOURN_GLOBAL_DAMAGE)\
-                                  - eventDamage)/OW1_SOJOURN_GLOBAL_DAMAGE)
+    damage(victim, attacker, (getRailgunAltDamage(eventDamage/OW1_SOJOURN_GLOBAL_DAMAGE) - eventDamage)/OW1_SOJOURN_GLOBAL_DAMAGE)
+    if (getRailgunAltDamage(eventDamage/OW1_SOJOURN_GLOBAL_DAMAGE) - eventDamage)/OW1_SOJOURN_GLOBAL_DAMAGE < 1:
+        heal(victim, null, (eventDamage - getRailgunAltDamage(eventDamage/OW1_SOJOURN_GLOBAL_DAMAGE))/OW1_SOJOURN_GLOBAL_DAMAGE)
+
+
+# corrects total headshot damage to range [2*ow1_min, 2*ow1_max]
+rule "[sojourn/railgun.opy]: OW1 Railgun alt fire headshot damage":
+    @Event playerDealtDamage
+    @Hero sojourn
+    @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ULTIMATE]
+    @Condition eventWasCriticalHit
+
+    damage(victim, attacker, (OW1_SOJOURN_RAILGUN_ALT_HEADSHOT_MULTIPLIER * \
+                                getRailgunAltDamage((eventDamage/OW2_SOJOURN_RAILGUN_ALT_HEADSHOT_MULTIPLIER)/OW1_SOJOURN_GLOBAL_DAMAGE)\
+                                - eventDamage)/OW1_SOJOURN_GLOBAL_DAMAGE)
+    if (OW1_SOJOURN_RAILGUN_ALT_HEADSHOT_MULTIPLIER * \
+        getRailgunAltDamage((eventDamage/OW2_SOJOURN_RAILGUN_ALT_HEADSHOT_MULTIPLIER)/OW1_SOJOURN_GLOBAL_DAMAGE)\
+        - eventDamage)/OW1_SOJOURN_GLOBAL_DAMAGE < 1:
+        heal(victim, null, (eventDamage - OW1_SOJOURN_RAILGUN_ALT_HEADSHOT_MULTIPLIER * \
+                            getRailgunAltDamage((eventDamage/OW2_SOJOURN_RAILGUN_ALT_HEADSHOT_MULTIPLIER)/OW1_SOJOURN_GLOBAL_DAMAGE))/OW1_SOJOURN_GLOBAL_DAMAGE)
