@@ -30,3 +30,5 @@ globalvar i
 #!define cancelMomentum(player) (player.applyImpulse(player.getVelocity(), -player.getSpeed(), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION))
 
 #!define centerMass(player) ((player.getPosition() + player.getEyePosition())/2)
+
+#!define isCCd(player) (player.hasStatusEffect(Status.STUNNED) or player.hasStatusEffect(Status.HACKED) or player.hasStatusEffect(Status.ASLEEP) or player.hasStatusEffect(Status.FROZEN) or player.hasStatusEffect(Status.KNOCKED_DOWN))
