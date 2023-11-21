@@ -150,11 +150,11 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
                 {
                     "numbani": []
                 },
-                {
-                    "paraiso": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "paraiso": [
+                #         "morning"
+                #     ]
+                # },
             ]
         },
         "practiceRange": {
