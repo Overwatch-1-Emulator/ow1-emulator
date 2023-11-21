@@ -41,7 +41,8 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
     waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2) \
            or eventPlayer.isHoldingButton(Button.INTERACT) \
-           or eventPlayer.isDead(), Math.INFINITY)
+           or eventPlayer.isDead() \
+           and not isCCd(eventPlayer), Math.INFINITY)
     if (eventPlayer.isHoldingButton(Button.ABILITY_2)):
         playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer.getPosition(), 100)
         playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer, 100)
