@@ -1,7 +1,12 @@
 #!mainFile "../main.opy"
 
+globalvar i
+
 # Macro function for retrieving id of hero
 #!define heroID(h) (getAllHeroes().index(h))
+
+# Check if player is playing hero
+#!define isHero(player, hero) ((player.getCurrentHero() == hero) or (player.getHeroOfDuplication() == hero))
 
 # Macro function for converting decimal to percent
 #!define percent(p) (100*p)
@@ -26,4 +31,4 @@
 
 #!define centerMass(player) ((player.getPosition() + player.getEyePosition())/2)
 
-globalvar i
+#!define isCCd(player) (player.hasStatusEffect(Status.STUNNED) or player.hasStatusEffect(Status.HACKED) or player.hasStatusEffect(Status.ASLEEP) or player.hasStatusEffect(Status.FROZEN) or player.hasStatusEffect(Status.KNOCKED_DOWN))
