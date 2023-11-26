@@ -102,7 +102,7 @@ rule "[orisa/fusion_driver.opy]: Deal OW1 Orisa primary fire damage":
     @Hero orisa
     @Condition eventAbility == Button.PRIMARY_FIRE
 
-    damage(victim, attacker, OW1_ORISA_GUN_DAMAGE - eventDamage)
+    damage(victim, attacker, OW1_ORISA_FUSION_DRIVER_DAMAGE - eventDamage)
 
 
 rule "[orisa/fusion_driver.opy]: Deal OW1 Orisa melee damage":
@@ -110,7 +110,7 @@ rule "[orisa/fusion_driver.opy]: Deal OW1 Orisa melee damage":
     @Hero orisa
     @Condition eventAbility == Button.MELEE
 
-    damage(victim, attacker, eventDamage*(OW2_ORISA_GUN_DAMAGE/OW1_ORISA_GUN_DAMAGE) - eventDamage + 1) # +1 compensates for rounding error
+    damage(victim, attacker, eventDamage*(OW2_ORISA_FUSION_DRIVER_DAMAGE/OW1_ORISA_FUSION_DRIVER_DAMAGE) - eventDamage + 1) # +1 compensates for rounding error
 
 
 rule "[orisa/fusion_driver.opy]: Reload after dying":

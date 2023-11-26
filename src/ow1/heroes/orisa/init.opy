@@ -29,7 +29,7 @@ rule "[orisa/init.opy]: Initialize Orisa":
     resetFusionDriver()
     showOrisaAmmoHud()
     eventPlayer.is_orisa_reloading = false
-    eventPlayer.setDamageDealt(percent(OW1_ORISA_GUN_DAMAGE/OW2_ORISA_GUN_DAMAGE))
+    eventPlayer.setDamageDealt(percent(OW1_ORISA_FUSION_DRIVER_DAMAGE/OW2_ORISA_FUSION_DRIVER_DAMAGE))
 
     removeTankPassive()
 
