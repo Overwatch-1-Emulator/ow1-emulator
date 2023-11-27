@@ -10,6 +10,5 @@ rule "[symmetra/init.opy]: Initialize Symmetra":
     @Hero symmetra
     @Condition eventPlayer.call_init
 
-    resetHero()
-    setCustomHealth(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
+    newHero(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
     eventPlayer.call_init = false

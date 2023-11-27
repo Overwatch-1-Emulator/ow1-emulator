@@ -6,7 +6,7 @@ rule "[reaper/init.opy]: Initialize Reaper":
     @Hero reaper
     @Condition eventPlayer.call_init
 
-    resetHero()
+    defaultHero()
     eventPlayer.call_init = false
 
 

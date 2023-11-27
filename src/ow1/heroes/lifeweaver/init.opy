@@ -6,7 +6,7 @@ rule "[lifeweaver/init.opy]: Initialize Lifeweaver":
     @Hero lifeweaver
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     # removeSelfHealing()
     eventPlayer.call_init = false
 

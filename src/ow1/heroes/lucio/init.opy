@@ -6,7 +6,7 @@ rule "[lucio/init.opy]: Initialize Lucio":
     @Hero lucio
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     removeSelfHealing()
     eventPlayer.call_init = false
 

@@ -10,6 +10,6 @@ rule "[moira/init.opy]: Initialize Moira":
     @Hero moira
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     removeSelfHealing()
     eventPlayer.call_init = false

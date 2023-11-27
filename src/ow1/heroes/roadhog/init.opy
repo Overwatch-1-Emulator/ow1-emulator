@@ -10,8 +10,7 @@ rule "[roadhog/init.opy]: Initialize Roadhog":
     @Hero roadhog
     @Condition eventPlayer.call_init
 
-    resetHero()
-    setCustomHealth(OW1_ROADHOG_HEALTH, 0, 0)
+    newHero(OW1_ROADHOG_HEALTH, 0, 0)
 
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)

@@ -6,6 +6,6 @@ rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
     @Hero junkerQueen
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     # removeTankPassive()
     eventPlayer.call_init = false

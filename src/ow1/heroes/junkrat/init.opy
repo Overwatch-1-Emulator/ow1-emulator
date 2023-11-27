@@ -6,7 +6,7 @@ rule "[junkrat/init.opy]: Initialize Junkrat":
     @Hero junkrat
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     # Reduce damage to the trap
     eventPlayer.setDamageDealt(percent(OW1_JUNKRAT_STEEL_TRAP_DMG/OW2_JUNKRAT_STEEL_TRAP_DMG))
     eventPlayer.call_init = false

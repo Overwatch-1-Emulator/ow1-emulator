@@ -10,7 +10,7 @@ rule "[echo/init.opy]: Initialize Echo":
     @Hero echo
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     eventPlayer.call_init = false
 
 
@@ -42,12 +42,12 @@ rule "[echo/init.opy]: Set Life for echo when duplicating a tank":
     @Condition eventPlayer.getHeroOfDuplication() != Hero.DOOMFIST
     
     eventPlayer.hero_id_duplicated = heroID(eventPlayer.getHeroOfDuplication())
-    clearCustomHealth()
+    clearCustomHp()
     wait(1)
-    setCustomHealth(
+    setCustomHp(
         health_pool[eventPlayer.hero_id_duplicated][0],
         health_pool[eventPlayer.hero_id_duplicated][1],
         health_pool[eventPlayer.hero_id_duplicated][2],
     )
     waitUntil(not eventPlayer.isDuplicatingAHero(), OW1_ECHO_DUPLICATE_DURATION)
-    clearCustomHealth()
+    clearCustomHp()

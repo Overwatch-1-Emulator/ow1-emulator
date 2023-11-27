@@ -6,7 +6,7 @@ rule "[tracer/init.opy]: Initialize Tracer":
     @Hero tracer
     @Condition eventPlayer.call_init
 
-    resetHero()
+    defaultHero()
     eventPlayer.call_init = false
 
 

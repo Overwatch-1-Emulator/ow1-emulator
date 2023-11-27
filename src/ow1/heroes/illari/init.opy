@@ -6,7 +6,7 @@ rule "[illari/init.opy]: Initialize Illari":
     @Hero illari
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     # removeSelfHealing()
     eventPlayer.call_init = false
 
