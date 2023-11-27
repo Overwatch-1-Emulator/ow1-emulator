@@ -8,18 +8,19 @@ playervar custom_hp_pvar
 #!defineMember hp_shields custom_hp_pvar[2]
 #!defineMember stored_spawn_pos custom_hp_pvar[3]
 
-subroutine clearCustomHealth
-subroutine applyCustomHealth
+subroutine clearCustomHp
+subroutine applyCustomHp
 
-#!define setCustomHealth(health, armor, shields)\
+# setCustomHp(0, 0, 0) simply clears the hero's hp
+#!define setCustomHp(health, armor, shields)\
     eventPlayer.hp_health = health\
     eventPlayer.hp_armor = armor\
     eventPlayer.hp_shields = shields\
-    applyCustomHealth()
+    applyCustomHp()
 
 
-def clearCustomHealth():
-    @Name "[custom_health_handler.opy]: clearCustomHealth()"
+def clearCustomHp():
+    @Name "[custom_hp.opy]: clearCustomHp()"
 
     eventPlayer.removeAllHealthPools()
     wait()
@@ -29,16 +30,22 @@ def clearCustomHealth():
     heal(eventPlayer, null, Math.INFINITY)
 
 
-def applyCustomHealth():
-    @Name "[custom_health_handler.opy]: applyCustomHealth()"
+def applyCustomHp():
+    @Name "[custom_hp.opy]: applyCustomHp()"
+
+    if (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields <= 0):
+        clearCustomHp()
+        return
     
     waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
     # If the player is in spawn, teleport them out as they are invulnerable in spawn
     if eventPlayer.isInSpawnRoom():
         eventPlayer.stored_spawn_pos = eventPlayer.getPosition()
         wait()
+        eventPlayer.setGravity(0)
         eventPlayer.teleport(eventPlayer.getPosition() + 100 * (Vector.FORWARD if getCurrentGamemode() == Gamemode.CONTROL else Vector.UP)) # TP horizontally on control maps
-        waitUntil(not (eventPlayer.isInSpawnRoom() or eventPlayer.hasStatusEffect(Status.INVINCIBLE) or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), 1)
+        waitUntil(not (eventPlayer.isInSpawnRoom() or eventPlayer.hasStatusEffect(Status.INVINCIBLE) or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), Math.INFINITY)
+        eventPlayer.setGravity(100)
         wait()
     # If the player is duplicating a hero, wait until Echo is no longer invulnerable
     if eventPlayer.isDuplicatingAHero():
@@ -79,17 +86,17 @@ def applyCustomHealth():
     
     # wait(3) # Wait 3 second for everything to settle
     # if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
-    #     clearCustomHealth()
+    #     clearCustomHp()
     #     goto RULE_START
 
 
-# rule "[custom_health_handler.opy]: Remove Custom Health Conditions":
+# rule "[custom_hp.opy]: Remove Custom Health Conditions":
 #     @Event eachPlayer
 
 #     # Health pools persist between hero switching, so we remove it when player's switch or duplicate to another hero, or when D.Va switches between forms.
 #     waitUntil(eventPlayer.getCurrentHero() != evalOnce(eventPlayer.getCurrentHero()) or eventPlayer.getHeroOfDuplication() != evalOnce(eventPlayer.getHeroOfDuplication()) or (isHero(eventPlayer, Hero.DVA) and eventPlayer.isInAlternateForm() != evalOnce(eventPlayer.isInAlternateForm())), Math.INFINITY)
 
-#     clearCustomHealth()
+#     clearCustomHp()
 
 #     wait()
 

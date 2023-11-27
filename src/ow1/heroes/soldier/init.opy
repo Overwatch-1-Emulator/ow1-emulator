@@ -5,7 +5,7 @@ rule "[soldier/init.opy]: Initialize Soldier 76":
     @Hero soldier
     @Condition eventPlayer.call_init
 
-    resetHero()
+    defaultHero()
     eventPlayer.setHealingDealt(percent(OW1_SOLDIER_BIOTIC_FIELD_HEAL/OW2_SOLDIER_BIOTIC_FIELD_HEAL))
     eventPlayer.call_init = false
 

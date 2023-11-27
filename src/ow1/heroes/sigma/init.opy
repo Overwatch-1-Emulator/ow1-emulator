@@ -6,8 +6,7 @@ rule "[sigma/init.opy]: Initialize Sigma":
     @Hero sigma
     @Condition eventPlayer.call_init
 
-    resetHero()
-    setCustomHealth(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
+    newHero(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
     removeTankPassive()
     eventPlayer.call_init = false
 

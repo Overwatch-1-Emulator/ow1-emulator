@@ -8,9 +8,7 @@ rule "[baptiste/init.opy]: Initialize Baptiste":
     @Hero baptiste
     @Condition eventPlayer.call_init == true
 
-    
-    resetHero()
-    setCustomHealth(OW1_BAPTISTE_HEALTH, 0, 0)
+    newHero(OW1_BAPTISTE_HEALTH, 0, 0)
 
     eventPlayer.setDamageDealt(percent(OW1_BAPTISTE_PRIMARY_DAMAGE/OW2_BAPTISTE_PRIMARY_DAMAGE))
 

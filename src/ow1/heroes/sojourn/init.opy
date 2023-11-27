@@ -6,5 +6,5 @@ rule "[sojourn/init.opy]: Initialize Sojourn":
     @Hero sojourn
     @Condition eventPlayer.call_init
 
-    resetHero()
+    defaultHero()
     eventPlayer.call_init = false

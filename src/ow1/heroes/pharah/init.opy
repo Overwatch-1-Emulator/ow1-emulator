@@ -6,6 +6,6 @@ rule "[pharah/init.opy]: Initialize Pharah":
     @Hero pharah
     @Condition eventPlayer.call_init
 
-    resetHero()
+    defaultHero()
 
     eventPlayer.call_init = false

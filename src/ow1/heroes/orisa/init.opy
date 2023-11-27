@@ -11,8 +11,7 @@ rule "[orisa/init.opy]: Initialize Orisa":
     @Hero orisa
     @Condition eventPlayer.call_init
     
-    resetHero()
-    setCustomHealth(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
+    newHero(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
 
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer

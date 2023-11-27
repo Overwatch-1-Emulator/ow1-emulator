@@ -6,7 +6,7 @@ rule "[hanzo/init.opy]: Initialize Hanzo":
     @Hero hanzo
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     eventPlayer.call_init = false
 
 
