@@ -8,7 +8,7 @@ rule "[mei/init.opy]: Initialize Mei":
     @Hero mei
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
     eventPlayer.call_init = false

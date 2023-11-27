@@ -10,8 +10,7 @@ rule "[brigitte/init.opy]: Initialize Brigitte":
     @Hero brigitte
     @Condition eventPlayer.call_init == true
     
-    resetHero()
-    setCustomHealth(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
+    newHero(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
     removeSelfHealing()
     
     eventPlayer.call_init = false

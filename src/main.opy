@@ -7,7 +7,7 @@ rule "[main.opy] Disable Inspector for performance": disableInspector()
 #!include "constants/ow2_constants.opy"
 
 # Useful functions
-#!include "utilities/custom_health_handler.opy"
+#!include "utilities/custom_hp.opy"
 #!include "utilities/macro_functions.opy"
 #!include "utilities/reset.opy"
 #!include "utilities/hero_switch.opy"

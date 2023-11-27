@@ -8,7 +8,7 @@ rule "[ramattra/init.opy]: Initialize Ramattra":
     @Hero ramattra
     @Condition eventPlayer.call_init
 
-    resetHero()
-    setCustomHealth(OW1_RAMATTRA_HEALTH, OW1_RAMATTRA_ARMOR, 0)
+    newHero(OW1_RAMATTRA_HEALTH, OW1_RAMATTRA_ARMOR, 0)
     removeTankPassive()
+    
     eventPlayer.call_init = false

@@ -8,8 +8,9 @@ rule "[sojourn/init.opy]: Initialize Sojourn":
     @Hero sojourn
     @Condition eventPlayer.call_init
 
-    resetHero()
+    defaultHero()
     eventPlayer.setDamageDealt(percent(OW1_SOJOURN_GLOBAL_DAMAGE))
+    
     eventPlayer.call_init = false
 
 

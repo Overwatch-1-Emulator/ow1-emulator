@@ -12,9 +12,9 @@ rule "[dva/init.opy]: Initialize DVa":
     @Hero dva
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     removeTankPassive()
 
-    setCustomHealth(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
+    setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
 
     eventPlayer.call_init = false

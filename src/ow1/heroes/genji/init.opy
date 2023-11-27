@@ -6,7 +6,7 @@ rule "[genji/init.opy]: Initialize Genji":
     @Hero genji
     @Condition eventPlayer.call_init
     
-    resetHero()
+    defaultHero()
     eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
     

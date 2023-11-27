@@ -13,24 +13,29 @@ playervar reset_pvar
 #!defineMember enemy_orisa_player reset_pvar[6]
 #!defineMember enemy_sombra_player reset_pvar[7]
 
-subroutine resetAbilities
+subroutine enableAllAbilities
+subroutine disableAllAbilities
 subroutine resetStats
 subroutine resetStatuses
 subroutine resetFrenemies
 
+#!define defaultHero() \
+    newHero(0, 0, 0)
 
-#!define resetHero() \
-    resetAbilities() \
+# newHero(0, 0, 0) creates default OW2 hero
+#!define newHero(health, armor, shields) \
+    clearCustomHp() \
     resetStats() \
     resetStatuses() \
     resetFrenemies() \
     resetUltCharge() \
-    clearCustomHealth() \
     resetSelfHealing() \
+    setCustomHp(health, armor, shields) \
+    enableAllAbilities() \
 
 
-def resetAbilities():
-    @Name "[reset.opy]: resetAbilities()"
+def enableAllAbilities():
+    @Name "[reset.opy]: enableAllAbilities()"
 
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
@@ -54,6 +59,33 @@ def resetAbilities():
     eventPlayer.setJumpEnabled(true)
     eventPlayer.setCrouchEnabled(true)
     eventPlayer.setReloadEnabled(true)
+
+
+def disableAllAbilities():
+    @Name "[reset.opy]: disableAllAbilities()"
+
+    eventPlayer.disallowButton(Button.PRIMARY_FIRE)
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.disallowButton(Button.ABILITY_1)
+    eventPlayer.disallowButton(Button.ABILITY_2)
+    eventPlayer.disallowButton(Button.ULTIMATE)
+
+    eventPlayer.disallowButton(Button.MELEE)
+    eventPlayer.disallowButton(Button.JUMP)
+    eventPlayer.disallowButton(Button.CROUCH)
+    eventPlayer.disallowButton(Button.RELOAD)
+    eventPlayer.disallowButton(Button.INTERACT)
+
+    eventPlayer.setPrimaryFireEnabled(false)
+    eventPlayer.setSecondaryFireEnabled(false)
+    eventPlayer.setAbility1Enabled(false)
+    eventPlayer.setAbility2Enabled(false)
+    eventPlayer.setUltEnabled(false)
+
+    eventPlayer.setMeleeEnabled(false)
+    eventPlayer.setJumpEnabled(false)
+    eventPlayer.setCrouchEnabled(false)
+    eventPlayer.setReloadEnabled(false)
 
 
 def resetStats():

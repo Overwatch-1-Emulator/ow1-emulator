@@ -19,8 +19,7 @@ rule "[widowmaker/init.opy]: Initialize Widowmaker":
     @Hero widowmaker
     @Condition eventPlayer.call_init
 
-    resetHero()
-    setCustomHealth(OW1_WIDOWMAKER_HEALTH, 0, 0)
+    newHero(OW1_WIDOWMAKER_HEALTH, 0, 0)
     eventPlayer.call_init = false
 
 

@@ -11,7 +11,7 @@ rule "[sombra/init.opy]: Initialize Sombra":
     @Hero sombra
     @Condition eventPlayer.call_init
 
-    resetHero()
+    defaultHero()
 
     getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra_player = eventPlayer
