@@ -334,7 +334,12 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
             },
             "zenyatta": {
                 "ultGen%": percent(OW2_ZENYATTA_ULT_COST/OW1_ZENYATTA_ULT_COST)
-            }
+            },
+            "disabledHeroes": [
+                "illari",
+                "lifeweaver",
+                "ramattra",
+            ]
         }
     }
 }
