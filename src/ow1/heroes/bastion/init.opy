@@ -9,7 +9,7 @@ rule "[bastion/init.opy]: Initialize Bastion":
     @Hero bastion
     @Condition eventPlayer.call_init == true
     
-    resetHero()
+    defaultHero()
     eventPlayer.machine_gun_ammo = OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE
     eventPlayer.machine_gun_reload_timer = 0
 

@@ -11,8 +11,7 @@ rule "[orisa/init.opy]: Initialize Orisa":
     @Hero orisa
     @Condition eventPlayer.call_init
     
-    resetHero()
-    setCustomHealth(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
+    newHero(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
 
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer
@@ -29,7 +28,7 @@ rule "[orisa/init.opy]: Initialize Orisa":
     resetFusionDriver()
     showOrisaAmmoHud()
     eventPlayer.is_orisa_reloading = false
-    eventPlayer.setDamageDealt(percent(OW1_ORISA_GUN_DAMAGE/OW2_ORISA_GUN_DAMAGE))
+    eventPlayer.setDamageDealt(percent(OW1_ORISA_FUSION_DRIVER_DAMAGE/OW2_ORISA_FUSION_DRIVER_DAMAGE))
 
     removeTankPassive()
 

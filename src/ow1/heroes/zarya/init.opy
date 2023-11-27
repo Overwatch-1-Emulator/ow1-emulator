@@ -8,17 +8,7 @@ rule "[zarya/init.opy]: Initialize Zarya":
     @Hero zarya
     @Condition eventPlayer.call_init
 
-
-    eventPlayer.setAbility1Enabled(false) # Prevents zarya getting infinite hp when bubbling herself immediately after spawning
-    eventPlayer.setAbility2Enabled(false) # Prevents ally from getting infinite hp when bubbling immediately after spawning
-    resetStats()
-    resetStatuses()
-    resetFrenemies()
-    resetUltCharge()
-    clearCustomHealth()
-    resetSelfHealing()
-    setCustomHealth(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
-    resetAbilities()
+    newHero(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
 
     initSelfBubble()
     initAllyBubble()

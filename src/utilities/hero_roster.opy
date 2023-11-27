@@ -61,8 +61,6 @@ rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
 
 
 rule "[hero_roster.opy]: Define tank, damage, support heroes array":
-    @Event global
-    
     # Tanks
     tank_heroes = getTankHeroes()
     tank_heroes.remove(Hero.DOOMFIST)
@@ -88,7 +86,6 @@ rule "[hero_roster.opy]: Define tank, damage, support heroes array":
             damage_roaster.append(current_hero)
         elif (current_hero in support_heroes):
             support_roaster.append(current_hero)
-        
 
     hero_roaster = []
     hero_roaster.append(tank_roaster)

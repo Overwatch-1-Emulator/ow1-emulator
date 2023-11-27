@@ -10,6 +10,5 @@ rule "[reinhardt/init.opy]: Initialize Reinhardt":
     @Hero reinhardt
     @Condition eventPlayer.call_init
 
-    resetHero()
-    setCustomHealth(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)
+    newHero(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)
     eventPlayer.call_init = false

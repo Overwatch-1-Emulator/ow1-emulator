@@ -6,8 +6,7 @@ rule "[winston/init.opy]: Initialize Winston":
     @Hero winston
     @Condition eventPlayer.call_init
 
-    resetHero()
-    setCustomHealth(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
+    newHero(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
 
     eventPlayer.setSecondaryFireEnabled(false)
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))

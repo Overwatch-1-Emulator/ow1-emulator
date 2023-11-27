@@ -6,8 +6,7 @@ rule "[torbjorn/init.opy]: Initialize Torbjorn":
     @Hero torbjorn
     @Condition eventPlayer.call_init
 
-    resetHero()
-    setCustomHealth(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
+    newHero(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
     eventPlayer.call_init = false
 
 

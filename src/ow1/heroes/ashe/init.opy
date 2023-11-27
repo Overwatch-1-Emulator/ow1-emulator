@@ -6,8 +6,7 @@ rule "[ashe/init.opy]: Initialize Ashe":
     @Event eachPlayer
     @Hero ashe
     @Condition eventPlayer.call_init == true
-
-    resetHero()
-    setCustomHealth(OW1_ASHE_HEALTH, 0, 0)
+    
+    newHero(OW1_ASHE_HEALTH, 0, 0)
 
     eventPlayer.call_init = false
