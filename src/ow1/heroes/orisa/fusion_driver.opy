@@ -16,12 +16,22 @@ subroutine hideOrisaAmmoHud
 rule "[orisa/fusion_driver.opy]: Decrease ammo when shooting gun":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.isFiringPrimaryFire()
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     @Condition not eventPlayer.is_orisa_reloading
     
     eventPlayer.orisa_ammo -= 1
+    wait(1/OW1_ORISA_GUN_FIRE_RATE)
+    if RULE_CONDITION:
+        goto RULE_START
+
+
+rule "[orisa/fusion_driver.opy]: Update ammo when shooting gun":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
+    @Condition not eventPlayer.is_orisa_reloading
+    
     updateAmmo()
-    wait(1/OW1_ORISA_FIRE_RATE)
 
 
 rule "[orisa/fusion_driver.opy]: Reload when out of ammo":

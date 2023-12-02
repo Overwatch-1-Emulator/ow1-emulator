@@ -142,6 +142,7 @@ def initiateIndicatorSlam():
         wait()
     eventPlayer.setGravity(100)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
+    cancelMomentum(eventPlayer)
     eventPlayer.stopForcingThrottle()
 
 
