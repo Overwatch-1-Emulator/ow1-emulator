@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../main.opy"
 
 # Global variables
 globalvar ult_cost
@@ -16,6 +16,7 @@ rule "[ult_charge.opy]: initialize overwatch 1 ultimate costs":
     # Tanks
     ult_cost[heroID(Hero.DVA)] = OW1_DVA_ULT_COST
     ult_cost[heroID(Hero.JUNKER_QUEEN)] = OW1_JUNKERQUEEN_ULT_COST
+    ult_cost[heroID(Hero.MAUGA)] = OW1_MAUGA_ULT_COST
     ult_cost[heroID(Hero.ORISA)] = OW1_ORISA_ULT_COST
     ult_cost[heroID(Hero.RAMATTRA)] = OW1_RAMATTRA_ULT_COST
     ult_cost[heroID(Hero.REINHARDT)] = OW1_REINHARDT_ULT_COST

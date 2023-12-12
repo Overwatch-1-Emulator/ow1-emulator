@@ -133,6 +133,13 @@ rule "[hero_switch.opy]: Detect switch to Lucio":
     eventPlayer.call_init = true
 
 
+rule "[hero_switch.opy]: Detect switch to Mauga":
+    @Event eachPlayer
+    @Hero mauga
+
+    eventPlayer.call_init = true
+
+
 rule "[hero_switch.opy]: Detect switch to Mccree":
     @Event eachPlayer
     @Hero mccree

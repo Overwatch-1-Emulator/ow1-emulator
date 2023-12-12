@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 globalvar  health_pool
 
@@ -18,6 +18,7 @@ rule "[echo/init.opy]: Tank armor, shields and health for every tank":
     health_pool[heroID(Hero.DVA)] = [OW1_DVA_HEALTH,OW1_DVA_ARMOR,OW1_DVA_SHIELDS]
     health_pool[heroID(Hero.HAMMOND)] = [OW1_WRECKING_BALL_HEALTH,OW1_WRECKING_BALL_ARMOR,OW1_WRECKING_BALL_SHIELDS]
     health_pool[heroID(Hero.JUNKER_QUEEN)] = [OW1_JUNKERQUEEN_HEALTH,OW1_JUNKERQUEEN_ARMOR,OW1_JUNKERQUEEN_SHIELDS]
+    health_pool[heroID(Hero.MAUGA)] = [OW1_MAUGA_HEALTH,OW1_MAUGA_ARMOR,0]
     health_pool[heroID(Hero.ORISA)] = [OW1_ORISA_HEALTH,OW1_ORISA_ARMOR,OW1_ORISA_SHIELDS]
     health_pool[heroID(Hero.RAMATTRA)] = [OW1_RAMATTRA_HEALTH,OW1_RAMATTRA_ARMOR,OW1_RAMATTRA_SHIELDS]
     health_pool[heroID(Hero.REINHARDT)] = [OW1_REINHARDT_HEALTH,OW1_REINHARDT_ARMOR,OW1_REINHARDT_SHIELDS]
