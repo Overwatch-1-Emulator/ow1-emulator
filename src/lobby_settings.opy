@@ -94,11 +94,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
                         "morning"
                     ]
                 },
-                {
-                    "rialto": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "rialto": [
+                #         "morning"
+                #     ]
+                # },
                 {
                     "junkertown" : []
                 },
@@ -116,11 +116,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
         },
         "hybrid": {
             "enabledMaps": [
-                {
-                    "blizzWorld": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "blizzWorld": [
+                #         "morning"
+                #     ]
+                # },
                 {
                     "eichenwalde": [
                         "morning"
@@ -271,13 +271,39 @@ gitlab.com/MaxwellJung/ow1_emulator",
             "zenyatta": {
                 "ultGen%": percent(OW2_ZENYATTA_ULT_COST/OW1_ZENYATTA_ULT_COST)
             },
-            "disabledHeroes": [
-                "junkerQueen",
-                "illari",
-                "kiriko",
-                "lifeweaver",
-                "ramattra",
-                "sojourn",
+            "enabledHeroes": [
+                "ana",
+                "ashe",
+                "baptiste",
+                "bastion",
+                "brigitte",
+                "mccree",
+                "doomfist",
+                "dva",
+                "echo",
+                "genji",
+                "hanzo",
+                "junkrat",
+                "lucio",
+                "mei",
+                "mercy",
+                "moira",
+                "orisa",
+                "pharah",
+                "reaper",
+                "reinhardt",
+                "roadhog",
+                "sigma",
+                "soldier",
+                "sombra",
+                "symmetra",
+                "torbjorn",
+                "tracer",
+                "widowmaker",
+                "winston",
+                "hammond",
+                "zarya",
+                "zenyatta",
             ]
         }
     }
