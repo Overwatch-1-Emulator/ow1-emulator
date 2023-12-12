@@ -97,11 +97,11 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
                         "morning"
                     ]
                 },
-                {
-                    "rialto": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "rialto": [
+                #         "morning"
+                #     ]
+                # },
                 {
                     "junkertown" : []
                 },
@@ -122,11 +122,11 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
         },
         "hybrid": {
             "enabledMaps": [
-                {
-                    "blizzWorld": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "blizzWorld": [
+                #         "morning"
+                #     ]
+                # },
                 {
                     "eichenwalde": [
                         "morning"
@@ -257,6 +257,9 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
             },
             "lucio": {
                 "ultGen%": percent(OW2_LUCIO_ULT_COST/OW1_LUCIO_ULT_COST)
+            },
+            "mauga": {
+                "ultGen%": percent(OW2_MAUGA_ULT_COST/OW1_MAUGA_ULT_COST)
             },
             "mei": {
                 "ultGen%": percent(OW2_MEI_ULT_COST/OW1_MEI_ULT_COST)
