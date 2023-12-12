@@ -94,11 +94,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
                         "morning"
                     ]
                 },
-                {
-                    "rialto": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "rialto": [
+                #         "morning"
+                #     ]
+                # },
                 {
                     "junkertown" : []
                 },
@@ -116,11 +116,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
         },
         "hybrid": {
             "enabledMaps": [
-                {
-                    "blizzWorld": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "blizzWorld": [
+                #         "morning"
+                #     ]
+                # },
                 {
                     "eichenwalde": [
                         "morning"
