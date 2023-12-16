@@ -23,7 +23,7 @@ discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
 gitlab.com/MaxwellJung/ow1_plus_plus",
-        "modeName": "Overwatch 1++"
+        "modeName": GAMEMODE_NAME
     },
     "lobby": {
         "allowPlayersInQueue": true,

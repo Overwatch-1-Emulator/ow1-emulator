@@ -7,6 +7,7 @@ rule "[genji/init.opy]: Initialize Genji":
     @Condition eventPlayer.call_init
     
     defaultHero()
+    setUltCost(OW1_GENJI_ULT_COST)
     eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
     

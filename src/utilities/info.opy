@@ -2,6 +2,7 @@
 
 globalvar info_gvar
 globalvar rgb_list = [vect(255, 0, 0), vect(255, 255, 0), vect(0, 255, 0), vect(0, 255, 255), vect(0, 0, 255), vect(255, 0, 255)]
+globalvar HIDE_WATERMARK = createWorkshopSetting(bool, "Misc", "Hide Watermark", false)
 
 playervar info_pvar
 #!defineMember rgb_i info_pvar[0]
@@ -20,10 +21,11 @@ playervar rgb_vect
 
 rule "[info.opy]: Create info HUD":
     @Event eachPlayer
+    @Condition not HIDE_WATERMARK
 
     if eventPlayer.info_id[0] == null:
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
-                     "Overwatch 1++ (YKMXH)", 
+                     GAMEMODE_NAME" ""("GAMEMODE_CODE")", 
                      HudPosition.LEFT, 
                      Math.INFINITY, 
                      Color.WHITE, 

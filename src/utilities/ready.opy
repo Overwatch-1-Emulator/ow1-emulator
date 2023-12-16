@@ -22,7 +22,7 @@ rule "[ready.opy]: Create ready HUD":
         eventPlayer.ready_hud[1] = getLastCreatedText()
 
     if eventPlayer.ready_hud[2] == null:
-        hudSubtext(eventPlayer, "Overwatch 1++ (YKMXH)", HudPosition.TOP, Math.INFINITY, Color.WHITE, HudReeval.STRING_AND_COLOR)
+        hudSubtext(eventPlayer, GAMEMODE_NAME" ""("GAMEMODE_CODE")", HudPosition.TOP, Math.INFINITY, Color.WHITE, HudReeval.STRING_AND_COLOR)
         eventPlayer.ready_hud[2] = getLastCreatedText()
 
     if eventPlayer.ready_hud[3] == null:

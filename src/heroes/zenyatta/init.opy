@@ -8,6 +8,7 @@ rule "[zenyatta/init.opy]: Initialize Zenyatta":
     @Condition eventPlayer.call_init
     
     newHero(OW1_ZENYATTA_HEALTH, 0, OW1_ZENYATTA_SHIELDS)
+    setUltCost(OW1_ZENYATTA_ULT_COST)
     eventPlayer.setAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
 

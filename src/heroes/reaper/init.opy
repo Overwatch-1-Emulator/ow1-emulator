@@ -7,6 +7,7 @@ rule "[reaper/init.opy]: Initialize Reaper":
     @Condition eventPlayer.call_init
 
     defaultHero()
+    setUltCost(OW1_REAPER_ULT_COST)
     eventPlayer.call_init = false
 
 

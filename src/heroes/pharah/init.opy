@@ -7,5 +7,6 @@ rule "[pharah/init.opy]: Initialize Pharah":
     @Condition eventPlayer.call_init
 
     defaultHero()
+    setUltCost(OW1_PHARAH_ULT_COST)
 
     eventPlayer.call_init = false
