@@ -11,5 +11,6 @@ rule "[moira/init.opy]: Initialize Moira":
     @Condition eventPlayer.call_init
     
     defaultHero()
+    setUltCost(OW1_MOIRA_ULT_COST)
     removeSelfHealing()
     eventPlayer.call_init = false

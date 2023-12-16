@@ -7,6 +7,7 @@ rule "[lucio/init.opy]: Initialize Lucio":
     @Condition eventPlayer.call_init
     
     defaultHero()
+    setUltCost(OW1_LUCIO_ULT_COST)
     removeSelfHealing()
     eventPlayer.call_init = false
 

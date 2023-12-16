@@ -7,6 +7,7 @@ rule "[torbjorn/init.opy]: Initialize Torbjorn":
     @Condition eventPlayer.call_init
 
     newHero(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
+    setUltCost(OW1_TORBJORN_ULT_COST)
     eventPlayer.call_init = false
 
 

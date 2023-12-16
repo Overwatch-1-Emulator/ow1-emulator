@@ -23,6 +23,7 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
     @Condition eventPlayer.call_init == true
 
     newHero(OW1_DOOMFIST_HEALTH, 0, 0)
+    setUltCost(OW1_DOOMFIST_ULT_COST)
 
     getPlayers(eventPlayer.getTeam()).friendly_doomfist_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_doomfist_player = eventPlayer

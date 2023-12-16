@@ -12,6 +12,7 @@ rule "[sombra/init.opy]: Initialize Sombra":
     @Condition eventPlayer.call_init
 
     defaultHero()
+    setUltCost(OW1_SOMBRA_ULT_COST)
 
     getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra_player = eventPlayer

@@ -11,6 +11,7 @@ rule "[echo/init.opy]: Initialize Echo":
     @Condition eventPlayer.call_init
     
     defaultHero()
+    setUltCost(OW1_ECHO_ULT_COST)
     eventPlayer.call_init = false
 
 

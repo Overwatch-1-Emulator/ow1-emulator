@@ -9,6 +9,7 @@ rule "[ana/init.opy]: Initialize Ana":
     @Condition eventPlayer.call_init == true
     
     defaultHero()
+    setUltCost(OW1_ANA_ULT_COST)
 
     eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
