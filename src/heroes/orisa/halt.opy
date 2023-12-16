@@ -142,6 +142,14 @@ def hideSnareLine():
     eventPlayer.halt_snare_line_id = null
 
 
+rule "[orisa/halt.opy]: Destroy Halt pull line vfx when halt starts":
+    @Event eachPlayer
+    @Condition eventPlayer.enemy_orisa_player.is_using_halt
+
+    destroyEffect(eventPlayer.halt_snare_line_id)
+    eventPlayer.halt_snare_line_id = null
+
+
 rule "[orisa/halt.opy]: Destroy Halt pull line vfx when halt is over":
     @Event eachPlayer
     @Condition not eventPlayer.enemy_orisa_player.is_using_halt
