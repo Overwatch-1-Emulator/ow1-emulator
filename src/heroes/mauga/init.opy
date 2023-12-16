@@ -7,6 +7,7 @@ rule "[mauga/init.opy]: Initialize Mauga":
     @Condition eventPlayer.call_init
     
     newHero(OW1_MAUGA_HEALTH, OW1_MAUGA_ARMOR, 0)
+    setUltCost(OW1_MAUGA_ULT_COST)
     removeTankPassive()
     
     eventPlayer.call_init = false
