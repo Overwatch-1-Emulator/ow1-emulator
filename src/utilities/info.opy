@@ -25,7 +25,7 @@ rule "[info.opy]: Create info HUD":
 
     if eventPlayer.info_id[0] == null:
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
-                     "Overwatch 1 Emulator (KHTG0)", 
+                     GAMEMODE_NAME" ""("GAMEMODE_CODE")", 
                      HudPosition.LEFT, 
                      Math.INFINITY, 
                      Color.WHITE, 
