@@ -1,17 +1,17 @@
 #!mainFile "../main.opy"
 
-globalvar debug = createWorkshopSetting(bool, "Dev Tools", "debug mode", false)
+globalvar DEBUG_MODE = createWorkshopSetting(bool, "Dev Tools", "debug mode", false)
 
 rule "[debug.opy] Disable Inspector for performance":
     @Event global
-    @Condition not debug
+    @Condition DEBUG_MODE == false
 
     disableInspector()
 
 
 rule "[debug.opy]: Overwatch 1 Emulator copyright notice":
     @Event global
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
 
     hudSubheader(getAllPlayers(), "Property of \"Overwatch 1 Emulator\" \n
 Unauthorized duplication or modification of this codebase is strictly forbidden. \n
@@ -21,7 +21,7 @@ Contact ecksdee4643 on Discord for source code acess",
 
 rule "[debug.opy]: global debug (Top Left)":
     @Event global
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
 
     hudHeader(getAllPlayers(), "Global", HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(getAllPlayers(), "Server Load: {}%".format(getServerLoad()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
@@ -32,7 +32,7 @@ rule "[debug.opy]: global debug (Top Left)":
 
 rule "[debug.opy]: player debug (Top Right)":
     @Event eachPlayer
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
 
     hudHeader(eventPlayer, "Event Player", HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "call_init = {}".format(eventPlayer.call_init), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -89,7 +89,7 @@ rule "[debug.opy]: player debug (Top Right)":
 
 rule "[debug.opy]: print to console on interact":
     @Event eachPlayer
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
 
     for i in range(len(eventPlayer.allowed_heroes)):
@@ -98,13 +98,13 @@ rule "[debug.opy]: print to console on interact":
 
 rule "[debug.opy]: Debug damage instance":
     @Event playerDealtDamage
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
 
     printLog("hero={}, ability={}, amount={}".format(eventPlayer.getCurrentHero(), eventAbility, eventDamage))
 
 
 rule "[debug.opy]: Debug healing instance":
     @Event playerDealtHealing
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
 
     printLog("hero={}, ability={}, amount={}".format(eventPlayer.getCurrentHero(), eventAbility, eventHealing))
