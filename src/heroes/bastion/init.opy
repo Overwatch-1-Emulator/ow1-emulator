@@ -10,6 +10,7 @@ rule "[bastion/init.opy]: Initialize Bastion":
     @Condition eventPlayer.call_init == true
     
     defaultHero()
+    setUltCost(OW1_BASTION_ULT_COST)
     eventPlayer.machine_gun_ammo = OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE
     eventPlayer.machine_gun_reload_timer = 0
 

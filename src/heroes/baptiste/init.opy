@@ -9,6 +9,7 @@ rule "[baptiste/init.opy]: Initialize Baptiste":
     @Condition eventPlayer.call_init == true
 
     newHero(OW1_BAPTISTE_HEALTH, 0, 0)
+    setUltCost(OW1_BAPTISTE_ULT_COST)
 
     eventPlayer.setDamageDealt(percent(OW1_BAPTISTE_PRIMARY_DAMAGE/OW2_BAPTISTE_PRIMARY_DAMAGE))
 
