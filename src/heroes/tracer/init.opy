@@ -7,6 +7,7 @@ rule "[tracer/init.opy]: Initialize Tracer":
     @Condition eventPlayer.call_init
 
     defaultHero()
+    setUltCost(OW1_TRACER_ULT_COST)
     eventPlayer.call_init = false
 
 

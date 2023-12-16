@@ -7,6 +7,7 @@ rule "[hanzo/init.opy]: Initialize Hanzo":
     @Condition eventPlayer.call_init
     
     defaultHero()
+    setUltCost(OW1_HANZO_ULT_COST)
     eventPlayer.call_init = false
 
 

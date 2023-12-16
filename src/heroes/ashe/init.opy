@@ -8,5 +8,6 @@ rule "[ashe/init.opy]: Initialize Ashe":
     @Condition eventPlayer.call_init == true
     
     newHero(OW1_ASHE_HEALTH, 0, 0)
+    setUltCost(OW1_ASHE_ULT_COST)
 
     eventPlayer.call_init = false

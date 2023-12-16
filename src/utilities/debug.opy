@@ -1,13 +1,19 @@
 #!mainFile "../main.opy"
 
-globalvar debug = createWorkshopSetting(bool, "Dev Tools", "debug mode", false)
+globalvar DEBUG_MODE = createWorkshopSetting(bool, "Dev Tools", "debug mode", false)
 
-
-rule "[debug.opy]: Overwatch 1 Emulator copyright notice":
+rule "[debug.opy] Disable Inspector for performance":
     @Event global
-    @Condition debug == true
+    @Condition DEBUG_MODE == false
 
-    hudSubheader(getAllPlayers(), "Property of \"Overwatch 1 Emulator\" \n
+    disableInspector()
+
+
+rule "[debug.opy]: Copyright notice":
+    @Event global
+    @Condition DEBUG_MODE == true
+
+    hudSubheader(getAllPlayers(), "Property of \""GAMEMODE_NAME"\" \n
 Unauthorized duplication or modification of this codebase is strictly forbidden. \n
 Contact ecksdee4643 on Discord for source code acess", 
                  HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
@@ -15,7 +21,7 @@ Contact ecksdee4643 on Discord for source code acess",
 
 rule "[debug.opy]: global debug (Top Left)":
     @Event global
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
 
     hudHeader(getAllPlayers(), "Global", HudPosition.LEFT, 0, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(getAllPlayers(), "Server Load: {}%".format(getServerLoad()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
@@ -26,7 +32,7 @@ rule "[debug.opy]: global debug (Top Left)":
 
 rule "[debug.opy]: player debug (Top Right)":
     @Event eachPlayer
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
 
     hudHeader(eventPlayer, "Event Player", HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "call_init = {}".format(eventPlayer.call_init), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -48,7 +54,7 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "isUsingAbility2() = {}".format(eventPlayer.isUsingAbility2()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "Ability 2 Cooldown = {}".format(eventPlayer.getAbilityCooldown(Button.ABILITY_2)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "getSpeed() = {}".format(eventPlayer.getSpeed()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "ult_cost[hero_id] = {}".format(ult_cost[eventPlayer.hero_id]), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "ult_cost = {}".format(eventPlayer.ult_cost), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "ult_percent_compensated = {}".format(eventPlayer.ult_percent_compensated), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getMaxHealth() = {}".format(eventPlayer.getMaxHealth()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getHealth() = {}".format(eventPlayer.getHealth()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -83,7 +89,7 @@ rule "[debug.opy]: player debug (Top Right)":
 
 rule "[debug.opy]: print to console on interact":
     @Event eachPlayer
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
 
     for i in range(len(eventPlayer.allowed_heroes)):
@@ -92,13 +98,13 @@ rule "[debug.opy]: print to console on interact":
 
 rule "[debug.opy]: Debug damage instance":
     @Event playerDealtDamage
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
 
     printLog("hero={}, ability={}, amount={}".format(eventPlayer.getCurrentHero(), eventAbility, eventDamage))
 
 
 rule "[debug.opy]: Debug healing instance":
     @Event playerDealtHealing
-    @Condition debug == true
+    @Condition DEBUG_MODE == true
 
     printLog("hero={}, ability={}, amount={}".format(eventPlayer.getCurrentHero(), eventAbility, eventHealing))

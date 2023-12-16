@@ -9,6 +9,7 @@ rule "[zarya/init.opy]: Initialize Zarya":
     @Condition eventPlayer.call_init
 
     newHero(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
+    setUltCost(OW1_ZARYA_ULT_COST)
 
     initSelfBubble()
     initAllyBubble()

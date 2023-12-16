@@ -31,7 +31,7 @@ discord.gg/GMVqwYXbWB\r\n\
 \r\n\
 Source code:\r\n\
 gitlab.com/MaxwellJung/ow1_emulator",
-        "modeName": "Overwatch 1 Emulator"
+        "modeName": GAMEMODE_NAME
     },
     "lobby": {
         "allowPlayersInQueue": true,

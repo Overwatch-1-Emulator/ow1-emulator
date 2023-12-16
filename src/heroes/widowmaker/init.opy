@@ -20,6 +20,7 @@ rule "[widowmaker/init.opy]: Initialize Widowmaker":
     @Condition eventPlayer.call_init
 
     newHero(OW1_WIDOWMAKER_HEALTH, 0, 0)
+    setUltCost(OW1_WIDOWMAKER_ULT_COST)
     eventPlayer.call_init = false
 
 

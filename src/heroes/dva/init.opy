@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/dva/hp.opy"
 #!include "heroes/dva/gun.opy"
@@ -13,6 +13,7 @@ rule "[dva/init.opy]: Initialize DVa":
     @Condition eventPlayer.call_init
     
     defaultHero()
+    setUltCost(OW1_DVA_ULT_COST)
     removeTankPassive()
 
     setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)

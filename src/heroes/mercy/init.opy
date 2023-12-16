@@ -9,6 +9,7 @@ rule "[mercy/init.opy]: Initialize Mercy":
     @Condition eventPlayer.call_init
     
     defaultHero()
+    setUltCost(OW1_MERCY_ULT_COST)
     eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)
 
