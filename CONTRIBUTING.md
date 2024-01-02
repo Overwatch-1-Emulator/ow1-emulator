@@ -12,7 +12,7 @@ If you're interested in submitting code to this gamemode, read this guide carefu
     - Version control system
 - GitLab
     - Remote archive of this source code repository
-    - [Issue](https://gitlab.com/MaxwellJung/ow1_emulator/-/issues) tracking and [pull request](https://gitlab.com/MaxwellJung/ow1_emulator/-/merge_requests)
+    - [Issue](https://gitlab.com/MaxwellJung/ow1_emulator/-/issues) tracking and [Merge Request](https://gitlab.com/MaxwellJung/ow1_emulator/-/merge_requests)
 - Discord
     - Communication between developers
 
@@ -42,7 +42,7 @@ For instructions on how to use OverPy, see [here](https://gitlab.com/Zezombye/ov
 3. Modify codebase using VScode. Be sure to follow [styling guidelines](#coding-style-guidelines).
 4. Compile and test new codebase.
 6. Commit working changes.
-7. Submit [Merge Request](https://gitlab.com/MaxwellJung/ow1_emulator/-/merge_requests) to merge your branch into staging branch.
+7. Submit [Merge Request](https://gitlab.com/MaxwellJung/ow1_emulator/-/merge_requests) (MR) to merge your branch into staging branch.
 8. Wait for owner to approve and merge your Merge Request.
 
 
@@ -50,7 +50,7 @@ For instructions on how to use OverPy, see [here](https://gitlab.com/Zezombye/ov
 
 1. For every 3~5 features added to staging branch, the devs will compile a staging build and test each feature manually.
 2. If your feature fails to meet quality expectations, the MR corresponding to that feature will be reverted to drop the changes.
-3. After each feature in staging build is confirmed, the staging branch will be merged to main branch and a new main release build will be announced.
+3. After each feature in staging build is confirmed, the staging branch will be merged to main branch and a new gamemode version will be announced.
 
 
 ## Coding Style Guidelines
