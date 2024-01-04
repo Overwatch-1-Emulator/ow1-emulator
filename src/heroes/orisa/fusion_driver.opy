@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 playervar orisa_ammo
 playervar orisa_ammo_hud
@@ -23,6 +23,14 @@ rule "[orisa/fusion_driver.opy]: Decrease ammo when shooting gun":
     wait(1/OW1_ORISA_GUN_FIRE_RATE)
     if RULE_CONDITION:
         goto RULE_START
+
+
+rule "[orisa/fusion_driver.opy]: Reload gun after respawning":
+    @Event playerDied
+    @Hero orisa
+
+    waitUntil(eventPlayer.isInSpawnRoom(), Math.INFINITY)
+    resetFusionDriver()
 
 
 rule "[orisa/fusion_driver.opy]: Update ammo when shooting gun":
