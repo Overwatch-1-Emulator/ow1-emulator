@@ -94,11 +94,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
                         "morning"
                     ]
                 },
-                # {
-                #     "rialto": [
-                #         "morning"
-                #     ]
-                # },
+                {
+                    "rialto": [
+                        "morning"
+                    ]
+                },
                 {
                     "junkertown" : []
                 },
