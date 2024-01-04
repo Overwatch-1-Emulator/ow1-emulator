@@ -52,9 +52,9 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
                         "morning"
                     ]
                 },
-                {
-                    "antarcticPeninsula": []
-                },
+                # {
+                #     "antarcticPeninsula": []
+                # },
                 {
                     "ilios": [
                         "morning"
@@ -97,11 +97,11 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
                         "morning"
                     ]
                 },
-                # {
-                #     "rialto": [
-                #         "morning"
-                #     ]
-                # },
+                {
+                    "rialto": [
+                        "morning"
+                    ]
+                },
                 {
                     "junkertown" : []
                 },
