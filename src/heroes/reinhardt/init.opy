@@ -12,4 +12,7 @@ rule "[reinhardt/init.opy]: Initialize Reinhardt":
 
     newHero(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)
     setUltCost(OW1_REINHARDT_ULT_COST)
+
+    removeTankPassive()
+
     eventPlayer.call_init = false

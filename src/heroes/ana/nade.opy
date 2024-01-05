@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[ana/nade.opy]: OW1 biotic grenade cooldown":

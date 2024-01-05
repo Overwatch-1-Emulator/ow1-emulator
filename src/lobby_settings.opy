@@ -153,6 +153,8 @@ gitlab.com/MaxwellJung/ow1_emulator",
     "heroes": {
         "allTeams": {
             "ana": {
+                "ability1Cooldown%": percent(OW1_ANA_SLEEP_DART_COOLDOWN_TIME/OW2_ANA_SLEEP_DART_COOLDOWN_TIME),
+                "ability2Cooldown%": percent(OW1_ANA_BIOTIC_GRENADE_COOLDOWN/OW2_ANA_BIOTIC_GRENADE_COOLDOWN),
                 "ultGen%": percent(OW2_ANA_ULT_COST/OW1_ANA_ULT_COST)
             },
             "ashe": {
@@ -180,7 +182,8 @@ gitlab.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
             },
             "dva": {
-                "secondaryFireMaximumTime%": 67,
+                "secondaryFireMaximumTime%": percent(OW1_DVA_DEFENSE_MATRIX_DURATION/OW2_DVA_DEFENSE_MATRIX_DURATION),
+                "ability1Cooldown%": percent(OW1_DVA_BOOSTER_COOLDOWN_TIME/OW2_DVA_BOOSTER_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_DVA_ULT_COST/OW1_DVA_ULT_COST)
             },
             "echo": {
