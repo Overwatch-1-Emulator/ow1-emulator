@@ -34,7 +34,7 @@ rule "[info.opy]: Create info HUD":
 
     if eventPlayer.info_id[1] == null:
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
-                     "dsc.gg/ow1", 
+                     DISCORD_LINK, 
                      HudPosition.LEFT, 
                      Math.INFINITY, 
                      rgb(eventPlayer.rgb_vect.x, eventPlayer.rgb_vect.y, eventPlayer.rgb_vect.z), 
