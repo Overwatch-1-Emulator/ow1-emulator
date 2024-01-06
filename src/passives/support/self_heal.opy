@@ -55,7 +55,7 @@ def evalSelfHealingPercent():
 
 rule "[passives/support/self_heal.opy]: Get time when support hero take damage":
     @Event playerTookDamage
-    @Condition eventPlayer.getCurrentHero() in support_heroes
+    @Condition eventPlayer.getCurrentHero() in _support_heroes
 
     eventPlayer.last_time_damage_taken = getTotalTimeElapsed()
     eventPlayer.support_passive_active = false
@@ -64,7 +64,7 @@ rule "[passives/support/self_heal.opy]: Get time when support hero take damage":
 rule "[passives/support/self_heal.opy]: Check if support passive is active":
     @Event eachPlayer
     @Condition not eventPlayer.support_passive_active
-    @Condition eventPlayer.getCurrentHero() in support_heroes
+    @Condition eventPlayer.getCurrentHero() in _support_heroes
     @Condition getTotalTimeElapsed() - eventPlayer.last_time_damage_taken > OW1_ACTIVATION_TIME_PASSIVE_HEALING
 
     eventPlayer.support_passive_active = true

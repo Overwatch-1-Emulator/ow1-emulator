@@ -2,36 +2,8 @@
 
 settings {
     "main": {
-        "description": \
-"Overwatch 1 Emulator\r\n\
-\r\n\
-ecksdee#11729's attempt to accurately recreate \r\n\
-the last version of Overwatch 1 using workshop.\r\n\
-\r\n\
-Overwatch 1++ (this gamemode with \r\n\
-balanced OW2 heroes): YKMXH\r\n\
-\r\n\
-Main build: KHTG0\r\n\
-Staging build: ESMXJ\r\n\
-\r\n\
-Dev Team:\r\n\
-ecksdee#11729\r\n\
-Snappy#11809\r\n\
-KingDonMike#2694\r\n\
-thenova#21104\r\n\
-pretz#11551\r\n\
-Hikigaeru#11863\r\n\
-\r\n\
-Gamemode:\r\n\
-workshop.codes/ow1-emulator\r\n\
-\r\n\
-Discord:\r\n\
-dsc.gg/ow1\r\n\
-discord.gg/GMVqwYXbWB\r\n\
-\r\n\
-Source code:\r\n\
-gitlab.com/MaxwellJung/ow1_emulator",
-        "modeName": GAMEMODE_NAME
+        "modeName": GAMEMODE_NAME,
+        "description": GAMDMODE_DESCRIPTION,
     },
     "lobby": {
         "allowPlayersInQueue": true,
@@ -214,9 +186,6 @@ gitlab.com/MaxwellJung/ow1_emulator",
             },
             "pharah": {
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST)
-            },
-            "ramattra": {
-                "health%": percent(OW1_RAMATTRA_BARRIER_HEALTH/OW2_RAMATTRA_BARRIER_HEALTH) # for barrier
             },
             "reaper": {
                 "ultGen%": percent(OW2_REAPER_ULT_COST/OW1_REAPER_ULT_COST)

@@ -1,4 +1,11 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
+
+
+rule "[sigma/init.opy]: Detect switch to Sigma":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
 
 
 rule "[sigma/init.opy]: Initialize Sigma":

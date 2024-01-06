@@ -1,10 +1,17 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/orisa/supercharger.opy"
 #!include "heroes/orisa/halt.opy"
 #!include "heroes/orisa/barrier.opy"
 #!include "heroes/orisa/fusion_driver.opy"
 #!include "heroes/orisa/fortify.opy"
+
+rule "[orisa/init.opy]: Detect switch to Orisa":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
+
 
 rule "[orisa/init.opy]: Initialize Orisa":
     @Event eachPlayer

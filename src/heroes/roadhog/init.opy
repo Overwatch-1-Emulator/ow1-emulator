@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/roadhog/hook.opy"
 #!include "heroes/roadhog/breather.opy"
 #!include "heroes/roadhog/wholehog.opy"
+
+
+rule "[roadhog/init.opy]: Detect switch to Roadhog":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
 
 
 rule "[roadhog/init.opy]: Initialize Roadhog":

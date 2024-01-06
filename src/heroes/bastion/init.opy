@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/bastion/configuration.opy"
 #!include "heroes/bastion/repair.opy"
 #!include "heroes/bastion/machine_gun.opy"
+
+rule "[bastion/init.opy]: Detect switch to Bastion":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
+
 
 rule "[bastion/init.opy]: Initialize Bastion":
     @Event eachPlayer

@@ -1,4 +1,11 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
+
+
+rule "[hanzo/init.opy]: Detect switch to Hanzo":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
 
 
 rule "[hanzo/init.opy]: Initialize Hanzo":

@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 /*
 This DPS doomfist workshop script is heavily based on
@@ -15,6 +15,13 @@ playervar is_ultimate_locked
 #!include "heroes/doomfist/punch.opy"
 #!include "heroes/doomfist/meteor.opy"
 #!include "heroes/doomfist/cannon.opy"
+
+
+rule "[doomfist/init.opy]: Detect switch to Doomfist":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
 
 
 rule "[doomfist/init.opy]: Initialize Doomfist":

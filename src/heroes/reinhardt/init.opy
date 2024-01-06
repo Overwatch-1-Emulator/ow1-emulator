@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/reinhardt/firestrike.opy"
 #!include "heroes/reinhardt/charge.opy"
 #!include "heroes/reinhardt/shatter.opy"
+
+
+rule "[reinhardt/init.opy]: Detect switch to Reinhardt":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
 
 
 rule "[reinhardt/init.opy]: Initialize Reinhardt":

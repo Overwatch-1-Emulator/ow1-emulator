@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[mccree.opy]: Remove damage reduction during roll":

@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 #!include "heroes/moira/coalescence.opy"
 #!include "heroes/moira/self_heal.opy"
+
+
+rule "[moira/init.opy]: Detect switch to Moira":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
 
 
 rule "[moira/init.opy]: Initialize Moira":

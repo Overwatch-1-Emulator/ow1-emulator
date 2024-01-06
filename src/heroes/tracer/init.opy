@@ -1,6 +1,13 @@
 #!mainFile "../../main.opy"
 
 
+rule "[tracer/init.opy]: Detect switch to Tracer":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
+
+
 rule "[tracer/init.opy]: Initialize Tracer":
     @Event eachPlayer
     @Hero tracer

@@ -1,4 +1,11 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
+
+
+rule "[winston/init.opy]: Detect switch to Winston":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
 
 
 rule "[winston/init.opy]: Initialize Winston":

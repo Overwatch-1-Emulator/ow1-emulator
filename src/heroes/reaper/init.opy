@@ -1,4 +1,11 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
+
+
+rule "[reaper/init.opy]: Detect switch to Reaper":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
 
 
 rule "[reaper/init.opy]: Initialize Reaper":

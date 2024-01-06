@@ -1,7 +1,14 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/baptiste/regen_burst.opy"
 #!include "heroes/baptiste/immort_field.opy"
+
+rule "[baptiste/init.opy]: Detect switch to Baptiste":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
+
 
 rule "[baptiste/init.opy]: Initialize Baptiste":
     @Event eachPlayer

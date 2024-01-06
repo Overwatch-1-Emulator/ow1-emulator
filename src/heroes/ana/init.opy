@@ -1,7 +1,14 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/ana/sleep.opy"
 #!include "heroes/ana/nade.opy"
+
+rule "[ana/init.opy]: Detect switch to Ana":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
+
 
 rule "[ana/init.opy]: Initialize Ana":
     @Event eachPlayer

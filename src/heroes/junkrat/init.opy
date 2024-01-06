@@ -1,4 +1,11 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
+
+
+rule "[junkrat/init.opy]: Detect switch to Junkrat":
+    @Event eachPlayer
+    @Hero ana
+
+    eventPlayer.call_init = true
 
 
 rule "[junkrat/init.opy]: Initialize Junkrat":
