@@ -7,7 +7,7 @@
 
 rule "[reinhardt/init.opy]: Detect switch to Reinhardt":
     @Event eachPlayer
-    @Hero ana
+    @Hero reinhardt
 
     eventPlayer.call_init = true
 

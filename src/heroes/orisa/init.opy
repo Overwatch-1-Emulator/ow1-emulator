@@ -8,7 +8,7 @@
 
 rule "[orisa/init.opy]: Detect switch to Orisa":
     @Event eachPlayer
-    @Hero ana
+    @Hero orisa
 
     eventPlayer.call_init = true
 

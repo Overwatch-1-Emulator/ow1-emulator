@@ -3,7 +3,7 @@
 
 rule "[junkrat/init.opy]: Detect switch to Junkrat":
     @Event eachPlayer
-    @Hero ana
+    @Hero junkrat
 
     eventPlayer.call_init = true
 

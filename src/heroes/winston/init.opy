@@ -3,7 +3,7 @@
 
 rule "[winston/init.opy]: Detect switch to Winston":
     @Event eachPlayer
-    @Hero ana
+    @Hero winston
 
     eventPlayer.call_init = true
 

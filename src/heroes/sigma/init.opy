@@ -3,7 +3,7 @@
 
 rule "[sigma/init.opy]: Detect switch to Sigma":
     @Event eachPlayer
-    @Hero ana
+    @Hero sigma
 
     eventPlayer.call_init = true
 

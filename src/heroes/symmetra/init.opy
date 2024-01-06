@@ -7,7 +7,7 @@
 
 rule "[symmetra/init.opy]: Detect switch to Symmetra":
     @Event eachPlayer
-    @Hero ana
+    @Hero symmetra
 
     eventPlayer.call_init = true
 

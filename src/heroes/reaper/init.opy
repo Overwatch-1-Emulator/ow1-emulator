@@ -3,7 +3,7 @@
 
 rule "[reaper/init.opy]: Detect switch to Reaper":
     @Event eachPlayer
-    @Hero ana
+    @Hero reaper
 
     eventPlayer.call_init = true
 

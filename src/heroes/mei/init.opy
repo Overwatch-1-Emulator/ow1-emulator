@@ -5,7 +5,7 @@
 
 rule "[mei/init.opy]: Detect switch to Mei":
     @Event eachPlayer
-    @Hero ana
+    @Hero mei
 
     eventPlayer.call_init = true
 

@@ -7,7 +7,7 @@
 
 rule "[moira/init.opy]: Detect switch to Moira":
     @Event eachPlayer
-    @Hero ana
+    @Hero moira
 
     eventPlayer.call_init = true
 

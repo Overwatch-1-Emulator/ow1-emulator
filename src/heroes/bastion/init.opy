@@ -6,7 +6,7 @@
 
 rule "[bastion/init.opy]: Detect switch to Bastion":
     @Event eachPlayer
-    @Hero ana
+    @Hero bastion
 
     eventPlayer.call_init = true
 

@@ -4,7 +4,7 @@
 
 rule "[wreckingball/init.opy]: Detect switch to Wrecking Ball":
     @Event eachPlayer
-    @Hero ana
+    @Hero hammond
 
     eventPlayer.call_init = true
 

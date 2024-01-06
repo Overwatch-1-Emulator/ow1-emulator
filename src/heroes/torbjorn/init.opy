@@ -3,7 +3,7 @@
 
 rule "[torbjorn/init.opy]: Detect switch to Torbjorn":
     @Event eachPlayer
-    @Hero ana
+    @Hero torbjorn
 
     eventPlayer.call_init = true
 

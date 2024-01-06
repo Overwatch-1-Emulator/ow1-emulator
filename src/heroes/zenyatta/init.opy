@@ -4,7 +4,7 @@
 
 rule "[zenyatta/init.opy]: Detect switch to Zenyatta":
     @Event eachPlayer
-    @Hero ana
+    @Hero zenyatta
 
     eventPlayer.call_init = true
 

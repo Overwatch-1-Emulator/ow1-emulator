@@ -3,7 +3,7 @@
 
 rule "[hanzo/init.opy]: Detect switch to Hanzo":
     @Event eachPlayer
-    @Hero ana
+    @Hero hanzo
 
     eventPlayer.call_init = true
 

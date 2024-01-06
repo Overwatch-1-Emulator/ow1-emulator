@@ -3,7 +3,7 @@
 
 rule "[genji/init.opy]: Detect switch to Genji":
     @Event eachPlayer
-    @Hero ana
+    @Hero genji
 
     eventPlayer.call_init = true
 

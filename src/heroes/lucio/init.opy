@@ -3,7 +3,7 @@
 
 rule "[lucio/init.opy]: Detect switch to Lucio":
     @Event eachPlayer
-    @Hero ana
+    @Hero lucio
 
     eventPlayer.call_init = true
 

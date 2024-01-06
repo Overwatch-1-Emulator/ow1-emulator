@@ -3,7 +3,7 @@
 
 rule "[tracer/init.opy]: Detect switch to Tracer":
     @Event eachPlayer
-    @Hero ana
+    @Hero tracer
 
     eventPlayer.call_init = true
 

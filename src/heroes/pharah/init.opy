@@ -3,7 +3,7 @@
 
 rule "[pharah/init.opy]: Detect switch to Pharah":
     @Event eachPlayer
-    @Hero ana
+    @Hero pharah
 
     eventPlayer.call_init = true
 

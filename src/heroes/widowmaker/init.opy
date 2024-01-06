@@ -16,7 +16,7 @@ playervar expected_scoped_damage
 
 rule "[widowmaker/init.opy]: Detect switch to Widowmaker":
     @Event eachPlayer
-    @Hero ana
+    @Hero widowmaker
 
     eventPlayer.call_init = true
 

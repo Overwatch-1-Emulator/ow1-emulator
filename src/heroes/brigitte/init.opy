@@ -7,7 +7,7 @@
 
 rule "[brigitte/init.opy]: Detect switch to Brigitte":
     @Event eachPlayer
-    @Hero ana
+    @Hero brigitte
 
     eventPlayer.call_init = true
 

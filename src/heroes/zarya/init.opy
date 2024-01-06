@@ -5,7 +5,7 @@
 
 rule "[zarya/init.opy]: Detect switch to Zarya":
     @Event eachPlayer
-    @Hero ana
+    @Hero zarya
 
     eventPlayer.call_init = true
 

@@ -19,7 +19,7 @@ playervar is_ultimate_locked
 
 rule "[doomfist/init.opy]: Detect switch to Doomfist":
     @Event eachPlayer
-    @Hero ana
+    @Hero doomfist
 
     eventPlayer.call_init = true
 

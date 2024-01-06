@@ -5,7 +5,7 @@
 
 rule "[mercy/init.opy]: Detect switch to Mercy":
     @Event eachPlayer
-    @Hero ana
+    @Hero mercy
 
     eventPlayer.call_init = true
 

@@ -7,7 +7,7 @@ playervar hero_id_duplicated
 
 rule "[echo/init.opy]: Detect switch to Echo":
     @Event eachPlayer
-    @Hero ana
+    @Hero echo
 
     eventPlayer.call_init = true
 

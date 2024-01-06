@@ -4,7 +4,7 @@
 
 rule "[ashe/init.opy]: Detect switch to Ashe":
     @Event eachPlayer
-    @Hero ana
+    @Hero ashe
 
     eventPlayer.call_init = true
 

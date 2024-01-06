@@ -7,7 +7,7 @@
 
 rule "[roadhog/init.opy]: Detect switch to Roadhog":
     @Event eachPlayer
-    @Hero ana
+    @Hero roadhog
 
     eventPlayer.call_init = true
 

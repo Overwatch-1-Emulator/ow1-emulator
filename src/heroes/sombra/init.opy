@@ -8,7 +8,7 @@
 
 rule "[sombra/init.opy]: Detect switch to Sombra":
     @Event eachPlayer
-    @Hero ana
+    @Hero sombra
 
     eventPlayer.call_init = true
 

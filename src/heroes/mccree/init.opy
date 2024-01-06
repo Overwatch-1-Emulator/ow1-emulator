@@ -6,7 +6,7 @@
 
 rule "[mccree/init.opy]: Detect switch to Cassidy":
     @Event eachPlayer
-    @Hero ana
+    @Hero mccree
 
     eventPlayer.call_init = true
 

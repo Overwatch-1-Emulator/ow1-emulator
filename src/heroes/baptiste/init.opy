@@ -5,7 +5,7 @@
 
 rule "[baptiste/init.opy]: Detect switch to Baptiste":
     @Event eachPlayer
-    @Hero ana
+    @Hero baptiste
 
     eventPlayer.call_init = true
 

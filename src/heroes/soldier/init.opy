@@ -2,7 +2,7 @@
 
 rule "[soldier/init.opy]: Detect switch to Soldier 76":
     @Event eachPlayer
-    @Hero ana
+    @Hero soldier
 
     eventPlayer.call_init = true
 
