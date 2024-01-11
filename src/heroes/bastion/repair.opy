@@ -101,7 +101,7 @@ rule "[bastion/repair.opy]: Give ult charge for self repair":
     @Hero bastion
     @Condition healer == healee
 
-    eventPlayer.missing_ult_points += eventHealing
+    eventPlayer._missing_ult_points += eventHealing
 
 
 def showSelfRepairGui():
