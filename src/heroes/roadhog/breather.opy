@@ -23,12 +23,10 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
 
     # activate ability
     eventPlayer.setAbility2Enabled(false)
-    eventPlayer.setHealingDealt(0)
     eventPlayer.setDamageReceived(percent((1-OW1_ROADHOG_BREATHER_DAMAGE_REDUCTION)/(1-OW2_ROADHOG_BREATHER_DAMAGE_REDUCTION))) # reduce daamge intake
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
     wait(OW1_ROADHOG_BREATHER_CAST_TIME)
-    eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_TOTAL/392)) # 392 = based on trial and error
     wait(OW1_ROADHOG_BREATHER_DURATION)
     eventPlayer.stopForcingButton(Button.SECONDARY_FIRE)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
