@@ -15,7 +15,7 @@ globalvar i
 #!define roundedPercent(p) (round(percent(p)))
 
 # Macro function for computing a percent of number
-#!define percentOf(p, n) (p/100*n)
+#!define percentOf(p, n) ((p)/100*(n))
 
 # Convert angle in degrees to radians
 #!define toRadians(deg) ((Math.PI/180)*deg)

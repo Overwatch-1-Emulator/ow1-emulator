@@ -22,7 +22,7 @@
 
 # OW1 logic
 # Remove tank passive
-#!include "passives/ult_charge.opy"
+#!include "passives/tank/ult_charge.opy"
 #!include "passives/tank/knockback.opy"
 # Remove support passive
 #!include "passives/support/self_heal.opy"
@@ -38,11 +38,7 @@
 #!include "heroes/echo/init.opy"
 #!include "heroes/genji/init.opy"
 #!include "heroes/hanzo/init.opy"
-#!include "heroes/illari/init.opy"
-#!include "heroes/junkerqueen/init.opy"
 #!include "heroes/junkrat/init.opy"
-#!include "heroes/kiriko/init.opy"
-#!include "heroes/lifeweaver/init.opy"
 #!include "heroes/lucio/init.opy"
 #!include "heroes/mauga/init.opy"
 #!include "heroes/mccree/init.opy"
@@ -51,12 +47,10 @@
 #!include "heroes/moira/init.opy"
 #!include "heroes/orisa/init.opy"
 #!include "heroes/pharah/init.opy"
-#!include "heroes/ramattra/init.opy"
 #!include "heroes/reaper/init.opy"
 #!include "heroes/reinhardt/init.opy"
 #!include "heroes/roadhog/init.opy"
 #!include "heroes/sigma/init.opy"
-#!include "heroes/sojourn/init.opy"
 #!include "heroes/soldier/init.opy"
 #!include "heroes/sombra/init.opy"
 #!include "heroes/symmetra/init.opy"
