@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 playervar is_pressing_self_repair_key
 playervar is_using_self_repair

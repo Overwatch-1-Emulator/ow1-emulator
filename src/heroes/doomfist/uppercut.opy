@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 playervar is_hit_by_uppercut
 playervar is_uppercut_locked

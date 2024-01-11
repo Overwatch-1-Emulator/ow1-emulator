@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 # rule "[roadhog/breather.opy]: Remove healing buff after breather":
 #     @Event eachPlayer

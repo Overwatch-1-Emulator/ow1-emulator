@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/lifeweaver/dash.opy"
 #!include "heroes/lifeweaver/grip.opy"
 #!include "heroes/lifeweaver/tree.opy"
+
+
+rule "[lifeweaver/init.opy]: Detect switch to Lifeweaver":
+    @Event eachPlayer
+    @Hero lifeweaver
+
+    eventPlayer.call_init = true
 
 
 rule "[lifeweaver/init.opy]: Initialize Lifeweaver":

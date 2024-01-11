@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[illari/pylon.opy]: Allow self healing during Pylon":

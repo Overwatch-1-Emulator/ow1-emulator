@@ -1,4 +1,11 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
+
+
+rule "[mauga/init.opy]: Detect switch to Mauga":
+    @Event eachPlayer
+    @Hero mauga
+
+    eventPlayer.call_init = true
 
 
 rule "[mauga/init.opy]: Initialize Mauga":

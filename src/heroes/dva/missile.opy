@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[dva/missile.opy]: Set default missile cooldown":

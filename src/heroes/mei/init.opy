@@ -1,6 +1,13 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/mei/blaster.opy"
+
+
+rule "[mei/init.opy]: Detect switch to Mei":
+    @Event eachPlayer
+    @Hero mei
+
+    eventPlayer.call_init = true
 
 
 rule "[mei/init.opy]: Initialize Mei":

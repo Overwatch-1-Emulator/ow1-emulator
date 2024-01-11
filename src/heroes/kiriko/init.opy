@@ -1,8 +1,16 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 # #!include "heroes/kiriko/kunai.opy"
 #!include "heroes/kiriko/suzu.opy"
 #!include "heroes/kiriko/step.opy"
+
+
+rule "[kiriko/init.opy]: Detect switch to Kiriko":
+    @Event eachPlayer
+    @Hero kiriko
+
+    eventPlayer.call_init = true
+
 
 rule "[kiriko/init.opy]: Initialize Kiriko":
     @Event eachPlayer

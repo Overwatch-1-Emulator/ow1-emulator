@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[dva/booster.opy]: Set default booster cooldown":

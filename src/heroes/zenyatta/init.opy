@@ -1,6 +1,13 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/zenyatta/transc.opy"
+
+rule "[zenyatta/init.opy]: Detect switch to Zenyatta":
+    @Event eachPlayer
+    @Hero zenyatta
+
+    eventPlayer.call_init = true
+
 
 rule "[zenyatta/init.opy]: Initialize Zenyatta":
     @Event eachPlayer

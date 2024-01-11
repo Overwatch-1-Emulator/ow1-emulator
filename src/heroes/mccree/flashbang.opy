@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[mccree/flashbang.opy]: Throw projectile when pressing e":

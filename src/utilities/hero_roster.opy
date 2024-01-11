@@ -5,15 +5,15 @@ globalvar hero_roster_gvar
 globalvar heroes_enabled
 
 # Currently enabled heroes
-#!defineMember tank_roaster hero_roster_gvar[1]
-#!defineMember damage_roaster hero_roster_gvar[2]
-#!defineMember support_roaster hero_roster_gvar[3]
-#!defineMember hero_roaster hero_roster_gvar[4]
+#!defineMember _available_tanks hero_roster_gvar[1]
+#!defineMember _available_dps hero_roster_gvar[2]
+#!defineMember _available_supports hero_roster_gvar[3]
+#!defineMember _available_heroes hero_roster_gvar[4]
 
 # Hero Role Definition
-#!defineMember tank_heroes hero_roster_gvar[5]
-#!defineMember damage_heroes hero_roster_gvar[6]
-#!defineMember support_heroes hero_roster_gvar[7]
+#!defineMember _tank_heroes hero_roster_gvar[5]
+#!defineMember _damage_heroes hero_roster_gvar[6]
+#!defineMember _support_heroes hero_roster_gvar[7]
 
 
 rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
@@ -62,32 +62,32 @@ rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
 
 rule "[hero_roster.opy]: Define tank, damage, support heroes array":
     # Tanks
-    tank_heroes = getTankHeroes()
-    tank_heroes.remove(Hero.DOOMFIST)
+    _tank_heroes = getTankHeroes()
+    _tank_heroes.remove(Hero.DOOMFIST)
 
     # Damage
-    damage_heroes = getDamageHeroes()
-    damage_heroes.append(Hero.DOOMFIST)
+    _damage_heroes = getDamageHeroes()
+    _damage_heroes.append(Hero.DOOMFIST)
 
     # Supports
-    support_heroes = getSupportHeroes()
+    _support_heroes = getSupportHeroes()
 
-    tank_roaster = []
-    damage_roaster = []
-    support_roaster = []
+    _available_tanks = []
+    _available_dps = []
+    _available_supports = []
 
     for i in range(len(getAllHeroes())):
-        if (not heroes_enabled[i]): continue # Skip if hero not in roster
+        if (not heroes_enabled[i]): continue # Skip if hero not enabled
         
         current_hero = getAllHeroes()[i]
-        if (current_hero in tank_heroes):
-            tank_roaster.append(current_hero)
-        elif (current_hero in damage_heroes):
-            damage_roaster.append(current_hero)
-        elif (current_hero in support_heroes):
-            support_roaster.append(current_hero)
+        if (current_hero in _tank_heroes):
+            _available_tanks.append(current_hero)
+        elif (current_hero in _damage_heroes):
+            _available_dps.append(current_hero)
+        elif (current_hero in _support_heroes):
+            _available_supports.append(current_hero)
 
-    hero_roaster = []
-    hero_roaster.append(tank_roaster)
-    hero_roaster.append(damage_roaster)
-    hero_roaster.append(support_roaster)
+    _available_heroes = []
+    _available_heroes.append(_available_tanks)
+    _available_heroes.append(_available_dps)
+    _available_heroes.append(_available_supports)

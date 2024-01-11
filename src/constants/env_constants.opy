@@ -2,4 +2,29 @@
 
 # Environment Variables
 #!define GAMEMODE_NAME "Overwatch 1++"
+#!define GAMDMODE_DESCRIPTION (GAMEMODE_NAME + "\n" + \
+                               "\n" + \
+                               "Overwatch 1 Emulator (KHTG0)" + "\n" + \
+                               "extended with Overwatch 2 Heroes" + "\n" + \
+                               "\n" + \
+                               "Main build: " + GAMEMODE_CODE + "\n" + \
+                               "Staging build: " + STAGING_CODE + "\n" + \
+                               "\n" + \
+                               "Codebase Contributors:" + "\n" + \
+                               "ecksdee#11729" + "\n" + \
+                               "Snappy#11809" + "\n" + \
+                               "KingDonMike#2694" + "\n" + \
+                               "thenova#21104" + "\n" + \
+                               "pretz#11551" + "\n" + \
+                               "Hikigaeru#11863" + "\n" + \
+                               "\n" + \
+                               "workshop.codes/ow1-plus-plus" + "\n" + \
+                               "\n" + \
+                               "Discord:" + "\n" + \
+                               "dsc.gg/ow1" + "\n" + \
+                               "discord.gg/GMVqwYXbWB" + "\n" + \
+                               "\n" + \
+                               "Source code:" + "\n" + \
+                               "gitlab.com/MaxwellJung/ow1_plus_plus")
 #!define GAMEMODE_CODE "YKMXH"
+#!define STAGING_CODE "SXGCQ"

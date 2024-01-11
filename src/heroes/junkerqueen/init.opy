@@ -1,6 +1,13 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 playervar jq_self_heal_id
+
+
+rule "[junkerqueen/init.opy]: Detect switch to Junkerqueen":
+    @Event eachPlayer
+    @Hero junkerQueen
+
+    eventPlayer.call_init = true
 
 
 rule "[junkerqueen/init.opy]: Initialize Junkerqueen":

@@ -26,11 +26,11 @@ rule "[role_lock.opy]: Find player's role":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched
     
-    if eventPlayer.getCurrentHero() in tank_heroes:
+    if eventPlayer.getCurrentHero() in _tank_heroes:
         eventPlayer.role = Role.TANK
-    elif eventPlayer.getCurrentHero() in damage_heroes:
+    elif eventPlayer.getCurrentHero() in _damage_heroes:
         eventPlayer.role = Role.DAMAGE
-    elif eventPlayer.getCurrentHero() in support_heroes:
+    elif eventPlayer.getCurrentHero() in _support_heroes:
         eventPlayer.role = Role.SUPPORT
     else:
         eventPlayer.role = Role.MISSING
@@ -39,7 +39,7 @@ rule "[role_lock.opy]: Find player's role":
 rule "[role_lock.opy]: Override allowed heroes list when player joins lobby":
     @Event eachPlayer
 
-    eventPlayer.allowed_heroes = hero_roaster
+    eventPlayer.allowed_heroes = _available_heroes
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -60,7 +60,7 @@ rule "[role_lock.opy]: Lock tanks above role limit":
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) >= MAX_TANK_COUNT
     @Condition not isAssemblingHeroes()
 
-    eventPlayer.allowed_heroes.remove(tank_heroes)
+    eventPlayer.allowed_heroes.remove(_tank_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -69,7 +69,7 @@ rule "[role_lock.opy]: Lock damage above role limit":
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) >= MAX_DAMAGE_COUNT
     @Condition not isAssemblingHeroes()
 
-    eventPlayer.allowed_heroes.remove(damage_heroes)
+    eventPlayer.allowed_heroes.remove(_damage_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -78,7 +78,7 @@ rule "[role_lock.opy]: Lock supports above role limit":
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) >= MAX_SUPPORT_COUNT
     @Condition not isAssemblingHeroes()
 
-    eventPlayer.allowed_heroes.remove(support_heroes)
+    eventPlayer.allowed_heroes.remove(_support_heroes)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -87,7 +87,7 @@ rule "[role_lock.opy]: Unlock tanks below role limit":
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) < MAX_TANK_COUNT
     @Condition not isAssemblingHeroes()
 
-    eventPlayer.allowed_heroes.append(tank_roaster)
+    eventPlayer.allowed_heroes.append(_available_tanks)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -96,7 +96,7 @@ rule "[role_lock.opy]: Unlock damage below role limit":
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) < MAX_DAMAGE_COUNT
     @Condition not isAssemblingHeroes()
 
-    eventPlayer.allowed_heroes.append(damage_roaster)
+    eventPlayer.allowed_heroes.append(_available_dps)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -105,5 +105,5 @@ rule "[role_lock.opy]: Unlock supports below role limit":
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) < MAX_SUPPORT_COUNT
     @Condition not isAssemblingHeroes()
 
-    eventPlayer.allowed_heroes.append(support_roaster)
+    eventPlayer.allowed_heroes.append(_available_supports)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)

@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[kiriko/kunai.opy]: OW1 Kunai headshot damage":

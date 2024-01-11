@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 rule "[ana/sleep.opy]: Set default sleep dart cooldown":
     @Event eachPlayer

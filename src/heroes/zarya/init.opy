@@ -1,7 +1,14 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/zarya/self_bubble.opy"
 #!include "heroes/zarya/ally_bubble.opy"
+
+rule "[zarya/init.opy]: Detect switch to Zarya":
+    @Event eachPlayer
+    @Hero zarya
+
+    eventPlayer.call_init = true
+
 
 rule "[zarya/init.opy]: Initialize Zarya":
     @Event eachPlayer
