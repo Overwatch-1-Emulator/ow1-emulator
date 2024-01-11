@@ -16,7 +16,7 @@ rule "[ashe/bob.opy]: Add ultimate charge while using BOB":
     # Check if the user did not switch hero after using B.O.B to add the ult charge
     if eventPlayer.getCurrentHero() == Hero.ASHE :
         # Add charge for passive generation and then the ult charge generated from the damage made by Ashe
-        eventPlayer.missing_ult_points = ULT_CHARGE_PER_SECOND * (getTotalTimeElapsed() - eventPlayer.start_time_ult) + eventPlayer.ult_point_while_ult_active
+        eventPlayer._missing_ult_points = ULT_CHARGE_PER_SECOND * (getTotalTimeElapsed() - eventPlayer.start_time_ult) + eventPlayer.ult_point_while_ult_active
  
 
 

@@ -22,7 +22,7 @@
 
 # OW1 logic
 # Remove tank passive
-#!include "passives/ult_charge.opy"
+#!include "passives/tank/ult_charge.opy"
 #!include "passives/tank/knockback.opy"
 # Remove support passive
 #!include "passives/support/self_heal.opy"
