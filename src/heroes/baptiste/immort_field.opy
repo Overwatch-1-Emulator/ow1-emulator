@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[baptiste/immort_field.opy]: Set default immortality field cooldown":

@@ -1,6 +1,13 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/mercy/guardian.opy"
+
+
+rule "[mercy/init.opy]: Detect switch to Mercy":
+    @Event eachPlayer
+    @Hero mercy
+
+    eventPlayer.call_init = true
 
 
 rule "[mercy/init.opy]: Initialize Mercy":

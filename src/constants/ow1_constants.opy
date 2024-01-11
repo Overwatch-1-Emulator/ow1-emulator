@@ -218,10 +218,6 @@ globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "O
 # Pharah
 #!define OW1_PHARAH_ULT_COST 2100
 
-# Ramattra
-#!define OW1_RAMATTRA_HEALTH 400
-#!define OW1_RAMATTRA_BARRIER_HEALTH 1000
-
 # Reaper
 #!define OW1_REAPER_HELLFIRE_SHOTGUNS_DAMAGE 120
 #!define OW1_REAPER_ULT_COST 2100

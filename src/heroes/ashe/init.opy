@@ -1,6 +1,13 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/ashe/bob.opy"
+
+rule "[ashe/init.opy]: Detect switch to Ashe":
+    @Event eachPlayer
+    @Hero ashe
+
+    eventPlayer.call_init = true
+
 
 rule "[ashe/init.opy]: Initialize Ashe":
     @Event eachPlayer

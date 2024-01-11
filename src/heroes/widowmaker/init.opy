@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 playervar scoped_shot_distance
 playervar scoped_damage_base
@@ -12,6 +12,13 @@ playervar expected_scoped_damage
 #!define OW2WidowmakerN(d) ((d - OW2_WIDOWMAKER_DAMAGE_FALLOFF_START_DISTANCE)/(OW2_WIDOWMAKER_DAMAGE_FALLOFF_END_DISTANCE - OW2_WIDOWMAKER_DAMAGE_FALLOFF_START_DISTANCE))
 #!define OW1WidowmakerFalloff(d) ((OW1WidowmakerN(d)) * OW1_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR + (1 - OW1WidowmakerN(d)))
 #!define OW2WidowmakerFalloff(d) ((OW2WidowmakerN(d)) * OW2_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR + (1 - OW2WidowmakerN(d)))
+
+
+rule "[widowmaker/init.opy]: Detect switch to Widowmaker":
+    @Event eachPlayer
+    @Hero widowmaker
+
+    eventPlayer.call_init = true
 
 
 rule "[widowmaker/init.opy]: Initialize Widowmaker":

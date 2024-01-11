@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 # Calculate OW1 meteor strike outer sphere damage from OW2 meteor strike outer sphere damage
 #!define getMeteorStrikeDamage(d) \
