@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 playervar is_pressing_self_repair_key
 playervar is_using_self_repair
@@ -101,7 +101,7 @@ rule "[bastion/repair.opy]: Give ult charge for self repair":
     @Hero bastion
     @Condition healer == healee
 
-    eventPlayer.missing_ult_points += eventHealing
+    eventPlayer._missing_ult_points += eventHealing
 
 
 def showSelfRepairGui():

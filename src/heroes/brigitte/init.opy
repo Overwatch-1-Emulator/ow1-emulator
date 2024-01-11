@@ -1,9 +1,16 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/brigitte/bash.opy"
 #!include "heroes/brigitte/whipshot.opy"
 #!include "heroes/brigitte/rally.opy"
 #!include "heroes/brigitte/inspire.opy"
+
+rule "[brigitte/init.opy]: Detect switch to Brigitte":
+    @Event eachPlayer
+    @Hero brigitte
+
+    eventPlayer.call_init = true
+
 
 rule "[brigitte/init.opy]: Initialize Brigitte":
     @Event eachPlayer

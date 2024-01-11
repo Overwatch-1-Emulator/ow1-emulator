@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[roadhog/wholehog.opy]: OW1 Wholehog disable abilities":

@@ -1,4 +1,11 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
+
+
+rule "[lucio/init.opy]: Detect switch to Lucio":
+    @Event eachPlayer
+    @Hero lucio
+
+    eventPlayer.call_init = true
 
 
 rule "[lucio/init.opy]: Initialize Lucio":

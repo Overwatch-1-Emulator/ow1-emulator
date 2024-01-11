@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/mccree/flashbang.opy"
 #!include "heroes/mccree/roll.opy"
 #!include "heroes/mccree/deadeye.opy"
+
+rule "[mccree/init.opy]: Detect switch to Cassidy":
+    @Event eachPlayer
+    @Hero mccree
+
+    eventPlayer.call_init = true
+
 
 rule "[mccree/init.opy]: Initialize Cassidy":
     @Event eachPlayer

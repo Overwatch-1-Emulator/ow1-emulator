@@ -2,28 +2,8 @@
 
 settings {
     "main": {
-        "description": \
-"Overwatch 1++\r\n\
-\r\n\
-Overwatch 1 Emulator (KHTG0) \r\n\
-extended with Overwatch 2 Heroes\r\n\
-\r\n\
-Lead Balance Designer: AiluRed#1813\r\n\
-Lead Developer: ecksdee#11729\r\n\
-\r\n\
-Main build: YKMXH\r\n\
-Staging build: SXGCQ\r\n\
-\r\n\
-Gamemode:\r\n\
-workshop.codes/ow1-plus-plus\r\n\
-\r\n\
-Discord:\r\n\
-dsc.gg/ow1\r\n\
-discord.gg/GMVqwYXbWB\r\n\
-\r\n\
-Source code:\r\n\
-gitlab.com/MaxwellJung/ow1_plus_plus",
-        "modeName": GAMEMODE_NAME
+        "modeName": GAMEMODE_NAME,
+        "description": GAMDMODE_DESCRIPTION,
     },
     "lobby": {
         "allowPlayersInQueue": true,
@@ -161,6 +141,7 @@ gitlab.com/MaxwellJung/ow1_plus_plus",
             "enabledMaps": []
         },
         "flashpoint": {
+            "captureSpeed%": 75,
             "enabledMaps": [
                 {
                     "newJunkCity": []

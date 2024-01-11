@@ -7,6 +7,17 @@
 #!include "heroes/dva/bomb.opy"
 
 
+rule "[hero_switch.opy]: Detect switch to Dva":
+    @Event eachPlayer
+    @Hero dva
+    @Condition eventPlayer.hero_switched
+    # Apparently Pilot DVa and Mech DVA are 2 seperate heroes but workshop considers them both dva
+    # Above condition is needed because otherwise, this rule activates every time dva transitions 
+    # from pilot to mech and vice versa
+
+    eventPlayer.call_init = true
+
+
 rule "[dva/init.opy]: Initialize DVa":
     @Event eachPlayer
     @Hero dva

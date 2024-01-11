@@ -1,4 +1,11 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
+
+
+rule "[pharah/init.opy]: Detect switch to Pharah":
+    @Event eachPlayer
+    @Hero pharah
+
+    eventPlayer.call_init = true
 
 
 rule "[pharah/init.opy]: Initialize Pharah":

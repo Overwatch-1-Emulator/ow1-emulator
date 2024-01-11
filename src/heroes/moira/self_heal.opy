@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[moira/self_heal.opy]: Allow self healing during Biotic Grasp":

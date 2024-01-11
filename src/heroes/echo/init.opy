@@ -5,6 +5,13 @@ globalvar  health_pool
 playervar hero_id_duplicated
 
 
+rule "[echo/init.opy]: Detect switch to Echo":
+    @Event eachPlayer
+    @Hero echo
+
+    eventPlayer.call_init = true
+
+
 rule "[echo/init.opy]: Initialize Echo":
     @Event eachPlayer
     @Hero echo

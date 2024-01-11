@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[zenyatta/transc.opy]: Allow self healing during Transcendence":

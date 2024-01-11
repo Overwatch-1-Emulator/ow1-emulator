@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/roadhog/hook.opy"
 #!include "heroes/roadhog/breather.opy"
 #!include "heroes/roadhog/wholehog.opy"
+
+
+rule "[roadhog/init.opy]: Detect switch to Roadhog":
+    @Event eachPlayer
+    @Hero roadhog
+
+    eventPlayer.call_init = true
 
 
 rule "[roadhog/init.opy]: Initialize Roadhog":
@@ -21,6 +28,7 @@ rule "[roadhog/init.opy]: Initialize Roadhog":
     # Breather init
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_TOTAL/OW2_ROADHOG_BREATHER_HEAL_TOTAL))
 
     removeTankPassive()
     eventPlayer.call_init = false

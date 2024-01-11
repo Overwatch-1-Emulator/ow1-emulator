@@ -1,6 +1,13 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/sojourn/railgun.opy"
+
+
+rule "[sojourn/init.opy]: Detect switch to Sojourn":
+    @Event eachPlayer
+    @Hero sojourn
+
+    eventPlayer.call_init = true
 
 
 rule "[sojourn/init.opy]: Initialize Sojourn":

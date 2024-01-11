@@ -4,6 +4,13 @@
 #!include "heroes/illari/pylon.opy"
 
 
+rule "[illari/init.opy]: Detect switch to Illari":
+    @Event eachPlayer
+    @Hero illari
+
+    eventPlayer.call_init = true
+
+
 rule "[illari/init.opy]: Initialize Illari":
     @Event eachPlayer
     @Hero illari

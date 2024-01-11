@@ -1,6 +1,13 @@
 #!mainFile "../../main.opy"
 
 
+rule "[genji/init.opy]: Detect switch to Genji":
+    @Event eachPlayer
+    @Hero genji
+
+    eventPlayer.call_init = true
+
+
 rule "[genji/init.opy]: Initialize Genji":
     @Event eachPlayer
     @Hero genji

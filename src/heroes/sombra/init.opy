@@ -1,9 +1,16 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 #!include "heroes/sombra/hack.opy"
 #!include "heroes/sombra/stealth.opy"
 #!include "heroes/sombra/translocator.opy"
 #!include "heroes/sombra/emp.opy"
+
+
+rule "[sombra/init.opy]: Detect switch to Sombra":
+    @Event eachPlayer
+    @Hero sombra
+
+    eventPlayer.call_init = true
 
 
 rule "[sombra/init.opy]: Initialize Sombra":

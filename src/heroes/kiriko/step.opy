@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../main.opy"
 
 rule "[kiriko/suzu.opy]: Set default Swift Step cooldown":
     @Event eachPlayer
