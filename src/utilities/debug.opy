@@ -9,16 +9,6 @@ rule "[debug.opy] Disable Inspector for performance":
     disableInspector()
 
 
-rule "[debug.opy]: Copyright notice":
-    @Event global
-    @Condition DEBUG_MODE == true
-
-    hudSubheader(getAllPlayers(), "Property of \""GAMEMODE_NAME"\" \n
-Unauthorized duplication or modification of this codebase is strictly forbidden. \n
-Contact ecksdee4643 on Discord for source code acess", 
-                 HudPosition.TOP, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-
-
 rule "[debug.opy]: global debug (Top Left)":
     @Event global
     @Condition DEBUG_MODE == true
