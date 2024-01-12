@@ -88,11 +88,11 @@ settings {
         },
         "hybrid": {
             "enabledMaps": [
-                # {
-                #     "blizzWorld": [
-                #         "morning"
-                #     ]
-                # },
+                {
+                    "blizzWorld": [
+                        "morning"
+                    ]
+                },
                 {
                     "eichenwalde": [
                         "morning"
