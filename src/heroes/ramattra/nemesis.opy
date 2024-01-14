@@ -1,2 +1,0 @@
-#!mainFile "../../main.opy"
-
