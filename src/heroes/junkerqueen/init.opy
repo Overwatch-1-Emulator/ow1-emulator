@@ -25,7 +25,7 @@ rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
     eventPlayer.call_init = false
 
 
-rule "[orisa/init.opy]: Clean up Junkerqueen":
+rule "[junkerqueen/init.opy]: Clean up Junkerqueen":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() != Hero.JUNKER_QUEEN
 
