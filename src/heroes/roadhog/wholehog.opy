@@ -56,4 +56,5 @@ rule "[roadhog/wholehog.opy]: Reduce ultimate duration":
     @Condition eventPlayer.isUsingUltimate()
     
     wait(OW1_ROADHOG_ULTIMATE_DURATION, Wait.ABORT_WHEN_FALSE)
+    eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     respawnSameState()
