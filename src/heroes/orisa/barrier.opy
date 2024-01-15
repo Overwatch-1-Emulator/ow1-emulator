@@ -250,13 +250,13 @@ rule "[orisa/barrier.opy]: Take no damage when behind barrier":
                           directionTowards(eventPlayer.getEyePosition(), eventPlayer.barrier_all_enemies[los_i].getEyePosition()), 
                           eventPlayer.enemy_orisa_player.barrier_origin, 
                           OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
-            eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x if isInsideOrisaBarrier(point, 
-                                                                                                                    eventPlayer.enemy_orisa_player.barrier_origin, 
-                                                                                                                    eventPlayer.enemy_orisa_player.barrier_orientation)]
+            eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x 
+                                                             if isInsideOrisaBarrier(point, 
+                                                                                     eventPlayer.enemy_orisa_player.barrier_origin, 
+                                                                                     eventPlayer.enemy_orisa_player.barrier_orientation)]
             for los_j in range(len(eventPlayer.orisa_barrier_hit_positions)):
-                if (distance(eventPlayer.getEyePosition(), 
-                            eventPlayer.orisa_barrier_hit_positions[los_j]) < distance(eventPlayer.getEyePosition(), 
-                                                                                       eventPlayer.barrier_all_enemies[los_i].getEyePosition())): # barrier hit is between the attacker and the victim
+                if (distance(eventPlayer.getEyePosition(), eventPlayer.orisa_barrier_hit_positions[los_j]) 
+                    < distance(eventPlayer.getEyePosition(), eventPlayer.barrier_all_enemies[los_i].getEyePosition())): # barrier hit is between the attacker and the victim
                     eventPlayer.enemies_behind_barrier.append(eventPlayer.barrier_all_enemies[los_i])
                     break
         

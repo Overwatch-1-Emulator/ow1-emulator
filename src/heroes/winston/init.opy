@@ -23,19 +23,10 @@ rule "[winston/init.opy]: Initialize Winston":
     eventPlayer.call_init = false
 
 
-rule "[winston.opy]: Set default leap cooldown":
+rule "[winston.opy]: Override leap cooldown during primal":
     @Event eachPlayer
     @Hero winston
-    @Condition eventPlayer.isUsingAbility1()
-    @Condition not eventPlayer.isUsingUltimate()
+    @Condition eventPlayer.isUsingUltimate()
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0
     
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_JUMP_PACK_COOLDOWN_TIME)
-
-
-rule "[winston.opy]: Set leap after ultimate":
-    @Event eachPlayer
-    @Hero winston
-    @Condition eventPlayer.isUsingUltimate() == true
-
-    waitUntil(eventPlayer.isUsingUltimate() == false, Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_PRIMAL_JUMP_PACK_COOLDOWN_TIME)

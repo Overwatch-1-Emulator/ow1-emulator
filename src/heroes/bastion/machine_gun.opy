@@ -26,7 +26,7 @@ def showMachineGunAmmo():
 
     if eventPlayer.machine_gun_ammo_id == null:
         createInWorldText(eventPlayer, 
-                        "{0}".format(ceil(eventPlayer.machine_gun_ammo)),
+                        "{0}|{1}".format(ceil(eventPlayer.machine_gun_ammo), OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE),
                         updateEveryTick(eventPlayer.getEyePosition() + \
                         (100 * (3.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + \
                         ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
