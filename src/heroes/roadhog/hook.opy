@@ -3,7 +3,7 @@
 playervar time_hook_was_active
 
 
-rule "[roadhog/hook.opy]: Set default hook cooldown":
+rule "[roadhog/hook.opy]: Set custom OW1 hook cooldown":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.isUsingAbility1()
