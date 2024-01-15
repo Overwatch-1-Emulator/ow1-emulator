@@ -1,7 +1,6 @@
 #!mainFile "../../main.opy"
 
 #!include "heroes/baptiste/regen_burst.opy"
-#!include "heroes/baptiste/immort_field.opy"
 
 rule "[baptiste/init.opy]: Detect switch to Baptiste":
     @Event eachPlayer

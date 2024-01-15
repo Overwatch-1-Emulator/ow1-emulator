@@ -84,7 +84,7 @@ def showOrisaAmmoHud():
     
     if eventPlayer.orisa_ammo_hud == null:
         createInWorldText(eventPlayer, 
-                        "{0}".format(ceil(eventPlayer.orisa_ammo)),
+                        "{0}|{1}".format(ceil(eventPlayer.orisa_ammo), OW1_ORISA_CLIP_SIZE),
                         updateEveryTick(eventPlayer.getEyePosition() + \
                         (100 * (3.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + \
                         ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
