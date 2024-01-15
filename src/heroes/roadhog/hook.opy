@@ -27,6 +27,7 @@ rule "[roadhog/hook.opy]: Move hooked enemies closer":
                         null, 
                         false).getHitPosition())
 
+
 rule "[roadhog/hook.opy]: OW1 hook damage":
     @Event playerDealtDamage
     @Hero roadhog

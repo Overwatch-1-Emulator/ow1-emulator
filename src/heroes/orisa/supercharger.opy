@@ -133,7 +133,7 @@ rule "[orisa/supercharger.opy]: Damage boost player when supercharged":
     @Event eachPlayer
     @Condition eventPlayer.is_supercharged
 
-    eventPlayer.setDamageDealt(percent(OW1_ORISA_SUPERCHARGER_DAMAGE_MULTIPLIER))
+    eventPlayer.setDamageDealt(percent(OW1_ORISA_SUPERCHARGER_DAMAGE_MULTIPLIER*eventPlayer.base_damage_scalar))
 
     # Beam and sound effects
     if (eventPlayer.orisa_supercharger_beam_id == null): # beam
@@ -158,7 +158,7 @@ rule "[orisa/supercharger.opy]: Revert damage boost if not supercharged":
     @Event eachPlayer
     @Condition not eventPlayer.is_supercharged
     
-    eventPlayer.setDamageDealt(100)
+    eventPlayer.setDamageDealt(percent(eventPlayer.base_damage_scalar))
 
     # Beam and sound effects
     destroyEffect(eventPlayer.orisa_supercharger_beam_id)

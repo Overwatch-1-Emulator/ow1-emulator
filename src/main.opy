@@ -6,8 +6,9 @@
 #!include "constants/ow2_constants.opy"
 
 # Useful functions
-#!include "utilities/custom_hp.opy"
 #!include "utilities/macro_functions.opy"
+#!include "utilities/stat_helper.opy"
+#!include "utilities/custom_hp.opy"
 #!include "utilities/reset.opy"
 #!include "utilities/hero_switch.opy"
 #!include "utilities/hero_roster.opy"
