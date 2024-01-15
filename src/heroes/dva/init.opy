@@ -3,7 +3,6 @@
 #!include "heroes/dva/hp.opy"
 #!include "heroes/dva/gun.opy"
 #!include "heroes/dva/booster.opy"
-#!include "heroes/dva/missile.opy"
 #!include "heroes/dva/bomb.opy"
 
 
