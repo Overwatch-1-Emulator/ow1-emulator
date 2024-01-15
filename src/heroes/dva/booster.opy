@@ -1,15 +1,6 @@
 #!mainFile "../../main.opy"
 
 
-rule "[dva/booster.opy]: Set default booster cooldown":
-    @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.isUsingAbility1()
-
-    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DVA_BOOSTER_COOLDOWN_TIME)
-
-
 rule "[dva/booster.opy]: Decouple melee button from activating melee animation during booster":
     @Event eachPlayer
     @Hero dva

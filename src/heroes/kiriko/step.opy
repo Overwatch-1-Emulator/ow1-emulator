@@ -1,12 +1,5 @@
 #!mainFile "../../main.opy"
 
-rule "[kiriko/suzu.opy]: Set default Swift Step cooldown":
-    @Event eachPlayer
-    @Hero kiriko
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0
-    
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_KIRIKO_SWIFT_STEP_COOLDOWN)
-
 
 rule "[kiriko/suzu.opy]: Heal when using Swift Step":
     @Event eachPlayer
