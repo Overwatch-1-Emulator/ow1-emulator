@@ -4,7 +4,7 @@ globalvar DEBUG_MODE = createWorkshopSetting(bool, "Dev Tools", "debug mode", fa
 
 rule "[debug.opy] Disable Inspector for performance":
     @Event global
-    @Condition DEBUG_MODE == false
+    @Condition not DEBUG_MODE
 
     disableInspector()
 
@@ -86,6 +86,14 @@ rule "[debug.opy]: print to console on interact":
 
     for i in range(len(eventPlayer.allowed_heroes)):
         printLog("eventPlayer.allowed_heroes[{}] = {}".format(i, eventPlayer.allowed_heroes[i]))
+
+
+rule "[debug.opy]: give ultimate on interact":
+    @Event eachPlayer
+    @Condition DEBUG_MODE == true
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+
+    eventPlayer.setUltCharge(100)
 
 
 rule "[debug.opy]: Debug damage instance":
