@@ -14,25 +14,28 @@ rule "[ready.opy]: Create ready HUD":
     @Event eachPlayer
     @Condition isInSetup()
 
+
+
     if eventPlayer.ready_hud[0] == null:
-        hudHeader(eventPlayer, "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), HudPosition.TOP, Math.INFINITY, ready_color if eventPlayer.ready else Color.RED, HudReeval.STRING_AND_COLOR)
+        hudText(eventPlayer, 
+                "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), 
+                "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), 
+                GAMEMODE_NAME" ""("GAMEMODE_CODE")", 
+                HudPosition.TOP, 
+                Math.INFINITY, 
+                ready_color if eventPlayer.ready else Color.RED, 
+                Color.WHITE, 
+                Color.WHITE, 
+                HudReeval.STRING_AND_COLOR)
         eventPlayer.ready_hud[0] = getLastCreatedText()
 
     if eventPlayer.ready_hud[1] == null:
-        hudSubheader(eventPlayer, "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), HudPosition.TOP, Math.INFINITY, Color.WHITE, HudReeval.STRING_AND_COLOR)
+        hudSubtext(eventPlayer, "Join Discord for Ranked Matchmaking", HudPosition.TOP, Math.INFINITY, rgb(250, 156, 29), HudReeval.STRING_AND_COLOR)
         eventPlayer.ready_hud[1] = getLastCreatedText()
 
     if eventPlayer.ready_hud[2] == null:
-        hudSubtext(eventPlayer, GAMEMODE_NAME" ""("GAMEMODE_CODE")", HudPosition.TOP, Math.INFINITY, Color.WHITE, HudReeval.STRING_AND_COLOR)
-        eventPlayer.ready_hud[2] = getLastCreatedText()
-
-    if eventPlayer.ready_hud[3] == null:
-        hudSubtext(eventPlayer, "Join Discord for Ranked Matchmaking", HudPosition.TOP, Math.INFINITY, rgb(250, 156, 29), HudReeval.STRING_AND_COLOR)
-        eventPlayer.ready_hud[3] = getLastCreatedText()
-
-    if eventPlayer.ready_hud[4] == null:
         hudSubtext(eventPlayer, DISCORD_SHORT_LINK, HudPosition.TOP, Math.INFINITY, rgb(141, 187, 9), HudReeval.STRING_AND_COLOR)
-        eventPlayer.ready_hud[4] = getLastCreatedText()
+        eventPlayer.ready_hud[2] = getLastCreatedText()
     
     waitUntil(not isInSetup(), Math.INFINITY)
 
