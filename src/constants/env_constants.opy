@@ -21,10 +21,12 @@
                                "workshop.codes/ow1-plus-plus" + "\n" + \
                                "\n" + \
                                "Discord:" + "\n" + \
-                               "dsc.gg/ow1" + "\n" + \
-                               "discord.gg/GMVqwYXbWB" + "\n" + \
+                               DISCORD_SHORT_LINK + "\n" + \
+                               DISCORD_LONG_LINK + "\n" + \
                                "\n" + \
                                "Source code:" + "\n" + \
-                               "gitlab.com/MaxwellJung/ow1_plus_plus")
+                               "gitlab.com/MaxwellJung/ow1_emulator")
 #!define GAMEMODE_CODE "YKMXH"
 #!define STAGING_CODE "SXGCQ"
+#!define DISCORD_SHORT_LINK "dsc.gg/ow1"
+#!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"

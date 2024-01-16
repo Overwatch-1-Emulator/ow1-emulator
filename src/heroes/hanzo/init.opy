@@ -21,8 +21,7 @@ rule "[hanzo/init.opy]: Initialize Hanzo":
 rule "[hanzo.opy]: Deal OW1 primary fire damage":
     @Event playerDealtDamage
     @Hero hanzo
-    @Condition eventAbility == Button.PRIMARY_FIRE or\
-               eventAbility == Button.ABILITY_1
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1]
 
     damage(victim, attacker, eventDamage*(OW1_HANZO_ARROW_DAMAGE/OW2_HANZO_ARROW_DAMAGE)-eventDamage)
 

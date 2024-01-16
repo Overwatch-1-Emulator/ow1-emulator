@@ -10,4 +10,4 @@ rule "[sombra/emp.opy]: No damage with EMP":
     waitUntil(eventPlayer.getUltCharge() <= 0, Math.INFINITY)
     eventPlayer.setDamageDealt(0.01)
     waitUntil(eventPlayer.isUsingUltimate(), Math.INFINITY)
-    eventPlayer.setDamageDealt(100)
+    eventPlayer.setDamageDealt(percent(eventPlayer.base_damage_scalar))

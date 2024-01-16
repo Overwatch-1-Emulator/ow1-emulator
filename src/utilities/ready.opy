@@ -7,6 +7,7 @@ globalvar ready_gvar
 playervar ready_pvar
 #!defineMember ready ready_pvar[0]
 playervar ready_hud
+playervar ready_hud_i
 
 
 rule "[ready.opy]: Create ready HUD":
@@ -28,17 +29,16 @@ rule "[ready.opy]: Create ready HUD":
     if eventPlayer.ready_hud[3] == null:
         hudSubtext(eventPlayer, "Join Discord for Ranked Matchmaking", HudPosition.TOP, Math.INFINITY, rgb(250, 156, 29), HudReeval.STRING_AND_COLOR)
         eventPlayer.ready_hud[3] = getLastCreatedText()
+
+    if eventPlayer.ready_hud[4] == null:
+        hudSubtext(eventPlayer, DISCORD_SHORT_LINK, HudPosition.TOP, Math.INFINITY, rgb(141, 187, 9), HudReeval.STRING_AND_COLOR)
+        eventPlayer.ready_hud[4] = getLastCreatedText()
     
     waitUntil(not isInSetup(), Math.INFINITY)
-    
-    destroyHudText(eventPlayer.ready_hud[0])
-    eventPlayer.ready_hud[0] = null
-    destroyHudText(eventPlayer.ready_hud[1])
-    eventPlayer.ready_hud[1] = null
-    destroyHudText(eventPlayer.ready_hud[2])
-    eventPlayer.ready_hud[2] = null
-    destroyHudText(eventPlayer.ready_hud[3])
-    eventPlayer.ready_hud[3] = null
+
+    for eventPlayer.ready_hud_i in range(len(eventPlayer.ready_hud)):
+        destroyHudText(eventPlayer.ready_hud[eventPlayer.ready_hud_i])
+        eventPlayer.ready_hud[eventPlayer.ready_hud_i] = null
 
 
 rule "[ready.opy]: Set initial ready color":
