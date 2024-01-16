@@ -42,6 +42,7 @@ rule "[passives/tank/ult_charge.opy]: Remember missing ult charge from healing t
 rule "[passives/tank/ult_charge.opy]: Compensate missing ultimate percentage":
     @Event eachPlayer
     @Condition eventPlayer._missing_ult_points > percentOf(1, eventPlayer._ult_cost)
+    @Condition eventPlayer._ult_cost > 0 # guard to protect ult resetting accidentally
 
     eventPlayer._new_ult_percent = ceil(percent((getUltPoints(eventPlayer) + eventPlayer._missing_ult_points)/eventPlayer._ult_cost))
     eventPlayer._missing_ult_points -= percentOf(eventPlayer._new_ult_percent, eventPlayer._ult_cost) - getUltPoints(eventPlayer)

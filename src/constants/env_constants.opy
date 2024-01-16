@@ -24,10 +24,12 @@
                                "workshop.codes/ow1-emulator" + "\n" + \
                                "\n" + \
                                "Discord:" + "\n" + \
-                               "dsc.gg/ow1" + "\n" + \
-                               "discord.gg/GMVqwYXbWB" + "\n" + \
+                               DISCORD_SHORT_LINK + "\n" + \
+                               DISCORD_LONG_LINK + "\n" + \
                                "\n" + \
                                "Source code:" + "\n" + \
                                "gitlab.com/MaxwellJung/ow1_emulator")
 #!define GAMEMODE_CODE "KHTG0"
 #!define STAGING_CODE "ESMXJ"
+#!define DISCORD_SHORT_LINK "dsc.gg/ow1"
+#!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"

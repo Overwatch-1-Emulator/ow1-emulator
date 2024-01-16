@@ -91,7 +91,7 @@ def disableAllAbilities():
 def resetStats():
     @Name "[reset.opy]: resetStats()"
 
-    eventPlayer.setDamageDealt(100)
+    setBaseDamage(eventPlayer, 1)
     eventPlayer.setDamageReceived(100)
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)

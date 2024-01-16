@@ -15,7 +15,7 @@ rule "[bastion/recon.opy]: Initialize recon mode":
     @Condition eventPlayer.current_configuration == Configuration.RECON
 
     eventPlayer.setMoveSpeed(100)
-    eventPlayer.setDamageDealt(100)
+    setBaseDamage(eventPlayer, 1)
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)
     
