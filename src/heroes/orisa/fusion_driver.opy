@@ -115,14 +115,6 @@ rule "[orisa/fusion_driver.opy]: Slow down Orisa when shooting":
     eventPlayer.setMoveSpeed(100)
 
 
-rule "[orisa/fusion_driver.opy]: Deal OW1 Orisa primary fire damage":
-    @Event playerDealtDamage
-    @Hero orisa
-    @Condition eventAbility == Button.PRIMARY_FIRE
-
-    damage(victim, attacker, OW1_ORISA_FUSION_DRIVER_DAMAGE - eventDamage)
-
-
 rule "[orisa/fusion_driver.opy]: Deal OW1 Orisa melee damage":
     @Event playerDealtDamage
     @Hero orisa
