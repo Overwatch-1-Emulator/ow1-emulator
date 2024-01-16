@@ -17,7 +17,7 @@ rule "[sojourn/init.opy]: Initialize Sojourn":
 
     defaultHero()
     setUltCost(OW1_SOJOURN_ULT_COST)
-    eventPlayer.setDamageDealt(percent(OW1_SOJOURN_GLOBAL_DAMAGE))
+    setBaseDamage(eventPlayer, OW1_SOJOURN_GLOBAL_DAMAGE)
     
     eventPlayer.call_init = false
 
