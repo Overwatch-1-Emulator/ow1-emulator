@@ -28,3 +28,12 @@ rule "[doomfist/meteor.opy]: Remove Meteor Strike slow effect":
     victim.setMoveSpeed(percent(1/OW2_DOOMFIST_METEOR_STRIKE_SLOW))
     wait(3)
     victim.setMoveSpeed(100)
+
+rule "[doomfist/meteor.opy]: Remove Meteor Strike healing":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.isUsingUltimate()
+
+    eventPlayer.setHealingDealt(0)
+    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
+    eventPlayer.setHealingDealt(100)
