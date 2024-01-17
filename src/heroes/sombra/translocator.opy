@@ -51,7 +51,6 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     if (eventPlayer.isHoldingButton(Button.INTERACT)):
         playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.PURPLE, eventPlayer.transloc_position, 3)
         playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
-        eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
     destroyTranslocator()
 
 
