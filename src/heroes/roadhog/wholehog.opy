@@ -29,14 +29,10 @@ rule "[roadhog/wholehog.opy]: Cancel ult when stunned":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.isUsingUltimate()
-    @Condition eventPlayer.hasStatusEffect(Status.HACKED) \
-            or eventPlayer.hasStatusEffect(Status.FROZEN) \
-            or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) \
-            or eventPlayer.hasStatusEffect(Status.ASLEEP) \
-            or eventPlayer.hasStatusEffect(Status.STUNNED)
+    @Condition isCCd(eventPlayer)
 
-    if eventPlayer.hasStatusEffect(Status.HACKED):
-        #waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, Math.INFINITY) if hacked, instantly cancel ult
+    if isHacked(eventPlayer):
+        # waitUntil(not isHacked(eventPlayer), Math.INFINITY) # if hacked, instantly cancel ult
     elif eventPlayer.hasStatusEffect(Status.FROZEN):
         waitUntil(not eventPlayer.hasStatusEffect(Status.FROZEN), Math.INFINITY)
     elif eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN):
