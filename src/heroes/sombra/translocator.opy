@@ -30,6 +30,7 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     @Hero sombra
     @Condition not eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
+    @Condition not isCCd(eventPlayer)
     @Condition not eventPlayer.is_using_translocator
     waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
 
@@ -39,10 +40,10 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     wait() # calls throwTranslocator() and returns immediately instead of waiting
     eventPlayer.call_throwTranslocator = false
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
-    waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2) \
-           or eventPlayer.isHoldingButton(Button.INTERACT) \
-           or eventPlayer.isDead() \
-           and not isCCd(eventPlayer), Math.INFINITY)
+    waitUntil((eventPlayer.isHoldingButton(Button.ABILITY_2) \
+            or eventPlayer.isHoldingButton(Button.INTERACT) \
+            or eventPlayer.isDead()) \
+       and not isCCd(eventPlayer), Math.INFINITY)
     if (eventPlayer.isHoldingButton(Button.ABILITY_2)):
         playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer.getPosition(), 100)
         playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer, 100)
