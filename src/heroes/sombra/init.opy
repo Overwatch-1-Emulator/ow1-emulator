@@ -1,9 +1,9 @@
 #!mainFile "../../main.opy"
 
+#!include "heroes/sombra/emp.opy"
 #!include "heroes/sombra/hack.opy"
 #!include "heroes/sombra/stealth.opy"
 #!include "heroes/sombra/translocator.opy"
-#!include "heroes/sombra/emp.opy"
 
 
 rule "[sombra/init.opy]: Detect switch to Sombra":
