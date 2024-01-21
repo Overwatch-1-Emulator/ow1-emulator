@@ -28,6 +28,9 @@
 # Remove support passive
 #!include "passives/support/self_heal.opy"
 
+# Include for global scoping
+#!include "heroes/sombra/hack.opy"
+
 # Hero specific logic
 #!include "heroes/ana/init.opy"
 #!include "heroes/ashe/init.opy"
