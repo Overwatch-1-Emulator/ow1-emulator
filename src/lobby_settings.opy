@@ -18,7 +18,7 @@ settings {
     "gamemodes": {
         "assault": {
             "enabledMaps": [
-                "hanamuraWinter",
+                "hanamura",
                 # "horizonLunarColony",
                 # "paris",
                 "templeOfAnubis",
@@ -55,18 +55,18 @@ settings {
                         "evening"
                     ]
                 },
-                {
-                    "samoa": []
-                }
+                # {
+                #     "samoa": []
+                # }
             ]
         },
         "escort": {
             "enabledMaps": [
-                {
-                    "circuitRoyal": [
-                        "night"
-                    ]
-                },
+                # {
+                #     "circuitRoyal": [
+                #         "night"
+                #     ]
+                # },
                 {
                     "dorado": [
                         "night"
@@ -143,9 +143,9 @@ settings {
         "flashpoint": {
             "captureSpeed%": 75,
             "enabledMaps": [
-                {
-                    "newJunkCity": []
-                },
+                # {
+                #     "newJunkCity": []
+                # },
                 {
                     "suravasa": []
                 },
@@ -161,11 +161,11 @@ settings {
                 {
                     "esperanca": []
                 },
-                {
-                    "newQueenStreet": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "newQueenStreet": [
+                #         "morning"
+                #     ]
+                # },
             ]
         },
         "general": {

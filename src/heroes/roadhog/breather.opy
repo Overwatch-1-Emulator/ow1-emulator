@@ -15,7 +15,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     @Hero roadhog
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
-    @Condition not eventPlayer.hasStatusEffect(Status.HACKED)
+    @Condition not isCCd(eventPlayer)
     @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition not eventPlayer.isUsingAbility1()
     @Condition not eventPlayer.isUsingUltimate()
