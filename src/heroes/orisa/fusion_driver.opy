@@ -18,6 +18,8 @@ rule "[orisa/fusion_driver.opy]: Decrease ammo when shooting gun":
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     @Condition not eventPlayer.is_orisa_reloading
+    @Condition not eventPlayer.isMeleeing()
+    @Condition eventPlayer.orisa_ammo > 0
     
     eventPlayer.orisa_ammo -= 1
     wait(1/OW1_ORISA_GUN_FIRE_RATE)
@@ -66,8 +68,12 @@ def reloadFusionDriver():
 
     eventPlayer.setAmmo(0, 0) # Play reload animation
     eventPlayer.is_orisa_reloading = true
-    wait(OW1_ORISA_RELOAD_TIME)
-    resetFusionDriver()
+    waitUntil(eventPlayer.isHoldingButton(Button.MELEE), OW1_ORISA_RELOAD_TIME)
+    if eventPlayer.isHoldingButton(Button.MELEE):
+        eventPlayer.setAmmo(0, OW1_ORISA_CLIP_SIZE + 1) # Exit reload animation
+        eventPlayer.forceButtonPress(Button.MELEE)
+    else:
+        resetFusionDriver()
     eventPlayer.is_orisa_reloading = false
 
 
