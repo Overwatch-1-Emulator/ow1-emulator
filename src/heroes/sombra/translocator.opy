@@ -17,11 +17,11 @@ subroutine showTranslocator
 subroutine hideTranslocator
 
 #!define getTranslocVelocity(t) vect(eventPlayer.transloc_v0.x, \
-                                     -9.8 * t + eventPlayer.transloc_v0.y, \
+                                     OW1_SOMBRA_TRANSLOCATOR_GRAVITY * t + eventPlayer.transloc_v0.y, \
                                      eventPlayer.transloc_v0.z)
 
 #!define getTranslocPosition(t) vect(eventPlayer.transloc_v0.x * t + eventPlayer.transloc_p0.x, \
-                                     -9.8/2 * (t ** 2) + eventPlayer.transloc_v0.y * t + eventPlayer.transloc_p0.y, \
+                                     OW1_SOMBRA_TRANSLOCATOR_GRAVITY/2 * (t ** 2) + eventPlayer.transloc_v0.y * t + eventPlayer.transloc_p0.y, \
                                      eventPlayer.transloc_v0.z * t + eventPlayer.transloc_p0.z)
 
 
