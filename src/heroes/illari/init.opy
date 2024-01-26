@@ -1,6 +1,5 @@
 #!mainFile "../../main.opy"
 
-#!include "heroes/illari/outburst.opy"
 #!include "heroes/illari/pylon.opy"
 
 
