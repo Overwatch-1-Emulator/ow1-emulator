@@ -32,7 +32,7 @@ globalvar i
 #!define centerMass(player) ((player.getPosition() + player.getEyePosition())/2)
 
 #!define isCCd(player) (player.hasStatusEffect(Status.STUNNED) \
-                     or isHacked(eventPlayer) \
+                     or isHacked(player) \
                      or player.hasStatusEffect(Status.ASLEEP) \
                      or player.hasStatusEffect(Status.FROZEN) \
                      or player.hasStatusEffect(Status.KNOCKED_DOWN))
