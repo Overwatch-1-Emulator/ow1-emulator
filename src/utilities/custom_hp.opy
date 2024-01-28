@@ -1,12 +1,11 @@
 #!mainFile "../main.opy"
 
 # Credit to https://discord.com/channels/570672959799164958/1095384108504465488
-# Base code written by CaptCaptain
+# Base code written by CaptCaptain and cactuspuppy
 playervar custom_hp_pvar
 #!defineMember hp_health custom_hp_pvar[0]
 #!defineMember hp_armor custom_hp_pvar[1]
 #!defineMember hp_shields custom_hp_pvar[2]
-#!defineMember stored_spawn_pos custom_hp_pvar[3]
 
 subroutine clearCustomHp
 subroutine applyCustomHp
@@ -38,36 +37,23 @@ def applyCustomHp():
         return
     
     waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
-    # If the player is in spawn, teleport them out as they are invulnerable in spawn
-    if eventPlayer.isInSpawnRoom():
-        eventPlayer.stored_spawn_pos = eventPlayer.getPosition()
-        wait()
-        eventPlayer.setGravity(0)
-        eventPlayer.teleport(eventPlayer.getPosition() + 100 * (Vector.FORWARD if getCurrentGamemode() == Gamemode.CONTROL else Vector.UP)) # TP horizontally on control maps
-        waitUntil(not (eventPlayer.isInSpawnRoom() or eventPlayer.hasStatusEffect(Status.INVINCIBLE) or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), Math.INFINITY)
-        eventPlayer.setGravity(100)
-        wait()
-    # If the player is duplicating a hero, wait until Echo is no longer invulnerable
-    if eventPlayer.isDuplicatingAHero():
-        waitUntil(not (eventPlayer.hasStatusEffect(Status.INVINCIBLE) or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), 1)
-        wait()
+    waitUntil(not (eventPlayer.hasStatusEffect(Status.INVINCIBLE) \
+                or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), Math.INFINITY)
 
-    ## Applying Custom Health ##
-    # Apply an unkillable status so we don't accidentally kill the player
-    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
-    # Damage the player so they're at one health
-    damage(eventPlayer, null, Math.INFINITY)
-    waitUntil(eventPlayer.getHealth() <= 1, 1)
+    wait()
 
-    # Apply temporary base health to the player
-    eventPlayer.addHealthPool(Health.NORMAL, Math.INFINITY, true, true)
-    eventPlayer.addHealthPool(Health.ARMOR, Math.INFINITY, true, true)
-    eventPlayer.addHealthPool(Health.SHIELDS, Math.INFINITY, true, true)
+    eventPlayer.setHealingReceived(0)
+    eventPlayer.setHealth(1)
+    eventPlayer.addHealthPool(Health.NORMAL, 1, true, true)
+    eventPlayer.addHealthPool(Health.ARMOR, 1, true, true)
+    eventPlayer.addHealthPool(Health.SHIELDS, 1, true, true)
 
-    # Remove temporary base health from the player
+    # wait(0.064)
+    wait()
+
     eventPlayer.removeAllHealthPools()
-    waitUntil(eventPlayer.getMaxHealth() <= 1, 1)
 
+    waitUntil(eventPlayer.getMaxHealth() <= 1, 1)
 
     # Apply custom health pool to player
     if eventPlayer.hp_health > 0:
@@ -77,17 +63,9 @@ def applyCustomHp():
     if eventPlayer.hp_shields > 0:
         eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer.hp_shields), true, true)
     heal(eventPlayer, null, Math.INFINITY)
-    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
 
-    # Teleport player back if they were in spawn.
-    if eventPlayer.stored_spawn_pos != null:
-        eventPlayer.teleport(eventPlayer.stored_spawn_pos)
-        eventPlayer.stored_spawn_pos = null
-    
-    # wait(3) # Wait 3 second for everything to settle
-    # if eventPlayer.getMaxHealth() != (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields):
-    #     clearCustomHp()
-    #     goto RULE_START
+    #Restore normal healing
+    eventPlayer.setHealingReceived(100)
 
 
 # rule "[custom_hp.opy]: Remove Custom Health Conditions":
