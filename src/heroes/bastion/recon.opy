@@ -24,3 +24,14 @@ rule "[bastion/recon.opy]: Initialize recon mode":
     eventPlayer.clearStatusEffect(Status.ROOTED)
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
+
+
+# rule "[bastion/sentry.opy]: OW1 Bastion recon fire rate":
+#     @Event eachPlayer
+#     @Hero bastion
+#     @Condition eventPlayer.isFiringPrimaryFire()
+
+#     do:
+#         eventPlayer.setProjectileSpeed(100)
+#         wait(1/OW1_BASTION_RECON_GUN_FIRERATE)
+#     while (RULE_CONDITION)
