@@ -38,6 +38,7 @@ globalvar READY_THRESHOLD_PERCENT = createWorkshopSetting(int[0:100], "Lobby", "
 # Bastion
 #!define OW1_BASTION_MAX_SELF_REPAIR_DURATION (10/3)
 #!define OW1_BASTION_RECON_GUN_DAMAGE 20
+#!define OW1_BASTION_RECON_GUN_FIRERATE 8
 #!define OW1_BASTION_RECONFIGURE_COOLDOWN 0
 #!define OW1_BASTION_SELF_REPAIR_CAST_TIME 0.5
 #!define OW1_BASTION_SELF_REPAIR_COOLDOWN_TIME 1
@@ -255,7 +256,7 @@ globalvar OW1_ORISA_BARRIER_ORB_COUNT = createWorkshopSetting(int[100:200], 'Ori
 #!define OW1_ORISA_SUPERCHARGER_LINGER_TIME 1
 #!define OW1_ORISA_SUPERCHARGER_MAX_DURATION 15
 #!define OW1_ORISA_ULT_COST 1680
-globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "Orisa", "Barrier LOS Polling Frequency (Hz)", 1)
+globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "Orisa", "Barrier LOS Polling Frequency (Hz)", 2)
 
 # Pharah
 #!define OW1_PHARAH_ULT_COST 2100
