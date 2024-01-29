@@ -246,21 +246,27 @@ rule "[orisa/barrier.opy]: Take no damage when behind barrier":
         eventPlayer.enemies_behind_barrier = []
         
         for los_i in range(len(eventPlayer.barrier_all_enemies)):
-            findSphereHit(eventPlayer.getEyePosition(), 
-                          directionTowards(eventPlayer.getEyePosition(), eventPlayer.barrier_all_enemies[los_i].getEyePosition()), 
-                          eventPlayer.enemy_orisa_player.barrier_origin, 
-                          OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
+            findSphereHit(
+                eventPlayer.getEyePosition(), 
+                directionTowards(eventPlayer.getEyePosition(), eventPlayer.barrier_all_enemies[los_i].getEyePosition()), 
+                eventPlayer.enemy_orisa_player.barrier_origin, 
+                OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
             eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x 
-                                                             if isInsideOrisaBarrier(point, 
-                                                                                     eventPlayer.enemy_orisa_player.barrier_origin, 
-                                                                                     eventPlayer.enemy_orisa_player.barrier_orientation)]
+                                                             if isInsideOrisaBarrier(
+                                                                    point, 
+                                                                    eventPlayer.enemy_orisa_player.barrier_origin, 
+                                                                    eventPlayer.enemy_orisa_player.barrier_orientation)]
             for los_j in range(len(eventPlayer.orisa_barrier_hit_positions)):
-                if (distance(eventPlayer.getEyePosition(), eventPlayer.orisa_barrier_hit_positions[los_j]) 
-                    < distance(eventPlayer.getEyePosition(), eventPlayer.barrier_all_enemies[los_i].getEyePosition())): # barrier hit is between the attacker and the victim
+                if (distance(
+                        eventPlayer.getEyePosition(), 
+                        eventPlayer.orisa_barrier_hit_positions[los_j]) 
+                    < distance(
+                        eventPlayer.getEyePosition(), 
+                        eventPlayer.barrier_all_enemies[los_i].getEyePosition())): # barrier hit is between the attacker and the victim
                     eventPlayer.enemies_behind_barrier.append(eventPlayer.barrier_all_enemies[los_i])
                     break
         
-            wait(1/(OW1_ORISA_BARRIER_LOS_FREQ*len(eventPlayer.barrier_all_enemies)))
+        wait(1/OW1_ORISA_BARRIER_LOS_FREQ)
     
     stopDamageModification(eventPlayer.barrier_damage_block_id)
     eventPlayer.barrier_damage_block_id = null
