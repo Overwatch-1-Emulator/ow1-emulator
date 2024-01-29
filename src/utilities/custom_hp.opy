@@ -47,6 +47,8 @@ def applyCustomHp():
     eventPlayer.addHealthPool(Health.NORMAL, 1, true, true)
     eventPlayer.addHealthPool(Health.ARMOR, 1, true, true)
     eventPlayer.addHealthPool(Health.SHIELDS, 1, true, true)
+    # Apply an unkillable status so we don't accidentally kill the player
+    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
 
     # wait(0.064)
     wait()
@@ -63,8 +65,9 @@ def applyCustomHp():
     if eventPlayer.hp_shields > 0:
         eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer.hp_shields), true, true)
     heal(eventPlayer, null, Math.INFINITY)
+    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
 
-    #Restore normal healing
+    # Restore normal healing
     eventPlayer.setHealingReceived(100)
 
 
