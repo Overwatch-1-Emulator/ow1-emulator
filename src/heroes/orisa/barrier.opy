@@ -260,7 +260,7 @@ rule "[orisa/barrier.opy]: Take no damage when behind barrier":
                     eventPlayer.enemies_behind_barrier.append(eventPlayer.barrier_all_enemies[los_i])
                     break
         
-            wait(1/(OW1_ORISA_BARRIER_LOS_FREQ*len(eventPlayer.barrier_all_enemies)))
+        wait(1/OW1_ORISA_BARRIER_LOS_FREQ)
     
     stopDamageModification(eventPlayer.barrier_damage_block_id)
     eventPlayer.barrier_damage_block_id = null
