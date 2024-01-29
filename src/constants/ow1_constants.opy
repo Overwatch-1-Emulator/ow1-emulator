@@ -3,8 +3,6 @@
 # Universal
 #!define SETUP_BUFFER_TIME 5
 #!define OW1_JUMP_SPEED 6
-#!define OW1_SUPPORT_PASSIVE_HEALING 15
-#!define OW1_ACTIVATION_TIME_PASSIVE_HEALING 1.5
 #!define ULT_CHARGE_PER_SECOND 5
 globalvar READY_THRESHOLD_PERCENT = createWorkshopSetting(int[0:100], "Lobby", "Ready Threshold", 75)
 #!define HEADSHOT_MULTIPLIER 2
