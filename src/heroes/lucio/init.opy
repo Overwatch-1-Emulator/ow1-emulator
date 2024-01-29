@@ -26,7 +26,7 @@ rule "[lucio.opy]: Handle lucio self healing while amp is not active and supp pa
     @Condition not eventPlayer.isUsingAbility1()
     @Condition eventPlayer.support_passive_active
     
-    eventPlayer.self_healing_percent = percent(OW1_LUCIO_SELF_HEALING /(OW2_LUCIO_SELF_HEALING + OW1_SUPPORT_PASSIVE_HEALING))
+    eventPlayer.self_healing_percent = percent(OW1_LUCIO_SELF_HEALING /(OW2_LUCIO_SELF_HEALING + OW2_SUPPORT_PASSIVE_HEALING))
 
 
 rule "[lucio.opy]: Handle lucio self healing while amp is not active and support passive inactive":
@@ -46,7 +46,7 @@ rule "[lucio.opy]: Handle lucio self when amp is active and supp passive is acti
     @Condition not eventPlayer.isUsingAbility1()
     @Condition eventPlayer.support_passive_active
 
-    eventPlayer.self_healing_percent = percent(OW1_LUCIO_AMP_HEALING /(OW1_LUCIO_AMP_HEALING + OW1_SUPPORT_PASSIVE_HEALING))
+    eventPlayer.self_healing_percent = percent(OW1_LUCIO_AMP_HEALING /(OW1_LUCIO_AMP_HEALING + OW2_SUPPORT_PASSIVE_HEALING))
     
     
 rule "[lucio.opy]: Handle lucio self when amp is active and supp passive is inactive":
