@@ -1,5 +1,8 @@
 #!mainFile "../../main.opy"
 
+#!include "heroes/winston/leap.opy"
+#!include "heroes/winston/primal.opy"
+
 
 rule "[winston/init.opy]: Detect switch to Winston":
     @Event eachPlayer
@@ -21,12 +24,3 @@ rule "[winston/init.opy]: Initialize Winston":
 
     removeTankPassive()
     eventPlayer.call_init = false
-
-
-rule "[winston.opy]: Override leap cooldown during primal":
-    @Event eachPlayer
-    @Hero winston
-    @Condition eventPlayer.isUsingUltimate()
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0
-    
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_PRIMAL_JUMP_PACK_COOLDOWN_TIME)
