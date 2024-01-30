@@ -180,6 +180,7 @@ settings {
                 "ultGen%": percent(OW2_LUCIO_ULT_COST/OW1_LUCIO_ULT_COST)
             },
             "mei": {
+                "health%": percent(OW1_MEI_ICEWALL_HP/OW2_MEI_ICEWALL_HP), # for icewall
                 "ultGen%": percent(OW2_MEI_ULT_COST/OW1_MEI_ULT_COST)
             },
             "mercy": {
