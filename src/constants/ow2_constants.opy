@@ -102,6 +102,7 @@
 
 # Mei
 #!define OW2_MEI_BLASTER_DAMAGE_RATE 100
+#!define OW2_MEI_ICEWALL_HP 250
 #!define OW2_MEI_ULT_COST 1750
 
 # Mercy
