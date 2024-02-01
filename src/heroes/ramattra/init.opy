@@ -1,5 +1,7 @@
 #!mainFile "../../main.opy"
 
+#!include "heroes/ramattra/nemesis.opy"
+
 
 rule "[ramattra/init.opy]: Detect switch to Ramattra":
     @Event eachPlayer
