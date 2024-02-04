@@ -1,14 +1,17 @@
 #!mainFile "../../main.opy"
 
+playervar moira_self_heal_pvar
+#!defineMember _moira_hp_before moira_self_heal_pvar[0]
+
 
 rule "[moira/self_heal.opy]: Allow self healing during Biotic Grasp":
-    @Event eachPlayer
+    @Event playerDealtDamage
     @Hero moira
-    @Condition eventPlayer.isFiringSecondaryFire()
+    @Condition eventAbility == Button.SECONDARY_FIRE
 
-    pushSelfHealing(Button.SECONDARY_FIRE)
-    waitUntil(eventPlayer.isFiringSecondaryFire() == false, Math.INFINITY)
-    popSelfHealing(Button.SECONDARY_FIRE)
+    eventPlayer._moira_hp_before = eventPlayer.getHealth()
+    heal(eventPlayer, eventPlayer, eventDamage*(OW1_MOIRA_BIOTIC_GRASP_HEALING/OW1_MOIRA_BIOTIC_GRASP_DAMAGE))
+    eventPlayer._missing_ult_points += eventPlayer.getHealth() - eventPlayer._moira_hp_before
 
 
 rule "[moira/self_heal.opy]: Allow self healing during Biotic Orb":
