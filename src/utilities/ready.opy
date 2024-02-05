@@ -30,7 +30,7 @@ rule "[ready.opy]: Create ready HUD":
         eventPlayer.ready_hud[0] = getLastCreatedText()
 
     if eventPlayer.ready_hud[1] == null:
-        hudSubtext(eventPlayer, "Join Discord for Ranked Matchmaking", HudPosition.TOP, Math.INFINITY, rgb(250, 156, 29), HudReeval.STRING_AND_COLOR)
+        hudSubtext(eventPlayer, "Join Discord for Matchmaking", HudPosition.TOP, Math.INFINITY, rgb(250, 156, 29), HudReeval.STRING_AND_COLOR)
         eventPlayer.ready_hud[1] = getLastCreatedText()
 
     if eventPlayer.ready_hud[2] == null:

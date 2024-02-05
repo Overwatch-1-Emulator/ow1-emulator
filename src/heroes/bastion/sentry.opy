@@ -12,6 +12,23 @@ rule "[bastion/sentry.opy]: Detect sentry mode":
     eventPlayer.current_configuration = Configuration.SENTRY
 
 
+rule "[bastion/sentry.opy]: Go back to sentry mode": # thanks to Wadetata for this wonderful piece of code that Ciach795 rewrote to OverPy: https://workshop.codes/AMSG8
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.isUsingAbility1()
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
+
+    do:
+        wait(1, Wait.IGNORE_CONDITION)
+        waitUntil(not eventPlayer.isUsingAbility1(), 4.984) # 6 second total time - 1 second - 1 tick
+        waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_1) or not eventPlayer.isUsingAbility1(), 1)
+        if eventPlayer.isUsingAbility1() and not eventPlayer.isHoldingButton(Button.ABILITY_1):
+            wait(0.016, Wait.IGNORE_CONDITION)
+            eventPlayer.cancelPrimaryAction()
+            eventPlayer.forceButtonPress(Button.ABILITY_1)
+    while RULE_CONDITION
+
+
 rule "[bastion/sentry.opy]: Initialize sentry mode":
     @Event eachPlayer
     @Hero bastion
@@ -20,5 +37,6 @@ rule "[bastion/sentry.opy]: Initialize sentry mode":
     setBaseDamage(eventPlayer, OW1_BASTION_SENTRY_CONFIG_DAMAGE/OW2_BASTION_ASSAULT_CONFIG_DAMAGE)
     eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
     eventPlayer.setKnockbackReceived(0)
+    eventPlayer.setMoveSpeed(0)
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
