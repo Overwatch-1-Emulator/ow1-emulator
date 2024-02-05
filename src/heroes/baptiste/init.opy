@@ -35,4 +35,4 @@ rule "[baptiste/init.opy]: Correct all damage other than primary fire":
     @Hero baptiste
     @Condition eventAbility not in [Button.PRIMARY_FIRE]
 
-    damage(victim, attacker, eventDamage/eventPlayer.base_damage_scalar - eventDamage)
+    damage(victim, attacker, eventDamage/eventPlayer._base_damage_scalar - eventDamage)

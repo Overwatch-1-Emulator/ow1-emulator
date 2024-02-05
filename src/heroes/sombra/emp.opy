@@ -13,7 +13,7 @@ rule "[sombra/emp.opy]: No damage with EMP":
     waitUntil(eventPlayer.getUltCharge() <= 0, Math.INFINITY)
     eventPlayer.setDamageDealt(100) # Deal 10000 damage to all barrier
     waitUntil(eventPlayer.isUsingUltimate(), Math.INFINITY)
-    eventPlayer.setDamageDealt(percent(eventPlayer.base_damage_scalar))
+    eventPlayer.setDamageDealt(percent(eventPlayer._base_damage_scalar))
 
 
 rule "[sombra/emp.opy]: Remove OW2 EMP damage":
