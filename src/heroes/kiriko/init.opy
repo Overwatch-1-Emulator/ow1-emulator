@@ -2,7 +2,7 @@
 
 #!include "heroes/kiriko/kunai.opy"
 #!include "heroes/kiriko/suzu.opy"
-#!include "heroes/kiriko/step.opy"
+#!include "heroes/kiriko/swift_step.opy"
 
 
 rule "[kiriko/init.opy]: Detect switch to Kiriko":
