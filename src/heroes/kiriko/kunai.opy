@@ -1,11 +1,12 @@
-# #!mainFile "../../main.opy"
+#!mainFile "../../main.opy"
 
 
-# rule "[kiriko/kunai.opy]: OW1 Kunai headshot damage":
-#     @Event playerDealtDamage
-#     @Hero kiriko
-#     # @Condition eventAbility == Button.SECONDARY_FIRE
-#     @Condition eventAbility == null # Workshop bug: Kunai event Ability = null instead of secondary fire
-#     @Condition eventWasCriticalHit
+rule "[kiriko/kunai.opy]: OW1 Kunai damage":
+    @Event playerDealtDamage
+    @Hero kiriko
+    # @Condition eventAbility == Button.SECONDARY_FIRE
+    @Condition eventAbility == null # Workshop bug: Kunai event Ability = null instead of secondary fire
+    @Condition eventDamage >= OW2_KIRIKO_KUNAI_DAMAGE*eventPlayer._base_damage_scalar
+    @Condition not eventWasCriticalHit
 
-#     damage(victim, attacker, (OW1_KIRIKO_KUNAI_HEADSHOT_MULTIPLIER*(eventDamage/OW2_KIRIKO_KUNAI_HEADSHOT_MULTIPLIER) - eventDamage)/OW1_KIRIKO_GLOBAL_DAMAGE)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_KIRIKO_KUNAI_DAMAGE/OW2_KIRIKO_KUNAI_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
