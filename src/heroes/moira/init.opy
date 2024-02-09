@@ -1,8 +1,8 @@
 #!mainFile "../../main.opy"
 
-
+#!include "heroes/moira/biotic_grasp.opy"
+#!include "heroes/moira/biotic_orb.opy"
 #!include "heroes/moira/coalescence.opy"
-#!include "heroes/moira/self_heal.opy"
 
 
 rule "[moira/init.opy]: Detect switch to Moira":
