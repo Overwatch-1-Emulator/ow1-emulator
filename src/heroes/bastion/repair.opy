@@ -1,12 +1,17 @@
 #!mainFile "../../main.opy"
 
-playervar is_pressing_self_repair_key
-playervar is_using_self_repair
+playervar repair_pvar
+
+#!defineMember is_pressing_self_repair_key repair_pvar[0]
+#!defineMember is_using_self_repair repair_pvar[1]
 
 playervar self_repair_time_left
-playervar self_repair_instance
+#!defineMember self_repair_instance repair_pvar[3]
 
-playervar self_repair_gui
+#!defineMember _self_repair_resource_gui repair_pvar[4]
+#!defineMember _self_repair_sparkles_upper_gui repair_pvar[5]
+#!defineMember _self_repair_sparkles_lower_gui repair_pvar[6]
+#!defineMember _self_repair_ring_gui repair_pvar[7]
 
 subroutine enterSelfRepair
 subroutine exitSelfRepair
@@ -80,12 +85,12 @@ def exitSelfRepair():
     stopHoT(eventPlayer.self_repair_instance) # Stop healing
     eventPlayer.self_repair_instance = null
     stopChasingVariable(eventPlayer.self_repair_time_left) # Stop resource depletion
+    eventPlayer.is_using_self_repair = false
     wait(OW1_BASTION_SELF_REPAIR_COOLDOWN_TIME) # Wait 1 second cooldown before recharging heal resource
     chase(eventPlayer.self_repair_time_left, \
           OW1_BASTION_MAX_SELF_REPAIR_DURATION, \
           rate=OW1_BASTION_MAX_SELF_REPAIR_DURATION/OW1_BASTION_SELF_REPAIR_RECHARGE_DURATION, \
           ChaseReeval.DESTINATION_AND_RATE) # Start recharging
-    eventPlayer.is_using_self_repair = false
 
 
 rule "[bastion/repair.opy]: Remove self repair GUI":
@@ -107,22 +112,67 @@ rule "[bastion/repair.opy]: Give ult charge for self repair":
 def showSelfRepairGui():
     @Name "[bastion/repair.opy]: showSelfRepairGui()"
 
-    if eventPlayer.self_repair_gui != null:
-        return
-    progressBarHud(eventPlayer if eventPlayer.self_repair_time_left < OW1_BASTION_MAX_SELF_REPAIR_DURATION else null, 
-                   roundedPercent(eventPlayer.self_repair_time_left/OW1_BASTION_MAX_SELF_REPAIR_DURATION), 
-                   "Self-Repair", 
-                   HudPosition.TOP, 
-                   1, 
-                   Color.YELLOW, 
-                   Color.YELLOW, 
-                   ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
-                   SpecVisibility.DEFAULT)
-    eventPlayer.self_repair_gui = getLastCreatedText()
+    if eventPlayer._self_repair_resource_gui == null:
+        progressBarHud(eventPlayer if eventPlayer.self_repair_time_left < OW1_BASTION_MAX_SELF_REPAIR_DURATION else null, 
+                        roundedPercent(eventPlayer.self_repair_time_left/OW1_BASTION_MAX_SELF_REPAIR_DURATION), 
+                        "Self-Repair", 
+                        HudPosition.TOP, 
+                        1, 
+                        Color.YELLOW, 
+                        Color.YELLOW, 
+                        ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
+                        SpecVisibility.DEFAULT)
+        eventPlayer._self_repair_resource_gui = getLastCreatedText()
 
 
 def hideSelfRepairGui():
     @Name "[bastion/repair.opy]: hideSelfRepairGui()"
 
-    destroyProgressBarHud(eventPlayer.self_repair_gui)
-    eventPlayer.self_repair_gui = null
+    destroyProgressBarHud(eventPlayer._self_repair_resource_gui)
+    eventPlayer._self_repair_resource_gui = null
+
+
+rule "[bastion/repair.opy]: Show self-repair ring":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer.is_using_self_repair
+
+    if eventPlayer._self_repair_sparkles_upper_gui == null:
+        createEffect(getAllPlayers(), 
+                     Effect.SPARKLES, 
+                     Color.YELLOW, 
+                     updateEveryTick(eventPlayer.getEyePosition()), 
+                     1.5, 
+                     EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer._self_repair_sparkles_upper_gui = getLastCreatedEntity()
+
+    if eventPlayer._self_repair_sparkles_lower_gui == null:
+        createEffect(getAllPlayers(), 
+                     Effect.SPARKLES, 
+                     Color.YELLOW, 
+                     updateEveryTick((eventPlayer.getEyePosition()+eventPlayer.getPosition())/2), 
+                     1.5, 
+                     EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer._self_repair_sparkles_lower_gui = getLastCreatedEntity()
+
+    if eventPlayer._self_repair_ring_gui == null:
+        createEffect(getAllPlayers(), 
+                     Effect.LIGHT_SHAFT, 
+                     Color.YELLOW, 
+                     updateEveryTick(eventPlayer.getPosition()), 
+                     1.5, 
+                     EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer._self_repair_ring_gui = getLastCreatedEntity()
+
+
+rule "[bastion/repair.opy]: Hide self-repair ring":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition not eventPlayer.is_using_self_repair
+
+    destroyEffect(eventPlayer._self_repair_sparkles_upper_gui)
+    eventPlayer._self_repair_sparkles_upper_gui = null
+    destroyEffect(eventPlayer._self_repair_sparkles_lower_gui)
+    eventPlayer._self_repair_sparkles_lower_gui = null
+    destroyEffect(eventPlayer._self_repair_ring_gui)
+    eventPlayer._self_repair_ring_gui = null
