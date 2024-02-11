@@ -12,7 +12,7 @@ settings {
         "spectatorSlots": 12,
         "team1Slots": 6,
         "team2Slots": 6,
-        "returnToLobby": "never",
+        "returnToLobby": "afterGame",
         "teamBalancing": "afterGame",
         "minimumLatencyInNs": 50000000
     },

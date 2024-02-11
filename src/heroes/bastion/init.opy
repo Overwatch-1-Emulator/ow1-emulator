@@ -34,4 +34,5 @@ rule "[bastion/init.opy]: Clean up Bastion":
     @Condition eventPlayer.getCurrentHero() != Hero.BASTION
     
     hideMachineGunAmmo()
-    hideSelfRepairGui()
+    hideSelfRepairResource()
+    hideSelfRepairRing()
