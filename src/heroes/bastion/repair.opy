@@ -180,6 +180,7 @@ rule "[bastion/repair.opy]: Show self-repair ring":
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.is_using_self_repair
+    @Condition eventPlayer.isAlive()
 
     showSelfRepairRing()
 
@@ -187,6 +188,6 @@ rule "[bastion/repair.opy]: Show self-repair ring":
 rule "[bastion/repair.opy]: Hide self-repair ring":
     @Event eachPlayer
     @Hero bastion
-    @Condition not eventPlayer.is_using_self_repair
+    @Condition not (eventPlayer.is_using_self_repair and eventPlayer.isAlive())
 
     hideSelfRepairRing()
