@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
-playervar is_using_translocator
+playervar translocator_pvar
+
+#!defineMember _is_using_translocator translocator_pvar[0]
+
 playervar transloc_position
 playervar trasnloc_velocity
 playervar transloc_p0
@@ -31,7 +34,7 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     @Condition not eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not isCCd(eventPlayer)
-    @Condition not eventPlayer.is_using_translocator
+    @Condition not eventPlayer._is_using_translocator
     waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
 
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
@@ -66,8 +69,7 @@ def destroyTranslocator():
     eventPlayer.transloc_position = null
     eventPlayer.trasnloc_velocity = null
     hideTranslocator()
-    eventPlayer.is_using_translocator = false
-    eventPlayer.setAbility2Enabled(true)
+    eventPlayer._is_using_translocator = false
 
 
 rule "[sombra/translocator.opy]: Call throwTranslocator()":
@@ -92,8 +94,7 @@ def throwTranslocator():
     chase(eventPlayer.transloc_position, getTranslocPosition(eventPlayer.transloc_time), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
 
     showTranslocator()
-    eventPlayer.is_using_translocator = true
-    eventPlayer.setAbility2Enabled(false)
+    eventPlayer._is_using_translocator = true
     playEffect(getAllPlayers(), DynamicEffect.BUFF_EXPLOSION_SOUND, Color.PURPLE, eventPlayer, 100)
 
     # Wait for translocator projectile to hit wall
@@ -162,3 +163,12 @@ def hideTranslocator():
 
     destroyEffect(eventPlayer.translocator_id)
     eventPlayer.translocator_id = null
+
+
+rule "[sombra/translocator.opy]: Show using translocator GUI":
+    @Event eachPlayer
+    @Hero sombra
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0.2
+    @Condition eventPlayer._is_using_translocator
+
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0.4)
