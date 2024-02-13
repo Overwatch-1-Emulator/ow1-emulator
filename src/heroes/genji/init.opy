@@ -13,11 +13,13 @@ rule "[genji/init.opy]: Initialize Genji":
     @Hero genji
     @Condition eventPlayer.call_init
     
-    defaultHero()
+    newHero(OW1_GENJI_HEALTH, 0, 0)
     setUltCost(OW1_GENJI_ULT_COST)
     eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
     
+    removeSelfHealing()
+
     eventPlayer.call_init = false
 
 

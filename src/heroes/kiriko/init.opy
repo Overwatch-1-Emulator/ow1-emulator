@@ -17,7 +17,7 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     @Hero kiriko
     @Condition eventPlayer.call_init
     
-    defaultHero()
+    newHero(OW1_KIRIKO_HEALTH, 0, 0)
     setUltCost(OW1_KIRIKO_ULT_COST)
 
     removeSelfHealing()

@@ -16,7 +16,7 @@ rule "[bastion/init.opy]: Initialize Bastion":
     @Hero bastion
     @Condition eventPlayer.call_init == true
     
-    defaultHero()
+    newHero(OW1_BASTION_HEALTH, OW1_BASTION_ARMOR, 0)
     setUltCost(OW1_BASTION_ULT_COST)
     eventPlayer.machine_gun_ammo = OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE
     eventPlayer.machine_gun_reload_timer = 0
@@ -25,6 +25,8 @@ rule "[bastion/init.opy]: Initialize Bastion":
     eventPlayer.self_repair_time_left = OW1_BASTION_MAX_SELF_REPAIR_DURATION
     eventPlayer.is_pressing_self_repair_key = false
     eventPlayer.is_using_self_repair = false
+
+    removeSelfHealing()
 
     eventPlayer.call_init = false
 

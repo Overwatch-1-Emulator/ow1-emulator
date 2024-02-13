@@ -225,6 +225,7 @@ settings {
                 "ultGen%": percent(OW2_GENJI_ULT_COST/OW1_GENJI_ULT_COST)
             },
             "hanzo": {
+                "ability2Cooldown%": percent(OW1_HANZO_STORM_COOLDOWN/OW2_HANZO_STORM_COOLDOWN),
                 "ultGen%": percent(OW2_HANZO_ULT_COST/OW1_HANZO_ULT_COST)
             },
             "illari": {
