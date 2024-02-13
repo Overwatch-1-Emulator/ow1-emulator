@@ -22,6 +22,8 @@
 #!include "lobby_settings.opy"
 
 # OW1 logic
+# Remove damage passive
+#!include "passives/damage/damage_passive.opy"
 # Remove tank passive
 #!include "passives/tank/ult_charge.opy"
 #!include "passives/tank/knockback.opy"

@@ -15,6 +15,8 @@ rule "[torbjorn/init.opy]: Initialize Torbjorn":
 
     newHero(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
     setUltCost(OW1_TORBJORN_ULT_COST)
+    removeSelfHealing()
+
     eventPlayer.call_init = false
 
 

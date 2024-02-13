@@ -19,4 +19,6 @@ rule "[symmetra/init.opy]: Initialize Symmetra":
 
     newHero(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
     setUltCost(OW1_SYMMETRA_ULT_COST)
+    removeSelfHealing()
+
     eventPlayer.call_init = false
