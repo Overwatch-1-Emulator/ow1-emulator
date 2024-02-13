@@ -78,7 +78,10 @@ rule "[doomfist/punch.opy]: Find punched victims":
     attacker.punched_victims.append(victim)
     if (len(attacker.punched_victims) == 1): # OW1 single punch victim
         damage(victim, attacker, getRocketPunchDamage(eventPlayer.punch_charge_time)-eventDamage)
-        victim.applyImpulse(attacker.getFacingDirection(), getPunchKnockbackSpeed(eventPlayer.punch_charge_time), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
+        victim.applyImpulse(attacker.getVelocity() if attacker.getSpeed() > OW1_DOOMFIST_PUNCH_CHARGE_SLOW else attacker.getFacingDirection(), 
+                            getPunchKnockbackSpeed(eventPlayer.punch_charge_time), 
+                            Relativity.TO_WORLD, 
+                            Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
     else: # OW2 multi punch victim
         heal(victim, null, eventDamage) # Heal back OW2 punch victims
         damage(attacker, null, OW1_DOOMFIST_BEST_DEFENSE) # Remove shield gained from OW2 punch victims
