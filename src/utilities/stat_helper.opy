@@ -6,3 +6,10 @@ playervar stat_helper_pvar
 #!define setBaseDamage(player, scalar) \
     player._base_damage_scalar = scalar \
     player.setDamageDealt(percent(player._base_damage_scalar))
+
+
+rule "[stat_helper.opy]: OW1 melee damage":
+    @Event playerDealtDamage
+    @Condition eventAbility == Button.MELEE
+
+    heal(victim, null, eventDamage - eventDamage*(OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE))

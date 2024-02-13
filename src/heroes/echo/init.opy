@@ -17,8 +17,10 @@ rule "[echo/init.opy]: Initialize Echo":
     @Hero echo
     @Condition eventPlayer.call_init
     
-    defaultHero()
+    newHero(OW1_ECHO_HEALTH, 0, 0)
     setUltCost(OW1_ECHO_ULT_COST)
+    removeSelfHealing()
+
     eventPlayer.call_init = false
 
 

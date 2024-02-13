@@ -13,8 +13,10 @@ rule "[reaper/init.opy]: Initialize Reaper":
     @Hero reaper
     @Condition eventPlayer.call_init
 
-    defaultHero()
+    newHero(OW1_REAPER_HEALTH, 0, 0)
     setUltCost(OW1_REAPER_ULT_COST)
+    # removeSelfHealing()
+
     eventPlayer.call_init = false
 
 
