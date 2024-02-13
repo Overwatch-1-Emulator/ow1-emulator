@@ -144,6 +144,7 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 
 # Hanzo
 #!define OW1_HANZO_ARROW_DAMAGE 125
 #!define OW1_HANZO_HEALTH 200
+#!define OW1_HANZO_STORM_COOLDOWN 10
 #!define OW1_HANZO_STORM_DAMAGE 70
 #!define OW1_HANZO_ULT_COST 1680
 
