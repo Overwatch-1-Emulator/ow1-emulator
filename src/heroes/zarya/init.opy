@@ -22,6 +22,8 @@ rule "[zarya/init.opy]: Initialize Zarya":
     initAllyBubble()
     removeTankPassive()
 
+    removeSelfHealing()
+
     eventPlayer.call_init = false
     
 

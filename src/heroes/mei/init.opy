@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!include "heroes/mei/blaster.opy"
+#!include "heroes/mei/cryo_freeze.opy"
 
 
 rule "[mei/init.opy]: Detect switch to Mei":
@@ -19,4 +20,6 @@ rule "[mei/init.opy]: Initialize Mei":
     setUltCost(OW1_MEI_ULT_COST)
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
+    removeSelfHealing()
+
     eventPlayer.call_init = false

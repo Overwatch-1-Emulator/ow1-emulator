@@ -18,7 +18,7 @@ rule "[sombra/init.opy]: Initialize Sombra":
     @Hero sombra
     @Condition eventPlayer.call_init
 
-    defaultHero()
+    newHero(OW1_SOMBRA_HEALTH, 0, 0)
     setUltCost(OW1_SOMBRA_ULT_COST)
 
     getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
@@ -28,6 +28,8 @@ rule "[sombra/init.opy]: Initialize Sombra":
     eventPlayer.disallowButton(Button.ABILITY_2)
 
     eventPlayer.is_using_stealth = false
+    # removeSelfHealing()
+
     eventPlayer.call_init = false
 
 

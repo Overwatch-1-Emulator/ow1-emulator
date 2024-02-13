@@ -22,3 +22,11 @@ rule "[brigitte/init.opy]: Initialize Brigitte":
     removeSelfHealing()
     
     eventPlayer.call_init = false
+
+
+rule "[brigitte/init.opy]: OW1 Flail damage":
+    @Event playerDealtDamage
+    @Hero brigitte
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    heal(victim, null, eventDamage - eventDamage*(OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE))

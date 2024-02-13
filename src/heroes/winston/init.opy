@@ -23,4 +23,14 @@ rule "[winston/init.opy]: Initialize Winston":
     eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
 
     removeTankPassive()
+    removeSelfHealing()
+
     eventPlayer.call_init = false
+
+
+rule "[winston/init.opy]: OW1 Tesla Cannon damage":
+    @Event playerDealtDamage
+    @Hero winston
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    heal(victim, null, eventDamage - eventDamage*(OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE))

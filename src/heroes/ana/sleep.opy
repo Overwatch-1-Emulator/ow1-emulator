@@ -8,4 +8,7 @@ rule "[ana/sleep.opy]: Sleep tanks for longer duration":
     @Condition victim.getCurrentHero() in getTankHeroes()
     
     waitUntil(victim.hasStatusEffect(Status.ASLEEP), Math.INFINITY)
-    victim.setStatusEffect(attacker, Status.ASLEEP, 5/3.25*OW1_ANA_SLEEP_DART_SLEEP_DURATION) # 5/3.5 is somewhat arbitrary
+    victim.setStatusEffect(attacker, Status.ASLEEP, Math.INFINITY)
+    waitUntil(not victim.hasStatusEffect(Status.ASLEEP), OW1_ANA_SLEEP_DART_SLEEP_DURATION)
+    victim.clearStatusEffect(Status.ASLEEP)
+    victim.setMoveSpeed(100)
