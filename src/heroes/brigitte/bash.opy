@@ -34,4 +34,4 @@ rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
     @Condition eventPlayer.isFiringSecondaryFire()
     @Condition eventAbility == Button.PRIMARY_FIRE
 
-    heal(victim, null, eventDamage - eventDamage*(OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE))
+    heal(victim, null, eventDamage - eventDamage/eventPlayer._base_damage_scalar*(OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE))
