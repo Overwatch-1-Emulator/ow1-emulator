@@ -11,5 +11,6 @@ playervar stat_helper_pvar
 rule "[stat_helper.opy]: OW1 melee damage":
     @Event playerDealtDamage
     @Condition eventAbility == Button.MELEE
+    @Condition eventPlayer.getCurrentHero() != Hero.ASHE
 
     heal(victim, null, eventDamage - eventDamage*(OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE))
