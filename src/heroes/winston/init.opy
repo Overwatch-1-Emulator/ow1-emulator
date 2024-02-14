@@ -19,18 +19,27 @@ rule "[winston/init.opy]: Initialize Winston":
     newHero(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
     setUltCost(OW1_WINSTON_ULT_COST)
 
-    eventPlayer.setSecondaryFireEnabled(false)
-    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
+    setBaseDamage(eventPlayer, OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE)
 
     removeTankPassive()
     removeSelfHealing()
 
+    eventPlayer.setSecondaryFireEnabled(false) # disable sniper monkey
+
     eventPlayer.call_init = false
 
 
-rule "[winston/init.opy]: OW1 Tesla Cannon damage":
+rule "[winston/init.opy]: Compensate Winston global damage reduction":
     @Event playerDealtDamage
     @Hero winston
-    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition eventAbility in [Button.ABILITY_1]
 
-    heal(victim, null, eventDamage - eventDamage*(OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE))
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+
+rule "[winston/init.opy]: OW1 Winston melee damage":
+    @Event playerDealtDamage
+    @Hero winston
+    @Condition eventAbility == Button.MELEE
+
+    heal(victim, null, eventDamage - eventDamage/eventPlayer._base_damage_scalar*(OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE))
