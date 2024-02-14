@@ -29,6 +29,6 @@ rule "[reinhardt/init.opy]: Initialize Reinhardt":
 rule "[reinhardt/init.opy]: Compensate Reinhardt global damage reduction":
     @Event playerDealtDamage
     @Hero reinhardt
-    @Condition eventAbility in [Button.MELEE, Button.ABILITY_2]
+    @Condition eventAbility in [Button.ABILITY_2]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

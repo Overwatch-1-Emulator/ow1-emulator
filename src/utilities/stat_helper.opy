@@ -12,6 +12,8 @@ rule "[stat_helper.opy]: OW1 melee damage":
     @Event playerDealtDamage
     @Condition eventAbility == Button.MELEE
     @Condition eventPlayer.getCurrentHero() != Hero.ASHE
+    @Condition eventPlayer.getCurrentHero() != Hero.BRIGITTE
+    @Condition eventPlayer.getCurrentHero() != Hero.REINHARDT
     @Condition eventPlayer.getCurrentHero() != Hero.WINSTON
 
     heal(victim, null, eventDamage - eventDamage*(OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE))
