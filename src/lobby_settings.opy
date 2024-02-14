@@ -14,7 +14,7 @@ settings {
         "team2Slots": 6,
         "returnToLobby": "afterGame",
         "teamBalancing": "afterGame",
-        "minimumLatencyInNs": 50000000
+        # "minimumLatencyInNs": 50000000
     },
     "gamemodes": {
         "assault": {
