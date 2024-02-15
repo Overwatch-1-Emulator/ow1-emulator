@@ -17,11 +17,31 @@ rule "[echo/duplicate.opy]: Table of all heroes with custom hp":
     health_pool[heroID(Hero.ZARYA)] = [OW1_ZARYA_HEALTH,0,OW1_ZARYA_SHIELDS]
 
     # dps
-    health_pool[heroID(Hero.DOOMFIST)] = [OW1_DOOMFIST_HEALTH,0,0]
     health_pool[heroID(Hero.ASHE)] = [OW1_ASHE_HEALTH,0,0]
+    health_pool[heroID(Hero.BASTION)] = [OW1_BASTION_HEALTH,OW1_BASTION_ARMOR,0]
+    health_pool[heroID(Hero.MCCREE)] = [OW1_MCCREE_HEALTH,0,0]
+    health_pool[heroID(Hero.DOOMFIST)] = [OW1_DOOMFIST_HEALTH,0,0]
+    health_pool[heroID(Hero.GENJI)] = [OW1_GENJI_HEALTH,0,0]
+    health_pool[heroID(Hero.HANZO)] = [OW1_HANZO_HEALTH,0,0]
+    health_pool[heroID(Hero.JUNKRAT)] = [OW1_JUNKRAT_HEALTH,0,0]
+    health_pool[heroID(Hero.MEI)] = [OW1_MEI_HEALTH,0,0]
+    health_pool[heroID(Hero.PHARAH)] = [OW1_PHARAH_HEALTH,0,0]
+    health_pool[heroID(Hero.REAPER)] = [OW1_REAPER_HEALTH,0,0]
+    health_pool[heroID(Hero.SOLDIER)] = [OW1_SOLDIER_HEALTH,0,0]
+    health_pool[heroID(Hero.SOMBRA)] = [OW1_SOMBRA_HEALTH,0,0]
+    health_pool[heroID(Hero.SYMMETRA)] = [OW1_SYMMETRA_HEALTH,0,OW1_SYMMETRA_SHIELDS]
+    health_pool[heroID(Hero.TORBJORN)] = [OW1_TORBJORN_HEALTH,OW1_TORBJORN_ARMOR,0]
+    health_pool[heroID(Hero.TRACER)] = [OW1_TRACER_HEALTH,0,0]
+    health_pool[heroID(Hero.WIDOWMAKER)] = [OW1_WIDOWMAKER_HEALTH,0,0]
 
     # supports
+    health_pool[heroID(Hero.ANA)] = [OW1_ANA_HEALTH,0,0]
     health_pool[heroID(Hero.BAPTISTE)] = [OW1_BAPTISTE_HEALTH,0,0]
+    health_pool[heroID(Hero.BRIGITTE)] = [OW1_BRIGITTE_HEALTH,OW1_BRIGITTE_ARMOR,0]
+    health_pool[heroID(Hero.LUCIO)] = [OW1_LUCIO_HEALTH,0,0]
+    health_pool[heroID(Hero.MERCY)] = [OW1_MERCY_HEALTH,0,0]
+    health_pool[heroID(Hero.MOIRA)] = [OW1_MOIRA_HEALTH,0,0]
+    health_pool[heroID(Hero.ZENYATTA)] = [OW1_ZENYATTA_HEALTH,0,OW1_ZENYATTA_SHIELDS]
 
 
 rule "[echo/duplicate.opy]: Set Life for echo when duplicating a tank":
