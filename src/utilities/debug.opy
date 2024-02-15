@@ -90,7 +90,7 @@ rule "[debug.opy]: do something on interact":
     @Condition DEBUG_MODE == true
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
 
-    damage(eventPlayer, null, 100)
+    damage(eventPlayer, null, 25)
     eventPlayer.setUltCharge(100)
 
 
