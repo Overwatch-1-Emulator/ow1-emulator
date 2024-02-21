@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 
-rule "[mccree.opy]: Remove damage reduction during deadeye":
+rule "[mccree/deadeye.opy]: Remove damage reduction during deadeye":
     @Event eachPlayer
     @Hero mccree
     @Condition eventPlayer.isUsingUltimate()
