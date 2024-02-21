@@ -15,7 +15,7 @@ rule "[mccree/flashbang.opy]: Throw projectile when pressing e":
                      null, 
                      Relativity.TO_WORLD, 
                      ModifyHealth.DAMAGE, 
-                     getOppositeTeam(eventPlayer.getTeam()), 
+                     Color.YELLOW, 
                      OW1_MCCREE_FLASHBANG_DAMAGE, 
                      1, 
                      OW1_MCCREE_FLASHBANG_AOE_RADIUS, 

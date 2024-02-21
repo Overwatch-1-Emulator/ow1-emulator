@@ -7,6 +7,8 @@ playervar custom_hp_pvar
 #!defineMember hp_armor custom_hp_pvar[1]
 #!defineMember hp_shields custom_hp_pvar[2]
 
+#!define MIN_HP 1
+
 subroutine clearCustomHp
 subroutine applyCustomHp
 
@@ -43,23 +45,22 @@ def applyCustomHp():
     wait()
 
     eventPlayer.setHealingReceived(0)
-    eventPlayer.setHealth(1)
-    eventPlayer.addHealthPool(Health.NORMAL, 1, true, true)
-    eventPlayer.addHealthPool(Health.ARMOR, 1, true, true)
-    eventPlayer.addHealthPool(Health.SHIELDS, 1, true, true)
+    eventPlayer.setHealth(MIN_HP)
+    eventPlayer.addHealthPool(Health.NORMAL, MIN_HP, true, true)
+    eventPlayer.addHealthPool(Health.ARMOR, MIN_HP, true, true)
+    eventPlayer.addHealthPool(Health.SHIELDS, MIN_HP, true, true)
     # Apply an unkillable status so we don't accidentally kill the player
     eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
 
-    # wait(0.064)
-    wait()
-
     eventPlayer.removeAllHealthPools()
 
-    waitUntil(eventPlayer.getMaxHealth() <= 1, 1)
+    # wait(0.064)
+    wait()
+    waitUntil(eventPlayer.getMaxHealth() <= MIN_HP, 1)
 
     # Apply custom health pool to player
     if eventPlayer.hp_health > 0:
-        eventPlayer.addHealthPool(Health.NORMAL, max(1, eventPlayer.hp_health - 1), true, true)
+        eventPlayer.addHealthPool(Health.NORMAL, max(1, eventPlayer.hp_health - MIN_HP), true, true)
     if eventPlayer.hp_armor > 0:
         eventPlayer.addHealthPool(Health.ARMOR, max(1, eventPlayer.hp_armor), true, true)
     if eventPlayer.hp_shields > 0:
