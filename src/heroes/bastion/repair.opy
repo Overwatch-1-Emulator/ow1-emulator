@@ -34,9 +34,12 @@ rule "[bastion/repair.opy]: Detect Self Repair key press":
 rule "[bastion/repair.opy]: Activate self-repair":
     @Event eachPlayer
     @Hero bastion
-    @Condition not (eventPlayer.isFiringPrimaryFire() or eventPlayer.isMeleeing() or eventPlayer.isDead() or eventPlayer.hasStatusEffect(Status.ASLEEP) or eventPlayer.hasStatusEffect(Status.FROZEN) or eventPlayer.hasStatusEffect(Status.HACKED) or eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) or eventPlayer.hasStatusEffect(Status.STUNNED))
     @Condition eventPlayer.is_pressing_self_repair_key
     @Condition not eventPlayer.is_using_self_repair
+    @Condition not eventPlayer.isFiringPrimaryFire()
+    @Condition not eventPlayer.isMeleeing()
+    @Condition not isCCd(eventPlayer)
+    @Condition eventPlayer.isAlive()
     
     enterSelfRepair()
 
