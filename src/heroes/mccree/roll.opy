@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 
-rule "[mccree.opy]: Remove damage reduction during roll":
+rule "[mccree/roll.opy]: Remove damage reduction during roll":
     @Event eachPlayer
     @Hero mccree
     @Condition eventPlayer.isUsingAbility1() == true

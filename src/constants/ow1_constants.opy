@@ -8,7 +8,7 @@
 globalvar READY_THRESHOLD_PERCENT = createWorkshopSetting(int[0:100], "Lobby", "Ready Threshold", 75)
 #!define HEADSHOT_MULTIPLIER 2
 #!define GRAVITY (-9.8)
-#!define MIN_DAMAGE 0.001
+#!define MIN_DAMAGE 0.000001
 #!define TICK_DURATION 0.016
 
 # Ana
