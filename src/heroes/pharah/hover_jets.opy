@@ -15,6 +15,7 @@ rule "[pharah/hover_jets.opy]: Detect when using hover jet":
     @Condition eventPlayer.isHoldingButton(Button.JUMP)
     @Condition not eventPlayer.isOnGround()
     @Condition not eventPlayer.isJumping()
+    @Condition not eventPlayer.isUsingUltimate()
     @Condition not isCCd(eventPlayer)
     @Condition eventPlayer.jet_fuel > 0
 
@@ -24,7 +25,12 @@ rule "[pharah/hover_jets.opy]: Detect when using hover jet":
 rule "[pharah/hover_jets.opy]: Detect when not using hover jet":
     @Event eachPlayer
     @Hero pharah
-    @Condition not eventPlayer.isHoldingButton(Button.JUMP) or eventPlayer.isOnGround() or eventPlayer.isJumping() or eventPlayer.jet_fuel <= 0
+    @Condition not eventPlayer.isHoldingButton(Button.JUMP) \
+                or eventPlayer.isOnGround() \
+                or eventPlayer.isJumping() \
+                or eventPlayer.isUsingUltimate() \
+                or isCCd(eventPlayer) \
+                or eventPlayer.jet_fuel <= 0
 
     eventPlayer._is_using_hover_jets = false
 
