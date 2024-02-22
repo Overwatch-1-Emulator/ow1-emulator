@@ -1,7 +1,6 @@
 #!mainFile "../../main.opy"
 
 #!include "heroes/junkrat/trap.opy"
-#!include "heroes/junkrat/riptire.opy"
 
 
 rule "[junkrat/init.opy]: Detect switch to Junkrat":
@@ -23,8 +22,6 @@ rule "[junkrat/init.opy]: Initialize Junkrat":
                               true, 
                               false)
     setUltCost(OW1_JUNKRAT_ULT_COST)
-    # Reduce damage to the trap
-    setBaseDamage(eventPlayer, OW1_JUNKRAT_STEEL_TRAP_DMG/OW2_JUNKRAT_STEEL_TRAP_DMG)
     removeSelfHealing()
 
     eventPlayer.call_init = false
