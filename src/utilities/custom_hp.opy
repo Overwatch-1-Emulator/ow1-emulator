@@ -44,7 +44,6 @@ def applyCustomHp():
 
     wait()
 
-    eventPlayer.setHealingReceived(0)
     eventPlayer.setHealth(MIN_HP)
     eventPlayer.addHealthPool(Health.NORMAL, MIN_HP, true, true)
     eventPlayer.addHealthPool(Health.ARMOR, MIN_HP, true, true)
@@ -67,9 +66,6 @@ def applyCustomHp():
         eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer.hp_shields), true, true)
     heal(eventPlayer, null, Math.INFINITY)
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
-
-    # Restore normal healing
-    eventPlayer.setHealingReceived(100)
 
 
 # rule "[custom_hp.opy]: Remove Custom Health Conditions":
