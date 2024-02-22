@@ -17,6 +17,7 @@ rule "[zarya/init.opy]: Initialize Zarya":
 
     newHero(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
     setUltCost(OW1_ZARYA_ULT_COST)
+    setBaseDamage(eventPlayer, OW1_ZARYA_CANNON_DAMAGE_MAX/OW2_ZARYA_CANNON_DAMAGE_MAX)
 
     initSelfBubble()
     initAllyBubble()
@@ -25,7 +26,7 @@ rule "[zarya/init.opy]: Initialize Zarya":
     removeSelfHealing()
 
     eventPlayer.call_init = false
-    
+
 
 rule "[zarya/init.opy]: Clean up Zarya":
     @Event eachPlayer
@@ -33,3 +34,11 @@ rule "[zarya/init.opy]: Clean up Zarya":
 
     hideSelfBubbleCD()
     hideAllyBubbleCD()
+
+
+rule "[zarya/init.opy]: Compensate zarya global damage reduction":
+    @Event playerDealtDamage
+    @Hero zarya
+    @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ULTIMATE]
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
