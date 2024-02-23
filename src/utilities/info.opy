@@ -2,7 +2,7 @@
 
 globalvar info_gvar
 globalvar rgb_list = [vect(255, 0, 0), vect(255, 255, 0), vect(0, 255, 0), vect(0, 255, 255), vect(0, 0, 255), vect(255, 0, 255)]
-globalvar HIDE_WATERMARK = createWorkshopSetting(bool, "Misc", "Hide Watermark", false)
+globalvar SHOW_WATERMARK = createWorkshopSetting(bool, "Misc", "Show Watermark", true)
 
 playervar info_pvar
 #!defineMember rgb_i info_pvar[0]
@@ -15,13 +15,12 @@ playervar rgb_vect
 #   or (player.isDead()) \
 #   or (isInSetup()))
 
-#!define infoVisible(player) \
-    (true)
+#!define infoVisible(player) (SHOW_WATERMARK)
 
 
 rule "[info.opy]: Create info HUD":
     @Event eachPlayer
-    @Condition not HIDE_WATERMARK
+    @Condition SHOW_WATERMARK
 
     if eventPlayer.info_id[0] == null:
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
@@ -45,7 +44,7 @@ rule "[info.opy]: Create info HUD":
     eventPlayer.rgb_vect = rgb_list[eventPlayer.rgb_i]
     
 
-rule "[info.opy]: Create info HUD":
+rule "[info.opy]: Cycle RGB":
     @Event eachPlayer
     @Condition infoVisible(eventPlayer)
 
