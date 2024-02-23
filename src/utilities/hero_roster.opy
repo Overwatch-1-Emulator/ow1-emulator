@@ -17,7 +17,7 @@ globalvar heroes_enabled
 
 
 # Hardcode OW1 heroes = true, OW2 heroes = false by default
-rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
+rule "[hero_roster.opy]: Initiaize Hero Roster workshop settings":
     heroes_enabled[heroID(Hero.DVA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "DVa", true)
     heroes_enabled[heroID(Hero.ORISA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Orisa", true)
     heroes_enabled[heroID(Hero.REINHARDT)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Reinhardt", true)

@@ -8,7 +8,7 @@ rule "[lucio/aura.opy]: Handle lucio self healing while amp is not active and su
     @Condition not eventPlayer.isUsingAbility1()
     @Condition eventPlayer._passive_healing_active
     
-    eventPlayer.self_healing_percent = percent(OW1_LUCIO_SELF_HEALING /(OW2_LUCIO_SELF_HEALING + OW2_SUPPORT_PASSIVE_HEALING))
+    eventPlayer._self_healing_percent = percent(OW1_LUCIO_SELF_HEALING /(OW2_LUCIO_SELF_HEALING + OW2_SUPPORT_PASSIVE_HEALING))
 
 
 rule "[lucio/aura.opy]: Handle lucio self healing while amp is not active and support passive inactive":
@@ -18,7 +18,7 @@ rule "[lucio/aura.opy]: Handle lucio self healing while amp is not active and su
     @Condition not eventPlayer.isUsingAbility1()
     @Condition not eventPlayer._passive_healing_active
 
-    eventPlayer.self_healing_percent = percent(OW1_LUCIO_SELF_HEALING/OW2_LUCIO_SELF_HEALING)
+    eventPlayer._self_healing_percent = percent(OW1_LUCIO_SELF_HEALING/OW2_LUCIO_SELF_HEALING)
 
 
 rule "[lucio/aura.opy]: Handle lucio self when amp is active and supp passive is active":
@@ -28,7 +28,7 @@ rule "[lucio/aura.opy]: Handle lucio self when amp is active and supp passive is
     @Condition not eventPlayer.isUsingAbility1()
     @Condition eventPlayer._passive_healing_active
 
-    eventPlayer.self_healing_percent = percent(OW1_LUCIO_AMP_HEALING /(OW1_LUCIO_AMP_HEALING + OW2_SUPPORT_PASSIVE_HEALING))
+    eventPlayer._self_healing_percent = percent(OW1_LUCIO_AMP_HEALING /(OW1_LUCIO_AMP_HEALING + OW2_SUPPORT_PASSIVE_HEALING))
     
     
 rule "[lucio/aura.opy]: Handle lucio self when amp is active and supp passive is inactive":
@@ -38,7 +38,7 @@ rule "[lucio/aura.opy]: Handle lucio self when amp is active and supp passive is
     @Condition eventPlayer.isUsingAbility1() == false
     @Condition eventPlayer._passive_healing_active == false   
         
-    eventPlayer.self_healing_percent = 100
+    eventPlayer._self_healing_percent = 100
 
 
 rule "[lucio/aura.opy]: If lucio uses speed aura remove self healing":
@@ -46,4 +46,4 @@ rule "[lucio/aura.opy]: If lucio uses speed aura remove self healing":
     @Hero lucio
     @Condition eventPlayer.isUsingAbility1() == true
 
-    eventPlayer.self_healing_percent = 0
+    eventPlayer._self_healing_percent = 0

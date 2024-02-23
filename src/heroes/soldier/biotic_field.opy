@@ -1,11 +1,11 @@
 #!mainFile "../../main.opy"
 
 
-rule "[soldier/biotic_field.opy]: Allow self healing during Biotic Field":
-    @Event eachPlayer
-    @Hero soldier
-    @Condition eventPlayer.isUsingAbility2()
+# rule "[soldier/biotic_field.opy]: Allow self healing during Biotic Field":
+#     @Event eachPlayer
+#     @Hero soldier
+#     @Condition eventPlayer.isUsingAbility2()
 
-    pushSelfHealing(Button.ABILITY_2)
-    waitUntil(not eventPlayer.isUsingAbility2(), OW1_SOLDIER_BIOTIC_FIELD_DURATION)
-    popSelfHealing(Button.ABILITY_2)
+#     pushSelfHealing(Button.ABILITY_2)
+#     waitUntil(not eventPlayer.isUsingAbility2(), OW1_SOLDIER_BIOTIC_FIELD_DURATION)
+#     popSelfHealing(Button.ABILITY_2)

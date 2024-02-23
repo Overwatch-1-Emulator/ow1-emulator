@@ -26,15 +26,16 @@ rule "[bastion/init.opy]: Initialize Bastion":
     eventPlayer.is_pressing_self_repair_key = false
     eventPlayer.is_using_self_repair = false
 
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 
 
 rule "[bastion/init.opy]: Clean up Bastion":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() != Hero.BASTION
+    @Condition eventPlayer.getCurrentHero() == Hero.BASTION
     
+    waitUntil(eventPlayer.getCurrentHero() != Hero.BASTION, Math.INFINITY)
     hideMachineGunAmmo()
     hideSelfRepairResource()
     hideSelfRepairRing()

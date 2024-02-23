@@ -17,7 +17,7 @@ rule "[hanzo/init.opy]: Initialize Hanzo":
     
     newHero(OW1_HANZO_HEALTH, 0, 0)
     setUltCost(OW1_HANZO_ULT_COST)
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 

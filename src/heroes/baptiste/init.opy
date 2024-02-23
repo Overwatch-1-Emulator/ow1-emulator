@@ -25,7 +25,7 @@ rule "[baptiste/init.opy]: Initialize Baptiste":
     eventPlayer.setAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
     eventPlayer.setMaxAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
 
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 

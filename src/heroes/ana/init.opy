@@ -21,7 +21,7 @@ rule "[ana/init.opy]: Initialize Ana":
     eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
 
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 

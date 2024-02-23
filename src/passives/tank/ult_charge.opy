@@ -6,18 +6,16 @@ playervar ult_charge_pvar
 #!defineMember _ult_cost ult_charge_pvar[1]
 #!defineMember _new_ult_percent ult_charge_pvar[2]
 
+#!define getUltPoints(player)\
+    (percentOf(player.getUltCharge(), player._ult_cost))
 
-#!define getUltPoints(player) (percentOf(player.getUltCharge(), player._ult_cost))
-#!define setUltCost(cost) (eventPlayer._ult_cost = cost)
-subroutine resetUltCharge
+#!define setUltCost(cost)\
+    (eventPlayer._ult_cost = cost)
 
-
-def resetUltCharge():
-    @Name "[passives/tank/ult_charge.opy]: resetUltCharge()"
-
-    eventPlayer._missing_ult_points = 0
-    eventPlayer._ult_cost = 0
-    waitUntil(eventPlayer.getUltCharge() > 0, 1)
+#!define resetUltCharge()\
+    eventPlayer._missing_ult_points = 0\
+    eventPlayer._ult_cost = 0\
+    waitUntil(eventPlayer.getUltCharge() > 0, 1)\
     eventPlayer.setUltCharge(0)
 
 

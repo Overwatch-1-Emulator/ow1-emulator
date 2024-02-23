@@ -1,11 +1,10 @@
 #!mainFile "../main.opy"
 
-globalvar info_gvar
 globalvar rgb_list = [vect(255, 0, 0), vect(255, 255, 0), vect(0, 255, 0), vect(0, 255, 255), vect(0, 0, 255), vect(255, 0, 255)]
 globalvar SHOW_WATERMARK = createWorkshopSetting(bool, "Misc", "Show Watermark", true)
 
-playervar info_pvar
-#!defineMember rgb_i info_pvar[0]
+playervar watermark_pvar
+#!defineMember rgb_i watermark_pvar[0]
 playervar info_id
 playervar rgb_vect
 #!define RGB_DURATION 0.5
@@ -18,7 +17,7 @@ playervar rgb_vect
 #!define infoVisible(player) (SHOW_WATERMARK)
 
 
-rule "[info.opy]: Create info HUD":
+rule "[watermark.opy]: Create watermark HUD":
     @Event eachPlayer
     @Condition SHOW_WATERMARK
 
@@ -42,14 +41,15 @@ rule "[info.opy]: Create info HUD":
     
     eventPlayer.rgb_i = 0
     eventPlayer.rgb_vect = rgb_list[eventPlayer.rgb_i]
-    
 
-rule "[info.opy]: Cycle RGB":
+
+rule "[watermark.opy]: Cycle RGB":
     @Event eachPlayer
     @Condition infoVisible(eventPlayer)
+    @Condition not DEBUG_MODE
 
-    eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))
-    chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], duration=RGB_DURATION, ChaseReeval.NONE)
-    waitUntil(eventPlayer.rgb_vect == rgb_list[eventPlayer.rgb_i], Math.INFINITY)
-    if RULE_CONDITION:
-        goto RULE_START
+    do:
+        eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))
+        chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], duration=RGB_DURATION, ChaseReeval.NONE)
+        waitUntil(eventPlayer.rgb_vect == rgb_list[eventPlayer.rgb_i], Math.INFINITY)
+    while RULE_CONDITION

@@ -3,9 +3,9 @@
 # Credit to https://discord.com/channels/570672959799164958/1095384108504465488
 # Base code written by CaptCaptain and cactuspuppy
 playervar custom_hp_pvar
-#!defineMember hp_health custom_hp_pvar[0]
-#!defineMember hp_armor custom_hp_pvar[1]
-#!defineMember hp_shields custom_hp_pvar[2]
+#!defineMember _hp_health custom_hp_pvar[0]
+#!defineMember _hp_armor custom_hp_pvar[1]
+#!defineMember _hp_shields custom_hp_pvar[2]
 
 #!define MIN_HP 1
 
@@ -14,9 +14,9 @@ subroutine applyCustomHp
 
 # setCustomHp(0, 0, 0) simply clears the hero's hp
 #!define setCustomHp(health, armor, shields)\
-    eventPlayer.hp_health = health\
-    eventPlayer.hp_armor = armor\
-    eventPlayer.hp_shields = shields\
+    eventPlayer._hp_health = health\
+    eventPlayer._hp_armor = armor\
+    eventPlayer._hp_shields = shields\
     applyCustomHp()
 
 
@@ -34,7 +34,7 @@ def clearCustomHp():
 def applyCustomHp():
     @Name "[custom_hp.opy]: applyCustomHp()"
 
-    if (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields <= 0):
+    if (eventPlayer._hp_health + eventPlayer._hp_armor + eventPlayer._hp_shields <= 0):
         clearCustomHp()
         return
     
@@ -60,12 +60,12 @@ def applyCustomHp():
     waitUntil(eventPlayer.getMaxHealth() <= MIN_HP, 1)
 
     # Apply custom health pool to player
-    if eventPlayer.hp_health > 0:
-        eventPlayer.addHealthPool(Health.NORMAL, max(1, eventPlayer.hp_health - MIN_HP), true, true)
-    if eventPlayer.hp_armor > 0:
-        eventPlayer.addHealthPool(Health.ARMOR, max(1, eventPlayer.hp_armor), true, true)
-    if eventPlayer.hp_shields > 0:
-        eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer.hp_shields), true, true)
+    if eventPlayer._hp_health > 0:
+        eventPlayer.addHealthPool(Health.NORMAL, max(1, eventPlayer._hp_health - MIN_HP), true, true)
+    if eventPlayer._hp_armor > 0:
+        eventPlayer.addHealthPool(Health.ARMOR, max(1, eventPlayer._hp_armor), true, true)
+    if eventPlayer._hp_shields > 0:
+        eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer._hp_shields), true, true)
     eventPlayer.setHealingReceived(100)
     heal(eventPlayer, null, Math.INFINITY)
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
