@@ -28,6 +28,6 @@ rule "[dva/init.opy]: Initialize DVa":
 
     setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
 
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false

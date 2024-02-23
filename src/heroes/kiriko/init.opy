@@ -22,7 +22,7 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     newHero(OW1_KIRIKO_HEALTH, 0, 0)
     setUltCost(OW1_KIRIKO_ULT_COST)
 
-    removeSelfHealing()
+    removePassiveHealing()
     startHealingModification(eventPlayer, eventPlayer, 0, HealingReeval.NONE)
     eventPlayer.kiriko_self_heal_id = getLastHealingModification()
 

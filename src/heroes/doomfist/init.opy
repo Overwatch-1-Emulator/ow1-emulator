@@ -40,7 +40,7 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
     eventPlayer.uppercut_shields = 0
     removeTankPassive()
 
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 

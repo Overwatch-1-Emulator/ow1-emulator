@@ -46,6 +46,7 @@ rule "[watermark.opy]: Create watermark HUD":
 rule "[watermark.opy]: Cycle RGB":
     @Event eachPlayer
     @Condition infoVisible(eventPlayer)
+    @Condition not DEBUG_MODE
 
     do:
         eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))

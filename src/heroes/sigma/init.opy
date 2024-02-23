@@ -16,7 +16,7 @@ rule "[sigma/init.opy]: Initialize Sigma":
     newHero(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
     setUltCost(OW1_SIGMA_ULT_COST)
     removeTankPassive()
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 

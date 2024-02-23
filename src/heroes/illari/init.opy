@@ -17,5 +17,5 @@ rule "[illari/init.opy]: Initialize Illari":
     
     newHero(OW1_ILLARI_HEALTH, 0, 0)
     setUltCost(OW1_ILLARI_ULT_COST)
-    removeSelfHealing()
+    removePassiveHealing()
     eventPlayer.call_init = false
