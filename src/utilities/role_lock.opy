@@ -24,7 +24,7 @@ enum Role:
 
 rule "[role_lock.opy]: Find player's role":
     @Event eachPlayer
-    @Condition eventPlayer.hero_switched
+    @Condition eventPlayer._hero_switched
     
     if eventPlayer.getCurrentHero() in _tank_heroes:
         eventPlayer.role = Role.TANK

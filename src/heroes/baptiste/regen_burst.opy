@@ -11,14 +11,14 @@ rule "[baptiste/regen_burst.opy]: Remove initial burst healing from regenerative
     eventPlayer.setHealingDealt(100)
 
 
-rule "[baptiste/regen_burst.opy]: Allow self healing during regenerative burst":
-    @Event eachPlayer
-    @Hero baptiste
-    @Condition eventPlayer.isUsingAbility1()
+# rule "[baptiste/regen_burst.opy]: Allow self healing during regenerative burst":
+#     @Event eachPlayer
+#     @Hero baptiste
+#     @Condition eventPlayer.isUsingAbility1()
 
-    pushSelfHealing(Button.ABILITY_1)
-    wait(OW1_BAPTISTE_REGEN_BURST_DURATION)
-    popSelfHealing(Button.ABILITY_1)
+#     pushSelfHealing(Button.ABILITY_1)
+#     wait(OW1_BAPTISTE_REGEN_BURST_DURATION)
+#     popSelfHealing(Button.ABILITY_1)
 
 
 rule "[baptiste/regen_burst.opy]: OW1 regenerative burst self hps":
