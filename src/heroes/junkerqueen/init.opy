@@ -28,8 +28,9 @@ rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
 
 rule "[junkerqueen/init.opy]: Clean up Junkerqueen":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() != Hero.JUNKER_QUEEN
+    @Condition eventPlayer.getCurrentHero() == Hero.JUNKER_QUEEN
 
+    waitUntil(eventPlayer.getCurrentHero() != Hero.JUNKER_QUEEN, Math.INFINITY)
     stopHealingModification(eventPlayer.jq_self_heal_id)
 
 

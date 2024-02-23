@@ -20,6 +20,6 @@ rule "[mccree/init.opy]: Initialize Cassidy":
     setUltCost(OW1_MCCREE_ULT_COST)
     
     eventPlayer.disallowButton(Button.ABILITY_2)
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false

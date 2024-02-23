@@ -18,7 +18,7 @@ rule "[pharah/init.opy]: Initialize Pharah":
 
     newHero(OW1_PHARAH_HEALTH, 0, 0)
     setUltCost(OW1_PHARAH_ULT_COST)
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.setSecondaryFireEnabled(false)
 
@@ -30,6 +30,7 @@ rule "[pharah/init.opy]: Initialize Pharah":
 
 rule "[pharah/init.opy]: Clean up Pharah":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() != Hero.PHARAH
+    @Condition eventPlayer.getCurrentHero() == Hero.PHARAH
     
+    waitUntil(eventPlayer.getCurrentHero() != Hero.PHARAH, Math.INFINITY)
     hideFuelGui()

@@ -40,14 +40,15 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
     eventPlayer.uppercut_shields = 0
     removeTankPassive()
 
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 
 
 rule "[doomfist/init.opy]: Clean up Doomfist":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() != Hero.DOOMFIST
+    @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
 
+    waitUntil(eventPlayer.getCurrentHero() != Hero.DOOMFIST, Math.INFINITY)
     destroySlamIndicatorGui()
     hideSlamDamageGui()

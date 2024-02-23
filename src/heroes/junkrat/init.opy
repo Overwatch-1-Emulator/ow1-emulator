@@ -22,6 +22,6 @@ rule "[junkrat/init.opy]: Initialize Junkrat":
                               true, 
                               false)
     setUltCost(OW1_JUNKRAT_ULT_COST)
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false

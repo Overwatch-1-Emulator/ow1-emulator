@@ -19,6 +19,6 @@ rule "[tracer/init.opy]: Initialize Tracer":
     defaultHero()
     eventPlayer.setMaxHealth(percent(OW1_TRACER_HEALTH/eventPlayer.getMaxHealth()))
     setUltCost(OW1_TRACER_ULT_COST)
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false

@@ -19,6 +19,6 @@ rule "[ramattra/init.opy]: Initialize Ramattra":
     setUltCost(OW1_RAMATTRA_ULT_COST)
 
     removeTankPassive()
-    removeSelfHealing()
+    removePassiveHealing()
     
     eventPlayer.call_init = false

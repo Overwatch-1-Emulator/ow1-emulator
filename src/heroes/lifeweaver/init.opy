@@ -15,6 +15,6 @@ rule "[lifeweaver/init.opy]: Initialize Lifeweaver":
     
     newHero(OW1_LIFEWEAVER_HEALTH, 0, 0)
     setUltCost(OW1_LIFEWEAVER_ULT_COST)
-    removeSelfHealing()
+    removePassiveHealing()
     
     eventPlayer.call_init = false

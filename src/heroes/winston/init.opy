@@ -22,7 +22,7 @@ rule "[winston/init.opy]: Initialize Winston":
     setBaseDamage(eventPlayer, OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE)
 
     removeTankPassive()
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.setSecondaryFireEnabled(false) # disable sniper monkey
 

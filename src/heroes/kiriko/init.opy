@@ -4,6 +4,8 @@
 #!include "heroes/kiriko/suzu.opy"
 #!include "heroes/kiriko/swift_step.opy"
 
+playervar kiriko_self_heal_id
+
 
 rule "[kiriko/init.opy]: Detect switch to Kiriko":
     @Event eachPlayer
@@ -20,7 +22,9 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     newHero(OW1_KIRIKO_HEALTH, 0, 0)
     setUltCost(OW1_KIRIKO_ULT_COST)
 
-    removeSelfHealing()
+    removePassiveHealing()
+    startHealingModification(eventPlayer, eventPlayer, 0, HealingReeval.NONE)
+    eventPlayer.kiriko_self_heal_id = getLastHealingModification()
 
     eventPlayer.setHealingDealt(percent(OW1_KIRKIO_OFUDA_HEALING/OW2_KIRIKO_OFUDA_HEALING))
 
@@ -29,6 +33,14 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     setBaseDamage(eventPlayer, (OW1_KIRIKO_KUNAI_HEADSHOT_DAMAGE/OW2_KIRIKO_KUNAI_HEADSHOT_DAMAGE))
 
     eventPlayer.call_init = false
+
+
+rule "[kiriko/init.opy]: Clean up Kiriko":
+    @Event eachPlayer
+    @Condition eventPlayer.getCurrentHero() == Hero.KIRIKO
+
+    waitUntil(eventPlayer.getCurrentHero() != Hero.KIRIKO, Math.INFINITY)
+    stopHealingModification(eventPlayer.kiriko_self_heal_id)
 
 
 rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":

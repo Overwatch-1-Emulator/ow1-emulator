@@ -251,7 +251,7 @@ rule "[orisa/barrier.opy]: Take no damage when behind barrier":
                 directionTowards(eventPlayer.getEyePosition(), eventPlayer.barrier_all_enemies[los_i].getEyePosition()), 
                 eventPlayer.enemy_orisa_player.barrier_origin, 
                 OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
-            eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x 
+            eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer._lsi_x 
                                                              if isInsideOrisaBarrier(
                                                                     point, 
                                                                     eventPlayer.enemy_orisa_player.barrier_origin, 
@@ -295,7 +295,7 @@ rule "[orisa/barrier.opy]: Decrease barrier health":
 #     @Condition isAimingAtSphere(healer.getEyePosition(), directionTowards(healer, healee), healee.enemy_orisa_player.barrier_origin, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
 
 #     findSphereHit(healer.getEyePosition(), directionTowards(healer, healee), healee.enemy_orisa_player.barrier_origin, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
-#     eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer.lsi_x if isInsideOrisaBarrier(point, healee.enemy_orisa_player.barrier_origin, healee.enemy_orisa_player.barrier_orientation)]
+#     eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer._lsi_x if isInsideOrisaBarrier(point, healee.enemy_orisa_player.barrier_origin, healee.enemy_orisa_player.barrier_orientation)]
 
 #     for i in range(len(eventPlayer.orisa_barrier_hit_positions)):
 #         if (distance(healer.getEyePosition(), eventPlayer.orisa_barrier_hit_positions[i]) < distance(healer.getEyePosition(), healee.getEyePosition())): # barrier hit is between the healer and the healee

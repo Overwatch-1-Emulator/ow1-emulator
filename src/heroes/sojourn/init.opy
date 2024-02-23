@@ -19,7 +19,7 @@ rule "[sojourn/init.opy]: Initialize Sojourn":
     setUltCost(OW1_SOJOURN_ULT_COST)
     setBaseDamage(eventPlayer, OW1_SOJOURN_GLOBAL_DAMAGE)
     
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 
