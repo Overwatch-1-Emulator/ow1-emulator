@@ -38,6 +38,8 @@ def applyCustomHp():
         clearCustomHp()
         return
     
+    eventPlayer.setHealingReceived(0)
+
     waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
     waitUntil(not (eventPlayer.hasStatusEffect(Status.INVINCIBLE) \
                 or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), Math.INFINITY)
@@ -64,6 +66,7 @@ def applyCustomHp():
         eventPlayer.addHealthPool(Health.ARMOR, max(1, eventPlayer.hp_armor), true, true)
     if eventPlayer.hp_shields > 0:
         eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer.hp_shields), true, true)
+    eventPlayer.setHealingReceived(100)
     heal(eventPlayer, null, Math.INFINITY)
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
 
