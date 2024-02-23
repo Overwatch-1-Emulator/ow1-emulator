@@ -20,6 +20,6 @@ rule "[mei/init.opy]: Initialize Mei":
     setUltCost(OW1_MEI_ULT_COST)
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false

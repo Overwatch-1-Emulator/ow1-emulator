@@ -21,7 +21,7 @@ rule "[reinhardt/init.opy]: Initialize Reinhardt":
     setUltCost(OW1_REINHARDT_ULT_COST)
     setBaseDamage(eventPlayer, OW1_REINHARDT_HAMMER_DAMAGE/OW2_REINHARDT_HAMMER_DAMAGE)
 
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 

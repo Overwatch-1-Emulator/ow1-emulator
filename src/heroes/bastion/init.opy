@@ -26,7 +26,7 @@ rule "[bastion/init.opy]: Initialize Bastion":
     eventPlayer.is_pressing_self_repair_key = false
     eventPlayer.is_using_self_repair = false
 
-    removeSelfHealing()
+    removePassiveHealing()
 
     eventPlayer.call_init = false
 

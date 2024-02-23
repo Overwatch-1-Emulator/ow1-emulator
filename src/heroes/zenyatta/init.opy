@@ -16,7 +16,7 @@ rule "[zenyatta/init.opy]: Initialize Zenyatta":
     
     newHero(OW1_ZENYATTA_HEALTH, 0, OW1_ZENYATTA_SHIELDS)
     setUltCost(OW1_ZENYATTA_ULT_COST)
-    removeSelfHealing()
+    removePassiveHealing()
     
     eventPlayer.setKnockbackDealt(percent(OW1_ZENYATTA_KNOCKBACK/OW2_ZENYATTA_KNOCKBACK))
     

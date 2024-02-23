@@ -18,7 +18,7 @@ rule "[zarya/init.opy]: Initialize Zarya":
     newHero(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
     setUltCost(OW1_ZARYA_ULT_COST)
     setBaseDamage(eventPlayer, OW1_ZARYA_CANNON_DAMAGE_MAX/OW2_ZARYA_CANNON_DAMAGE_MAX)
-    removeSelfHealing()
+    removePassiveHealing()
     removeTankPassive()
 
     initSelfBubble()

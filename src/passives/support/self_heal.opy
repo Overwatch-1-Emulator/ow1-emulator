@@ -16,11 +16,11 @@ playervar self_heal_pvar
     eventPlayer._passive_healing_active = true\
     eventPlayer._no_passive_healing = false\
 
-#!define removeSelfHealing()\
+#!define removePassiveHealing()\
     eventPlayer._no_passive_healing = true
 
 # below code is obsolete
-# #!define removeSelfHealing()\
+# #!define removePassiveHealing()\
 #     eventPlayer._self_healing_source = []\
 #     eventPlayer._self_healing_percent = 0\
 #     if eventPlayer._self_healing_id == null:\
