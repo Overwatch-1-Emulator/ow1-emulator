@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!include "heroes/pharah/hover_jets.opy"
+#!include "heroes/pharah/rocket_launcher.opy"
 
 
 rule "[pharah/init.opy]: Detect switch to Pharah":
@@ -20,6 +21,7 @@ rule "[pharah/init.opy]: Initialize Pharah":
     removeSelfHealing()
 
     eventPlayer.setSecondaryFireEnabled(false)
+
     eventPlayer.jet_fuel = 100
     showFuelGui()
 
