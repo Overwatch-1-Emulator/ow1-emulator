@@ -18,20 +18,20 @@ rule "[zarya/init.opy]: Initialize Zarya":
     newHero(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
     setUltCost(OW1_ZARYA_ULT_COST)
     setBaseDamage(eventPlayer, OW1_ZARYA_CANNON_DAMAGE_MAX/OW2_ZARYA_CANNON_DAMAGE_MAX)
+    removeSelfHealing()
+    removeTankPassive()
 
     initSelfBubble()
     initAllyBubble()
-    removeTankPassive()
-
-    removeSelfHealing()
 
     eventPlayer.call_init = false
 
 
 rule "[zarya/init.opy]: Clean up Zarya":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() != Hero.ZARYA
+    @Condition eventPlayer.getCurrentHero() == Hero.ZARYA
 
+    waitUntil(eventPlayer.getCurrentHero() != Hero.ZARYA, Math.INFINITY)
     hideSelfBubbleCD()
     hideAllyBubbleCD()
 

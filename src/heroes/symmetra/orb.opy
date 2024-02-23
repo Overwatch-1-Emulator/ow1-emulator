@@ -7,7 +7,7 @@ rule "[symmetra/orb.opy]: Set OW1 Symmetra Photo Projector projectile speed":
     @Condition eventPlayer.isFiringSecondaryFire()
 
     eventPlayer.setProjectileSpeed(percent(OW1_SYMMETRA_ORB_SPEED/OW2_SYMMETRA_ORB_SPEED))
-    waitUntil(eventPlayer.isFiringSecondaryFire() == false, Math.INFINITY)
+    waitUntil(not eventPlayer.isFiringSecondaryFire(), Math.INFINITY)
     eventPlayer.setProjectileSpeed(100)
 
 

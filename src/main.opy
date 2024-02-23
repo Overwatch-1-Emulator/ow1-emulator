@@ -16,7 +16,7 @@
 #!include "utilities/ready.opy"
 #!include "utilities/hit_detection.opy"
 #!include "utilities/anti_crash.opy"
-#!include "utilities/info.opy"
+#!include "utilities/watermark.opy"
 
 # Custom game lobby settings
 #!include "lobby_settings.opy"
