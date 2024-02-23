@@ -37,6 +37,5 @@ rule "[bastion/sentry.opy]: Initialize sentry mode":
     setBaseDamage(eventPlayer, OW1_BASTION_SENTRY_CONFIG_DAMAGE/OW2_BASTION_ASSAULT_CONFIG_DAMAGE)
     eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
     eventPlayer.setKnockbackReceived(0)
-    eventPlayer.setMoveSpeed(0)
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
