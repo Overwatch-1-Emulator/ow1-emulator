@@ -5,13 +5,12 @@ globalvar reset_gvar
 
 playervar reset_pvar
 #!defineMember call_init reset_pvar[0]
-#!defineMember player_health reset_pvar[1]
-#!defineMember friendly_doomfist_player reset_pvar[2]
-#!defineMember friendly_orisa_player reset_pvar[3]
-#!defineMember friendly_sombra_player reset_pvar[4]
-#!defineMember enemy_doomfist_player reset_pvar[5]
-#!defineMember enemy_orisa_player reset_pvar[6]
-#!defineMember enemy_sombra_player reset_pvar[7]
+#!defineMember friendly_doomfist_player reset_pvar[1]
+#!defineMember friendly_orisa_player reset_pvar[2]
+#!defineMember friendly_sombra_player reset_pvar[3]
+#!defineMember enemy_doomfist_player reset_pvar[4]
+#!defineMember enemy_orisa_player reset_pvar[5]
+#!defineMember enemy_sombra_player reset_pvar[6]
 
 subroutine enableAllAbilities
 subroutine disableAllAbilities
@@ -136,15 +135,3 @@ rule "[reset.opy]: Reinitialize hero on new round":
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
     eventPlayer.call_init = true
-
-
-def respawnSameState():
-    @Name "[reset.opy]: respawnSameState()"
-    
-    eventPlayer.player_health = eventPlayer.getHealth()
-    kill(eventPlayer, null)
-    # Use resurrect to keep the same position and angle
-    eventPlayer.resurrect()
-    # Wait to set health else the player will be full life
-    wait()
-    eventPlayer.setHealth(eventPlayer.player_health)
