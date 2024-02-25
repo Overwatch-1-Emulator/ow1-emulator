@@ -60,7 +60,7 @@ rule "[passives/support/self_heal.opy]: Detect healing passive":
 rule "[passives/support/self_heal.opy]: Deal damage to suppress self healing except when regenerating shield hp":
     @Event eachPlayer
     @Condition eventPlayer._passive_healing_active
-    @Condition eventPlayer.getHealthOfType(Health.SHIELDS) >= eventPlayer._hp_shields
+    @Condition eventPlayer.getHealthOfType(Health.SHIELDS) >= eventPlayer.getMaxHealthOfType(Health.SHIELDS)
     @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
     @Condition eventPlayer._no_passive_healing
     
