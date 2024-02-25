@@ -57,14 +57,15 @@ rule "[mercy/guardian.opy]: Apply upwards momentum when starting slingshot":
 rule "[mercy/guardian.opy]: Give speed boost during slingshot":
     @Event eachPlayer
     @Hero mercy
-    @Condition eventPlayer.is_slingshotting == true
+    @Condition eventPlayer.is_slingshotting
     
-    while eventPlayer.is_slingshotting:
+    do:
         eventPlayer.applyImpulse(eventPlayer.slingshot_velocity, 
-                                 0.55, # Arbitrarily decided based on trial & error
+                                 0.50, # Arbitrarily decided based on trial & error
                                  Relativity.TO_WORLD, 
                                  Impulse.INCORPORATE_CONTRARY_MOTION)
         wait()
+    while RULE_CONDITION
 
 
 rule "[mercy/guardian.opy]: Force angelic descent during slingshot":
