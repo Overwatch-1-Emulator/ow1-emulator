@@ -5,9 +5,11 @@
 #!include "heroes/roadhog/wholehog.opy"
 
 
-rule "[roadhog/init.opy]: Detect switch to Roadhog":
+rule "[roadhog/init.opy]: Initialize when player switches to Roadhog in spawn room":
     @Event eachPlayer
     @Hero roadhog
+    @Condition eventPlayer._hero_switched
+    waitUntil(eventPlayer.isInSpawnRoom(), Math.INFINITY) # staggered conditions because _hero_switched signal arrives faster than isInSpawnRoom()
 
     eventPlayer.call_init = true
 
@@ -33,4 +35,16 @@ rule "[roadhog/init.opy]: Initialize Roadhog":
     removeTankPassive()
     removePassiveHealing()
 
+    eventPlayer.preloadHero(Hero.ZARYA)
+    eventPlayer.preloadHero(Hero.ROADHOG)
+    eventPlayer._wholehog_temp_zarya = false
+
     eventPlayer.call_init = false
+
+
+rule "[roadhog/init.opy]: Clean up Roadhog":
+    @Event eachPlayer
+    @Condition eventPlayer.getCurrentHero() == Hero.ROADHOG
+
+    waitUntil(eventPlayer.getCurrentHero() != Hero.ROADHOG, Math.INFINITY)
+    eventPlayer._wholehog_temp_zarya = false

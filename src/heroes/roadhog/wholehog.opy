@@ -1,7 +1,15 @@
 #!mainFile "../../main.opy"
 
+playervar wholehog_pvar
+#!defineMember _wholehog_temp_zarya wholehog_pvar[0]
+#!defineMember _hog_hp reset_pvar[1]
+#!defineMember _hook_cooldown wholehog_pvar[2]
+#!defineMember _breather_cooldown wholehog_pvar[3]
 
-rule "[roadhog/wholehog.opy]: OW1 Wholehog disable abilities":
+subroutine cancelWholehog
+
+
+rule "[roadhog/wholehog.opy]: OW1 disable abilities during wholehog":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.isUsingUltimate()
@@ -9,7 +17,13 @@ rule "[roadhog/wholehog.opy]: OW1 Wholehog disable abilities":
     eventPlayer.setMeleeEnabled(false)
     eventPlayer.setAbility1Enabled(false)
     eventPlayer.setAbility2Enabled(false)
-    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
+
+
+rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
+    @Event eachPlayer
+    @Hero roadhog
+    @Condition not eventPlayer.isUsingUltimate()
+
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
@@ -33,6 +47,7 @@ rule "[roadhog/wholehog.opy]: Cancel ult when stunned":
 
     if isHacked(eventPlayer):
         # waitUntil(not isHacked(eventPlayer), Math.INFINITY) # if hacked, instantly cancel ult
+        pass
     elif eventPlayer.hasStatusEffect(Status.FROZEN):
         waitUntil(not eventPlayer.hasStatusEffect(Status.FROZEN), Math.INFINITY)
     elif eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN):
@@ -43,7 +58,7 @@ rule "[roadhog/wholehog.opy]: Cancel ult when stunned":
         waitUntil(not eventPlayer.hasStatusEffect(Status.STUNNED), Math.INFINITY)
     
     if eventPlayer.isUsingUltimate():
-        respawnSameState()
+        cancelWholehog()
 
 
 rule "[roadhog/wholehog.opy]: Reduce ultimate duration":
@@ -53,4 +68,36 @@ rule "[roadhog/wholehog.opy]: Reduce ultimate duration":
     
     wait(OW1_ROADHOG_ULTIMATE_DURATION, Wait.ABORT_WHEN_FALSE)
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
-    respawnSameState()
+    cancelWholehog()
+
+
+# Switch to Zarya temporarily to remove wholehog
+def cancelWholehog():
+    @Name "[roadhog/wholehog.opy]: cancelWholehog()"
+    
+    # Save hog state
+    eventPlayer._hog_hp = eventPlayer.getHealth()
+    eventPlayer._hook_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
+    eventPlayer._breather_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_2)
+
+    eventPlayer._wholehog_temp_zarya = true
+    eventPlayer.startForcingHero(Hero.ZARYA)
+
+
+# Switch back to roadhog after entering zarya
+rule "[roadhog/wholehog.opy]: Go back to roadhog":
+    @Event eachPlayer
+    @Condition eventPlayer._wholehog_temp_zarya
+
+    eventPlayer.startForcingHero(Hero.ROADHOG)
+    eventPlayer.stopForcingCurrentHero()
+
+    # Restore hog state
+    setCustomHp(eventPlayer._hp_health, eventPlayer._hp_armor, eventPlayer._hp_shields)
+    eventPlayer.setHealth(eventPlayer._hog_hp)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer._hook_cooldown)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, eventPlayer._breather_cooldown)
+
+    eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE) # Without this, hog gets his ow2 clip size back
+
+    eventPlayer._wholehog_temp_zarya = false
