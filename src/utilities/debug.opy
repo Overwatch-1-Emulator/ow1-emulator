@@ -95,19 +95,20 @@ rule "[debug.opy]: do something on interact":
     @Condition DEBUG_MODE == true
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
 
-    damage(eventPlayer, null, 100)
+    damage(eventPlayer, null, 25)
     eventPlayer.setUltCharge(100)
 
 
 rule "[debug.opy]: Debug damage instance":
     @Event playerDealtDamage
+    @Hero doomfist
     @Condition DEBUG_MODE == true
 
-    printLog("hero={}, ability={}, amount={}".format(eventPlayer.getCurrentHero(), eventAbility, eventDamage))
+    printLog("attacker={}, victim={}, ability={}, amount={}".format(attacker, victim, eventAbility, eventDamage))
 
 
-rule "[debug.opy]: Debug healing instance":
-    @Event playerReceivedHealing
-    @Condition DEBUG_MODE == true
+# rule "[debug.opy]: Debug healing instance":
+#     @Event playerReceivedHealing
+#     @Condition DEBUG_MODE == true
 
-    printLog("hero={}, ability={}, amount={}".format(eventPlayer.getCurrentHero(), eventAbility, eventHealing))
+#     printLog("healer={}, healee={}, ability={}, amount={}".format(healer, healee, eventAbility, eventHealing))
