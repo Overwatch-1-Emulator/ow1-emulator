@@ -3,11 +3,11 @@
 #!include "heroes/zarya/self_bubble.opy"
 #!include "heroes/zarya/ally_bubble.opy"
 
-rule "[zarya/init.opy]: Initialize when player switches to Zarya in spawn room":
+rule "[zarya/init.opy]: Detect switch to Zarya":
     @Event eachPlayer
     @Hero zarya
     @Condition eventPlayer._hero_switched
-    waitUntil(eventPlayer.isInSpawnRoom(), Math.INFINITY) # staggered conditions because _hero_switched signal arrives faster than isInSpawnRoom()
+    @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
 
     eventPlayer.call_init = true
 
