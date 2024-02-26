@@ -6,7 +6,8 @@
 rule "[zarya/init.opy]: Initialize when player switches to Zarya in spawn room":
     @Event eachPlayer
     @Hero zarya
-    @Condition not eventPlayer._wholehog_temp_zarya
+    @Condition eventPlayer._hero_switched
+    waitUntil(eventPlayer.isInSpawnRoom(), Math.INFINITY) # staggered conditions because _hero_switched signal arrives faster than isInSpawnRoom()
 
     eventPlayer.call_init = true
 
