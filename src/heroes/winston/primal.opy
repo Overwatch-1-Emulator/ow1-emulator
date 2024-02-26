@@ -16,5 +16,4 @@ rule "[winston/primal.opy]: Fix primal rage hp":
     eventPlayer._primal_exit_health = eventPlayer.getHealthOfType(Health.NORMAL)
     eventPlayer._primal_exit_armor = eventPlayer.getHealthOfType(Health.ARMOR)
     setCustomHp(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
-    damage(eventPlayer, null, (OW1_WINSTON_PRIMAL_ARMOR - eventPlayer._primal_exit_armor)/(1 - OW2_ARMOR_DAMAGE_REDUCTION))
-    damage(eventPlayer, null, (OW1_WINSTON_HEALTH - eventPlayer._primal_exit_health))
+    eventPlayer.setHealth(min(OW1_WINSTON_HEALTH, eventPlayer._primal_exit_health) + eventPlayer._primal_exit_armor)
