@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 playervar wholehog_pvar
-#!defineMember _wholehog_temp_zarya wholehog_pvar[0]
+#!defineMember _is_exiting_wholehog wholehog_pvar[0]
 #!defineMember _hog_hp reset_pvar[1]
 #!defineMember _hook_cooldown wholehog_pvar[2]
 #!defineMember _breather_cooldown wholehog_pvar[3]
@@ -80,14 +80,14 @@ def cancelWholehog():
     eventPlayer._hook_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
     eventPlayer._breather_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_2)
 
-    eventPlayer._wholehog_temp_zarya = true
+    eventPlayer._is_exiting_wholehog = true
     eventPlayer.startForcingHero(Hero.ZARYA)
 
 
 # Switch back to roadhog after entering zarya
 rule "[roadhog/wholehog.opy]: Go back to roadhog":
     @Event eachPlayer
-    @Condition eventPlayer._wholehog_temp_zarya
+    @Condition eventPlayer._is_exiting_wholehog
 
     eventPlayer.startForcingHero(Hero.ROADHOG)
     eventPlayer.stopForcingCurrentHero()
@@ -100,4 +100,4 @@ rule "[roadhog/wholehog.opy]: Go back to roadhog":
 
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE) # Without this, hog gets his ow2 clip size back
 
-    eventPlayer._wholehog_temp_zarya = false
+    eventPlayer._is_exiting_wholehog = false
