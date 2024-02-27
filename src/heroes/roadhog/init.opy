@@ -8,8 +8,8 @@
 rule "[roadhog/init.opy]: Detect switch to Roadhog":
     @Event eachPlayer
     @Hero roadhog
-    @Condition eventPlayer._hero_switched
-    @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
+    if eventPlayer._is_exiting_wholehog: # guards against initialization when exiting wholehog
+        return
 
     eventPlayer.call_init = true
 
