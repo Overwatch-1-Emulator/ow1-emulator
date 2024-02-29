@@ -5,6 +5,7 @@ playervar wholehog_pvar
 #!defineMember _hog_hp reset_pvar[1]
 #!defineMember _hook_cooldown wholehog_pvar[2]
 #!defineMember _breather_cooldown wholehog_pvar[3]
+#!defineMember _scrap_ammo wholehog_pvar[4]
 
 subroutine cancelWholehog
 
@@ -58,6 +59,7 @@ rule "[roadhog/wholehog.opy]: Cancel ult when stunned":
         waitUntil(not eventPlayer.hasStatusEffect(Status.STUNNED), Math.INFINITY)
     
     if eventPlayer.isUsingUltimate():
+        eventPlayer._scrap_ammo = eventPlayer.getAmmo(0)
         cancelWholehog()
 
 
@@ -67,13 +69,15 @@ rule "[roadhog/wholehog.opy]: Reduce ultimate duration":
     @Condition eventPlayer.isUsingUltimate()
     
     wait(OW1_ROADHOG_ULTIMATE_DURATION, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
+    eventPlayer._scrap_ammo = OW1_ROADHOG_CLIP_SIZE
     cancelWholehog()
 
 
 # Switch to Zarya temporarily to remove wholehog
 def cancelWholehog():
     @Name "[roadhog/wholehog.opy]: cancelWholehog()"
+
+    eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
     
     # Save hog state
     eventPlayer._hog_hp = eventPlayer.getHealth()
@@ -98,6 +102,7 @@ rule "[roadhog/wholehog.opy]: Go back to roadhog":
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer._hook_cooldown)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, eventPlayer._breather_cooldown)
 
+    eventPlayer.setAmmo(0, eventPlayer._scrap_ammo)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE) # Without this, hog gets his ow2 clip size back
 
     eventPlayer._is_exiting_wholehog = false
