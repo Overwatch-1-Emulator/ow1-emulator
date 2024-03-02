@@ -332,6 +332,7 @@ def updateBarrierVisual():
         eventPlayer.barrier_entity_colors[i] = eventPlayer.getTeam() \
                                                if random.uniform(0, 1) <= (eventPlayer.barrier_hp/OW1_ORISA_PROJECTILE_BARRIER_HEALTH) \
                                                else Color.WHITE
+        wait()
 
 
 rule "[orisa/barrier.opy]: Crack Barrier at half health":
