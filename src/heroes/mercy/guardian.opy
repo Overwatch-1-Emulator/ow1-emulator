@@ -75,7 +75,7 @@ rule "[mercy/guardian.opy]: Force angelic descent during slingshot":
     
     eventPlayer.allowButton(Button.JUMP)
     eventPlayer.startForcingButton(Button.JUMP)
-    waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), 99999)
+    waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), Math.INFINITY)
     eventPlayer.stopForcingButton(Button.JUMP)
 
 
