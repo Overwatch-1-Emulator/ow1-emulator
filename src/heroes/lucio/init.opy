@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!include "heroes/lucio/soundwave.opy"
-#!include "heroes/lucio/aura.opy"
+##!include "heroes/lucio/aura.opy"
 
 
 rule "[lucio/init.opy]: Detect switch to Lucio":
