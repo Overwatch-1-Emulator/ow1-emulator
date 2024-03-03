@@ -63,10 +63,11 @@ rule "[passives/support/self_heal.opy]: Deal damage to suppress self healing exc
     @Condition eventPlayer.getHealthOfType(Health.SHIELDS) >= eventPlayer.getMaxHealthOfType(Health.SHIELDS)
     @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
     @Condition eventPlayer._no_passive_healing
+    @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP)
     
     do:
         damage(eventPlayer, null, MIN_DAMAGE)
         wait(OW2_SUPPORT_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION \
-             if eventPlayer.getCurrentHero() in getSupportHeroes() \
-             else OW2_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION, Wait.ABORT_WHEN_FALSE)
+            if eventPlayer.getCurrentHero() in getSupportHeroes() \
+            else OW2_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION, Wait.ABORT_WHEN_FALSE)
     while RULE_CONDITION
