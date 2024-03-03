@@ -2,6 +2,7 @@
 
 #!include "heroes/pharah/hover_jets.opy"
 #!include "heroes/pharah/rocket_launcher.opy"
+#!include "heroes/pharah/concussive.opy"
 
 
 rule "[pharah/init.opy]: Detect switch to Pharah":
