@@ -3,6 +3,7 @@
 
 globalvar ready_gvar
 #!defineMember ready_color ready_gvar[0]
+globalvar READY_THRESHOLD_PERCENT = createWorkshopSetting(int[0:100], "Lobby", "Ready Threshold", 75)
 
 playervar ready_pvar
 #!defineMember ready ready_pvar[0]
