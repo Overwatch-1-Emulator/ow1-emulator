@@ -324,6 +324,7 @@ settings {
                 "ultGen%": percent(OW2_TORBJORN_ULT_COST/OW1_TORBJORN_ULT_COST)
             },
             "tracer": {
+                "health%": percent(OW1_TRACER_HEALTH/OW2_TRACER_HEALTH), # for recall hp
                 "ultGen%": percent(OW2_TRACER_ULT_COST/OW1_TRACER_ULT_COST)
             },
             "widowmaker": {
