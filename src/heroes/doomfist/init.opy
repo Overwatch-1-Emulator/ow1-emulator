@@ -31,16 +31,15 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
 
     newHero(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
-
+    removeTankPassive()
+    removePassiveHealing()
+    
     getPlayers(eventPlayer.getTeam()).friendly_doomfist_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_doomfist_player = eventPlayer
 
     initRocketPunch()
     initSlam()
     eventPlayer.uppercut_shields = 0
-    removeTankPassive()
-
-    removePassiveHealing()
 
     eventPlayer.call_init = false
 

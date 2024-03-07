@@ -25,10 +25,8 @@ subroutine initRocketPunch
      * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN)
 
 
-def initRocketPunch():
-    @Name "[doomfist/punch.opy]: initRocketPunch()"
-
-    eventPlayer.punched_victims = []
+#!define initRocketPunch() \
+    eventPlayer.punched_victims = [] \
     eventPlayer.wall_impacted_victims = []
 
 
