@@ -80,7 +80,7 @@ settings {
                         "morning"
                     ]
                 },
-				{
+                {
                     "watchpointGibraltar": [
                         "evening"
                     ]
