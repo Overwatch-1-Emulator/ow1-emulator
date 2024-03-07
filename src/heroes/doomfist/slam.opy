@@ -66,15 +66,13 @@ and (eventPlayer.isUsingAbility1()) \
 and (eventPlayer.getSpeed() > 2) \
 and not eventPlayer.stop_slam) \
 
-def initSlam():
-    @Name "[doomfist/slam.opy]: initSlam()"
-
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.slam_damage = 0
+#!define initSlam() \
+    eventPlayer.disallowButton(Button.ABILITY_1) \
+    eventPlayer.slam_damage = 0 \
     createSlamIndicatorGui()
 
 
-rule "[doomfist/slam.opy]: Control flow for slam":
+rule "[doomfist/slam.opy]: Execute slam":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
@@ -83,12 +81,6 @@ rule "[doomfist/slam.opy]: Control flow for slam":
     @Condition not isCCd(eventPlayer)
     @Condition not eventPlayer.is_ultimate_locked
     @Condition not eventPlayer.is_uppercut_locked
-
-    executeSlam()
-
-
-def executeSlam():
-    @Name "[doomfist/slam.opy]: executeSlam()"
 
     eventPlayer.ow1_slam_victims = [] # clear slammed victims
 
