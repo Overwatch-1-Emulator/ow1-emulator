@@ -2,43 +2,23 @@
 
 playervar hover_jets_pvar
 #!defineMember _fuel_gui hover_jets_pvar[0]
-#!defineMember _is_using_hover_jets hover_jets_pvar[1]
 playervar jet_fuel
+
+#!define is_using_hover_jets() \
+    ((eventPlayer.isHoldingButton(Button.JUMP)) \
+ and (not eventPlayer.isOnGround()) \
+ and (not eventPlayer.isJumping()) \
+ and (not eventPlayer.isUsingUltimate()) \
+ and (not isCCd(eventPlayer)) \
+ and (eventPlayer.jet_fuel > 0)) \
 
 subroutine showFuelGui
 subroutine hideFuelGui
 
-
-rule "[pharah/hover_jets.opy]: Detect when using hover jet":
-    @Event eachPlayer
-    @Hero pharah
-    @Condition eventPlayer.isHoldingButton(Button.JUMP)
-    @Condition not eventPlayer.isOnGround()
-    @Condition not eventPlayer.isJumping()
-    @Condition not eventPlayer.isUsingUltimate()
-    @Condition not isCCd(eventPlayer)
-    @Condition eventPlayer.jet_fuel > 0
-
-    eventPlayer._is_using_hover_jets = true
-
-
-rule "[pharah/hover_jets.opy]: Detect when not using hover jet":
-    @Event eachPlayer
-    @Hero pharah
-    @Condition not eventPlayer.isHoldingButton(Button.JUMP) \
-                or eventPlayer.isOnGround() \
-                or eventPlayer.isJumping() \
-                or eventPlayer.isUsingUltimate() \
-                or isCCd(eventPlayer) \
-                or eventPlayer.jet_fuel <= 0
-
-    eventPlayer._is_using_hover_jets = false
-
-
 rule "[pharah/hover_jets.opy]: Activate OW1 hover jets":
     @Event eachPlayer
     @Hero pharah
-    @Condition eventPlayer._is_using_hover_jets
+    @Condition updateEveryTick(is_using_hover_jets())
 
     eventPlayer.setMoveSpeed(percent(OW1_PHARAH_HOVER_JETS_SPEED_BOOST/OW2_PHARAH_HOVER_JETS_SPEED_BOOST))
     chase(eventPlayer.jet_fuel, 0, rate=OW1_PHARAH_HOVER_JETS_FUEL_CONSUMPTION_RATE, ChaseReeval.NONE)
@@ -47,7 +27,7 @@ rule "[pharah/hover_jets.opy]: Activate OW1 hover jets":
 rule "[pharah/hover_jets.opy]: Deactivate OW1 hover jets":
     @Event eachPlayer
     @Hero pharah
-    @Condition not eventPlayer._is_using_hover_jets
+    @Condition updateEveryTick(not is_using_hover_jets())
 
     eventPlayer.setMoveSpeed(100)
     stopChasingVariable(eventPlayer.jet_fuel)
