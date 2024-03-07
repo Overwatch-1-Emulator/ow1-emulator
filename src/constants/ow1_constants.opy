@@ -168,6 +168,8 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 
 #!define OW1_LUCIO_ULT_COST 2940
 
 # Mccree
+# 260 is technically OW2 season 8 value and not OW1
+#!define OW1_MCCREE_DEADEYE_DAMAGE 260
 #!define OW1_MCCREE_FLASHBANG_AOE_RADIUS 3
 #!define OW1_MCCREE_FLASHBANG_COOLDOWN 10
 #!define OW1_MCCREE_FLASHBANG_DAMAGE 25
