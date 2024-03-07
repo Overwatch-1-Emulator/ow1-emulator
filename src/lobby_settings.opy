@@ -94,7 +94,7 @@ settings {
                 {
                     "shambaliMonastery": []
                 },
-				{
+                {
                     "watchpointGibraltar": [
                         "evening"
                     ]
@@ -390,5 +390,3 @@ settings {
         }
     }
 }
-
-
