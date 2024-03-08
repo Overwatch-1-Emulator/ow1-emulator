@@ -21,10 +21,7 @@ rule "[pharah/init.opy]: Initialize Pharah":
     setUltCost(OW1_PHARAH_ULT_COST)
     removePassiveHealing()
 
-    eventPlayer.setSecondaryFireEnabled(false)
-
-    eventPlayer.jet_fuel = 100
-    showFuelGui()
+    initHoverJets()
 
     eventPlayer.call_init = false
 
