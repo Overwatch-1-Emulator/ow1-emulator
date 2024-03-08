@@ -1,6 +1,6 @@
 #!mainFile "main.opy"
 
-#!obfuscate noConstantObfuscation
+##!obfuscate noConstantObfuscation
 
 # Useful constants
 #!include "constants/env_constants.opy"
