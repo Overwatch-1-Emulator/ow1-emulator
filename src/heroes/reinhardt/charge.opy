@@ -20,3 +20,13 @@ rule "[reinhardt/charge.opy]: Reduce charge radius":
     eventPlayer.startForcingThrottle(0, 1/OW2_REINHARDT_TURN_BONUS, 0, 1/OW2_REINHARDT_TURN_BONUS, 0, 1/OW2_REINHARDT_TURN_BONUS)
     waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.stopForcingThrottle()
+
+
+rule "[reinhardt/charge.opy]: Compensate charge knock back":
+    @Event eachPlayer
+    @Hero reinhardt
+    @Condition eventPlayer.isUsingAbility1()
+
+    eventPlayer.setKnockbackDealt(100)
+    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
+    eventPlayer.setKnockbackDealt(percent(OW1_REINHARDT_ROCKET_HAMMER_KNOCK_BACK/OW2_REINHARDT_ROCKET_HAMMER_KNOCK_BACK))

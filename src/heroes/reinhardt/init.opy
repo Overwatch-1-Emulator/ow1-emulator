@@ -20,8 +20,10 @@ rule "[reinhardt/init.opy]: Initialize Reinhardt":
     newHero(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)
     setUltCost(OW1_REINHARDT_ULT_COST)
     setBaseDamage(eventPlayer, OW1_REINHARDT_HAMMER_DAMAGE/OW2_REINHARDT_HAMMER_DAMAGE)
-
     removePassiveHealing()
+
+    # eventPlayer.setKnockbackDealt(percent(OW1_REINHARDT_ROCKET_HAMMER_KNOCK_BACK/OW2_REINHARDT_ROCKET_HAMMER_KNOCK_BACK))
+    eventPlayer.setKnockbackDealt(500)
 
     eventPlayer.call_init = false
 

@@ -22,3 +22,13 @@ rule "[reinhardt/shatter.opy]: OW1 earthshatter knock down duration":
 
     wait(OW1_REINHARDT_EARTHSHATTER_KNOCK_DOWN_DURATION)
     victim.clearStatusEffect(Status.KNOCKED_DOWN)
+
+
+rule "[reinhardt/shatter.opy]: Compensate shatter knock back":
+    @Event eachPlayer
+    @Hero reinhardt
+    @Condition eventPlayer.isUsingUltimate()
+
+    eventPlayer.setKnockbackDealt(100)
+    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
+    eventPlayer.setKnockbackDealt(percent(OW1_REINHARDT_ROCKET_HAMMER_KNOCK_BACK/OW2_REINHARDT_ROCKET_HAMMER_KNOCK_BACK))
