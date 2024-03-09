@@ -4,13 +4,16 @@ globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
 globalvar los_i
 globalvar los_j
 
-playervar barrier_seed_id
-playervar barrier_seed_v0 # Barrier seed initial velocity v0
-playervar barrier_seed_p0 # Barrier seed initial position p0
+playervar barrier_pvar
+#!defineMember _barrier_seed_id barrier_pvar[0]
+# Barrier seed initial velocity v0
+#!defineMember _barrier_seed_v0 barrier_pvar[1]
+# Barrier seed initial position p0
+#!defineMember _barrier_seed_p0 barrier_pvar[2]
 playervar barrier_seed_t # Barrier seed time t
 playervar barrier_seed_velocity
 playervar barrier_seed_position
-playervar seed_hit_surface_normal
+#!defineMember _seed_hit_surface_normal barrier_pvar[3]
 
 playervar barrier_origin
 playervar barrier_orientation
@@ -40,13 +43,13 @@ subroutine destroyBarrierHud
 subroutine updateBarrierVisual
 
 
-#!define getBarrierVelocity(t) vect(eventPlayer.barrier_seed_v0.x, \
-                                   -9.8 * eventPlayer.barrier_seed_t + eventPlayer.barrier_seed_v0.y, \
-                                   eventPlayer.barrier_seed_v0.z)
+#!define getBarrierVelocity(t) vect(eventPlayer._barrier_seed_v0.x, \
+                                   -9.8 * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_v0.y, \
+                                   eventPlayer._barrier_seed_v0.z)
 
-#!define getBarrierPosition(t) vect(eventPlayer.barrier_seed_v0.x * eventPlayer.barrier_seed_t + eventPlayer.barrier_seed_p0.x, \
-                                   -9.8/2 * (eventPlayer.barrier_seed_t ** 2) + eventPlayer.barrier_seed_v0.y * eventPlayer.barrier_seed_t + eventPlayer.barrier_seed_p0.y, \
-                                   eventPlayer.barrier_seed_v0.z * eventPlayer.barrier_seed_t + eventPlayer.barrier_seed_p0.z)
+#!define getBarrierPosition(t) vect(eventPlayer._barrier_seed_v0.x * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_p0.x, \
+                                   -9.8/2 * (eventPlayer.barrier_seed_t ** 2) + eventPlayer._barrier_seed_v0.y * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_p0.y, \
+                                   eventPlayer._barrier_seed_v0.z * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_p0.z)
 
 #!define isInsideOrisaBarrier(point, center, direction)\
     ((angleBetweenVectors(Vector.UP, directionTowards(center, point)) <= 90) and \
@@ -54,6 +57,11 @@ subroutine updateBarrierVisual
 
 # Angle of reflection formula from https://math.stackexchange.com/q/13261
 #!define reflection(d, n) (d - 2 * (dotProduct(d, n)) * n)
+
+#!define isAimingAtOrisaBarrier() \
+    ((distance(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.barrier_origin) * sinDeg(angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.barrier_origin))) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) \
+ and (angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.barrier_origin)) < 90) \
+ and (eventPlayer.enemy_orisa_player.barrier_active))
 
 
 rule "[orisa/barrier.opy]: Trigger Projectile Barrier ability":
@@ -74,18 +82,18 @@ def throwBarrier(): # Select shield position and orientation
 
     # Initialize barrier projectile
     eventPlayer.barrier_orientation = getForwardDirection(eventPlayer)
-    eventPlayer.barrier_seed_v0 = OW1_ORISA_BARRIER_PROJECTILE_SPEED * eventPlayer.getFacingDirection()
-    eventPlayer.barrier_seed_p0 = eventPlayer.getEyePosition()
+    eventPlayer._barrier_seed_v0 = OW1_ORISA_BARRIER_PROJECTILE_SPEED * eventPlayer.getFacingDirection()
+    eventPlayer._barrier_seed_p0 = eventPlayer.getEyePosition()
     eventPlayer.barrier_seed_t = 0
     chase(eventPlayer.barrier_seed_t, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME, rate=1, ChaseReeval.DESTINATION_AND_RATE)
-    eventPlayer.barrier_seed_velocity = eventPlayer.barrier_seed_v0
+    eventPlayer.barrier_seed_velocity = eventPlayer._barrier_seed_v0
     chase(eventPlayer.barrier_seed_velocity, getBarrierVelocity(eventPlayer.barrier_seed_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
-    eventPlayer.barrier_seed_position = eventPlayer.barrier_seed_p0
+    eventPlayer.barrier_seed_position = eventPlayer._barrier_seed_p0
     chase(eventPlayer.barrier_seed_position, getBarrierPosition(eventPlayer.barrier_seed_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
 
     # Draw barrier projectile object
     createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.barrier_seed_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
-    eventPlayer.barrier_seed_id = getLastCreatedEntity()
+    eventPlayer._barrier_seed_id = getLastCreatedEntity()
 
     # Wait for barrier projectile to hit wall
     waitUntil(updateEveryTick(
@@ -103,18 +111,18 @@ def throwBarrier(): # Select shield position and orientation
     stopChasingVariable(eventPlayer.barrier_seed_position)
     
     # Fall down to floor after bouncing off wall
-    eventPlayer.seed_hit_surface_normal = (raycast(eventPlayer.barrier_seed_position, \
+    eventPlayer._seed_hit_surface_normal = (raycast(eventPlayer.barrier_seed_position, \
                                   eventPlayer.barrier_seed_position + eventPlayer.barrier_seed_velocity, \
                                   null, \
                                   null, \
                                   false).getNormal())
-    eventPlayer.barrier_seed_v0 = 0.03 * reflection(eventPlayer.barrier_seed_velocity, eventPlayer.seed_hit_surface_normal)
-    eventPlayer.barrier_seed_p0 = eventPlayer.barrier_seed_position
+    eventPlayer._barrier_seed_v0 = 0.03 * reflection(eventPlayer.barrier_seed_velocity, eventPlayer._seed_hit_surface_normal)
+    eventPlayer._barrier_seed_p0 = eventPlayer.barrier_seed_position
     eventPlayer.barrier_seed_t = 0
     chase(eventPlayer.barrier_seed_t, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME, rate=1, ChaseReeval.DESTINATION_AND_RATE)
-    eventPlayer.barrier_seed_velocity = eventPlayer.barrier_seed_v0
+    eventPlayer.barrier_seed_velocity = eventPlayer._barrier_seed_v0
     chase(eventPlayer.barrier_seed_velocity, getBarrierVelocity(eventPlayer.barrier_seed_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
-    eventPlayer.barrier_seed_position = eventPlayer.barrier_seed_p0
+    eventPlayer.barrier_seed_position = eventPlayer._barrier_seed_p0
     chase(eventPlayer.barrier_seed_position, getBarrierPosition(eventPlayer.barrier_seed_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
 
     # Wait for barrier projectile to hit ground
@@ -140,7 +148,7 @@ def throwBarrier(): # Select shield position and orientation
                                                 false).getHitPosition()
     
     # Destroy projectile
-    destroyEffect(eventPlayer.barrier_seed_id)
+    destroyEffect(eventPlayer._barrier_seed_id)
 
 
 def deployBarrier(): # Create shield visual object
@@ -228,11 +236,11 @@ rule "[orisa/barrier.opy]: Destroy barrier when barrier hp runs out":
     stopChasingVariable(eventPlayer.barrier_uptime)
     destroyBarrier()
 
-
-rule "[orisa/barrier.opy]: Take no damage when behind barrier":
+rule "[orisa/barrier.opy]: Deal no damage to enemies behind barrier":
     @Event eachPlayer
-    @Condition eventPlayer.enemy_orisa_player.barrier_active
+    @Condition isAimingAtOrisaBarrier()
 
+    eventPlayer.enemies_behind_barrier = []
     if eventPlayer.barrier_damage_block_id == null:
         startDamageModification(eventPlayer.enemies_behind_barrier, 
                                 eventPlayer, 
@@ -240,10 +248,9 @@ rule "[orisa/barrier.opy]: Take no damage when behind barrier":
                                 DamageReeval.RECEIVERS_DAMAGERS_AND_DMGPERCENT)
         eventPlayer.barrier_damage_block_id = getLastDamageModification()
 
-    while (eventPlayer.enemy_orisa_player.barrier_active):
-        # eventPlayer.barrier_all_enemies = [eventPlayer.getPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam()))] # Scan only enemy closest to reticle
-        eventPlayer.barrier_all_enemies = getPlayers(getOppositeTeam(eventPlayer.getTeam())) # Scan all enemies
+    while (isAimingAtOrisaBarrier()):
         eventPlayer.enemies_behind_barrier = []
+        eventPlayer.barrier_all_enemies = eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 90) # Scan all enemies in front
         
         for los_i in range(len(eventPlayer.barrier_all_enemies)):
             findSphereHit(
@@ -251,11 +258,12 @@ rule "[orisa/barrier.opy]: Take no damage when behind barrier":
                 directionTowards(eventPlayer.getEyePosition(), eventPlayer.barrier_all_enemies[los_i].getEyePosition()), 
                 eventPlayer.enemy_orisa_player.barrier_origin, 
                 OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
-            eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer._lsi_x 
-                                                             if isInsideOrisaBarrier(
-                                                                    point, 
-                                                                    eventPlayer.enemy_orisa_player.barrier_origin, 
-                                                                    eventPlayer.enemy_orisa_player.barrier_orientation)]
+            eventPlayer.orisa_barrier_hit_positions = [
+                point for point in eventPlayer._lsi_x 
+                if isInsideOrisaBarrier(
+                    point, 
+                    eventPlayer.enemy_orisa_player.barrier_origin, 
+                    eventPlayer.enemy_orisa_player.barrier_orientation)]
             for los_j in range(len(eventPlayer.orisa_barrier_hit_positions)):
                 if (distance(
                         eventPlayer.getEyePosition(), 
@@ -265,7 +273,7 @@ rule "[orisa/barrier.opy]: Take no damage when behind barrier":
                         eventPlayer.barrier_all_enemies[los_i].getEyePosition())): # barrier hit is between the attacker and the victim
                     eventPlayer.enemies_behind_barrier.append(eventPlayer.barrier_all_enemies[los_i])
                     break
-        
+            wait()
         wait(1/OW1_ORISA_BARRIER_LOS_FREQ)
     
     stopDamageModification(eventPlayer.barrier_damage_block_id)
