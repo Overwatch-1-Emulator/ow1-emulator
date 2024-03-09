@@ -5,14 +5,15 @@ globalvar los_i
 globalvar los_j
 
 playervar barrier_pvar
-
-playervar barrier_seed_id
-playervar barrier_seed_v0 # Barrier seed initial velocity v0
-playervar barrier_seed_p0 # Barrier seed initial position p0
+#!defineMember _barrier_seed_id barrier_pvar[0]
+# Barrier seed initial velocity v0
+#!defineMember _barrier_seed_v0 barrier_pvar[1]
+# Barrier seed initial position p0
+#!defineMember _barrier_seed_p0 barrier_pvar[2]
 playervar barrier_seed_t # Barrier seed time t
 playervar barrier_seed_velocity
 playervar barrier_seed_position
-playervar seed_hit_surface_normal
+#!defineMember _seed_hit_surface_normal barrier_pvar[3]
 
 playervar barrier_origin
 playervar barrier_orientation
@@ -42,13 +43,13 @@ subroutine destroyBarrierHud
 subroutine updateBarrierVisual
 
 
-#!define getBarrierVelocity(t) vect(eventPlayer.barrier_seed_v0.x, \
-                                   -9.8 * eventPlayer.barrier_seed_t + eventPlayer.barrier_seed_v0.y, \
-                                   eventPlayer.barrier_seed_v0.z)
+#!define getBarrierVelocity(t) vect(eventPlayer._barrier_seed_v0.x, \
+                                   -9.8 * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_v0.y, \
+                                   eventPlayer._barrier_seed_v0.z)
 
-#!define getBarrierPosition(t) vect(eventPlayer.barrier_seed_v0.x * eventPlayer.barrier_seed_t + eventPlayer.barrier_seed_p0.x, \
-                                   -9.8/2 * (eventPlayer.barrier_seed_t ** 2) + eventPlayer.barrier_seed_v0.y * eventPlayer.barrier_seed_t + eventPlayer.barrier_seed_p0.y, \
-                                   eventPlayer.barrier_seed_v0.z * eventPlayer.barrier_seed_t + eventPlayer.barrier_seed_p0.z)
+#!define getBarrierPosition(t) vect(eventPlayer._barrier_seed_v0.x * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_p0.x, \
+                                   -9.8/2 * (eventPlayer.barrier_seed_t ** 2) + eventPlayer._barrier_seed_v0.y * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_p0.y, \
+                                   eventPlayer._barrier_seed_v0.z * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_p0.z)
 
 #!define isInsideOrisaBarrier(point, center, direction)\
     ((angleBetweenVectors(Vector.UP, directionTowards(center, point)) <= 90) and \
@@ -81,18 +82,18 @@ def throwBarrier(): # Select shield position and orientation
 
     # Initialize barrier projectile
     eventPlayer.barrier_orientation = getForwardDirection(eventPlayer)
-    eventPlayer.barrier_seed_v0 = OW1_ORISA_BARRIER_PROJECTILE_SPEED * eventPlayer.getFacingDirection()
-    eventPlayer.barrier_seed_p0 = eventPlayer.getEyePosition()
+    eventPlayer._barrier_seed_v0 = OW1_ORISA_BARRIER_PROJECTILE_SPEED * eventPlayer.getFacingDirection()
+    eventPlayer._barrier_seed_p0 = eventPlayer.getEyePosition()
     eventPlayer.barrier_seed_t = 0
     chase(eventPlayer.barrier_seed_t, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME, rate=1, ChaseReeval.DESTINATION_AND_RATE)
-    eventPlayer.barrier_seed_velocity = eventPlayer.barrier_seed_v0
+    eventPlayer.barrier_seed_velocity = eventPlayer._barrier_seed_v0
     chase(eventPlayer.barrier_seed_velocity, getBarrierVelocity(eventPlayer.barrier_seed_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
-    eventPlayer.barrier_seed_position = eventPlayer.barrier_seed_p0
+    eventPlayer.barrier_seed_position = eventPlayer._barrier_seed_p0
     chase(eventPlayer.barrier_seed_position, getBarrierPosition(eventPlayer.barrier_seed_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
 
     # Draw barrier projectile object
     createEffect(getAllPlayers(), Effect.SPHERE, Color.LIME_GREEN, eventPlayer.barrier_seed_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
-    eventPlayer.barrier_seed_id = getLastCreatedEntity()
+    eventPlayer._barrier_seed_id = getLastCreatedEntity()
 
     # Wait for barrier projectile to hit wall
     waitUntil(updateEveryTick(
@@ -110,18 +111,18 @@ def throwBarrier(): # Select shield position and orientation
     stopChasingVariable(eventPlayer.barrier_seed_position)
     
     # Fall down to floor after bouncing off wall
-    eventPlayer.seed_hit_surface_normal = (raycast(eventPlayer.barrier_seed_position, \
+    eventPlayer._seed_hit_surface_normal = (raycast(eventPlayer.barrier_seed_position, \
                                   eventPlayer.barrier_seed_position + eventPlayer.barrier_seed_velocity, \
                                   null, \
                                   null, \
                                   false).getNormal())
-    eventPlayer.barrier_seed_v0 = 0.03 * reflection(eventPlayer.barrier_seed_velocity, eventPlayer.seed_hit_surface_normal)
-    eventPlayer.barrier_seed_p0 = eventPlayer.barrier_seed_position
+    eventPlayer._barrier_seed_v0 = 0.03 * reflection(eventPlayer.barrier_seed_velocity, eventPlayer._seed_hit_surface_normal)
+    eventPlayer._barrier_seed_p0 = eventPlayer.barrier_seed_position
     eventPlayer.barrier_seed_t = 0
     chase(eventPlayer.barrier_seed_t, OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME, rate=1, ChaseReeval.DESTINATION_AND_RATE)
-    eventPlayer.barrier_seed_velocity = eventPlayer.barrier_seed_v0
+    eventPlayer.barrier_seed_velocity = eventPlayer._barrier_seed_v0
     chase(eventPlayer.barrier_seed_velocity, getBarrierVelocity(eventPlayer.barrier_seed_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
-    eventPlayer.barrier_seed_position = eventPlayer.barrier_seed_p0
+    eventPlayer.barrier_seed_position = eventPlayer._barrier_seed_p0
     chase(eventPlayer.barrier_seed_position, getBarrierPosition(eventPlayer.barrier_seed_t), rate=9999, ChaseReeval.DESTINATION_AND_RATE)
 
     # Wait for barrier projectile to hit ground
@@ -147,7 +148,7 @@ def throwBarrier(): # Select shield position and orientation
                                                 false).getHitPosition()
     
     # Destroy projectile
-    destroyEffect(eventPlayer.barrier_seed_id)
+    destroyEffect(eventPlayer._barrier_seed_id)
 
 
 def deployBarrier(): # Create shield visual object
