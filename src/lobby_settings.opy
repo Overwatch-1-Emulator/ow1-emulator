@@ -358,7 +358,7 @@ settings {
                 "echo",
                 "genji",
                 "hanzo",
-                # "illari",
+                "illari",
                 "junkerQueen",
                 "junkrat",
                 "kiriko",
