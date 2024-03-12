@@ -1,6 +1,6 @@
 #!mainFile "../../main.opy"
 
-#!include "heroes/illari/pylon.opy"
+#!include "heroes/illari/sun.opy"
 
 
 rule "[illari/init.opy]: Detect switch to Illari":

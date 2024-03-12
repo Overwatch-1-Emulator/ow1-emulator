@@ -27,13 +27,13 @@ rule "[debug.opy]: player debug (Top Right)":
     hudHeader(eventPlayer, "Event Player", HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "call_init = {}".format(eventPlayer.call_init), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_hero_switched = {}".format(eventPlayer._hero_switched), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "getAltitude() = {}".format(eventPlayer.getAltitude()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "getAltitude() = {}".format(eventPlayer.getAltitude()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "hasStatusEffect(Status.HACKED) = {}".format(eventPlayer.hasStatusEffect(Status.HACKED)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "hasStatusEffect(Status.STUNNED) = {}".format(eventPlayer.hasStatusEffect(Status.STUNNED)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getStatistic(Stat.HERO_DAMAGE_DEALT) = {}".format(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "len(allowed_heroes) = {}".format(len(eventPlayer.allowed_heroes)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "len(getAllowedHeroes()) = {}".format(len(eventPlayer.getAllowedHeroes())), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "isUsingUltimate() = {}".format(eventPlayer.isUsingUltimate()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "isUsingUltimate() = {}".format(eventPlayer.isUsingUltimate()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_is_casting_emp = {}".format(eventPlayer._is_casting_emp), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_passive_healing_active = {}".format(eventPlayer._passive_healing_active), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_missing_ult_points = {}".format(eventPlayer._missing_ult_points), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -85,16 +85,16 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "trasnloc_velocity = {}".format(eventPlayer.trasnloc_velocity), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_seed_hit_surface_normal = {}".format(eventPlayer._seed_hit_surface_normal), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_is_using_translocator = {}".format(eventPlayer._is_using_translocator), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "isOnGround() = {}".format(eventPlayer.isOnGround()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "isJumping() = {}".format(eventPlayer.isJumping()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "isOnGround() = {}".format(eventPlayer.isOnGround()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "isJumping() = {}".format(eventPlayer.isJumping()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "jet_fuel = {}".format(eventPlayer.jet_fuel), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_hover_jet_button = {}".format(eventPlayer._hover_jet_button), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "is_using_hover_jets() = {}".format(is_using_hover_jets()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getAbilityCooldown(JUMP) = {}".format(eventPlayer.getAbilityCooldown(Button.JUMP)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getAbilityCooldown(SECONDARY) = {}".format(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_is_exiting_wholehog = {}".format(eventPlayer._is_exiting_wholehog), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "isGlidingOnRoof = {}".format(isGlidingOnRoof()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    
+    # hudSubheader(eventPlayer, "isGlidingOnRoof = {}".format(isGlidingOnRoof()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+
 
 rule "[debug.opy]: do something on interact":
     @Event eachPlayer
