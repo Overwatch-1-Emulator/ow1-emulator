@@ -1,5 +1,7 @@
 #!mainFile "../../main.opy"
 
+#!include "heroes/reaper/blossom.opy"
+
 
 rule "[reaper/init.opy]: Detect switch to Reaper":
     @Event eachPlayer
@@ -25,4 +27,4 @@ rule "[reaper.opy]: Deal OW1 Reaper primary fire damage":
     @Hero reaper
     @Condition eventAbility == Button.PRIMARY_FIRE
 
-    damage(victim, attacker, eventDamage*(OW1_REAPER_HELLFIRE_SHOTGUNS_DAMAGE/OW2_REAPER_HELLFIRE_SHOTGUNS_DAMAGE)-eventDamage)
+    damage(victim, attacker, (OW1_REAPER_HELLFIRE_SHOTGUNS_DAMAGE/OW2_REAPER_HELLFIRE_SHOTGUNS_DAMAGE) * eventDamage - eventDamage)

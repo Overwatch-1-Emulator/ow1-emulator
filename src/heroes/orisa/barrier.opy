@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
-globalvar PHI = Math.PI * (sqrt(5)-1) # golden angle in radians
+# golden angle in radians
+#!define PHI (Math.PI * (sqrt(5)-1))
 globalvar los_i
 globalvar los_j
 
@@ -15,7 +16,7 @@ playervar barrier_seed_velocity
 playervar barrier_seed_position
 #!defineMember _seed_hit_surface_normal barrier_pvar[3]
 
-playervar barrier_origin
+#!defineMember _barrier_origin barrier_pvar[4]
 playervar barrier_orientation
 playervar barrier_sample_y
 playervar barrier_sample_radius
@@ -59,8 +60,8 @@ subroutine updateBarrierVisual
 #!define reflection(d, n) (d - 2 * (dotProduct(d, n)) * n)
 
 #!define isAimingAtOrisaBarrier() \
-    ((distance(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.barrier_origin) * sinDeg(angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.barrier_origin))) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) \
- and (angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.barrier_origin)) < 90) \
+    ((distance(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player._barrier_origin) * sinDeg(angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player._barrier_origin))) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) \
+ and (angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player._barrier_origin)) < 90) \
  and (eventPlayer.enemy_orisa_player.barrier_active))
 
 
@@ -155,10 +156,10 @@ def deployBarrier(): # Create shield visual object
     @Name "[orisa/barrier.opy]: deployBarrier()"
 
     # Define barrer by the sphere center position
-    eventPlayer.barrier_origin = eventPlayer.barrier_seed_position - OW1_ORISA_PROTECTIVE_BARRIER_RADIUS*eventPlayer.barrier_orientation
+    eventPlayer._barrier_origin = eventPlayer.barrier_seed_position - OW1_ORISA_PROTECTIVE_BARRIER_RADIUS*eventPlayer.barrier_orientation
 
     # Debug barrier center
-    # createEffect(eventPlayer, Effect.SPHERE, Color.BLACK, eventPlayer.barrier_origin, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    # createEffect(eventPlayer, Effect.SPHERE, Color.BLACK, eventPlayer._barrier_origin, 0.5, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
     
     fibonacciSphere()
 
@@ -202,7 +203,7 @@ def fibonacciSphere():
                                                 sin(PHI*i) * eventPlayer.barrier_sample_radius)
         if angleBetweenVectors(eventPlayer.barrier_sample_coordinate, eventPlayer.barrier_orientation) > 90:
             continue # Do not draw back half of sphere
-        eventPlayer.barrier_entity_positions.append(eventPlayer.barrier_origin + OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_coordinate)
+        eventPlayer.barrier_entity_positions.append(eventPlayer._barrier_origin + OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_coordinate)
 
 
 def destroyBarrier():
@@ -256,13 +257,13 @@ rule "[orisa/barrier.opy]: Deal no damage to enemies behind barrier":
             findSphereHit(
                 eventPlayer.getEyePosition(), 
                 directionTowards(eventPlayer.getEyePosition(), eventPlayer.barrier_all_enemies[los_i].getEyePosition()), 
-                eventPlayer.enemy_orisa_player.barrier_origin, 
+                eventPlayer.enemy_orisa_player._barrier_origin, 
                 OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
             eventPlayer.orisa_barrier_hit_positions = [
                 point for point in eventPlayer._lsi_x 
                 if isInsideOrisaBarrier(
                     point, 
-                    eventPlayer.enemy_orisa_player.barrier_origin, 
+                    eventPlayer.enemy_orisa_player._barrier_origin, 
                     eventPlayer.enemy_orisa_player.barrier_orientation)]
             for los_j in range(len(eventPlayer.orisa_barrier_hit_positions)):
                 if (distance(
@@ -300,10 +301,10 @@ rule "[orisa/barrier.opy]: Decrease barrier health":
 # rule "[orisa/barrier.opy]: Receive no healing when behind barrier":
 #     @Event playerReceivedHealing
 #     @Condition healee.enemy_orisa_player.barrier_active == true
-#     @Condition isAimingAtSphere(healer.getEyePosition(), directionTowards(healer, healee), healee.enemy_orisa_player.barrier_origin, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
+#     @Condition isAimingAtSphere(healer.getEyePosition(), directionTowards(healer, healee), healee.enemy_orisa_player._barrier_origin, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
 
-#     findSphereHit(healer.getEyePosition(), directionTowards(healer, healee), healee.enemy_orisa_player.barrier_origin, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
-#     eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer._lsi_x if isInsideOrisaBarrier(point, healee.enemy_orisa_player.barrier_origin, healee.enemy_orisa_player.barrier_orientation)]
+#     findSphereHit(healer.getEyePosition(), directionTowards(healer, healee), healee.enemy_orisa_player._barrier_origin, OW1_ORISA_PROTECTIVE_BARRIER_RADIUS)
+#     eventPlayer.orisa_barrier_hit_positions = [point for point in eventPlayer._lsi_x if isInsideOrisaBarrier(point, healee.enemy_orisa_player._barrier_origin, healee.enemy_orisa_player.barrier_orientation)]
 
 #     for i in range(len(eventPlayer.orisa_barrier_hit_positions)):
 #         if (distance(healer.getEyePosition(), eventPlayer.orisa_barrier_hit_positions[i]) < distance(healer.getEyePosition(), healee.getEyePosition())): # barrier hit is between the healer and the healee

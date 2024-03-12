@@ -1,5 +1,7 @@
 #!mainFile "../../main.opy"
 
+#!include "heroes/torbjorn/turret.opy"
+
 
 rule "[torbjorn/init.opy]: Detect switch to Torbjorn":
     @Event eachPlayer
