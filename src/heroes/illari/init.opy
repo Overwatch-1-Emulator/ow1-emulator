@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!include "heroes/illari/sun.opy"
+#!include "heroes/illari/solar_rifle.opy"
 
 
 rule "[illari/init.opy]: Detect switch to Illari":
@@ -18,4 +19,15 @@ rule "[illari/init.opy]: Initialize Illari":
     newHero(OW1_ILLARI_HEALTH, 0, 0)
     setUltCost(OW1_ILLARI_ULT_COST)
     removePassiveHealing()
+
+    setBaseDamage(eventPlayer, OW1_ILLARI_RIFLE_DAMAGE/OW2_ILLARI_RIFLE_DAMAGE)
+
     eventPlayer.call_init = false
+
+
+rule "[illari/init.opy]: Compensate Illari global damage reduction":
+    @Event playerDealtDamage
+    @Hero illari
+    @Condition eventAbility in [Button.ABILITY_1]
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
