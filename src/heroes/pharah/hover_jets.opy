@@ -6,13 +6,19 @@ playervar hover_jets_pvar
 #!defineMember _jet_dash_button hover_jets_pvar[2]
 playervar jet_fuel
 
-#!define is_using_hover_jets() \
+#!define isUsingHoverJets() \
     ((eventPlayer.isHoldingButton(eventPlayer._hover_jet_button)) \
  and (not eventPlayer.isOnGround()) \
  and (not eventPlayer.isJumping()) \
  and (not eventPlayer.isUsingUltimate()) \
  and (not isCCd(eventPlayer)) \
  and (eventPlayer.jet_fuel > 0)) \
+
+
+#!define isGlidingOnRoof() \
+    ((not eventPlayer.isOnGround()) \
+ and (not eventPlayer.isJumping()) \
+ and (eventPlayer.getAltitude() <= 0))
 
 subroutine showFuelGui
 subroutine hideFuelGui
@@ -40,24 +46,42 @@ rule "[pharah/hover_jets.opy]: Disable jet dash":
     eventPlayer.setAbilityCooldown(eventPlayer._jet_dash_button, Math.INFINITY)
 
 
-rule "[pharah/hover_jets.opy]: Activate OW1 hover jets":
+rule "[pharah/hover_jets.opy]: Consume fuel when using hover jets":
     @Event eachPlayer
     @Hero pharah
-    @Condition updateEveryTick(is_using_hover_jets())
+    @Condition isUsingHoverJets()
 
     eventPlayer.setMoveSpeed(percent(OW1_PHARAH_HOVER_JETS_SPEED_BOOST/OW2_PHARAH_HOVER_JETS_SPEED_BOOST))
     chase(eventPlayer.jet_fuel, 0, rate=OW1_PHARAH_HOVER_JETS_FUEL_CONSUMPTION_RATE, ChaseReeval.NONE)
 
 
-rule "[pharah/hover_jets.opy]: Deactivate OW1 hover jets":
+rule "[pharah/hover_jets.opy]: Stop fuel consumption when not using hover jets":
     @Event eachPlayer
     @Hero pharah
-    @Condition updateEveryTick(not is_using_hover_jets())
+    @Condition not isUsingHoverJets()
 
     eventPlayer.setMoveSpeed(100)
     stopChasingVariable(eventPlayer.jet_fuel)
+
+
+rule "[pharah/hover_jets.opy]: Recharge hover jets":
+    @Event eachPlayer
+    @Hero pharah
+    @Condition not isUsingHoverJets()
+    @Condition not isGlidingOnRoof()
+
     wait(OW1_PHARAH_HOVER_JETS_RECOVERY_TIME, Wait.ABORT_WHEN_FALSE)
     chase(eventPlayer.jet_fuel, OW1_PHARAH_HOVER_JETS_MAX_FUEL, rate=OW1_PHARAH_HOVER_JETS_FUEL_RECHARGE_RATE, ChaseReeval.NONE)
+
+
+rule "[pharah/hover_jets.opy]: Stop fuel recharge when gliding on roof":
+    @Event eachPlayer
+    @Hero pharah
+    @Condition not isUsingHoverJets()
+    @Condition isGlidingOnRoof()
+
+    eventPlayer.setMoveSpeed(100)
+    stopChasingVariable(eventPlayer.jet_fuel)
 
 
 rule "[pharah/hover_jets.opy]: Disable hover jets when out of fuel":
