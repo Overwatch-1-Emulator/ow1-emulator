@@ -1,11 +1,10 @@
 #!mainFile "../../main.opy"
 
 
-rule "[illari/sun.opy]: OW1 Illari Captive Sun damage":
-    @Event eachPlayer
+rule "[illari/init.opy]: Correct Captive Sun direct and splash hit damage":
+    @Event playerDealtDamage
     @Hero illari
-    @Condition eventPlayer.isUsingUltimate()
+    @Condition eventAbility in [Button.ULTIMATE]
+    @Condition eventDamage/eventPlayer._base_damage_scalar < (OW2_ILLARI_SUNSTRUCK_DAMAGE/2)
 
-    eventPlayer.setDamageDealt(percent(OW1_ILLARI_CAPTIVE_SUN_DAMAGE/OW2_ILLARI_CAPTIVE_SUN_DAMAGE))
-    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
-    eventPlayer.setDamageDealt(percent(eventPlayer._base_damage_scalar))
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

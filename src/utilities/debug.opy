@@ -112,8 +112,8 @@ rule "[debug.opy]: Debug damage instance":
     printLog("attacker={}, victim={}, ability={}, amount={}".format(attacker, victim, eventAbility, eventDamage))
 
 
-# rule "[debug.opy]: Debug healing instance":
-#     @Event playerReceivedHealing
-#     @Condition DEBUG_MODE == true
+rule "[debug.opy]: Debug healing instance":
+    @Event playerReceivedHealing
+    @Condition DEBUG_MODE == true
 
-#     printLog("healer={}, healee={}, ability={}, amount={}".format(healer, healee, eventAbility, eventHealing))
+    printLog("healer={}, healee={}, ability={}, amount={}".format(healer, healee, eventAbility, eventHealing))

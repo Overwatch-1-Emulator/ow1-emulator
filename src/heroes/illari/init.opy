@@ -20,14 +20,14 @@ rule "[illari/init.opy]: Initialize Illari":
     setUltCost(OW1_ILLARI_ULT_COST)
     removePassiveHealing()
 
-    setBaseDamage(eventPlayer, OW1_ILLARI_RIFLE_DAMAGE/OW2_ILLARI_RIFLE_DAMAGE)
+    setBaseDamage(eventPlayer, OW1_ILLARI_SUNSTRUCK_DAMAGE/OW2_ILLARI_SUNSTRUCK_DAMAGE)
 
     eventPlayer.call_init = false
 
 
-rule "[illari/init.opy]: Compensate Illari global damage reduction":
+rule "[illari/init.opy]: Correct Outburst damage":
     @Event playerDealtDamage
     @Hero illari
-    @Condition eventAbility in [Button.ABILITY_1]
+    @Condition eventAbility == Button.ABILITY_1
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
