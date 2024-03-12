@@ -282,6 +282,7 @@ settings {
             "ramattra": {
                 "health%": percent(OW1_RAMATTRA_NEMESIS_ARMOR/OW2_RAMATTRA_NEMESIS_ARMOR), # for nemesis hp
                 "ability1Cooldown%": percent(OW1_RAMATTRA_NEMESIS_COOLDOWN/OW2_RAMATTRA_NEMESIS_COOLDOWN),
+                "ability2Cooldown%": percent(OW1_RAMATTRA_VORTEX_COOLDOWN/OW2_RAMATTRA_VORTEX_COOLDOWN),
                 "secondaryFireCooldown%": percent(OW1_RAMATTRA_VOID_BARRIER_COOLDOWN/OW2_RAMATTRA_VOID_BARRIER_COOLDOWN),
                 "ultGen%": percent(OW2_RAMATTRA_ULT_COST/OW1_RAMATTRA_ULT_COST)
             },
