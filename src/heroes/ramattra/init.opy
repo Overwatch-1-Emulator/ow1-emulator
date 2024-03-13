@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!include "heroes/ramattra/nemesis.opy"
+#!include "heroes/ramattra/vortex.opy"
 
 
 rule "[ramattra/init.opy]: Detect switch to Ramattra":
