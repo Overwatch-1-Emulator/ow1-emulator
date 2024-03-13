@@ -1,6 +1,15 @@
 #!mainFile "../main.opy"
 
 globalvar DEBUG_MODE = createWorkshopSetting(bool, "Dev Tools", "debug mode", false)
+#!define STAT_KEEP_ALIVE (2)
+#!define STAT_SPACING (0.5)
+
+playervar debug_pvar
+#!define _total_damage_received debug_pvar[0]
+#!define _last_damage_received debug_pvar[1]
+#!define _total_healing_received debug_pvar[2]
+#!define _last_healing_received debug_pvar[3]
+
 
 rule "[debug.opy] Disable Inspector for performance":
     @Event global
@@ -105,15 +114,76 @@ rule "[debug.opy]: do something on interact":
     eventPlayer.setUltCharge(100)
 
 
-rule "[debug.opy]: Debug damage instance":
-    @Event playerDealtDamage
-    @Condition DEBUG_MODE == true
+rule "Show Player Damage/Healing":
+    @Event eachPlayer
+    @Condition DEBUG_MODE
+
+    # most recent damage
+    createInWorldText(
+        getAllPlayers() if eventPlayer._last_damage_received > 0 else null, 
+        eventPlayer._last_damage_received, 
+        eventPlayer.getEyePosition() + 1 * STAT_SPACING * Vector.UP, 
+        1, 
+        Clip.NONE, 
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
+        Color.RED, 
+        SpecVisibility.DEFAULT)
+
+    # total healing
+    createInWorldText(
+        getAllPlayers() if eventPlayer._total_healing_received > 0 else null, 
+        eventPlayer._total_damage_received, 
+        eventPlayer.getEyePosition() + 2 * STAT_SPACING * Vector.UP, 
+        2, 
+        Clip.NONE, 
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
+        Color.YELLOW, 
+        SpecVisibility.DEFAULT)
+
+    # total damage
+    createInWorldText(
+        getAllPlayers() if eventPlayer._total_damage_received > 0 else null, 
+        eventPlayer._total_damage_received, 
+        eventPlayer.getEyePosition() + 3 * STAT_SPACING * Vector.UP, 
+        2, 
+        Clip.NONE, 
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
+        Color.RED, 
+        SpecVisibility.DEFAULT)
+
+    # most recent healing
+    createInWorldText(
+        getAllPlayers() if eventPlayer._last_healing_received > 0 else null, 
+        eventPlayer._last_damage_received, 
+        eventPlayer.getEyePosition() + 4 * STAT_SPACING * Vector.UP, 
+        1, 
+        Clip.NONE, 
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
+        Color.YELLOW, 
+        SpecVisibility.DEFAULT)
+
+
+rule "Debug damage instance":
+    @Event playerTookDamage
+    @Condition DEBUG_MODE
 
     printLog("attacker={}, victim={}, ability={}, amount={}".format(attacker, victim, eventAbility, eventDamage))
 
+    victim._last_damage_received = eventDamage
+    victim._total_damage_received += eventDamage
+    wait(STAT_KEEP_ALIVE, Wait.RESTART_WHEN_TRUE)
+    victim._last_damage_received = 0
+    victim._total_damage_received = 0
 
-rule "[debug.opy]: Debug healing instance":
+
+rule "Debug healing instance":
     @Event playerReceivedHealing
-    @Condition DEBUG_MODE == true
+    @Condition DEBUG_MODE
 
     printLog("healer={}, healee={}, ability={}, amount={}".format(healer, healee, eventAbility, eventHealing))
+    
+    healee._last_healing_received = eventHealing
+    healee._total_healing_received += eventHealing
+    wait(STAT_KEEP_ALIVE, Wait.RESTART_WHEN_TRUE)
+    healee._last_healing_received = 0
+    healee._total_healing_received = 0
