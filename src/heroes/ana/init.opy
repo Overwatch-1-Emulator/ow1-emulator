@@ -17,12 +17,19 @@ rule "[ana/init.opy]: Initialize Ana":
     
     newHero(OW1_ANA_HEALTH, 0, 0)
     setUltCost(OW1_ANA_ULT_COST)
+    removePassiveHealing()
 
     eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
 
-    removePassiveHealing()
+    setBaseDamage(eventPlayer, OW1_ANA_BIOTIC_GRENADE_DAMAGE/OW2_ANA_BIOTIC_GRENADE_DAMAGE)
 
     eventPlayer.call_init = false
 
-    # waitUntil(eventPlayer.getCurrentHero() != Hero.ANA, Math.INFINITY)
+
+rule "[ana/init.opy]: Correct rifle and sleep dart damage":
+    @Event playerDealtDamage
+    @Hero ana
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1]
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
