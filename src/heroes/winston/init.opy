@@ -35,11 +35,3 @@ rule "[winston/init.opy]: Compensate Winston global damage reduction":
     @Condition eventAbility in [Button.ABILITY_1]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
-
-
-rule "[winston/init.opy]: OW1 Winston melee damage":
-    @Event playerDealtDamage
-    @Hero winston
-    @Condition eventAbility == Button.MELEE
-
-    heal(victim, null, eventDamage - eventDamage/eventPlayer._base_damage_scalar*(OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE))
