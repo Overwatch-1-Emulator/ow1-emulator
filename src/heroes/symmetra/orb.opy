@@ -16,4 +16,9 @@ rule "[symmetra/orb.opy]: Deal OW1 symmetra secondary fire damage":
     @Hero symmetra
     @Condition eventAbility == Button.SECONDARY_FIRE
 
-    damage(victim, attacker, eventDamage*(OW1_SYMMETRA_ORB_DAMAGE/OW2_SYMMETRA_ORB_DAMAGE)-eventDamage)
+    damage(
+        victim, 
+        attacker, 
+        ((OW1_SYMMETRA_ORB_DAMAGE/OW2_SYMMETRA_ORB_DAMAGE) \
+        * (eventDamage/eventPlayer._base_damage_scalar) \
+        - eventDamage)/eventPlayer._base_damage_scalar)
