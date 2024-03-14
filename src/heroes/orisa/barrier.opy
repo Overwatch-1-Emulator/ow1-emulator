@@ -241,7 +241,6 @@ rule "[orisa/barrier.opy]: Deal no damage to enemies behind barrier":
     @Event eachPlayer
     @Condition isAimingAtOrisaBarrier()
 
-    eventPlayer.enemies_behind_barrier = []
     if eventPlayer.barrier_damage_block_id == null:
         startDamageModification(eventPlayer.enemies_behind_barrier, 
                                 eventPlayer, 
@@ -274,7 +273,6 @@ rule "[orisa/barrier.opy]: Deal no damage to enemies behind barrier":
                         eventPlayer.barrier_all_enemies[los_i].getEyePosition())): # barrier hit is between the attacker and the victim
                     eventPlayer.enemies_behind_barrier.append(eventPlayer.barrier_all_enemies[los_i])
                     break
-            wait()
         wait(1/OW1_ORISA_BARRIER_LOS_FREQ)
     
     stopDamageModification(eventPlayer.barrier_damage_block_id)
