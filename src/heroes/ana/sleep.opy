@@ -18,4 +18,4 @@ rule "[ana/sleep.opy]: Sleep tanks for longer duration":
     victim.setStatusEffect(
         attacker, 
         Status.ASLEEP, 
-        (OW1_ANA_SLEEP_DART_SLEEP_DURATION/OW2_ANA_SLEEP_DART_TANK_SLEEP_DURATION) * (OW1_ANA_SLEEP_DART_SLEEP_DURATION)) # 3 is arbitrarily chosen from trial and error
+        (OW1_ANA_SLEEP_DART_SLEEP_DURATION/OW2_ANA_SLEEP_DART_TANK_SLEEP_DURATION) * (OW1_ANA_SLEEP_DART_SLEEP_DURATION))
