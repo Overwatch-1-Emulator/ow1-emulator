@@ -121,6 +121,7 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 
 
 # Dva
 #!define OW1_DVA_ARMOR 300
+#!define OW1_DVA_BABY_HEALTH 150
 #!define OW1_DVA_BOOSTER_COOLDOWN_TIME 4
 #!define OW1_DVA_BOOSTERS_DAMAGE 10
 #!define OW1_DVA_HEALTH 300
