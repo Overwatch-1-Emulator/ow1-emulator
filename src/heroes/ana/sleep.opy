@@ -11,7 +11,7 @@ rule "[ana/sleep.opy]: Sleep tanks for longer duration":
     # immediately wake up victim
     waitUntil(victim.hasStatusEffect(Status.ASLEEP), Math.INFINITY)
     while (victim.hasStatusEffect(Status.ASLEEP)):
-        wait()
+        wait(0.5)
         victim.clearStatusEffect(Status.ASLEEP)
     # resleep victim
     wait()
