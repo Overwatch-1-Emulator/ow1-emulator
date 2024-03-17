@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar emp_pvar
 #!defineMember _is_casting_emp emp_pvar[0]

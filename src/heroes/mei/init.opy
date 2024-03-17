@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "heroes/mei/blaster.opy"
 #!include "heroes/mei/cryo_freeze.opy"

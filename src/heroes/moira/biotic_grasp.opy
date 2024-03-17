@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar biotic_grasp_pvar
 #!defineMember _moira_hp_before biotic_grasp_pvar[0]

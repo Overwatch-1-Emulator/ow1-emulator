@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[winston/leap.opy]: Override leap cooldown during primal":

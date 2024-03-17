@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "heroes/orisa/supercharger.opy"
 #!include "heroes/orisa/halt.opy"

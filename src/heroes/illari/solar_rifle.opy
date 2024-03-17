@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[illari/solar_rifle.opy]: OW1 Solar Rifle body damage":

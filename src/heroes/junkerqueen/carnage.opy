@@ -1,4 +1,4 @@
-# #!mainFile "../../ow1pp_main.opy"
+# #!mainFile "../../dev_main.opy"
 
 # rule "[junkerqueen/shout.opy]: Set default Carnage cooldown":
 #     @Event eachPlayer

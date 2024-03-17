@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar hover_jets_pvar
 #!defineMember _fuel_gui hover_jets_pvar[0]

@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "heroes/illari/sun.opy"
 #!include "heroes/illari/solar_rifle.opy"

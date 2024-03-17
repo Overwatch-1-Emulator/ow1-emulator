@@ -1,7 +1,7 @@
-#!mainFile "ow1em_main.opy"
+#!mainFile "../ow1em_main.opy"
 
 # Environment Variables
-#!define GAMEMODE_VERSION "Dev Build"
+#!define GAMEMODE_VERSION "Internal Build"
 #!define GAMEMODE_NAME "Overwatch 1 Emulator"
 #!define GAMDMODE_DESCRIPTION (GAMEMODE_NAME + " " + GAMEMODE_VERSION + "\n" + \
                                "\n" + \

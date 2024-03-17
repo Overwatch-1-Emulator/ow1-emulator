@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[dva/booster.opy]: Decouple melee button from activating melee animation during booster":

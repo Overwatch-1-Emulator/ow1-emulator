@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "heroes/ramattra/nemesis.opy"
 #!include "heroes/ramattra/vortex.opy"

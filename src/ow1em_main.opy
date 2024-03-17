@@ -1,4 +1,4 @@
-#!include "ow1em_env.opy"
+#!include "env/ow1em_env.opy"
 
 # Useful constants
 #!include "constants/ow1_constants.opy"
@@ -17,7 +17,7 @@
 #!include "utilities/anti_crash.opy"
 
 # Custom game lobby settings
-#!include "ow1em_lobby.opy"
+#!include "lobby/ow1em_lobby.opy"
 
 # OW1 logic
 # Remove damage passive

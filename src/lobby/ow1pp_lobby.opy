@@ -1,4 +1,4 @@
-#!mainFile "ow1em_main.opy"
+#!mainFile "../ow1pp_main.opy"
 
 settings {
     "main": {
@@ -33,6 +33,9 @@ settings {
                         "morning"
                     ]
                 },
+                # {
+                #     "antarcticPeninsula": []
+                # },
                 {
                     "ilios": [
                         "morning"
@@ -52,11 +55,19 @@ settings {
                     "oasis": [
                         "evening"
                     ]
-                }
+                },
+                # {
+                #     "samoa": []
+                # }
             ]
         },
         "escort": {
             "enabledMaps": [
+                # {
+                #     "circuitRoyal": [
+                #         "night"
+                #     ]
+                # },
                 {
                     "dorado": [
                         "night"
@@ -79,6 +90,9 @@ settings {
                     "route66": [
                         "morning"
                     ]
+                },
+                {
+                    "shambaliMonastery": []
                 },
                 {
                     "watchpointGibraltar": [
@@ -109,11 +123,51 @@ settings {
                         "night"
                     ]
                 },
-                "numbani"
+                {
+                    "midtown": [
+                        "morning"
+                    ]
+                },
+                {
+                    "numbani": []
+                },
+                # {
+                #     "paraiso": [
+                #         "morning"
+                #     ]
+                # },
             ]
         },
         "practiceRange": {
             "enabledMaps": []
+        },
+        "flashpoint": {
+            "captureSpeed%": 75,
+            "enabledMaps": [
+                # {
+                #     "newJunkCity": []
+                # },
+                {
+                    "suravasa": []
+                },
+            ]
+        },
+        "push": {
+            "enabledMaps": [
+                {
+                    "colosseo": [
+                        "evening"
+                    ]
+                },
+                {
+                    "esperanca": []
+                },
+                # {
+                #     "newQueenStreet": [
+                #         "morning"
+                #     ]
+                # },
+            ]
         },
         "general": {
             "heroLimit": "1PerTeam",
@@ -175,12 +229,34 @@ settings {
                 "ability2Cooldown%": percent(OW1_HANZO_STORM_COOLDOWN/OW2_HANZO_STORM_COOLDOWN),
                 "ultGen%": percent(OW2_HANZO_ULT_COST/OW1_HANZO_ULT_COST)
             },
+            "illari": {
+                "health%": percent(OW1_ILLARI_PYLON_HP/OW2_ILLARI_PYLON_HP), # for pylon hp
+                "ability1Cooldown%": percent(OW1_ILLARI_OUTBURST_COOLDOWN/OW2_ILLARI_OUTBURST_COOLDOWN),
+                "ability2Cooldown%": percent(OW1_ILLARI_PYLON_COOLDOWN/OW2_ILLARI_PYLON_COOLDOWN),
+                "ultGen%": percent(OW2_ILLARI_ULT_COST/OW1_ILLARI_ULT_COST)
+            },
+            "junkerQueen": {
+                "health%": percent(OW1_JUNKERQUEEN_SHOUT_OVERHEALTH/OW2_JUNKERQUEEN_SHOUT_OVERHEALTH), # for shout overhealth
+                "secondaryFireCooldown%": percent(OW1_JUNKERQUEEN_BLADE_COOLDOWN/OW2_JUNKERQUEEN_BLADE_COOLDOWN),
+                "ultGen%": percent(OW2_JUNKERQUEEN_ULT_COST/OW1_JUNKERQUEEN_ULT_COST)
+            },
             "junkrat": {
                 "ability1Cooldown%": percent(OW1_JUNKRAT_CONCUSSION_MINE_COOLDOWN/OW2_JUNKRAT_CONCUSSION_MINE_COOLDOWN),
                 "ultGen%": percent(OW2_JUNKRAT_ULT_COST/OW1_JUNKRAT_ULT_COST)
             },
+            "kiriko": {
+                "ability1Cooldown%": percent(OW1_KIRIKO_SWIFT_STEP_COOLDOWN/OW2_KIRIKO_SWIFT_STEP_COOLDOWN),
+                "ability2Cooldown%": percent(OW1_KIRIKO_SUZU_COOLDOWN/OW2_KIRIKO_SUZU_COOLDOWN),
+                "ultGen%": percent(OW2_KIRIKO_ULT_COST/OW1_KIRIKO_ULT_COST)
+            },
+            "lifeweaver": {
+                "ultGen%": percent(OW2_LIFEWEAVER_ULT_COST/OW1_LIFEWEAVER_ULT_COST)
+            },
             "lucio": {
                 "ultGen%": percent(OW2_LUCIO_ULT_COST/OW1_LUCIO_ULT_COST)
+            },
+            "mauga": {
+                "ultGen%": percent(OW2_MAUGA_ULT_COST/OW1_MAUGA_ULT_COST)
             },
             "mei": {
                 "health%": percent(OW1_MEI_ICEWALL_HP/OW2_MEI_ICEWALL_HP), # for icewall
@@ -204,6 +280,13 @@ settings {
                 "ability2Cooldown%": percent(OW1_PHARAH_CONCUSSIVE_BLAST_COOLDOWN/OW2_PHARAH_CONCUSSIVE_BLAST_COOLDOWN),
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST)
             },
+            "ramattra": {
+                "health%": percent(OW1_RAMATTRA_NEMESIS_ARMOR/OW2_RAMATTRA_NEMESIS_ARMOR), # for nemesis hp
+                "ability1Cooldown%": percent(OW1_RAMATTRA_NEMESIS_COOLDOWN/OW2_RAMATTRA_NEMESIS_COOLDOWN),
+                "ability2Cooldown%": percent(OW1_RAMATTRA_VORTEX_COOLDOWN/OW2_RAMATTRA_VORTEX_COOLDOWN),
+                "secondaryFireCooldown%": percent(OW1_RAMATTRA_VOID_BARRIER_COOLDOWN/OW2_RAMATTRA_VOID_BARRIER_COOLDOWN),
+                "ultGen%": percent(OW2_RAMATTRA_ULT_COST/OW1_RAMATTRA_ULT_COST)
+            },
             "reaper": {
                 "ultGen%": percent(OW2_REAPER_ULT_COST/OW1_REAPER_ULT_COST)
             },
@@ -223,6 +306,9 @@ settings {
                 "secondaryFireRechargeRate%": percent(OW1_SIGMA_BARRIER_REGEN/OW2_SIGMA_BARRIER_REGEN),
                 "health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH), # for barrier
                 "ultGen%": percent(OW2_SIGMA_ULT_COST/OW1_SIGMA_ULT_COST),
+            },
+            "sojourn": {
+                "ultGen%": percent(OW2_SOJOURN_ULT_COST/OW1_SOJOURN_ULT_COST)
             },
             "soldier": {
                 "ability2Cooldown%": percent(OW1_SOLDIER_BIOTIC_FIELD_COOLDOWN/OW2_SOLDIER_BIOTIC_FIELD_COOLDOWN),
@@ -275,17 +361,24 @@ settings {
                 "echo",
                 "genji",
                 "hanzo",
+                "illari",
+                "junkerQueen",
                 "junkrat",
+                "kiriko",
+                # "lifeweaver",
                 "lucio",
+                # "mauga",
                 "mei",
                 "mercy",
                 "moira",
                 "orisa",
                 "pharah",
+                "ramattra",
                 "reaper",
                 "reinhardt",
                 "roadhog",
                 "sigma",
+                "sojourn",
                 "soldier",
                 "sombra",
                 "symmetra",
