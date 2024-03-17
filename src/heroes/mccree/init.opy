@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/mccree/flashbang.opy"
 #!include "heroes/mccree/roll.opy"

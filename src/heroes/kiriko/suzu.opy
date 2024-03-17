@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 # This rule doesn't work due to workshop bug

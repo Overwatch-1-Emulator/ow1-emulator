@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[hanzo/storm.opy]: OW1 storm arrow damage":

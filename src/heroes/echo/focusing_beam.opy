@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[echo/focusing_beam.opy]: Deal OW1 echo focusing beam under 50% hp":

@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[mauga/init.opy]: Detect switch to Mauga":

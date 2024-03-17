@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/sombra/emp.opy"
 #!include "heroes/sombra/hack.opy"

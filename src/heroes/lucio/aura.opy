@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 # rule "[lucio/aura.opy]: Handle lucio self healing while amp is not active and supp passive is active":

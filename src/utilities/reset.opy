@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../ow1pp_main.opy"
 
 globalvar reset_gvar
 #!defineMember ready_color reset_gvar[0]

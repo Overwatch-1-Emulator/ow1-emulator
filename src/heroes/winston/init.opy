@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/winston/leap.opy"
 #!include "heroes/winston/primal.opy"

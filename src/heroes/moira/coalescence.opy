@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[moira/coalescence.opy]: Prevent fading during coalescence":

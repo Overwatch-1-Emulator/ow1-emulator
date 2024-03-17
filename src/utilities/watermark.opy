@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../ow1pp_main.opy"
 
 globalvar rgb_list = [vect(255, 0, 0), vect(255, 255, 0), vect(0, 255, 0), vect(0, 255, 255), vect(0, 0, 255), vect(255, 0, 255)]
 globalvar SHOW_WATERMARK = createWorkshopSetting(bool, "Misc", "Show Watermark", true)
@@ -23,7 +23,7 @@ rule "[watermark.opy]: Create watermark HUD":
 
     if eventPlayer.info_id[0] == null:
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
-                     GAMEMODE_NAME" ""("GAMEMODE_CODE")", 
+                     GAMEMODE_NAME" "GAMEMODE_VERSION" ""("GAMEMODE_CODE")", 
                      HudPosition.LEFT, 
                      Math.INFINITY, 
                      Color.WHITE, 

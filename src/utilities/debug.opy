@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../ow1pp_main.opy"
 
 globalvar DEBUG_MODE = createWorkshopSetting(bool, "Dev Tools", "debug mode", false)
 #!define STAT_KEEP_ALIVE (2)

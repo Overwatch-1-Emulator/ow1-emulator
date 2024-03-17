@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/echo/focusing_beam.opy"
 #!include "heroes/echo/duplicate.opy"

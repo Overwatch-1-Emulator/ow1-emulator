@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[mei/cryo_freeze.opy]: OW1 Cryo-Freeze healing":

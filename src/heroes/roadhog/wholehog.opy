@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 playervar wholehog_pvar
 #!defineMember _is_exiting_wholehog wholehog_pvar[0]

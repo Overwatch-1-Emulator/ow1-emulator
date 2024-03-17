@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 playervar scoped_shot_distance
 playervar scoped_damage_base

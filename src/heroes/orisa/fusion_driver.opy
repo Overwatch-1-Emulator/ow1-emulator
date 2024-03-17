@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 playervar orisa_ammo
 playervar orisa_ammo_hud

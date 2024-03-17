@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 # rule "[brigitte/inspire.opy]: Inspire self healing logic":

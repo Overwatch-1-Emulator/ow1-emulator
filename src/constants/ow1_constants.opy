@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../ow1pp_main.opy"
 
 # Universal
 #!define SETUP_BUFFER_TIME 5

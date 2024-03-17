@@ -1,4 +1,4 @@
-# #!mainFile "../../main.opy"
+# #!mainFile "../../ow1pp_main.opy"
 
 
 # rule "[lifeweaver/grip.opy]: Set default Life Grip cooldown":

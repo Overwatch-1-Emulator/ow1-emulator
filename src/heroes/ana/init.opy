@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/ana/sleep.opy"
 #!include "heroes/ana/nade.opy"

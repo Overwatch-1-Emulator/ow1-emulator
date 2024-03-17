@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../ow1pp_main.opy"
 
 globalvar hero_roster_gvar
 #!defineMember current_hero hero_roster_gvar[0]
@@ -16,13 +16,12 @@ globalvar heroes_enabled
 #!defineMember _support_heroes hero_roster_gvar[7]
 
 
-# Hardcode OW1 heroes = true, OW2 heroes = false by default
 rule "[hero_roster.opy]: Initiaize Hero Roster workshop settings":
     heroes_enabled[heroID(Hero.DVA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "DVa", true)
-    heroes_enabled[heroID(Hero.JUNKER_QUEEN)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Junker Queen", true)
-    heroes_enabled[heroID(Hero.MAUGA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Mauga", false)
+    heroes_enabled[heroID(Hero.JUNKER_QUEEN)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Junker Queen", ENABLE_JUNKERQUEEN)
+    heroes_enabled[heroID(Hero.MAUGA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Mauga", ENABLE_MAUGA)
     heroes_enabled[heroID(Hero.ORISA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Orisa", true)
-    heroes_enabled[heroID(Hero.RAMATTRA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Ramattra", true)
+    heroes_enabled[heroID(Hero.RAMATTRA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Ramattra", ENABLE_RAMATTRA)
     heroes_enabled[heroID(Hero.REINHARDT)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Reinhardt", true)
     heroes_enabled[heroID(Hero.ROADHOG)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Roadhog", true)
     heroes_enabled[heroID(Hero.SIGMA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Sigma", true)
@@ -41,7 +40,7 @@ rule "[hero_roster.opy]: Initiaize Hero Roster workshop settings":
     heroes_enabled[heroID(Hero.MEI)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Mei", true)
     heroes_enabled[heroID(Hero.PHARAH)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Pharah", true)
     heroes_enabled[heroID(Hero.REAPER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Reaper", true)
-    heroes_enabled[heroID(Hero.SOJOURN)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Sojourn", true)
+    heroes_enabled[heroID(Hero.SOJOURN)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Sojourn", ENABLE_SOJOURN)
     heroes_enabled[heroID(Hero.SOLDIER)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Soldier", true)
     heroes_enabled[heroID(Hero.SOMBRA)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Sombra", true)
     heroes_enabled[heroID(Hero.SYMMETRA)] = createWorkshopSetting(bool, "Hero Roster - Damage", "Symmetra", true)
@@ -52,9 +51,9 @@ rule "[hero_roster.opy]: Initiaize Hero Roster workshop settings":
     heroes_enabled[heroID(Hero.ANA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Ana", true)
     heroes_enabled[heroID(Hero.BAPTISTE)] = createWorkshopSetting(bool, "Hero Roster - Support", "Baptiste", true)
     heroes_enabled[heroID(Hero.BRIGITTE)] = createWorkshopSetting(bool, "Hero Roster - Support", "Brigitte", true)
-    heroes_enabled[heroID(Hero.ILLARI)] = createWorkshopSetting(bool, "Hero Roster - Support", "Illari", true)
-    heroes_enabled[heroID(Hero.KIRIKO)] = createWorkshopSetting(bool, "Hero Roster - Support", "Kiriko", true)
-    heroes_enabled[heroID(Hero.LIFEWEAVER)] = createWorkshopSetting(bool, "Hero Roster - Support", "Lifeweaver", false)
+    heroes_enabled[heroID(Hero.ILLARI)] = createWorkshopSetting(bool, "Hero Roster - Support", "Illari", ENABLE_ILLARI)
+    heroes_enabled[heroID(Hero.KIRIKO)] = createWorkshopSetting(bool, "Hero Roster - Support", "Kiriko", ENABLE_KIRIKO)
+    heroes_enabled[heroID(Hero.LIFEWEAVER)] = createWorkshopSetting(bool, "Hero Roster - Support", "Lifeweaver", ENABLE_LIFEWEAVER)
     heroes_enabled[heroID(Hero.LUCIO)] = createWorkshopSetting(bool, "Hero Roster - Support", "Lucio", true)
     heroes_enabled[heroID(Hero.MERCY)] = createWorkshopSetting(bool, "Hero Roster - Support", "Mercy", true)
     heroes_enabled[heroID(Hero.MOIRA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Moira", true)

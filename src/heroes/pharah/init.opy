@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/pharah/hover_jets.opy"
 #!include "heroes/pharah/rocket_launcher.opy"

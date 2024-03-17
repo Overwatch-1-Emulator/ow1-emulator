@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/moira/biotic_grasp.opy"
 #!include "heroes/moira/biotic_orb.opy"

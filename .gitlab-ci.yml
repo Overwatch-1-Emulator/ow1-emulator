@@ -1,13 +1,28 @@
 stages:          # List of stages for jobs, and their order of execution
-  # - build
+  - build
   # - deploy
   - release
 
-# build-job:       # This job runs in the build stage, which runs first.
-#   stage: build
-#   script:
-#     - echo "Compiling the code..."
-#     - echo "Compile complete."
+build-job:       # This job runs in the build stage, which runs first.
+  stage: build
+  image: node
+  variables: 
+    SEMANTIC_RELEASE_PACKAGE: $CI_PROJECT_NAME
+    GIT_SUBMODULE_STRATEGY: recursive
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends git-core ca-certificates
+    - npm install -g semantic-release @semantic-release/gitlab
+    - npm install semantic-release-discord-bot -D
+  script:
+    - export NEXT_VERSION=v$(semantic-release --dry-run | grep 'The next release version is' | sed -E 's/.* ([[:digit:].]+)$/\1/')
+    - cd "overpy/VS Code Extension/" && npm install && cd ../../
+    - node build.js
+  artifacts:
+    paths:
+      - build/ow1em.txt
+      - build/ow1pp.txt
+  only:
+    - main
 
 # deploy-staging-job:      # This job runs in the deploy stage.
 #   stage: deploy  # It only runs when *both* jobs in the test stage complete successfully.

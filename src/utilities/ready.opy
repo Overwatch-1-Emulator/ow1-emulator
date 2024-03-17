@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../ow1pp_main.opy"
 
 
 globalvar ready_gvar
@@ -21,7 +21,7 @@ rule "[ready.opy]: Create ready HUD":
         hudText(eventPlayer, 
                 "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), 
                 "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), 
-                GAMEMODE_NAME" ""("GAMEMODE_CODE")", 
+                GAMEMODE_NAME" "GAMEMODE_VERSION" ""("GAMEMODE_CODE")", 
                 HudPosition.TOP, 
                 Math.INFINITY, 
                 ready_color if eventPlayer.ready else Color.RED, 

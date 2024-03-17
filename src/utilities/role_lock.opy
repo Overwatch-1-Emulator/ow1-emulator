@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../ow1pp_main.opy"
 
 globalvar role_lock_gvar
 #!defineMember hero_select_time role_lock_gvar[0]

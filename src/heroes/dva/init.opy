@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/dva/hp.opy"
 #!include "heroes/dva/gun.opy"
