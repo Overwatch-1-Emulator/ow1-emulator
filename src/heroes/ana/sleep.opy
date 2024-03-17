@@ -7,7 +7,7 @@ rule "[ana/sleep.opy]: Sleep tanks for longer duration":
     @Condition eventAbility == Button.ABILITY_1
     @Condition victim.getCurrentHero() in getTankHeroes()
     
-    victim.setStatusEffect(null, Status.HACKED, 1)
+    victim.setStatusEffect(null, Status.HACKED, 0.5)
     # immediately wake up victim
     waitUntil(victim.hasStatusEffect(Status.ASLEEP), Math.INFINITY)
     while (victim.hasStatusEffect(Status.ASLEEP)):

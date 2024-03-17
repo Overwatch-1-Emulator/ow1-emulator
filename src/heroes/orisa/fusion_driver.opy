@@ -28,8 +28,9 @@ rule "[orisa/fusion_driver.opy]: Decrease ammo when shooting gun":
 
 
 rule "[orisa/fusion_driver.opy]: Reload gun after respawning":
-    @Event playerDied
+    @Event eachPlayer
     @Hero orisa
+    @Condition eventPlayer.isDead()
 
     waitUntil(eventPlayer.isInSpawnRoom(), Math.INFINITY)
     resetFusionDriver()
@@ -127,10 +128,3 @@ rule "[orisa/fusion_driver.opy]: Deal OW1 Orisa melee damage":
     @Condition eventAbility == Button.MELEE
 
     damage(victim, attacker, eventDamage*(OW2_ORISA_FUSION_DRIVER_DAMAGE/OW1_ORISA_FUSION_DRIVER_DAMAGE) - eventDamage + 1) # +1 compensates for rounding error
-
-
-rule "[orisa/fusion_driver.opy]: Reload after dying":
-    @Event playerDied
-    @Hero orisa
-
-    resetFusionDriver()
