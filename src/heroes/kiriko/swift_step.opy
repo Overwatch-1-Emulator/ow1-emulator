@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 playervar swift_step_pvar
 #!defineMember _hp_before_step swift_step_pvar[0]

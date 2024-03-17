@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[baptiste/regen_burst.opy]: Remove initial burst healing from regenerative burst":

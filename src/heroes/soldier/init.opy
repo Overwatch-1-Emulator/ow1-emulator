@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/soldier/pulse_rifle.opy"
 #!include "heroes/soldier/biotic_field.opy"

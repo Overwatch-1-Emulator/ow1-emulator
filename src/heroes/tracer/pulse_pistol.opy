@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 # rule "[tracer/pulse_pistol.opy]: Deal OW1 tracer Pulse Pistol damage":

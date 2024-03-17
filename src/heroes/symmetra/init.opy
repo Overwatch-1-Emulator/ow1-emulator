@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 #!include "heroes/symmetra/projector.opy"
 #!include "heroes/symmetra/orb.opy"

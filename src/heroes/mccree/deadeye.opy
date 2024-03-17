@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[mccree/deadeye.opy]: Remove damage reduction during deadeye":

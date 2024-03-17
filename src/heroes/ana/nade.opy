@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[ana/nade.opy]: Heal OW1 healing with biotic grenade":

@@ -1,11 +1,15 @@
-#!mainFile "../main.opy"
+#!mainFile "ow1em_main.opy"
 
 # Environment Variables
-#!define GAMEMODE_NAME "Overwatch 1++"
-#!define GAMDMODE_DESCRIPTION (GAMEMODE_NAME + "\n" + \
+#!define GAMEMODE_VERSION "Dev Build"
+#!define GAMEMODE_NAME "Overwatch 1 Emulator"
+#!define GAMDMODE_DESCRIPTION (GAMEMODE_NAME + " " + GAMEMODE_VERSION + "\n" + \
                                "\n" + \
-                               "Overwatch 1 Emulator (KHTG0)" + "\n" + \
-                               "extended with Overwatch 2 Heroes" + "\n" + \
+                               "ecksdee#11729's attempt to accurately recreate " + "\n" + \
+                               "the last version of Overwatch 1 using workshop." + "\n" + \
+                               "\n" + \
+                               "Check out Overwatch 1++ (YKMXH)" + "\n" + \
+                               "to enable Overwatch 2 heroes" + "\n" + \
                                "\n" + \
                                "Main build: " + GAMEMODE_CODE + "\n" + \
                                "Staging build: " + STAGING_CODE + "\n" + \
@@ -18,7 +22,7 @@
                                "pretz#11551" + "\n" + \
                                "Hikigaeru#11863" + "\n" + \
                                "\n" + \
-                               "workshop.codes/ow1-plus-plus" + "\n" + \
+                               "workshop.codes/ow1-emulator" + "\n" + \
                                "\n" + \
                                "Discord:" + "\n" + \
                                DISCORD_SHORT_LINK + "\n" + \
@@ -26,7 +30,15 @@
                                "\n" + \
                                "Source code:" + "\n" + \
                                "gitlab.com/MaxwellJung/ow1_emulator")
-#!define GAMEMODE_CODE "YKMXH"
-#!define STAGING_CODE "SXGCQ"
+#!define GAMEMODE_CODE "KHTG0"
+#!define STAGING_CODE "ESMXJ"
 #!define DISCORD_SHORT_LINK "dsc.gg/ow1"
 #!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"
+
+#!define ENABLE_JUNKERQUEEN false
+#!define ENABLE_MAUGA false
+#!define ENABLE_RAMATTRA false
+#!define ENABLE_SOJOURN false
+#!define ENABLE_ILLARI false
+#!define ENABLE_KIRIKO false
+#!define ENABLE_LIFEWEAVER false

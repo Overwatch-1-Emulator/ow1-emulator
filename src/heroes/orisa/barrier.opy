@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 # golden angle in radians
 #!define PHI (Math.PI * (sqrt(5)-1))

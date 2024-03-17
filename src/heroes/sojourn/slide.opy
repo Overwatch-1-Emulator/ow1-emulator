@@ -1,4 +1,4 @@
-# #!mainFile "../../main.opy"
+# #!mainFile "../../ow1pp_main.opy"
 
 # rule "[sojourn/slide.opy]: Set default Power Slide cooldown":
 #     @Event eachPlayer

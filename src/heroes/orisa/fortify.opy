@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 rule "[orisa/fortify.opy]: Remove overhealth during fortify":
     @Event eachPlayer

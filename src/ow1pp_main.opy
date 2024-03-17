@@ -1,9 +1,6 @@
-#!mainFile "main.opy"
-
-#!obfuscate noRuleFilling noConstantObfuscation noCopyProtection
+#!include "ow1pp_env.opy"
 
 # Useful constants
-#!include "constants/env_constants.opy"
 #!include "constants/ow1_constants.opy"
 #!include "constants/ow2_constants.opy"
 
@@ -20,7 +17,7 @@
 #!include "utilities/anti_crash.opy"
 
 # Custom game lobby settings
-#!include "lobby_settings.opy"
+#!include "ow1pp_lobby.opy"
 
 # OW1 logic
 # Remove damage passive

@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[soldier/pulse_rifle.opy]: Deal OW1 soldier primary fire damage":

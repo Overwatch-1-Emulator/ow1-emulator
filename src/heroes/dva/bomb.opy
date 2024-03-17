@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../ow1pp_main.opy"
 
 
 rule "[dva/bomb.opy]: Force reset ult charge when DVa pops out of Mech":
