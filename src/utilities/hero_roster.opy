@@ -1,4 +1,4 @@
-#!mainFile "../ow1pp_main.opy"
+#!mainFile "../dev_main.opy"
 
 globalvar hero_roster_gvar
 #!defineMember current_hero hero_roster_gvar[0]

@@ -1,4 +1,4 @@
-#!mainFile "ow1pp_main.opy"
+#!mainFile "../dev_main.opy"
 
 # Environment Variables
 #!define GAMEMODE_VERSION "Dev Build"
@@ -33,9 +33,9 @@
 #!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"
 
 #!define ENABLE_JUNKERQUEEN true
-#!define ENABLE_MAUGA false
+#!define ENABLE_MAUGA true
 #!define ENABLE_RAMATTRA true
 #!define ENABLE_SOJOURN true
 #!define ENABLE_ILLARI true
 #!define ENABLE_KIRIKO true
-#!define ENABLE_LIFEWEAVER false
+#!define ENABLE_LIFEWEAVER true

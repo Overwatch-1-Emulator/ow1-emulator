@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar is_using_supercharger
 playervar is_supercharged

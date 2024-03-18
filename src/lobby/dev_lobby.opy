@@ -1,4 +1,4 @@
-#!mainFile "ow1pp_main.opy"
+#!mainFile "../dev_main.opy"
 
 settings {
     "main": {
@@ -11,163 +11,14 @@ settings {
         "enableMatchVoiceChat": true,
         "spectatorSlots": 12,
         "team1Slots": 6,
-        "team2Slots": 6,
+        "team2Slots": 0,
         "returnToLobby": "afterGame",
         "teamBalancing": "afterGame",
         # "minimumLatencyInNs": 50000000
     },
     "gamemodes": {
-        "assault": {
-            "enabledMaps": [
-                "hanamura",
-                # "horizonLunarColony",
-                # "paris",
-                "templeOfAnubis",
-                "volskaya"
-            ]
-        },
-        "control": {
-            "enabledMaps": [
-                {
-                    "busan": [
-                        "morning"
-                    ]
-                },
-                # {
-                #     "antarcticPeninsula": []
-                # },
-                {
-                    "ilios": [
-                        "morning"
-                    ]
-                },
-                {
-                    "lijiangTower": [
-                        "night"
-                    ]
-                },
-                {
-                    "nepal": [
-                        "morning"
-                    ]
-                },
-                {
-                    "oasis": [
-                        "evening"
-                    ]
-                },
-                # {
-                #     "samoa": []
-                # }
-            ]
-        },
-        "escort": {
-            "enabledMaps": [
-                # {
-                #     "circuitRoyal": [
-                #         "night"
-                #     ]
-                # },
-                {
-                    "dorado": [
-                        "night"
-                    ]
-                },
-                {
-                    "havana": [
-                        "morning"
-                    ]
-                },
-                {
-                    "rialto": [
-                        "morning"
-                    ]
-                },
-                {
-                    "junkertown" : []
-                },
-                {
-                    "route66": [
-                        "morning"
-                    ]
-                },
-                {
-                    "shambaliMonastery": []
-                },
-                {
-                    "watchpointGibraltar": [
-                        "evening"
-                    ]
-                }
-            ]
-        },
-        "hybrid": {
-            "enabledMaps": [
-                {
-                    "blizzWorld": [
-                        "morning"
-                    ]
-                },
-                {
-                    "eichenwalde": [
-                        "morning"
-                    ]
-                },
-                {
-                    "hollywood": [
-                        "morning"
-                    ]
-                },
-                {
-                    "kingsRow": [
-                        "night"
-                    ]
-                },
-                {
-                    "midtown": [
-                        "morning"
-                    ]
-                },
-                {
-                    "numbani": []
-                },
-                # {
-                #     "paraiso": [
-                #         "morning"
-                #     ]
-                # },
-            ]
-        },
         "practiceRange": {
-            "enabledMaps": []
-        },
-        "flashpoint": {
-            "captureSpeed%": 75,
-            "enabledMaps": [
-                # {
-                #     "newJunkCity": []
-                # },
-                {
-                    "suravasa": []
-                },
-            ]
-        },
-        "push": {
-            "enabledMaps": [
-                {
-                    "colosseo": [
-                        "evening"
-                    ]
-                },
-                {
-                    "esperanca": []
-                },
-                # {
-                #     "newQueenStreet": [
-                #         "morning"
-                #     ]
-                # },
-            ]
+            "enabledMaps": [ "practiceRange" ]
         },
         "general": {
             "heroLimit": "1PerTeam",
@@ -365,9 +216,9 @@ settings {
                 "junkerQueen",
                 "junkrat",
                 "kiriko",
-                # "lifeweaver",
+                "lifeweaver",
                 "lucio",
-                # "mauga",
+                "mauga",
                 "mei",
                 "mercy",
                 "moira",

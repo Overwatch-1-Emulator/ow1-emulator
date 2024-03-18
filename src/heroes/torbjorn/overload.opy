@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[torbjorn/overload.opy]: Correct overload hp":

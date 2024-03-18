@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[kiriko/kunai.opy]: OW1 Kunai damage":

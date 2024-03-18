@@ -1,4 +1,4 @@
-#!mainFile "../../ow1pp_main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[ana/sleep.opy]: Sleep tanks for longer duration":
@@ -19,3 +19,4 @@ rule "[ana/sleep.opy]: Sleep tanks for longer duration":
         attacker, 
         Status.ASLEEP, 
         (OW1_ANA_SLEEP_DART_SLEEP_DURATION/OW2_ANA_SLEEP_DART_TANK_SLEEP_DURATION) * (OW1_ANA_SLEEP_DART_SLEEP_DURATION))
+    victim.clearStatusEffect(Status.HACKED)
