@@ -12,14 +12,14 @@ rule "[kiriko/kunai.opy]: OW1 Kunai damage":
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_KIRIKO_KUNAI_DAMAGE/OW2_KIRIKO_KUNAI_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
 
 
-rule "[kiriko/kunai.opy]: OW1 Kiriko fire rate":
-    @Event eachPlayer
-    @Hero kiriko
-    @Condition eventPlayer.isFiringSecondaryFire()
-    @Condition not eventPlayer.isUsingUltimate()
+# rule "[kiriko/kunai.opy]: OW1 Kiriko fire rate":
+#     @Event eachPlayer
+#     @Hero kiriko
+#     @Condition eventPlayer.isFiringSecondaryFire()
+#     @Condition not eventPlayer.isUsingUltimate()
 
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    wait(OW1_KIRIKO_KUNAI_RECOVERY_TIME)
-    eventPlayer.allowButton(Button.SECONDARY_FIRE)
-    if eventPlayer.isHoldingButton(Button.SECONDARY_FIRE):
-        eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
+#     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+#     wait(OW1_KIRIKO_KUNAI_RECOVERY_TIME)
+#     eventPlayer.allowButton(Button.SECONDARY_FIRE)
+#     if eventPlayer.isHoldingButton(Button.SECONDARY_FIRE):
+#         eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
