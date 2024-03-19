@@ -6,6 +6,10 @@ playervar sleep_pvar
 #!defineMember _tank_sleep_start_time sleep_pvar[0]
 #!defineMember _tank_sleeping sleep_pvar[1]
 
+#!define using_knockdown(eventPlayer, eventAbility)\
+    (((eventPlayer.getCurrentHero() == Hero.SIGMA) and (eventAbility == Button.ABILITY_2))\
+  or ((eventPlayer.getCurrentHero() == Hero.REINHARDT) and (eventAbility == Button.ULTIMATE)))
+
 
 rule "[ana/sleep.opy]: Sleep tanks for longer duration":
     @Event playerDealtDamage
@@ -27,6 +31,7 @@ rule "[ana/sleep.opy]: Wake sleeping tank if damage taken after MIN_SLEEP_DURATI
     @Condition victim._tank_sleeping
     @Condition victim.getCurrentHero() in getTankHeroes()
     @Condition getTotalTimeElapsed() - victim._tank_sleep_start_time > MIN_SLEEP_DURATION
+    @Condition not using_knockdown(attacker, eventAbility)
 
     victim.clearStatusEffect(Status.KNOCKED_DOWN)
     eventPlayer._tank_sleeping = false
