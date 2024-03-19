@@ -32,3 +32,4 @@ rule "[sombra/emp.opy]: Remove OW2 EMP damage":
     @Condition eventAbility == Button.ULTIMATE
 
     heal(victim, null, eventDamage)
+    damage(victim, attacker, victim.getHealth() - (victim.getHealthOfType(Health.NORMAL) + victim.getHealthOfType(Health.ARMOR)))
