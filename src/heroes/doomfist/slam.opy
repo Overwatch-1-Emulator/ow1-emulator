@@ -81,6 +81,7 @@ rule "[doomfist/slam.opy]: Execute slam":
     @Condition not isCCd(eventPlayer)
     @Condition not eventPlayer.is_ultimate_locked
     @Condition not eventPlayer.is_uppercut_locked
+    @Condition not eventPlayer.isCommunicatingEmote()
 
     eventPlayer.ow1_slam_victims = [] # clear slammed victims
 
