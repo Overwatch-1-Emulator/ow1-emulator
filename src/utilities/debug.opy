@@ -35,7 +35,7 @@ rule "[debug.opy]: player debug (Top Right)":
     @Condition DEBUG_MODE == true
 
     hudHeader(eventPlayer, "Event Player", HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "call_init = {}".format(eventPlayer.call_init), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "call_init = {}".format(eventPlayer.call_init), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_hero_switched = {}".format(eventPlayer._hero_switched), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getAltitude() = {}".format(eventPlayer.getAltitude()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "hasStatusEffect(Status.HACKED) = {}".format(eventPlayer.hasStatusEffect(Status.HACKED)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -43,7 +43,7 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "getStatistic(Stat.HERO_DAMAGE_DEALT) = {}".format(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "len(allowed_heroes) = {}".format(len(eventPlayer.allowed_heroes)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "len(getAllowedHeroes()) = {}".format(len(eventPlayer.getAllowedHeroes())), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "isUsingUltimate() = {}".format(eventPlayer.isUsingUltimate()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "isUsingUltimate() = {}".format(eventPlayer.isUsingUltimate()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_is_casting_emp = {}".format(eventPlayer._is_casting_emp), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_passive_healing_active = {}".format(eventPlayer._passive_healing_active), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_missing_ult_points = {}".format(eventPlayer._missing_ult_points), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -75,7 +75,7 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "_passive_healing_active = {}".format(eventPlayer._passive_healing_active), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getPosition() = {}".format(eventPlayer.getPosition()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "role = {}".format(eventPlayer.role), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "isInAlternateForm() = {}".format(eventPlayer.isInAlternateForm()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "isInAlternateForm() = {}".format(eventPlayer.isInAlternateForm()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "Primary Fire Cooldown = {}".format(eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "is_using_guardian_angel = {}".format(eventPlayer.is_using_guardian_angel), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "is_slingshotting = {}".format(eventPlayer.is_slingshotting), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -104,8 +104,8 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "getAbilityCooldown(SECONDARY) = {}".format(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_is_exiting_wholehog = {}".format(eventPlayer._is_exiting_wholehog), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isGlidingOnRoof = {}".format(isGlidingOnRoof()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_tank_sleep_start_time = {}".format(eventPlayer._tank_sleep_start_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_tank_sleeping = {}".format(eventPlayer._tank_sleeping), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_tank_sleep_start_time = {}".format(eventPlayer._tank_sleep_start_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_tank_sleeping = {}".format(eventPlayer._tank_sleeping), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
 rule "[debug.opy]: do something on interact":
