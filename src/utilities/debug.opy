@@ -135,7 +135,7 @@ rule "Show Player Damage/Healing":
     # total healing
     createInWorldText(
         getAllPlayers() if eventPlayer._total_healing_received > 0 else null, 
-        eventPlayer._total_damage_received, 
+        eventPlayer._total_healing_received, 
         eventPlayer.getEyePosition() + 2 * STAT_SPACING * Vector.UP, 
         2, 
         Clip.NONE, 
@@ -157,7 +157,7 @@ rule "Show Player Damage/Healing":
     # most recent healing
     createInWorldText(
         getAllPlayers() if eventPlayer._last_healing_received > 0 else null, 
-        eventPlayer._last_damage_received, 
+        eventPlayer._last_healing_received, 
         eventPlayer.getEyePosition() + 4 * STAT_SPACING * Vector.UP, 
         1, 
         Clip.NONE, 
