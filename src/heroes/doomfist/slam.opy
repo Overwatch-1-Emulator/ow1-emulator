@@ -233,7 +233,7 @@ def showSlamDamageGui():
     @Name "[doomfist/slam.opy]: showSlamDamageGui()"
 
     if eventPlayer.slam_damage_text_entity != null: return
-    createInWorldText(eventPlayer, "{0}".format(floor(eventPlayer.slam_damage)), 
+    createInWorldText(eventPlayer, "[ {0} ]".format(floor(eventPlayer.slam_damage)), 
                       updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
                                       verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
                                       2, 
