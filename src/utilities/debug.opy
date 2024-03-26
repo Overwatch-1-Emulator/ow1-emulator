@@ -110,10 +110,13 @@ rule "[debug.opy]: player debug (Top Right)":
 
 rule "[debug.opy]: do something on interact":
     @Event eachPlayer
-    @Condition DEBUG_MODE == true
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    @Condition DEBUG_MODE
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT)
 
     damage(eventPlayer, null, 25/eventPlayer._base_damage_scalar)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setUltCharge(100)
 
 
