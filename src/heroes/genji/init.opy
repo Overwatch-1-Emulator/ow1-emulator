@@ -1,5 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/genji/deflect.opy"
+
 
 rule "[genji/init.opy]: Detect switch to Genji":
     @Event eachPlayer
