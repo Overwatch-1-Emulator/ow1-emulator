@@ -1,5 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/mccree/peacekeeper.opy"
 #!include "heroes/mccree/flashbang.opy"
 #!include "heroes/mccree/roll.opy"
 #!include "heroes/mccree/deadeye.opy"
