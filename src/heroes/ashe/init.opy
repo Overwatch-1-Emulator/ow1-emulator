@@ -1,5 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/ashe/coach_gun.opy"
 #!include "heroes/ashe/bob.opy"
 
 rule "[ashe/init.opy]: Detect switch to Ashe":
