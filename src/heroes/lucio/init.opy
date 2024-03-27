@@ -2,6 +2,7 @@
 
 #!include "heroes/lucio/soundwave.opy"
 #!include "heroes/lucio/aura.opy"
+#!include "heroes/lucio/beat.opy"
 
 
 rule "[lucio/init.opy]: Detect switch to Lucio":
