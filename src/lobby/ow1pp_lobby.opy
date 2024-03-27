@@ -310,6 +310,7 @@ settings {
             },
             "sigma": {
                 "secondaryFireRechargeRate%": percent(OW1_SIGMA_BARRIER_REGEN/OW2_SIGMA_BARRIER_REGEN),
+                "ability1Cooldown%": percent(OW1_SIGMA_KINETIC_COOLDOWN/OW2_SIGMA_KINETIC_COOLDOWN),
                 "health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH), # for barrier
                 "ultGen%": percent(OW2_SIGMA_ULT_COST/OW1_SIGMA_ULT_COST),
             },
