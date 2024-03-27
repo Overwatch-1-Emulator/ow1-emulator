@@ -2,6 +2,7 @@
 
 #!include "heroes/lucio/soundwave.opy"
 #!include "heroes/lucio/aura.opy"
+#!include "heroes/lucio/amp.opy"
 #!include "heroes/lucio/beat.opy"
 
 
