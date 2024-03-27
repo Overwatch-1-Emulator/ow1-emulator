@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/zarya/self_bubble.opy"
-#!include "heroes/zarya/ally_bubble.opy"
+##!include "heroes/zarya/self_bubble.opy"
+##!include "heroes/zarya/ally_bubble.opy"
 
 rule "[zarya/init.opy]: Detect switch to Zarya":
     @Event eachPlayer
@@ -23,8 +23,8 @@ rule "[zarya/init.opy]: Initialize Zarya":
     removeSelfHealing()
     removeTankPassive()
 
-    initSelfBubble()
-    initAllyBubble()
+    # initSelfBubble()
+    # initAllyBubble()
 
     eventPlayer.call_init = false
 
@@ -34,8 +34,8 @@ rule "[zarya/init.opy]: Clean up Zarya":
     @Condition eventPlayer.getCurrentHero() == Hero.ZARYA
 
     waitUntil(eventPlayer.getCurrentHero() != Hero.ZARYA, Math.INFINITY)
-    hideSelfBubbleCD()
-    hideAllyBubbleCD()
+    # hideSelfBubbleCD()
+    # hideAllyBubbleCD()
 
 
 rule "[zarya/init.opy]: Compensate zarya global damage reduction":
