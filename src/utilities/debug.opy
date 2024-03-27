@@ -9,6 +9,8 @@ playervar debug_pvar
 #!define _last_damage_received debug_pvar[1]
 #!define _total_healing_received debug_pvar[2]
 #!define _last_healing_received debug_pvar[3]
+#!define _debug_sphere debug_pvar[4]
+#!define _debug_position debug_pvar[5]
 
 
 rule "[utilities/debug.opy] Disable Inspector for performance":
@@ -95,7 +97,7 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "trasnloc_velocity = {}".format(eventPlayer.trasnloc_velocity), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_seed_hit_surface_normal = {}".format(eventPlayer._seed_hit_surface_normal), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_is_using_translocator = {}".format(eventPlayer._is_using_translocator), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "isOnGround() = {}".format(eventPlayer.isOnGround()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "isOnGround() = {}".format(eventPlayer.isOnGround()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isJumping() = {}".format(eventPlayer.isJumping()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "jet_fuel = {}".format(eventPlayer.jet_fuel), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_hover_jet_button = {}".format(eventPlayer._hover_jet_button), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -120,6 +122,19 @@ rule "[utilities/debug.opy]: do something on interact":
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setUltCharge(100)
+
+    eventPlayer._debug_position = eventPlayer.getPosition()
+
+    # Sphere for debugging
+    if eventPlayer._debug_sphere == null:
+        createEffect(
+            eventPlayer, 
+            Effect.SPHERE, 
+            Color.BLACK, 
+            eventPlayer._debug_position, 
+            0.1, 
+            EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+        eventPlayer._debug_sphere = getLastCreatedEntity()
 
 
 rule "[utilities/debug.opy]: Show Player Damage/Healing":
