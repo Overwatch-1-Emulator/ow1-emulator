@@ -148,9 +148,9 @@ rule "[doomfist/uppercut.opy]: Heal doomfist uppercut shields":
     @Condition updateEveryTick(eventPlayer.uppercut_shields > 0)
     @Condition updateEveryTick(eventPlayer.getHealth() < eventPlayer.getMaxHealth())
     
-    eventPlayer.hp_before_uppercut = eventPlayer.getHealth()
-    heal(eventPlayer, null, eventPlayer.uppercut_shields)
-    eventPlayer.uppercut_shields -= min(eventPlayer.getMaxHealth() - eventPlayer.hp_before_uppercut, eventPlayer.uppercut_shields)
-    wait()
-    if RULE_CONDITION:
-        goto RULE_START
+    do:
+        eventPlayer.hp_before_uppercut = eventPlayer.getHealth()
+        heal(eventPlayer, null, eventPlayer.uppercut_shields)
+        eventPlayer.uppercut_shields -= min(eventPlayer.getMaxHealth() - eventPlayer.hp_before_uppercut, eventPlayer.uppercut_shields)
+        wait()
+    while RULE_CONDITION

@@ -24,7 +24,7 @@ settings {
             "heroLimit": "1PerTeam",
             "roleLimit": "off",
             "gamemodeStartTrigger": "allSlotsFilled",
-            "tankPassiveHealthBonus": "alwaysEnabled",
+            "tankPassiveHealthBonus": "disabled",
             "enableCompetitiveRules": true
         }
     },
@@ -59,7 +59,7 @@ settings {
                 "ultGen%": percent(OW2_MCCREE_ULT_COST/OW1_MCCREE_ULT_COST)
             },
             "doomfist": {
-                "health%": percent(OW1_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE), # for shield hp
+                "health%": percent(OW2_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE), # for shield hp
                 "ammoRegenerationTime%": 162,
                 "secondaryFireKb%": 0,
                 "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
