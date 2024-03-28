@@ -24,7 +24,7 @@ rule "[torbjorn/init.opy]: Initialize Torbjorn":
     eventPlayer.call_init = false
 
 
-rule "[torbjorn/init.opy]: Correct Rivet Gun and ultimate damage":
+rule "[torbjorn/init.opy]: Correct Rivet Gun, Hammer, and ultimate damage":
     @Event playerDealtDamage
     @Hero torbjorn
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ULTIMATE]

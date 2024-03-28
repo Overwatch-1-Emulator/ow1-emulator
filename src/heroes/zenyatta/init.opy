@@ -24,3 +24,12 @@ rule "[zenyatta/init.opy]: Initialize Zenyatta":
     eventPlayer.setMaxAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
 
     eventPlayer.call_init = false
+
+
+rule "[zenyatta/init.opy]: OW1 Zenyatta melee damage":
+    @Event playerDealtDamage
+    @Hero zenyatta
+    @Condition eventAbility == null # for some reason, zenyatta melee doesn't show up as melee
+    @Condition eventPlayer.isMeleeing()
+
+    heal(victim, null, eventDamage - (OW1_MELEE_DAMAGE/OW2_ZENYATTA_MELEE_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar))
