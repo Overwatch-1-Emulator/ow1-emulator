@@ -1,6 +1,6 @@
 #!mainFile "../dev_main.opy"
 
-# This code is copied from 
+# Following code is based on 
 # https://workshop.codes/wiki/articles/help-my-server-is-crashing-a-guide-on-how-to-improve-server-stability-for-your-codes#anti-crash-rules
 
 globalvar ANTI_CRASH_ACTIVATE_PERCENT = createWorkshopSetting(int[0:250], "Anti Crash", "Activation Percent", 200)
