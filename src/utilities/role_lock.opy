@@ -1,7 +1,7 @@
 #!mainFile "../dev_main.opy"
 
 globalvar role_lock_gvar
-#!defineMember hero_select_time role_lock_gvar[0]
+#!defineMember _hero_select_time role_lock_gvar[0]
 #!defineMember MAX_TANK_COUNT role_lock_gvar[1]
 #!defineMember MAX_DAMAGE_COUNT role_lock_gvar[2]
 #!defineMember MAX_SUPPORT_COUNT role_lock_gvar[3]
@@ -24,13 +24,13 @@ enum Role:
 
 rule "[role_lock.opy]: Find player's role":
     @Event eachPlayer
-    @Condition eventPlayer._hero_switched
+    @Condition switchedHero(eventPlayer)
     
-    if eventPlayer.getCurrentHero() in _tank_heroes:
+    if eventPlayer.getCurrentHero() in getOW1TankHeroes():
         eventPlayer.role = Role.TANK
-    elif eventPlayer.getCurrentHero() in _damage_heroes:
+    elif eventPlayer.getCurrentHero() in getOW1DamageHeroes():
         eventPlayer.role = Role.DAMAGE
-    elif eventPlayer.getCurrentHero() in _support_heroes:
+    elif eventPlayer.getCurrentHero() in getOW1SupportHeroes():
         eventPlayer.role = Role.SUPPORT
     else:
         eventPlayer.role = Role.MISSING
@@ -48,11 +48,11 @@ rule "[role_lock.opy]: Skip hero assembly":
     @Condition isAssemblingHeroes()
 
     getAllPlayers().role = Role.MISSING # Reset every player's role
-    hero_select_time = getMatchTime() # Save assemble hero time
+    _hero_select_time = getMatchTime() # Save assemble hero time
     wait()
     setMatchTime(0) # Go to the end of the assembling heroes
     waitUntil(not isAssemblingHeroes(), Math.INFINITY)
-    setMatchTime(getMatchTime() + hero_select_time/3) # Give back assemble hero time
+    setMatchTime(getMatchTime() + _hero_select_time/3) # Give back assemble hero time
 
 
 rule "[role_lock.opy]: Lock tanks above role limit":
@@ -60,7 +60,7 @@ rule "[role_lock.opy]: Lock tanks above role limit":
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) >= MAX_TANK_COUNT
     @Condition not isAssemblingHeroes()
 
-    eventPlayer.allowed_heroes.remove(_tank_heroes)
+    eventPlayer.allowed_heroes.remove(getOW1TankHeroes())
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -69,7 +69,7 @@ rule "[role_lock.opy]: Lock damage above role limit":
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) >= MAX_DAMAGE_COUNT
     @Condition not isAssemblingHeroes()
 
-    eventPlayer.allowed_heroes.remove(_damage_heroes)
+    eventPlayer.allowed_heroes.remove(getOW1DamageHeroes())
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
@@ -78,7 +78,7 @@ rule "[role_lock.opy]: Lock supports above role limit":
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) >= MAX_SUPPORT_COUNT
     @Condition not isAssemblingHeroes()
 
-    eventPlayer.allowed_heroes.remove(_support_heroes)
+    eventPlayer.allowed_heroes.remove(getOW1SupportHeroes())
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 

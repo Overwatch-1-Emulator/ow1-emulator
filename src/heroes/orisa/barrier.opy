@@ -4,6 +4,7 @@
 #!define PHI (Math.PI * (sqrt(5)-1))
 globalvar los_i
 globalvar los_j
+globalvar barrier_i
 
 playervar barrier_pvar
 #!defineMember _barrier_seed_id barrier_pvar[0]
@@ -164,11 +165,11 @@ def deployBarrier(): # Create shield visual object
     fibonacciSphere()
 
     # Draw each barrier sample
-    for i in range(len(eventPlayer.barrier_entity_positions)):
+    for barrier_i in range(len(eventPlayer.barrier_entity_positions)):
         createEffect(getAllPlayers(), 
                      Effect.SPHERE, 
-                     eventPlayer.barrier_entity_colors[evalOnce(i)],
-                     eventPlayer.barrier_entity_positions[evalOnce(i)], 
+                     eventPlayer.barrier_entity_colors[evalOnce(barrier_i)],
+                     eventPlayer.barrier_entity_positions[evalOnce(barrier_i)], 
                      OW1_ORISA_BARRIER_ORB_SIZE, 
                      EffectReeval.COLOR)
         eventPlayer.barrier_entity_ids.append(getLastCreatedEntity())
@@ -193,14 +194,14 @@ def fibonacciSphere():
 
     eventPlayer.barrier_entity_positions = []
 
-    for i in range(OW1_ORISA_BARRIER_ORB_COUNT):
-        eventPlayer.barrier_sample_y = 1 - (i / (OW1_ORISA_BARRIER_ORB_COUNT-1)) * 2
+    for barrier_i in range(OW1_ORISA_BARRIER_ORB_COUNT):
+        eventPlayer.barrier_sample_y = 1 - (barrier_i / (OW1_ORISA_BARRIER_ORB_COUNT-1)) * 2
         if (eventPlayer.barrier_sample_y < -0.2):
             break # Do not draw bottom half of sphere
         eventPlayer.barrier_sample_radius = sqrt(1 - eventPlayer.barrier_sample_y ** 2)
-        eventPlayer.barrier_sample_coordinate = vect(cos(PHI*i) * eventPlayer.barrier_sample_radius, 
+        eventPlayer.barrier_sample_coordinate = vect(cos(PHI*barrier_i) * eventPlayer.barrier_sample_radius, 
                                                 eventPlayer.barrier_sample_y, 
-                                                sin(PHI*i) * eventPlayer.barrier_sample_radius)
+                                                sin(PHI*barrier_i) * eventPlayer.barrier_sample_radius)
         if angleBetweenVectors(eventPlayer.barrier_sample_coordinate, eventPlayer.barrier_orientation) > 90:
             continue # Do not draw back half of sphere
         eventPlayer.barrier_entity_positions.append(eventPlayer._barrier_origin + OW1_ORISA_PROTECTIVE_BARRIER_RADIUS * eventPlayer.barrier_sample_coordinate)
@@ -209,8 +210,8 @@ def fibonacciSphere():
 def destroyBarrier():
     @Name "[orisa/barrier.opy]: destroyBarrier()"
 
-    for i in range(len(eventPlayer.barrier_entity_ids)):
-        destroyEffect(eventPlayer.barrier_entity_ids[i])
+    for barrier_i in range(len(eventPlayer.barrier_entity_ids)):
+        destroyEffect(eventPlayer.barrier_entity_ids[barrier_i])
 
     eventPlayer.barrier_entity_ids = []
     eventPlayer.barrier_entity_positions = []
@@ -335,8 +336,8 @@ def destroyBarrierHud():
 def updateBarrierVisual():
     @Name "[orisa/barrier.opy]: updateBarrierVisual()"
     
-    for i in range(len(eventPlayer.barrier_entity_positions)):
-        eventPlayer.barrier_entity_colors[i] = eventPlayer.getTeam() \
+    for barrier_i in range(len(eventPlayer.barrier_entity_positions)):
+        eventPlayer.barrier_entity_colors[barrier_i] = eventPlayer.getTeam() \
                                                if random.uniform(0, 1) <= (eventPlayer.barrier_hp/OW1_ORISA_PROJECTILE_BARRIER_HEALTH) \
                                                else Color.WHITE
         wait()

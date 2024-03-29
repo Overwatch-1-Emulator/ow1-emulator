@@ -1,7 +1,5 @@
 #!mainFile "../dev_main.opy"
 
-globalvar i
-
 # Macro function for retrieving id of hero
 #!define heroID(h) (getAllHeroes().index(h))
 
