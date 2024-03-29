@@ -3,6 +3,7 @@
 #!include "heroes/roadhog/hook.opy"
 #!include "heroes/roadhog/breather.opy"
 #!include "heroes/roadhog/wholehog.opy"
+#!include "heroes/roadhog/scrap_gun.opy"
 
 
 rule "[roadhog/init.opy]: Detect switch to Roadhog":
