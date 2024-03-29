@@ -1,22 +1,31 @@
 #!mainFile "../dev_main.opy"
 
+globalvar heroes_enabled
+# indexing variable
+globalvar hero_roster_i
+
 globalvar hero_roster_gvar
 #!defineMember current_hero hero_roster_gvar[0]
-globalvar heroes_enabled
-
 # Currently enabled heroes
 #!defineMember _available_tanks hero_roster_gvar[1]
 #!defineMember _available_dps hero_roster_gvar[2]
 #!defineMember _available_supports hero_roster_gvar[3]
 #!defineMember _available_heroes hero_roster_gvar[4]
-
 # Hero Role Definition
 #!defineMember _tank_heroes hero_roster_gvar[5]
 #!defineMember _damage_heroes hero_roster_gvar[6]
 #!defineMember _support_heroes hero_roster_gvar[7]
 
+#!define getOW1TankHeroes() _tank_heroes
+#!define getOW1DamageHeroes() _damage_heroes
+#!define getOW1SupportHeroes() _support_heroes
+
 
 rule "[hero_roster.opy]: Initiaize Hero Roster workshop settings":
+    # enable all heroes by default
+    for hero_roster_i in range(len(getAllHeroes())):
+        heroes_enabled[hero_roster_i] = true
+
     heroes_enabled[heroID(Hero.DVA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "DVa", true)
     heroes_enabled[heroID(Hero.JUNKER_QUEEN)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Junker Queen", ENABLE_JUNKERQUEEN)
     heroes_enabled[heroID(Hero.MAUGA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Mauga", ENABLE_MAUGA)
@@ -76,10 +85,10 @@ rule "[hero_roster.opy]: Define tank, damage, support heroes array":
     _available_dps = []
     _available_supports = []
 
-    for i in range(len(getAllHeroes())):
-        if (not heroes_enabled[i]): continue # Skip if hero not enabled
+    for hero_roster_i in range(len(getAllHeroes())):
+        if (not heroes_enabled[hero_roster_i]): continue # Skip if hero not enabled
         
-        current_hero = getAllHeroes()[i]
+        current_hero = getAllHeroes()[hero_roster_i]
         if (current_hero in _tank_heroes):
             _available_tanks.append(current_hero)
         elif (current_hero in _damage_heroes):
