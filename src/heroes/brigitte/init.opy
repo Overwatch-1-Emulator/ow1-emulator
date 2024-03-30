@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
 #!include "heroes/brigitte/bash.opy"
-##!include "heroes/brigitte/whipshot.opy"
+#!include "heroes/brigitte/whipshot.opy"
 #!include "heroes/brigitte/rally.opy"
 #!include "heroes/brigitte/inspire.opy"
 
