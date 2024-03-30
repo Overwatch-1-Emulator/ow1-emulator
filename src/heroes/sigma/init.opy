@@ -1,7 +1,5 @@
 #!mainFile "../../dev_main.opy"
 
-#!define FLIGHT_IMPULSE 0.5
-
 
 rule "[sigma/init.opy]: Detect switch to Sigma":
     @Event eachPlayer

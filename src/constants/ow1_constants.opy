@@ -9,6 +9,7 @@
 #!define GRAVITY (-9.8)
 #!define MIN_DAMAGE 0.000001
 #!define TICK_DURATION 0.016
+#!define FLIGHT_IMPULSE 0.5
 
 # Ana
 #!define OW1_ANA_BIOTIC_GRENADE_COOLDOWN 10

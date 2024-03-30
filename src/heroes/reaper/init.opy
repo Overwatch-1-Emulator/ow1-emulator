@@ -1,5 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/reaper/wraith.opy"
 #!include "heroes/reaper/blossom.opy"
 
 
