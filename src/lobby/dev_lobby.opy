@@ -200,7 +200,10 @@ settings {
             "hammond": {
                 "ability1Kb%": percent(1/OW2_WRECKING_BALL_FIREBALL_KB),
                 "ultGen%": percent(OW2_WRECKING_BALL_ULT_COST/OW1_WRECKING_BALL_ULT_COST),
-                "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME/OW2_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME)
+                "enableRollOnly": true,
+                "secondaryFireCooldown%": percent(OW1_WRECKING_BALL_GRAPPLE_COOLDOWN_TIME/OW2_WRECKING_BALL_GRAPPLE_COOLDOWN_TIME),
+                "ability2Cooldown%": percent(OW1_WRECKING_BALL_SHIELDS_COOLDOWN_TIME/OW2_WRECKING_BALL_SHIELDS_COOLDOWN_TIME),
+                "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME/OW2_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME),
             },
             "zarya": {
                 "health%": percent(OW1_ZARYA_BARRIER_HEALTH/OW2_ZARYA_BARRIER_HEALTH),
