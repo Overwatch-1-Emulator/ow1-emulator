@@ -119,3 +119,19 @@ rule "[doomfist/punch.opy]: Remove stun from wall impact":
     @Condition victim in eventPlayer.wall_impacted_victims
     
     victim.clearStatusEffect(Status.STUNNED)
+
+
+rule "Doomfist Vertical Rocket Punch":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.isFiringSecondaryFire()
+    @Condition not eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
+
+    eventPlayer.setMoveSpeed(0)
+    if eventPlayer.getFacingDirection().y > 0.05:
+        while eventPlayer.isOnGround() and eventPlayer.isFiringSecondaryFire():
+            eventPlayer.applyImpulse(eventPlayer.getFacingDirection(), 30, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+            wait(0.05)
+    eventPlayer.applyImpulse(eventPlayer.getFacingDirection(), 50, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
+    wait(0.5)
+    eventPlayer.setMoveSpeed(100)
