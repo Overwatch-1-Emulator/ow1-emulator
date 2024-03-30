@@ -28,3 +28,10 @@ rule "[winston/primal.opy]: Increase knockback during primal":
     waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.setKnockbackDealt(100)
 
+
+rule "[winston/primal.opy]: Increase knockback damage during primal":
+    @Event playerDealtDamage
+    @Hero winston
+    @Condition eventAbility == Button.ULTIMATE
+
+    damage(victim, attacker, ((OW1_WINSTON_PRIMAL_DAMAGE/OW2_WINSTON_PRIMAL_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)
