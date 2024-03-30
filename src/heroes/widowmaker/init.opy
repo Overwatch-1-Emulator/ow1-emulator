@@ -33,7 +33,7 @@ rule "[widowmaker/init.opy]: Initialize Widowmaker":
     eventPlayer.call_init = false
 
 
-rule "[widowmaker.opy]: Revert sniper damage falloff":
+rule "[widowmaker/init.opy]: Revert sniper damage falloff":
     @Event playerDealtDamage
     @Hero widowmaker
     @Condition eventPlayer.isFiringSecondaryFire()
@@ -59,3 +59,12 @@ rule "[widowmaker.opy]: Revert sniper damage falloff":
 
     eventPlayer.expected_scoped_damage = eventPlayer.scoped_damage_base * eventPlayer.ow1_scoped_damage_falloff_scalar
     damage(victim, attacker, eventPlayer.expected_scoped_damage - eventDamage)
+
+
+rule "[widowmaker/init.opy]: OW1 primary fire damage":
+    @Event playerDealtDamage
+    @Hero widowmaker
+    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition not eventPlayer.isFiringSecondaryFire()
+
+    damage(victim, attacker, ((18/13)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)
