@@ -6,4 +6,4 @@ rule "[ashe/coach_gun.opy]: Compensate Ashe global damage reduction":
     @Hero ashe
     @Condition eventAbility == Button.ABILITY_1
 
-    damage(victim, attacker, ((9/6)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)
+    damage(victim, attacker, ((250/90)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)
