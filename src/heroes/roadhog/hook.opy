@@ -1,5 +1,13 @@
 #!mainFile "../../dev_main.opy"
 
+rule "[roadhog/hook.opy]: Reduce hook cooldown by 50% after hitting an enemy":
+    @Event playerDealtDamage
+    @Hero roadhog
+    @Condition eventAbility == Button.ABILITY_1
+
+    waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, percentOf(50, OW1_ROADHOG_HOOK_COOLDOWN_TIME))
+
 
 # rule "[roadhog/hook.opy]: Move hooked enemies closer":
 #     @Event playerDealtDamage
