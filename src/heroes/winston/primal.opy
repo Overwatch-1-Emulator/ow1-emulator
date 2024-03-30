@@ -17,3 +17,14 @@ rule "[winston/primal.opy]: Fix primal rage hp":
     eventPlayer._primal_exit_armor = eventPlayer.getHealthOfType(Health.ARMOR)
     setCustomHp(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
     eventPlayer.setHealth(min(OW1_WINSTON_HEALTH, eventPlayer._primal_exit_health) + eventPlayer._primal_exit_armor)
+
+
+rule "[winston/primal.opy]: Increase knockback during primal":
+    @Event eachPlayer
+    @Hero winston
+    @Condition eventPlayer.isUsingUltimate()
+
+    eventPlayer.setKnockbackDealt(140)
+    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
+    eventPlayer.setKnockbackDealt(100)
+
