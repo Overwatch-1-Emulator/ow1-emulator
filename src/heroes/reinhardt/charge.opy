@@ -17,6 +17,6 @@ rule "[reinhardt/charge.opy]: Reduce charge radius":
     @Hero reinhardt
     @Condition eventPlayer.isUsingAbility1()
 
-    eventPlayer.startForcingThrottle(0, 1/OW2_REINHARDT_TURN_BONUS, 0, 1/OW2_REINHARDT_TURN_BONUS, 0, 1/OW2_REINHARDT_TURN_BONUS)
+    eventPlayer.startForcingThrottle(0, OW1_REINHARDT_CHARGE_STEERING/OW2_REINHARDT_TURN_BONUS, 0, OW1_REINHARDT_CHARGE_STEERING/OW2_REINHARDT_TURN_BONUS, 0, OW1_REINHARDT_CHARGE_STEERING/OW2_REINHARDT_TURN_BONUS)
     waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
     eventPlayer.stopForcingThrottle()
