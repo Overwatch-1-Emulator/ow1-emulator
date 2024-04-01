@@ -43,13 +43,13 @@ rule "[watermark.opy]: Create watermark HUD":
     eventPlayer.rgb_vect = rgb_list[eventPlayer.rgb_i]
 
 
-rule "[watermark.opy]: Cycle RGB":
-    @Event eachPlayer
-    @Condition infoVisible(eventPlayer)
-    @Condition not DEBUG_MODE
+# rule "[watermark.opy]: Cycle RGB":
+#     @Event eachPlayer
+#     @Condition infoVisible(eventPlayer)
+#     @Condition not DEBUG_MODE
 
-    do:
-        eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))
-        chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], duration=RGB_DURATION, ChaseReeval.NONE)
-        waitUntil(eventPlayer.rgb_vect == rgb_list[eventPlayer.rgb_i], Math.INFINITY)
-    while RULE_CONDITION
+#     do:
+#         eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))
+#         chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], duration=RGB_DURATION, ChaseReeval.NONE)
+#         waitUntil(eventPlayer.rgb_vect == rgb_list[eventPlayer.rgb_i], Math.INFINITY)
+#     while RULE_CONDITION
