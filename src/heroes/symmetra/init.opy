@@ -19,7 +19,7 @@ rule "[symmetra/init.opy]: Initialize Symmetra":
 
     newHero(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
     setUltCost(OW1_SYMMETRA_ULT_COST)
-    removePassiveHealing()
+    removeSelfHealing()
 
     setBaseDamage(eventPlayer, OW1_SYMMETRA_TURRET_DAMAGE/OW2_SYMMETRA_TURRET_DAMAGE)
 

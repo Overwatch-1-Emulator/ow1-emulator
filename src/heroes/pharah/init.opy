@@ -19,7 +19,7 @@ rule "[pharah/init.opy]: Initialize Pharah":
 
     newHero(OW1_PHARAH_HEALTH, 0, 0)
     setUltCost(OW1_PHARAH_ULT_COST)
-    removePassiveHealing()
+    removeSelfHealing()
 
     initHoverJets()
 

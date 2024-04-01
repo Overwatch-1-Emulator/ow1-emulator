@@ -22,6 +22,6 @@ rule "[reinhardt/init.opy]: Initialize Reinhardt":
     setUltCost(OW1_REINHARDT_ULT_COST)
     setBaseDamage(eventPlayer, OW1_REINHARDT_FIRESTRIKE_DAMAGE/OW2_REINHARDT_FIRESTRIKE_DAMAGE)
 
-    removePassiveHealing()
+    removeSelfHealing()
 
     eventPlayer.call_init = false

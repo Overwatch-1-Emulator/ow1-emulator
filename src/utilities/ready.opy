@@ -15,8 +15,6 @@ rule "[ready.opy]: Create ready HUD":
     @Event eachPlayer
     @Condition isInSetup()
 
-
-
     if eventPlayer.ready_hud[0] == null:
         hudText(eventPlayer, 
                 "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), 

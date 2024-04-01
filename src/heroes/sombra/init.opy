@@ -28,7 +28,7 @@ rule "[sombra/init.opy]: Initialize Sombra":
     eventPlayer.disallowButton(Button.ABILITY_2)
 
     eventPlayer.is_using_stealth = false
-    # removePassiveHealing()
+    # removeSelfHealing()
 
     eventPlayer.call_init = false
 

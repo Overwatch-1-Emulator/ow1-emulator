@@ -18,7 +18,7 @@ rule "[genji/init.opy]: Initialize Genji":
     eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
     
-    removePassiveHealing()
+    removeSelfHealing()
 
     eventPlayer.call_init = false
 
