@@ -1,7 +1,7 @@
 #!mainFile "../ow1em_main.opy"
 
 # Environment Variables
-#!define GAMEMODE_VERSION "Internal Build"
+#!define GAMEMODE_VERSION "2021 April Fools"
 #!define GAMEMODE_NAME "Overwatch 1 Emulator"
 #!define GAMDMODE_DESCRIPTION (GAMEMODE_NAME + " " + GAMEMODE_VERSION + "\n" + \
                                "\n" + \
@@ -30,8 +30,8 @@
                                "\n" + \
                                "Source code:" + "\n" + \
                                SOURCE_CODE_LINK)
-#!define GAMEMODE_CODE "KHTG0"
-#!define STAGING_CODE "ESMXJ"
+#!define GAMEMODE_CODE ""
+#!define STAGING_CODE "CRNBE"
 #!define DISCORD_SHORT_LINK "dsc.gg/ow1"
 #!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"
 #!define SOURCE_CODE_LINK "github.com/Overwatch-1-Emulator/ow1-emulator"
