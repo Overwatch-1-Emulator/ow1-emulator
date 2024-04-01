@@ -8,8 +8,8 @@
                                "Overwatch 1 Emulator (KHTG0)" + "\n" + \
                                "extended with Overwatch 2 Heroes" + "\n" + \
                                "\n" + \
-                               "Main build: " + GAMEMODE_CODE + "\n" + \
-                               "Staging build: " + STAGING_CODE + "\n" + \
+                               "Stable build: " + GAMEMODE_CODE + "\n" + \
+                               "Latest build: " + STAGING_CODE + "\n" + \
                                "\n" + \
                                "Codebase Contributors:" + "\n" + \
                                "ecksdee#11729" + "\n" + \
