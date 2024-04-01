@@ -9,7 +9,7 @@ settings {
         "allowPlayersInQueue": true,
         "mapRotation": "afterGame",
         "enableMatchVoiceChat": true,
-        "spectatorSlots": 12,
+        "spectatorSlots": 1,
         "team1Slots": 6,
         "team2Slots": 0,
         "returnToLobby": "afterGame",
