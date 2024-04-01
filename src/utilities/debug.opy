@@ -109,19 +109,24 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "_tank_sleep_start_time = {}".format(eventPlayer._tank_sleep_start_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_tank_sleeping = {}".format(eventPlayer._tank_sleeping), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_scrap_last_fire_time = {}".format(eventPlayer._scrap_last_fire_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "distance(scrap_start, scrap_detonation) = {}".format(distance(eventPlayer._scrap_start_pos, eventPlayer._scrap_detonation_pos)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-
+    # hudSubheader(eventPlayer, "_beat_enemies = {}".format(eventPlayer._beat_enemies), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "len(_cryo_enemies) = {}".format(len(eventPlayer._cryo_enemies)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "len(deadAllies) = {}".format(len(eventPlayer.deadAllies)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "eventPlayer.rezHUDIcon1 = {}".format(eventPlayer.rezHUDIcon1), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "eventPlayer.rezHUDIcon2 = {}".format(eventPlayer.rezHUDIcon2), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    
 
 rule "[utilities/debug.opy]: do something on interact":
     @Event eachPlayer
     @Condition DEBUG_MODE
     @Condition eventPlayer.isHoldingButton(Button.INTERACT)
 
-    damage(eventPlayer, null, 25)
+    # damage(eventPlayer, null, 25)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setUltCharge(100)
+    damage(eventPlayer.getPlayerClosestToReticle(eventPlayer.getTeam()), null, 2000)
 
     eventPlayer._debug_position = eventPlayer.getPosition()
 

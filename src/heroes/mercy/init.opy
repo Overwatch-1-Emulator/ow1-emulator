@@ -1,6 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
 #!include "heroes/mercy/guardian.opy"
+#!include "heroes/mercy/resurrect.opy"
 
 
 rule "[mercy/init.opy]: Detect switch to Mercy":
