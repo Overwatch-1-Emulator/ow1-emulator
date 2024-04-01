@@ -6,10 +6,10 @@ globalvar role_lock_gvar
 #!defineMember MAX_DAMAGE_COUNT role_lock_gvar[2]
 #!defineMember MAX_SUPPORT_COUNT role_lock_gvar[3]
 
-rule "[utilities/role_lock.opy]: Initialize global variables":
-    MAX_TANK_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Tank", 2, 0)
-    MAX_DAMAGE_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Damage", 2, 1)
-    MAX_SUPPORT_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Support", 2, 2)
+rule "[role_lock.opy]: Initialize global variables":
+    MAX_TANK_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Tank", 6, 0)
+    MAX_DAMAGE_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Damage", 6, 1)
+    MAX_SUPPORT_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Support", 6, 2)
 
 playervar role_lock_pvar
 #!defineMember role role_lock_pvar[0]
