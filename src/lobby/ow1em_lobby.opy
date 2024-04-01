@@ -20,8 +20,8 @@ settings {
         "assault": {
             "enabledMaps": [
                 "hanamura",
-                # "horizonLunarColony",
-                # "paris",
+                "horizonLunarColony",
+                "paris",
                 "templeOfAnubis",
                 "volskaya"
             ]

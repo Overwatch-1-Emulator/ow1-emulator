@@ -20,8 +20,8 @@ settings {
         "assault": {
             "enabledMaps": [
                 "hanamura",
-                # "horizonLunarColony",
-                # "paris",
+                "horizonLunarColony",
+                "paris",
                 "templeOfAnubis",
                 "volskaya"
             ]
@@ -91,9 +91,9 @@ settings {
                         "morning"
                     ]
                 },
-                {
-                    "shambaliMonastery": []
-                },
+                # {
+                #     "shambaliMonastery": []
+                # },
                 {
                     "watchpointGibraltar": [
                         "evening"
@@ -123,11 +123,11 @@ settings {
                         "night"
                     ]
                 },
-                {
-                    "midtown": [
-                        "morning"
-                    ]
-                },
+                # {
+                #     "midtown": [
+                #         "morning"
+                #     ]
+                # },
                 {
                     "numbani": []
                 },
@@ -147,21 +147,21 @@ settings {
                 # {
                 #     "newJunkCity": []
                 # },
-                {
-                    "suravasa": []
-                },
+                # {
+                #     "suravasa": []
+                # },
             ]
         },
         "push": {
             "enabledMaps": [
-                {
-                    "colosseo": [
-                        "evening"
-                    ]
-                },
-                {
-                    "esperanca": []
-                },
+                # {
+                #     "colosseo": [
+                #         "evening"
+                #     ]
+                # },
+                # {
+                #     "esperanca": []
+                # },
                 # {
                 #     "newQueenStreet": [
                 #         "morning"
