@@ -18,7 +18,7 @@ rule "[ashe/init.opy]: Initialize Ashe":
     setUltCost(OW1_ASHE_ULT_COST)
     setBaseDamage(eventPlayer, OW1_ASHE_BOB_DAMAGE/OW2_ASHE_BOB_DAMAGE)
 
-    removePassiveHealing()
+    removeSelfHealing()
 
     eventPlayer.call_init = false
 

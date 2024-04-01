@@ -44,11 +44,11 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_ROADHOG_BREATHER_COOLDOWN)
 
 
-# rule "[roadhog/breather.opy]: Allow self healing during Breather":
-#     @Event eachPlayer
-#     @Hero roadhog
-#     @Condition eventPlayer._is_using_breather
+rule "[roadhog/breather.opy]: Allow self healing during Breather":
+    @Event eachPlayer
+    @Hero roadhog
+    @Condition eventPlayer._is_using_breather
 
-#     pushSelfHealing(Button.ABILITY_2)
-#     waitUntil(not eventPlayer._is_using_breather, Math.INFINITY)
-#     popSelfHealing(Button.ABILITY_2)
+    pushSelfHealing(Button.ABILITY_2)
+    waitUntil(not eventPlayer._is_using_breather, Math.INFINITY)
+    popSelfHealing(Button.ABILITY_2)

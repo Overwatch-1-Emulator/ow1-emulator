@@ -28,7 +28,7 @@ rule "[widowmaker/init.opy]: Initialize Widowmaker":
 
     newHero(OW1_WIDOWMAKER_HEALTH, 0, 0)
     setUltCost(OW1_WIDOWMAKER_ULT_COST)
-    removePassiveHealing()
+    removeSelfHealing()
 
     eventPlayer.call_init = false
 

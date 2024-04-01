@@ -17,6 +17,6 @@ rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
     newHero(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)
     setUltCost(OW1_WRECKING_BALL_ULT_COST)
     removeTankPassive()
-    removePassiveHealing()
+    removeSelfHealing()
 
     eventPlayer.call_init = false

@@ -41,7 +41,7 @@ rule "[orisa/init.opy]: Initialize Orisa":
 
     removeTankPassive()
 
-    removePassiveHealing()
+    removeSelfHealing()
 
     eventPlayer.call_init = false
 

@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
 #!include "heroes/lucio/soundwave.opy"
-##!include "heroes/lucio/aura.opy"
+#!include "heroes/lucio/aura.opy"
 
 
 rule "[lucio/init.opy]: Detect switch to Lucio":
@@ -18,7 +18,7 @@ rule "[lucio/init.opy]: Initialize Lucio":
     
     newHero(OW1_LUCIO_HEALTH, 0, 0)
     setUltCost(OW1_LUCIO_ULT_COST)
-    removePassiveHealing()
+    removeSelfHealing()
 
     eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
 

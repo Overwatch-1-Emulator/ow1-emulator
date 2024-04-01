@@ -34,7 +34,7 @@ rule "[roadhog/init.opy]: Initialize Roadhog":
     eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_TOTAL/OW2_ROADHOG_BREATHER_HEAL_TOTAL))
 
     removeTankPassive()
-    removePassiveHealing()
+    removeSelfHealing()
 
     eventPlayer.preloadHero(Hero.ZARYA)
     eventPlayer.preloadHero(Hero.ROADHOG)

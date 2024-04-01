@@ -21,6 +21,6 @@ rule "[echo/init.opy]: Initialize Echo":
     defaultHero()
     eventPlayer.setMaxHealth(percent(OW1_ECHO_HEALTH/eventPlayer.getMaxHealth()))
     setUltCost(OW1_ECHO_ULT_COST)
-    removePassiveHealing()
+    removeSelfHealing()
 
     eventPlayer.call_init = false
