@@ -239,6 +239,7 @@ settings {
             "junkerQueen": {
                 "health%": percent(OW1_JUNKERQUEEN_SHOUT_OVERHEALTH/OW2_JUNKERQUEEN_SHOUT_OVERHEALTH), # for shout overhealth
                 "secondaryFireCooldown%": percent(OW1_JUNKERQUEEN_BLADE_COOLDOWN/OW2_JUNKERQUEEN_BLADE_COOLDOWN),
+                "ability1Cooldown%": percent(OW1_JUNKERQUEEN_SHOUT_COOLDOWN_TIME/OW2_JUNKERQUEEN_SHOUT_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_JUNKERQUEEN_ULT_COST/OW1_JUNKERQUEEN_ULT_COST)
             },
             "junkrat": {
