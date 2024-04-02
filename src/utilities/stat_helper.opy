@@ -8,7 +8,7 @@ playervar stat_helper_pvar
     player.setDamageDealt(percent(player._base_damage_scalar))
 
 
-rule "[stat_helper.opy]: OW1 melee damage":
+rule "[utilities/stat_helper.opy]: OW1 melee damage":
     @Event playerDealtDamage
     @Condition eventAbility == Button.MELEE
     @Condition eventPlayer.getCurrentHero() not in [Hero.BRIGITTE, Hero.REINHARDT, Hero.ZENYATTA]

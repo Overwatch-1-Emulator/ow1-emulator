@@ -11,14 +11,14 @@ playervar debug_pvar
 #!define _last_healing_received debug_pvar[3]
 
 
-rule "[debug.opy] Disable Inspector for performance":
+rule "[utilities/debug.opy] Disable Inspector for performance":
     @Event global
     @Condition not DEBUG_MODE
 
     disableInspector()
 
 
-rule "[debug.opy]: global debug (Top Left)":
+rule "[utilities/debug.opy]: global debug (Top Left)":
     @Event global
     @Condition DEBUG_MODE == true
 
@@ -30,7 +30,7 @@ rule "[debug.opy]: global debug (Top Left)":
     hudSubheader(getAllPlayers(), "getTotalTimeElapsed(): {}".format(getTotalTimeElapsed()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
 
 
-rule "[debug.opy]: player debug (Top Right)":
+rule "[utilities/debug.opy]: player debug (Top Right)":
     @Event eachPlayer
     @Condition DEBUG_MODE == true
 
@@ -50,8 +50,9 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "getUltPoints() = {}".format(getUltPoints(eventPlayer)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getUltCharge() = {}".format(eventPlayer.getUltCharge()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getUltCharge() >= 100 = {}".format(eventPlayer.getUltCharge() >= 100), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "isHoldingButton(Button.PRIMARY_FIRE) = {}".format(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "isHoldingButton(Button.PRIMARY_FIRE) = {}".format(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isFiringPrimaryFire() = {}".format(eventPlayer.isFiringPrimaryFire()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "isHoldingButton(Button.SECONDARY_FIRE) = {}".format(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isFiringSecondaryFire() = {}".format(eventPlayer.isFiringSecondaryFire()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isHoldingButton(Button.ABILITY_1) = {}".format(eventPlayer.isHoldingButton(Button.ABILITY_1)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     hudSubheader(eventPlayer, "isUsingAbility1() = {}".format(eventPlayer.isUsingAbility1()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -68,10 +69,10 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "isReloading() = {}".format(eventPlayer.isReloading()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getAmmo(0) = {}".format(eventPlayer.getAmmo(0)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isHoldingButton(Button.PRIMARY_FIRE) = {}".format(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "len(_self_healing_source) = {}".format(len(eventPlayer._self_healing_source)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_self_healing_percent = {}".format(eventPlayer._self_healing_percent), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_passive_healing_active = {}".format(eventPlayer._passive_healing_active), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_suppress_passive_healing = {}".format(eventPlayer._suppress_passive_healing), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "len(_self_healing_source) = {}".format(len(eventPlayer._self_healing_source)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_self_healing_percent = {}".format(eventPlayer._self_healing_percent), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_passive_healing_active = {}".format(eventPlayer._passive_healing_active), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_suppress_passive_healing = {}".format(eventPlayer._suppress_passive_healing), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getPosition() = {}".format(eventPlayer.getPosition()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "role = {}".format(eventPlayer.role), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isInAlternateForm() = {}".format(eventPlayer.isInAlternateForm()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -81,7 +82,7 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "slam_damage = {}".format(eventPlayer.slam_damage), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "is_using_uppercut = {}".format(eventPlayer.is_using_uppercut), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "uppercut_shields = {}".format(eventPlayer.uppercut_shields), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "is_using_self_repair = {}".format(eventPlayer.is_using_self_repair), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "isUsingSelfRepair() = {}".format(isUsingSelfRepair(eventPlayer)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "barrier_damage_block_id = {}".format(eventPlayer.barrier_damage_block_id), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "len(enemies_behind_barrier) = {}".format(len(eventPlayer.enemies_behind_barrier)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isAimingAtOrisaBarrier() = {}".format(isAimingAtOrisaBarrier()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -108,7 +109,7 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "_scrap_last_fire_time = {}".format(eventPlayer._scrap_last_fire_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
-rule "[debug.opy]: do something on interact":
+rule "[utilities/debug.opy]: do something on interact":
     @Event eachPlayer
     @Condition DEBUG_MODE
     @Condition eventPlayer.isHoldingButton(Button.INTERACT)
@@ -120,7 +121,7 @@ rule "[debug.opy]: do something on interact":
     eventPlayer.setUltCharge(100)
 
 
-rule "Show Player Damage/Healing":
+rule "[utilities/debug.opy]: Show Player Damage/Healing":
     @Event eachPlayer
     @Condition DEBUG_MODE
 
@@ -169,7 +170,7 @@ rule "Show Player Damage/Healing":
         SpecVisibility.DEFAULT)
 
 
-rule "Debug damage instance":
+rule "[utilities/debug.opy]: Debug damage instance":
     @Event playerTookDamage
     @Condition DEBUG_MODE
 
@@ -182,7 +183,7 @@ rule "Debug damage instance":
     victim._total_damage_received = 0
 
 
-rule "Debug healing instance":
+rule "[utilities/debug.opy]: Debug healing instance":
     @Event playerReceivedHealing
     @Condition DEBUG_MODE
 

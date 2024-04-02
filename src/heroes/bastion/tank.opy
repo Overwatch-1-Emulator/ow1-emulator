@@ -1,6 +1,5 @@
 #!mainFile "../../dev_main.opy"
 
-
 rule "[bastion/tank.opy]: Detect tank mode":
     @Event eachPlayer
     @Hero bastion

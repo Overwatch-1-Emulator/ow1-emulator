@@ -33,7 +33,7 @@ playervar lsi_i
 subroutine findLineSphereIntersection
 
 def findLineSphereIntersection():
-    @Name "[hit_detection.opy]: findLineSphereIntersection()"
+    @Name "[utilities/hit_detection.opy]: findLineSphereIntersection()"
 
     eventPlayer._lsi_nabla = (abs(dotProduct(eventPlayer._lsi_u, (eventPlayer._lsi_o - eventPlayer._lsi_c)))**2) - (distance(eventPlayer._lsi_o, eventPlayer._lsi_c)**2 - eventPlayer._lsi_r**2)
 

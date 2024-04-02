@@ -17,7 +17,7 @@ playervar rgb_vect
 #!define infoVisible(player) (SHOW_WATERMARK)
 
 
-rule "[watermark.opy]: Create watermark HUD":
+rule "[utilities/watermark.opy]: Create watermark HUD":
     @Event eachPlayer
     @Condition SHOW_WATERMARK
 
@@ -43,7 +43,7 @@ rule "[watermark.opy]: Create watermark HUD":
     eventPlayer.rgb_vect = rgb_list[eventPlayer.rgb_i]
 
 
-# rule "[watermark.opy]: Cycle RGB":
+# rule "[utilities/watermark.opy]: Cycle RGB":
 #     @Event eachPlayer
 #     @Condition infoVisible(eventPlayer)
 #     @Condition not DEBUG_MODE

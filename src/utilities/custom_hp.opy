@@ -21,7 +21,7 @@ subroutine applyCustomHp
 
 
 def clearCustomHp():
-    @Name "[custom_hp.opy]: clearCustomHp()"
+    @Name "[utilities/custom_hp.opy]: clearCustomHp()"
 
     eventPlayer.removeAllHealthPools()
     wait()
@@ -32,7 +32,7 @@ def clearCustomHp():
 
 
 def applyCustomHp():
-    @Name "[custom_hp.opy]: applyCustomHp()"
+    @Name "[utilities/custom_hp.opy]: applyCustomHp()"
 
     if (eventPlayer._hp_health + eventPlayer._hp_armor + eventPlayer._hp_shields <= 0):
         clearCustomHp()

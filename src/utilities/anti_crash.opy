@@ -7,7 +7,7 @@ globalvar ANTI_CRASH_ACTIVATE_PERCENT = createWorkshopSetting(int[0:250], "Anti 
 globalvar ANTI_CRASH_HOLD_TIME = createWorkshopSetting(float[0:20], "Anti Crash", "Activation Hold Time", 8)
 globalvar ANTI_CRASH_DEACTIVATE_PERCENT = createWorkshopSetting(int[0:250], "Anti Crash", "Deactivation Percent", 150)
 
-rule "[anti_crash.opy]: Activate anti crash":
+rule "[utilities/anti_crash.opy]: Activate anti crash":
     @Condition getServerLoad() > ANTI_CRASH_ACTIVATE_PERCENT
     
     wait(ANTI_CRASH_HOLD_TIME, Wait.ABORT_WHEN_FALSE)
