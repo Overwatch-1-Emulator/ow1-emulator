@@ -11,9 +11,7 @@ module.exports = {
             ]
         }], 
         ["semantic-release-discord-bot", {
-            "notifications": [
-                { "branch": "main" }, 
-                { "branch": "beta" }]
+            "notifications": []
         }]
     ],
 };
