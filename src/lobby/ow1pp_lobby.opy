@@ -138,9 +138,9 @@ settings {
                 # },
             ]
         },
-        "practiceRange": {
-            "enabledMaps": []
-        },
+        # "practiceRange": {
+        #     "enabledMaps": []
+        # },
         "flashpoint": {
             "captureSpeed%": 75,
             "enabledMaps": [

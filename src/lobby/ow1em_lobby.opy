@@ -112,9 +112,9 @@ settings {
                 "numbani"
             ]
         },
-        "practiceRange": {
-            "enabledMaps": []
-        },
+        # "practiceRange": {
+        #     "enabledMaps": []
+        # },
         "general": {
             "heroLimit": "1PerTeam",
             "roleLimit": "off",
