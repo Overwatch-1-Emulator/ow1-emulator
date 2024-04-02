@@ -23,8 +23,6 @@ rule "[bastion/init.opy]: Initialize Bastion":
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.self_repair_time_left = OW1_BASTION_MAX_SELF_REPAIR_DURATION
-    eventPlayer.is_pressing_self_repair_key = false
-    eventPlayer.is_using_self_repair = false
 
     removeSelfHealing()
 
