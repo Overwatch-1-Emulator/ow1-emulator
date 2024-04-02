@@ -11,8 +11,8 @@
                                "Check out Overwatch 1++ (YKMXH)" + "\n" + \
                                "to enable Overwatch 2 heroes" + "\n" + \
                                "\n" + \
-                               "Main build: " + GAMEMODE_CODE + "\n" + \
-                               "Staging build: " + STAGING_CODE + "\n" + \
+                               "Stable build: " + GAMEMODE_CODE + "\n" + \
+                               "Latest build: " + STAGING_CODE + "\n" + \
                                "\n" + \
                                "Codebase Contributors:" + "\n" + \
                                "ecksdee#11729" + "\n" + \
