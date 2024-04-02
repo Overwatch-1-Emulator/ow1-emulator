@@ -8,7 +8,7 @@ playervar repair_pvar
 
 #!define isUsingSelfRepair(player)\
     ((isPressingSelfRepairButton(player)) \
- and (not player.isHoldingButton(Button.PRIMARY_FIRE)) \
+ and (not player.isFiringPrimaryFire()) \
  and (not player.isMeleeing()) \
  and (not isCCd(player)) \
  and (player.isAlive()) \
