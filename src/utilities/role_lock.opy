@@ -6,7 +6,7 @@ globalvar role_lock_gvar
 #!defineMember MAX_DAMAGE_COUNT role_lock_gvar[2]
 #!defineMember MAX_SUPPORT_COUNT role_lock_gvar[3]
 
-rule "[role_lock.opy]: Initialize global variables":
+rule "[utilities/role_lock.opy]: Initialize global variables":
     MAX_TANK_COUNT = createWorkshopSetting(int[0:6], "Role limit", "Tank", 2, 0)
     MAX_DAMAGE_COUNT = createWorkshopSetting(int[0:6], "Role limit", "Damage", 2, 1)
     MAX_SUPPORT_COUNT = createWorkshopSetting(int[0:6], "Role limit", "Support", 2, 2)
@@ -22,7 +22,7 @@ enum Role:
     SUPPORT
 
 
-rule "[role_lock.opy]: Find player's role":
+rule "[utilities/role_lock.opy]: Find player's role":
     @Event eachPlayer
     @Condition switchedHero(eventPlayer)
     
@@ -36,14 +36,14 @@ rule "[role_lock.opy]: Find player's role":
         eventPlayer.role = Role.MISSING
 
 
-rule "[role_lock.opy]: Override allowed heroes list when player joins lobby":
+rule "[utilities/role_lock.opy]: Override allowed heroes list when player joins lobby":
     @Event eachPlayer
 
     eventPlayer.allowed_heroes = _available_heroes
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
-rule "[role_lock.opy]: Skip hero assembly":
+rule "[utilities/role_lock.opy]: Skip hero assembly":
     @Event global
     @Condition isAssemblingHeroes()
 
@@ -55,7 +55,7 @@ rule "[role_lock.opy]: Skip hero assembly":
     setMatchTime(getMatchTime() + _hero_select_time/3) # Give back assemble hero time
 
 
-rule "[role_lock.opy]: Lock tanks above role limit":
+rule "[utilities/role_lock.opy]: Lock tanks above role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) >= MAX_TANK_COUNT
     @Condition not isAssemblingHeroes()
@@ -64,7 +64,7 @@ rule "[role_lock.opy]: Lock tanks above role limit":
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
-rule "[role_lock.opy]: Lock damage above role limit":
+rule "[utilities/role_lock.opy]: Lock damage above role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) >= MAX_DAMAGE_COUNT
     @Condition not isAssemblingHeroes()
@@ -73,7 +73,7 @@ rule "[role_lock.opy]: Lock damage above role limit":
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
-rule "[role_lock.opy]: Lock supports above role limit":
+rule "[utilities/role_lock.opy]: Lock supports above role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) >= MAX_SUPPORT_COUNT
     @Condition not isAssemblingHeroes()
@@ -82,7 +82,7 @@ rule "[role_lock.opy]: Lock supports above role limit":
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
-rule "[role_lock.opy]: Unlock tanks below role limit":
+rule "[utilities/role_lock.opy]: Unlock tanks below role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) < MAX_TANK_COUNT
     @Condition not isAssemblingHeroes()
@@ -91,7 +91,7 @@ rule "[role_lock.opy]: Unlock tanks below role limit":
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
-rule "[role_lock.opy]: Unlock damage below role limit":
+rule "[utilities/role_lock.opy]: Unlock damage below role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) < MAX_DAMAGE_COUNT
     @Condition not isAssemblingHeroes()
@@ -100,7 +100,7 @@ rule "[role_lock.opy]: Unlock damage below role limit":
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
 
-rule "[role_lock.opy]: Unlock supports below role limit":
+rule "[utilities/role_lock.opy]: Unlock supports below role limit":
     @Event eachPlayer
     @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) < MAX_SUPPORT_COUNT
     @Condition not isAssemblingHeroes()

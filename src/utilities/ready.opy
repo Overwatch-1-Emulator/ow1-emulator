@@ -11,7 +11,7 @@ playervar ready_hud
 playervar ready_hud_i
 
 
-rule "[ready.opy]: Create ready HUD":
+rule "[utilities/ready.opy]: Create ready HUD":
     @Event eachPlayer
     @Condition isInSetup()
 
@@ -43,21 +43,21 @@ rule "[ready.opy]: Create ready HUD":
         eventPlayer.ready_hud[eventPlayer.ready_hud_i] = null
 
 
-rule "[ready.opy]: Set initial ready color":
+rule "[utilities/ready.opy]: Set initial ready color":
     @Event global
     @Condition isInSetup()
 
     ready_color = Color.YELLOW
 
 
-rule "[ready.opy]: Unready all players when entering setup":
+rule "[utilities/ready.opy]: Unready all players when entering setup":
     @Event eachPlayer
     @Condition isInSetup()
 
     eventPlayer.ready = false
 
 
-rule "[ready.opy]: Toggle ready when pressing Interact + Reload":
+rule "[utilities/ready.opy]: Toggle ready when pressing Interact + Reload":
     @Event eachPlayer
     @Condition isInSetup()
     @Condition eventPlayer.isHoldingButton(Button.INTERACT)
@@ -66,7 +66,7 @@ rule "[ready.opy]: Toggle ready when pressing Interact + Reload":
     eventPlayer.ready = not eventPlayer.ready
 
 
-rule "[ready.opy]: Start match when everyone ready":
+rule "[utilities/ready.opy]: Start match when everyone ready":
     @Event global
     @Condition isInSetup()
     @Condition getMatchTime() > SETUP_BUFFER_TIME
@@ -78,7 +78,7 @@ rule "[ready.opy]: Start match when everyone ready":
     setMatchTime(SETUP_BUFFER_TIME)
 
 
-rule "[ready.opy]: Reset ready when match starts":
+rule "[utilities/ready.opy]: Reset ready when match starts":
     @Event global
     @Condition isGameInProgress()
 

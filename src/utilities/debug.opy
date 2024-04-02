@@ -11,14 +11,14 @@ playervar debug_pvar
 #!define _last_healing_received debug_pvar[3]
 
 
-rule "[debug.opy] Disable Inspector for performance":
+rule "[utilities/debug.opy] Disable Inspector for performance":
     @Event global
     @Condition not DEBUG_MODE
 
     disableInspector()
 
 
-rule "[debug.opy]: global debug (Top Left)":
+rule "[utilities/debug.opy]: global debug (Top Left)":
     @Event global
     @Condition DEBUG_MODE == true
 
@@ -30,7 +30,7 @@ rule "[debug.opy]: global debug (Top Left)":
     hudSubheader(getAllPlayers(), "getTotalTimeElapsed(): {}".format(getTotalTimeElapsed()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
 
 
-rule "[debug.opy]: player debug (Top Right)":
+rule "[utilities/debug.opy]: player debug (Top Right)":
     @Event eachPlayer
     @Condition DEBUG_MODE == true
 
@@ -108,7 +108,7 @@ rule "[debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "_scrap_last_fire_time = {}".format(eventPlayer._scrap_last_fire_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
-rule "[debug.opy]: do something on interact":
+rule "[utilities/debug.opy]: do something on interact":
     @Event eachPlayer
     @Condition DEBUG_MODE
     @Condition eventPlayer.isHoldingButton(Button.INTERACT)
@@ -120,7 +120,7 @@ rule "[debug.opy]: do something on interact":
     eventPlayer.setUltCharge(100)
 
 
-rule "Show Player Damage/Healing":
+rule "[utilities/debug.opy]: Show Player Damage/Healing":
     @Event eachPlayer
     @Condition DEBUG_MODE
 
@@ -169,7 +169,7 @@ rule "Show Player Damage/Healing":
         SpecVisibility.DEFAULT)
 
 
-rule "Debug damage instance":
+rule "[utilities/debug.opy]: Debug damage instance":
     @Event playerTookDamage
     @Condition DEBUG_MODE
 
@@ -182,7 +182,7 @@ rule "Debug damage instance":
     victim._total_damage_received = 0
 
 
-rule "Debug healing instance":
+rule "[utilities/debug.opy]: Debug healing instance":
     @Event playerReceivedHealing
     @Condition DEBUG_MODE
 

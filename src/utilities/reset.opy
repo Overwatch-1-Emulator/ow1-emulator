@@ -34,7 +34,7 @@ subroutine resetFrenemies
 
 
 def enableAllAbilities():
-    @Name "[reset.opy]: enableAllAbilities()"
+    @Name "[utilities/reset.opy]: enableAllAbilities()"
 
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
@@ -61,7 +61,7 @@ def enableAllAbilities():
 
 
 def disableAllAbilities():
-    @Name "[reset.opy]: disableAllAbilities()"
+    @Name "[utilities/reset.opy]: disableAllAbilities()"
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
@@ -88,7 +88,7 @@ def disableAllAbilities():
 
 
 def resetStats():
-    @Name "[reset.opy]: resetStats()"
+    @Name "[utilities/reset.opy]: resetStats()"
 
     setBaseDamage(eventPlayer, 1)
     eventPlayer.setDamageReceived(100)
@@ -103,7 +103,7 @@ def resetStats():
 
 
 def resetStatuses():
-    @Name "[reset.opy]: resetStatuses()"
+    @Name "[utilities/reset.opy]: resetStatuses()"
 
     eventPlayer.clearStatusEffect(Status.ASLEEP)
     eventPlayer.clearStatusEffect(Status.BURNING)
@@ -118,7 +118,7 @@ def resetStatuses():
 
 
 def resetFrenemies():
-    @Name "[reset.opy]: resetFrenemies()"
+    @Name "[utilities/reset.opy]: resetFrenemies()"
 
     eventPlayer.friendly_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, eventPlayer.getTeam())[0]
     eventPlayer.enemy_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam()))[0]
@@ -128,7 +128,7 @@ def resetFrenemies():
     eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
 
     
-rule "[reset.opy]: Reinitialize hero on new round":
+rule "[utilities/reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
     @Condition getCurrentGamemode() == Gamemode.CONTROL
     @Condition isMatchBetweenRounds()
