@@ -8,7 +8,7 @@ playervar hero_switch_pvar
 #!define switchedHero(player) player._hero_switched
 
 
-rule "[hero_switch.opy]: detect hero switch":
+rule "[utilities/hero_switch.opy]: detect hero switch":
     @Event eachPlayer
     @Condition eventPlayer._last_hero_played != eventPlayer.getCurrentHero()
     

@@ -21,7 +21,7 @@ globalvar hero_roster_gvar
 #!define getOW1SupportHeroes() _support_heroes
 
 
-rule "[hero_roster.opy]: Initiaize Hero Roster workshop settings":
+rule "[utilities/hero_roster.opy]: Initiaize Hero Roster workshop settings":
     # enable all heroes by default
     for hero_roster_i in range(len(getAllHeroes())):
         heroes_enabled[hero_roster_i] = true
@@ -69,7 +69,7 @@ rule "[hero_roster.opy]: Initiaize Hero Roster workshop settings":
     heroes_enabled[heroID(Hero.ZENYATTA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Zenyatta", true)
 
 
-rule "[hero_roster.opy]: Define tank, damage, support heroes array":
+rule "[utilities/hero_roster.opy]: Define tank, damage, support heroes array":
     # Tanks
     _tank_heroes = getTankHeroes()
     _tank_heroes.remove(Hero.DOOMFIST)
