@@ -22,7 +22,7 @@ rule "[hanzo/init.opy]: Initialize Hanzo":
     eventPlayer.call_init = false
 
 
-rule "[hanzo.opy]: Deal OW1 primary fire damage":
+rule "[hanzo/init.opy]: Deal OW1 primary fire damage":
     @Event playerDealtDamage
     @Hero hanzo
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1]

@@ -87,7 +87,7 @@ def explodeHalt():
     eventPlayer.is_using_halt = false
 
 
-rule "[orirsa.opy]: Slow down snared enemies":
+rule "[orisa/halt.opy]: Slow down snared enemies":
     @Event eachPlayer
     @Condition eventPlayer.is_snared
 

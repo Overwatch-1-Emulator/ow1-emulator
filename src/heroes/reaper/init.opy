@@ -22,7 +22,7 @@ rule "[reaper/init.opy]: Initialize Reaper":
     eventPlayer.call_init = false
 
 
-rule "[reaper.opy]: Deal OW1 Reaper primary fire damage":
+rule "[reaper/init.opy]: Deal OW1 Reaper primary fire damage":
     @Event playerDealtDamage
     @Hero reaper
     @Condition eventAbility == Button.PRIMARY_FIRE

@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
 
-rule "[illari/init.opy]: Correct Captive Sun direct and splash hit damage":
+rule "[illari/sun.opy]: Correct Captive Sun direct and splash hit damage":
     @Event playerDealtDamage
     @Hero illari
     @Condition eventAbility in [Button.ULTIMATE]

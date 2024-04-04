@@ -23,7 +23,7 @@ rule "[genji/init.opy]: Initialize Genji":
     eventPlayer.call_init = false
 
 
-rule "[genji.opy]: Deal OW1 shuriken damage":
+rule "[genji/init.opy]: Deal OW1 shuriken damage":
     @Event playerDealtDamage
     @Hero genji
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
