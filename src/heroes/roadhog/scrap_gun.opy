@@ -5,7 +5,10 @@
 # 10 degrees from the axis of the cone
 #!define OW1_ROADHOG_SCRAP_CONE_ANGLE 15
 #!define OW1_ROADHOG_SCRAP_DAMAGE 250
-#!define OW1_ROADHOG_SCRAP_RECOVERY_TIME 0.85
+# Determines how scrap damage scales with distance
+# value of 0.5 = 1/x^0.5, 1 = 1/x, 2 = 1/x^2
+#!define OW1_ROADHOG_SCRAP_DECAY 0.8
+#!define OW1_ROADHOG_SCRAP_RECOVERY_TIME 1
 
 playervar scrap_gun_pvar
 #!defineMember _scrap_detonation_pos scrap_gun_pvar[0]
@@ -75,8 +78,10 @@ rule "[roadhog/scrap_gun.opy]: OW1 Scrap Gun secondary fire":
     eventPlayer._scrap_enemies = [player \
                                   for player \
                                   in eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 90) \
-                                  if (isInLoS(eventPlayer._scrap_detonation_pos, (player.getPosition() + player.getEyePosition())/2, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS) \
-                                 and (angleBetweenVectors(eventPlayer._scrap_orientation, directionTowards(eventPlayer._scrap_detonation_pos, (player.getPosition() + player.getEyePosition())/2)) < OW1_ROADHOG_SCRAP_CONE_ANGLE))]
+                                  if ((isInLoS(eventPlayer._scrap_detonation_pos, player.getEyePosition(), BarrierLos.BLOCKED_BY_ENEMY_BARRIERS) \
+                                    or isInLoS(eventPlayer._scrap_detonation_pos, centerMass(player), BarrierLos.BLOCKED_BY_ENEMY_BARRIERS) \
+                                    or isInLoS(eventPlayer._scrap_detonation_pos, player.getPosition(), BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)) \
+                                  and (angleBetweenVectors(eventPlayer._scrap_orientation, directionTowards(eventPlayer._scrap_detonation_pos, (player.getPosition() + player.getEyePosition())/2)) < OW1_ROADHOG_SCRAP_CONE_ANGLE))]
 
     for eventPlayer.scrap_i in range(len(eventPlayer._scrap_enemies)):
         damage(
@@ -84,8 +89,8 @@ rule "[roadhog/scrap_gun.opy]: OW1 Scrap Gun secondary fire":
             eventPlayer, 
             min(
                 OW1_ROADHOG_SCRAP_DAMAGE, 
-                (OW1_ROADHOG_SCRAP_DAMAGE * 1) 
-                / (distance(eventPlayer._scrap_detonation_pos, eventPlayer._scrap_enemies[eventPlayer.scrap_i].getEyePosition()))**1)) # decrease damage quadratically with distance
+                (OW1_ROADHOG_SCRAP_DAMAGE * 2**OW1_ROADHOG_SCRAP_DECAY) 
+                / (distance(eventPlayer._scrap_detonation_pos, centerMass(eventPlayer._scrap_enemies[eventPlayer.scrap_i])))**OW1_ROADHOG_SCRAP_DECAY)) # decrease damage quadratically with distance
 
 
 rule "[roadhog/scrap_gun.opy]: Record last time scrap gun fired":
