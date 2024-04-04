@@ -13,6 +13,7 @@ playervar scrap_gun_pvar
 #!defineMember _scrap_enemies scrap_gun_pvar[2]
 #!defineMember _scrap_orientation scrap_gun_pvar[3]
 #!defineMember _scrap_last_fire_time scrap_gun_pvar[4]
+#!defineMember _scrap_start_pos scrap_gun_pvar[5]
 playervar scrap_i
 
 
@@ -33,6 +34,7 @@ rule "[roadhog/scrap_gun.opy]: OW1 Scrap Gun secondary fire":
     @Condition getTotalTimeElapsed() - eventPlayer._scrap_last_fire_time > OW1_ROADHOG_SCRAP_RECOVERY_TIME
 
     eventPlayer._scrap_last_fire_time = getTotalTimeElapsed()
+    eventPlayer._scrap_start_pos = eventPlayer.getEyePosition()
 
     eventPlayer.setAmmo(0, eventPlayer.getAmmo(0) - 1)
     eventPlayer._scrap_orientation = eventPlayer.getFacingDirection()
@@ -55,7 +57,17 @@ rule "[roadhog/scrap_gun.opy]: OW1 Scrap Gun secondary fire":
         0, 
         0, 
         0)
-    eventPlayer._scrap_detonation_pos = eventPlayer.getEyePosition() + OW1_ROADHOG_SCRAP_SECONDARY_RANGE * eventPlayer._scrap_orientation
+
+    eventPlayer._scrap_detonation_pos = raycast(
+        eventPlayer._scrap_start_pos,
+        eventPlayer._scrap_start_pos + OW1_ROADHOG_SCRAP_SECONDARY_RANGE * eventPlayer._scrap_orientation,
+        getPlayers(getOppositeTeam(eventPlayer.getTeam())),
+        null,
+        true).getHitPosition()
+
+    # exit if scrap hit enemy before explosion
+    if distance(eventPlayer._scrap_start_pos, eventPlayer._scrap_detonation_pos) < OW1_ROADHOG_SCRAP_SECONDARY_RANGE:
+        return
 
     wait(OW1_ROADHOG_SCRAP_SECONDARY_RANGE/OW1_ROADHOG_SCRAP_SECONDARY_SPEED)
     playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.BLACK, eventPlayer._scrap_detonation_pos, 100)
