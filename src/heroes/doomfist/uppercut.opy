@@ -63,11 +63,11 @@ rule "[doomfist/uppercut.opy]: Disable abilities when locked into uppercut":
     @Hero doomfist
     @Condition eventPlayer.is_uppercut_locked
     
-    eventPlayer.is_uppercut_locked = true
     eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
     eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
     eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
     eventPlayer.setAbility1Enabled(false) # Doomfist cannot slam during uppercut
+    eventPlayer.disallowButton(Button.ULTIMATE) # Doomfist cannot ult during uppercut
     waitUntil(not eventPlayer.is_uppercut_locked, Math.INFINITY)
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setPrimaryFireEnabled(true)
@@ -75,6 +75,9 @@ rule "[doomfist/uppercut.opy]: Disable abilities when locked into uppercut":
         eventPlayer.forceButtonPress(Button.PRIMARY_FIRE)
     eventPlayer.setSecondaryFireEnabled(true)
     eventPlayer.setAbility1Enabled(true)
+    eventPlayer.allowButton(Button.ULTIMATE)
+    if (eventPlayer.isHoldingButton(Button.ULTIMATE)): # Activate ult if button held
+        eventPlayer.forceButtonPress(Button.ULTIMATE)
 
 
 rule "[doomfist/uppercut.opy]: Play uppercut VFX":
