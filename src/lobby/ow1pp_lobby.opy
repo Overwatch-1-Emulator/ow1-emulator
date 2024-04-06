@@ -20,8 +20,8 @@ settings {
         "assault": {
             "enabledMaps": [
                 "hanamura",
-                "horizonLunarColony",
-                "paris",
+                # "horizonLunarColony",
+                # "paris",
                 "templeOfAnubis",
                 "volskaya"
             ]
@@ -33,9 +33,9 @@ settings {
                         "morning"
                     ]
                 },
-                # {
-                #     "antarcticPeninsula": []
-                # },
+                {
+                    "antarcticPeninsula": []
+                },
                 {
                     "ilios": [
                         "morning"
@@ -91,9 +91,9 @@ settings {
                         "morning"
                     ]
                 },
-                # {
-                #     "shambaliMonastery": []
-                # },
+                {
+                    "shambaliMonastery": []
+                },
                 {
                     "watchpointGibraltar": [
                         "evening"
@@ -147,9 +147,9 @@ settings {
                 # {
                 #     "newJunkCity": []
                 # },
-                # {
-                #     "suravasa": []
-                # },
+                {
+                    "suravasa": []
+                },
             ]
         },
         "push": {
