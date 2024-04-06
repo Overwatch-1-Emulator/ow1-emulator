@@ -1,6 +1,9 @@
 // release.config.js
 module.exports = {
-    branches: ["main", {name: 'beta', prerelease: true}],
+    branches: [
+        {name: 'main', prerelease: false},
+        {name: 'beta', prerelease: true},
+    ],
     plugins: [
         "@semantic-release/commit-analyzer",
         "@semantic-release/release-notes-generator",
@@ -12,8 +15,8 @@ module.exports = {
         }], 
         ["semantic-release-discord-bot", {
             "notifications": [
-                { "branch": "main" }, 
-                { "branch": "beta" }]
+                { "branch": "*" },
+            ]
         }]
     ],
 };
