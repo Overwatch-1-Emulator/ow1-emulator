@@ -6,7 +6,7 @@
 #!include "heroes/dva/bomb.opy"
 
 
-rule "[hero_switch.opy]: Detect switch to Dva":
+rule "[dva/init.opy]: Detect switch to Dva":
     @Event eachPlayer
     @Hero dva
     @Condition switchedHero(eventPlayer)

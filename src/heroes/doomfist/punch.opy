@@ -84,6 +84,7 @@ rule "[doomfist/punch.opy]: Find punched victims":
         damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE - min(OW2_DOOMFIST_BEST_DEFENSE, attacker.uppercut_shields))
         attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE, attacker.uppercut_shields)
 
+
 rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     @Event eachPlayer
     @Hero doomfist

@@ -21,7 +21,7 @@ rule "[sigma/init.opy]: Initialize Sigma":
     eventPlayer.call_init = false
 
 
-rule "[sigma.opy]: Change accretion damage":
+rule "[sigma/init.opy]: Change accretion damage":
     @Event playerDealtDamage
     @Hero sigma
     @Condition eventAbility == Button.ABILITY_2

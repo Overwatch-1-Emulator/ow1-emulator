@@ -107,6 +107,7 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "_tank_sleep_start_time = {}".format(eventPlayer._tank_sleep_start_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_tank_sleeping = {}".format(eventPlayer._tank_sleeping), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_scrap_last_fire_time = {}".format(eventPlayer._scrap_last_fire_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "distance(scrap_start, scrap_detonation) = {}".format(distance(eventPlayer._scrap_start_pos, eventPlayer._scrap_detonation_pos)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
 rule "[utilities/debug.opy]: do something on interact":

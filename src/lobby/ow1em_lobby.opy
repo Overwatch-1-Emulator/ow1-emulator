@@ -9,7 +9,7 @@ settings {
         "allowPlayersInQueue": true,
         "mapRotation": "afterGame",
         "enableMatchVoiceChat": true,
-        "spectatorSlots": 1,
+        "spectatorSlots": 12,
         "team1Slots": 6,
         "team2Slots": 6,
         "returnToLobby": "afterGame",
@@ -20,8 +20,8 @@ settings {
         "assault": {
             "enabledMaps": [
                 "hanamura",
-                "horizonLunarColony",
-                "paris",
+                # "horizonLunarColony",
+                # "paris",
                 "templeOfAnubis",
                 "volskaya"
             ]
