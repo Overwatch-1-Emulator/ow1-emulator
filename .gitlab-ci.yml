@@ -44,7 +44,7 @@ build-job:       # This job runs in the build stage, which runs first.
 #     - main
 #     - beta
 
-release-job:
+release-job-main:
   image: node
   stage: release
   before_script:
@@ -57,4 +57,16 @@ release-job:
     - semantic-release
   only:
     - main
+
+release-job-beta:
+  image: node
+  stage: release
+  before_script:
+    - apt-get update && apt-get install -y --no-install-recommends git-core ca-certificates
+    - npm install -g semantic-release @semantic-release/gitlab
+  variables: 
+    SEMANTIC_RELEASE_PACKAGE: $CI_PROJECT_NAME
+  script:
+    - semantic-release
+  only:
     - beta
