@@ -7,7 +7,7 @@
 #!define OW1_ROADHOG_SCRAP_DAMAGE 250
 # Determines how scrap damage scales with distance
 # value of 0.5 = 1/x^0.5, 1 = 1/x, 2 = 1/x^2
-#!define OW1_ROADHOG_SCRAP_DECAY 0.8
+#!define OW1_ROADHOG_SCRAP_DECAY 0.95
 #!define OW1_ROADHOG_SCRAP_RECOVERY_TIME 1
 
 playervar scrap_gun_pvar
