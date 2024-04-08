@@ -5,8 +5,6 @@ playervar is_uppercut_locked
 playervar uppercut_shields
 playervar hp_before_uppercut
 
-subroutine executeUppercut
-
 
 rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     @Event eachPlayer
@@ -18,12 +16,8 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     eventPlayer.cancelPrimaryAction() # cancel Power Block animation
     eventPlayer.setAbility2Enabled(false)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
-    executeUppercut()
 
-
-def executeUppercut():
-    @Name "[doomfist/uppercut.opy]: executeUppercut()"
-
+    # Execute Uppercut
     eventPlayer.is_using_uppercut = true # Start of uppercut
     
     cancelMomentum(eventPlayer)
@@ -63,11 +57,11 @@ rule "[doomfist/uppercut.opy]: Disable abilities when locked into uppercut":
     @Hero doomfist
     @Condition eventPlayer.is_uppercut_locked
     
-    eventPlayer.is_uppercut_locked = true
     eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
     eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
     eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
     eventPlayer.setAbility1Enabled(false) # Doomfist cannot slam during uppercut
+    eventPlayer.disallowButton(Button.ULTIMATE) # Doomfist cannot ult during uppercut
     waitUntil(not eventPlayer.is_uppercut_locked, Math.INFINITY)
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setPrimaryFireEnabled(true)
@@ -75,9 +69,12 @@ rule "[doomfist/uppercut.opy]: Disable abilities when locked into uppercut":
         eventPlayer.forceButtonPress(Button.PRIMARY_FIRE)
     eventPlayer.setSecondaryFireEnabled(true)
     eventPlayer.setAbility1Enabled(true)
+    eventPlayer.allowButton(Button.ULTIMATE)
+    if (eventPlayer.isHoldingButton(Button.ULTIMATE)): # Activate ult if button held
+        eventPlayer.forceButtonPress(Button.ULTIMATE)
 
 
-rule "[doomfist/uppercut.opy]: Play uppercut VFX":
+rule "[doomfist/uppercut.opy]: Play uppercut VFX + set uppercut cooldown":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_using_uppercut
@@ -85,12 +82,6 @@ rule "[doomfist/uppercut.opy]: Play uppercut VFX":
     playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
-
-
-rule "[doomfist/uppercut.opy]: Set uppercut cooldown":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.is_using_uppercut
 
     waitUntil(not eventPlayer.is_using_uppercut, Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_UPPERCUT_CD)
@@ -115,31 +106,24 @@ rule "[doomfist/uppercut.opy]: Detect uppercut victims":
     chase(eventPlayer.enemy_doomfist_player.uppercut_shields, 0, rate=OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE, ChaseReeval.NONE)
 
 
-rule "[doomfist/uppercut.opy]: Uppercut victim movement physics":
+rule "[doomfist/uppercut.opy]: Damage uppercut victims + vfx + uppercut knockback physics":
     @Event eachPlayer
     @Condition eventPlayer.is_hit_by_uppercut == true
 
+    # damage
+    damage(eventPlayer, eventPlayer.enemy_doomfist_player, OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE)
+    eventPlayer.setEnvironmentalKillCreditor(eventPlayer.enemy_doomfist_player)
+
+    # upercut hit vfx
+    playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer, 1)
+
+    # knockback
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0) # Lose movement control
     eventPlayer.applyImpulse(Vector.UP, 13.5, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     eventPlayer.applyImpulse(getForwardDirection(eventPlayer.enemy_doomfist_player), 8.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     wait(OW1_DOOMFIST_RISING_UPPERCUT_AIR_LOCK_TIME)
     eventPlayer.stopForcingThrottle() # Regain movement control
     eventPlayer.is_hit_by_uppercut = false
-
-
-rule "[doomfist/uppercut.opy]: Damage uppercut victims":
-    @Event eachPlayer
-    @Condition eventPlayer.is_hit_by_uppercut == true
-
-    damage(eventPlayer, eventPlayer.enemy_doomfist_player, OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE)
-    eventPlayer.setEnvironmentalKillCreditor(eventPlayer.enemy_doomfist_player)
-
-
-rule "[doomfist/uppercut.opy]: Play uppercut hit VFX":
-    @Event eachPlayer
-    @Condition eventPlayer.is_hit_by_uppercut == true
-
-    playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, Color.WHITE, eventPlayer, 1)
 
 
 rule "[doomfist/uppercut.opy]: Heal doomfist uppercut shields":

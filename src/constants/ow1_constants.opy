@@ -104,7 +104,7 @@ globalvar OW1_DOOMFIST_PUNCH_COOLDOWN = createWorkshopSetting(float[0:12], 'Doom
 #!define OW1_DOOMFIST_ROCKET_PUNCH_IMPACT_DAMAGE_MAX 100
 #!define OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MIN 50
 #!define OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MAX 150
-globalvar OW1_DOOMFIST_SLAM_CD = createWorkshopSetting(float[0:12], 'Doomfist', 'Cooldown - Slam', 6)
+#!define OW1_DOOMFIST_SLAM_CD 6
 # Slamming on flat ground should deal 49 damage
 # Frame by frame analysis of Youtube videos indicate that slam damage increases at a rate of 100 damage/second
 #!define OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE 100

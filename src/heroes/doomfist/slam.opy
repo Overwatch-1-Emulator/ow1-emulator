@@ -18,8 +18,6 @@ playervar slam_indicator_ring_id
 subroutine initSlam
 subroutine executeSlam
 subroutine startSlamAnimation
-subroutine initiateGroundSlam
-subroutine initiateIndicatorSlam
 
 subroutine showSlamDamageGui
 subroutine hideSlamDamageGui
@@ -33,19 +31,21 @@ enum SlamType:
 
 # First raycast max range towards the direction the crosshair is aimed at
 #!define findProtoIndicatorPosition() \
-(raycast(eventPlayer.getEyePosition(), \
-         eventPlayer.getEyePosition()+OW1_DOOMFIST_SEISMIC_SLAM_RADIUS*eventPlayer.getFacingDirection(), \
-         null, \
-         getAllPlayers(), \
-         false).getHitPosition())
+(raycast( \
+    eventPlayer.getEyePosition(), \
+    eventPlayer.getEyePosition() + OW1_DOOMFIST_SEISMIC_SLAM_RADIUS * eventPlayer.getFacingDirection(), \
+    null, \
+    getAllPlayers(), \
+    false).getHitPosition())
 
 # Then drop straight down vertically to find the final indicator position
 #!define findIndicatorPosition() \
-(raycast(eventPlayer.proto_indicator_slam_position, \
-         eventPlayer.proto_indicator_slam_position + OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, \
-         null, \
-         getAllPlayers(), \
-         false).getHitPosition() \
+(raycast(\
+    eventPlayer.proto_indicator_slam_position, \
+    eventPlayer.proto_indicator_slam_position + OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, \
+    null, \
+    getAllPlayers(), \
+    false).getHitPosition() \
 if distance(eventPlayer.getEyePosition(), eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_SEISMIC_SLAM_RADIUS \
 else eventPlayer.proto_indicator_slam_position)
 
@@ -89,52 +89,39 @@ rule "[doomfist/slam.opy]: Execute slam":
 
     if eventPlayer.slam_to_use == SlamType.INDICATOR:
         if indicatorSlamValid():
-            initiateIndicatorSlam()
+            # Initiate Indicator Slam
+            stopChasingVariable(eventPlayer.proto_indicator_slam_position)
+            stopChasingVariable(eventPlayer.indicator_slam_position)
+            eventPlayer.stop_slam = false
+            eventPlayer.proto_indicator_slam_position = findProtoIndicatorPosition()
+            eventPlayer.indicator_slam_position = findIndicatorPosition()
+            eventPlayer.setGravity(0)
+            eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
+            startSlamAnimation()
+            while(impulseTrainActive()):
+                eventPlayer.slam_velocity_correction = OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED * directionTowards(eventPlayer.getPosition(), 
+                                                                                                                    eventPlayer.indicator_slam_position) \
+                                                       - eventPlayer.getVelocity()
+                eventPlayer.applyImpulse(eventPlayer.slam_velocity_correction, 
+                                         magnitude(eventPlayer.slam_velocity_correction), 
+                                         Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+                wait()
+            eventPlayer.setGravity(100)
+            waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
+            cancelMomentum(eventPlayer)
+            eventPlayer.stopForcingThrottle()
+
     else if eventPlayer.slam_to_use == SlamType.GROUND:
-        initiateGroundSlam()
-
-    if (eventPlayer.isUsingAbility1()):
-        waitUntil(eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0, Math.INFINITY)
-        eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_DOOMFIST_SLAM_CD)
-
-
-def initiateGroundSlam():
-    @Name "[doomfist/slam.opy]: InitiateGroundSlam()"
-
-    eventPlayer.setGravity(0)
-    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-
-    startSlamAnimation()
-    eventPlayer.applyImpulse(getForwardDirection(eventPlayer) + 0.075*Vector.UP, 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
-    wait(0.3)
-    eventPlayer.setGravity(100)
-    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
-    eventPlayer.stopForcingThrottle()
-
-
-def initiateIndicatorSlam():
-    @Name "[doomfist/slam.opy]: InitiateIndicatorSlam()"
+        # Initiate Ground Slam
+        eventPlayer.setGravity(0)
+        eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
     
-    stopChasingVariable(eventPlayer.proto_indicator_slam_position)
-    stopChasingVariable(eventPlayer.indicator_slam_position)
-    eventPlayer.stop_slam = false
-    eventPlayer.proto_indicator_slam_position = findProtoIndicatorPosition()
-    eventPlayer.indicator_slam_position = findIndicatorPosition()
-    eventPlayer.setGravity(0)
-    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-    startSlamAnimation()
-    while(impulseTrainActive()):
-        eventPlayer.slam_velocity_correction = OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED * directionTowards(eventPlayer.getPosition(), 
-                                                                                                            eventPlayer.indicator_slam_position) \
-                                               - eventPlayer.getVelocity()
-        eventPlayer.applyImpulse(eventPlayer.slam_velocity_correction, 
-                                 magnitude(eventPlayer.slam_velocity_correction), 
-                                 Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
-        wait()
-    eventPlayer.setGravity(100)
-    waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
-    cancelMomentum(eventPlayer)
-    eventPlayer.stopForcingThrottle()
+        startSlamAnimation()
+        eventPlayer.applyImpulse(getForwardDirection(eventPlayer) + 0.075*Vector.UP, 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
+        wait(0.3)
+        eventPlayer.setGravity(100)
+        waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
+        eventPlayer.stopForcingThrottle()
 
 
 rule "[doomfist/slam.opy]: Check for LOS during indicator":
@@ -191,8 +178,8 @@ rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
     @Event eachPlayer
     @Hero doomfist
     @Condition not ((eventPlayer.slam_to_use == SlamType.INDICATOR) \
-                    and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
-                    and (not eventPlayer.isUsingAbility1()))
+                and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
+                and (not eventPlayer.isUsingAbility1()))
 
     stopChasingVariable(eventPlayer.proto_indicator_slam_position)
     stopChasingVariable(eventPlayer.indicator_slam_position)
@@ -235,14 +222,16 @@ def showSlamDamageGui():
     @Name "[doomfist/slam.opy]: showSlamDamageGui()"
 
     if eventPlayer.slam_damage_text_entity != null: return
-    createInWorldText(eventPlayer, "[ {0} ]".format(floor(eventPlayer.slam_damage)), 
-                      updateEveryTick(eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
-                                      verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
-                                      2, 
-                                      Clip.NONE, 
-                                      WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
-                                      Color.WHITE, 
-                                      SpecVisibility.DEFAULT)
+    createInWorldText(
+        eventPlayer, "[ {0} ]".format(floor(eventPlayer.slam_damage)), 
+        updateEveryTick(
+            eventPlayer.getEyePosition() + (100 * (0 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((0 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
+            verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
+            2, 
+            Clip.NONE, 
+            WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
+            Color.WHITE, 
+            SpecVisibility.DEFAULT)
     eventPlayer.slam_damage_text_entity = getLastCreatedText()
 
 
@@ -267,8 +256,8 @@ rule "[doomfist/slam.opy]: Find slammed victims":
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     
-    if (OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim) \
-    and distance(attacker, victim) <= OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS \
+    if ((OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim)) \
+    and (distance(attacker, victim) <= OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS) \
     and true): # [TODO]: add condition to check victim in 60 degree cone
         attacker.ow1_slam_victims.append(victim)
         damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE - OW1_DOOMFIST_BEST_DEFENSE)
@@ -278,20 +267,13 @@ rule "[doomfist/slam.opy]: Find slammed victims":
         attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE, attacker.uppercut_shields)
 
 
-rule "[doomfist/slam.opy]: Slammed victims damage":
+rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.ow1_slam_victims
 
     damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
-
-
-rule "[doomfist/slam.opy]: Slammed victims bounce effect":
-    @Event playerDealtDamage
-    @Hero doomfist
-    @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-    @Condition victim in attacker.ow1_slam_victims
 
     victim.setGravity(50) 
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up

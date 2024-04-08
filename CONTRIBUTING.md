@@ -50,7 +50,7 @@ For instructions on how to use OverPy, see [here](https://gitlab.com/Zezombye/ov
 
 1. For every 3~5 features added to staging branch, the devs will compile a staging build and test each feature manually.
 2. If your feature fails to meet quality expectations, the MR corresponding to that feature will be reverted to drop the changes.
-3. After each feature in staging branch is confirmed, the staging branch will be merged to beta branch as latest release. If the gamemode plays without crashing, the beta release will be merged to main branch as stable release.  
+3. After each feature in staging branch is confirmed, the staging branch will be merged to main branch and released as latest build. If the latest build plays without crashing, it will be set as the stable build.  
 
 
 ## Coding Style Guidelines
