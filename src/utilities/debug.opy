@@ -121,10 +121,6 @@ rule "[utilities/debug.opy]: do something on interact":
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.setUltCharge(100)
 
-    setSlowMotion(1)
-    wait(0.5)
-    setSlowMotion(100)
-
 
 rule "[utilities/debug.opy]: Show Player Damage/Healing":
     @Event eachPlayer
