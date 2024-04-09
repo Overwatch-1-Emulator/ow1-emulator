@@ -29,11 +29,12 @@
                                DISCORD_LONG_LINK + "\n" + \
                                "\n" + \
                                "Source code:" + "\n" + \
-                               "gitlab.com/MaxwellJung/ow1_emulator")
+                               SOURCE_CODE_LINK)
 #!define GAMEMODE_CODE "KHTG0"
 #!define STAGING_CODE "ESMXJ"
 #!define DISCORD_SHORT_LINK "dsc.gg/ow1"
 #!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"
+#!define SOURCE_CODE_LINK "github.com/Overwatch-1-Emulator/ow1-emulator"
 
 #!define ENABLE_JUNKERQUEEN false
 #!define ENABLE_MAUGA false
@@ -42,3 +43,6 @@
 #!define ENABLE_ILLARI false
 #!define ENABLE_KIRIKO false
 #!define ENABLE_LIFEWEAVER false
+
+rule "Copyright (c) 2024 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulator/ow1-emulator for license to use this code.":
+    disableInspector()
