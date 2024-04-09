@@ -19,14 +19,36 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
 
     # Execute Uppercut
     eventPlayer.is_using_uppercut = true # Start of uppercut
-    
+
     cancelMomentum(eventPlayer)
     eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
-    
+
     # Disable abilities during uppercut
     eventPlayer.is_uppercut_locked = true
+    eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
+    eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
+    eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
+    eventPlayer.setAbility1Enabled(false) # Doomfist cannot slam during uppercut
+    eventPlayer.disallowButton(Button.ULTIMATE) # Doomfist cannot ult during uppercut
+    wait(0.6)
+    # Reenable abilities
+    eventPlayer.is_uppercut_locked = false
+    eventPlayer.setMeleeEnabled(true)
+    eventPlayer.setPrimaryFireEnabled(true)
+    if (eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)): # Shoot single buffered left click interrupted by power block
+        eventPlayer.forceButtonPress(Button.PRIMARY_FIRE)
+    eventPlayer.setSecondaryFireEnabled(true)
+    eventPlayer.setAbility1Enabled(true)
+    eventPlayer.allowButton(Button.ULTIMATE)
+    if (eventPlayer.isHoldingButton(Button.ULTIMATE)): # Activate ult if button held
+        eventPlayer.forceButtonPress(Button.ULTIMATE)
 
-    # Uppercut physics
+
+rule "[doomfist/uppercut.opy]: Uppercut movement physics":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.is_using_uppercut
+
     eventPlayer.applyImpulse(getForwardDirection(eventPlayer), 5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Step Forward
     eventPlayer.setGravity(0) # Override gravity during uppercut
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0) # Deny player from inputting movement commands
@@ -34,10 +56,6 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     eventPlayer.applyImpulse(Vector.UP, 40, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Uppercut
     wait(0.1)
     eventPlayer.applyImpulse(Vector.DOWN, max(0, eventPlayer.getSpeedInDirection(Vector.UP)), Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
-    
-    # Reenable abilities
-    eventPlayer.is_uppercut_locked = false
-
     wait()
     eventPlayer.applyImpulse(Vector.UP, 2.5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.enablePlayerCollision()
@@ -50,28 +68,6 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     wait(0.25)
     if (eventPlayer.isUsingAbility1()): return
     eventPlayer.setGravity(100)
-
-
-rule "[doomfist/uppercut.opy]: Disable abilities when locked into uppercut":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.is_uppercut_locked
-    
-    eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
-    eventPlayer.setPrimaryFireEnabled(false) # Doomfist cannot shoot during uppercut
-    eventPlayer.setSecondaryFireEnabled(false) # Doomfist cannot punch during uppercut
-    eventPlayer.setAbility1Enabled(false) # Doomfist cannot slam during uppercut
-    eventPlayer.disallowButton(Button.ULTIMATE) # Doomfist cannot ult during uppercut
-    waitUntil(not eventPlayer.is_uppercut_locked, Math.INFINITY)
-    eventPlayer.setMeleeEnabled(true)
-    eventPlayer.setPrimaryFireEnabled(true)
-    if (eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)): # Shoot single buffered left click interrupted by power block
-        eventPlayer.forceButtonPress(Button.PRIMARY_FIRE)
-    eventPlayer.setSecondaryFireEnabled(true)
-    eventPlayer.setAbility1Enabled(true)
-    eventPlayer.allowButton(Button.ULTIMATE)
-    if (eventPlayer.isHoldingButton(Button.ULTIMATE)): # Activate ult if button held
-        eventPlayer.forceButtonPress(Button.ULTIMATE)
 
 
 rule "[doomfist/uppercut.opy]: Play uppercut VFX + set uppercut cooldown":

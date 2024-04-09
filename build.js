@@ -13,7 +13,7 @@ function generateWorkshop(mainFileName="main.opy", outputFileName="out.txt", src
 
     let mainFileText = fs.readFileSync(mainFilePath, 'utf8');
     mainFileText = addVersionNumber(mainFileText, version)
-    mainFileText = addObfuscation(mainFileText)
+    // mainFileText = addObfuscation(mainFileText)
     const compiledText = overpy.compile(mainFileText, "en-US", srcDirectory).result;
 
     fs.mkdirSync(buildDirectory, { recursive: true });
