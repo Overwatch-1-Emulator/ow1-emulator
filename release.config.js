@@ -11,6 +11,7 @@ module.exports = {
             "assets": [
                 { "path": "build/ow1em.txt", "label": "Overwatch 1 Emulator" },
                 { "path": "build/ow1pp.txt", "label": "Overwatch 1++" },
+                { "path": "build/1v1-ow1.txt", "label": "1v1 - Overwatch 1 Edition" },
             ]
         }], 
         ["semantic-release-discord-bot", {
