@@ -5,6 +5,7 @@ const version = process.env.NEXT_VERSION;
 
 generateWorkshop("ow1em_main.opy", "ow1em.txt")
 generateWorkshop("ow1pp_main.opy", "ow1pp.txt")
+generateWorkshop("1v1_main.opy", "1v1-ow1.txt")
 
 function generateWorkshop(mainFileName="main.opy", outputFileName="out.txt", srcDirectory="./src/", buildDirectory="./build/") {
   try {
