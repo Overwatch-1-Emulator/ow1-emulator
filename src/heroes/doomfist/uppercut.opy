@@ -24,9 +24,6 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     # Execute Uppercut
     eventPlayer.is_using_uppercut = true # Start of uppercut
 
-    cancelMomentum(eventPlayer)
-    eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
-
     # Disable abilities during uppercut
     eventPlayer.is_uppercut_locked = true
     eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
@@ -48,10 +45,19 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
         eventPlayer.forceButtonPress(Button.ULTIMATE)
 
 
-rule "[doomfist/uppercut.opy]: Uppercut movement physics":
+rule "[doomfist/uppercut.opy]: Uppercut vfx + movement physics":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_using_uppercut
+
+    # vfx
+    playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
+    playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
+    playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
+
+    # movement physics
+    cancelMomentum(eventPlayer)
+    eventPlayer.disablePlayerCollision() # Doomfist phases through enemies during uppercut
 
     eventPlayer.applyImpulse(getForwardDirection(eventPlayer), 5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # Step Forward
     eventPlayer.setGravity(0) # Override gravity during uppercut
@@ -64,7 +70,13 @@ rule "[doomfist/uppercut.opy]: Uppercut movement physics":
     eventPlayer.applyImpulse(Vector.UP, 2.5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.enablePlayerCollision()
     wait(0.35)
+
     eventPlayer.is_using_uppercut = false # End of uppercut
+
+    # set cooldown
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_UPPERCUT_COOLDOWN)
+    eventPlayer.setAbility2Enabled(true)
+
     eventPlayer.stopForcingThrottle()
     wait(0.15)
     if (eventPlayer.isUsingAbility1()): return
@@ -72,20 +84,6 @@ rule "[doomfist/uppercut.opy]: Uppercut movement physics":
     wait(0.25)
     if (eventPlayer.isUsingAbility1()): return
     eventPlayer.setGravity(100)
-
-
-rule "[doomfist/uppercut.opy]: Play uppercut VFX + set uppercut cooldown":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.is_using_uppercut
-
-    playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
-    playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
-    playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, eventPlayer.getTeam(), eventPlayer, 100)
-
-    waitUntil(not eventPlayer.is_using_uppercut, Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_UPPERCUT_CD)
-    eventPlayer.setAbility2Enabled(true)
 
 
 rule "[doomfist/uppercut.opy]: Detect uppercut victims":
