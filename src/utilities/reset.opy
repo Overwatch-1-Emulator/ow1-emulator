@@ -5,10 +5,8 @@ globalvar reset_gvar
 
 playervar reset_pvar
 #!defineMember call_init reset_pvar[0]
-#!defineMember friendly_doomfist_player reset_pvar[1]
 #!defineMember friendly_orisa_player reset_pvar[2]
 #!defineMember friendly_sombra_player reset_pvar[3]
-#!defineMember enemy_doomfist_player reset_pvar[4]
 #!defineMember enemy_orisa_player reset_pvar[5]
 #!defineMember enemy_sombra_player reset_pvar[6]
 
@@ -120,8 +118,6 @@ def resetStatuses():
 def resetFrenemies():
     @Name "[utilities/reset.opy]: resetFrenemies()"
 
-    eventPlayer.friendly_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, eventPlayer.getTeam())[0]
-    eventPlayer.enemy_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam()))[0]
     eventPlayer.friendly_orisa_player = getPlayersOnHero(Hero.ORISA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_orisa_player = getPlayersOnHero(Hero.ORISA, getOppositeTeam(eventPlayer.getTeam()))[0]
     eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]

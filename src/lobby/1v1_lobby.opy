@@ -1,4 +1,4 @@
-#!mainFile "../dev_main.opy"
+#!mainFile "../1v1_main.opy"
 
 settings {
     "main": {
@@ -7,25 +7,23 @@ settings {
     },
     "lobby": {
         "allowPlayersInQueue": true,
-        "mapRotation": "afterGame",
-        "enableMatchVoiceChat": true,
+        "ffaSlots": 8,
         "spectatorSlots": 12,
-        "team1Slots": 6,
-        "team2Slots": 0,
-        "returnToLobby": "afterGame",
-        "teamBalancing": "off",
-        # "minimumLatencyInNs": 50000000
+        "returnToLobby": "never"
     },
     "gamemodes": {
-        "practiceRange": {
-            "enabledMaps": [ "practiceRange" ]
+        "ffa": {
+            "enabledMaps": [
+                "lijiangControlCenter"
+            ]
         },
         "general": {
-            "heroLimit": "1PerTeam",
-            "roleLimit": "off",
-            "gamemodeStartTrigger": "allSlotsFilled",
-            "tankPassiveHealthBonus": "disabled",
-            "enableCompetitiveRules": true
+            "gamemodeStartTrigger": "immediately",
+            "enableKillCam": false,
+            "enableRandomHeroes": true,
+            "scoreToWin": 50,
+            "enableSelfInitiatedRespawn": false,
+            "spawnHealthPacks": "disabled"
         }
     },
     "heroes": {
@@ -63,7 +61,6 @@ settings {
                 "ammoRegenerationTime%": percent(OW1_DOOMFIST_AMMO_REGEN/OW2_DOOMFIST_AMMO_REGEN),
                 "secondaryFireKb%": 0,
                 "ability1Cooldown%": percent(OW1_DOOMFIST_SLAM_CD/OW2_DOOMFIST_SLAM_CD),
-                "ability2Cooldown%": percent(OW1_DOOMFIST_UPPERCUT_COOLDOWN_DEFAULT/OW2_DOOMFIST_POWER_BLOCK_COOLDOWN),
                 "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
             },
             "dva": {
@@ -221,9 +218,9 @@ settings {
                 "junkerQueen",
                 "junkrat",
                 "kiriko",
-                "lifeweaver",
+                # "lifeweaver",
                 "lucio",
-                "mauga",
+                # "mauga",
                 "mei",
                 "mercy",
                 "moira",

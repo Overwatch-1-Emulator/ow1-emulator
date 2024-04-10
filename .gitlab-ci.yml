@@ -21,6 +21,7 @@ build-job:       # This job runs in the build stage, which runs first.
     paths:
       - build/ow1em.txt
       - build/ow1pp.txt
+      - build/1v1-ow1.txt
   only:
     - main
     - beta
