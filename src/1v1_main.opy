@@ -78,94 +78,129 @@
 #!include "utilities/watermark.opy"
 
 globalvar arena_gvar
-#!defineMember MainCenter arena_gvar[0]
-#!defineMember MainHigh arena_gvar[1]
-#!defineMember MainTopDeck arena_gvar[2]
-#!defineMember SideArenaCenter arena_gvar[3]
-#!defineMember SideArenaSpawnsFacing arena_gvar[4]
-#!defineMember MainFacing arena_gvar[5]
-#!defineMember HeroList1 arena_gvar[6]
-#!defineMember FirstMatch arena_gvar[7]
-globalvar MainSpawnDetLoc #arena_gvar[8]
-#!defineMember MainTopSpawn arena_gvar[9]
-#!defineMember BurnDamage arena_gvar[10]
-#!defineMember MainOppositeSpawn arena_gvar[11]
-#!defineMember IntroHud arena_gvar[12]
-#!defineMember MainDeckSpawn arena_gvar[14]
-#!defineMember MainDefaultSpawn arena_gvar[16]
-#!defineMember SpecSpot2 arena_gvar[20]
-#!defineMember SpecSpot arena_gvar[21]
-globalvar Arena1Q #arena_gvar[22]
-globalvar Arena2Q #arena_gvar[23]
-globalvar Arena3Q #arena_gvar[24]
-#!defineMember Arena1Match arena_gvar[26]
-#!defineMember Arena2Match arena_gvar[27]
-#!defineMember Arena3Match arena_gvar[28]
-#!defineMember PathLoc arena_gvar[47]
-#!defineMember OneHero arena_gvar[58]
-#!defineMember PathHelper arena_gvar[62]
-#!defineMember PathDirection arena_gvar[63]
-#!defineMember PathOld arena_gvar[64]
-#!defineMember HostHasDifferentheroes arena_gvar[65]
-#!defineMember PathLocStairs arena_gvar[66]
-#!defineMember PathLocDeck arena_gvar[67]
-#!defineMember BotSeePlayer arena_gvar[68]
-#!defineMember PredictionSpot arena_gvar[69]
-#!defineMember OneHero2 arena_gvar[101]
-#!defineMember HeroList2 arena_gvar[102]
-#!defineMember AlwaysRefreshHero arena_gvar[103]
+#!defineMember main_center arena_gvar[0]
+#!defineMember main_high arena_gvar[1]
+#!defineMember main_top_deck arena_gvar[2]
+#!defineMember side_arena_center arena_gvar[3]
+#!defineMember side_arena_spawns_facing arena_gvar[4]
+#!defineMember MAIN_FACING arena_gvar[5]
+#!defineMember HERO_LIST_1 arena_gvar[6]
+#!defineMember first_match arena_gvar[7]
+globalvar main_spawn_det_loc #arena_gvar[8]
+#!defineMember MAIN_TOP_SPAWNS arena_gvar[9]
+#!defineMember BURN_DAMAGE arena_gvar[10]
+#!defineMember MAIN_OPPOSITE_SPAWNS arena_gvar[11]
+#!defineMember INTRO_HUD arena_gvar[12]
+#!defineMember MAIN_DECK_SPAWNS arena_gvar[14]
+#!defineMember main_default_spawn arena_gvar[16]
+#!defineMember SPEC_SPOT_2 arena_gvar[20]
+#!defineMember SPEC_SPOT arena_gvar[21]
+globalvar arena1_q #arena_gvar[22]
+globalvar arena2_q #arena_gvar[23]
+globalvar arena3_q #arena_gvar[24]
+#!defineMember arena1_match arena_gvar[26]
+#!defineMember arena2_match arena_gvar[27]
+#!defineMember arena3_match arena_gvar[28]
+#!defineMember one_hero arena_gvar[58]
+#!defineMember HOST_DIFFERENT_HEROES arena_gvar[65]
+#!defineMember one_hero2 arena_gvar[101]
+#!defineMember HERO_LIST_2 arena_gvar[102]
+#!defineMember ALWAYS_REFRESH_HERO arena_gvar[103]
 
 playervar arena_pvar
-#!defineMember OneHeroPlayerVariable arena_pvar[0]
-#!defineMember Randomizer arena_pvar[2]
-#!defineMember _spectating arena_pvar[3]
-#!defineMember DeadHelper arena_pvar[4]
+#!defineMember one_hero_pvar arena_pvar[0]
+#!defineMember randomizer arena_pvar[2]
+#!defineMember _is_spectating arena_pvar[3]
+#!defineMember dead_helper arena_pvar[4]
 #!defineMember Hud arena_pvar[7]
-#!defineMember JoinSpecHelper arena_pvar[9]
-#!defineMember HeroList arena_pvar[11]
-#!defineMember HeroNumber arena_pvar[13]
+#!defineMember hero_list arena_pvar[11]
+#!defineMember hero_number arena_pvar[13]
 #!defineMember Score arena_pvar[18]
-#!defineMember UltCharge arena_pvar[20]
-#!defineMember AntiHealDebuffed arena_pvar[26]
+#!defineMember ult_charge arena_pvar[20]
+#!defineMember anti_heal_debuffed arena_pvar[26]
 
-subroutine SpawnLocationCheck 0
-subroutine Arena1Dies 1
-subroutine Arena2Dies 2
-subroutine Arena3Dies 3
+subroutine spawnLocationCheck
+subroutine arena1Dies
+subroutine arena2Dies
+subroutine arena3Dies
+
+#!define startForcingSpectator(player)\
+    player.teleport(SPEC_SPOT)\
+    player.startForcingThrottle(0, 0, 0, 0, 0, 0)\
+    player.setGravity(abs(0))\
+    player.setMoveSpeed(abs(0))\
+    player.disallowButton(Button.PRIMARY_FIRE)\
+    player.disallowButton(Button.SECONDARY_FIRE)\
+    player.disallowButton(Button.MELEE)\
+    player.disallowButton(Button.ABILITY_1)\
+    player.disallowButton(Button.ABILITY_2)\
+    player.disallowButton(Button.ULTIMATE)\
+    player.stopForcingButton(Button.PRIMARY_FIRE)\
+    player.stopForcingButton(Button.SECONDARY_FIRE)\
+    player.stopForcingButton(Button.MELEE)\
+    player.stopForcingButton(Button.ABILITY_1)\
+    player.stopForcingButton(Button.ABILITY_2)\
+    player.setStatusEffect(null, Status.UNKILLABLE, 9999)\
+    player.setInvisibility(Invis.ALL)\
+    player.setStatusEffect(null, Status.PHASED_OUT, 9999)\
+    player.setStatusEffect(null, Status.ROOTED, 9999)\
+    player.setDamageDealt(0)\
+    wait(0.5)\
+    player.setFacing(localVector(MAIN_FACING, player, Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)\
+    player._is_spectating = true\
+
+
+#!define stopForcingSpectator(player)\
+    player.setGravity(100)\
+    player.setMoveSpeed(100)\
+    player.setStatusEffect(null, Status.UNKILLABLE, 0)\
+    player.setInvisibility(Invis.NONE)\
+    player.setStatusEffect(null, Status.PHASED_OUT, 0)\
+    player.setStatusEffect(null, Status.ROOTED, 0)\
+    player.setDamageDealt(100)\
+    player.stopForcingThrottle()\
+    player.allowButton(Button.PRIMARY_FIRE)\
+    player.allowButton(Button.SECONDARY_FIRE)\
+    player.allowButton(Button.MELEE)\
+    player.allowButton(Button.ABILITY_1)\
+    player.allowButton(Button.ABILITY_2)\
+    player.allowButton(Button.ULTIMATE)\
+    player.call_init = true\
+    player._is_spectating = false\
 
 
 rule "Workshop Settings --------------------------------------------------------------------------------------":
     disableInspector()
 
-    BurnDamage = createWorkshopSetting(int[25:200], "Burn Damage", "Damage per tick", 25, 0)
-    AlwaysRefreshHero = createWorkshopSetting(bool, "Always refresh hero (cooldowns, shield, etc) after winning on arena 1", "Refresh hero after winning on arena 1", false, 0)
-    HostHasDifferentheroes = createWorkshopSetting(bool, "B Special settings for mode where players have different list of heroes", "Host player has different list of heroes", false, 0)
+    BURN_DAMAGE = createWorkshopSetting(int[25:200], "Burn Damage", "Damage per tick", 25, 0)
+    ALWAYS_REFRESH_HERO = createWorkshopSetting(bool, "Always refresh hero (cooldowns, shield, etc) after winning on arena 1", "Refresh hero after winning on arena 1", false, 0)
+    HOST_DIFFERENT_HEROES = createWorkshopSetting(bool, "B Special settings for mode where players have different list of heroes", "Host player has different list of heroes", false, 0)
 
 
-rule "Creating HeroList1, Check OneHero":
-    HeroList1.append(_available_heroes)
-    del HeroList1[0]
-    #if len(HeroList1) == 1:
-    #OneHero = true
-    #HeroList1.append(HeroList1[0])
+rule "Creating HERO_LIST_1, Check one_hero":
+    HERO_LIST_1.append(_available_heroes)
+    del HERO_LIST_1[0]
+    #if len(HERO_LIST_1) == 1:
+    #one_hero = true
+    #HERO_LIST_1.append(HERO_LIST_1[0])
     #__end__()
 
 
-rule "Creating Herolist2, Check OneHero2, for host player ----------------------------------------------------------------------------":
-    @Condition HostHasDifferentheroes == true
+rule "Creating HERO_LIST_2, Check one_hero2, for host player ----------------------------------------------------------------------------":
+    @Condition HOST_DIFFERENT_HEROES == true
 
-    HeroList2.append(_available_heroes)
-    del HeroList2[0]
-    #if len(HeroList2) == 1:
-    #OneHero2 = true
-    #HeroList2.append(HeroList2[0])
+    HERO_LIST_2.append(_available_heroes)
+    del HERO_LIST_2[0]
+    #if len(HERO_LIST_2) == 1:
+    #one_hero2 = true
+    #HERO_LIST_2.append(HERO_LIST_2[0])
     #__end__()
 
 
 rule "Disable Scoring":
     disableScoring()
     hudText(getAllPlayers(), "Code: {}".format(GAMEMODE_CODE), "dsc.gg/ow1", "Full details: workshop.codes/ow1-emulator", HudPosition.TOP, 22, Color.ORANGE, Color.BLUE, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    IntroHud = getLastCreatedText()
+    INTRO_HUD = getLastCreatedText()
 
 
 rule "Pause Timer":
@@ -174,274 +209,235 @@ rule "Pause Timer":
     pauseMatchTime()
     setMatchTime(1220)
     wait(1)
-    destroyHudText(IntroHud)
+    destroyHudText(INTRO_HUD)
 
 
 rule "Restart Hero List":
     @Event eachPlayer
-    @Condition eventPlayer.HeroNumber == len(eventPlayer.HeroList)
+    @Condition eventPlayer.hero_number == len(eventPlayer.hero_list)
     
-    eventPlayer.HeroNumber = 0
+    eventPlayer.hero_number = 0
 
 
 rule "Arena Locations":
-    MainCenter = vect(0, 267, 280)
-    MainHigh = vect(0, 280, 280)
-    MainTopDeck = vect(0, 279.5, 295.5)
-    MainFacing = vect(0, 268.5, 280)
-    createEffect(getAllPlayers(), Effect.LIGHT_SHAFT, Color.RED, MainCenter, 16.7, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    createEffect(getAllPlayers(), Effect.SPHERE, Color.RED, MainTopDeck, 2.61, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
-    SpecSpot = vect(13.366, 285, 279.711)
-    SpecSpot2 = vect(-13.672, 285, 279.735)
+    main_center = vect(0, 267, 280)
+    main_high = vect(0, 280, 280)
+    main_top_deck = vect(0, 279.5, 295.5)
+    MAIN_FACING = vect(0, 268.5, 280)
+    createEffect(getAllPlayers(), Effect.LIGHT_SHAFT, Color.RED, main_center, 16.7, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    createEffect(getAllPlayers(), Effect.SPHERE, Color.RED, main_top_deck, 2.61, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    SPEC_SPOT = vect(13.366, 285, 279.711)
+    SPEC_SPOT_2 = vect(-13.672, 285, 279.735)
 
 
 rule "Arena Spawn Locations":
-    MainDefaultSpawn = vect(-0.087, 268, 267.986)
-    #MainOppositeSpawn = vect(11.146, 268, 275.313)
-    MainOppositeSpawn = vect(11, 268, 276.2)
-    MainOppositeSpawn.append(vect(-11, 268, 276.2))
-    MainTopSpawn = vect(7.923, 268, 273.866)
-    MainTopSpawn.append(vect(0.004, 268, 276.965))
-    MainTopSpawn.append(vect(-7.771, 268, 273.383))
-    #MainDeckSpawn = vect(9.421, 268, 280.176)
-    MainDeckSpawn = vect(9.486, 268, 280.02)
-    MainDeckSpawn.append(vect(-0.005, 268, 283.035))
-    MainDeckSpawn.append(vect(-9.486, 268, 280.02))
+    main_default_spawn = vect(-0.087, 268, 267.986)
+    #MAIN_OPPOSITE_SPAWNS = vect(11.146, 268, 275.313)
+    MAIN_OPPOSITE_SPAWNS = [vect(11, 268, 276.2), vect(-11, 268, 276.2)]
+    MAIN_TOP_SPAWNS = [vect(7.923, 268, 273.866), vect(0.004, 268, 276.965), vect(-7.771, 268, 273.383)]
+    #MAIN_DECK_SPAWNS = vect(9.421, 268, 280.176)
+    MAIN_DECK_SPAWNS = [vect(9.486, 268, 280.02), vect(-0.005, 268, 283.035), vect(-9.486, 268, 280.02)]
 
 
 rule "Arena Spawn Location Detection Spots":
-    MainSpawnDetLoc[0] = vect(0.198, 271.351, 302.477)
-    MainSpawnDetLoc[1] = vect(0.147, 271.348, 266.101)
-    MainSpawnDetLoc[2] = vect(20.349, 268.349, 281.046)
-    MainSpawnDetLoc[3] = vect(-20.35, 268.349, 281.009)
+    main_spawn_det_loc[0] = vect(0.198, 271.351, 302.477)
+    main_spawn_det_loc[1] = vect(0.147, 271.348, 266.101)
+    main_spawn_det_loc[2] = vect(20.349, 268.349, 281.046)
+    main_spawn_det_loc[3] = vect(-20.35, 268.349, 281.009)
 
 
 rule "Arena 2: Zone.0, SafeCheck.1, Spawn.0&1, Facing.2":
-    SideArenaCenter = vect(-41.832, 260, 344.857)
-    SideArenaCenter.append(vect(-41.832, 270, 344.857))
-    SideArenaSpawnsFacing = vect(-50.464, 268.667, 351.671)
-    SideArenaSpawnsFacing.append(vect(-31.82, 268.549, 332.737))
-    SideArenaSpawnsFacing.append(vect(-38.715, 271.502, 343.17))
-    createEffect(getAllPlayers(), Effect.LIGHT_SHAFT, Color.RED, SideArenaCenter[0], 18, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    side_arena_center = vect(-41.832, 260, 344.857)
+    side_arena_center.append(vect(-41.832, 270, 344.857))
+    side_arena_spawns_facing = vect(-50.464, 268.667, 351.671)
+    side_arena_spawns_facing.append(vect(-31.82, 268.549, 332.737))
+    side_arena_spawns_facing.append(vect(-38.715, 271.502, 343.17))
+    createEffect(getAllPlayers(), Effect.LIGHT_SHAFT, Color.RED, side_arena_center[0], 18, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
 
 
 rule "Arena 3: Zone.2, SafeCheck.3, Spawn.3&4, Facing.5":
-    SideArenaCenter.append(vect(41.832, 260, 344.857))
-    SideArenaCenter.append(vect(41.832, 270, 344.857))
-    SideArenaSpawnsFacing.append(vect(50.464, 268.667, 351.671))
-    SideArenaSpawnsFacing.append(vect(31.82, 268.549, 332.737))
-    SideArenaSpawnsFacing.append(vect(38.715, 271.502, 343.17))
-    createEffect(getAllPlayers(), Effect.LIGHT_SHAFT, Color.BLUE, SideArenaCenter[2], 18, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+    side_arena_center.append(vect(41.832, 260, 344.857))
+    side_arena_center.append(vect(41.832, 270, 344.857))
+    side_arena_spawns_facing.append(vect(50.464, 268.667, 351.671))
+    side_arena_spawns_facing.append(vect(31.82, 268.549, 332.737))
+    side_arena_spawns_facing.append(vect(38.715, 271.502, 343.17))
+    createEffect(getAllPlayers(), Effect.LIGHT_SHAFT, Color.BLUE, side_arena_center[2], 18, EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
 
 
 rule "Player Joins host player different heroes --------------------------------------------------------------------------------------":
     @Event playerJoined
     @Condition eventPlayer.isDummy() == false
     @Condition eventPlayer == hostPlayer
-    @Condition HostHasDifferentheroes == true
+    @Condition HOST_DIFFERENT_HEROES == true
     
-    eventPlayer.HeroList = random.shuffle(HeroList2)
-    eventPlayer.startForcingHero(eventPlayer.HeroList[eventPlayer.HeroNumber])
-    if len(eventPlayer.HeroList) == 1:
-        eventPlayer.OneHeroPlayerVariable = true
-        eventPlayer.HeroList.append(eventPlayer.HeroList[0])
+    eventPlayer.hero_list = random.shuffle(HERO_LIST_2)
+    eventPlayer.startForcingHero(eventPlayer.hero_list[eventPlayer.hero_number])
+    if len(eventPlayer.hero_list) == 1:
+        eventPlayer.one_hero_pvar = true
+        eventPlayer.hero_list.append(eventPlayer.hero_list[0])
     if isGameInProgress():
         goto lbl_0
-    Arena1Q.append(eventPlayer)
+    arena1_q.append(eventPlayer)
     goto lbl_1
     lbl_0:
     if getNumberOfPlayers(Team.ALL) > 3:
         goto lbl_2
-    Arena1Q.append(eventPlayer)
+    arena1_q.append(eventPlayer)
     goto lbl_3
     lbl_2:
     if getNumberOfPlayers(Team.ALL) != 4:
         goto lbl_4
-    Arena2Q.append(eventPlayer)
+    arena2_q.append(eventPlayer)
     goto lbl_5
     lbl_4:
     if getNumberOfPlayers(Team.ALL) != 5:
         goto lbl_6
-    Arena2Q.append(eventPlayer)
+    arena2_q.append(eventPlayer)
     goto lbl_7
     lbl_6:
     if getNumberOfPlayers(Team.ALL) < 6:
         goto lbl_8
-    Arena3Q.append(eventPlayer)
+    arena3_q.append(eventPlayer)
     lbl_1:
     lbl_3:
     lbl_5:
     lbl_7:
     lbl_8:
-    eventPlayer._spectating = true
-    if not eventPlayer in Arena1Q:
+    startForcingSpectator(eventPlayer)
+    if not eventPlayer in arena1_q:
         goto lbl_9
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena1Q.index(eventPlayer) - 2)), "Score per kill: 3", "Arena: 1", HudPosition.TOP, 2, Color.GREEN, Color.WHITE, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena1_q.index(eventPlayer) - 2)), "Score per kill: 3", "Arena: 1", HudPosition.TOP, 2, Color.GREEN, Color.WHITE, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
     lbl_9:
-    if not eventPlayer in Arena2Q:
+    if not eventPlayer in arena2_q:
         goto lbl_10
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena2Q.index(eventPlayer) - 2)), "Score per kill: 2", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena2_q.index(eventPlayer) - 2)), "Score per kill: 2", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
     lbl_10:
-    if not eventPlayer in Arena3Q:
+    if not eventPlayer in arena3_q:
         goto lbl_11
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena3Q.index(eventPlayer) - 2)), "Score per kill: 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena3_q.index(eventPlayer) - 2)), "Score per kill: 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
     lbl_11:
     wait(0.3)
-    if eventPlayer._spectating == false:
-        goto lbl_12
-    eventPlayer.JoinSpecHelper = true
-    lbl_12:
+    startForcingSpectator(eventPlayer)
 
 
 rule "Player Joins not host player different heroes ----------------------------------------":
     @Event playerJoined
     @Condition eventPlayer.isDummy() == false
     @Condition eventPlayer != hostPlayer
-    @Condition HostHasDifferentheroes == true
+    @Condition HOST_DIFFERENT_HEROES == true
     
-    eventPlayer.HeroList = random.shuffle(HeroList1)
-    eventPlayer.startForcingHero(eventPlayer.HeroList[eventPlayer.HeroNumber])
-    if len(eventPlayer.HeroList) == 1:
-        eventPlayer.OneHeroPlayerVariable = true
-        eventPlayer.HeroList.append(eventPlayer.HeroList[0])
+    eventPlayer.hero_list = random.shuffle(HERO_LIST_1)
+    eventPlayer.startForcingHero(eventPlayer.hero_list[eventPlayer.hero_number])
+    if len(eventPlayer.hero_list) == 1:
+        eventPlayer.one_hero_pvar = true
+        eventPlayer.hero_list.append(eventPlayer.hero_list[0])
     if isGameInProgress():
         goto lbl_0
-    Arena1Q.append(eventPlayer)
+    arena1_q.append(eventPlayer)
     goto lbl_1
     lbl_0:
     if getNumberOfPlayers(Team.ALL) > 3:
         goto lbl_2
-    Arena1Q.append(eventPlayer)
+    arena1_q.append(eventPlayer)
     goto lbl_3
     lbl_2:
     if getNumberOfPlayers(Team.ALL) != 4:
         goto lbl_4
-    Arena2Q.append(eventPlayer)
+    arena2_q.append(eventPlayer)
     goto lbl_5
     lbl_4:
     if getNumberOfPlayers(Team.ALL) != 5:
         goto lbl_6
-    Arena2Q.append(eventPlayer)
+    arena2_q.append(eventPlayer)
     goto lbl_7
     lbl_6:
     if getNumberOfPlayers(Team.ALL) < 6:
         goto lbl_8
-    Arena3Q.append(eventPlayer)
+    arena3_q.append(eventPlayer)
     lbl_1:
     lbl_3:
     lbl_5:
     lbl_7:
     lbl_8:
-    eventPlayer._spectating = true
-    if not eventPlayer in Arena1Q:
+    startForcingSpectator(eventPlayer)
+    if not eventPlayer in arena1_q:
         goto lbl_9
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena1Q.index(eventPlayer) - 2)), "Score per kill: 3", "Arena: 1", HudPosition.TOP, 2, Color.GREEN, Color.WHITE, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena1_q.index(eventPlayer) - 2)), "Score per kill: 3", "Arena: 1", HudPosition.TOP, 2, Color.GREEN, Color.WHITE, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
     lbl_9:
-    if not eventPlayer in Arena2Q:
+    if not eventPlayer in arena2_q:
         goto lbl_10
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena2Q.index(eventPlayer) - 2)), "Score per kill: 2", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena2_q.index(eventPlayer) - 2)), "Score per kill: 2", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
     lbl_10:
-    if not eventPlayer in Arena3Q:
+    if not eventPlayer in arena3_q:
         goto lbl_11
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena3Q.index(eventPlayer) - 2)), "Score per kill: 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena3_q.index(eventPlayer) - 2)), "Score per kill: 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
     lbl_11:
     wait(0.3)
-    if eventPlayer._spectating == false:
-        goto lbl_12
-    eventPlayer.JoinSpecHelper = true
-    lbl_12:
+    startForcingSpectator(eventPlayer)
 
 
 rule "Player Joins":
     @Event playerJoined
-    @Condition eventPlayer.isDummy() == false
-    @Condition HostHasDifferentheroes == false
+    @Condition not eventPlayer.isDummy()
+    @Condition not HOST_DIFFERENT_HEROES
     
-    eventPlayer.HeroList = random.shuffle(HeroList1)
-    eventPlayer.startForcingHero(eventPlayer.HeroList[eventPlayer.HeroNumber])
-    if len(eventPlayer.HeroList) == 1:
-        eventPlayer.OneHeroPlayerVariable = true
-        eventPlayer.HeroList.append(eventPlayer.HeroList[0])
+    eventPlayer.hero_list = random.shuffle(HERO_LIST_1)
+    eventPlayer.startForcingHero(eventPlayer.hero_list[eventPlayer.hero_number])
+    if len(eventPlayer.hero_list) == 1:
+        eventPlayer.one_hero_pvar = true
+        eventPlayer.hero_list.append(eventPlayer.hero_list[0])
     if isGameInProgress():
         goto lbl_0
-    Arena1Q.append(eventPlayer)
+    arena1_q.append(eventPlayer)
     goto lbl_1
     lbl_0:
     if getNumberOfPlayers(Team.ALL) > 3:
         goto lbl_2
-    Arena1Q.append(eventPlayer)
+    arena1_q.append(eventPlayer)
     goto lbl_3
     lbl_2:
     if getNumberOfPlayers(Team.ALL) != 4:
         goto lbl_4
-    Arena2Q.append(eventPlayer)
+    arena2_q.append(eventPlayer)
     goto lbl_5
     lbl_4:
     if getNumberOfPlayers(Team.ALL) != 5:
         goto lbl_6
-    Arena2Q.append(eventPlayer)
+    arena2_q.append(eventPlayer)
     goto lbl_7
     lbl_6:
     if getNumberOfPlayers(Team.ALL) < 6:
         goto lbl_8
-    Arena3Q.append(eventPlayer)
+    arena3_q.append(eventPlayer)
     lbl_1:
     lbl_3:
     lbl_5:
     lbl_7:
     lbl_8:
-    eventPlayer._spectating = true
-    if not eventPlayer in Arena1Q:
+    startForcingSpectator(eventPlayer)
+    if not eventPlayer in arena1_q:
         goto lbl_9
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena1Q.index(eventPlayer) - 2)), "Score per kill: 3", "Arena: 1", HudPosition.TOP, 2, Color.GREEN, Color.WHITE, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena1_q.index(eventPlayer) - 2)), "Score per kill: 3", "Arena: 1", HudPosition.TOP, 2, Color.GREEN, Color.WHITE, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
     lbl_9:
-    if not eventPlayer in Arena2Q:
+    if not eventPlayer in arena2_q:
         goto lbl_10
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena2Q.index(eventPlayer) - 2)), "Score per kill: 2", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena2_q.index(eventPlayer) - 2)), "Score per kill: 2", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
     lbl_10:
-    if not eventPlayer in Arena3Q:
+    if not eventPlayer in arena3_q:
         goto lbl_11
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena3Q.index(eventPlayer) - 2)), "Score per kill: 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena3_q.index(eventPlayer) - 2)), "Score per kill: 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
     lbl_11:
     wait(0.3)
-    if eventPlayer._spectating == false:
-        goto lbl_12
-    eventPlayer.JoinSpecHelper = true
-    lbl_12:
-
-
-rule "Joins, First Spec helper":
-    @Event eachPlayer
-    @Condition eventPlayer.JoinSpecHelper == true
-    
-    eventPlayer.teleport(SpecSpot)
-    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-    eventPlayer.setGravity(abs(0))
-    eventPlayer.setMoveSpeed(abs(0))
-    eventPlayer.disallowButton(Button.PRIMARY_FIRE)
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.disallowButton(Button.ULTIMATE)
-    eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 9999)
-    eventPlayer.setInvisibility(Invis.ALL)
-    eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 9999)
-    eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
-    eventPlayer.setDamageDealt(0)
-    wait(0.5)
-    if eventPlayer._spectating == false:
-        goto lbl_0
-    eventPlayer.setFacing(localVector(MainFacing, eventPlayer, Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
-    lbl_0:
+    startForcingSpectator(eventPlayer)
 
 
 rule "Spread everyone once the game is in Progress":
@@ -449,220 +445,220 @@ rule "Spread everyone once the game is in Progress":
     
     if getNumberOfPlayers(Team.ALL) != 4:
         goto lbl_0
-    Arena2Q.append(Arena1Q[3])
-    Arena2Q.append(Arena1Q[4])
-    del Arena1Q[4]
-    del Arena1Q[3]
+    arena2_q.append(arena1_q[3])
+    arena2_q.append(arena1_q[4])
+    del arena1_q[4]
+    del arena1_q[3]
     return
     lbl_0:
     if getNumberOfPlayers(Team.ALL) != 5:
         goto lbl_1
-    Arena2Q.append(Arena1Q[3])
-    Arena2Q.append(Arena1Q[4])
-    Arena2Q.append(Arena1Q[5])
-    del Arena1Q[5]
-    del Arena1Q[4]
-    del Arena1Q[3]
+    arena2_q.append(arena1_q[3])
+    arena2_q.append(arena1_q[4])
+    arena2_q.append(arena1_q[5])
+    del arena1_q[5]
+    del arena1_q[4]
+    del arena1_q[3]
     return
     lbl_1:
     if getNumberOfPlayers(Team.ALL) != 6:
         goto lbl_2
-    Arena2Q.append(Arena1Q[3])
-    Arena2Q.append(Arena1Q[4])
-    Arena3Q.append(Arena1Q[5])
-    Arena3Q.append(Arena1Q[6])
-    del Arena1Q[6]
-    del Arena1Q[5]
-    del Arena1Q[4]
-    del Arena1Q[3]
+    arena2_q.append(arena1_q[3])
+    arena2_q.append(arena1_q[4])
+    arena3_q.append(arena1_q[5])
+    arena3_q.append(arena1_q[6])
+    del arena1_q[6]
+    del arena1_q[5]
+    del arena1_q[4]
+    del arena1_q[3]
     return
     lbl_2:
     if getNumberOfPlayers(Team.ALL) != 7:
         goto lbl_3
-    Arena2Q.append(Arena1Q[3])
-    Arena2Q.append(Arena1Q[4])
-    Arena3Q.append(Arena1Q[5])
-    Arena3Q.append(Arena1Q[6])
-    Arena3Q.append(Arena1Q[7])
-    del Arena1Q[7]
-    del Arena1Q[6]
-    del Arena1Q[5]
-    del Arena1Q[4]
-    del Arena1Q[3]
+    arena2_q.append(arena1_q[3])
+    arena2_q.append(arena1_q[4])
+    arena3_q.append(arena1_q[5])
+    arena3_q.append(arena1_q[6])
+    arena3_q.append(arena1_q[7])
+    del arena1_q[7]
+    del arena1_q[6]
+    del arena1_q[5]
+    del arena1_q[4]
+    del arena1_q[3]
     return
     lbl_3:
     if getNumberOfPlayers(Team.ALL) != 8:
         goto lbl_4
-    Arena2Q.append(Arena1Q[3])
-    Arena2Q.append(Arena1Q[4])
-    Arena3Q.append(Arena1Q[5])
-    Arena3Q.append(Arena1Q[6])
-    Arena3Q.append(Arena1Q[7])
-    Arena3Q.append(Arena1Q[8])
-    del Arena1Q[8]
-    del Arena1Q[7]
-    del Arena1Q[6]
-    del Arena1Q[5]
-    del Arena1Q[4]
-    del Arena1Q[3]
+    arena2_q.append(arena1_q[3])
+    arena2_q.append(arena1_q[4])
+    arena3_q.append(arena1_q[5])
+    arena3_q.append(arena1_q[6])
+    arena3_q.append(arena1_q[7])
+    arena3_q.append(arena1_q[8])
+    del arena1_q[8]
+    del arena1_q[7]
+    del arena1_q[6]
+    del arena1_q[5]
+    del arena1_q[4]
+    del arena1_q[3]
     return
     lbl_4:
     if getNumberOfPlayers(Team.ALL) != 9:
         goto lbl_5
-    Arena2Q.append(Arena1Q[3])
-    Arena2Q.append(Arena1Q[4])
-    Arena3Q.append(Arena1Q[5])
-    Arena3Q.append(Arena1Q[6])
-    Arena3Q.append(Arena1Q[7])
-    Arena3Q.append(Arena1Q[8])
-    Arena3Q.append(Arena1Q[9])
-    del Arena1Q[9]
-    del Arena1Q[8]
-    del Arena1Q[7]
-    del Arena1Q[6]
-    del Arena1Q[5]
-    del Arena1Q[4]
-    del Arena1Q[3]
+    arena2_q.append(arena1_q[3])
+    arena2_q.append(arena1_q[4])
+    arena3_q.append(arena1_q[5])
+    arena3_q.append(arena1_q[6])
+    arena3_q.append(arena1_q[7])
+    arena3_q.append(arena1_q[8])
+    arena3_q.append(arena1_q[9])
+    del arena1_q[9]
+    del arena1_q[8]
+    del arena1_q[7]
+    del arena1_q[6]
+    del arena1_q[5]
+    del arena1_q[4]
+    del arena1_q[3]
     return
     lbl_5:
     if getNumberOfPlayers(Team.ALL) != 10:
         goto lbl_6
-    Arena2Q.append(Arena1Q[3])
-    Arena2Q.append(Arena1Q[4])
-    Arena3Q.append(Arena1Q[5])
-    Arena3Q.append(Arena1Q[6])
-    Arena3Q.append(Arena1Q[7])
-    Arena3Q.append(Arena1Q[8])
-    Arena3Q.append(Arena1Q[9])
-    Arena3Q.append(Arena1Q[10])
-    del Arena1Q[10]
-    del Arena1Q[9]
-    del Arena1Q[8]
-    del Arena1Q[7]
-    del Arena1Q[6]
-    del Arena1Q[5]
-    del Arena1Q[4]
-    del Arena1Q[3]
+    arena2_q.append(arena1_q[3])
+    arena2_q.append(arena1_q[4])
+    arena3_q.append(arena1_q[5])
+    arena3_q.append(arena1_q[6])
+    arena3_q.append(arena1_q[7])
+    arena3_q.append(arena1_q[8])
+    arena3_q.append(arena1_q[9])
+    arena3_q.append(arena1_q[10])
+    del arena1_q[10]
+    del arena1_q[9]
+    del arena1_q[8]
+    del arena1_q[7]
+    del arena1_q[6]
+    del arena1_q[5]
+    del arena1_q[4]
+    del arena1_q[3]
     return
     lbl_6:
     if getNumberOfPlayers(Team.ALL) != 11:
         goto lbl_7
-    Arena2Q.append(Arena1Q[3])
-    Arena2Q.append(Arena1Q[4])
-    Arena3Q.append(Arena1Q[5])
-    Arena3Q.append(Arena1Q[6])
-    Arena3Q.append(Arena1Q[7])
-    Arena3Q.append(Arena1Q[8])
-    Arena3Q.append(Arena1Q[9])
-    Arena3Q.append(Arena1Q[10])
-    Arena3Q.append(Arena1Q[11])
-    del Arena1Q[11]
-    del Arena1Q[10]
-    del Arena1Q[9]
-    del Arena1Q[8]
-    del Arena1Q[7]
-    del Arena1Q[6]
-    del Arena1Q[5]
-    del Arena1Q[4]
-    del Arena1Q[3]
+    arena2_q.append(arena1_q[3])
+    arena2_q.append(arena1_q[4])
+    arena3_q.append(arena1_q[5])
+    arena3_q.append(arena1_q[6])
+    arena3_q.append(arena1_q[7])
+    arena3_q.append(arena1_q[8])
+    arena3_q.append(arena1_q[9])
+    arena3_q.append(arena1_q[10])
+    arena3_q.append(arena1_q[11])
+    del arena1_q[11]
+    del arena1_q[10]
+    del arena1_q[9]
+    del arena1_q[8]
+    del arena1_q[7]
+    del arena1_q[6]
+    del arena1_q[5]
+    del arena1_q[4]
+    del arena1_q[3]
     return
     lbl_7:
     if getNumberOfPlayers(Team.ALL) != 12:
         goto lbl_8
-    Arena2Q.append(Arena1Q[3])
-    Arena2Q.append(Arena1Q[4])
-    Arena3Q.append(Arena1Q[5])
-    Arena3Q.append(Arena1Q[6])
-    Arena3Q.append(Arena1Q[7])
-    Arena3Q.append(Arena1Q[8])
-    Arena3Q.append(Arena1Q[9])
-    Arena3Q.append(Arena1Q[10])
-    Arena3Q.append(Arena1Q[11])
-    Arena3Q.append(Arena1Q[12])
-    del Arena1Q[12]
-    del Arena1Q[11]
-    del Arena1Q[10]
-    del Arena1Q[9]
-    del Arena1Q[8]
-    del Arena1Q[7]
-    del Arena1Q[6]
-    del Arena1Q[5]
-    del Arena1Q[4]
-    del Arena1Q[3]
+    arena2_q.append(arena1_q[3])
+    arena2_q.append(arena1_q[4])
+    arena3_q.append(arena1_q[5])
+    arena3_q.append(arena1_q[6])
+    arena3_q.append(arena1_q[7])
+    arena3_q.append(arena1_q[8])
+    arena3_q.append(arena1_q[9])
+    arena3_q.append(arena1_q[10])
+    arena3_q.append(arena1_q[11])
+    arena3_q.append(arena1_q[12])
+    del arena1_q[12]
+    del arena1_q[11]
+    del arena1_q[10]
+    del arena1_q[9]
+    del arena1_q[8]
+    del arena1_q[7]
+    del arena1_q[6]
+    del arena1_q[5]
+    del arena1_q[4]
+    del arena1_q[3]
     lbl_8:
 
 
 rule "Player playing in Arena 1 Leaves - (wait?)":
     @Event playerLeft
-    @Condition (eventPlayer == Arena1Q[1] or eventPlayer == Arena1Q[2]) == true
-    @Condition Arena1Match == true
+    @Condition (eventPlayer == arena1_q[1] or eventPlayer == arena1_q[2]) == true
+    @Condition arena1_match == true
     
-    Arena1Q.remove(eventPlayer)
-    heal(Arena1Q[1], null, 1000)
+    arena1_q.remove(eventPlayer)
+    heal(arena1_q[1], null, 1000)
     #wait(1)
-    Arena1Match = false
+    arena1_match = false
 
 
 rule "Player playing in Arena 2 Leaves - (wait?)":
     @Event playerLeft
-    @Condition (eventPlayer == Arena2Q[1] or eventPlayer == Arena2Q[2]) == true
-    @Condition Arena2Match == true
+    @Condition (eventPlayer == arena2_q[1] or eventPlayer == arena2_q[2]) == true
+    @Condition arena2_match == true
     
-    Arena2Q.remove(eventPlayer)
-    heal(Arena2Q[1], null, 1000)
-    Arena2Q[1]._spectating = true
+    arena2_q.remove(eventPlayer)
+    heal(arena2_q[1], null, 1000)
+    startForcingSpectator(arena2_q[1])
     #wait(1)
-    Arena2Match = false
+    arena2_match = false
 
 
 rule "Player playing in Arena 3 Leaves - (wait?)":
     @Event playerLeft
-    @Condition (eventPlayer == Arena3Q[1] or eventPlayer == Arena1Q[2]) == true
-    @Condition Arena3Match == true
+    @Condition (eventPlayer == arena3_q[1] or eventPlayer == arena1_q[2]) == true
+    @Condition arena3_match == true
     
-    Arena3Q.remove(eventPlayer)
-    heal(Arena3Q[1], null, 1000)
-    Arena3Q[1]._spectating = true
+    arena3_q.remove(eventPlayer)
+    heal(arena3_q[1], null, 1000)
+    startForcingSpectator(arena3_q[1])
     #wait(1)
-    Arena3Match = false
+    arena3_match = false
 
 
 rule "Player Leaves, Remove from All Queues":
     @Event playerLeft
     
-    Arena1Q.remove(eventPlayer)
-    Arena2Q.remove(eventPlayer)
-    Arena3Q.remove(eventPlayer)
+    arena1_q.remove(eventPlayer)
+    arena2_q.remove(eventPlayer)
+    arena3_q.remove(eventPlayer)
 
 
 rule "Player leaves: 4 -> 3 players: Sort the Queue":
     @Event playerLeft
     @Condition len(getAllPlayers()) == 3
     
-    del Arena2Q[0]
-    if Arena2Q == false:
+    del arena2_q[0]
+    if arena2_q == false:
         goto lbl_0
-    Arena1Q.append(Arena2Q)
+    arena1_q.append(arena2_q)
     lbl_0:
-    Arena2Q = 0
-    Arena2Match = false
-    Arena1Q[3]._spectating = true
+    arena2_q = 0
+    arena2_match = false
+    startForcingSpectator(arena1_q[3])
 
 
 rule "Player leaves: 6 -> 5 players: Sort the Queue":
     @Event playerLeft
     @Condition len(getAllPlayers()) == 5
     
-    del Arena3Q[0]
-    if Arena3Q == false:
+    del arena3_q[0]
+    if arena3_q == false:
         goto lbl_0
-    Arena2Q.append(Arena3Q)
+    arena2_q.append(arena3_q)
     lbl_0:
-    Arena3Q = 0
-    Arena3Match = false
-    Arena2Q[3]._spectating = true
-    Arena2Q[4]._spectating = true
-    Arena2Q[5]._spectating = true
+    arena3_q = 0
+    arena3_match = false
+    startForcingSpectator(arena2_q[3])
+    startForcingSpectator(arena2_q[4])
+    startForcingSpectator(arena2_q[5])
 
 
 /*
@@ -671,39 +667,39 @@ rule "Bugfix":
 
 rule "Arena 1 bug fix":
     @Event eachPlayer
-    @Condition (eventPlayer == Arena1Q[1] or eventPlayer == Arena1Q[2]) == true
-    #@Condition eventPlayer == Arena1Q[2]
-    @Condition eventPlayer._spectating == true
+    @Condition (eventPlayer == arena1_q[1] or eventPlayer == arena1_q[2]) == true
+    #@Condition eventPlayer == arena1_q[2]
+    @Condition eventPlayer._is_spectating == true
     @Condition eventPlayer.hasSpawned() == true
     @Condition isGameInProgress() == true
-    @Condition FirstMatch == true
+    @Condition first_match == true
     
     wait(1.5, Wait.ABORT_WHEN_FALSE)
-    eventPlayer._spectating = false
+    stopForcingSpectator(eventPlayer)
 
 
 rule "Arena 2 bug fix":
-    @Condition Arena2Q[1] == true
-    @Condition Arena2Q[2] == true
-    @Condition Arena2Match == true
+    @Condition arena2_q[1] == true
+    @Condition arena2_q[2] == true
+    @Condition arena2_match == true
     
     wait(30, Wait.ABORT_WHEN_FALSE)
     smallMessage(getAllPlayers(), "Duel taking over 30s in Arena2 or bugged, killing 1 player to keep the queue rolling")
-    kill(Arena2Q[2], Arena2Q[1])
+    kill(arena2_q[2], arena2_q[1])
     wait(3, Wait.ABORT_WHEN_FALSE)
-    kill(Arena2Q[1], Arena2Q[2])
+    kill(arena2_q[1], arena2_q[2])
 
 
 rule "Arena 3 bug fix":
-    @Condition Arena3Q[1] == true
-    @Condition Arena3Q[2] == true
-    @Condition Arena3Match == true
+    @Condition arena3_q[1] == true
+    @Condition arena3_q[2] == true
+    @Condition arena3_match == true
     
     wait(30, Wait.ABORT_WHEN_FALSE)
     smallMessage(getAllPlayers(), "Duel taking over 30s in Arena3 or bugged, killing 1 player to keep the queue rolling")
-    kill(Arena3Q[2], Arena3Q[1])
+    kill(arena3_q[2], arena3_q[1])
     wait(3, Wait.ABORT_WHEN_FALSE)
-    kill(Arena3Q[1], Arena3Q[2])
+    kill(arena3_q[1], arena3_q[2])
 
 
 /*
@@ -712,426 +708,355 @@ rule "Match and Round Start":
 
 rule "Arena1 First Match Start":
     @Condition isGameInProgress() == true
-    @Condition Arena1Q[1] == true
-    @Condition Arena1Q[2] == true
-    @Condition Arena1Q[1].hasSpawned() == true
-    @Condition Arena1Q[2].hasSpawned() == true
-    @Condition Arena1Match == false
-    @Condition FirstMatch == false
+    @Condition arena1_q[1] == true
+    @Condition arena1_q[2] == true
+    @Condition arena1_q[1].hasSpawned() == true
+    @Condition arena1_q[2].hasSpawned() == true
+    @Condition arena1_match == false
+    @Condition first_match == false
     
-    Arena1Match = true
+    arena1_match = true
     wait(0.25)
-    Arena1Q[1].teleport(MainOppositeSpawn[0])
-    Arena1Q[2].teleport(MainOppositeSpawn[1])
+    arena1_q[1].teleport(MAIN_OPPOSITE_SPAWNS[0])
+    arena1_q[2].teleport(MAIN_OPPOSITE_SPAWNS[1])
     wait(0.05)
-    Arena1Q[1].setFacing(localVector(MainFacing, Arena1Q[1], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
-    Arena1Q[2].setFacing(localVector(MainFacing, Arena1Q[2], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
+    arena1_q[1].setFacing(localVector(MAIN_FACING, arena1_q[1], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
+    arena1_q[2].setFacing(localVector(MAIN_FACING, arena1_q[2], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
     wait(0.05)
-    Arena1Q[1]._spectating = 0
-    Arena1Q[2]._spectating = 0
+    stopForcingSpectator(arena1_q[1])
+    stopForcingSpectator(arena1_q[2])
     wait(0.3)
-    heal(Arena1Q[1], null, 1000)
-    heal(Arena1Q[2], null, 1000)
-    Arena1Q[1].DeadHelper = false
-    Arena1Q[2].DeadHelper = false
-    FirstMatch = true
+    heal(arena1_q[1], null, 1000)
+    heal(arena1_q[2], null, 1000)
+    arena1_q[1].dead_helper = false
+    arena1_q[2].dead_helper = false
+    first_match = true
 
 
 rule "Arena1 Match Start":
-    @Condition Arena1Q[1] == true
-    @Condition Arena1Q[2] == true
-    @Condition Arena1Match == false
-    @Condition FirstMatch == true
+    @Condition arena1_q[1] == true
+    @Condition arena1_q[2] == true
+    @Condition arena1_match == false
+    @Condition first_match == true
     
-    SpawnLocationCheck()
+    spawnLocationCheck()
     wait(0.1)
-    Arena1Q[2].teleport(MainDefaultSpawn)
+    arena1_q[2].teleport(main_default_spawn)
     wait(0.05)
-    Arena1Q[2].setFacing(localVector(MainFacing, Arena1Q[2], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
+    arena1_q[2].setFacing(localVector(MAIN_FACING, arena1_q[2], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
     wait(0.05)
-    Arena1Q[1]._spectating = false
-    Arena1Q[2]._spectating = false
+    stopForcingSpectator(arena1_q[1])
+    stopForcingSpectator(arena1_q[2])
     wait(0.1)
-    heal(Arena1Q[1], null, 1000)
-    heal(Arena1Q[2], null, 1000)
-    Arena1Q[1].DeadHelper = false
-    Arena1Q[2].DeadHelper = false
-    Arena1Match = true
+    heal(arena1_q[1], null, 1000)
+    heal(arena1_q[2], null, 1000)
+    arena1_q[1].dead_helper = false
+    arena1_q[2].dead_helper = false
+    arena1_match = true
     if RULE_CONDITION:
         goto RULE_START
 
 
 rule "Arena2 Match Start":
-    @Condition Arena2Q[1] == true
-    @Condition Arena2Q[2] == true
-    @Condition Arena2Match == false
+    @Condition arena2_q[1] == true
+    @Condition arena2_q[2] == true
+    @Condition arena2_match == false
     
     wait()
-    Arena2Match = true
+    arena2_match = true
     wait(0.5)
-    Arena2Q[1].teleport(SideArenaSpawnsFacing[0])
-    Arena2Q[2].teleport(SideArenaSpawnsFacing[1])
+    arena2_q[1].teleport(side_arena_spawns_facing[0])
+    arena2_q[2].teleport(side_arena_spawns_facing[1])
     wait(0.05)
-    Arena2Q[1].setFacing(localVector(SideArenaSpawnsFacing[2], Arena2Q[1], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
-    Arena2Q[2].setFacing(localVector(SideArenaSpawnsFacing[2], Arena2Q[2], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
+    arena2_q[1].setFacing(localVector(side_arena_spawns_facing[2], arena2_q[1], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
+    arena2_q[2].setFacing(localVector(side_arena_spawns_facing[2], arena2_q[2], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
     wait(0.05)
-    Arena2Q[1]._spectating = false
-    Arena2Q[2]._spectating = false
-    Arena2Q[1].DeadHelper = false
-    Arena2Q[2].DeadHelper = false
+    stopForcingSpectator(arena2_q[1])
+    stopForcingSpectator(arena2_q[2])
+    arena2_q[1].dead_helper = false
+    arena2_q[2].dead_helper = false
     wait(0.3)
-    heal(Arena2Q[1], null, 1000)
-    heal(Arena2Q[2], null, 1000)
+    heal(arena2_q[1], null, 1000)
+    heal(arena2_q[2], null, 1000)
     if RULE_CONDITION:
         goto RULE_START
 
 
 rule "Arena3 Match Start":
-    @Condition Arena3Q[1] == true
-    @Condition Arena3Q[2] == true
-    @Condition Arena3Match == false
+    @Condition arena3_q[1] == true
+    @Condition arena3_q[2] == true
+    @Condition arena3_match == false
     
     wait()
-    Arena3Match = true
+    arena3_match = true
     wait(0.5)
-    Arena3Q[1].teleport(SideArenaSpawnsFacing[3])
-    Arena3Q[2].teleport(SideArenaSpawnsFacing[4])
+    arena3_q[1].teleport(side_arena_spawns_facing[3])
+    arena3_q[2].teleport(side_arena_spawns_facing[4])
     wait(0.05)
-    Arena3Q[1].setFacing(localVector(SideArenaSpawnsFacing[5], Arena3Q[1], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
-    Arena3Q[2].setFacing(localVector(SideArenaSpawnsFacing[5], Arena3Q[2], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
+    arena3_q[1].setFacing(localVector(side_arena_spawns_facing[5], arena3_q[1], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
+    arena3_q[2].setFacing(localVector(side_arena_spawns_facing[5], arena3_q[2], Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
     wait(0.05)
-    Arena3Q[1]._spectating = false
-    Arena3Q[2]._spectating = false
-    Arena3Q[1].DeadHelper = false
-    Arena3Q[2].DeadHelper = false
+    stopForcingSpectator(arena3_q[1])
+    stopForcingSpectator(arena3_q[2])
+    arena3_q[1].dead_helper = false
+    arena3_q[2].dead_helper = false
     wait(0.3)
-    heal(Arena3Q[1], null, 1000)
-    heal(Arena3Q[2], null, 1000)
+    heal(arena3_q[1], null, 1000)
+    heal(arena3_q[2], null, 1000)
     if RULE_CONDITION:
         goto RULE_START
 
 
-def SpawnLocationCheck():
+def spawnLocationCheck():
     @Name "SUB: Spawn location check"
     
-    if distance(Arena1Q[1].getEyePosition(), MainSpawnDetLoc[2]) <= 19:
-        MainDefaultSpawn = MainOppositeSpawn[1]
+    if distance(arena1_q[1].getEyePosition(), main_spawn_det_loc[2]) <= 19:
+        main_default_spawn = MAIN_OPPOSITE_SPAWNS[1]
         #smallMessage(getAllPlayers(), "Attacker is Right")
-    elif distance(Arena1Q[1].getEyePosition(), MainSpawnDetLoc[3]) <= 19:
-        MainDefaultSpawn = MainOppositeSpawn[0]
+    elif distance(arena1_q[1].getEyePosition(), main_spawn_det_loc[3]) <= 19:
+        main_default_spawn = MAIN_OPPOSITE_SPAWNS[0]
         #smallMessage(getAllPlayers(), "Attacker is Left")
-    elif distance(Arena1Q[1].getEyePosition(), MainSpawnDetLoc[0]) <= 15:
-        MainDefaultSpawn = random.choice(MainTopSpawn)
+    elif distance(arena1_q[1].getEyePosition(), main_spawn_det_loc[0]) <= 15:
+        main_default_spawn = random.choice(MAIN_TOP_SPAWNS)
         #smallMessage(getAllPlayers(), "Attacker is stairs / top")
-    elif distance(Arena1Q[1].getEyePosition(), MainSpawnDetLoc[1]) <= 10:
+    elif distance(arena1_q[1].getEyePosition(), main_spawn_det_loc[1]) <= 10:
         #smallMessage(getAllPlayers(), "Attacker is deck side")
-        MainDefaultSpawn = random.choice(MainDeckSpawn)
+        main_default_spawn = random.choice(MAIN_DECK_SPAWNS)
     else:
-        MainDefaultSpawn = random.choice(MainOppositeSpawn)
+        main_default_spawn = random.choice(MAIN_OPPOSITE_SPAWNS)
         #smallMessage(getAllPlayers(), "None / Mid / default spawn")
 
 
 /*
-rule "_spectating":
+rule "_is_spectating":
 */
 
-rule "Player Dies, Set Spectating and Change Hero ---------------------------------------------täs on onehero---------------------":
+rule "Player Dies, Set Spectating and Change Hero ---------------------------------------------täs on one_hero---------------------":
     @Event playerDied
     @Condition isGameInProgress() == true
 
-    eventPlayer._spectating = true
-    eventPlayer.UltCharge = eventPlayer.getUltCharge()
-    eventPlayer.HeroNumber += 1
+    eventPlayer.ult_charge = eventPlayer.getUltCharge()
+    eventPlayer.hero_number += 1
     wait(0.25)
-    if eventPlayer.OneHeroPlayerVariable == false:
-        goto lbl_0
-    eventPlayer.startForcingHero(Hero.SYMMETRA)
-    lbl_0:
-    eventPlayer.startForcingHero(eventPlayer.HeroList[eventPlayer.HeroNumber])
-    if eventPlayer._spectating:
-        waitUntil(not eventPlayer.call_init, Math.INFINITY)
-        eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-        eventPlayer.setGravity(abs(0))
-        eventPlayer.setMoveSpeed(abs(0))
-        eventPlayer.disallowButton(Button.PRIMARY_FIRE)
-        eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-        eventPlayer.disallowButton(Button.ABILITY_1)
-        eventPlayer.disallowButton(Button.ABILITY_2)
-        eventPlayer.disallowButton(Button.ULTIMATE)
-        eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
-        eventPlayer.stopForcingButton(Button.SECONDARY_FIRE)
-        eventPlayer.stopForcingButton(Button.ABILITY_1)
-        eventPlayer.stopForcingButton(Button.ABILITY_2)
-        eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 9999)
-        eventPlayer.setInvisibility(Invis.ALL)
-        eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 9999)
-        eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
-        eventPlayer.setDamageDealt(0)
+    if eventPlayer.one_hero_pvar:
+        eventPlayer.startForcingHero(Hero.SYMMETRA)
+    eventPlayer.startForcingHero(eventPlayer.hero_list[eventPlayer.hero_number])
     wait(0.15)
-    eventPlayer.setUltCharge(eventPlayer.UltCharge)
-
-
-rule "Spectating":
-    @Event eachPlayer
-    @Condition eventPlayer._spectating == true
-    
-    eventPlayer.teleport(SpecSpot)
-    eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
-    eventPlayer.setGravity(abs(0))
-    eventPlayer.setMoveSpeed(abs(0))
-    eventPlayer.disallowButton(Button.PRIMARY_FIRE)
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.disallowButton(Button.ULTIMATE)
-    eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
-    eventPlayer.stopForcingButton(Button.SECONDARY_FIRE)
-    eventPlayer.stopForcingButton(Button.ABILITY_1)
-    eventPlayer.stopForcingButton(Button.ABILITY_2)
-    eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 9999)
-    eventPlayer.setInvisibility(Invis.ALL)
-    eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 9999)
-    eventPlayer.setStatusEffect(null, Status.ROOTED, 9999)
-    eventPlayer.setDamageDealt(0)
-    wait(0.5)
-    if eventPlayer._spectating == false:
-        goto lbl_0
-    eventPlayer.setFacing(localVector(MainFacing, eventPlayer, Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)
-    lbl_0:
+    waitUntil(not eventPlayer.call_init, Math.INFINITY)
+    startForcingSpectator(eventPlayer)
+    eventPlayer.setUltCharge(eventPlayer.ult_charge)
 
 
 rule "Spectating: You are next message & Sound":
     @Event eachPlayer
-    @Condition eventPlayer._spectating == true
-    @Condition (Arena1Q[3] == eventPlayer or Arena2Q[3] == eventPlayer or Arena3Q[3] == eventPlayer) == true
+    @Condition eventPlayer._is_spectating == true
+    @Condition (arena1_q[3] == eventPlayer or arena2_q[3] == eventPlayer or arena3_q[3] == eventPlayer) == true
     
     bigMessage(eventPlayer, "you are next")
     playEffect(eventPlayer, DynamicEffect.RING_EXPLOSION_SOUND, Color.WHITE, eventPlayer, 200)
-
-
-rule "Not Spectating: Allow buttons":
-    @Event eachPlayer
-    @Condition eventPlayer._spectating == false
-    
-    eventPlayer.setGravity(100)
-    eventPlayer.setMoveSpeed(100)
-    eventPlayer.setStatusEffect(null, Status.UNKILLABLE, 0)
-    eventPlayer.setInvisibility(Invis.NONE)
-    eventPlayer.setStatusEffect(null, Status.PHASED_OUT, 0)
-    eventPlayer.setStatusEffect(null, Status.ROOTED, 0)
-    eventPlayer.setDamageDealt(100)
-    eventPlayer.stopForcingThrottle()
-    eventPlayer.allowButton(Button.PRIMARY_FIRE)
-    eventPlayer.allowButton(Button.SECONDARY_FIRE)
-    eventPlayer.allowButton(Button.ABILITY_1)
-    eventPlayer.allowButton(Button.ABILITY_2)
-    eventPlayer.allowButton(Button.ULTIMATE)
-    # if eventPlayer.getCurrentHero() == Hero.TRACER:
-    #     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 3.5)
-    eventPlayer.call_init = true
 
 
 /*
 rule "Player Dies":
 */
 
-def Arena1Dies():
-    @Name "SUB: Arena 1 Player dies - Arena1Q[1] = Winner ----------täs onehero meniks que number oikei"
+def arena1Dies():
+    @Name "SUB: Arena 1 Player dies - arena1_q[1] = Winner ----------täs one_hero meniks que number oikei"
     
-    Arena1Q[1].setAmmo(0, Arena1Q[1].getMaxAmmo(0))
-    heal(Arena1Q[1], null, 1000)
-    Arena1Q[1].Score += 3
-    Arena1Q[1].setScore(Arena1Q[1].Score)
+    arena1_q[1].setAmmo(0, arena1_q[1].getMaxAmmo(0))
+    heal(arena1_q[1], null, 1000)
+    arena1_q[1].Score += 3
+    arena1_q[1].setScore(arena1_q[1].Score)
     eventPlayer.clearStatusEffect(Status.BURNING)
-    Arena1Q[1].clearStatusEffect(Status.BURNING)
-    Arena1Match = false
+    arena1_q[1].clearStatusEffect(Status.BURNING)
+    arena1_match = false
     #always refresh testing
-    if AlwaysRefreshHero == true:
+    if ALWAYS_REFRESH_HERO == true:
         goto lbl_0
-    if Arena1Q[1].AntiHealDebuffed == true:
+    if arena1_q[1].anti_heal_debuffed == true:
         goto lbl_1
-    if Arena1Q[1].getCurrentHero() != Hero.DOOMFIST:
+    if arena1_q[1].getCurrentHero() != Hero.DOOMFIST:
         goto lbl_2
     wait(0.5)
-    damage(Arena1Q[1], null, Arena1Q[1].getHealth() - 225)
+    damage(arena1_q[1], null, arena1_q[1].getHealth() - 225)
     lbl_1:
     lbl_2:
-    if Arena1Q[1].OneHeroPlayerVariable == true:
+    if arena1_q[1].one_hero_pvar == true:
         goto lbl_3
-    if Arena1Q[1].AntiHealDebuffed != true:
+    if arena1_q[1].anti_heal_debuffed != true:
         goto lbl_4
     lbl_0:
     lbl_3:
-    Arena1Q[1].UltCharge = Arena1Q[1].getUltCharge()
-    Arena1Q[1].startForcingHero(Hero.SYMMETRA)
+    arena1_q[1].ult_charge = arena1_q[1].getUltCharge()
+    arena1_q[1].startForcingHero(Hero.SYMMETRA)
     wait(0.2)
-    Arena1Q[1].startForcingHero(Arena1Q[1].HeroList[Arena1Q[1].HeroNumber])
+    arena1_q[1].startForcingHero(arena1_q[1].hero_list[arena1_q[1].hero_number])
     wait(0.05)
-    Arena1Q[1].setUltCharge(Arena1Q[1].UltCharge)
+    arena1_q[1].setUltCharge(arena1_q[1].ult_charge)
     lbl_4:
 
 
-def Arena2Dies():
-    @Name "SUB: Arena 2 Player dies - Arena2Q[1] = Winner"
+def arena2Dies():
+    @Name "SUB: Arena 2 Player dies - arena2_q[1] = Winner"
     
-    heal(Arena2Q[1], null, 1000)
-    Arena2Q[1].UltCharge = Arena2Q[1].getUltCharge()
+    heal(arena2_q[1], null, 1000)
+    arena2_q[1].ult_charge = arena2_q[1].getUltCharge()
     wait(0.1)
-    Arena2Q[1].startForcingHero(Hero.SYMMETRA)
+    arena2_q[1].startForcingHero(Hero.SYMMETRA)
     wait(0.2)
-    Arena2Q[1].startForcingHero(Arena2Q[1].HeroList[Arena2Q[1].HeroNumber])
+    arena2_q[1].startForcingHero(arena2_q[1].hero_list[arena2_q[1].hero_number])
     wait(0.05)
-    Arena2Q[1].setUltCharge(Arena2Q[1].UltCharge)
-    if Arena2Q[1] == false:
+    arena2_q[1].setUltCharge(arena2_q[1].ult_charge)
+    if arena2_q[1] == false:
         goto lbl_0
-    Arena1Q.append(Arena2Q[1])
+    arena1_q.append(arena2_q[1])
     lbl_0:
-    Arena2Q[1]._spectating = true
-    heal(Arena2Q[1], null, 1000)
-    if Arena2Q[1].Score >= 48:
+    startForcingSpectator(arena2_q[1])
+    heal(arena2_q[1], null, 1000)
+    if arena2_q[1].Score >= 48:
         goto lbl_1
-    Arena2Q[1].Score += 2
+    arena2_q[1].Score += 2
     lbl_1:
-    Arena2Q[1].setScore(Arena2Q[1].Score)
-    Arena2Q[1].clearStatusEffect(Status.BURNING)
-    if Arena2Q[1] == false:
+    arena2_q[1].setScore(arena2_q[1].Score)
+    arena2_q[1].clearStatusEffect(Status.BURNING)
+    if arena2_q[1] == false:
         goto lbl_2
-    del Arena2Q[1]
+    del arena2_q[1]
     lbl_2:
     eventPlayer.clearStatusEffect(Status.BURNING)
-    Arena2Match = false
+    arena2_match = false
 
 
-def Arena3Dies():
-    @Name "SUB: Arena 3 Player dies - Arena3Q[1] = Winner (toimiiks tää skip if 5)"
+def arena3Dies():
+    @Name "SUB: Arena 3 Player dies - arena3_q[1] = Winner (toimiiks tää skip if 5)"
     
-    heal(Arena3Q[1], null, 300)
-    Arena3Q[1].UltCharge = Arena3Q[1].getUltCharge()
+    heal(arena3_q[1], null, 300)
+    arena3_q[1].ult_charge = arena3_q[1].getUltCharge()
     wait(0.1)
-    Arena3Q[1].startForcingHero(Hero.SYMMETRA)
+    arena3_q[1].startForcingHero(Hero.SYMMETRA)
     wait(0.2)
-    Arena3Q[1].startForcingHero(Arena3Q[1].HeroList[Arena3Q[1].HeroNumber])
+    arena3_q[1].startForcingHero(arena3_q[1].hero_list[arena3_q[1].hero_number])
     wait(0.05)
-    Arena3Q[1].setUltCharge(Arena3Q[1].UltCharge)
-    if Arena3Q[1] == false:
+    arena3_q[1].setUltCharge(arena3_q[1].ult_charge)
+    if arena3_q[1] == false:
         goto lbl_0
     if len(getAllPlayers()) <= 3:
-        Arena1Q.append(Arena3Q[1])
+        arena1_q.append(arena3_q[1])
     else:
-        Arena2Q.append(Arena3Q[1])
+        arena2_q.append(arena3_q[1])
     lbl_0:
-    Arena3Q[1]._spectating = true
-    if Arena3Q[1].Score == 49:
+    startForcingSpectator(arena3_q[1])
+    if arena3_q[1].Score == 49:
         goto lbl_1
-    Arena3Q[1].Score += 1
+    arena3_q[1].Score += 1
     lbl_1:
-    Arena3Q[1].setScore(Arena3Q[1].Score)
-    heal(Arena3Q[1], null, 300)
-    Arena3Q[1].clearStatusEffect(Status.BURNING)
-    if Arena3Q[1] == false:
+    arena3_q[1].setScore(arena3_q[1].Score)
+    heal(arena3_q[1], null, 300)
+    arena3_q[1].clearStatusEffect(Status.BURNING)
+    if arena3_q[1] == false:
         goto lbl_2
-    del Arena3Q[1]
+    del arena3_q[1]
     lbl_2:
     eventPlayer.clearStatusEffect(Status.BURNING)
-    Arena3Match = false
+    arena3_match = false
 
 
 rule "Arena 1: Player Dies, 1-3 Players":
     @Event playerDied
     @Condition len(getAllPlayers()) < 4
-    @Condition (eventPlayer == Arena1Q[1] or eventPlayer == Arena1Q[2]) == true
-    @Condition eventPlayer.DeadHelper == false
+    @Condition (eventPlayer == arena1_q[1] or eventPlayer == arena1_q[2]) == true
+    @Condition eventPlayer.dead_helper == false
     
-    eventPlayer.DeadHelper = true
-    Arena1Q.remove(eventPlayer)
-    Arena1Q.append(eventPlayer)
-    Arena1Dies()
+    eventPlayer.dead_helper = true
+    arena1_q.remove(eventPlayer)
+    arena1_q.append(eventPlayer)
+    arena1Dies()
 
 
 rule "Arena 1: Player Dies, 4-X Players":
     @Event playerDied
     @Condition len(getAllPlayers()) >= 4
-    @Condition (eventPlayer == Arena1Q[1] or eventPlayer == Arena1Q[2]) == true
-    @Condition eventPlayer.DeadHelper == false
+    @Condition (eventPlayer == arena1_q[1] or eventPlayer == arena1_q[2]) == true
+    @Condition eventPlayer.dead_helper == false
     
-    eventPlayer.DeadHelper = true
-    Arena1Q.remove(eventPlayer)
-    Arena2Q.append(eventPlayer)
-    Arena1Dies()
+    eventPlayer.dead_helper = true
+    arena1_q.remove(eventPlayer)
+    arena2_q.append(eventPlayer)
+    arena1Dies()
 
 
 rule "Arena 2: Player Dies, 1-3 Players (vääräs järkäs menee Q)":
     @Event playerDied
     @Condition len(getAllPlayers()) < 4
-    @Condition (eventPlayer == Arena2Q[1] or eventPlayer == Arena2Q[2]) == true
-    @Condition eventPlayer.DeadHelper == false
+    @Condition (eventPlayer == arena2_q[1] or eventPlayer == arena2_q[2]) == true
+    @Condition eventPlayer.dead_helper == false
     
-    eventPlayer.DeadHelper = true
-    Arena2Q.remove(eventPlayer)
-    Arena1Q.append(eventPlayer)
-    Arena2Dies()
+    eventPlayer.dead_helper = true
+    arena2_q.remove(eventPlayer)
+    arena1_q.append(eventPlayer)
+    arena2Dies()
 
 
 rule "Arena 2: Player Dies, 4-5 Players":
     @Event playerDied
     @Condition len(getAllPlayers()) < 6
     @Condition len(getAllPlayers()) > 3
-    @Condition (eventPlayer == Arena2Q[1] or eventPlayer == Arena2Q[2]) == true
-    @Condition eventPlayer.DeadHelper == false
+    @Condition (eventPlayer == arena2_q[1] or eventPlayer == arena2_q[2]) == true
+    @Condition eventPlayer.dead_helper == false
     
-    eventPlayer.DeadHelper = true
-    Arena2Q.remove(eventPlayer)
-    Arena2Q.append(eventPlayer)
-    Arena2Dies()
+    eventPlayer.dead_helper = true
+    arena2_q.remove(eventPlayer)
+    arena2_q.append(eventPlayer)
+    arena2Dies()
 
 
 rule "Arena 2: Player Dies, 6-12 Players":
     @Event playerDied
     @Condition len(getAllPlayers()) > 5
-    @Condition (eventPlayer == Arena2Q[1] or eventPlayer == Arena2Q[2]) == true
-    @Condition eventPlayer.DeadHelper == false
+    @Condition (eventPlayer == arena2_q[1] or eventPlayer == arena2_q[2]) == true
+    @Condition eventPlayer.dead_helper == false
     
-    eventPlayer.DeadHelper = true
-    Arena2Q.remove(eventPlayer)
-    Arena3Q.append(eventPlayer)
-    Arena2Dies()
+    eventPlayer.dead_helper = true
+    arena2_q.remove(eventPlayer)
+    arena3_q.append(eventPlayer)
+    arena2Dies()
 
 
 rule "Arena 3: Player Dies, 1-3 Players (vääräs järkäs menee Q)":
     @Event playerDied
     @Condition len(getAllPlayers()) < 4
-    @Condition (eventPlayer == Arena3Q[1] or eventPlayer == Arena3Q[2]) == true
-    @Condition eventPlayer.DeadHelper == false
+    @Condition (eventPlayer == arena3_q[1] or eventPlayer == arena3_q[2]) == true
+    @Condition eventPlayer.dead_helper == false
     
-    eventPlayer.DeadHelper = true
-    Arena3Q.remove(eventPlayer)
-    Arena1Q.append(eventPlayer)
-    Arena3Dies()
+    eventPlayer.dead_helper = true
+    arena3_q.remove(eventPlayer)
+    arena1_q.append(eventPlayer)
+    arena3Dies()
 
 
 rule "Arena 3: Player Dies, 4-5 Players (vääräs järkäs menee Q)":
     @Event playerDied
     @Condition len(getAllPlayers()) < 6
     @Condition len(getAllPlayers()) > 3
-    @Condition (eventPlayer == Arena3Q[1] or eventPlayer == Arena3Q[2]) == true
-    @Condition eventPlayer.DeadHelper == false
+    @Condition (eventPlayer == arena3_q[1] or eventPlayer == arena3_q[2]) == true
+    @Condition eventPlayer.dead_helper == false
     
-    eventPlayer.DeadHelper = true
-    Arena3Q.remove(eventPlayer)
-    Arena2Q.append(eventPlayer)
-    Arena3Dies()
+    eventPlayer.dead_helper = true
+    arena3_q.remove(eventPlayer)
+    arena2_q.append(eventPlayer)
+    arena3Dies()
 
 
 rule "Arena 3: Player Dies, 6-12 Players":
     @Event playerDied
     @Condition len(getAllPlayers()) > 5
-    @Condition (eventPlayer == Arena3Q[1] or eventPlayer == Arena3Q[2]) == true
-    @Condition eventPlayer.DeadHelper == false
+    @Condition (eventPlayer == arena3_q[1] or eventPlayer == arena3_q[2]) == true
+    @Condition eventPlayer.dead_helper == false
     
-    eventPlayer.DeadHelper = true
-    Arena3Q.remove(eventPlayer)
-    Arena3Q.append(eventPlayer)
-    Arena3Dies()
+    eventPlayer.dead_helper = true
+    arena3_q.remove(eventPlayer)
+    arena3_q.append(eventPlayer)
+    arena3Dies()
 
 
 rule "Player attributes":
@@ -1140,64 +1065,64 @@ rule "Player attributes":
 rule "Refreshing Hero if player was under anti heal after winning":
     @Event playerTookDamage
     @Condition (attacker.getCurrentHero() == Hero.ANA and (eventDamage == 60 or eventDamage == 90)) == true
-    @Condition eventPlayer._spectating == false
-    @Condition eventPlayer in Arena1Q == true
+    @Condition eventPlayer._is_spectating == false
+    @Condition eventPlayer in arena1_q == true
     
-    eventPlayer.AntiHealDebuffed = true
+    eventPlayer.anti_heal_debuffed = true
     wait(4)
-    eventPlayer.AntiHealDebuffed = false
+    eventPlayer.anti_heal_debuffed = false
 
 
 rule "Queue Hud Arena 1":
     @Event eachPlayer
-    @Condition eventPlayer._spectating == true
-    @Condition eventPlayer in Arena1Q == true
+    @Condition eventPlayer._is_spectating == true
+    @Condition eventPlayer in arena1_q == true
     @Condition isGameInProgress() == true
     
     destroyHudText(eventPlayer.Hud)
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena1Q.index(eventPlayer) - 2)), "Score per kill: 3", "Arena: 1", HudPosition.TOP, 2, Color.GREEN, Color.WHITE, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena1_q.index(eventPlayer) - 2)), "Score per kill: 3", "Arena: 1", HudPosition.TOP, 2, Color.GREEN, Color.WHITE, Color.GREEN, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     eventPlayer.Hud = getLastCreatedText()
 
 
 rule "Queue Hud Arena 2":
     @Event eachPlayer
-    @Condition eventPlayer._spectating == true
-    @Condition eventPlayer in Arena2Q == true
+    @Condition eventPlayer._is_spectating == true
+    @Condition eventPlayer in arena2_q == true
     @Condition isGameInProgress() == true
     
     destroyHudText(eventPlayer.Hud)
     if eventPlayer.Score >= 48:
         goto lbl_0
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena2Q.index(eventPlayer) - 2)), "Score per kill: 2", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena2_q.index(eventPlayer) - 2)), "Score per kill: 2", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     lbl_0:
     if eventPlayer.Score < 48:
         goto lbl_1
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena2Q.index(eventPlayer) - 2)), "To win you need to get a kill in Arena 1", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena2_q.index(eventPlayer) - 2)), "To win you need to get a kill in Arena 1", "Arena: 2", HudPosition.TOP, 2, Color.RED, Color.WHITE, Color.RED, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     lbl_1:
     eventPlayer.Hud = getLastCreatedText()
 
 
 rule "Queue Hud Arena 3":
     @Event eachPlayer
-    @Condition eventPlayer._spectating == true
-    @Condition eventPlayer in Arena3Q == true
+    @Condition eventPlayer._is_spectating == true
+    @Condition eventPlayer in arena3_q == true
     @Condition isGameInProgress() == true
     
     destroyHudText(eventPlayer.Hud)
     if eventPlayer.Score == 49:
         goto lbl_0
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena3Q.index(eventPlayer) - 2)), "Score per kill: 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena3_q.index(eventPlayer) - 2)), "Score per kill: 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     lbl_0:
     if eventPlayer.Score != 49:
         goto lbl_1
-    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(Arena3Q.index(eventPlayer) - 2)), "To win you need to get a kill in Arena 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    hudText(eventPlayer, l"{0}: {1}".format("Position in Queue", abs(arena3_q.index(eventPlayer) - 2)), "To win you need to get a kill in Arena 1", "Arena: 3", HudPosition.TOP, 2, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     lbl_1:
     eventPlayer.Hud = getLastCreatedText()
 
 
 rule "Destory Queue Hud when not Spectating":
     @Event eachPlayer
-    @Condition eventPlayer._spectating == false
+    @Condition eventPlayer._is_spectating == false
     @Condition isGameInProgress() == true
     
     destroyHudText(eventPlayer.Hud)
@@ -1208,14 +1133,14 @@ rule "Arena is decided by death of one player":
 
 rule "Safe Zone Check Arena 1 Center":
     @Event eachPlayer
-    @Condition distance(eventPlayer, MainHigh) >= 16.4
-    @Condition distance(eventPlayer, MainCenter) >= 15.1
-    @Condition (Arena1Q[1] == eventPlayer or Arena1Q[2] == eventPlayer) == true
+    @Condition distance(eventPlayer, main_high) >= 16.4
+    @Condition distance(eventPlayer, main_center) >= 15.1
+    @Condition (arena1_q[1] == eventPlayer or arena1_q[2] == eventPlayer) == true
     @Condition (eventPlayer.getAltitude() >= 30 or eventPlayer.getAltitude() <= 6) == true
-    @Condition eventPlayer._spectating == false
+    @Condition eventPlayer._is_spectating == false
     
     eventPlayer.setStatusEffect(null, Status.BURNING, 0.5)
-    damage(eventPlayer, null, BurnDamage)
+    damage(eventPlayer, null, BURN_DAMAGE)
     wait(0.5)
     if RULE_CONDITION:
         goto RULE_START
@@ -1223,13 +1148,13 @@ rule "Safe Zone Check Arena 1 Center":
 
 rule "Safe Zone Check Arena 1 Top":
     @Event eachPlayer
-    @Condition distance(eventPlayer, MainTopDeck) <= 3.75
-    @Condition eventPlayer._spectating == false
-    @Condition (Arena1Q[1] == eventPlayer or Arena1Q[2] == eventPlayer) == true
+    @Condition distance(eventPlayer, main_top_deck) <= 3.75
+    @Condition eventPlayer._is_spectating == false
+    @Condition (arena1_q[1] == eventPlayer or arena1_q[2] == eventPlayer) == true
     @Condition (eventPlayer.getAltitude() >= 30 or eventPlayer.getAltitude() <= 6) == true
     
     eventPlayer.setStatusEffect(null, Status.BURNING, 0.5)
-    damage(eventPlayer, null, BurnDamage)
+    damage(eventPlayer, null, BURN_DAMAGE)
     wait(0.5)
     if RULE_CONDITION:
         goto RULE_START
@@ -1237,14 +1162,14 @@ rule "Safe Zone Check Arena 1 Top":
 
 rule "Safe Zone Check Arena 2":
     @Event eachPlayer
-    @Condition distance(eventPlayer, SideArenaCenter[1]) >= 17.4
-    @Condition (Arena2Q[1] == eventPlayer or Arena2Q[2] == eventPlayer) == true
-    @Condition eventPlayer._spectating == false
-    @Condition Arena2Match == true
+    @Condition distance(eventPlayer, side_arena_center[1]) >= 17.4
+    @Condition (arena2_q[1] == eventPlayer or arena2_q[2] == eventPlayer) == true
+    @Condition eventPlayer._is_spectating == false
+    @Condition arena2_match == true
     @Condition (eventPlayer.getAltitude() >= 30 or eventPlayer.getAltitude() <= 6) == true
     
     eventPlayer.setStatusEffect(null, Status.BURNING, 0.5)
-    damage(eventPlayer, null, BurnDamage)
+    damage(eventPlayer, null, BURN_DAMAGE)
     wait(0.5)
     if RULE_CONDITION:
         goto RULE_START
@@ -1252,14 +1177,14 @@ rule "Safe Zone Check Arena 2":
 
 rule "Safe Zone Check Arena 3":
     @Event eachPlayer
-    @Condition distance(eventPlayer, SideArenaCenter[3]) >= 17.4
-    @Condition eventPlayer._spectating == false
-    @Condition (Arena3Q[1] == eventPlayer or Arena3Q[2] == eventPlayer) == true
-    @Condition Arena3Match == true
+    @Condition distance(eventPlayer, side_arena_center[3]) >= 17.4
+    @Condition eventPlayer._is_spectating == false
+    @Condition (arena3_q[1] == eventPlayer or arena3_q[2] == eventPlayer) == true
+    @Condition arena3_match == true
     @Condition (eventPlayer.getAltitude() >= 30 or eventPlayer.getAltitude() <= 6) == true
     
     eventPlayer.setStatusEffect(null, Status.BURNING, 0.5)
-    damage(eventPlayer, null, BurnDamage)
+    damage(eventPlayer, null, BURN_DAMAGE)
     wait(0.5)
     if RULE_CONDITION:
         goto RULE_START
