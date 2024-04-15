@@ -21,6 +21,7 @@ rule "[ana/sleep.opy]: Sleep tanks for longer duration":
     waitUntil(victim.hasStatusEffect(Status.ASLEEP), Math.INFINITY)
     victim._tank_sleeping = true
     wait(MIN_SLEEP_DURATION)
+    victim.clearStatusEffect(Status.ASLEEP)
     victim.setStatusEffect(null, Status.KNOCKED_DOWN, OW1_ANA_SLEEP_DART_SLEEP_DURATION-MIN_SLEEP_DURATION)
     wait(OW1_ANA_SLEEP_DART_SLEEP_DURATION-MIN_SLEEP_DURATION)
     victim._tank_sleeping = false
@@ -29,6 +30,7 @@ rule "[ana/sleep.opy]: Sleep tanks for longer duration":
 rule "[ana/sleep.opy]: Wake sleeping tank if damage taken after MIN_SLEEP_DURATION":
     @Event playerTookDamage
     @Condition victim._tank_sleeping
+    @Condition not victim.hasStatusEffect(Status.ASLEEP)
     @Condition victim.getCurrentHero() in getTankHeroes()
     @Condition getTotalTimeElapsed() - victim._tank_sleep_start_time > MIN_SLEEP_DURATION
     @Condition not using_knockdown(attacker, eventAbility)
