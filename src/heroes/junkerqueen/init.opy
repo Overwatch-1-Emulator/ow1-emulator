@@ -1,5 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/junkerqueen/carnage.opy"
+
 playervar jq_self_heal_id
 
 
