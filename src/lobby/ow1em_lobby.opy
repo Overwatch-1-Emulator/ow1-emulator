@@ -245,6 +245,7 @@ settings {
             },
             "tracer": {
                 "health%": percent(OW1_TRACER_HEALTH/OW2_TRACER_HEALTH), # for recall hp
+                "ability2Cooldown%": percent(OW1_TRACER_RECALL_COOLDOWN/OW2_TRACER_RECALL_COOLDOWN),
                 "ultGen%": percent(OW2_TRACER_ULT_COST/OW1_TRACER_ULT_COST)
             },
             "widowmaker": {
