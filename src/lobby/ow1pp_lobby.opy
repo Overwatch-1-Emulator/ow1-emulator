@@ -389,6 +389,7 @@ settings {
                 "symmetra",
                 "torbjorn",
                 "tracer",
+                # "venture",
                 "widowmaker",
                 "winston",
                 "hammond",
