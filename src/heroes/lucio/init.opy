@@ -23,3 +23,11 @@ rule "[lucio/init.opy]: Initialize Lucio":
     eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
 
     eventPlayer.call_init = false
+
+
+rule "[lucio/init.opy]: OW1 Sonic Amplifier damage":
+    @Event playerDealtDamage
+    @Hero lucio
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, eventDamage*(OW1_LUCIO_SOUND_GUN_DAMAGE/OW2_LUCIO_SOUND_GUN_DAMAGE) - eventDamage)
