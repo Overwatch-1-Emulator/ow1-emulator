@@ -66,6 +66,7 @@
 #!include "heroes/symmetra/init.opy"
 #!include "heroes/torbjorn/init.opy"
 #!include "heroes/tracer/init.opy"
+#!include "heroes/venture/init.opy"
 #!include "heroes/widowmaker/init.opy"
 #!include "heroes/winston/init.opy"
 #!include "heroes/wreckingball/init.opy"
