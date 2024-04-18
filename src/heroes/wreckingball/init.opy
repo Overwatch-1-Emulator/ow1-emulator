@@ -1,5 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/wreckingball/grapple.opy"
 #!include "heroes/wreckingball/shields.opy"
 
 rule "[wreckingball/init.opy]: Detect switch to Wrecking Ball":
