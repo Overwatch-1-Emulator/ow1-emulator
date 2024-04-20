@@ -78,3 +78,25 @@ rule "Wholehog force autofire":
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) == false
     
     eventPlayer.startForcingButton(Button.PRIMARY_FIRE)
+
+
+rule "hog backup":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.ROADHOG
+    @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
+    @Condition eventPlayer.heal_state == 0
+    
+    eventPlayer.heal_state = 1
+    eventPlayer.setHealingDealt(1)
+    waitUntil(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) != 0, 9999999)
+    waitUntil(eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) == 0, 9999999)
+    eventPlayer.setHealingDealt(0)
+    eventPlayer.heal_state = 0
+
+
+rule "hog heal":
+    @Event playerDealtHealing
+    @Condition eventPlayer.hero_setup == Hero.ROADHOG
+    @Condition eventAbility == Button.SECONDARY_FIRE
+    
+    heal(eventPlayer, eventPlayer, eventHealing * 65.5)

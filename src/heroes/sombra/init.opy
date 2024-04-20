@@ -14,3 +14,11 @@ rule "Sombra":
     resetStatuses()
     enableAllAbilities()
     eventPlayer.setHealingDealt(1)
+
+
+rule "hacked health packs":
+    @Event playerReceivedHealing
+    @Condition eventWasHealthPack == true
+    @Condition eventHealing <= 70
+    
+    heal(eventPlayer, eventPlayer, eventHealing * 99)

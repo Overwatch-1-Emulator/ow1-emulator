@@ -13,7 +13,7 @@ rule "Ana":
     eventPlayer.setMaxHealth(100)
     resetHealth()
     eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
-    eventPlayer.Ana_damage_check = false
+    eventPlayer.ana_damage_check = false
     eventPlayer.setMaxAmmo(0, 12)
     eventPlayer.setAmmo(0, 12)
     resetStats()
@@ -36,12 +36,12 @@ rule "Increase Biotic Rifle damage":
     @Event playerDealtDamage
     @Condition eventPlayer.hero_setup == Hero.ANA
     @Condition eventAbility == Button.PRIMARY_FIRE
-    @Condition eventPlayer.Ana_damage_check == false
+    @Condition eventPlayer.ana_damage_check == false
     
-    eventPlayer.Ana_damage_check = true
+    eventPlayer.ana_damage_check = true
     victim.startDoT(attacker, 0.55, 64.404)
     wait(0.6)
-    eventPlayer.Ana_damage_check = false
+    eventPlayer.ana_damage_check = false
 
 
 rule "Increase Biotic Grenade healing":

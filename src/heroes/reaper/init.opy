@@ -34,3 +34,15 @@ rule "Reduce Death Blossom damage":
     eventPlayer.setDamageDealt(91.891)
     waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
     eventPlayer.setDamageDealt(100)
+
+
+rule "reaper backup":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.REAPER
+    @Condition (eventPlayer.isUsingAbility1() or eventPlayer.isUsingAbility2()) == true
+    
+    healPassiveReset()
+    eventPlayer.setHealingDealt(0)
+    waitUntil(not (eventPlayer.isUsingAbility1() or eventPlayer.isUsingAbility2()), 99999)
+    healPassiveReset()
+    eventPlayer.setHealingDealt(100)

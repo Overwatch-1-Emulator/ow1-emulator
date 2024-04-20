@@ -9,8 +9,8 @@ playervar self_bubble_cooldown
 playervar self_bubble_cd_text
 playervar ally_bubble_cooldown
 playervar ally_bubble_cd_text
-playervar Ana_damage_check
-playervar AllowedHeroes
+playervar ana_damage_check
+playervar allowed_heroes
 
 
 def resetHealth():

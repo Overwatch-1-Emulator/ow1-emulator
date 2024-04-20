@@ -54,3 +54,15 @@ rule "Reduce Solar Rifle healing":
     eventPlayer.setHealingDealt(91.27)
     waitUntil(not eventPlayer.isHoldingButton(Button.SECONDARY_FIRE), 99999)
     eventPlayer.setHealingDealt(100)
+
+
+/*
+rule "(Duplicate) Healing Pylon cooldown":
+    @Event eachPlayer
+    @Hero echo
+    @Condition eventPlayer.getHeroOfDuplication() == Hero.ILLARI
+    @Condition eventPlayer.isUsingAbility1() == true
+    
+    waitUntil(not eventPlayer.isUsingAbility1(), 99999)
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 10)
+*/

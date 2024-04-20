@@ -84,3 +84,8 @@ rule "Remove Adaptive Shields overhealth transfer":
     waitUntil(not eventPlayer.isUsingAbility2(), 999999986991104)
     enableAllAbilities()
     eventPlayer.allowButton(Button.ABILITY_2)
+
+
+/*
+rule "(Duplicate) pile cooldown":
+*/

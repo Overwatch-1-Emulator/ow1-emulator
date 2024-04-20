@@ -19,7 +19,7 @@ rule "Skip Hero Assembly Phase":
 rule "Initialize Role Limits":
     @Event eachPlayer
     
-    eventPlayer.AllowedHeroes = getAllHeroes()
+    eventPlayer.allowed_heroes = getAllHeroes()
 */
 
 /*
@@ -28,11 +28,11 @@ rule "Lock/Unlock Tank heroes at role limit":
     @Condition len(([player for player in getPlayers(eventPlayer.getTeam()) if player.getCurrentHero() in getTankHeroes()]).exclude(eventPlayer)) >= MaxRoles[0]
     @Condition MaxRoles[0] > 0
     
-    eventPlayer.AllowedHeroes.remove(getTankHeroes())
-    eventPlayer.setAllowedHeroes(eventPlayer.AllowedHeroes)
+    eventPlayer.allowed_heroes.remove(getTankHeroes())
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
     waitUntil(len(([player for player in getPlayers(eventPlayer.getTeam()) if player.getCurrentHero() in getTankHeroes()]).exclude(eventPlayer)) < MaxRoles[0], 99999)
-    eventPlayer.AllowedHeroes.append(getTankHeroes())
-    eventPlayer.setAllowedHeroes(eventPlayer.AllowedHeroes)
+    eventPlayer.allowed_heroes.append(getTankHeroes())
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 */
 
 /*
@@ -41,11 +41,11 @@ rule "Lock/Unlock Damage heroes at role limit":
     @Condition len(([player for player in getPlayers(eventPlayer.getTeam()) if player.getCurrentHero() in getDamageHeroes()]).exclude(eventPlayer)) >= MaxRoles[1]
     @Condition MaxRoles[1] > 0
     
-    eventPlayer.AllowedHeroes.remove(getDamageHeroes())
-    eventPlayer.setAllowedHeroes(eventPlayer.AllowedHeroes)
+    eventPlayer.allowed_heroes.remove(getDamageHeroes())
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
     waitUntil(len(([player for player in getPlayers(eventPlayer.getTeam()) if player.getCurrentHero() in getDamageHeroes()]).exclude(eventPlayer)) < MaxRoles[1], 99999)
-    eventPlayer.AllowedHeroes.append(getDamageHeroes())
-    eventPlayer.setAllowedHeroes(eventPlayer.AllowedHeroes)
+    eventPlayer.allowed_heroes.append(getDamageHeroes())
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 */
 
 /*
@@ -54,9 +54,9 @@ rule "Lock/Unlock Support heroes at role limit":
     @Condition len(([player for player in getPlayers(eventPlayer.getTeam()) if player.getCurrentHero() in getSupportHeroes()]).exclude(eventPlayer)) >= MaxRoles[2]
     @Condition MaxRoles[2] > 0
     
-    eventPlayer.AllowedHeroes.remove(getSupportHeroes())
-    eventPlayer.setAllowedHeroes(eventPlayer.AllowedHeroes)
+    eventPlayer.allowed_heroes.remove(getSupportHeroes())
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
     waitUntil(len(([player for player in getPlayers(eventPlayer.getTeam()) if player.getCurrentHero() in getSupportHeroes()]).exclude(eventPlayer)) < MaxRoles[2], 99999)
-    eventPlayer.AllowedHeroes.append(getSupportHeroes())
-    eventPlayer.setAllowedHeroes(eventPlayer.AllowedHeroes)
+    eventPlayer.allowed_heroes.append(getSupportHeroes())
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 */

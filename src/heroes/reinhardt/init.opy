@@ -71,3 +71,13 @@ rule "Increase Earthshatter damage":
     @Condition eventDamage > 100
     
     damage(victim, attacker, eventDamage * 1.708 - eventDamage)
+
+
+rule "Increase Firestrike damage (early animation)":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.REINHARDT
+    @Condition eventPlayer.isUsingAbility2() == true
+    
+    eventPlayer.setDamageDealt(83.333)
+    wait(1)
+    eventPlayer.setDamageDealt(80)

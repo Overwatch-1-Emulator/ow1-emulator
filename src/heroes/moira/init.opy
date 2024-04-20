@@ -27,3 +27,18 @@ rule "Prevent fading during coalescence":
     waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
     eventPlayer.setMoveSpeed(100)
     eventPlayer.setAbility1Enabled(true)
+
+
+rule "moira backup (up to 18 bugged heal)":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.MOIRA
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0
+    @Condition eventPlayer.heal_state == 1
+    
+    eventPlayer.heal_state = 0
+    healPassiveReset()
+    waitUntil(eventPlayer.isUsingAbility1(), 99999)
+    waitUntil(not eventPlayer.isUsingAbility1(), 9999999)
+    healPassiveReset()
+    eventPlayer.heal_state = 1

@@ -39,3 +39,23 @@ rule "D.va (pilot)":
     if eventPlayer.isUsingUltimate():
         return
     resetUltCharge()
+
+/*
+rule "(Duplicate) d.va dm fix a":
+    @Event eachPlayer
+    @Condition eventPlayer.getHeroOfDuplication() == Hero.DVA
+    @Condition eventPlayer.isFiringSecondaryFire() == true
+    @Condition eventPlayer.getAbilityResource(Button.SECONDARY_FIRE) > 66
+    
+    eventPlayer.setAbilityResource(Button.SECONDARY_FIRE, 66)
+*/
+
+/*
+rule "(Duplicate) d.va dm fix b":
+    @Event eachPlayer
+    @Condition eventPlayer.getHeroOfDuplication() == Hero.DVA
+    @Condition eventPlayer.isFiringSecondaryFire() == false
+    @Condition eventPlayer.getAbilityResource(Button.SECONDARY_FIRE) > 66
+    
+    eventPlayer.setAbilityResource(Button.SECONDARY_FIRE, 100)
+*/

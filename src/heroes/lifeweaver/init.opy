@@ -50,3 +50,14 @@ rule "Reduce Tree of Life duration":
     
     wait(12)
     eventPlayer.forceButtonPress(Button.ULTIMATE)
+
+
+/*
+rule "(Duplicate) Plat cooldown":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.LIFEWEAVER
+    @Condition eventPlayer.isUsingAbility1() == true
+    
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 10)
+    waitUntil(eventPlayer.getAbilityCooldown(Button.ABILITY_1) != 0, 99999)
+*/
