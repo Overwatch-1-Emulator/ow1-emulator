@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[lucio/soundwave.opy]: OW1 Soundwave damage":

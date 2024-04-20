@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[pharah/rocket_launcher.opy]: OW1 Pharah fire rate":

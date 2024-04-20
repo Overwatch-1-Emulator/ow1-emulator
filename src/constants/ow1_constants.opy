@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 # Universal
 #!define SETUP_BUFFER_TIME 5

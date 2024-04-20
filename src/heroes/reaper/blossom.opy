@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[reaper/blossom.opy]: OW1 Death Blossom damage":

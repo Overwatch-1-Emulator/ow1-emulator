@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 rule "[doomfist/cannon.opy]: Deal OW1 hand cannon damage":
     @Event playerDealtDamage

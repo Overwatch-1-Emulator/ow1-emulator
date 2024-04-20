@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 globalvar  health_pool = createWorkshopSetting(bool, "General Changes", "Full Echo Tank HP", false, 0)
 globalvar setting_echo_tank_hp

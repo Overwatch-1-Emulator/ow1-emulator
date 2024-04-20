@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[passives/damage/damage_passive.opy]: Remove DPS Passive":

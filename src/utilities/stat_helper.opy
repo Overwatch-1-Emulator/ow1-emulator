@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 playervar stat_helper_pvar
 #!defineMember _base_damage_scalar stat_helper_pvar[0]

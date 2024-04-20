@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 globalvar DEBUG_MODE = createWorkshopSetting(bool, "Dev Tools", "debug mode", true)
 #!define STAT_KEEP_ALIVE (2)
@@ -28,7 +28,7 @@ rule "[utilities/debug.opy]: global debug (Top Left)":
     hudSubheader(getAllPlayers(), "Server Load Peak = {}%".format(getPeakServerLoad()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(getAllPlayers(), "isInSetup() = {}".format(isInSetup()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     hudSubheader(getAllPlayers(), "getTotalTimeElapsed() = {}".format(getTotalTimeElapsed()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(getAllPlayers(), "len(_available_heroes) = {}".format(len(_available_heroes)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "len(_available_heroes) = {}".format(len(_available_heroes)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
 
 
 rule "[utilities/debug.opy]: player debug (Top Right)":
@@ -83,7 +83,7 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "slam_damage = {}".format(eventPlayer.slam_damage), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "is_using_uppercut = {}".format(eventPlayer.is_using_uppercut), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "uppercut_shields = {}".format(eventPlayer.uppercut_shields), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "isUsingSelfRepair() = {}".format(isUsingSelfRepair(eventPlayer)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "isUsingSelfRepair() = {}".format(isUsingSelfRepair(eventPlayer)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "barrier_damage_block_id = {}".format(eventPlayer.barrier_damage_block_id), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "len(enemies_behind_barrier) = {}".format(len(eventPlayer.enemies_behind_barrier)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isAimingAtOrisaBarrier() = {}".format(isAimingAtOrisaBarrier()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -108,7 +108,7 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "_tank_sleep_start_time = {}".format(eventPlayer._tank_sleep_start_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_tank_sleeping = {}".format(eventPlayer._tank_sleeping), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_scrap_last_fire_time = {}".format(eventPlayer._scrap_last_fire_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "distance(scrap_start, scrap_detonation) = {}".format(distance(eventPlayer._scrap_start_pos, eventPlayer._scrap_detonation_pos)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "distance(scrap_start, scrap_detonation) = {}".format(distance(eventPlayer._scrap_start_pos, eventPlayer._scrap_detonation_pos)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
 rule "[utilities/debug.opy]: do something on interact":

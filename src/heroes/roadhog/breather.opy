@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar breather_pvar
 #!defineMember _is_using_breather breather_pvar[0]

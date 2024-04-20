@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar uppercut_pvar
 #!defineMember is_hit_by_uppercut uppercut_pvar[0]

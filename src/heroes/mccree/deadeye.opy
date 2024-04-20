@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[mccree/deadeye.opy]: OW1 deadeye damage + remove OW2 damage reduction during deadeye":

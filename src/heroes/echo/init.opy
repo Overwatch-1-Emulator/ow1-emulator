@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 globalvar Setting_echo_tank_hp = createWorkshopSetting(bool, "General Changes", "Full Echo Tank HP", false, 0)
 
