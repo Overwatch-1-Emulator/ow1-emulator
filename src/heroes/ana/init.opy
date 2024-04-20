@@ -1,5 +1,7 @@
 #!mainFile "../../main.opy"
 
+playervar ana_damage_check
+
 subroutine startHealPassiveBackUp
 subroutine endHealPassiveBackUp
 

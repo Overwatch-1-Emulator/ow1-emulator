@@ -4,12 +4,6 @@ playervar heal_state
 playervar ult_change_check
 playervar overhealth_check
 playervar balance_change_check
-playervar duplicate_leftover_health
-playervar self_bubble_cooldown
-playervar self_bubble_cd_text
-playervar ally_bubble_cooldown
-playervar ally_bubble_cd_text
-playervar ana_damage_check
 playervar allowed_heroes
 
 

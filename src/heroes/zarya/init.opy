@@ -1,5 +1,10 @@
 #!mainFile "../../main.opy"
 
+playervar self_bubble_cooldown
+playervar self_bubble_cd_text
+playervar ally_bubble_cooldown
+playervar ally_bubble_cd_text
+
 subroutine initSelfBubble
 subroutine initAllyBubble
 

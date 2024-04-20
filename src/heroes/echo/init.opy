@@ -2,6 +2,8 @@
 
 globalvar Setting_echo_tank_hp = createWorkshopSetting(bool, "General Changes", "Full Echo Tank HP", false, 0)
 
+playervar duplicate_leftover_health
+
 
 rule "Echo":
     @Event eachPlayer
