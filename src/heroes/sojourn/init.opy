@@ -1,40 +1,15 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/sojourn/railgun.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[sojourn/init.opy]: Detect switch to Sojourn":
+rule "Sojourn":
     @Event eachPlayer
-    @Hero sojourn
-
-    eventPlayer.call_init = true
-
-
-rule "[sojourn/init.opy]: Initialize Sojourn":
-    @Event eachPlayer
-    @Hero sojourn
-    @Condition eventPlayer.call_init
-
-    newHero(OW1_SOJOURN_HEALTH, 0, 0)
-    setUltCost(OW1_SOJOURN_ULT_COST)
-    setBaseDamage(eventPlayer, OW1_SOJOURN_GLOBAL_DAMAGE)
+    @Condition eventPlayer.hero_setup == Hero.SOJOURN
     
-    removeSelfHealing()
-
-    eventPlayer.call_init = false
-
-
-rule "[sojourn/init.opy]: Deal regular damage for Primary and Melee":
-    @Event playerDealtDamage
-    @Hero sojourn
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.MELEE]
-
-    # Example on melee
-    # expected melee damage: eventDamage*(1/OW1_SOJOURN_GLOBAL_DAMAGE) = 30 dmg
-    # actual melee damage: MELEE_DAMAGE * 10% = 30 dmg * 10% = eventDamage = 3 dmg
-    # Find additional damage to deal: expected - actual = 27 dmg
-    # Multiply by inverse of damage dealt percent scalar (1/OW1_SOJOURN_GLOBAL_DAMAGE) to compensate for game engine damage handling
-    damage(victim, attacker, (eventDamage/OW1_SOJOURN_GLOBAL_DAMAGE - eventDamage)/OW1_SOJOURN_GLOBAL_DAMAGE)
-
-
-# #!include "heroes/sojourn/slide.opy"
+    eventPlayer.ult_change_check = 1.1
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()

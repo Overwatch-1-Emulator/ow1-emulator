@@ -1,46 +1,58 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/junkerqueen/carnage.opy"
-
-playervar jq_self_heal_id
+#!mainFile "../../main.opy"
 
 
-rule "[junkerqueen/init.opy]: Detect switch to Junkerqueen":
+rule "Junker Queen":
     @Event eachPlayer
-    @Hero junkerQueen
-
-    eventPlayer.call_init = true
-
-
-rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
-    @Event eachPlayer
-    @Hero junkerQueen
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.JUNKER_QUEEN
     
-    newHero(OW1_JUNKERQUEEN_HEALTH, OW1_JUNKERQUEEN_ARMOR, 0)
-    setBaseDamage(eventPlayer, OW1_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE/OW2_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE)
-    setUltCost(OW1_JUNKERQUEEN_ULT_COST)
-
-    startHealingModification(eventPlayer, eventPlayer, percent(OW1_JUNKERQUEEN_ADRENALINE/OW2_JUNKERQUEEN_ADRENALINE), HealingReeval.NONE)
-    eventPlayer.jq_self_heal_id = getLastHealingModification()
-
+    eventPlayer.ult_change_check = 1.07
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxAmmo(0, 6)
+    eventPlayer.setAmmo(0, 6)
+    eventPlayer.overhealth_check = false
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 349 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 399, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
     removeTankPassive()
-    removePassiveHealing()
-    
-    eventPlayer.call_init = false
+    eventPlayer.setHealingDealt(74.29)
+    eventPlayer.setDamageDealt(87.5)
+    eventPlayer.heal_state = 1
 
 
-rule "[junkerqueen/init.opy]: Clean up Junkerqueen":
+rule "Correct Commanding Shout overhealth while outside spawn rooms":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() == Hero.JUNKER_QUEEN
+    @Condition eventPlayer.hero_setup == Hero.JUNKER_QUEEN
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.isInSpawnRoom() == false
+    @Condition eventPlayer.overhealth_check == false
+    
+    damage(eventPlayer, null, 50)
+    eventPlayer.overhealth_check = true
+    waitUntil(eventPlayer.isUsingAbility1() == false, 99999)
+    eventPlayer.overhealth_check = false
 
-    waitUntil(eventPlayer.getCurrentHero() != Hero.JUNKER_QUEEN, Math.INFINITY)
-    stopHealingModification(eventPlayer.jq_self_heal_id)
+
+rule "Correct Commanding Shout overhealth while inside spawn rooms":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.JUNKER_QUEEN
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.isInSpawnRoom() == true
+    @Condition eventPlayer.overhealth_check == false
+    
+    eventPlayer.setHealth(eventPlayer.getMaxHealth() - 50)
+    eventPlayer.overhealth_check = true
+    waitUntil(eventPlayer.isUsingAbility1() == false, 99999)
+    eventPlayer.overhealth_check = false
 
 
-rule "[junkerqueen/init.opy]: Compensate Junkerqueen global damage reduction":
-    @Event playerDealtDamage
-    @Hero junkerQueen
-    @Condition eventAbility in [Button.MELEE, Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_2]
-
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+rule "Reduce Rampage Damage":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.JUNKER_QUEEN
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    eventPlayer.setDamageDealt(66.777)
+    waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
+    eventPlayer.setDamageDealt(87.5)

@@ -1,25 +1,35 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
-#!include "heroes/mccree/flashbang.opy"
-#!include "heroes/mccree/roll.opy"
-#!include "heroes/mccree/deadeye.opy"
 
-rule "[mccree/init.opy]: Detect switch to Cassidy":
+rule "Cassidy":
     @Event eachPlayer
-    @Hero mccree
-
-    eventPlayer.call_init = true
-
-
-rule "[mccree/init.opy]: Initialize Cassidy":
-    @Event eachPlayer
-    @Hero mccree
-    @Condition eventPlayer.call_init
-
-    newHero(OW1_MCCREE_HEALTH, 0, 0)
-    setUltCost(OW1_MCCREE_ULT_COST)
+    @Condition eventPlayer.hero_setup == Hero.MCCREE
     
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    removeSelfHealing()
+    eventPlayer.ult_change_check = 1.22
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 249, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
 
-    eventPlayer.call_init = false
+
+rule "Reduce damage reduction during Combat Roll":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.MCCREE
+    @Condition eventPlayer.isUsingAbility1() == true
+    
+    eventPlayer.setDamageReceived(200)
+    waitUntil(not eventPlayer.isUsingAbility1(), 999999986991104)
+    eventPlayer.setDamageReceived(100)
+
+
+rule "Remove damage reduction during Deadeye":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.MCCREE
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    eventPlayer.setDamageReceived(133.333)
+    waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
+    eventPlayer.setDamageReceived(100)

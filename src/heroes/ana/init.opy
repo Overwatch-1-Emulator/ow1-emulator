@@ -1,35 +1,63 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
-#!include "heroes/ana/sleep.opy"
-#!include "heroes/ana/nade.opy"
+subroutine startHealPassiveBackUp
+subroutine endHealPassiveBackUp
 
-rule "[ana/init.opy]: Detect switch to Ana":
+
+rule "Ana":
     @Event eachPlayer
-    @Hero ana
-
-    eventPlayer.call_init = true
-
-
-rule "[ana/init.opy]: Initialize Ana":
-    @Event eachPlayer
-    @Hero ana
-    @Condition eventPlayer.call_init == true
+    @Condition eventPlayer.hero_setup == Hero.ANA
     
-    newHero(OW1_ANA_HEALTH, 0, 0)
-    setUltCost(OW1_ANA_ULT_COST)
-    removeSelfHealing()
+    eventPlayer.ult_change_check = 1.06
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    eventPlayer.Ana_damage_check = false
+    eventPlayer.setMaxAmmo(0, 12)
+    eventPlayer.setAmmo(0, 12)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setDamageDealt(66.667)
+    eventPlayer.setHealingDealt(100)
+    eventPlayer.heal_state = 1
 
-    eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
 
-    setBaseDamage(eventPlayer, OW1_ANA_BIOTIC_GRENADE_DAMAGE/OW2_ANA_BIOTIC_GRENADE_DAMAGE)
-
-    eventPlayer.call_init = false
-
-
-rule "[ana/init.opy]: Correct rifle and sleep dart damage":
+rule "Increase Ana melee damage":
     @Event playerDealtDamage
-    @Hero ana
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1]
+    @Condition eventPlayer.hero_setup == Hero.ANA
+    @Condition eventAbility == Button.MELEE
+    
+    damage(victim, attacker, eventDamage * 1.778 - eventDamage)
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+rule "Increase Biotic Rifle damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.ANA
+    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition eventPlayer.Ana_damage_check == false
+    
+    eventPlayer.Ana_damage_check = true
+    victim.startDoT(attacker, 0.55, 64.404)
+    wait(0.6)
+    eventPlayer.Ana_damage_check = false
+
+
+rule "Increase Biotic Grenade healing":
+    @Event playerDealtHealing
+    @Condition eventPlayer.hero_setup == Hero.ANA
+    @Condition eventAbility == Button.ABILITY_2
+    
+    heal(healee, healer, eventHealing * 1.111 - eventHealing)
+
+
+rule "Sleep Dart self-heal backup":
+    @Event eachPlayer
+    @Condition eventPlayer.hasStatusEffect(Status.ASLEEP) == true
+    
+    healPassiveReset()
+    startHealPassiveBackUp()
+    waitUntil(eventPlayer.hasStatusEffect(Status.ASLEEP) == false, 99999)
+    endHealPassiveBackUp()
+    healPassiveReset()

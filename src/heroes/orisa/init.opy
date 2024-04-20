@@ -1,56 +1,54 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
-#!include "heroes/orisa/supercharger.opy"
-#!include "heroes/orisa/halt.opy"
-#!include "heroes/orisa/barrier.opy"
-#!include "heroes/orisa/fusion_driver.opy"
-#!include "heroes/orisa/fortify.opy"
 
-rule "[orisa/init.opy]: Detect switch to Orisa":
+rule "Orisa":
     @Event eachPlayer
-    @Hero orisa
-
-    eventPlayer.call_init = true
-
-
-rule "[orisa/init.opy]: Initialize Orisa":
-    @Event eachPlayer
-    @Hero orisa
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.ORISA
     
-    newHero(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
-    setUltCost(OW1_ORISA_ULT_COST)
-
-    # Below variables are also declared and initialized in reset_hero.opy
-    getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer
-    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_orisa_player = eventPlayer
-    
-    eventPlayer.disallowButton(Button.ULTIMATE)
-    eventPlayer.is_using_supercharger = false
-
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    eventPlayer.is_using_halt = false
-
-    eventPlayer.disallowButton(Button.ABILITY_2)
-
-    resetFusionDriver()
-    showOrisaAmmoHud()
-    eventPlayer.is_orisa_reloading = false
-    setBaseDamage(eventPlayer, OW1_ORISA_FUSION_DRIVER_DAMAGE/OW2_ORISA_FUSION_DRIVER_DAMAGE)
-    eventPlayer.setProjectileSpeed(percent(OW1_ORISA_GUN_PROJECTILE_SPEED/OW2_ORISA_GUN_PROJECTILE_SPEED))
-
+    eventPlayer.ult_change_check = 1.12
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 249 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 299, true, true)
+    eventPlayer.addHealthPool(Health.ARMOR, 150 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 200, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
     removeTankPassive()
 
-    removeSelfHealing()
 
-    eventPlayer.call_init = false
-
-
-rule "[orisa/init.opy]: Clean up Orisa":
+rule "Correct Fortify overhealth while outside spawn rooms":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() == Hero.ORISA
+    @Condition eventPlayer.hero_setup == Hero.ORISA
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.isInSpawnRoom() == false
+    @Condition eventPlayer.overhealth_check == false
+    #@Condition eventPlayer.getHealthOfType(Health.ARMOR) >= 0.1
+    
+    damage(eventPlayer, null, 181.8)
+    eventPlayer.overhealth_check = true
+    waitUntil(eventPlayer.isUsingAbility1() == false, 99999)
+    eventPlayer.overhealth_check = false
 
-    waitUntil(eventPlayer.getCurrentHero() != Hero.ORISA, Math.INFINITY)
-    destroyBarrier()
-    endSupercharger()
-    hideOrisaAmmoHud()
+
+rule "Correct Fortify overhealth while inside spawn rooms":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.ORISA
+    @Condition eventPlayer.isUsingAbility1() == true
+    @Condition eventPlayer.isInSpawnRoom() == true
+    @Condition eventPlayer.overhealth_check == false
+    
+    eventPlayer.setHealth(eventPlayer.getMaxHealth() - 100)
+    eventPlayer.overhealth_check = true
+    waitUntil(eventPlayer.isUsingAbility1() == false, 99999)
+    eventPlayer.overhealth_check = false
+
+
+rule "Reduce Terra Surge damage":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.ORISA
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    eventPlayer.setDamageDealt(80)
+    waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
+    eventPlayer.setDamageDealt(100)

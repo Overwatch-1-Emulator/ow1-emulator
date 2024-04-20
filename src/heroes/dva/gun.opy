@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 rule "[dva/gun.opy]: OW1 DVa movement penalty when shooting":
     @Event eachPlayer

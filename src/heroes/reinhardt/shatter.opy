@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[reinhardt/shatter.opy]: OW1 one shot earthshatter":

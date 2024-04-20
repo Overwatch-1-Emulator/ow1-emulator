@@ -1,30 +1,42 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[sigma/init.opy]: Detect switch to Sigma":
+rule "Sigma":
     @Event eachPlayer
-    @Hero sigma
-
-    eventPlayer.call_init = true
-
-
-rule "[sigma/init.opy]: Initialize Sigma":
-    @Event eachPlayer
-    @Hero sigma
-    @Condition eventPlayer.call_init
-
-    newHero(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
-    setUltCost(OW1_SIGMA_ULT_COST)
+    @Condition eventPlayer.hero_setup == Hero.SIGMA
+    
+    eventPlayer.ult_change_check = 1.07
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 249 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 299, true, true)
+    eventPlayer.addHealthPool(Health.SHIELDS, 150, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
     removeTankPassive()
-    removeSelfHealing()
-
-    eventPlayer.call_init = false
+    eventPlayer.balance_change_check = 0
 
 
-rule "[sigma/init.opy]: Change accretion damage":
+rule "Remove Kinetic Grasp overhealth":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.SIGMA
+    @Condition eventPlayer.isUsingAbility1() == true
+    
+    wait(1.92)
+    if not RULE_CONDITION:
+        return
+    eventPlayer.setStatusEffect(null, Status.STUNNED, 0.001)
+    if eventPlayer.isInSpawnRoom():
+        wait(0.1)
+        eventPlayer.balance_change_check = eventPlayer.getMaxHealth()
+        eventPlayer.balance_change_check -= 450
+        eventPlayer.setHealth(eventPlayer.getMaxHealth() - eventPlayer.balance_change_check)
+
+
+rule "Increase Accretion damage":
     @Event playerDealtDamage
-    @Hero sigma
+    @Condition eventPlayer.hero_setup == Hero.SIGMA
     @Condition eventAbility == Button.ABILITY_2
-    @Condition eventDamage > OW2_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE # Checks for direct hit vs splash damage
-
-    damage(victim, attacker, eventDamage*(OW1_SIGMA_ACCRETION_DAMAGE/OW2_SIGMA_ACCRETION_DAMAGE)-eventDamage)
+    
+    damage(victim, attacker, eventDamage * 1.125 - eventDamage)

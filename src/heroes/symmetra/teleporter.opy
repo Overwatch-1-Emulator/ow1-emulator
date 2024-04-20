@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[symmetra/teleporter.opy]: Set default teleporter cooldown":

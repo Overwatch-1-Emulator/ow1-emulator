@@ -1,6 +1,7 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
-globalvar  health_pool
+globalvar  health_pool = createWorkshopSetting(bool, "General Changes", "Full Echo Tank HP", false, 0)
+globalvar setting_echo_tank_hp
 
 playervar hero_id_duplicated
 

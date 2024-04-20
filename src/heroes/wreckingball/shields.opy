@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 playervar ow2_adaptive_shield_n
 playervar ow1_adaptive_shield_n

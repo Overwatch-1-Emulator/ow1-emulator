@@ -1,42 +1,16 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/sombra/emp.opy"
-#!include "heroes/sombra/hack.opy"
-#!include "heroes/sombra/stealth.opy"
-#!include "heroes/sombra/translocator.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[sombra/init.opy]: Detect switch to Sombra":
+rule "Sombra":
     @Event eachPlayer
-    @Hero sombra
-
-    eventPlayer.call_init = true
-
-
-rule "[sombra/init.opy]: Initialize Sombra":
-    @Event eachPlayer
-    @Hero sombra
-    @Condition eventPlayer.call_init
-
-    newHero(OW1_SOMBRA_HEALTH, 0, 0)
-    setUltCost(OW1_SOMBRA_ULT_COST)
-
-    getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
-    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra_player = eventPlayer
+    @Condition eventPlayer.hero_setup == Hero.SOMBRA
     
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    eventPlayer.disallowButton(Button.ABILITY_2)
-
-    eventPlayer.is_using_stealth = false
-    # removeSelfHealing()
-
-    eventPlayer.call_init = false
-
-
-rule "[sombra/init.opy]: Clean up Sombra":
-    @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() == Hero.SOMBRA
-
-    waitUntil(eventPlayer.getCurrentHero() != Hero.SOMBRA, Math.INFINITY)
-    exitStealth()
-    destroyTranslocator()
+    eventPlayer.ult_change_check = 1.14
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setHealingDealt(1)

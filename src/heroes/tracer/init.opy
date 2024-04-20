@@ -1,22 +1,34 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/tracer/pulse_pistol.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[tracer/init.opy]: Detect switch to Tracer":
+rule "Tracer":
     @Event eachPlayer
-    @Hero tracer
+    @Condition eventPlayer.hero_setup == Hero.TRACER
+    
+    eventPlayer.ult_change_check = 1.18
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, 5)
+    eventPlayer.setMaxHealth(85.714)
+    #resetHealth()
+    #eventPlayer.addHealthPool(Health.NORMAL, 174, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setDamageDealt(91.667)
+    eventPlayer.startScalingSize(0.96, true)
 
-    eventPlayer.call_init = true
+
+rule "Increase Tracer melee damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.TRACER
+    @Condition eventAbility == Button.MELEE
+    
+    damage(victim, attacker, eventDamage * 1.117 - eventDamage)
 
 
-rule "[tracer/init.opy]: Initialize Tracer":
-    @Event eachPlayer
-    @Hero tracer
-    @Condition eventPlayer.call_init
-
-    defaultHero()
-    setUltCost(OW1_TRACER_ULT_COST)
-    removeSelfHealing()
-
-    eventPlayer.call_init = false
+rule "Increase Pulse Bomb damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.TRACER
+    @Condition eventAbility == Button.ULTIMATE
+    
+    damage(victim, attacker, eventDamage * 1.1 - eventDamage)

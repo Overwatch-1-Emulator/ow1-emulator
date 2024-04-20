@@ -1,27 +1,23 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/junkrat/trap.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[junkrat/init.opy]: Detect switch to Junkrat":
+rule "Junkrat":
     @Event eachPlayer
-    @Hero junkrat
-
-    eventPlayer.call_init = true
-
-
-rule "[junkrat/init.opy]: Initialize Junkrat":
-    @Event eachPlayer
-    @Hero junkrat
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.JUNKRAT
     
-    defaultHero()
-    eventPlayer.setMaxHealth(percent((OW1_JUNKRAT_HEALTH-OW1_JUNKRAT_TIRE_HEALTH)/(OW2_JUNKRAT_HEALTH-OW2_JUNKRAT_TIRE_HEALTH)))
-    eventPlayer.addHealthPool(Health.NORMAL, 
-                              OW1_JUNKRAT_HEALTH - (OW1_JUNKRAT_HEALTH-OW1_JUNKRAT_TIRE_HEALTH)/(OW2_JUNKRAT_HEALTH-OW2_JUNKRAT_TIRE_HEALTH)*OW2_JUNKRAT_HEALTH, 
-                              true, 
-                              false)
-    setUltCost(OW1_JUNKRAT_ULT_COST)
-    removeSelfHealing()
-
-    eventPlayer.call_init = false
+    eventPlayer.ult_change_check = 1.18
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    #resetHealth()
+    #Version or the "resetHealth" subroutine that keeps tire at 100 hp
+    wait()
+    eventPlayer.setHealingReceived(0)
+    eventPlayer.setHealth(200)
+    eventPlayer.addHealthPool(Health.NORMAL, 1, true, true)
+    eventPlayer.addHealthPool(Health.ARMOR, 1, true, true)
+    eventPlayer.addHealthPool(Health.SHIELDS, 1, true, true)
+    eventPlayer.removeAllHealthPools()
+    #eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()

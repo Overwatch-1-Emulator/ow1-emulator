@@ -1,50 +1,43 @@
-#!mainFile "../../dev_main.opy"
-
-/*
-This DPS doomfist workshop script is heavily based on
-https://workshop.codes/dpsdoom        code: ZXJB4
-created by discord users: Bebel#5658 and Xponit#1474
-*/
-
-# Semi-public scoped variables
-playervar is_using_uppercut
-playervar is_ultimate_locked
-
-#!include "heroes/doomfist/uppercut.opy"
-#!include "heroes/doomfist/slam.opy"
-#!include "heroes/doomfist/punch.opy"
-#!include "heroes/doomfist/meteor.opy"
-#!include "heroes/doomfist/cannon.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[doomfist/init.opy]: Detect switch to Doomfist":
+rule "Doomfist":
     @Event eachPlayer
-    @Hero doomfist
-
-    eventPlayer.call_init = true
-
-
-rule "[doomfist/init.opy]: Initialize Doomfist":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_init == true
-
-    newHero(OW1_DOOMFIST_HEALTH, 0, 0)
-    setUltCost(OW1_DOOMFIST_ULT_COST)
+    @Condition eventPlayer.hero_setup == Hero.DOOMFIST
+    
+    eventPlayer.ult_change_check = 0.97
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 349 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 399, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
     removeTankPassive()
-    removeSelfHealing()
-
-    initRocketPunch()
-    initSlam()
-    eventPlayer.uppercut_shields = 0
-
-    eventPlayer.call_init = false
+    eventPlayer.setHealingDealt(0)
+    eventPlayer.setKnockbackDealt(80)
+    eventPlayer.setDamageDealt(90)
 
 
-rule "[doomfist/init.opy]: Clean up Doomfist":
-    @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
+rule "Increase Doomfist melee damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.DOOMFIST
+    @Condition eventAbility == Button.MELEE
+    
+    damage(victim, attacker, eventDamage * 1.128 - eventDamage)
 
-    waitUntil(eventPlayer.getCurrentHero() != Hero.DOOMFIST, Math.INFINITY)
-    destroySlamIndicatorGui()
-    hideSlamDamageGui()
+
+rule "Increase Rocket Punch damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.DOOMFIST
+    @Condition eventAbility == Button.SECONDARY_FIRE
+    
+    damage(victim, attacker, eventDamage * 1.128 - eventDamage)
+
+
+rule "Increase Meteor Strike damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.DOOMFIST
+    @Condition eventAbility == Button.ULTIMATE
+    
+    damage(victim, attacker, eventDamage * 1.126 - eventDamage)

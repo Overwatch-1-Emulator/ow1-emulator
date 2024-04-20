@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 # Converts ow2 railgun alt damage to ow1 railgun alt damage
 # Assume damage scales linearly with rail charge, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)

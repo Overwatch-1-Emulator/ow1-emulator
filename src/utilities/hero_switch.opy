@@ -1,19 +1,48 @@
-#!mainFile "../dev_main.opy"
+#!mainFile "../main.opy"
 
-playervar hero_switch_pvar
-#!defineMember _last_hero_played hero_switch_pvar[0]
-#!defineMember _hero_switched hero_switch_pvar[1]
-#!defineMember _hero_id hero_switch_pvar[2]
-
-#!define switchedHero(player) player._hero_switched
+playervar hero_setup
+playervar hero_check
 
 
-rule "[utilities/hero_switch.opy]: detect hero switch":
+rule "[utilities/hero_switch]: Check for hero setup":
     @Event eachPlayer
-    @Condition eventPlayer._last_hero_played != eventPlayer.getCurrentHero()
+    @Condition eventPlayer.hero_setup != eventPlayer.getCurrentHero()
+    @Condition not eventPlayer.isDuplicatingAHero()
+    @Condition not isMatchBetweenRounds()
+    @Condition eventPlayer.isAlive()
     
-    eventPlayer._hero_switched = true
-    wait()
-    eventPlayer._last_hero_played = eventPlayer.getCurrentHero()
-    eventPlayer._hero_id = heroID(eventPlayer._last_hero_played)
-    eventPlayer._hero_switched = false
+    #This wait time may be needed for some gameodes 
+    #wait(0.024)
+    eventPlayer.hero_setup = eventPlayer.getCurrentHero()
+
+
+rule "[utilities/hero_switch]: Check for hero change":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_check != eventPlayer.getCurrentHero()
+    
+    #This wait time may be needed for some gameodes 
+    #wait(0.024)
+    eventPlayer.hero_check = eventPlayer.getCurrentHero()
+    resetUltCharge()
+
+
+rule "[utilities/reset.opy]: Hero reset on death":
+    @Event playerDied
+    
+    eventPlayer.hero_setup = -1
+
+
+rule "[utilities/reset.opy]: Hero reset after round":
+    @Event eachPlayer
+    @Condition isMatchBetweenRounds() == true
+    
+    eventPlayer.hero_setup = -1
+
+
+/*
+rule "Hero reset after game starts (needed for gamemodes with no hero select/bots)":
+    @Event eachPlayer
+    @Condition isInSetup() == true
+    
+    eventPlayer.hero_setup = -1
+*/

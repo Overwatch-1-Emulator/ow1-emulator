@@ -1,31 +1,23 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[genji/init.opy]: Detect switch to Genji":
+rule "Genji":
     @Event eachPlayer
-    @Hero genji
-
-    eventPlayer.call_init = true
-
-
-rule "[genji/init.opy]: Initialize Genji":
-    @Event eachPlayer
-    @Hero genji
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.GENJI
     
-    newHero(OW1_GENJI_HEALTH, 0, 0)
-    setUltCost(OW1_GENJI_ULT_COST)
-    eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
-    
-    removeSelfHealing()
+    eventPlayer.ult_change_check = 1.2
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
 
-    eventPlayer.call_init = false
 
-
-rule "[genji/init.opy]: Deal OW1 shuriken damage":
+rule "Increase Shurikens damage":
     @Event playerDealtDamage
-    @Hero genji
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
-
-    damage(victim, attacker, eventDamage*(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE)-eventDamage)
+    @Condition eventPlayer.hero_setup == Hero.GENJI
+    @Condition (eventAbility == Button.PRIMARY_FIRE or eventAbility == Button.SECONDARY_FIRE) == true
+    
+    damage(victim, attacker, eventDamage * 1.074 - eventDamage)

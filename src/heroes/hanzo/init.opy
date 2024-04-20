@@ -1,30 +1,24 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/hanzo/storm.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[hanzo/init.opy]: Detect switch to Hanzo":
+rule "Hanzo":
     @Event eachPlayer
-    @Hero hanzo
-
-    eventPlayer.call_init = true
-
-
-rule "[hanzo/init.opy]: Initialize Hanzo":
-    @Event eachPlayer
-    @Hero hanzo
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.HANZO
     
-    newHero(OW1_HANZO_HEALTH, 0, 0)
-    setUltCost(OW1_HANZO_ULT_COST)
-    removeSelfHealing()
+    eventPlayer.ult_change_check = 1.21
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setDamageDealt(93.333)
 
-    eventPlayer.call_init = false
 
-
-rule "[hanzo/init.opy]: Deal OW1 primary fire damage":
+rule "Increase Storm Bow and Hanzo melee damage":
     @Event playerDealtDamage
-    @Hero hanzo
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1]
-
-    damage(victim, attacker, eventDamage*(OW1_HANZO_ARROW_DAMAGE/OW2_HANZO_ARROW_DAMAGE)-eventDamage)
+    @Condition eventPlayer.hero_setup == Hero.HANZO
+    @Condition (eventAbility == Button.PRIMARY_FIRE or eventAbility == Button.MELEE) == true
+    
+    damage(victim, attacker, eventDamage * 1.085 - eventDamage)

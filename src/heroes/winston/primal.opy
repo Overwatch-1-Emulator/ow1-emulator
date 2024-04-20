@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 playervar primal_pvar
 #!defineMember _primal_exit_health primal_pvar[0]

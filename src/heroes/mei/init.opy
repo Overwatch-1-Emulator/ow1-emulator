@@ -1,25 +1,17 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/mei/blaster.opy"
-#!include "heroes/mei/cryo_freeze.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[mei/init.opy]: Detect switch to Mei":
+rule "Mei":
     @Event eachPlayer
-    @Hero mei
-
-    eventPlayer.call_init = true
-
-
-rule "[mei/init.opy]: Initialize Mei":
-    @Event eachPlayer
-    @Hero mei
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.MEI
     
-    newHero(OW1_MEI_HEALTH, 0, 0)
-    setUltCost(OW1_MEI_ULT_COST)
-    eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
-    removeSelfHealing()
-
-    eventPlayer.call_init = false
+    eventPlayer.ult_change_check = 1.18
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(80)
+    eventPlayer.setMaxAmmo(0, 120)
+    eventPlayer.setAmmo(0, 120)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 249, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()

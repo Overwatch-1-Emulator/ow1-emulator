@@ -1,25 +1,28 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/mercy/guardian.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[mercy/init.opy]: Detect switch to Mercy":
+rule "Mercy":
     @Event eachPlayer
-    @Hero mercy
-
-    eventPlayer.call_init = true
-
-
-rule "[mercy/init.opy]: Initialize Mercy":
-    @Event eachPlayer
-    @Hero mercy
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.MERCY
     
-    newHero(OW1_MERCY_HEALTH, 0, 0)
-    setUltCost(OW1_MERCY_ULT_COST)
-    eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)
-    eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)
+    eventPlayer.ult_change_check = 1.04
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setAmmo(0, 20)
+    eventPlayer.setMaxAmmo(0, 20)
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setHealingDealt(109.1)
 
-    eventPlayer.is_using_guardian_angel = false
-    eventPlayer.is_slingshotting = false
-    eventPlayer.call_init = false
+
+rule "Reduce Valkyrie healing":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.MERCY
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    eventPlayer.setHealingDealt(100)
+    waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
+    eventPlayer.setHealingDealt(109.1)

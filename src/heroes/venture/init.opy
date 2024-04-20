@@ -1,23 +1,69 @@
-#!mainFile "../../dev_main.opy"
-
-#!define OW1_VENTURE_HEALTH 200
-#!define OW1_VENTURE_ULT_COST 1925
+#!mainFile "../../main.opy"
 
 
-rule "[venture/init.opy]: Detect switch to Venture":
+rule "Venture":
     @Event eachPlayer
-    @Hero venture
+    @Condition eventPlayer.hero_setup == Hero.VENTURE
+    
+    eventPlayer.ult_change_check = 1.13
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(62.5)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setDamageDealt(75)
 
-    eventPlayer.call_init = true
 
-
-rule "[venture/init.opy]: Initialize Venture":
+rule "Correct Venture bonus shields":
     @Event eachPlayer
-    @Hero venture
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.VENTURE
+    @Condition eventPlayer.getMaxHealthOfType(Health.SHIELDS) >= 46
+    
+    eventPlayer.addHealthPool(Health.SHIELDS, 3.125, true, true)
+    waitUntil(eventPlayer.getMaxHealthOfType(Health.SHIELDS) < 49, 99999)
+    removeHealthPool(getLastCreatedHealthPool())
 
-    newHero(OW1_VENTURE_HEALTH, 0, 0)
-    setUltCost(OW1_VENTURE_ULT_COST)
-    removeSelfHealing()
 
-    eventPlayer.call_init = false
+rule "Increase Venture melee damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.VENTURE
+    @Condition eventAbility == Button.MELEE
+    
+    damage(victim, attacker, eventDamage * 1.325 - eventDamage)
+
+
+rule "Increase Smart Excavator damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.VENTURE
+    @Condition eventPlayer.isMeleeing() == false
+    @Condition eventPlayer.isFiringSecondaryFire() == false
+    @Condition eventPlayer.isUsingAbility1() == false
+    @Condition eventPlayer.isUsingAbility2() == false
+    @Condition eventPlayer.isUsingUltimate() == false
+    
+    damage(victim, attacker, eventDamage * 1.107 - eventDamage)
+
+
+rule "Reduce Burrow damage":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.VENTURE
+    @Condition eventPlayer.isUsingAbility1() == true
+    
+    eventPlayer.setDamageDealt(72.73)
+    waitUntil(not eventPlayer.isUsingAbility1(), 999999986991104)
+    if not eventPlayer.isUsingUltimate():
+        eventPlayer.setDamageDealt(75)
+    elif eventPlayer.isUsingUltimate():
+        eventPlayer.setDamageDealt(84.62)
+
+
+rule "Increase Tectonic Shock damage":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.VENTURE
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    eventPlayer.setDamageDealt(84.62)
+    waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
+    eventPlayer.setDamageDealt(75)

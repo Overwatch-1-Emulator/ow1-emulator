@@ -1,4 +1,4 @@
-#!mainFile "../dev_main.opy"
+#!mainFile "../main.opy"
 
 # Universal
 #!define OW2_ARMOR_DAMAGE_REDUCTION 0.3
@@ -8,7 +8,6 @@
 #!define OW2_MELEE_DAMAGE 40
 #!define OW2_SUPPORT_HEAL_PASSIVE_ACTIVATION_TIME (OW2_HEAL_PASSIVE_ACTIVATION_TIME/2)
 #!define OW2_SUPPORT_PASSIVE_HEALING 20
-#!define OW2_TANK_KNOCKBACK_REDUCTION 0.3
 #!define OW2_TANK_ULT_NEGATION 0.3
 
 # Ana

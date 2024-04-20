@@ -1,4 +1,4 @@
-# #!mainFile "../../dev_main.opy"
+# #!mainFile "../../main.opy"
 
 
 # rule "[brigitte/whipshot.opy]: Reduce Whip Shot damage to OW1":

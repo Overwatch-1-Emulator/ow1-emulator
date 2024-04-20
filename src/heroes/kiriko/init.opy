@@ -1,39 +1,56 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/kiriko/kunai.opy"
-#!include "heroes/kiriko/suzu.opy"
-#!include "heroes/kiriko/swift_step.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[kiriko/init.opy]: Detect switch to Kiriko":
+rule "Kiriko":
     @Event eachPlayer
-    @Hero kiriko
+    @Condition eventPlayer.hero_setup == Hero.KIRIKO
+    
+    eventPlayer.ult_change_check = 1
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 5)
+    eventPlayer.setAmmo(1, 12)
+    eventPlayer.setMaxAmmo(1, 12)
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setHealingDealt(100)
+    eventPlayer.heal_state = 1
 
-    eventPlayer.call_init = true
 
-
-rule "[kiriko/init.opy]: Initialize Kiriko":
+rule "Heal when using Swift Step":
     @Event eachPlayer
-    @Hero kiriko
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.KIRIKO
+    @Condition eventPlayer.isUsingAbility1() == true
     
-    newHero(OW1_KIRIKO_HEALTH, 0, 0)
-    setUltCost(OW1_KIRIKO_ULT_COST)
-
-    removeSelfHealing()
-
-    eventPlayer.setHealingDealt(percent(OW1_KIRKIO_OFUDA_HEALING/OW2_KIRIKO_OFUDA_HEALING))
-
-    eventPlayer.setMaxAmmo(0, 6)
-    eventPlayer.setAmmo(0, 12)
-    setBaseDamage(eventPlayer, (OW1_KIRIKO_KUNAI_HEADSHOT_DAMAGE/OW2_KIRIKO_KUNAI_HEADSHOT_DAMAGE))
-
-    eventPlayer.call_init = false
+    eventPlayer.startHoT(eventPlayer, 0.25, 200)
 
 
-rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":
-    @Event playerDealtDamage
-    @Hero kiriko
-    @Condition eventAbility in [Button.MELEE]
+/*
+rule "Heal when using Protection Suzu":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.KIRIKO
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0
     
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.startHoT(eventPlayer, 0.65, 123)
+*/
+
+/*
+rule "Unlock Swift Step while in LoS":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.KIRIKO
+    @Condition isInLoS(eventPlayer, eventPlayer.getPlayerClosestToReticle(eventPlayer.getTeam()), BarrierLos.PASS_THROUGH_BARRIERS) == true
+    
+    eventPlayer.setAbility1Enabled(true)
+*/
+
+/*
+rule "Lock Swift Step while not in LoS":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.KIRIKO
+    @Condition isInLoS(eventPlayer, eventPlayer.getPlayerClosestToReticle(eventPlayer.getTeam()), BarrierLos.PASS_THROUGH_BARRIERS) == false
+    
+    eventPlayer.setAbility1Enabled(false)
+*/

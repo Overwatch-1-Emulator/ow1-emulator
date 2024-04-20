@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[junkrat/trap.opy]: Reduce steel trap damage and increase root duration.":

@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[soldier/biotic_field.opy]: Allow self healing during Biotic Field":

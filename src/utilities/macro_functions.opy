@@ -1,4 +1,4 @@
-#!mainFile "../dev_main.opy"
+#!mainFile "../main.opy"
 
 # Macro function for retrieving id of hero
 #!define heroID(h) (getAllHeroes().index(h))

@@ -1,34 +1,26 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/pharah/hover_jets.opy"
-#!include "heroes/pharah/rocket_launcher.opy"
-#!include "heroes/pharah/concussive.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[pharah/init.opy]: Detect switch to Pharah":
+rule "Pharah":
     @Event eachPlayer
-    @Hero pharah
-
-    eventPlayer.call_init = true
-
-
-rule "[pharah/init.opy]: Initialize Pharah":
-    @Event eachPlayer
-    @Hero pharah
-    @Condition eventPlayer.call_init
-
-    newHero(OW1_PHARAH_HEALTH, 0, 0)
-    setUltCost(OW1_PHARAH_ULT_COST)
-    removeSelfHealing()
-
-    initHoverJets()
-
-    eventPlayer.call_init = false
-
-
-rule "[pharah/init.opy]: Clean up Pharah":
-    @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() == Hero.PHARAH
+    @Condition eventPlayer.hero_setup == Hero.PHARAH
     
-    waitUntil(eventPlayer.getCurrentHero() != Hero.PHARAH, Math.INFINITY)
-    hideFuelGui()
+    eventPlayer.ult_change_check = 1.19
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setProjectileSpeed(87.5)
+
+
+rule "Reset projectile speed for Barrage":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.PHARAH
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    eventPlayer.setProjectileSpeed(100)
+    waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
+    eventPlayer.setProjectileSpeed(87.5)

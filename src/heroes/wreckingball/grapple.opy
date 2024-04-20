@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 #!define OW1_WRECKING_BALL_GRAPPLE_COOLDOWN 5
 

@@ -1,35 +1,52 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
-#!include "heroes/brigitte/bash.opy"
-##!include "heroes/brigitte/whipshot.opy"
-#!include "heroes/brigitte/rally.opy"
-#!include "heroes/brigitte/inspire.opy"
 
-rule "[brigitte/init.opy]: Detect switch to Brigitte":
+rule "Brigitte":
     @Event eachPlayer
-    @Hero brigitte
-
-    eventPlayer.call_init = true
-
-
-rule "[brigitte/init.opy]: Initialize Brigitte":
-    @Event eachPlayer
-    @Hero brigitte
-    @Condition eventPlayer.call_init == true
+    @Condition eventPlayer.hero_setup == Hero.BRIGITTE
     
-    newHero(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
-    setUltCost(OW1_BRIGITTE_ULT_COST)
+    eventPlayer.ult_change_check = 1
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 149, true, true)
+    eventPlayer.addHealthPool(Health.ARMOR, 50, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setDamageDealt(77.888)
+    eventPlayer.setHealingDealt(80)
+    eventPlayer.heal_state = 1
 
-    setBaseDamage(eventPlayer, OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
 
-    removeSelfHealing()
-    
-    eventPlayer.call_init = false
-
-
-rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
+rule "Increase Brigitte damage on most abilities":
     @Event playerDealtDamage
-    @Hero brigitte
-    @Condition eventAbility in [Button.ABILITY_1]
+    @Condition eventPlayer.hero_setup == Hero.BRIGITTE
+    @Condition eventAbility != Button.PRIMARY_FIRE
+    
+    damage(victim, attacker, eventDamage * 1.286 - eventDamage)
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+rule "Increase Inspire self healing":
+    @Event playerDealtHealing
+    @Condition eventPlayer.hero_setup == Hero.BRIGITTE
+    @Condition healee == healer
+    
+    heal(healee, null, eventHealing * 1.246 - eventHealing)
+
+
+rule "Increase Repair Pack healing":
+    @Event playerDealtHealing
+    @Condition eventPlayer.hero_setup == Hero.BRIGITTE
+    @Condition eventAbility == Button.ABILITY_2
+    
+    heal(healee, healer, eventHealing * 1.25 - eventHealing)
+
+
+rule "Extra Repair Pack burst healing":
+    @Event playerDealtHealing
+    @Condition eventPlayer.hero_setup == Hero.BRIGITTE
+    @Condition eventAbility == Button.ABILITY_2
+    @Condition eventHealing >= 19
+    
+    heal(healee, healer, 10)

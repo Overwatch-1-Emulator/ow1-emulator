@@ -1,4 +1,4 @@
-#!mainFile "../dev_main.opy"
+#!mainFile "../main.opy"
 
 globalvar DEBUG_MODE = createWorkshopSetting(bool, "Dev Tools", "debug mode", true)
 #!define STAT_KEEP_ALIVE (2)
@@ -196,3 +196,55 @@ rule "[utilities/debug.opy]: Debug healing instance":
     wait(STAT_KEEP_ALIVE, Wait.RESTART_WHEN_TRUE)
     healee._last_healing_received = 0
     healee._total_healing_received = 0
+
+
+/*
+rule "Debug: Display movement speed":
+    @Event eachPlayer
+    
+    hudHeader(eventPlayer, l"({0})".format(eventPlayer.getSpeed()), HudPosition.LEFT, 2, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    #wait(0.25)
+    #destroyHudText(getLastCreatedText())
+    #goto RULE_START
+*/
+
+/*
+rule "Debug: Display hero_check":
+    @Event eachPlayer
+    
+    hudHeader(eventPlayer, eventPlayer.hero_setup, HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+*/
+
+/*
+rule "Debug: Display server load":
+    @Event eachPlayer
+    
+    hudHeader(eventPlayer, l"({0})".format(getServerLoad()), HudPosition.LEFT, 3, Color.WHITE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
+    #wait(0.25)
+    #destroyHudText(getLastCreatedText())
+    #goto RULE_START
+*/
+
+/*
+rule "Debug: 100% Ultimate on Interact":
+    @Event eachPlayer
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    
+    eventPlayer.setUltCharge(100)
+*/
+
+/*
+rule "Debug: Teleport to other players":
+    @Event eachPlayer
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
+    
+    eventPlayer.teleport(getFarthestPlayer(eventPlayer, Team.ALL))
+*/
+
+/*
+rule "Debug: Set HP to 1 on crouch":
+    @Event eachPlayer
+    @Condition eventPlayer.isHoldingButton(Button.CROUCH) == true
+    
+    damage(eventPlayer, null, eventPlayer.getHealth() - 1)
+*/

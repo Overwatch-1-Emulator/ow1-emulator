@@ -1,33 +1,35 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/lucio/soundwave.opy"
-#!include "heroes/lucio/aura.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[lucio/init.opy]: Detect switch to Lucio":
+rule "Lucio":
     @Event eachPlayer
-    @Hero lucio
-
-    eventPlayer.call_init = true
-
-
-rule "[lucio/init.opy]: Initialize Lucio":
-    @Event eachPlayer
-    @Hero lucio
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.LUCIO
     
-    newHero(OW1_LUCIO_HEALTH, 0, 0)
-    setUltCost(OW1_LUCIO_ULT_COST)
-    removeSelfHealing()
+    eventPlayer.ult_change_check = 1.02
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setKnockbackDealt(89.286)
+    eventPlayer.setHealingDealt(100)
+    eventPlayer.setDamageDealt(66.667)
+    eventPlayer.heal_state = 1
 
-    eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
 
-    eventPlayer.call_init = false
-
-
-rule "[lucio/init.opy]: OW1 Sonic Amplifier damage":
+rule "Increase Lucio melee damage":
     @Event playerDealtDamage
-    @Hero lucio
-    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition eventPlayer.hero_setup == Hero.LUCIO
+    @Condition eventAbility == Button.MELEE
+    
+    damage(victim, attacker, eventDamage * 1.778 - eventDamage)
 
-    damage(victim, attacker, eventDamage*(OW1_LUCIO_SOUND_GUN_DAMAGE/OW2_LUCIO_SOUND_GUN_DAMAGE) - eventDamage)
+
+rule "Increase Sonic Amplifier damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.LUCIO
+    @Condition eventAbility == Button.PRIMARY_FIRE
+    
+    damage(victim, attacker, eventDamage * 2.018 - eventDamage)

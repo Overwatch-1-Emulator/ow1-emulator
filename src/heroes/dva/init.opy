@@ -1,33 +1,41 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/dva/hp.opy"
-#!include "heroes/dva/gun.opy"
-#!include "heroes/dva/booster.opy"
-#!include "heroes/dva/bomb.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[dva/init.opy]: Detect switch to Dva":
+rule "D.va (mech)":
     @Event eachPlayer
-    @Hero dva
-    @Condition switchedHero(eventPlayer)
-    # Apparently Pilot DVa and Mech DVA are 2 seperate heroes but workshop considers them both dva
-    # Above condition is needed because otherwise, this rule activates every time dva transitions 
-    # from pilot to mech and vice versa
-
-    eventPlayer.call_init = true
-
-
-rule "[dva/init.opy]: Initialize DVa":
-    @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer.hero_setup == Hero.DVA
+    @Condition eventPlayer.isInAlternateForm() == false
     
-    defaultHero()
-    setUltCost(OW1_DVA_ULT_COST)
+    eventPlayer.ult_change_check = 1
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 299 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 349, true, true)
+    eventPlayer.addHealthPool(Health.ARMOR, 150 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 200, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
     removeTankPassive()
+    if eventPlayer.getMaxHealth() != (450 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 550):
+        goto RULE_START
 
-    setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
 
-    removeSelfHealing()
-
-    eventPlayer.call_init = false
+rule "D.va (pilot)":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.DVA
+    @Condition eventPlayer.isInAlternateForm() == true
+    
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(85.714)
+    eventPlayer.removeAllHealthPools()
+    #resetHealth()
+    #eventPlayer.addHealthPool(Health.NORMAL, 149, true, true)
+    #resetStats()
+    #resetStatuses()
+    #resetUltCharge()
+    #enableAllAbilities()
+    removeTankPassive()
+    #Reset ultimate charge when DVa pops out of Mech
+    if eventPlayer.isUsingUltimate():
+        return
+    resetUltCharge()

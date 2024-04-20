@@ -1,30 +1,36 @@
-#!mainFile "../../dev_main.opy"
-
-#!include "heroes/reaper/blossom.opy"
+#!mainFile "../../main.opy"
 
 
-rule "[reaper/init.opy]: Detect switch to Reaper":
+rule "Reaper":
     @Event eachPlayer
-    @Hero reaper
-
-    eventPlayer.call_init = true
-
-
-rule "[reaper/init.opy]: Initialize Reaper":
-    @Event eachPlayer
-    @Hero reaper
-    @Condition eventPlayer.call_init
-
-    newHero(OW1_REAPER_HEALTH, 0, 0)
-    setUltCost(OW1_REAPER_ULT_COST)
-    removePassiveHealing()
-
-    eventPlayer.call_init = false
+    @Condition eventPlayer.hero_setup == Hero.REAPER
+    
+    eventPlayer.ult_change_check = 1.14
+    eventPlayer.removeAllHealthPools()
+    eventPlayer.setMaxHealth(100)
+    resetHealth()
+    eventPlayer.addHealthPool(Health.NORMAL, 249, true, true)
+    resetStats()
+    resetStatuses()
+    enableAllAbilities()
+    eventPlayer.setHealingDealt(100)
+    eventPlayer.heal_state = 1
 
 
-rule "[reaper/init.opy]: Deal OW1 Reaper primary fire damage":
+rule "Increase Hellfire Shotgun damage":
     @Event playerDealtDamage
-    @Hero reaper
+    @Condition eventPlayer.hero_setup == Hero.REAPER
     @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition eventPlayer.isUsingUltimate() == false
+    
+    damage(victim, attacker, eventDamage * 1.094 - eventDamage)
 
-    damage(victim, attacker, (OW1_REAPER_HELLFIRE_SHOTGUNS_DAMAGE/OW2_REAPER_HELLFIRE_SHOTGUNS_DAMAGE) * eventDamage - eventDamage)
+
+rule "Reduce Death Blossom damage":
+    @Event eachPlayer
+    @Condition eventPlayer.hero_setup == Hero.REAPER
+    @Condition eventPlayer.isUsingUltimate() == true
+    
+    eventPlayer.setDamageDealt(91.891)
+    waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
+    eventPlayer.setDamageDealt(100)

@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[ramattra/vortex.opy]: Correct Ravenous Vortex damage":
