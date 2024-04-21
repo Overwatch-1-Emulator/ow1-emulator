@@ -18,7 +18,7 @@ rule "Zarya":
     eventPlayer.setMaxHealth(100)
     resetHealth()
     eventPlayer.addHealthPool(Health.NORMAL, 199, true, true)
-    eventPlayer.addHealthPool(Health.SHIELDS, 150 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 200, true, true)
+    eventPlayer.addHealthPool(Health.SHIELDS, 150 if eventPlayer.isDuplicatingAHero() or setting_echo_tank_hp else 200, true, true)
     initSelfBubble()
     initAllyBubble()
     resetStats()

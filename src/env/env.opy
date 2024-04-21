@@ -18,7 +18,7 @@
 #!define DEV_CODE ""
 #!define DISCORD_SHORT_LINK "dsc.gg/todo"
 #!define DISCORD_LONG_LINK "discord.gg/todo"
-#!define SOURCE_CODE_LINK "github.com/ieToastie/6v6-adjustments.git"
+#!define SOURCE_CODE_LINK "github.com/6v6-Adjustments/6v6-adjustments"
 
-rule "Copyright (c) 2024 6v6 Adjustments & Overwatch 1 Emulator. See github.com/ieToastie/6v6-adjustments.git for license to use this code.":
+rule "Copyright (c) 2024 Overwatch 1 Emulator & 6v6 Adjustments. See github.com/6v6-Adjustments/6v6-adjustments for license to use this code.":
     disableInspector()

@@ -10,7 +10,7 @@ rule "Reinhardt":
     eventPlayer.setMaxHealth(114.3)
     resetHealth()
     eventPlayer.addHealthPool(Health.NORMAL, 249, true, true)
-    eventPlayer.addHealthPool(Health.ARMOR, 150 if eventPlayer.isDuplicatingAHero() or Setting_echo_tank_hp else 250, true, true)
+    eventPlayer.addHealthPool(Health.ARMOR, 150 if eventPlayer.isDuplicatingAHero() or setting_echo_tank_hp else 250, true, true)
     resetStats()
     resetStatuses()
     enableAllAbilities()

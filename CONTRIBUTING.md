@@ -10,7 +10,7 @@ If you're interested in submitting code to this gamemode, read this guide carefu
     - VScode extension for compiling OverPy source code -> workshop script
 - Git
     - Version control system
-- GitLab
+- GitHub
     - Remote archive of this source code repository
     - [Issue](https://github.com/6v6-Adjustments/6v6-adjustments/issues) tracking and [Pull Request](https://github.com/6v6-Adjustments/6v6-adjustments/pulls)
 - Discord
@@ -21,7 +21,7 @@ If you're interested in submitting code to this gamemode, read this guide carefu
 1. Download [Visual Studio Code](https://code.visualstudio.com/download).
 2. Go to extension tab in VScode and install `OverPy` extension.
 5. Clone the repository to your local computer (use [GitHub Desktop](https://desktop.github.com/) if you don't know how to clone using terminal).
-6. Open cloned repository folder on VScode.
+6. Open cloned repository folder on VS Code.
 7. Try building gamemode using instructions [below](#building).
 8. Follow [general workflow](#general-workflow) to start development.
 
