@@ -1,5 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/doomfist/punch.opy"
+
 
 rule "Doomfist":
     @Event eachPlayer

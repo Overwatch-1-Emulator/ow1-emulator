@@ -54,6 +54,7 @@ settings {
             "doomfist": {
                 "ability1Cooldown%": 128,
                 "ability2Cooldown%": 116,
+                "secondaryFireKb%": 0,
                 "ultGen%": 97
             },
             "echo": {
