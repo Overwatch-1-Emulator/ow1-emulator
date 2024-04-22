@@ -14,3 +14,5 @@ rule "Bastion":
     resetStats()
     resetStatuses()
     enableAllAbilities()
+
+    removeSelfHealing()

@@ -17,7 +17,8 @@ rule "Illari":
     enableAllAbilities()
     eventPlayer.setDamageDealt(75)
     eventPlayer.setHealingDealt(100)
-    eventPlayer.heal_state = 1
+
+    removePassiveHealing()
 
 
 rule "Increase Illari melee damage":

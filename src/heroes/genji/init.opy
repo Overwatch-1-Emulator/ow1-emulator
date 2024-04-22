@@ -13,6 +13,8 @@ rule "Genji":
     resetStats()
     resetStatuses()
     enableAllAbilities()
+    
+    removeSelfHealing()
 
 
 rule "Increase Shurikens damage":

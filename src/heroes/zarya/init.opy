@@ -25,6 +25,7 @@ rule "Zarya":
     resetStatuses()
     enableAllAbilities()
     removeTankPassive()
+    removeSelfHealing()
     eventPlayer.setKnockbackDealt(73.607)
     eventPlayer.setDamageDealt(84.211)
 

@@ -14,6 +14,7 @@ rule "Sombra":
     resetStatuses()
     enableAllAbilities()
     eventPlayer.setHealingDealt(1)
+    # removeSelfHealing()
 
 
 rule "hacked health packs":

@@ -13,3 +13,4 @@ rule "Widowmaker":
     resetStats()
     resetStatuses()
     enableAllAbilities()
+    removeSelfHealing()

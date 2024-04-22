@@ -13,3 +13,5 @@ rule "Ashe":
     resetStats()
     resetStatuses()
     enableAllAbilities()
+    
+    removeSelfHealing()

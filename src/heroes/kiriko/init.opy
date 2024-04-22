@@ -17,7 +17,8 @@ rule "Kiriko":
     resetStatuses()
     enableAllAbilities()
     eventPlayer.setHealingDealt(100)
-    eventPlayer.heal_state = 1
+    
+    removePassiveHealing()
 
 
 rule "Heal when using Swift Step":
@@ -54,12 +55,3 @@ rule "Lock Swift Step while not in LoS":
     
     eventPlayer.setAbility1Enabled(false)
 */
-
-rule "kiri suzu backup":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_setup == Hero.KIRIKO
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2) == true
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) == 0
-    
-    if eventPlayer.getMaxHealth() != eventPlayer.getHealth():
-        healPassiveReset()

@@ -15,6 +15,7 @@ rule "Winston":
     resetStatuses()
     enableAllAbilities()
     removeTankPassive()
+    removeSelfHealing()
     eventPlayer.setDamageDealt(80)
 
 

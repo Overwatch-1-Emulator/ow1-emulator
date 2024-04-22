@@ -13,3 +13,5 @@ rule "Sojourn":
     resetStats()
     resetStatuses()
     enableAllAbilities()
+    
+    removeSelfHealing()

@@ -17,6 +17,8 @@ rule "Doomfist":
     eventPlayer.setHealingDealt(0)
     eventPlayer.setKnockbackDealt(80)
     eventPlayer.setDamageDealt(90)
+    
+    removeSelfHealing()
 
 
 rule "Increase Doomfist melee damage":

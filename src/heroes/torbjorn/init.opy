@@ -17,6 +17,7 @@ rule "Torbjorn":
     resetStats()
     resetStatuses()
     enableAllAbilities()
+    removeSelfHealing()
 
 
 rule "Increase Rivet Gun alternate fire ammo cost":

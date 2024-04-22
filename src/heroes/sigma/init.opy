@@ -15,6 +15,7 @@ rule "Sigma":
     resetStatuses()
     enableAllAbilities()
     removeTankPassive()
+    removeSelfHealing()
     eventPlayer.balance_change_check = 0
 
 

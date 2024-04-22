@@ -13,6 +13,8 @@ rule "Cassidy":
     resetStats()
     resetStatuses()
     enableAllAbilities()
+    
+    removeSelfHealing()
 
 
 rule "Reduce damage reduction during Combat Roll":

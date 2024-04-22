@@ -1,8 +1,11 @@
 #!include "env/dev_env.opy"
 
 # Useful constants
-# !include "constants/ow1_constants.opy"
-# !include "constants/ow2_constants.opy"
+#!include "constants/ow1_constants.opy"
+#!include "constants/ow2_constants.opy"
+
+# Remove support passive
+#!include "passives/support/self_heal.opy"
 
 # Useful functions
 # !include "utilities/macro_functions.opy"
@@ -25,8 +28,6 @@
 # Remove tank passive
 # !include "passives/tank/ult_charge.opy"
 #!include "passives/tank/knockback.opy"
-# Remove support passive
-#!include "passives/support/self_heal.opy"
 
 # Include for global scoping
 # !include "heroes/sombra/hack.opy"

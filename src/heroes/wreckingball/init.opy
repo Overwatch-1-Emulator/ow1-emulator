@@ -15,6 +15,7 @@ rule "Wrecking Ball":
     resetStatuses()
     enableAllAbilities()
     removeTankPassive()
+    removeSelfHealing()
     #eventPlayer.startScalingSize(0.9, true)
     #eventPlayer.setJumpVerticalSpeed(104)
 

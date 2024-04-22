@@ -16,6 +16,7 @@ rule "Tracer":
     enableAllAbilities()
     eventPlayer.setDamageDealt(91.667)
     eventPlayer.startScalingSize(0.96, true)
+    removeSelfHealing()
 
 
 rule "Increase Tracer melee damage":

@@ -21,3 +21,5 @@ rule "Junkrat":
     resetStats()
     resetStatuses()
     enableAllAbilities()
+    
+    removeSelfHealing()

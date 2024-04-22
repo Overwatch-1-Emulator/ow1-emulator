@@ -15,6 +15,7 @@ rule "Orisa":
     resetStatuses()
     enableAllAbilities()
     removeTankPassive()
+    removeSelfHealing()
 
 
 rule "Correct Fortify overhealth while outside spawn rooms":

@@ -22,6 +22,8 @@ rule "Echo":
     eventPlayer.setDamageDealt(94.444)
     if eventPlayer.isInSpawnRoom() == false:
         damage(eventPlayer, null, eventPlayer.duplicate_leftover_health)
+    
+    removeSelfHealing()
 
 
 rule "Increase Tri-Shot and Echo melee damage":

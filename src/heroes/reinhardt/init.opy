@@ -17,6 +17,7 @@ rule "Reinhardt":
     eventPlayer.setKnockbackReceived(115)
     eventPlayer.stopForcingThrottle()
     eventPlayer.setDamageDealt(80)
+    removeSelfHealing()
 
 
 rule "Force single Firestrike":

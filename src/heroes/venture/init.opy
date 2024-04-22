@@ -14,6 +14,7 @@ rule "Venture":
     resetStatuses()
     enableAllAbilities()
     eventPlayer.setDamageDealt(75)
+    removeSelfHealing()
 
 
 rule "Correct Venture bonus shields":

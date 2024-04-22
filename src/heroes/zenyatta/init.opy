@@ -1,5 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/zenyatta/transc.opy"
+
 
 rule "Zenyatta":
     @Event eachPlayer
@@ -18,4 +20,4 @@ rule "Zenyatta":
     enableAllAbilities()
     eventPlayer.setKnockbackDealt(7)
     eventPlayer.setHealingDealt(100)
-    eventPlayer.heal_state = 1
+    removeSelfHealing()
