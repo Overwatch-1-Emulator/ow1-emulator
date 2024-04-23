@@ -7,11 +7,9 @@ module.exports = {
     plugins: [
         "@semantic-release/commit-analyzer",
         "@semantic-release/release-notes-generator",
-        ["@semantic-release/gitlab", {
+        ["@semantic-release/github", {
             "assets": [
-                { "path": "build/ow1em.txt", "label": "Overwatch 1 Emulator" },
-                { "path": "build/ow1pp.txt", "label": "Overwatch 1++" },
-                { "path": "build/1v1-ow1.txt", "label": "1v1 Arena - Overwatch 1 Edition" },
+                { "path": "build/6v6-adj.txt", "label": "6v6 Adjustments" },
             ]
         }], 
         ["semantic-release-discord-bot", {

@@ -1,0 +1,81 @@
+name: Release
+on:
+  push:
+    branches:
+      - main
+      - beta
+
+permissions:
+  contents: read # for checkout
+
+jobs:
+  build:
+    name: Build
+    runs-on: ubuntu-latest
+    container:
+      image: node
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+    steps:
+      - name: install git
+        run: apt-get update && apt-get install -y --no-install-recommends git-core ca-certificates
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+          submodules: recursive
+      - name: install npm dependencies
+        run: |
+             npm install -g semantic-release
+             npm install semantic-release-discord-bot -D
+             cd "overpy/VS Code Extension/" && npm install && cd ../../
+      - name: build gamemode
+        run: |
+             git config --global --add safe.directory '*'
+             export NEXT_VERSION=v$(semantic-release --dry-run | grep 'The next release version is' | sed -E 's/.* ([[:alnum:].\-]+)$/\1/')
+             node build.js
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          SEMANTIC_RELEASE_PACKAGE: ${{ github.event.repository.name }}
+      - name: Upload artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: build
+          path: build/
+
+  release:
+    name: Release
+    needs: [Build]
+    runs-on: ubuntu-latest
+    container:
+      image: node
+    permissions:
+      contents: write # to be able to publish a GitHub release
+      issues: write # to be able to comment on released issues
+      pull-requests: write # to be able to comment on released pull requests
+      id-token: write # to enable use of OIDC for npm provenance
+    steps:
+      - name: install git
+        run: apt-get update && apt-get install -y --no-install-recommends git-core ca-certificates
+      - name: Checkout
+        uses: actions/checkout@v4
+        with:
+          fetch-depth: 0
+      - name: Download artifacts
+        uses: actions/download-artifact@master
+      - name: install npm dependencies
+        run: |
+             npm install -g semantic-release
+             npm install semantic-release-discord-bot -D
+      - name: release gamemode
+        run: |
+             git config --global --add safe.directory '*'
+             semantic-release
+        env:
+          GITHUB_TOKEN: ${{ secrets.GH_TOKEN }}
+          DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}
+          SEMANTIC_RELEASE_PACKAGE: ${{ github.event.repository.name }}
