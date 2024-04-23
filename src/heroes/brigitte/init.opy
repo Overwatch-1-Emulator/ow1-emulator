@@ -1,6 +1,8 @@
 #!mainFile "../../dev_main.opy"
 
 #!include "heroes/brigitte/inspire.opy"
+#!include "heroes/brigitte/whipshot.opy"
+#!include "heroes/brigitte/bash.opy"
 
 
 rule "Brigitte":
@@ -16,18 +18,10 @@ rule "Brigitte":
     resetStats()
     resetStatuses()
     enableAllAbilities()
-    eventPlayer.setDamageDealt(77.888)
+    setBaseDamage(eventPlayer, ADJ_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
     eventPlayer.setHealingDealt(80)
 
     removeSelfHealing()
-
-
-rule "Increase Brigitte damage on most abilities":
-    @Event playerDealtDamage
-    @Condition eventPlayer.hero_setup == Hero.BRIGITTE
-    @Condition eventAbility != Button.PRIMARY_FIRE
-    
-    damage(victim, attacker, eventDamage * 1.286 - eventDamage)
 
 
 rule "Increase Inspire self healing":

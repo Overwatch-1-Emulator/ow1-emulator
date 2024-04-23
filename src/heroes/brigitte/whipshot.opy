@@ -1,4 +1,12 @@
-# #!mainFile "../../dev_main.opy"
+#!mainFile "../../dev_main.opy"
+
+
+rule "[brigitte/init.opy]: Correct Whipshot damage":
+    @Event playerDealtDamage
+    @Condition eventPlayer.hero_setup == Hero.BRIGITTE
+    @Condition eventAbility == Button.ABILITY_1
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
 
 
 # rule "[brigitte/whipshot.opy]: Reduce Whip Shot damage to OW1":
