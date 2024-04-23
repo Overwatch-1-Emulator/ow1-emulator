@@ -1,5 +1,8 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/mccree/roll.opy"
+#!include "heroes/mccree/deadeye.opy"
+
 
 rule "Cassidy":
     @Event eachPlayer
@@ -15,23 +18,3 @@ rule "Cassidy":
     enableAllAbilities()
     
     removeSelfHealing()
-
-
-rule "Reduce damage reduction during Combat Roll":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_setup == Hero.MCCREE
-    @Condition eventPlayer.isUsingAbility1() == true
-    
-    eventPlayer.setDamageReceived(200)
-    waitUntil(not eventPlayer.isUsingAbility1(), 999999986991104)
-    eventPlayer.setDamageReceived(100)
-
-
-rule "Remove damage reduction during Deadeye":
-    @Event eachPlayer
-    @Condition eventPlayer.hero_setup == Hero.MCCREE
-    @Condition eventPlayer.isUsingUltimate() == true
-    
-    eventPlayer.setDamageReceived(133.333)
-    waitUntil(not eventPlayer.isUsingUltimate(), 999999986991104)
-    eventPlayer.setDamageReceived(100)
