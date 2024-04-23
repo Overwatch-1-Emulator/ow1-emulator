@@ -23,27 +23,15 @@ rule "[ana/init.opy]: Ana":
     resetStats()
     resetStatuses()
     enableAllAbilities()
-    eventPlayer.setDamageDealt(66.667)
+    setBaseDamage(eventPlayer, ADJ_ANA_BIOTIC_GRENADE_DAMAGE/OW2_ANA_BIOTIC_GRENADE_DAMAGE)
     eventPlayer.setHealingDealt(100)
 
     removeSelfHealing()
 
 
-rule "Increase Ana melee damage":
+rule "[ana/init.opy]: Correct Biotic Rifle, Sleep Dart, Melee damage":
     @Event playerDealtDamage
     @Condition eventPlayer.hero_setup == Hero.ANA
-    @Condition eventAbility == Button.MELEE
-    
-    damage(victim, attacker, eventDamage * 1.778 - eventDamage)
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1, Button.MELEE]
 
-
-rule "Increase Biotic Rifle damage":
-    @Event playerDealtDamage
-    @Condition eventPlayer.hero_setup == Hero.ANA
-    @Condition eventAbility == Button.PRIMARY_FIRE
-    @Condition eventPlayer.ana_damage_check == false
-    
-    eventPlayer.ana_damage_check = true
-    victim.startDoT(attacker, 0.55, 64.404)
-    wait(0.6)
-    eventPlayer.ana_damage_check = false
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

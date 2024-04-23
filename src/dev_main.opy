@@ -3,14 +3,15 @@
 # Useful constants
 #!include "constants/ow1_constants.opy"
 #!include "constants/ow2_constants.opy"
+#!include "constants/adj_constants.opy"
 
 # Remove support passive
 #!include "passives/support/self_heal.opy"
 
 # Useful functions
-# !include "utilities/macro_functions.opy"
-# !include "utilities/stat_helper.opy"
-# !include "utilities/custom_hp.opy"
+#!include "utilities/macro_functions.opy"
+#!include "utilities/stat_helper.opy"
+#!include "utilities/custom_hp.opy"
 #!include "utilities/reset.opy"
 #!include "utilities/hero_switch.opy"
 # !include "utilities/hero_roster.opy"
