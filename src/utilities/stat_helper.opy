@@ -2,10 +2,15 @@
 
 playervar stat_helper_pvar
 #!defineMember _base_damage_scalar stat_helper_pvar[0]
+#!defineMember _base_healing_scalar stat_helper_pvar[1]
 
 #!define setBaseDamage(player, scalar) \
     player._base_damage_scalar = scalar \
     player.setDamageDealt(percent(player._base_damage_scalar))
+
+#!define setBaseHealing(player, scalar) \
+    player._base_healing_scalar = scalar \
+    player.setHealingDealt(percent(player._base_healing_scalar))
 
 
 # rule "[utilities/stat_helper.opy]: OW1 melee damage":

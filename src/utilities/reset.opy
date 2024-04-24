@@ -78,7 +78,7 @@ def resetStats():
     eventPlayer.setDamageReceived(100)
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)
-    eventPlayer.setHealingDealt(100)
+    setBaseHealing(eventPlayer, 1)
     eventPlayer.setHealingReceived(100)
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.setKnockbackDealt(100)
