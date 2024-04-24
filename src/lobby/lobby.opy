@@ -106,6 +106,9 @@ settings {
                 "ability1Cooldown%": 114,
                 "ultGen%": 110
             },
+            "kiriko": {
+                "ultGen%": percent(OW2_KIRIKO_ULT_COST/ADJ_KIRIKO_ULT_COST)
+            },
             "lifeweaver": {
                 "secondaryFireCooldown%": 83,
                 "secondaryFireHealth%": 75,
