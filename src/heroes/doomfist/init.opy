@@ -18,30 +18,5 @@ rule "Doomfist":
     removeTankPassive()
     eventPlayer.setHealingDealt(0)
     eventPlayer.setKnockbackDealt(80)
-    eventPlayer.setDamageDealt(90)
     
     removeSelfHealing()
-
-
-rule "Increase Doomfist melee damage":
-    @Event playerDealtDamage
-    @Condition eventPlayer.hero_setup == Hero.DOOMFIST
-    @Condition eventAbility == Button.MELEE
-    
-    damage(victim, attacker, eventDamage * 1.128 - eventDamage)
-
-
-rule "Increase Rocket Punch damage":
-    @Event playerDealtDamage
-    @Condition eventPlayer.hero_setup == Hero.DOOMFIST
-    @Condition eventAbility == Button.SECONDARY_FIRE
-    
-    damage(victim, attacker, eventDamage * 1.128 - eventDamage)
-
-
-rule "Increase Meteor Strike damage":
-    @Event playerDealtDamage
-    @Condition eventPlayer.hero_setup == Hero.DOOMFIST
-    @Condition eventAbility == Button.ULTIMATE
-    
-    damage(victim, attacker, eventDamage * 1.126 - eventDamage)
