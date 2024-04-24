@@ -82,7 +82,7 @@ settings {
                 "ability1Cooldown%": 128,
                 "ability2Cooldown%": 116,
                 "secondaryFireKb%": 0,
-                "ultGen%": 97
+                "ultGen%": percent(OW2_DOOMFIST_ULT_COST/ADJ_DOOMFIST_ULT_COST)
             },
             "echo": {
                 "ultGen%": 96

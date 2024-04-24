@@ -109,7 +109,7 @@
 #!define ADJ_DOOMFIST_SLAM_INDICATOR_RING_COUNT 6
 # globalvar ADJ_DOOMFIST_SLAM_PITCH_ANGLE = createWorkshopSetting(float[-90:90], 'Doomfist', 'Max Indicator Slam Pitch', 10)
 # globalvar ADJ_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 'Doomfist', 'Max Indicator Slam Range', 15)
-#!define ADJ_DOOMFIST_ULT_COST 1680
+#!define ADJ_DOOMFIST_ULT_COST 2102
 
 # Dva
 #!define ADJ_DVA_ARMOR 200
