@@ -45,7 +45,7 @@ settings {
         },
         "general": {
             "heroLimit": "1PerTeam",
-            "roleLimit": "off",
+            "roleLimit": "2OfEachRolePerTeam",
             "gamemodeStartTrigger": "allSlotsFilled",
             "tankPassiveHealthBonus": "disabled",
             "randomHeroRoleLimitPerTeam": 2,
