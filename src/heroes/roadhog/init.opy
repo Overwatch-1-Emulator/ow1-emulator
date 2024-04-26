@@ -19,7 +19,9 @@ rule "Roadhog":
     enableAllAbilities()
     removeTankPassive()
     removeSelfHealing()
+    
     eventPlayer.setDamageDealt(87.5)
+    eventPlayer.setHealingDealt(percent(ADJ_ROADHOG_BREATHER_HEAL_TOTAL/OW2_ROADHOG_BREATHER_HEAL_TOTAL))
 
 
 rule "Increase Roadhog melee damage":
