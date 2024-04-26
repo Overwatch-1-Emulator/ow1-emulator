@@ -21,6 +21,4 @@ rule "[symmetra/init.opy]: Initialize Symmetra":
     setUltCost(OW1_SYMMETRA_ULT_COST)
     removeSelfHealing()
 
-    setBaseDamage(eventPlayer, OW1_SYMMETRA_TURRET_DAMAGE/OW2_SYMMETRA_TURRET_DAMAGE)
-
     eventPlayer.call_init = false
