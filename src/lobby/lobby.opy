@@ -176,7 +176,7 @@ settings {
                 "ultGen%": 110
             },
             "tracer": {
-                "ability2Cooldown%": 92,
+                "ability2Cooldown%": 95,
                 "ultGen%": 110
             },
             "widowmaker": {
