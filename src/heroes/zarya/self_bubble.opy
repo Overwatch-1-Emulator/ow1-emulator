@@ -61,6 +61,7 @@ rule "[zarya/self_bubble.opy]: Disable self bubble if on cooldown":
     eventPlayer.setAbility1Enabled(false)
     showSelfBubbleCD()
 
+
 rule "[zarya/self_bubble.opy]: Enable self bubble if not on cooldown":
     @Event eachPlayer
     @Hero zarya
