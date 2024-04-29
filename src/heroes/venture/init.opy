@@ -20,4 +20,6 @@ rule "[venture/init.opy]: Initialize Venture":
     setUltCost(OW1_VENTURE_ULT_COST)
     removeSelfHealing()
 
+    setBaseDamage(eventAbility, 0.8)
+
     eventPlayer.call_init = false
