@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
 #!include "heroes/wreckingball/grapple.opy"
-#!include "heroes/wreckingball/shields.opy"
+#!include "heroes/wreckingball/adaptive_shield.opy"
 
 rule "[wreckingball/init.opy]: Detect switch to Wrecking Ball":
     @Event eachPlayer
