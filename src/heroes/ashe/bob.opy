@@ -1,5 +1,11 @@
 #!mainFile "../../dev_main.opy"
 
+#!define OW1_ASHE_BOB_DAMAGE 14
+#!define OW1_ASHE_BOB_HEALTH 1200
+
+#!define OW2_ASHE_BOB_DAMAGE 17
+#!define OW2_ASHE_BOB_HEALTH 1000
+
 playervar ult_point_while_ult_active
 playervar start_time_ult
 

@@ -2,6 +2,12 @@
 
 #!define MIN_SLEEP_DURATION 0.5
 
+#!define OW1_ANA_SLEEP_DART_COOLDOWN_TIME 12
+#!define OW1_ANA_SLEEP_DART_SLEEP_DURATION 5
+
+#!define OW2_ANA_SLEEP_DART_COOLDOWN_TIME 14
+#!define OW2_ANA_SLEEP_DART_TANK_SLEEP_DURATION 3.5
+
 playervar sleep_pvar
 #!defineMember _tank_sleep_start_time sleep_pvar[0]
 #!defineMember _tank_sleeping sleep_pvar[1]

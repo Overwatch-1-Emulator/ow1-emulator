@@ -1,7 +1,14 @@
 #!mainFile "../../dev_main.opy"
 
+#!define OW1_ANA_CLIP_SIZE 12
+#!define OW1_ANA_HEALTH 200
+#!define OW1_ANA_ULT_COST 2100
+
+#!define OW2_ANA_ULT_COST 2300
+
 #!include "heroes/ana/sleep.opy"
 #!include "heroes/ana/nade.opy"
+
 
 rule "[ana/init.opy]: Detect switch to Ana":
     @Event eachPlayer

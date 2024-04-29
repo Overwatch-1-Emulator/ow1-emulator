@@ -1,5 +1,13 @@
 #!mainFile "../../dev_main.opy"
 
+#!define OW1_ANA_BIOTIC_GRENADE_COOLDOWN 10
+#!define OW1_ANA_BIOTIC_GRENADE_DAMAGE 60
+#!define OW1_ANA_BIOTIC_GRENADE_HEALING 100
+
+#!define OW2_ANA_BIOTIC_GRENADE_COOLDOWN 12
+#!define OW2_ANA_BIOTIC_GRENADE_DAMAGE 90
+#!define OW2_ANA_BIOTIC_GRENADE_HEALING 90
+
 
 rule "[ana/nade.opy]: Heal OW1 healing with biotic grenade":
     @Event playerDealtHealing
