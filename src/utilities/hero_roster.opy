@@ -37,15 +37,6 @@ rule "[utilities/hero_roster.opy]: Custom role definition":
     # Supports
     _support_heroes = getSupportHeroes()
 
-    _available_tanks = []
-    _available_dps = []
-    _available_supports = []
-
-    for hero_roster_i in range(len(_available_heroes)):
-        _current_hero = _available_heroes[hero_roster_i]
-        if (_current_hero in _tank_heroes):
-            _available_tanks.append(_current_hero)
-        elif (_current_hero in _damage_heroes):
-            _available_dps.append(_current_hero)
-        elif (_current_hero in _support_heroes):
-            _available_supports.append(_current_hero)
+    _available_tanks = [h for h in _available_heroes if h in _tank_heroes]
+    _available_dps = [h for h in _available_heroes if h in _damage_heroes]
+    _available_supports = [h for h in _available_heroes if h in _support_heroes]

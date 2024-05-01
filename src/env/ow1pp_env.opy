@@ -33,13 +33,6 @@
 #!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"
 #!define SOURCE_CODE_LINK "github.com/Overwatch-1-Emulator/ow1-emulator"
 
-#!define ENABLE_JUNKERQUEEN true
-#!define ENABLE_MAUGA false
-#!define ENABLE_RAMATTRA true
-#!define ENABLE_SOJOURN true
-#!define ENABLE_ILLARI true
-#!define ENABLE_KIRIKO true
-#!define ENABLE_LIFEWEAVER false
 
 rule "Copyright (c) 2024 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulator/ow1-emulator for license to use this code.":
     disableInspector()
