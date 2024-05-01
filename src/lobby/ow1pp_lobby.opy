@@ -19,7 +19,7 @@ settings {
     "gamemodes": {
         "assault": {
             "enabledMaps": [
-                # "hanamura",
+                "hanamura",
                 # "horizonLunarColony",
                 # "paris",
                 "templeOfAnubis",
