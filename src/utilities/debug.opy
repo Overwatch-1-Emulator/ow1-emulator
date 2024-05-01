@@ -28,13 +28,13 @@ rule "[utilities/debug.opy]: global debug (Top Left)":
     hudSubheader(getAllPlayers(), "Server Load Peak = {}%".format(getPeakServerLoad()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     # hudSubheader(getAllPlayers(), "isInSetup() = {}".format(isInSetup()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     # hudSubheader(getAllPlayers(), "getTotalTimeElapsed() = {}".format(getTotalTimeElapsed()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(getAllPlayers(), "len(_available_heroes) = {}".format(len(_available_heroes)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(getAllPlayers(), "len(_arena0_queue) = {}".format(len(_arena0_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(getAllPlayers(), "len(_arena1_queue) = {}".format(len(_arena1_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(getAllPlayers(), "len(_arena2_queue) = {}".format(len(_arena2_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(getAllPlayers(), "_arena0_fighters = {} vs {}".format(_arena0_fighters[0], _arena0_fighters[1]), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(getAllPlayers(), "_arena1_fighters = {} vs {}".format(_arena1_fighters[0], _arena1_fighters[1]), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(getAllPlayers(), "_arena2_fighters = {} vs {}".format(_arena2_fighters[0], _arena2_fighters[1]), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "len(_available_heroes) = {}".format(len(_available_heroes)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "len(_arena0_queue) = {}".format(len(_arena0_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "len(_arena1_queue) = {}".format(len(_arena1_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "len(_arena2_queue) = {}".format(len(_arena2_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "_arena0_fighters = {} vs {}".format(_arena0_fighters[0], _arena0_fighters[1]), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "_arena1_fighters = {} vs {}".format(_arena1_fighters[0], _arena1_fighters[1]), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "_arena2_fighters = {} vs {}".format(_arena2_fighters[0], _arena2_fighters[1]), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
 
 
 rule "[utilities/debug.opy]: player debug (Top Right)":
@@ -115,9 +115,9 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "_tank_sleeping = {}".format(eventPlayer._tank_sleeping), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_scrap_last_fire_time = {}".format(eventPlayer._scrap_last_fire_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "distance(scrap_start, scrap_detonation) = {}".format(distance(eventPlayer._scrap_start_pos, eventPlayer._scrap_detonation_pos)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_current_arena = {}".format(eventPlayer._current_arena), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "hero_number = {}".format(eventPlayer.hero_number), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "len(hero_bag) = {}".format(len(eventPlayer.hero_bag)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_current_arena = {}".format(eventPlayer._current_arena), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "hero_number = {}".format(eventPlayer.hero_number), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "len(hero_bag) = {}".format(len(eventPlayer.hero_bag)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
 rule "[utilities/debug.opy]: do something on interact":
