@@ -142,7 +142,7 @@ settings {
         #     "enabledMaps": []
         # },
         "flashpoint": {
-            "captureSpeed%": 75,
+            "scoringSpeed%": 75,
             "enabledMaps": [
                 # {
                 #     "newJunkCity": []
