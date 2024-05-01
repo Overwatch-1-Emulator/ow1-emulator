@@ -335,6 +335,9 @@ settings {
                 "ability2Cooldown%": percent(OW1_TRACER_RECALL_COOLDOWN/OW2_TRACER_RECALL_COOLDOWN),
                 "ultGen%": percent(OW2_TRACER_ULT_COST/OW1_TRACER_ULT_COST)
             },
+            "venture": {
+                "ultGen%": percent(OW2_VENTURE_ULT_COST/OW1_VENTURE_ULT_COST),
+            },
             "widowmaker": {
                 "ultGen%": percent(OW2_WIDOWMAKER_ULT_COST/OW1_WIDOWMAKER_ULT_COST)
             },
