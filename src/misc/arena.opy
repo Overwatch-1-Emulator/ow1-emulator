@@ -69,6 +69,7 @@ playervar arena_pvar1
 #!defineMember _current_arena arena_pvar1[0]
 #!defineMember hero_bag arena_pvar1[1]
 #!defineMember hero_number arena_pvar1[2]
+#!defineMember _arena_ult_charge arena_pvar1[3]
 
 subroutine processArena0Result
 subroutine processArena1Result
@@ -87,6 +88,12 @@ subroutine processArena2Result
     player.hero_number = (player.hero_number + 1) % len(player.hero_bag)\
     if player.hero_number == 0: player.hero_bag = random.shuffle(UNIVERSAL_HERO_ROSTER)\
     player.startForcingHero(player.hero_bag[player.hero_number])
+
+#!define refreshHero(player)\
+    player.startForcingHero(Hero.SYMMETRA)\
+    wait()\
+    player.startForcingHero(player.hero_bag[player.hero_number])\
+    player.call_init = true\
 
 #!define startForcingSpectator(player)\
     player.teleport(SPEC_SPOT)\
@@ -153,8 +160,14 @@ rule "Init arenas, queues, king":
     initQueue(_arena2_queue)
 
 
-rule "Enqueue player to bottom queue on join":
-    @Event playerJoined
+rule "Enqueue player to bottom queue":
+    @Event eachPlayer
+    @Condition eventPlayer not in _arena0_fighters
+    @Condition eventPlayer not in _arena1_fighters
+    @Condition eventPlayer not in _arena2_fighters
+    @Condition eventPlayer not in _arena0_queue
+    @Condition eventPlayer not in _arena1_queue
+    @Condition eventPlayer not in _arena2_queue
 
     enqueue(_arena2_queue, eventPlayer)
     eventPlayer._current_arena = ARENA_COUNT - 1
@@ -302,32 +315,28 @@ rule "Dequeue players if arena 2 is empty":
 
 rule "Move players from arena 1 queue to arena 0 queue":
     @Event global
-    @Condition isEmpty(_arena0_fighters)
+    @Condition len(_arena0_queue) < 1
     @Condition not isEmpty(_arena1_queue)
-    @Condition len(_arena0_queue) < 2
-    wait(10*DEQUEUE_TIME, Wait.ABORT_WHEN_FALSE)
 
-    while ((isEmpty(_arena0_fighters))\
-       and (not isEmpty(_arena1_queue))\
-       and (len(_arena0_queue) < 2)):
+    do:
         _arena1_queue[0]._current_arena -= 1
         enqueue(_arena0_queue, _arena1_queue[0])
         dequeue(_arena1_queue)
+        wait(DEQUEUE_TIME, Wait.ABORT_WHEN_FALSE)
+    while RULE_CONDITION
 
 
 rule "Move player from arena 2 queue to arena 1 queue":
     @Event global
-    @Condition isEmpty(_arena1_fighters)
-    @Condition not isEmpty(_arena2_queue)
     @Condition len(_arena1_queue) < 2
-    wait(10*DEQUEUE_TIME, Wait.ABORT_WHEN_FALSE)
+    @Condition not isEmpty(_arena2_queue)
 
-    while ((isEmpty(_arena1_fighters))\
-       and (not isEmpty(_arena2_queue))\
-       and (len(_arena1_queue) < 2)):
+    do:
         _arena2_queue[0]._current_arena -= 1
         enqueue(_arena1_queue, _arena2_queue[0])
         dequeue(_arena2_queue)
+        wait(DEQUEUE_TIME, Wait.ABORT_WHEN_FALSE)
+    while RULE_CONDITION
 
 
 rule "Declare arena 0 winner on death":
@@ -452,8 +461,8 @@ rule "Arena0 Match Start":
     stopForcingSpectator(_arena0_fighters[0])
     stopForcingSpectator(_arena0_fighters[1])
     # wait(0.3)
-    _arena0_fighters[0].call_init = true
-    _arena0_fighters[1].call_init = true
+    refreshHero(_arena0_fighters[0])
+    refreshHero(_arena0_fighters[1])
 
 
 rule "Arena1 Match Start":
@@ -471,8 +480,8 @@ rule "Arena1 Match Start":
     stopForcingSpectator(_arena1_fighters[0])
     stopForcingSpectator(_arena1_fighters[1])
     # wait(0.3)
-    _arena1_fighters[0].call_init = true
-    _arena1_fighters[1].call_init = true
+    refreshHero(_arena1_fighters[0])
+    refreshHero(_arena1_fighters[1])
 
 
 rule "Arena2 Match Start":
@@ -490,8 +499,8 @@ rule "Arena2 Match Start":
     stopForcingSpectator(_arena2_fighters[0])
     stopForcingSpectator(_arena2_fighters[1])
     # wait(0.3)
-    _arena2_fighters[0].call_init = true
-    _arena2_fighters[1].call_init = true
+    refreshHero(_arena2_fighters[0])
+    refreshHero(_arena2_fighters[1])
 
 
 rule "Spectate if in queue":
