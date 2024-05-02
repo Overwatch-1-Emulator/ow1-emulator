@@ -315,7 +315,7 @@ rule "Dequeue players if arena 2 is empty":
 
 rule "Move players from arena 1 queue to arena 0 queue":
     @Event global
-    @Condition len(_arena0_queue) < 1
+    @Condition len(_arena0_queue) < 2
     @Condition not isEmpty(_arena1_queue)
 
     do:
