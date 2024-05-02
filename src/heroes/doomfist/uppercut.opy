@@ -98,7 +98,7 @@ rule "[doomfist/uppercut.opy]: Detect uppercut victims":
                 eventPlayer, 
                 OW1_DOOMFIST_RISING_UPPERCUT_RADIUS, 
                 getOppositeTeam(eventPlayer.getTeam()), 
-                LosCheck.SURFACES)
+                LosCheck.SURFACES).exclude(eventPlayer)
         eventPlayer._uppercut_victims = \
             [uppercut_victim for uppercut_victim in eventPlayer._uppercut_victims 
                     if ((uppercut_victim.isAlive()) \
