@@ -16,6 +16,9 @@
 #!include "utilities/hit_detection.opy"
 #!include "utilities/anti_crash.opy"
 
+# Custom game lobby settings
+#!include "lobby/ow1pp_lobby.opy"
+
 # OW1 logic
 # Remove damage passive
 #!include "passives/damage/damage_passive.opy"
@@ -69,9 +72,6 @@
 #!include "heroes/wreckingball/init.opy"
 #!include "heroes/zarya/init.opy"
 #!include "heroes/zenyatta/init.opy"
-
-# Custom game lobby settings
-#!include "lobby/ow1pp_lobby.opy"
 
 # Include debug at the end so any variable can be viewed
 ##!include "utilities/debug.opy"
