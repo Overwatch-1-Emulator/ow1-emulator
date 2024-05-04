@@ -1,6 +1,4 @@
-#!mainFile "../main.opy"
-
-globalvar i
+#!mainFile "../dev_main.opy"
 
 # Macro function for retrieving id of hero
 #!define heroID(h) (getAllHeroes().index(h))
@@ -15,7 +13,7 @@ globalvar i
 #!define roundedPercent(p) (round(percent(p)))
 
 # Macro function for computing a percent of number
-#!define percentOf(p, n) (p/100*n)
+#!define percentOf(p, n) ((p)/100*(n))
 
 # Convert angle in degrees to radians
 #!define toRadians(deg) ((Math.PI/180)*deg)
@@ -31,4 +29,8 @@ globalvar i
 
 #!define centerMass(player) ((player.getPosition() + player.getEyePosition())/2)
 
-#!define isCCd(player) (player.hasStatusEffect(Status.STUNNED) or player.hasStatusEffect(Status.HACKED) or player.hasStatusEffect(Status.ASLEEP) or player.hasStatusEffect(Status.FROZEN) or player.hasStatusEffect(Status.KNOCKED_DOWN))
+#!define isCCd(player) (player.hasStatusEffect(Status.STUNNED) \
+                     or isHacked(player) \
+                     or player.hasStatusEffect(Status.ASLEEP) \
+                     or player.hasStatusEffect(Status.FROZEN) \
+                     or player.hasStatusEffect(Status.KNOCKED_DOWN))

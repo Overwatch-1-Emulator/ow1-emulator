@@ -1,37 +1,9 @@
-#!mainFile "main.opy"
+#!mainFile "../ow1em_main.opy"
 
 settings {
     "main": {
-        "description": \
-"Overwatch 1 Emulator\r\n\
-\r\n\
-ecksdee#11729's attempt to accurately recreate \r\n\
-the last version of Overwatch 1 using workshop.\r\n\
-\r\n\
-Overwatch 1++ (this gamemode with \r\n\
-balanced OW2 heroes): YKMXH\r\n\
-\r\n\
-Main build: KHTG0\r\n\
-Staging build: ESMXJ\r\n\
-\r\n\
-Dev Team:\r\n\
-ecksdee#11729\r\n\
-Snappy#11809\r\n\
-KingDonMike#2694\r\n\
-thenova#21104\r\n\
-pretz#11551\r\n\
-Hikigaeru#11863\r\n\
-\r\n\
-Gamemode:\r\n\
-workshop.codes/ow1-emulator\r\n\
-\r\n\
-Discord:\r\n\
-dsc.gg/ow1\r\n\
-discord.gg/GMVqwYXbWB\r\n\
-\r\n\
-Source code:\r\n\
-gitlab.com/MaxwellJung/ow1_emulator",
-        "modeName": GAMEMODE_NAME
+        "modeName": GAMEMODE_NAME + " " + GAMEMODE_VERSION,
+        "description": GAMDMODE_DESCRIPTION,
     },
     "lobby": {
         "allowPlayersInQueue": true,
@@ -40,8 +12,9 @@ gitlab.com/MaxwellJung/ow1_emulator",
         "spectatorSlots": 12,
         "team1Slots": 6,
         "team2Slots": 6,
-        "returnToLobby": "never",
-        "teamBalancing": "afterGame"
+        "returnToLobby": "afterGame",
+        "teamBalancing": "off",
+        # "minimumLatencyInNs": 50000000
     },
     "gamemodes": {
         "assault": {
@@ -107,7 +80,7 @@ gitlab.com/MaxwellJung/ow1_emulator",
                         "morning"
                     ]
                 },
-				{
+                {
                     "watchpointGibraltar": [
                         "evening"
                     ]
@@ -116,11 +89,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
         },
         "hybrid": {
             "enabledMaps": [
-                # {
-                #     "blizzWorld": [
-                #         "morning"
-                #     ]
-                # },
+                {
+                    "blizzWorld": [
+                        "morning"
+                    ]
+                },
                 {
                     "eichenwalde": [
                         "morning"
@@ -139,14 +112,14 @@ gitlab.com/MaxwellJung/ow1_emulator",
                 "numbani"
             ]
         },
-        "practiceRange": {
-            "enabledMaps": []
-        },
+        # "practiceRange": {
+        #     "enabledMaps": []
+        # },
         "general": {
             "heroLimit": "1PerTeam",
             "roleLimit": "off",
             "gamemodeStartTrigger": "allSlotsFilled",
-            "tankPassiveHealthBonus": "alwaysEnabled",
+            "tankPassiveHealthBonus": "disabled",
             "enableCompetitiveRules": true
         }
     },
@@ -163,27 +136,35 @@ gitlab.com/MaxwellJung/ow1_emulator",
             },
             "baptiste": {
                 "health%": percent(OW1_BAPTISTE_LAMP_HP/OW2_BAPTISTE_LAMP_HP), # for immortality field hp
+                "ability2Cooldown%": percent(OW1_BAPTISTE_LAMP_COOLDOWN_TIME/OW2_BAPTISTE_LAMP_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_BAPTISTE_ULT_COST/OW1_BAPTISTE_ULT_COST)
             },
             "bastion": {
+                "ability1Cooldown%": percent(OW1_BASTION_RECONFIGURE_COOLDOWN/OW2_BASTION_RECONFIGURE_COOLDOWN),
                 "ultGen%": percent(OW2_BASTION_ULT_COST/OW1_BASTION_ULT_COST)
             },
             "brigitte": {
                 "health%": percent(OW1_BRIGITTE_BARRIER_HEALTH/OW2_BRIGITTE_BARRIER_HEALTH), # for barrier hp
+                "shieldBashCooldown%": percent(OW1_BRIGITTE_SHIELD_BASH_COOLDOWN/OW2_BRIGITTE_SHIELD_BASH_COOLDOWN),
+                "shieldBashKb%": percent(OW1_BRIGITTE_SHIELD_BASH_KNOCKBACK/OW2_BRIGITTE_SHIELD_BASH_KNOCKBACK),
+                "ability2Cooldown%": percent(OW1_BRIGITTE_REPAIR_PACK_COOLDOWN/OW2_BRIGITTE_REPAIR_PACK_COOLDOWN),
                 "ultGen%": percent(OW2_BRIGITTE_ULT_COST/OW1_BRIGITTE_ULT_COST)
             },
             "mccree": {
                 "ultGen%": percent(OW2_MCCREE_ULT_COST/OW1_MCCREE_ULT_COST)
             },
             "doomfist": {
-                "health%": percent(OW1_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE), # for shield hp
-                "ammoRegenerationTime%": 162,
+                "health%": percent(OW2_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE), # for shield hp
+                "ammoRegenerationTime%": percent(OW1_DOOMFIST_AMMO_REGEN/OW2_DOOMFIST_AMMO_REGEN),
                 "secondaryFireKb%": 0,
+                "ability1Cooldown%": percent(OW1_DOOMFIST_SLAM_CD/OW2_DOOMFIST_SLAM_CD),
                 "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
             },
             "dva": {
-                "secondaryFireMaximumTime%": percent(OW1_DVA_DEFENSE_MATRIX_DURATION/OW2_DVA_DEFENSE_MATRIX_DURATION),
+                "health%": percent(OW1_DVA_PILOT_HEALTH/OW2_DVA_PILOT_HEALTH), # for pilot dva hp
+                "secondaryFireMaximumTime%": percent(OW1_DVA_MATRIX_DURATION/OW2_DVA_MATRIX_DURATION),
                 "ability1Cooldown%": percent(OW1_DVA_BOOSTER_COOLDOWN_TIME/OW2_DVA_BOOSTER_COOLDOWN_TIME),
+                "ability2Cooldown%": percent(OW1_DVA_MICRO_MISSILES_COOLDOWN_TIME/OW2_DVA_MICRO_MISSILES_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_DVA_ULT_COST/OW1_DVA_ULT_COST)
             },
             "echo": {
@@ -193,15 +174,18 @@ gitlab.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_GENJI_ULT_COST/OW1_GENJI_ULT_COST)
             },
             "hanzo": {
+                "ability2Cooldown%": percent(OW1_HANZO_STORM_COOLDOWN/OW2_HANZO_STORM_COOLDOWN),
                 "ultGen%": percent(OW2_HANZO_ULT_COST/OW1_HANZO_ULT_COST)
             },
             "junkrat": {
+                "ability1Cooldown%": percent(OW1_JUNKRAT_CONCUSSION_MINE_COOLDOWN/OW2_JUNKRAT_CONCUSSION_MINE_COOLDOWN),
                 "ultGen%": percent(OW2_JUNKRAT_ULT_COST/OW1_JUNKRAT_ULT_COST)
             },
             "lucio": {
                 "ultGen%": percent(OW2_LUCIO_ULT_COST/OW1_LUCIO_ULT_COST)
             },
             "mei": {
+                "health%": percent(OW1_MEI_ICEWALL_HP/OW2_MEI_ICEWALL_HP), # for icewall
                 "ultGen%": percent(OW2_MEI_ULT_COST/OW1_MEI_ULT_COST)
             },
             "mercy": {
@@ -216,10 +200,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_ORISA_ULT_COST/OW1_ORISA_ULT_COST)
             },
             "pharah": {
+                "enablePassiveUnlimitedFuel": true,
+                "ability1RefuelScalar": 0,
+                "ability1Cooldown%": percent(OW1_PHARAH_JUMP_JET_COOLDOWN/OW2_PHARAH_JUMP_JET_COOLDOWN),
+                "ability2Cooldown%": percent(OW1_PHARAH_CONCUSSIVE_BLAST_COOLDOWN/OW2_PHARAH_CONCUSSIVE_BLAST_COOLDOWN),
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST)
-            },
-            "ramattra": {
-                "health%": percent(OW1_RAMATTRA_BARRIER_HEALTH/OW2_RAMATTRA_BARRIER_HEALTH) # for barrier
             },
             "reaper": {
                 "ultGen%": percent(OW2_REAPER_ULT_COST/OW1_REAPER_ULT_COST)
@@ -227,11 +212,13 @@ gitlab.com/MaxwellJung/ow1_emulator",
             "reinhardt": {
                 "secondaryFireRechargeRate%": percent(OW1_REINHARDT_BARRIER_REGEN/OW2_REINHARDT_BARRIER_REGEN),
                 "health%": percent(OW1_REINHARDT_BARRIER_HEALTH/OW2_REINHARDT_BARRIER_HEALTH), # for barrier
+                "ability1Cooldown%": percent(OW1_REINHARDT_CHARGE_COOLDOWN_TIME/OW2_REINHARDT_CHARGE_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_REINHARDT_ULT_COST/OW1_REINHARDT_ULT_COST)
             },
             "roadhog": {
                 "secondaryFireMaximumTime%": percent((OW1_ROADHOG_BREATHER_CAST_TIME+OW1_ROADHOG_BREATHER_DURATION)/OW2_ROADHOG_BREATHER_DURATION),
                 "secondaryFireRechargeRate%": 500,
+                "ability1Cooldown%": percent(OW1_ROADHOG_HOOK_COOLDOWN_TIME/OW2_ROADHOG_HOOK_COOLDOWN_TIME),
                 "ability2Cooldown%": percent(OW1_ROADHOG_BREATHER_COOLDOWN/OW2_ROADHOG_TRAP_COOLDOWN),
                 "ultGen%": percent(OW2_ROADHOG_ULT_COST/OW1_ROADHOG_ULT_COST)
             },
@@ -245,9 +232,11 @@ gitlab.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_SOLDIER_ULT_COST/OW1_SOLDIER_ULT_COST)
             },
             "sombra": {
+                "secondaryFireCooldown%": percent(OW1_SOMBRA_HACK_COOLDOWN_TIME/OW2_SOMBRA_HACK_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_SOMBRA_ULT_COST/OW1_SOMBRA_ULT_COST)
             },
             "symmetra": {
+                "health%": percent(OW1_SYMMETRA_TURRET_HEALTH/OW2_SYMMETRA_TURRET_HEALTH), # for turret hp
                 "ultGen%": percent(OW2_SYMMETRA_ULT_COST/OW1_SYMMETRA_ULT_COST)
             },
             "torbjorn": {
@@ -255,6 +244,8 @@ gitlab.com/MaxwellJung/ow1_emulator",
                 "ultGen%": percent(OW2_TORBJORN_ULT_COST/OW1_TORBJORN_ULT_COST)
             },
             "tracer": {
+                "health%": percent(OW1_TRACER_HEALTH/OW2_TRACER_HEALTH), # for recall hp
+                "ability2Cooldown%": percent(OW1_TRACER_RECALL_COOLDOWN/OW2_TRACER_RECALL_COOLDOWN),
                 "ultGen%": percent(OW2_TRACER_ULT_COST/OW1_TRACER_ULT_COST)
             },
             "widowmaker": {
@@ -262,6 +253,7 @@ gitlab.com/MaxwellJung/ow1_emulator",
             },
             "winston": {
                 "health%": percent(OW1_WINSTON_BARRIER_HEALTH/OW2_WINSTON_BARRIER_HEALTH), # for barrier hp
+                "ability1Cooldown%": percent(OW1_WINSTON_JUMP_PACK_COOLDOWN_TIME/OW2_WINSTON_JUMP_PACK_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST)
             },
             "hammond": {
@@ -277,40 +269,38 @@ gitlab.com/MaxwellJung/ow1_emulator",
             },
             "enabledHeroes": [
                 "ana",
-                # "ashe",
-                # "baptiste",
-                # "bastion",
+                "ashe",
+                "baptiste",
+                "bastion",
                 "brigitte",
-                # "mccree",
-                # "doomfist",
+                "mccree",
+                "doomfist",
                 "dva",
-                # "echo",
-                # "genji",
-                # "hanzo",
-                # "junkrat",
+                "echo",
+                "genji",
+                "hanzo",
+                "junkrat",
                 "lucio",
-                # "mei",
-                # "mercy",
+                "mei",
+                "mercy",
                 "moira",
-                # "orisa",
-                # "pharah",
-                # "reaper",
+                "orisa",
+                "pharah",
+                "reaper",
                 "reinhardt",
-                # "roadhog",
-                # "sigma",
-                # "soldier",
-                # "sombra",
-                # "symmetra",
-                # "torbjorn",
-                # "tracer",
-                # "widowmaker",
+                "roadhog",
+                "sigma",
+                "soldier",
+                "sombra",
+                "symmetra",
+                "torbjorn",
+                "tracer",
+                "widowmaker",
                 "winston",
-                # "hammond",
+                "hammond",
                 "zarya",
                 "zenyatta",
             ]
         }
     }
 }
-
-

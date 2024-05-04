@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[baptiste/regen_burst.opy]: Remove initial burst healing from regenerative burst":
@@ -17,7 +17,7 @@ rule "[baptiste/regen_burst.opy]: Allow self healing during regenerative burst":
     @Condition eventPlayer.isUsingAbility1()
 
     pushSelfHealing(Button.ABILITY_1)
-    wait(OW1_BAPTISTE_REGEN_BURST_DURATION)
+    wait(OW1_BAPTISTE_REGEN_BURST_DURATION, Wait.RESTART_WHEN_TRUE)
     popSelfHealing(Button.ABILITY_1)
 
 

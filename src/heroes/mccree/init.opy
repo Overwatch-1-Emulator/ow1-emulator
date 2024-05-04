@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "heroes/mccree/flashbang.opy"
 #!include "heroes/mccree/roll.opy"
 #!include "heroes/mccree/deadeye.opy"
+
+rule "[mccree/init.opy]: Detect switch to Cassidy":
+    @Event eachPlayer
+    @Hero mccree
+
+    eventPlayer.call_init = true
+
 
 rule "[mccree/init.opy]: Initialize Cassidy":
     @Event eachPlayer
@@ -13,4 +20,6 @@ rule "[mccree/init.opy]: Initialize Cassidy":
     setUltCost(OW1_MCCREE_ULT_COST)
     
     eventPlayer.disallowButton(Button.ABILITY_2)
+    removeSelfHealing()
+
     eventPlayer.call_init = false

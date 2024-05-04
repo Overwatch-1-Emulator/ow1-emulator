@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
-
+#!include "heroes/symmetra/projector.opy"
 #!include "heroes/symmetra/orb.opy"
 #!include "heroes/symmetra/teleporter.opy"
+
+
+rule "[symmetra/init.opy]: Detect switch to Symmetra":
+    @Event eachPlayer
+    @Hero symmetra
+
+    eventPlayer.call_init = true
 
 
 rule "[symmetra/init.opy]: Initialize Symmetra":
@@ -12,4 +19,6 @@ rule "[symmetra/init.opy]: Initialize Symmetra":
 
     newHero(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
     setUltCost(OW1_SYMMETRA_ULT_COST)
+    removeSelfHealing()
+
     eventPlayer.call_init = false

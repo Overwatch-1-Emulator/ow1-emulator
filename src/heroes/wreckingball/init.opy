@@ -1,6 +1,14 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
-#!include "heroes/wreckingball/shields.opy"
+#!include "heroes/wreckingball/grapple.opy"
+#!include "heroes/wreckingball/adaptive_shield.opy"
+
+rule "[wreckingball/init.opy]: Detect switch to Wrecking Ball":
+    @Event eachPlayer
+    @Hero hammond
+
+    eventPlayer.call_init = true
+
 
 rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
     @Event eachPlayer
@@ -10,4 +18,6 @@ rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
     newHero(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)
     setUltCost(OW1_WRECKING_BALL_ULT_COST)
     removeTankPassive()
+    removeSelfHealing()
+
     eventPlayer.call_init = false

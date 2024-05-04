@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar is_using_stealth
 playervar stealth_hud_id
@@ -17,13 +17,12 @@ rule "[sombra/stealth.opy]: Remove Stealth passive":
     @Condition not eventPlayer.isFiringSecondaryFire()
     @Condition not eventPlayer.isMeleeing()
 
-    damage(eventPlayer, null, 0.01)
-    heal(eventPlayer, null, 0.01)
-    wait(cosDeg(1), Wait.ABORT_WHEN_FALSE) # some irrational value
-    # explanation: since stealth passive activates every 3.5 seconds
-    # damage must be applied in a way that never synchronizes with passive stealth activation
-    if RULE_CONDITION:
-        goto RULE_START
+    do:
+        damage(eventPlayer, null, MIN_DAMAGE)
+        wait(cosDeg(1), Wait.ABORT_WHEN_FALSE) # some irrational value
+        # explanation: since stealth passive activates every 3.5 seconds
+        # damage must be applied in a way that never synchronizes with passive stealth activation
+    while RULE_CONDITION:
 
 
 rule "[sombra/stealth.opy]: Bind Ability 1 to stealth":

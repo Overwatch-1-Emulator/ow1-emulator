@@ -1,4 +1,14 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
+
+#!include "heroes/winston/leap.opy"
+#!include "heroes/winston/primal.opy"
+
+
+rule "[winston/init.opy]: Detect switch to Winston":
+    @Event eachPlayer
+    @Hero winston
+
+    eventPlayer.call_init = true
 
 
 rule "[winston/init.opy]: Initialize Winston":
@@ -9,26 +19,19 @@ rule "[winston/init.opy]: Initialize Winston":
     newHero(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
     setUltCost(OW1_WINSTON_ULT_COST)
 
-    eventPlayer.setSecondaryFireEnabled(false)
-    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
+    setBaseDamage(eventPlayer, OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE)
 
     removeTankPassive()
+    removeSelfHealing()
+
+    eventPlayer.setSecondaryFireEnabled(false) # disable sniper monkey
+
     eventPlayer.call_init = false
 
 
-rule "[winston.opy]: Set default leap cooldown":
-    @Event eachPlayer
+rule "[winston/init.opy]: Compensate Winston global damage reduction":
+    @Event playerDealtDamage
     @Hero winston
-    @Condition eventPlayer.isUsingAbility1()
-    @Condition not eventPlayer.isUsingUltimate()
-    
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_WINSTON_JUMP_PACK_COOLDOWN_TIME)
+    @Condition eventAbility in [Button.ABILITY_1]
 
-
-rule "[winston.opy]: Set leap after ultimate":
-    @Event eachPlayer
-    @Hero winston
-    @Condition eventPlayer.isUsingUltimate() == true
-
-    waitUntil(eventPlayer.isUsingUltimate() == false, Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

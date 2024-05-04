@@ -1,4 +1,14 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
+
+#!include "heroes/illari/sun.opy"
+#!include "heroes/illari/solar_rifle.opy"
+
+
+rule "[illari/init.opy]: Detect switch to Illari":
+    @Event eachPlayer
+    @Hero illari
+
+    eventPlayer.call_init = true
 
 
 rule "[illari/init.opy]: Initialize Illari":
@@ -6,16 +16,19 @@ rule "[illari/init.opy]: Initialize Illari":
     @Hero illari
     @Condition eventPlayer.call_init
     
-    defaultHero()
-    # removeSelfHealing()
+    newHero(OW1_ILLARI_HEALTH, 0, 0)
+    setUltCost(OW1_ILLARI_ULT_COST)
+
+    removePassiveHealing()
+
+    setBaseDamage(eventPlayer, OW1_ILLARI_SUNSTRUCK_DAMAGE/OW2_ILLARI_SUNSTRUCK_DAMAGE)
+
     eventPlayer.call_init = false
 
 
-rule "[illari.opy]: Allow self healing during Pylon":
-    @Event eachPlayer
+rule "[illari/init.opy]: Correct Outburst damage":
+    @Event playerDealtDamage
     @Hero illari
-    @Condition eventPlayer.isUsingAbility2()
+    @Condition eventAbility == Button.ABILITY_1
 
-    pushSelfHealing(Button.ABILITY_2)
-    waitUntil(not eventPlayer.isUsingAbility2(), Math.INFINITY)
-    popSelfHealing(Button.ABILITY_2)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

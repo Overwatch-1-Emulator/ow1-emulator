@@ -1,4 +1,14 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
+
+#!include "heroes/lucio/soundwave.opy"
+#!include "heroes/lucio/aura.opy"
+
+
+rule "[lucio/init.opy]: Detect switch to Lucio":
+    @Event eachPlayer
+    @Hero lucio
+
+    eventPlayer.call_init = true
 
 
 rule "[lucio/init.opy]: Initialize Lucio":
@@ -6,55 +16,18 @@ rule "[lucio/init.opy]: Initialize Lucio":
     @Hero lucio
     @Condition eventPlayer.call_init
     
-    defaultHero()
+    newHero(OW1_LUCIO_HEALTH, 0, 0)
     setUltCost(OW1_LUCIO_ULT_COST)
     removeSelfHealing()
+
+    eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
+
     eventPlayer.call_init = false
 
 
-rule "[lucio.opy]: Handle lucio self healing while amp is not active and supp passive is active":
-    @Event eachPlayer
+rule "[lucio/init.opy]: OW1 Sonic Amplifier damage":
+    @Event playerDealtDamage
     @Hero lucio
-    @Condition not eventPlayer.isUsingAbility2()
-    @Condition not eventPlayer.isUsingAbility1()
-    @Condition eventPlayer.support_passive_active
-    
-    eventPlayer.self_healing_percent = percent(OW1_LUCIO_SELF_HEALING /(OW2_LUCIO_SELF_HEALING + OW1_SUPPORT_PASSIVE_HEALING))
+    @Condition eventAbility == Button.PRIMARY_FIRE
 
-
-rule "[lucio.opy]: Handle lucio self healing while amp is not active and support passive inactive":
-    @Event eachPlayer
-    @Hero lucio
-    @Condition not eventPlayer.isUsingAbility2()
-    @Condition not eventPlayer.isUsingAbility1()
-    @Condition not eventPlayer.support_passive_active
-
-    eventPlayer.self_healing_percent = percent(OW1_LUCIO_SELF_HEALING/OW2_LUCIO_SELF_HEALING)
-
-
-rule "[lucio.opy]: Handle lucio self when amp is active and supp passive is active":
-    @Event eachPlayer
-    @Hero lucio
-    @Condition eventPlayer.isUsingAbility2()
-    @Condition not eventPlayer.isUsingAbility1()
-    @Condition eventPlayer.support_passive_active
-
-    eventPlayer.self_healing_percent = percent(OW1_LUCIO_AMP_HEALING /(OW1_LUCIO_AMP_HEALING + OW1_SUPPORT_PASSIVE_HEALING))
-    
-    
-rule "[lucio.opy]: Handle lucio self when amp is active and supp passive is inactive":
-    @Event eachPlayer
-    @Hero lucio
-    @Condition eventPlayer.isUsingAbility2() == true
-    @Condition eventPlayer.isUsingAbility1() == false
-    @Condition eventPlayer.support_passive_active == false   
-        
-    eventPlayer.self_healing_percent = 100
-
-
-rule "[lucio.opy]: If lucio uses speed aura remove self healing":
-    @Event eachPlayer
-    @Hero lucio
-    @Condition eventPlayer.isUsingAbility1() == true
-
-    eventPlayer.self_healing_percent = 0
+    damage(victim, attacker, eventDamage*(OW1_LUCIO_SOUND_GUN_DAMAGE/OW2_LUCIO_SOUND_GUN_DAMAGE) - eventDamage)

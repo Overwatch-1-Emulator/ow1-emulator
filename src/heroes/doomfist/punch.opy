@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar punched_victims
 playervar wall_impacted_victims
@@ -9,15 +9,15 @@ subroutine initRocketPunch
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
 #!define getRocketPunchDamage(charge_time) \
-    ((OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN) \
+    ((OW1_DOOMFIST_ROCKET_PUNCH_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_IMPACT_DAMAGE_MIN) \
      / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
-     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_ROCKET_PUNCH_DAMAGE_MIN)
+     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_ROCKET_PUNCH_IMPACT_DAMAGE_MIN)
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
 #!define getRocketPunchWallImpactDamage(charge_time) \
-    ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN) \
+    ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MIN) \
      / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
-     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_ROCKET_PUNCH_WALL_IMPACT_DAMAGE_MIN)
+     * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MIN)
 # Calculate punch knockback impulse speed from punch charge time
 #!define getPunchKnockbackSpeed(charge_time) \
     ((OW1_DOOMFIST_PUNCH_KNOCKBACK_MAX-OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN) \
@@ -25,10 +25,8 @@ subroutine initRocketPunch
      * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN)
 
 
-def initRocketPunch():
-    @Name "[doomfist/punch.opy]: initRocketPunch()"
-
-    eventPlayer.punched_victims = []
+#!define initRocketPunch() \
+    eventPlayer.punched_victims = [] \
     eventPlayer.wall_impacted_victims = []
 
 
@@ -79,9 +77,12 @@ rule "[doomfist/punch.opy]: Find punched victims":
     if (len(attacker.punched_victims) == 1): # OW1 single punch victim
         damage(victim, attacker, getRocketPunchDamage(eventPlayer.punch_charge_time)-eventDamage)
         victim.applyImpulse(attacker.getFacingDirection(), getPunchKnockbackSpeed(eventPlayer.punch_charge_time), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
+        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE - OW1_DOOMFIST_BEST_DEFENSE)
     else: # OW2 multi punch victim
         heal(victim, null, eventDamage) # Heal back OW2 punch victims
-        damage(attacker, null, OW1_DOOMFIST_BEST_DEFENSE) # Remove shield gained from OW2 punch victims
+        # Transfer shield gained from uppercut to shield gained from OW2 punch victims
+        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE - min(OW2_DOOMFIST_BEST_DEFENSE, attacker.uppercut_shields))
+        attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE, attacker.uppercut_shields)
 
 
 rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":

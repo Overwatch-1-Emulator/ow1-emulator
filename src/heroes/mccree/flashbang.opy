@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[mccree/flashbang.opy]: Throw projectile when pressing e":
@@ -7,11 +7,7 @@ rule "[mccree/flashbang.opy]: Throw projectile when pressing e":
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not eventPlayer.isUsingAbility1() # Ensure Cassidy is not rolling
-    @Condition not eventPlayer.hasStatusEffect(Status.HACKED) # Ensure Cassidy is not hacked
-    @Condition not eventPlayer.hasStatusEffect(Status.FROZEN) # Ensure Cassidy is not frozen
-    @Condition not eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN) # Ensure Cassidy is not knocked down
-    @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP) # Ensure Cassidy is not asleep
-    @Condition not eventPlayer.hasStatusEffect(Status.STUNNED) # Ensure Cassidy is not stunned
+    @Condition not isCCd(eventPlayer)
 
     createProjectile(Projectile.ORB, 
                      eventPlayer, 

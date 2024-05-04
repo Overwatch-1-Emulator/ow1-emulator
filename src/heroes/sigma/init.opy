@@ -1,4 +1,11 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
+
+
+rule "[sigma/init.opy]: Detect switch to Sigma":
+    @Event eachPlayer
+    @Hero sigma
+
+    eventPlayer.call_init = true
 
 
 rule "[sigma/init.opy]: Initialize Sigma":
@@ -9,10 +16,12 @@ rule "[sigma/init.opy]: Initialize Sigma":
     newHero(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
     setUltCost(OW1_SIGMA_ULT_COST)
     removeTankPassive()
+    removeSelfHealing()
+
     eventPlayer.call_init = false
 
 
-rule "[sigma.opy]: Change accretion damage":
+rule "[sigma/init.opy]: Change accretion damage":
     @Event playerDealtDamage
     @Hero sigma
     @Condition eventAbility == Button.ABILITY_2

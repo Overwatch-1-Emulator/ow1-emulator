@@ -1,18 +1,10 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar self_bubble_cooldown
 playervar self_bubble_cd_text
 
-subroutine initSelfBubble
-subroutine showSelfBubbleCD
-subroutine hideSelfBubbleCD
-
-
-def initSelfBubble():
-    @Name "[zarya/self_bubble.opy]: initSelfBubble()"
-
+#!define initSelfBubble()\
     eventPlayer.self_bubble_cooldown = 0
-
 
 /*
 Below HUD code is sourced from https://workshop.codes/wiki/articles/rendering-an-inworld-text-at-a-specific-onscreen-position
@@ -29,25 +21,22 @@ such as meleeing or reloading, the HUD moves/shakes around with the camera.
 
 Below HUD is tuned for 16:9 aspect ratio monitors (typical PC Overwatch setup).
 */
-def showSelfBubbleCD():
-    @Name "[zarya/self_bubble.opy]: showSelfBubbleCD()"
-    
-    createInWorldText(eventPlayer, 
-                      "{0}".format(ceil(eventPlayer.self_bubble_cooldown)),
-                      updateEveryTick(eventPlayer.getEyePosition() + (100 * (1.99 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.44 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
-                      verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
-                      3, 
-                      Clip.NONE, 
-                      WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
-                      Color.WHITE, 
-                      SpecVisibility.DEFAULT)
-    eventPlayer.self_bubble_cd_text = getLastCreatedText()
+#!define showSelfBubbleCD()\
+    if eventPlayer.self_bubble_cd_text == null:\
+        createInWorldText(eventPlayer,\
+                        "{0}".format(ceil(eventPlayer.self_bubble_cooldown)),\
+                        updateEveryTick(eventPlayer.getEyePosition() + (100 * (1.99 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.44 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()),\
+                        verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),\
+                        3,\
+                        Clip.NONE,\
+                        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,\
+                        Color.WHITE,\
+                        SpecVisibility.DEFAULT)\
+        eventPlayer.self_bubble_cd_text = getLastCreatedText()
 
-
-def hideSelfBubbleCD():
-    @Name "[zarya/self_bubble.opy]: hideSelfBubbleCD()"
-
-    destroyInWorldText(eventPlayer.self_bubble_cd_text)
+#!define hideSelfBubbleCD()\
+    destroyInWorldText(eventPlayer.self_bubble_cd_text)\
+    eventPlayer.self_bubble_cd_text = null
 
 
 rule "[zarya/self_bubble.opy]: OW1 zarya self bubble cooldown":
@@ -55,10 +44,12 @@ rule "[zarya/self_bubble.opy]: OW1 zarya self bubble cooldown":
     @Hero zarya
     @Condition eventPlayer.isUsingAbility1()
     
+    eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.setAbilityCharge(Button.ABILITY_1, 2)
+    waitUntil(not eventPlayer.isUsingAbility1(), OW1_ZARYA_BUBBLE_DURATION) # wait bubble duration
     eventPlayer.setAbility1Enabled(false)
-    wait(OW1_ZARYA_BUBBLE_DURATION) # 2 second bubble duration
     eventPlayer.self_bubble_cooldown = OW1_ZARYA_PARTICLE_BARRIER_COOLDOWN_TIME
+    eventPlayer.allowButton(Button.ABILITY_1)
     chase(eventPlayer.self_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
 
 
@@ -68,6 +59,7 @@ rule "[zarya/self_bubble.opy]: Disable self bubble if on cooldown":
     @Condition eventPlayer.self_bubble_cooldown > 0
 
     eventPlayer.setAbility1Enabled(false)
+    showSelfBubbleCD()
 
 
 rule "[zarya/self_bubble.opy]: Enable self bubble if not on cooldown":
@@ -76,17 +68,4 @@ rule "[zarya/self_bubble.opy]: Enable self bubble if not on cooldown":
     @Condition eventPlayer.self_bubble_cooldown <= 0
 
     eventPlayer.setAbility1Enabled(true)
-
-
-rule "[zarya/self_bubble.opy]: Show self bubble cooldown":
-    @Event eachPlayer
-    @Condition eventPlayer.self_bubble_cooldown > 0
-
-    showSelfBubbleCD()
-
-
-rule "[zarya/self_bubble.opy]: Erase self bubble cooldown":
-    @Event eachPlayer
-    @Condition eventPlayer.self_bubble_cooldown <= 0
-
     hideSelfBubbleCD()

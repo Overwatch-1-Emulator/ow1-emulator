@@ -1,17 +1,14 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 globalvar reset_gvar
 #!defineMember ready_color reset_gvar[0]
 
 playervar reset_pvar
 #!defineMember call_init reset_pvar[0]
-#!defineMember player_health reset_pvar[1]
-#!defineMember friendly_doomfist_player reset_pvar[2]
-#!defineMember friendly_orisa_player reset_pvar[3]
-#!defineMember friendly_sombra_player reset_pvar[4]
-#!defineMember enemy_doomfist_player reset_pvar[5]
-#!defineMember enemy_orisa_player reset_pvar[6]
-#!defineMember enemy_sombra_player reset_pvar[7]
+#!defineMember friendly_orisa_player reset_pvar[2]
+#!defineMember friendly_sombra_player reset_pvar[3]
+#!defineMember enemy_orisa_player reset_pvar[5]
+#!defineMember enemy_sombra_player reset_pvar[6]
 
 subroutine enableAllAbilities
 subroutine disableAllAbilities
@@ -35,7 +32,7 @@ subroutine resetFrenemies
 
 
 def enableAllAbilities():
-    @Name "[reset.opy]: enableAllAbilities()"
+    @Name "[utilities/reset.opy]: enableAllAbilities()"
 
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
@@ -62,7 +59,7 @@ def enableAllAbilities():
 
 
 def disableAllAbilities():
-    @Name "[reset.opy]: disableAllAbilities()"
+    @Name "[utilities/reset.opy]: disableAllAbilities()"
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
@@ -89,9 +86,9 @@ def disableAllAbilities():
 
 
 def resetStats():
-    @Name "[reset.opy]: resetStats()"
+    @Name "[utilities/reset.opy]: resetStats()"
 
-    eventPlayer.setDamageDealt(100)
+    setBaseDamage(eventPlayer, 1)
     eventPlayer.setDamageReceived(100)
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)
@@ -104,7 +101,7 @@ def resetStats():
 
 
 def resetStatuses():
-    @Name "[reset.opy]: resetStatuses()"
+    @Name "[utilities/reset.opy]: resetStatuses()"
 
     eventPlayer.clearStatusEffect(Status.ASLEEP)
     eventPlayer.clearStatusEffect(Status.BURNING)
@@ -119,32 +116,18 @@ def resetStatuses():
 
 
 def resetFrenemies():
-    @Name "[reset.opy]: resetFrenemies()"
+    @Name "[utilities/reset.opy]: resetFrenemies()"
 
-    eventPlayer.friendly_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, eventPlayer.getTeam())[0]
-    eventPlayer.enemy_doomfist_player = getPlayersOnHero(Hero.DOOMFIST, getOppositeTeam(eventPlayer.getTeam()))[0]
     eventPlayer.friendly_orisa_player = getPlayersOnHero(Hero.ORISA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_orisa_player = getPlayersOnHero(Hero.ORISA, getOppositeTeam(eventPlayer.getTeam()))[0]
     eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
 
     
-rule "[reset.opy]: Reinitialize hero on new round":
+rule "[utilities/reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
     @Condition getCurrentGamemode() == Gamemode.CONTROL
     @Condition isMatchBetweenRounds()
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
     eventPlayer.call_init = true
-
-
-def respawnSameState():
-    @Name "[reset.opy]: respawnSameState()"
-    
-    eventPlayer.player_health = eventPlayer.getHealth()
-    kill(eventPlayer, null)
-    # Use resurrect to keep the same position and angle
-    eventPlayer.resurrect()
-    # Wait to set health else the player will be full life
-    wait()
-    eventPlayer.setHealth(eventPlayer.player_health)

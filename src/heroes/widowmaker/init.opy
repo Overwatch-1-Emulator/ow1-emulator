@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar scoped_shot_distance
 playervar scoped_damage_base
@@ -14,6 +14,13 @@ playervar expected_scoped_damage
 #!define OW2WidowmakerFalloff(d) ((OW2WidowmakerN(d)) * OW2_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR + (1 - OW2WidowmakerN(d)))
 
 
+rule "[widowmaker/init.opy]: Detect switch to Widowmaker":
+    @Event eachPlayer
+    @Hero widowmaker
+
+    eventPlayer.call_init = true
+
+
 rule "[widowmaker/init.opy]: Initialize Widowmaker":
     @Event eachPlayer
     @Hero widowmaker
@@ -21,6 +28,8 @@ rule "[widowmaker/init.opy]: Initialize Widowmaker":
 
     newHero(OW1_WIDOWMAKER_HEALTH, 0, 0)
     setUltCost(OW1_WIDOWMAKER_ULT_COST)
+    removeSelfHealing()
+
     eventPlayer.call_init = false
 
 

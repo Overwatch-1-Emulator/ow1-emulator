@@ -1,4 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
+
+#!include "heroes/kiriko/kunai.opy"
+#!include "heroes/kiriko/suzu.opy"
+#!include "heroes/kiriko/swift_step.opy"
+
+
+rule "[kiriko/init.opy]: Detect switch to Kiriko":
+    @Event eachPlayer
+    @Hero kiriko
+
+    eventPlayer.call_init = true
 
 
 rule "[kiriko/init.opy]: Initialize Kiriko":
@@ -6,16 +17,23 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     @Hero kiriko
     @Condition eventPlayer.call_init
     
-    defaultHero()
-    # removeSelfHealing()
+    newHero(OW1_KIRIKO_HEALTH, 0, 0)
+    setUltCost(OW1_KIRIKO_ULT_COST)
+
+    removeSelfHealing()
+
+    eventPlayer.setHealingDealt(percent(OW1_KIRKIO_OFUDA_HEALING/OW2_KIRIKO_OFUDA_HEALING))
+
+    eventPlayer.setMaxAmmo(0, 6)
+    eventPlayer.setAmmo(0, 12)
+    setBaseDamage(eventPlayer, (OW1_KIRIKO_KUNAI_HEADSHOT_DAMAGE/OW2_KIRIKO_KUNAI_HEADSHOT_DAMAGE))
+
     eventPlayer.call_init = false
 
 
-rule "[kiriko.opy]: Allow self healing during Suzu":
-    @Event eachPlayer
+rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":
+    @Event playerDealtDamage
     @Hero kiriko
-    @Condition eventPlayer.isUsingAbility2()
-
-    pushSelfHealing(Button.ABILITY_2)
-    waitUntil(eventPlayer.isUsingAbility2() == false, Math.INFINITY)
-    popSelfHealing(Button.ABILITY_2)
+    @Condition eventAbility in [Button.MELEE]
+    
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

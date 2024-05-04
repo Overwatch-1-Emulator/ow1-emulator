@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 /*
 This DPS doomfist workshop script is heavily based on
@@ -17,6 +17,13 @@ playervar is_ultimate_locked
 #!include "heroes/doomfist/cannon.opy"
 
 
+rule "[doomfist/init.opy]: Detect switch to Doomfist":
+    @Event eachPlayer
+    @Hero doomfist
+
+    eventPlayer.call_init = true
+
+
 rule "[doomfist/init.opy]: Initialize Doomfist":
     @Event eachPlayer
     @Hero doomfist
@@ -24,21 +31,20 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
 
     newHero(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
-
-    getPlayers(eventPlayer.getTeam()).friendly_doomfist_player = eventPlayer
-    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_doomfist_player = eventPlayer
+    removeTankPassive()
+    removeSelfHealing()
 
     initRocketPunch()
     initSlam()
     eventPlayer.uppercut_shields = 0
-    removeTankPassive()
 
     eventPlayer.call_init = false
 
 
 rule "[doomfist/init.opy]: Clean up Doomfist":
     @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() != Hero.DOOMFIST
+    @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
 
+    waitUntil(eventPlayer.getCurrentHero() != Hero.DOOMFIST, Math.INFINITY)
     destroySlamIndicatorGui()
     hideSlamDamageGui()

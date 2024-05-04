@@ -1,4 +1,4 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar remech_damage_taken
 
@@ -18,6 +18,8 @@ rule "[dva/hp.opy]: Correct DVa pilot health":
     @Event eachPlayer
     @Hero dva
     @Condition eventPlayer.isInAlternateForm()
+    @Condition eventPlayer.getMaxHealthOfType(Health.NORMAL) != OW1_DVA_PILOT_HEALTH
     @Condition not eventPlayer.call_init
 
     clearCustomHp()
+    setCustomHp(OW1_DVA_PILOT_HEALTH, 0, 0)

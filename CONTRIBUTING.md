@@ -12,7 +12,7 @@ If you're interested in submitting code to this gamemode, read this guide carefu
     - Version control system
 - GitLab
     - Remote archive of this source code repository
-    - [Issue](https://gitlab.com/MaxwellJung/ow1_emulator/-/issues) tracking and [Merge Request](https://gitlab.com/MaxwellJung/ow1_emulator/-/merge_requests)
+    - [Issue](https://gitlab.com/MaxwellJung/ow1_plus_plus/-/issues) tracking and [Merge Request](https://gitlab.com/MaxwellJung/ow1_plus_plus/-/merge_requests)
 - Discord
     - Communication between developers
 
@@ -28,21 +28,21 @@ If you're interested in submitting code to this gamemode, read this guide carefu
 
 ## Building
 
-For instructions on how to use OverPy, see [here](https://gitlab.com/Zezombye/overpy/wiki)
+For instructions on how to use OverPy, see [here](https://github.com/Zezombye/overpy/wiki)
   
-1. Compile main.opy using the compiling instructions at [OverPy Wiki](https://gitlab.com/Zezombye/overpy/wiki/General-usage#Compiling)
+1. Compile main.opy using the compiling instructions at [OverPy Wiki](https://github.com/Zezombye/overpy/wiki/General-usage#Compiling)
 2. Open a custom game in Overwatch
 3. Paste the compiled gamemode code
 
 
 ## General workflow
 
-1. Find an [issue](https://gitlab.com/MaxwellJung/ow1_emulator/issues) to fix (or submit one yourself).
+1. Find an [issue](https://gitlab.com/MaxwellJung/ow1_plus_plus/-/issues) to fix (or submit one yourself).
 2. Create new branch dedicated to that issue.
 3. Modify codebase using VScode. Be sure to follow [styling guidelines](#coding-style-guidelines).
 4. Compile and test new codebase.
 6. Commit working changes.
-7. Submit [Merge Request](https://gitlab.com/MaxwellJung/ow1_emulator/-/merge_requests) (MR) to merge your branch into staging branch.
+7. Submit [Merge Request](https://gitlab.com/MaxwellJung/ow1_plus_plus/-/merge_requests) (MR) to merge your branch into staging branch.
 8. Wait for owner to approve and merge your Merge Request.
 
 
@@ -50,7 +50,7 @@ For instructions on how to use OverPy, see [here](https://gitlab.com/Zezombye/ov
 
 1. For every 3~5 features added to staging branch, the devs will compile a staging build and test each feature manually.
 2. If your feature fails to meet quality expectations, the MR corresponding to that feature will be reverted to drop the changes.
-3. After each feature in staging build is confirmed, the staging branch will be merged to main branch and a new gamemode version will be announced.
+3. After each feature in staging branch is confirmed, the staging branch will be merged to main branch and released as latest build. If the latest build plays without crashing, it will be set as the stable build.  
 
 
 ## Coding Style Guidelines

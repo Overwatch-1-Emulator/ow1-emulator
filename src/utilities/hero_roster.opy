@@ -1,63 +1,42 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
+
+# indexing variable
+globalvar hero_roster_i
 
 globalvar hero_roster_gvar
-#!defineMember current_hero hero_roster_gvar[0]
-globalvar heroes_enabled
-
+#!defineMember _current_hero hero_roster_gvar[0]
 # Currently enabled heroes
-#!defineMember tank_roaster hero_roster_gvar[1]
-#!defineMember damage_roaster hero_roster_gvar[2]
-#!defineMember support_roaster hero_roster_gvar[3]
-#!defineMember hero_roaster hero_roster_gvar[4]
-
+#!defineMember _available_tanks hero_roster_gvar[1]
+#!defineMember _available_dps hero_roster_gvar[2]
+#!defineMember _available_supports hero_roster_gvar[3]
+#!defineMember _available_heroes hero_roster_gvar[4]
 # Hero Role Definition
-#!defineMember tank_heroes hero_roster_gvar[5]
-#!defineMember damage_heroes hero_roster_gvar[6]
-#!defineMember support_heroes hero_roster_gvar[7]
+#!defineMember _tank_heroes hero_roster_gvar[5]
+#!defineMember _damage_heroes hero_roster_gvar[6]
+#!defineMember _support_heroes hero_roster_gvar[7]
+
+#!define getOW1TankHeroes() _tank_heroes
+#!define getOW1DamageHeroes() _damage_heroes
+#!define getOW1SupportHeroes() _support_heroes
 
 
-# Hardcode OW1 heroes = true, OW2 heroes = false by default
-rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
-    heroes_enabled[heroID(Hero.DVA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "DVa", true)
-    heroes_enabled[heroID(Hero.REINHARDT)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Reinhardt", true)
-    heroes_enabled[heroID(Hero.WINSTON)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Winston", true)
-    heroes_enabled[heroID(Hero.ZARYA)] = createWorkshopSetting(bool, "Hero Roster - Tank", "Zarya", true)
-    
-    heroes_enabled[heroID(Hero.ANA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Ana", true)
-    heroes_enabled[heroID(Hero.BRIGITTE)] = createWorkshopSetting(bool, "Hero Roster - Support", "Brigitte", true)
-    heroes_enabled[heroID(Hero.LUCIO)] = createWorkshopSetting(bool, "Hero Roster - Support", "Lucio", true)
-    heroes_enabled[heroID(Hero.MOIRA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Moira", true)
-    heroes_enabled[heroID(Hero.ZENYATTA)] = createWorkshopSetting(bool, "Hero Roster - Support", "Zenyatta", true)
+rule "[utilities/hero_roster.opy]: Custom role definition":
+    @Condition _available_heroes == null
+    @Condition len(getAllPlayers().getAllowedHeroes()) > 0
 
+    _available_heroes = getAllPlayers().getAllowedHeroes()
 
-rule "[hero_roster.opy]: Define tank, damage, support heroes array":
     # Tanks
-    tank_heroes = getTankHeroes()
-    tank_heroes.remove(Hero.DOOMFIST)
+    _tank_heroes = getTankHeroes()
+    _tank_heroes.remove(Hero.DOOMFIST)
 
     # Damage
-    damage_heroes = getDamageHeroes()
-    damage_heroes.append(Hero.DOOMFIST)
+    _damage_heroes = getDamageHeroes()
+    _damage_heroes.append(Hero.DOOMFIST)
 
     # Supports
-    support_heroes = getSupportHeroes()
+    _support_heroes = getSupportHeroes()
 
-    tank_roaster = []
-    damage_roaster = []
-    support_roaster = []
-
-    for i in range(len(getAllHeroes())):
-        if (not heroes_enabled[i]): continue # Skip if hero not in roster
-        
-        current_hero = getAllHeroes()[i]
-        if (current_hero in tank_heroes):
-            tank_roaster.append(current_hero)
-        elif (current_hero in damage_heroes):
-            damage_roaster.append(current_hero)
-        elif (current_hero in support_heroes):
-            support_roaster.append(current_hero)
-
-    hero_roaster = []
-    hero_roaster.append(tank_roaster)
-    hero_roaster.append(damage_roaster)
-    hero_roaster.append(support_roaster)
+    _available_tanks = [h for h in _available_heroes if h in _tank_heroes]
+    _available_dps = [h for h in _available_heroes if h in _damage_heroes]
+    _available_supports = [h for h in _available_heroes if h in _support_heroes]

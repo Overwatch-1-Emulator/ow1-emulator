@@ -1,9 +1,14 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
-rule "[reinhardt/hammer.opy]: Deal regular damage for Fire Strike":
+rule "[reinhardt/hammer.opy]: Correct Hammer damage":
     @Event playerDealtDamage
     @Hero reinhardt
-    @Condition eventAbility in [Button.ABILITY_2]
+    @Condition eventAbility == Button.PRIMARY_FIRE
 
-    damage(victim, attacker, (eventDamage/OW1_REINHARDT_GLOBAL_DAMAGE - eventDamage)/OW1_REINHARDT_GLOBAL_DAMAGE)
+    damage(
+        victim, 
+        attacker, 
+        ((OW1_REINHARDT_HAMMER_DAMAGE/OW2_REINHARDT_HAMMER_DAMAGE) \
+        * (eventDamage/eventPlayer._base_damage_scalar) \
+        - eventDamage)/eventPlayer._base_damage_scalar)

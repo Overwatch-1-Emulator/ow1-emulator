@@ -1,11 +1,10 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
-globalvar info_gvar
 globalvar rgb_list = [vect(255, 0, 0), vect(255, 255, 0), vect(0, 255, 0), vect(0, 255, 255), vect(0, 0, 255), vect(255, 0, 255)]
-globalvar HIDE_WATERMARK = createWorkshopSetting(bool, "Misc", "Hide Watermark", false)
+globalvar SHOW_WATERMARK = createWorkshopSetting(bool, "Misc", "Show Watermark", true)
 
-playervar info_pvar
-#!defineMember rgb_i info_pvar[0]
+playervar watermark_pvar
+#!defineMember rgb_i watermark_pvar[0]
 playervar info_id
 playervar rgb_vect
 #!define RGB_DURATION 0.5
@@ -15,17 +14,16 @@ playervar rgb_vect
 #   or (player.isDead()) \
 #   or (isInSetup()))
 
-#!define infoVisible(player) \
-    (true)
+#!define infoVisible(player) (SHOW_WATERMARK)
 
 
-rule "[info.opy]: Create info HUD":
+rule "[utilities/watermark.opy]: Create watermark HUD":
     @Event eachPlayer
-    @Condition not HIDE_WATERMARK
+    @Condition SHOW_WATERMARK
 
     if eventPlayer.info_id[0] == null:
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
-                     GAMEMODE_NAME" ""("GAMEMODE_CODE")", 
+                     GAMEMODE_NAME" "GAMEMODE_VERSION" ""("GAMEMODE_CODE")", 
                      HudPosition.LEFT, 
                      Math.INFINITY, 
                      Color.WHITE, 
@@ -43,14 +41,15 @@ rule "[info.opy]: Create info HUD":
     
     eventPlayer.rgb_i = 0
     eventPlayer.rgb_vect = rgb_list[eventPlayer.rgb_i]
-    
 
-rule "[info.opy]: Create info HUD":
-    @Event eachPlayer
-    @Condition infoVisible(eventPlayer)
 
-    eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))
-    chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], duration=RGB_DURATION, ChaseReeval.NONE)
-    waitUntil(eventPlayer.rgb_vect == rgb_list[eventPlayer.rgb_i], Math.INFINITY)
-    if RULE_CONDITION:
-        goto RULE_START
+# rule "[utilities/watermark.opy]: Cycle RGB":
+#     @Event eachPlayer
+#     @Condition infoVisible(eventPlayer)
+#     @Condition not DEBUG_MODE
+
+#     do:
+#         eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))
+#         chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], duration=RGB_DURATION, ChaseReeval.NONE)
+#         waitUntil(eventPlayer.rgb_vect == rgb_list[eventPlayer.rgb_i], Math.INFINITY)
+#     while RULE_CONDITION

@@ -1,8 +1,18 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "heroes/roadhog/hook.opy"
 #!include "heroes/roadhog/breather.opy"
 #!include "heroes/roadhog/wholehog.opy"
+#!include "heroes/roadhog/scrap_gun.opy"
+
+
+rule "[roadhog/init.opy]: Detect switch to Roadhog":
+    @Event eachPlayer
+    @Hero roadhog
+    if eventPlayer._is_exiting_wholehog: # guards against initialization when exiting wholehog
+        return
+
+    eventPlayer.call_init = true
 
 
 rule "[roadhog/init.opy]: Initialize Roadhog":
@@ -21,6 +31,13 @@ rule "[roadhog/init.opy]: Initialize Roadhog":
     # Breather init
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_TOTAL/OW2_ROADHOG_BREATHER_HEAL_TOTAL))
 
     removeTankPassive()
+    removeSelfHealing()
+
+    eventPlayer.preloadHero(Hero.ZARYA)
+    eventPlayer.preloadHero(Hero.ROADHOG)
+    eventPlayer._is_exiting_wholehog = false
+
     eventPlayer.call_init = false

@@ -1,8 +1,15 @@
-#!mainFile "../../../main.opy"
+#!mainFile "../../dev_main.opy"
 
-
+#!include "heroes/moira/biotic_grasp.opy"
+#!include "heroes/moira/biotic_orb.opy"
 #!include "heroes/moira/coalescence.opy"
-#!include "heroes/moira/self_heal.opy"
+
+
+rule "[moira/init.opy]: Detect switch to Moira":
+    @Event eachPlayer
+    @Hero moira
+
+    eventPlayer.call_init = true
 
 
 rule "[moira/init.opy]: Initialize Moira":
@@ -10,7 +17,9 @@ rule "[moira/init.opy]: Initialize Moira":
     @Hero moira
     @Condition eventPlayer.call_init
     
-    defaultHero()
+    newHero(OW1_MOIRA_HEALTH, 0, 0)
     setUltCost(OW1_MOIRA_ULT_COST)
-    removeSelfHealing()
+    
+    removePassiveHealing()
+
     eventPlayer.call_init = false

@@ -1,4 +1,13 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
+
+#!include "heroes/tracer/pulse_pistol.opy"
+
+
+rule "[tracer/init.opy]: Detect switch to Tracer":
+    @Event eachPlayer
+    @Hero tracer
+
+    eventPlayer.call_init = true
 
 
 rule "[tracer/init.opy]: Initialize Tracer":
@@ -8,12 +17,6 @@ rule "[tracer/init.opy]: Initialize Tracer":
 
     defaultHero()
     setUltCost(OW1_TRACER_ULT_COST)
+    removeSelfHealing()
+
     eventPlayer.call_init = false
-
-
-rule "[tracer.opy]: Deal OW1 tracer primary fire damage":
-    @Event playerDealtDamage
-    @Hero tracer
-    @Condition eventAbility == Button.PRIMARY_FIRE
-
-    damage(victim, attacker, eventDamage*(OW1_TRACER_PULSE_PISTOL_DAMAGE/OW2_TRACER_PULSE_PISTOL_DAMAGE)-eventDamage)
