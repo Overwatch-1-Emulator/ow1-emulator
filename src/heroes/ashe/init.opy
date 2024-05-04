@@ -1,12 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!define OW1_ASHE_HEALTH 200
-#!define OW1_ASHE_ULT_COST 2240
-
-#!define OW2_ASHE_ULT_COST 2450
-
 #!include "heroes/ashe/bob.opy"
-
 
 rule "[ashe/init.opy]: Detect switch to Ashe":
     @Event eachPlayer
