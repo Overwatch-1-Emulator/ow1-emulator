@@ -197,11 +197,12 @@ settings {
             },
             "hammond": {
                 "ability1Kb%": percent(1/OW2_WRECKING_BALL_FIREBALL_KB),
+                "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME/OW2_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_WRECKING_BALL_ULT_COST/OW1_WRECKING_BALL_ULT_COST),
-                "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME/OW2_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME)
             },
             "zarya": {
                 "health%": percent(OW1_ZARYA_BARRIER_HEALTH/OW2_ZARYA_BARRIER_HEALTH),
+                "ultGen%": percent(OW2_ZARYA_ULT_COST/OW1_ZARYA_ULT_COST),
             },
             "zenyatta": {
                 "ultGen%": percent(OW2_ZENYATTA_ULT_COST/OW1_ZENYATTA_ULT_COST)
