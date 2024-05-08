@@ -120,11 +120,3 @@ rule "[orisa/fusion_driver.opy]: Slow down Orisa when shooting":
     eventPlayer.setMoveSpeed(100-percent(OW1_ORISA_MOVEMENT_PENALTY))
     waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) or eventPlayer.is_orisa_reloading, Math.INFINITY)
     eventPlayer.setMoveSpeed(100)
-
-
-rule "[orisa/fusion_driver.opy]: Deal OW1 Orisa melee damage":
-    @Event playerDealtDamage
-    @Hero orisa
-    @Condition eventAbility == Button.MELEE
-
-    damage(victim, attacker, eventDamage*(OW2_ORISA_FUSION_DRIVER_DAMAGE/OW1_ORISA_FUSION_DRIVER_DAMAGE) - eventDamage + 1) # +1 compensates for rounding error
