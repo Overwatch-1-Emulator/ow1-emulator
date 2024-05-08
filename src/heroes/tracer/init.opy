@@ -3,13 +3,6 @@
 #!include "heroes/tracer/pulse_pistol.opy"
 
 
-rule "[tracer/init.opy]: Detect switch to Tracer":
-    @Event eachPlayer
-    @Hero tracer
-
-    eventPlayer.call_init = true
-
-
 rule "[tracer/init.opy]: Initialize Tracer":
     @Event eachPlayer
     @Hero tracer

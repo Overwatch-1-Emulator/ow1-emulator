@@ -3,13 +3,6 @@
 #!include "heroes/junkrat/trap.opy"
 
 
-rule "[junkrat/init.opy]: Detect switch to Junkrat":
-    @Event eachPlayer
-    @Hero junkrat
-
-    eventPlayer.call_init = true
-
-
 rule "[junkrat/init.opy]: Initialize Junkrat":
     @Event eachPlayer
     @Hero junkrat

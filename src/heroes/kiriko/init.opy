@@ -5,19 +5,12 @@
 #!include "heroes/kiriko/swift_step.opy"
 
 
-rule "[kiriko/init.opy]: Detect switch to Kiriko":
-    @Event eachPlayer
-    @Hero kiriko
-
-    eventPlayer.call_init = true
-
-
 rule "[kiriko/init.opy]: Initialize Kiriko":
     @Event eachPlayer
     @Hero kiriko
     @Condition eventPlayer.call_init
     
-    newHero(OW1_KIRIKO_HEALTH, 0, 0)
+    setCustomHp(OW1_KIRIKO_HEALTH, 0, 0)
     setUltCost(OW1_KIRIKO_ULT_COST)
 
     removeSelfHealing()

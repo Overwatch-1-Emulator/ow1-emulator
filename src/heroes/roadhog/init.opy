@@ -6,21 +6,13 @@
 #!include "heroes/roadhog/scrap_gun.opy"
 
 
-rule "[roadhog/init.opy]: Detect switch to Roadhog":
-    @Event eachPlayer
-    @Hero roadhog
-    if eventPlayer._is_exiting_wholehog: # guards against initialization when exiting wholehog
-        return
-
-    eventPlayer.call_init = true
-
-
 rule "[roadhog/init.opy]: Initialize Roadhog":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.call_init
+    @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
 
-    newHero(OW1_ROADHOG_HEALTH, 0, 0)
+    setCustomHp(OW1_ROADHOG_HEALTH, 0, 0)
     setUltCost(OW1_ROADHOG_ULT_COST)
 
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)

@@ -3,19 +3,12 @@
 #!include "heroes/hanzo/storm.opy"
 
 
-rule "[hanzo/init.opy]: Detect switch to Hanzo":
-    @Event eachPlayer
-    @Hero hanzo
-
-    eventPlayer.call_init = true
-
-
 rule "[hanzo/init.opy]: Initialize Hanzo":
     @Event eachPlayer
     @Hero hanzo
     @Condition eventPlayer.call_init
     
-    newHero(OW1_HANZO_HEALTH, 0, 0)
+    setCustomHp(OW1_HANZO_HEALTH, 0, 0)
     setUltCost(OW1_HANZO_ULT_COST)
     removeSelfHealing()
 

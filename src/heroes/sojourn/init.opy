@@ -3,19 +3,12 @@
 #!include "heroes/sojourn/railgun.opy"
 
 
-rule "[sojourn/init.opy]: Detect switch to Sojourn":
-    @Event eachPlayer
-    @Hero sojourn
-
-    eventPlayer.call_init = true
-
-
 rule "[sojourn/init.opy]: Initialize Sojourn":
     @Event eachPlayer
     @Hero sojourn
     @Condition eventPlayer.call_init
 
-    newHero(OW1_SOJOURN_HEALTH, 0, 0)
+    setCustomHp(OW1_SOJOURN_HEALTH, 0, 0)
     setUltCost(OW1_SOJOURN_ULT_COST)
     setBaseDamage(eventPlayer, OW1_SOJOURN_GLOBAL_DAMAGE)
     

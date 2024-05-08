@@ -15,20 +15,14 @@ subroutine disableAllAbilities
 subroutine resetStats
 subroutine resetStatuses
 subroutine resetFrenemies
+subroutine resetUltCharge
+subroutine resetSelfHealing
 
 #!define defaultHero() \
     newHero(0, 0, 0)
 
 # newHero(0, 0, 0) creates default OW2 hero
-#!define newHero(health, armor, shields) \
-    clearCustomHp() \
-    resetStats() \
-    resetStatuses() \
-    resetFrenemies() \
-    resetUltCharge() \
-    resetSelfHealing() \
-    setCustomHp(health, armor, shields) \
-    enableAllAbilities() \
+#!define newHero(health, armor, shields) setCustomHp(health, armor, shields)
 
 
 def enableAllAbilities():
@@ -123,7 +117,7 @@ def resetFrenemies():
     eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
 
-    
+
 rule "[utilities/reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
     @Condition getCurrentGamemode() == Gamemode.CONTROL

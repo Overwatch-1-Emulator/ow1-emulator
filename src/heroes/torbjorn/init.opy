@@ -3,19 +3,12 @@
 #!include "heroes/torbjorn/overload.opy"
 
 
-rule "[torbjorn/init.opy]: Detect switch to Torbjorn":
-    @Event eachPlayer
-    @Hero torbjorn
-
-    eventPlayer.call_init = true
-
-
 rule "[torbjorn/init.opy]: Initialize Torbjorn":
     @Event eachPlayer
     @Hero torbjorn
     @Condition eventPlayer.call_init
 
-    newHero(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
+    setCustomHp(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
     setUltCost(OW1_TORBJORN_ULT_COST)
     removeSelfHealing()
 
