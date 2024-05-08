@@ -7,7 +7,7 @@
 #!define isHero(player, hero) ((player.getCurrentHero() == hero) or (player.getHeroOfDuplication() == hero))
 
 # Macro function for converting decimal to percent
-#!define percent(p) (100*p)
+#!define percent(p) (100*(p))
 
 # Macro function for converting decimal to percent
 #!define roundedPercent(p) (round(percent(p)))
