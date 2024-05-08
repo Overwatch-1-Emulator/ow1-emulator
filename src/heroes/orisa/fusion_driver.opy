@@ -41,7 +41,7 @@ rule "[orisa/fusion_driver.opy]: Update ammo when shooting gun":
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     @Condition not eventPlayer.is_orisa_reloading
-    
+
     updateAmmo()
 
 
@@ -49,7 +49,7 @@ rule "[orisa/fusion_driver.opy]: Reload when out of ammo":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.orisa_ammo <= 0
-    
+
     reloadFusionDriver()
 
 
@@ -58,7 +58,7 @@ rule "[orisa/fusion_driver.opy]: Reload on key press":
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
     @Condition eventPlayer.orisa_ammo < OW1_ORISA_CLIP_SIZE
-    
+
     reloadFusionDriver()
 
 
@@ -117,6 +117,6 @@ rule "[orisa/fusion_driver.opy]: Slow down Orisa when shooting":
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     @Condition not eventPlayer.is_orisa_reloading
 
-    eventPlayer.setMoveSpeed(100-percent(OW1_ORISA_MOVEMENT_PENALTY))
-    waitUntil(not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) or eventPlayer.is_orisa_reloading, Math.INFINITY)
-    eventPlayer.setMoveSpeed(100)
+    setBaseMovement(eventPlayer, eventPlayer._base_movement_scalar*(1-OW1_ORISA_MOVEMENT_PENALTY))
+    waitUntil((not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)) or (eventPlayer.is_orisa_reloading), Math.INFINITY)
+    setBaseMovement(eventPlayer, eventPlayer._base_movement_scalar/(1-OW1_ORISA_MOVEMENT_PENALTY))

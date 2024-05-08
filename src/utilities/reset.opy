@@ -97,7 +97,7 @@ def resetStats():
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.setKnockbackDealt(100)
     eventPlayer.setGravity(100)
-    eventPlayer.setMoveSpeed(100)
+    setBaseMovement(eventPlayer, 1)
 
 
 def resetStatuses():
