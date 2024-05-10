@@ -36,7 +36,7 @@ jobs:
         run: |
              git config --global --add safe.directory '*'
              export NEXT_VERSION=v$(semantic-release --dry-run | grep 'The next release version is' | sed -E 's/.* ([[:alnum:].\-]+)$/\1/')
-             node build.js
+             node build.js $NEXT_VERSION
         env:
           GH_TOKEN: ${{ secrets.GH_TOKEN }}
           DISCORD_WEBHOOK: ${{ secrets.DISCORD_WEBHOOK }}

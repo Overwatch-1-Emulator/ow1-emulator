@@ -1,7 +1,8 @@
 const fs = require('node:fs');
 const overpy = require("./overpy/VS Code Extension/overpy.js");
 
-const version = process.env.NEXT_VERSION;
+const args = process.argv.slice(2);
+const version = args[0];
 
 generateWorkshop("ow1em_main.opy", "ow1em.txt")
 generateWorkshop("ow1pp_main.opy", "ow1pp.txt")
