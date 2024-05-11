@@ -24,6 +24,15 @@ subroutine resetSelfHealing
 # newHero(0, 0, 0) creates default OW2 hero
 #!define newHero(health, armor, shields) setCustomHp(health, armor, shields)
 
+#!define resetHero()\
+    clearCustomHp()\
+    resetStats()\
+    resetStatuses()\
+    resetFrenemies()\
+    resetUltCharge()\
+    resetSelfHealing()\
+    enableAllAbilities()\
+
 
 def enableAllAbilities():
     @Name "[utilities/reset.opy]: enableAllAbilities()"
@@ -120,8 +129,9 @@ def resetFrenemies():
 
 rule "[utilities/reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
-    @Condition getCurrentGamemode() == Gamemode.CONTROL
     @Condition isMatchBetweenRounds()
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
+    resetHero()
     eventPlayer.call_init = true
+    # printLog('called init after new round')

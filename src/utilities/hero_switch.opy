@@ -24,12 +24,6 @@ rule "[utilities/hero_setup.opy]: Reset and initialize hero on hero switch":
     @Condition switchedHero(eventPlayer)
 
     waitUntil(not switchedHero(eventPlayer), Math.INFINITY)
-    clearCustomHp()
-    resetStats()
-    resetStatuses()
-    resetFrenemies()
-    resetUltCharge()
-    resetSelfHealing()
-    enableAllAbilities()
-
+    resetHero()
     eventPlayer.call_init = true
+    # printLog('called init after switching hero')
