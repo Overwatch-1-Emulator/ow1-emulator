@@ -65,6 +65,14 @@ rule "[echo/duplicate.opy]: Set Life for echo when duplicating a tank":
         health_pool[eventPlayer.hero_id_duplicated][2],
     )
 
+rule "[echo/duplicate.opy]: Reinitialize echo after exiting duplicate":
+    @Event eachPlayer
+    @Hero echo
+    @Condition not eventPlayer.isDuplicatingAHero()
+
+    resetHero()
+    eventPlayer.call_init = true
+
 
 rule "[echo/duplicate.opy]: Correct duplicate ultimate charge rate":
     @Event eachPlayer
