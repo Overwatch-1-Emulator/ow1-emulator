@@ -8,7 +8,6 @@ rule "[tracer/init.opy]: Initialize Tracer":
     @Hero tracer
     @Condition eventPlayer.call_init
 
-    defaultHero()
     setUltCost(OW1_TRACER_ULT_COST)
     removeSelfHealing()
 

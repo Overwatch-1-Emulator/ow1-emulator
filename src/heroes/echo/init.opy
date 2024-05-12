@@ -10,8 +10,6 @@ rule "[echo/init.opy]: Initialize Echo":
     @Condition eventPlayer.call_init
     @Condition not eventPlayer.isDuplicatingAHero()
     
-    # setCustomHp(OW1_ECHO_HEALTH, 0, 0)
-    defaultHero()
     eventPlayer.setMaxHealth(percent(OW1_ECHO_HEALTH/eventPlayer.getMaxHealth()))
     setUltCost(OW1_ECHO_ULT_COST)
     removeSelfHealing()

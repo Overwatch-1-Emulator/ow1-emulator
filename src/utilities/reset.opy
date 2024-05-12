@@ -18,12 +18,6 @@ subroutine resetFrenemies
 subroutine resetUltCharge
 subroutine resetSelfHealing
 
-#!define defaultHero() \
-    newHero(0, 0, 0)
-
-# newHero(0, 0, 0) creates default OW2 hero
-#!define newHero(health, armor, shields) setCustomHp(health, armor, shields)
-
 #!define resetHero()\
     clearCustomHp()\
     resetStats()\
