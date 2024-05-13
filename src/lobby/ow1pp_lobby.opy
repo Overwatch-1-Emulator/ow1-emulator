@@ -226,6 +226,7 @@ settings {
                 "ultGen%": percent(OW2_DVA_ULT_COST/OW1_DVA_ULT_COST)
             },
             "echo": {
+                "health%": percent(OW1_ECHO_HEALTH/OW2_ECHO_HEALTH),
                 "ultGen%": percent(OW2_ECHO_ULT_COST/OW1_ECHO_ULT_COST)
             },
             "genji": {

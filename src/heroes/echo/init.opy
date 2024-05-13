@@ -9,8 +9,7 @@ rule "[echo/init.opy]: Initialize Echo":
     @Hero echo
     @Condition eventPlayer.call_init
     @Condition not eventPlayer.isDuplicatingAHero()
-    
-    eventPlayer.setMaxHealth(percent(OW1_ECHO_HEALTH/eventPlayer.getMaxHealth()))
+
     setUltCost(OW1_ECHO_ULT_COST)
     removeSelfHealing()
 
