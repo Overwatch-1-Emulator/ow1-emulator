@@ -16,5 +16,6 @@ rule "[reinhardt/init.opy]: Initialize Reinhardt":
     setBaseDamage(eventPlayer, OW1_REINHARDT_FIRESTRIKE_DAMAGE/OW2_REINHARDT_FIRESTRIKE_DAMAGE)
 
     removeSelfHealing()
+    eventPlayer.setKnockbackReceived(percent((1 - OW1_REINHARDT_STEADFAST_KNOCKBACK_REDUCTION)/(1 - OW2_TANK_KNOCKBACK_REDUCTION)))
 
     eventPlayer.call_init = false
