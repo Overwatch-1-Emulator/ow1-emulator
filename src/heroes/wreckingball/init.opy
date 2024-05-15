@@ -14,4 +14,14 @@ rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
     removeTankPassive()
     removeSelfHealing()
 
+    setBaseDamage(eventPlayer, OW1_WRECKING_BALL_MINEFIELD_DAMAGE/OW2_WRECKING_BALL_MINEFIELD_DAMAGE)
+
     eventPlayer.call_init = false
+
+
+rule "[wreckingball/init.opy]: Correct primary fire, fireball, piledriver damage":
+    @Event playerDealtDamage
+    @Hero hammond
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1, Button.CROUCH]
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
