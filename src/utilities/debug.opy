@@ -190,7 +190,7 @@ rule "[utilities/debug.opy]: Debug damage instance":
     @Event playerTookDamage
     @Condition DEBUG_MODE
 
-    printLog("attacker={}, victim={}, ability={}, amount={}".format(attacker, victim, eventAbility, eventDamage))
+    printLog("attacker={}, victim={}, ability={}, amount={}, crit={}".format(attacker, victim, eventAbility, eventDamage, eventWasCriticalHit))
 
     victim._last_damage_received = eventDamage
     victim._total_damage_received += eventDamage
