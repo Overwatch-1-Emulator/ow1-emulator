@@ -22,4 +22,3 @@ rule "[dva/hp.opy]: Correct DVa pilot health":
     @Condition not eventPlayer.call_init
 
     clearCustomHp()
-    setCustomHp(OW1_DVA_PILOT_HEALTH, 0, 0)
