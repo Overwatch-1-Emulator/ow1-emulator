@@ -6,8 +6,8 @@
 
 rule "[winston/init.opy]: Initialize Winston":
     @Event eachPlayer
-    @Hero winston
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.WINSTON
+    @Condition eventPlayer._call_init
 
     setCustomHp(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
     setUltCost(OW1_WINSTON_ULT_COST)
@@ -19,7 +19,7 @@ rule "[winston/init.opy]: Initialize Winston":
 
     eventPlayer.setSecondaryFireEnabled(false) # disable sniper monkey
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[winston/init.opy]: Compensate Winston global damage reduction":

@@ -5,10 +5,10 @@
 
 rule "[tracer/init.opy]: Initialize Tracer":
     @Event eachPlayer
-    @Hero tracer
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.TRACER
+    @Condition eventPlayer._call_init
 
     setUltCost(OW1_TRACER_ULT_COST)
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

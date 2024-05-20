@@ -6,8 +6,8 @@
 
 rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
     @Event eachPlayer
-    @Hero hammond
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.HAMMOND
+    @Condition eventPlayer._call_init
 
     setCustomHp(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)
     setUltCost(OW1_WRECKING_BALL_ULT_COST)
@@ -16,7 +16,7 @@ rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
 
     setBaseDamage(eventPlayer, OW1_WRECKING_BALL_MINEFIELD_DAMAGE/OW2_WRECKING_BALL_MINEFIELD_DAMAGE)
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[wreckingball/init.opy]: Correct primary fire, fireball, piledriver damage":

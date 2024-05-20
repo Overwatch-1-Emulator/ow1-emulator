@@ -5,8 +5,8 @@
 
 rule "[ana/init.opy]: Initialize Ana":
     @Event eachPlayer
-    @Hero ana
-    @Condition eventPlayer.call_init == true
+    @Condition eventPlayer._hero_setup == Hero.ANA
+    @Condition eventPlayer._call_init
 
     setUltCost(OW1_ANA_ULT_COST)
     removeSelfHealing()
@@ -16,7 +16,7 @@ rule "[ana/init.opy]: Initialize Ana":
 
     setBaseDamage(eventPlayer, OW1_ANA_BIOTIC_GRENADE_DAMAGE/OW2_ANA_BIOTIC_GRENADE_DAMAGE)
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[ana/init.opy]: Correct rifle and sleep dart damage":

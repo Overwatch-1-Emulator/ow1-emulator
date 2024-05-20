@@ -8,8 +8,8 @@
 
 rule "[roadhog/init.opy]: Initialize Roadhog":
     @Event eachPlayer
-    @Hero roadhog
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
+    @Condition eventPlayer._call_init
     @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
 
     setCustomHp(OW1_ROADHOG_HEALTH, 0, 0)
@@ -32,4 +32,4 @@ rule "[roadhog/init.opy]: Initialize Roadhog":
     eventPlayer.preloadHero(Hero.ROADHOG)
     eventPlayer._is_exiting_wholehog = false
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

@@ -4,11 +4,12 @@ globalvar reset_gvar
 #!defineMember ready_color reset_gvar[0]
 
 playervar reset_pvar
-#!defineMember call_init reset_pvar[0]
+#!defineMember _call_init reset_pvar[0]
 #!defineMember friendly_orisa_player reset_pvar[2]
 #!defineMember friendly_sombra_player reset_pvar[3]
 #!defineMember enemy_orisa_player reset_pvar[5]
 #!defineMember enemy_sombra_player reset_pvar[6]
+#!defineMember _hero_setup reset_pvar[7]
 
 subroutine enableAllAbilities
 subroutine disableAllAbilities
@@ -127,5 +128,5 @@ rule "[utilities/reset.opy]: Reinitialize hero on new round":
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
     resetHero()
-    eventPlayer.call_init = true
+    eventPlayer._call_init = true
     # printLog('called init after new round')

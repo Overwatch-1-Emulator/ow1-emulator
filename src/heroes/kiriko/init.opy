@@ -7,8 +7,8 @@
 
 rule "[kiriko/init.opy]: Initialize Kiriko":
     @Event eachPlayer
-    @Hero kiriko
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.KIRIKO
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_KIRIKO_HEALTH, 0, 0)
     setUltCost(OW1_KIRIKO_ULT_COST)
@@ -21,7 +21,7 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
     eventPlayer.setAmmo(0, 12)
     setBaseDamage(eventPlayer, (OW1_KIRIKO_KUNAI_HEADSHOT_DAMAGE/OW2_KIRIKO_KUNAI_HEADSHOT_DAMAGE))
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":

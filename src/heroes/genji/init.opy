@@ -3,8 +3,8 @@
 
 rule "[genji/init.opy]: Initialize Genji":
     @Event eachPlayer
-    @Hero genji
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.GENJI
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_GENJI_HEALTH, 0, 0)
     setUltCost(OW1_GENJI_ULT_COST)
@@ -13,7 +13,7 @@ rule "[genji/init.opy]: Initialize Genji":
     
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[genji/init.opy]: Deal OW1 shuriken damage":

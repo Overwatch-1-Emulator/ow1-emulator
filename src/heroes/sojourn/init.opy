@@ -5,8 +5,8 @@
 
 rule "[sojourn/init.opy]: Initialize Sojourn":
     @Event eachPlayer
-    @Hero sojourn
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.SOJOURN
+    @Condition eventPlayer._call_init
 
     setCustomHp(OW1_SOJOURN_HEALTH, 0, 0)
     setUltCost(OW1_SOJOURN_ULT_COST)
@@ -14,7 +14,7 @@ rule "[sojourn/init.opy]: Initialize Sojourn":
     
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[sojourn/init.opy]: Deal regular damage for Primary and Melee":

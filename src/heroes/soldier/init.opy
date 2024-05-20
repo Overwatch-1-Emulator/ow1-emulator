@@ -6,12 +6,12 @@
 
 rule "[soldier/init.opy]: Initialize Soldier 76":
     @Event eachPlayer
-    @Hero soldier
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.SOLDIER
+    @Condition eventPlayer._call_init
 
     setCustomHp(OW1_SOLDIER_HEALTH, 0, 0)
     setUltCost(OW1_SOLDIER_ULT_COST)
     eventPlayer.setHealingDealt(percent(OW1_SOLDIER_BIOTIC_FIELD_HEAL/OW2_SOLDIER_BIOTIC_FIELD_HEAL))
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

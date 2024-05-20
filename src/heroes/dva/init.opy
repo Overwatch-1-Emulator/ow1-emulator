@@ -8,11 +8,11 @@
 
 rule "[dva/init.opy]: Initialize DVa":
     @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.DVA
+    @Condition eventPlayer._call_init
     
     setUltCost(OW1_DVA_ULT_COST)
     removeTankPassive()
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

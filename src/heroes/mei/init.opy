@@ -6,8 +6,8 @@
 
 rule "[mei/init.opy]: Initialize Mei":
     @Event eachPlayer
-    @Hero mei
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.MEI
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_MEI_HEALTH, 0, 0)
     setUltCost(OW1_MEI_ULT_COST)
@@ -15,4 +15,4 @@ rule "[mei/init.opy]: Initialize Mei":
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
