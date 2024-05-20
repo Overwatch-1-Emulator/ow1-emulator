@@ -68,7 +68,7 @@ subroutine updateBarrierVisual
 
 rule "[orisa/barrier.opy]: Trigger Projectile Barrier ability":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) == 0
 
@@ -223,7 +223,7 @@ def destroyBarrier():
 
 rule "[orisa/barrier.opy]: Destroy barrier on barrier timeout":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.barrier_uptime >= OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME
 
     stopChasingVariable(eventPlayer.barrier_uptime)
@@ -232,7 +232,7 @@ rule "[orisa/barrier.opy]: Destroy barrier on barrier timeout":
 
 rule "[orisa/barrier.opy]: Destroy barrier when barrier hp runs out":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.barrier_hp <= 0
 
     stopChasingVariable(eventPlayer.barrier_uptime)
@@ -345,7 +345,7 @@ def updateBarrierVisual():
 
 rule "[orisa/barrier.opy]: Crack Barrier at half health":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.barrier_hp <= OW1_ORISA_PROJECTILE_BARRIER_HEALTH/2
 
     updateBarrierVisual()
@@ -353,7 +353,7 @@ rule "[orisa/barrier.opy]: Crack Barrier at half health":
 
 rule "[orisa/barrier.opy]: Crack Barrier at quarter health":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.barrier_hp <= OW1_ORISA_PROJECTILE_BARRIER_HEALTH/4
 
     updateBarrierVisual()

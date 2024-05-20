@@ -13,7 +13,7 @@ playervar sleep_pvar
 
 rule "[ana/sleep.opy]: Sleep tanks for longer duration":
     @Event playerDealtDamage
-    @Hero ana
+    @Condition eventPlayer._hero_setup == Hero.ANA
     @Condition eventAbility == Button.ABILITY_1
     @Condition victim.getCurrentHero() in getTankHeroes()
     

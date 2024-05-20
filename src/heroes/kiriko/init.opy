@@ -26,7 +26,7 @@ rule "[kiriko/init.opy]: Initialize Kiriko":
 
 rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":
     @Event playerDealtDamage
-    @Hero kiriko
+    @Condition eventPlayer._hero_setup == Hero.KIRIKO
     @Condition eventAbility in [Button.MELEE]
     
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

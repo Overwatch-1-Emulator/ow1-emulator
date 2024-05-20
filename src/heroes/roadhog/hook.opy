@@ -3,7 +3,7 @@
 
 # rule "[roadhog/hook.opy]: Move hooked enemies closer":
 #     @Event playerDealtDamage
-#     @Hero roadhog
+#     @Condition eventPlayer._hero_setup == Hero.ROADHOG
 #     @Condition eventPlayer.isUsingAbility1()
 
 #     waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
@@ -19,7 +19,7 @@
 
 rule "[roadhog/hook.opy]: OW1 hook damage":
     @Event playerDealtDamage
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition eventAbility == Button.ABILITY_1
 
     damage(

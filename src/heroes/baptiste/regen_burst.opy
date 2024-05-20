@@ -3,7 +3,7 @@
 
 rule "[baptiste/regen_burst.opy]: Remove initial burst healing from regenerative burst":
     @Event eachPlayer
-    @Hero baptiste
+    @Condition eventPlayer._hero_setup == Hero.BAPTISTE
     @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer.setHealingDealt(0)
@@ -13,7 +13,7 @@ rule "[baptiste/regen_burst.opy]: Remove initial burst healing from regenerative
 
 rule "[baptiste/regen_burst.opy]: Allow self healing during regenerative burst":
     @Event eachPlayer
-    @Hero baptiste
+    @Condition eventPlayer._hero_setup == Hero.BAPTISTE
     @Condition eventPlayer.isUsingAbility1()
 
     pushSelfHealing(Button.ABILITY_1)
@@ -23,7 +23,7 @@ rule "[baptiste/regen_burst.opy]: Allow self healing during regenerative burst":
 
 rule "[baptiste/regen_burst.opy]: OW1 regenerative burst self hps":
     @Event playerDealtHealing
-    @Hero baptiste
+    @Condition eventPlayer._hero_setup == Hero.BAPTISTE
     @Condition healee == healer
     @Condition eventAbility == Button.ABILITY_1
     
@@ -32,7 +32,7 @@ rule "[baptiste/regen_burst.opy]: OW1 regenerative burst self hps":
 
 rule "[baptiste/regen_burst.opy]: OW1 regenerative burst ally hps":
     @Event playerDealtHealing
-    @Hero baptiste
+    @Condition eventPlayer._hero_setup == Hero.BAPTISTE
     @Condition eventAbility == Button.ABILITY_1
     @Condition healee != healer
     

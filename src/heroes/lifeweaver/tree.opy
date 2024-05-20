@@ -3,7 +3,7 @@
 
 # rule "[lifeweaver/init.opy]: Allow self healing during Tree of Life":
 #     @Event eachPlayer
-#     @Hero lifeweaver
+#     @Condition eventPlayer._hero_setup == Hero.LIFEWEAVER
 #     @Condition eventPlayer.isUsingUltimate()
 
 #     pushSelfHealing(Button.ULTIMATE)

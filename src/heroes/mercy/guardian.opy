@@ -7,7 +7,7 @@ playervar slingshot_velocity
 
 rule "[mercy/guardian.opy]: Detect Guardian Angel activation":
     @Event eachPlayer
-    @Hero mercy
+    @Condition eventPlayer._hero_setup == Hero.MERCY
     @Condition eventPlayer.getSpeed() >= OW1_MERCY_GUARDIAN_ANGEL_MAX_SPEED/2
     @Condition eventPlayer.isUsingAbility1()
 
@@ -18,7 +18,7 @@ rule "[mercy/guardian.opy]: Detect Guardian Angel activation":
 
 rule "[mercy/guardian.opy]: Disable jump and crouch during guardian angel":
     @Event eachPlayer
-    @Hero mercy
+    @Condition eventPlayer._hero_setup == Hero.MERCY
     @Condition eventPlayer.is_using_guardian_angel
     
     eventPlayer.disallowButton(Button.JUMP)
@@ -30,7 +30,7 @@ rule "[mercy/guardian.opy]: Disable jump and crouch during guardian angel":
 
 rule "[mercy/guardian.opy]: Activate GA slingshot":
     @Event eachPlayer
-    @Hero mercy
+    @Condition eventPlayer._hero_setup == Hero.MERCY
     @Condition eventPlayer.is_using_guardian_angel
     @Condition not eventPlayer.isHoldingButton(Button.JUMP) # wait until below acts as the final condition for activating slingshot
     waitUntil(eventPlayer.is_using_guardian_angel and eventPlayer.isHoldingButton(Button.JUMP), Math.INFINITY)
@@ -45,7 +45,7 @@ rule "[mercy/guardian.opy]: Activate GA slingshot":
 
 rule "[mercy/guardian.opy]: Apply upwards momentum when starting slingshot":
     @Event eachPlayer
-    @Hero mercy
+    @Condition eventPlayer._hero_setup == Hero.MERCY
     @Condition eventPlayer.is_slingshotting == true
 
     eventPlayer.applyImpulse(Vector.UP, 
@@ -56,7 +56,7 @@ rule "[mercy/guardian.opy]: Apply upwards momentum when starting slingshot":
 
 rule "[mercy/guardian.opy]: Give speed boost during slingshot":
     @Event eachPlayer
-    @Hero mercy
+    @Condition eventPlayer._hero_setup == Hero.MERCY
     @Condition eventPlayer.is_slingshotting
     
     do:
@@ -70,7 +70,7 @@ rule "[mercy/guardian.opy]: Give speed boost during slingshot":
 
 rule "[mercy/guardian.opy]: Force angelic descent during slingshot":
     @Event eachPlayer
-    @Hero mercy
+    @Condition eventPlayer._hero_setup == Hero.MERCY
     @Condition eventPlayer.is_slingshotting == true
     
     eventPlayer.allowButton(Button.JUMP)
@@ -81,7 +81,7 @@ rule "[mercy/guardian.opy]: Force angelic descent during slingshot":
 
 rule "[mercy/guardian.opy]: Slingshot GA cooldown logic":
     @Event eachPlayer
-    @Hero mercy
+    @Condition eventPlayer._hero_setup == Hero.MERCY
     @Condition eventPlayer.is_slingshotting == true
 
     eventPlayer.setAbility1Enabled(false)

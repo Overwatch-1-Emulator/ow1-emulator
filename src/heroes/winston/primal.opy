@@ -7,7 +7,7 @@ playervar primal_pvar
 
 rule "[winston/primal.opy]: Fix primal rage hp":
     @Event eachPlayer
-    @Hero winston
+    @Condition eventPlayer._hero_setup == Hero.WINSTON
     @Condition eventPlayer.isUsingUltimate()
     
     setCustomHp(OW1_WINSTON_PRIMAL_HEALTH, OW1_WINSTON_PRIMAL_ARMOR, 0)

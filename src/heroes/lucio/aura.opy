@@ -3,7 +3,7 @@
 
 rule "[lucio/aura.opy]: Allow self healing during heal aura":
     @Event eachPlayer
-    @Hero lucio
+    @Condition eventPlayer._hero_setup == Hero.LUCIO
     @Condition not eventPlayer.isUsingAbility1()
 
     pushSelfHealing(Button.ABILITY_1)

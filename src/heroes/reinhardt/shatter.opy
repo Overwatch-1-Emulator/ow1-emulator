@@ -3,7 +3,7 @@
 
 rule "[reinhardt/shatter.opy]: OW1 one shot earthshatter":
     @Event playerDealtDamage
-    @Hero reinhardt
+    @Condition eventPlayer._hero_setup == Hero.REINHARDT
     @Condition eventAbility == Button.ULTIMATE
     @Condition eventWasCriticalHit
     
@@ -17,7 +17,7 @@ rule "[reinhardt/shatter.opy]: OW1 one shot earthshatter":
 
 rule "[reinhardt/shatter.opy]: OW1 earthshatter knock down duration":
     @Event playerDealtDamage
-    @Hero reinhardt
+    @Condition eventPlayer._hero_setup == Hero.REINHARDT
     @Condition victim.hasStatusEffect(Status.KNOCKED_DOWN)
 
     wait(OW1_REINHARDT_EARTHSHATTER_KNOCK_DOWN_DURATION)

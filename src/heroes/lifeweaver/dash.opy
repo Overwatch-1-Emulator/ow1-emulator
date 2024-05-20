@@ -3,7 +3,7 @@
 
 # rule "[lifeweaver/init.opy]: Allow self healing during Rejuvanating Dash":
 #     @Event eachPlayer
-#     @Hero lifeweaver
+#     @Condition eventPlayer._hero_setup == Hero.LIFEWEAVER
 #     @Condition not eventPlayer.isOnGround()
 #     @Condition not eventPlayer.isHoldingButton(Button.JUMP)
 #     @Condition eventPlayer.getAbilityCooldown(Button.JUMP) <= 0

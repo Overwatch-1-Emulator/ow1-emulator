@@ -3,7 +3,7 @@
 
 rule "[symmetra/orb.opy]: Set OW1 Symmetra Photo Projector projectile speed":
     @Event eachPlayer
-    @Hero symmetra
+    @Condition eventPlayer._hero_setup == Hero.SYMMETRA
     @Condition eventPlayer.isFiringSecondaryFire()
 
     eventPlayer.setProjectileSpeed(percent(OW1_SYMMETRA_ORB_SPEED/OW2_SYMMETRA_ORB_SPEED))
@@ -13,7 +13,7 @@ rule "[symmetra/orb.opy]: Set OW1 Symmetra Photo Projector projectile speed":
 
 rule "[symmetra/orb.opy]: Deal OW1 symmetra secondary fire damage":
     @Event playerDealtDamage
-    @Hero symmetra
+    @Condition eventPlayer._hero_setup == Hero.SYMMETRA
     @Condition eventAbility == Button.SECONDARY_FIRE
 
     damage(

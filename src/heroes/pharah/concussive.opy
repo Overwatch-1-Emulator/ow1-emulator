@@ -3,7 +3,7 @@
 
 rule "[pharah/concussive.opy]: Remove OW2 Concussive Blast damage":
     @Event playerDealtDamage
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition eventAbility == Button.ABILITY_2
 
     heal(victim, null, eventDamage)

@@ -15,7 +15,7 @@ subroutine hideOrisaAmmoHud
 
 rule "[orisa/fusion_driver.opy]: Decrease ammo when shooting gun":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     @Condition not eventPlayer.is_orisa_reloading
     @Condition not eventPlayer.isMeleeing()
@@ -29,7 +29,7 @@ rule "[orisa/fusion_driver.opy]: Decrease ammo when shooting gun":
 
 rule "[orisa/fusion_driver.opy]: Reload gun after respawning":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isDead()
 
     waitUntil(eventPlayer.isInSpawnRoom(), Math.INFINITY)
@@ -38,7 +38,7 @@ rule "[orisa/fusion_driver.opy]: Reload gun after respawning":
 
 rule "[orisa/fusion_driver.opy]: Update ammo when shooting gun":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     @Condition not eventPlayer.is_orisa_reloading
 
@@ -47,7 +47,7 @@ rule "[orisa/fusion_driver.opy]: Update ammo when shooting gun":
 
 rule "[orisa/fusion_driver.opy]: Reload when out of ammo":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.orisa_ammo <= 0
 
     reloadFusionDriver()
@@ -55,7 +55,7 @@ rule "[orisa/fusion_driver.opy]: Reload when out of ammo":
 
 rule "[orisa/fusion_driver.opy]: Reload on key press":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
     @Condition eventPlayer.orisa_ammo < OW1_ORISA_CLIP_SIZE
 
@@ -113,7 +113,7 @@ def hideOrisaAmmoHud():
 
 rule "[orisa/fusion_driver.opy]: Slow down Orisa when shooting":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     @Condition not eventPlayer.is_orisa_reloading
 

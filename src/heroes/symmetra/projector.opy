@@ -3,7 +3,7 @@
 
 rule "[symmetra/init.opy]: Correct Photon Projector damage":
     @Event playerDealtDamage
-    @Hero symmetra
+    @Condition eventPlayer._hero_setup == Hero.SYMMETRA
     @Condition eventAbility == Button.ABILITY_1
 
     damage(

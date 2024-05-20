@@ -17,7 +17,7 @@ rule "[reaper/init.opy]: Initialize Reaper":
 
 rule "[reaper/init.opy]: Deal OW1 Reaper primary fire damage":
     @Event playerDealtDamage
-    @Hero reaper
+    @Condition eventPlayer._hero_setup == Hero.REAPER
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, (OW1_REAPER_HELLFIRE_SHOTGUNS_DAMAGE/OW2_REAPER_HELLFIRE_SHOTGUNS_DAMAGE) * eventDamage - eventDamage)

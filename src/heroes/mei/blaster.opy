@@ -9,7 +9,7 @@ subroutine clearFreezeEffect
 
 rule "[mei/blaster.opy]: Track freezing on enemy":
     @Event playerDealtDamage
-    @Hero mei
+    @Condition eventPlayer._hero_setup == Hero.MEI
     @Condition eventAbility == Button.PRIMARY_FIRE
     @Condition victim.freeze_progress < 100
 
@@ -29,7 +29,6 @@ rule "[mei/blaster.opy]: Track freezing on enemy":
 
 rule "[mei/blaster.opy]: Freeze enemy":
     @Event playerTookDamage
-    @Hero all
     @Condition victim.freeze_progress >= 100
 
     victim.setStatusEffect(eventPlayer, Status.FROZEN, 1*OW1_MEI_FREEZE_DURATION) # 1x feels too short for some reason
@@ -39,7 +38,6 @@ rule "[mei/blaster.opy]: Freeze enemy":
 
 rule "[mei/blaster.opy]: clear freeze after exceeding linger time":
     @Event eachPlayer
-    @Hero all
     @Condition eventPlayer.freeze_slow_linger_time >= OW1_MEI_FREEZE_SLOW_LINGER_DURATION
 
     clearFreezeEffect()
@@ -55,7 +53,7 @@ def clearFreezeEffect():
 
 rule "[mei/blaster.opy]: OW1 blaster damage":
     @Event playerDealtDamage
-    @Hero mei
+    @Condition eventPlayer._hero_setup == Hero.MEI
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     heal(victim, null, eventDamage - (OW1_MEI_BLASTER_DAMAGE_RATE/OW2_MEI_BLASTER_DAMAGE_RATE)*eventDamage)

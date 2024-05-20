@@ -3,7 +3,7 @@
 
 rule "[winston/leap.opy]: Override leap cooldown during primal":
     @Event eachPlayer
-    @Hero winston
+    @Condition eventPlayer._hero_setup == Hero.WINSTON
     @Condition eventPlayer.isUsingUltimate()
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) > 0
     

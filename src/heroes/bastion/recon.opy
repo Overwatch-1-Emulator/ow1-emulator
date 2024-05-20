@@ -3,7 +3,7 @@
 
 rule "[bastion/recon.opy]: Initialize recon mode":
     @Event eachPlayer
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition not eventPlayer.isInAlternateForm() # built in workshop function for detecting default hero form
 
     eventPlayer.current_configuration = Configuration.RECON
@@ -22,7 +22,7 @@ rule "[bastion/recon.opy]: Initialize recon mode":
 
 # rule "[bastion/sentry.opy]: OW1 Bastion recon fire rate":
 #     @Event eachPlayer
-#     @Hero bastion
+#     @Condition eventPlayer._hero_setup == Hero.BASTION
 #     @Condition eventPlayer.isFiringPrimaryFire()
 
 #     do:

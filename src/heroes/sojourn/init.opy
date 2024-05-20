@@ -19,7 +19,7 @@ rule "[sojourn/init.opy]: Initialize Sojourn":
 
 rule "[sojourn/init.opy]: Deal regular damage for Primary and Melee":
     @Event playerDealtDamage
-    @Hero sojourn
+    @Condition eventPlayer._hero_setup == Hero.SOJOURN
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.MELEE]
 
     # Example on melee

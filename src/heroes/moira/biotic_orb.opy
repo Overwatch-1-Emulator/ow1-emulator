@@ -3,7 +3,7 @@
 
 # rule "[moira/biotic_orb.opy]: Allow self healing during Biotic Orb":
 #     @Event eachPlayer
-#     @Hero moira
+#     @Condition eventPlayer._hero_setup == Hero.MOIRA
 #     @Condition eventPlayer.isUsingAbility2()
 #     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
 

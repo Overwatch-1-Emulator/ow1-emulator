@@ -3,7 +3,7 @@
 
 rule "[bastion/tank.opy]: Initialize tank mode":
     @Event eachPlayer
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.current_configuration = Configuration.TANK
@@ -38,7 +38,7 @@ rule "[bastion/tank.opy]: Initialize tank mode":
 
 rule "[bastion/tank.opy]: Fire tank shells":
     @Event eachPlayer
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition eventPlayer.current_configuration == Configuration.TANK
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     
@@ -53,7 +53,7 @@ rule "[bastion/tank.opy]: Fire tank shells":
 
 rule "[bastion/tank.opy]: Reload tank shells":
     @Event eachPlayer
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition eventPlayer.current_configuration == Configuration.TANK
     @Condition eventPlayer.isFiringSecondaryFire()
 

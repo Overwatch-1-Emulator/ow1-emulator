@@ -11,7 +11,7 @@ subroutine hideStealthHud
 
 rule "[sombra/stealth.opy]: Remove Stealth passive":
     @Event eachPlayer
-    @Hero sombra
+    @Condition eventPlayer._hero_setup == Hero.SOMBRA
     @Condition not eventPlayer.is_using_stealth
     @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition not eventPlayer.isFiringSecondaryFire()
@@ -27,7 +27,7 @@ rule "[sombra/stealth.opy]: Remove Stealth passive":
 
 rule "[sombra/stealth.opy]: Bind Ability 1 to stealth":
     @Event eachPlayer
-    @Hero sombra
+    @Condition eventPlayer._hero_setup == Hero.SOMBRA
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
     @Condition not eventPlayer.is_using_stealth
@@ -56,7 +56,7 @@ def enterStealth():
 
 rule "[sombra/stealth.opy]: Exit Stealth when shooting":
     @Event eachPlayer
-    @Hero sombra
+    @Condition eventPlayer._hero_setup == Hero.SOMBRA
     @Condition eventPlayer.is_using_stealth
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE) \
             or eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) \
@@ -70,7 +70,7 @@ rule "[sombra/stealth.opy]: Exit Stealth when shooting":
 
 rule "[sombra/stealth.opy]: Exit Stealth when taking damage":
     @Event playerTookDamage
-    @Hero sombra
+    @Condition eventPlayer._hero_setup == Hero.SOMBRA
     @Condition eventPlayer.is_using_stealth
 
     exitStealth()

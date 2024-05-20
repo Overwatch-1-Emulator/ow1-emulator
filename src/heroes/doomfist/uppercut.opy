@@ -12,7 +12,7 @@ playervar uppercut_shields #uppercut_pvar[2]
 
 rule "[doomfist/uppercut.opy]: Control flow for uppercut":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.isUsingAbility2()
     @Condition not eventPlayer.isUsingAbility1()
     @Condition not eventPlayer.isFiringSecondaryFire()
@@ -47,7 +47,7 @@ rule "[doomfist/uppercut.opy]: Control flow for uppercut":
 
 rule "[doomfist/uppercut.opy]: Uppercut vfx + movement physics":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.is_using_uppercut
 
     # vfx
@@ -87,7 +87,7 @@ rule "[doomfist/uppercut.opy]: Uppercut vfx + movement physics":
 
 rule "[doomfist/uppercut.opy]: Detect uppercut victims":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.is_using_uppercut
     @Condition eventPlayer.isAlive()
 
@@ -161,7 +161,7 @@ rule "[doomfist/uppercut.opy]: Uppercut victim state variables":
 
 rule "[doomfist/uppercut.opy]: Heal doomfist uppercut shields":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition updateEveryTick(eventPlayer.uppercut_shields > 0)
     @Condition updateEveryTick(eventPlayer.getHealth() < eventPlayer.getMaxHealth())
     

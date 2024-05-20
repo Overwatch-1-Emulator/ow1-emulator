@@ -6,7 +6,7 @@ playervar swift_step_pvar
 
 rule "[kiriko/swift_step.opy]: Heal when using Swift Step":
     @Event eachPlayer
-    @Hero kiriko
+    @Condition eventPlayer._hero_setup == Hero.KIRIKO
     @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer._hp_before_step = eventPlayer.getHealth()

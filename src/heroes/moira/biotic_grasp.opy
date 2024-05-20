@@ -3,7 +3,7 @@
 
 # rule "[moira/biotic_grasp.opy]: Allow self healing during Biotic Grasp":
 #     @Event playerDealtDamage
-#     @Hero moira
+#     @Condition eventPlayer._hero_setup == Hero.MOIRA
 #     @Condition eventAbility == Button.SECONDARY_FIRE
 
 #     pushSelfHealing(Button.SECONDARY_FIRE)
@@ -13,7 +13,7 @@
 
 rule "[moira/biotic_grasp.opy]: OW1 biotic grasp damage":
     @Event playerDealtDamage
-    @Hero moira
+    @Condition eventPlayer._hero_setup == Hero.MOIRA
     @Condition eventAbility == Button.SECONDARY_FIRE    
 
     heal(victim, null, eventDamage - (OW1_MOIRA_BIOTIC_GRASP_DAMAGE/OW2_MOIRA_BIOTIC_GRASP_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar))

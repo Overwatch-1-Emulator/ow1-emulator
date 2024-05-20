@@ -39,7 +39,7 @@ subroutine hideFuelGui
 
 rule "[pharah/hover_jets.opy]: Disable jet dash":
     @Event eachPlayer
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition eventPlayer.getAbilityCooldown(eventPlayer._jet_dash_button) <= 1
     @Condition eventPlayer._jet_dash_button != null
 
@@ -48,7 +48,7 @@ rule "[pharah/hover_jets.opy]: Disable jet dash":
 
 rule "[pharah/hover_jets.opy]: Consume fuel when using hover jets":
     @Event eachPlayer
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition isUsingHoverJets()
 
     eventPlayer.setMoveSpeed(percent(OW1_PHARAH_HOVER_JETS_SPEED_BOOST/OW2_PHARAH_HOVER_JETS_SPEED_BOOST))
@@ -57,7 +57,7 @@ rule "[pharah/hover_jets.opy]: Consume fuel when using hover jets":
 
 rule "[pharah/hover_jets.opy]: Stop fuel consumption when not using hover jets":
     @Event eachPlayer
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition not isUsingHoverJets()
 
     eventPlayer.setMoveSpeed(100)
@@ -66,7 +66,7 @@ rule "[pharah/hover_jets.opy]: Stop fuel consumption when not using hover jets":
 
 rule "[pharah/hover_jets.opy]: Recharge hover jets":
     @Event eachPlayer
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition not isUsingHoverJets()
     @Condition not isGlidingOnRoof()
 
@@ -76,7 +76,7 @@ rule "[pharah/hover_jets.opy]: Recharge hover jets":
 
 rule "[pharah/hover_jets.opy]: Stop fuel recharge when gliding on roof":
     @Event eachPlayer
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition not isUsingHoverJets()
     @Condition isGlidingOnRoof()
 
@@ -86,7 +86,7 @@ rule "[pharah/hover_jets.opy]: Stop fuel recharge when gliding on roof":
 
 rule "[pharah/hover_jets.opy]: Disable hover jets when out of fuel":
     @Event eachPlayer
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition eventPlayer.jet_fuel <= 0
     @Condition eventPlayer._hover_jet_button != null
 
@@ -95,7 +95,7 @@ rule "[pharah/hover_jets.opy]: Disable hover jets when out of fuel":
 
 rule "[pharah/hover_jets.opy]: Enable hover jets when fuel available":
     @Event eachPlayer
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition eventPlayer.jet_fuel > 0
     @Condition eventPlayer._hover_jet_button != null
 

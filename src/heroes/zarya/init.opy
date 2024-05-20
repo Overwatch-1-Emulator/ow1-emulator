@@ -33,7 +33,7 @@ rule "[zarya/init.opy]: Clean up Zarya":
 
 rule "[zarya/init.opy]: Compensate zarya global damage reduction":
     @Event playerDealtDamage
-    @Hero zarya
+    @Condition eventPlayer._hero_setup == Hero.ZARYA
     @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ULTIMATE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

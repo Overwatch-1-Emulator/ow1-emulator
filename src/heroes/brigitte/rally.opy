@@ -5,7 +5,7 @@ playervar ralley_hot_id
 
 rule "[brigitte/rally.opy]: Rally 30% speed boost":
     @Event eachPlayer
-    @Hero brigitte
+    @Condition eventPlayer._hero_setup == Hero.BRIGITTE
     @Condition eventPlayer.isUsingUltimate() == true
     
     eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF)) # 30% movement speed buff during ralley
@@ -15,7 +15,7 @@ rule "[brigitte/rally.opy]: Rally 30% speed boost":
 
 rule "[brigitte/rally.opy]: Remove Rally instant armor":
     @Event eachPlayer
-    @Hero brigitte
+    @Condition eventPlayer._hero_setup == Hero.BRIGITTE
     @Condition eventPlayer.isUsingUltimate()
 
     damage(eventPlayer, null, OW2_BRIGITTE_RALLY_INSTANT_ARMOR/(1-OW2_ARMOR_DAMAGE_REDUCTION))

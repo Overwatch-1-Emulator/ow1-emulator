@@ -21,7 +21,7 @@ rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
 
 rule "[wreckingball/init.opy]: Correct primary fire, fireball, piledriver damage":
     @Event playerDealtDamage
-    @Hero hammond
+    @Condition eventPlayer._hero_setup == Hero.HAMMOND
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1, Button.CROUCH]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

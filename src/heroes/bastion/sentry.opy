@@ -3,7 +3,7 @@
 
 rule "[bastion/sentry.opy]: Initialize sentry mode":
     @Event eachPlayer
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition eventPlayer.isInAlternateForm()
     @Condition eventPlayer.current_configuration == Configuration.RECON # Sentry mode can only be entered from recon mode
     @Condition eventPlayer.current_configuration != Configuration.TANK # prevents incorrectly identifying tank as sentry
@@ -23,7 +23,7 @@ rule "[bastion/sentry.opy]: Initialize sentry mode":
 
 rule "[bastion/sentry.opy]: Extend sentry mode": # thanks to Wadetata for this wonderful piece of code that Ciach795 rewrote to OverPy: https://workshop.codes/AMSG8
     @Event eachPlayer
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
     @Condition eventPlayer.isUsingAbility1()
 

@@ -3,7 +3,7 @@
 
 rule "[illari/solar_rifle.opy]: OW1 Solar Rifle body damage":
     @Event playerDealtDamage
-    @Hero illari
+    @Condition eventPlayer._hero_setup == Hero.ILLARI
     @Condition eventAbility == Button.PRIMARY_FIRE
     @Condition not eventWasCriticalHit
 
@@ -17,7 +17,7 @@ rule "[illari/solar_rifle.opy]: OW1 Solar Rifle body damage":
 
 rule "[illari/solar_rifle.opy]: OW1 Solar Rifle headshot damage":
     @Event playerDealtDamage
-    @Hero illari
+    @Condition eventPlayer._hero_setup == Hero.ILLARI
     @Condition eventAbility == Button.PRIMARY_FIRE
     @Condition eventWasCriticalHit
 

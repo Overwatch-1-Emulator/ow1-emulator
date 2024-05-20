@@ -3,7 +3,7 @@
 
 rule "[reinhardt/hammer.opy]: Correct Hammer damage":
     @Event playerDealtDamage
-    @Hero reinhardt
+    @Condition eventPlayer._hero_setup == Hero.REINHARDT
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(

@@ -4,7 +4,7 @@
 
 rule "[wreckingball/grapple.opy]: OW1 Grappling Claw Cooldown":
     @Event eachPlayer
-    @Hero hammond
+    @Condition eventPlayer._hero_setup == Hero.HAMMOND
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) > 0
 
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_WRECKING_BALL_GRAPPLE_COOLDOWN)
@@ -12,7 +12,7 @@ rule "[wreckingball/grapple.opy]: OW1 Grappling Claw Cooldown":
 
 rule "[wreckingball/grapple.opy]: Correct Fireball impact damage":
     @Event playerDealtDamage
-    @Hero hammond
+    @Condition eventPlayer._hero_setup == Hero.HAMMOND
     @Condition eventAbility == Button.SECONDARY_FIRE
         
         damage(

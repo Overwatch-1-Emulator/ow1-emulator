@@ -11,7 +11,7 @@
 # corrects railgun total bodyshot damage to range [ow1_min, ow1_max]
 rule "[sojourn/railgun.opy]: OW1 Railgun alt fire bodyshot damage":
     @Event playerDealtDamage
-    @Hero sojourn
+    @Condition eventPlayer._hero_setup == Hero.SOJOURN
     @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ULTIMATE]
     @Condition not eventWasCriticalHit
 
@@ -23,7 +23,7 @@ rule "[sojourn/railgun.opy]: OW1 Railgun alt fire bodyshot damage":
 # corrects total headshot damage to range [2*ow1_min, 2*ow1_max]
 rule "[sojourn/railgun.opy]: OW1 Railgun alt fire headshot damage":
     @Event playerDealtDamage
-    @Hero sojourn
+    @Condition eventPlayer._hero_setup == Hero.SOJOURN
     @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ULTIMATE]
     @Condition eventWasCriticalHit
 

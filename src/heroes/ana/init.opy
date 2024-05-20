@@ -21,7 +21,7 @@ rule "[ana/init.opy]: Initialize Ana":
 
 rule "[ana/init.opy]: Correct rifle and sleep dart damage":
     @Event playerDealtDamage
-    @Hero ana
+    @Condition eventPlayer._hero_setup == Hero.ANA
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

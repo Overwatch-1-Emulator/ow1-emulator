@@ -3,7 +3,7 @@
 
 rule "[kiriko/kunai.opy]: OW1 Kunai damage":
     @Event playerDealtDamage
-    @Hero kiriko
+    @Condition eventPlayer._hero_setup == Hero.KIRIKO
     # @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition eventAbility == null # Workshop bug: Kunai event Ability = null instead of secondary fire
     @Condition eventDamage >= OW2_KIRIKO_KUNAI_DAMAGE*eventPlayer._base_damage_scalar
@@ -14,7 +14,7 @@ rule "[kiriko/kunai.opy]: OW1 Kunai damage":
 
 # rule "[kiriko/kunai.opy]: OW1 Kiriko fire rate":
 #     @Event eachPlayer
-#     @Hero kiriko
+#     @Condition eventPlayer._hero_setup == Hero.KIRIKO
 #     @Condition eventPlayer.isFiringSecondaryFire()
 #     @Condition not eventPlayer.isUsingUltimate()
 

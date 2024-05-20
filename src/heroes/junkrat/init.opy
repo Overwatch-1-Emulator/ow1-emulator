@@ -23,7 +23,7 @@ rule "[junkrat/init.opy]: Initialize Junkrat":
 
 rule "[junkrat/init.opy]: Correct Mine, Tire damage":
     @Event playerDealtDamage
-    @Hero junkrat
+    @Condition eventPlayer._hero_setup == Hero.JUNKRAT
     @Condition eventAbility in [Button.ABILITY_1, Button.ULTIMATE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

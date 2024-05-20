@@ -22,7 +22,7 @@ playervar scrap_i
 
 rule "[roadhog/scrap_gun.opy]: OW1 Scrap Gun secondary fire":
     @Event eachPlayer
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
     @Condition not isCCd(eventPlayer)
     @Condition not eventPlayer.isFiringPrimaryFire()
@@ -95,7 +95,7 @@ rule "[roadhog/scrap_gun.opy]: OW1 Scrap Gun secondary fire":
 
 rule "[roadhog/scrap_gun.opy]: Record last time scrap gun fired":
     @Event eachPlayer
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition eventPlayer.isFiringPrimaryFire()
 
     eventPlayer._scrap_last_fire_time = getTotalTimeElapsed()

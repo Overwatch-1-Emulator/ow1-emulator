@@ -14,7 +14,7 @@ playervar adaptive_shield_pvar
 
 rule "[wreckingball/adaptive_shield.opy]: OW1 Adaptive Shields":
     @Event eachPlayer
-    @Hero hammond
+    @Condition eventPlayer._hero_setup == Hero.HAMMOND
     @Condition eventPlayer.isUsingAbility2()
 
     eventPlayer._ow2_adaptive_shield_n = \
@@ -35,7 +35,7 @@ rule "[wreckingball/adaptive_shield.opy]: OW1 Adaptive Shields":
 
 rule "[wreckingball/adaptive_shield.opy]: Disable OW2 shield transfer":
     @Event eachPlayer
-    @Hero hammond
+    @Condition eventPlayer._hero_setup == Hero.HAMMOND
     @Condition eventPlayer.isUsingAbility2()
 
     eventPlayer.disallowButton(Button.ABILITY_2)

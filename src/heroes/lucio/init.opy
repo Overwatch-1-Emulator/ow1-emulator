@@ -20,7 +20,7 @@ rule "[lucio/init.opy]: Initialize Lucio":
 
 rule "[lucio/init.opy]: OW1 Sonic Amplifier damage":
     @Event playerDealtDamage
-    @Hero lucio
+    @Condition eventPlayer._hero_setup == Hero.LUCIO
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, eventDamage*(OW1_LUCIO_SOUND_GUN_DAMAGE/OW2_LUCIO_SOUND_GUN_DAMAGE) - eventDamage)

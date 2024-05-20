@@ -2,7 +2,7 @@
 
 # rule "[junkerqueen/shout.opy]: Set default Commanding Shout cooldown":
 #     @Event eachPlayer
-#     @Hero junkerQueen
+#     @Condition eventPlayer._hero_setup == Hero.JUNKERQUEEN
 #     @Condition eventPlayer.isUsingAbility1()
     
 #     waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)

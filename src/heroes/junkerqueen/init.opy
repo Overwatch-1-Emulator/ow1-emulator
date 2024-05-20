@@ -33,7 +33,7 @@ rule "[junkerqueen/init.opy]: Clean up Junkerqueen":
 
 rule "[junkerqueen/init.opy]: Compensate Junkerqueen global damage reduction":
     @Event playerDealtDamage
-    @Hero junkerQueen
+    @Condition eventPlayer._hero_setup == Hero.JUNKER_QUEEN
     @Condition eventAbility in [Button.MELEE, Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_2]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

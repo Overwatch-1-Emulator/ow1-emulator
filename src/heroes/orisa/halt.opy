@@ -23,7 +23,7 @@ subroutine hideSnareLine
 
 rule "[orisa/halt.opy]: Trigger Halt ability":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0
 

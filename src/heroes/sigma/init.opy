@@ -16,7 +16,7 @@ rule "[sigma/init.opy]: Initialize Sigma":
 
 rule "[sigma/init.opy]: Change accretion damage":
     @Event playerDealtDamage
-    @Hero sigma
+    @Condition eventPlayer._hero_setup == Hero.SIGMA
     @Condition eventAbility == Button.ABILITY_2
     @Condition eventDamage > OW2_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE # Checks for direct hit vs splash damage
 

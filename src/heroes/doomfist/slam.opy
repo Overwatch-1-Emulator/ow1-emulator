@@ -76,7 +76,7 @@ and not eventPlayer.stop_slam) \
 
 rule "[doomfist/slam.opy]: Execute slam":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
     @Condition not eventPlayer.isMeleeing()
@@ -126,7 +126,7 @@ rule "[doomfist/slam.opy]: Execute slam":
 
 rule "[doomfist/slam.opy]: Check for LOS during indicator":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition impulseTrainActive()
     @Condition not isInLoS(eventPlayer.getEyePosition(), eventPlayer.indicator_slam_position, BarrierLos.PASS_THROUGH_BARRIERS)
     
@@ -149,7 +149,7 @@ def startSlamAnimation():
 
 rule "[doomfist/slam.opy]: Detect ground slam":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.getAltitude() < OW1_DOOMFIST_GROUND_SLAM_HEIGHT
     
     eventPlayer.slam_to_use = SlamType.GROUND
@@ -157,7 +157,7 @@ rule "[doomfist/slam.opy]: Detect ground slam":
 
 rule "[doomfist/slam.opy]: Detect indicator slam":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT
 
     eventPlayer.slam_to_use = SlamType.INDICATOR
@@ -165,7 +165,7 @@ rule "[doomfist/slam.opy]: Detect indicator slam":
 
 rule "[doomfist/slam.opy]: Start tracking indicator slam destination":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.slam_to_use == SlamType.INDICATOR
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
     @Condition not eventPlayer.isUsingAbility1()
@@ -176,7 +176,7 @@ rule "[doomfist/slam.opy]: Start tracking indicator slam destination":
 
 rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition not ((eventPlayer.slam_to_use == SlamType.INDICATOR) \
                 and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
                 and (not eventPlayer.isUsingAbility1()))
@@ -187,7 +187,7 @@ rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
 
 rule "[doomfist/uppercut.opy]: Disable abilities when slamming":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.isUsingAbility1()
     
     eventPlayer.setMeleeEnabled(false) # Doomfist cannot melee during uppercut
@@ -203,7 +203,7 @@ rule "[doomfist/uppercut.opy]: Disable abilities when slamming":
 
 rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.isUsingAbility1()
     
     eventPlayer.slam_damage = 0
@@ -245,7 +245,7 @@ def hideSlamDamageGui():
 # Need more permanent/robust solution
 rule "[doomfist/slam.opy]: Remove OW2 slam damage":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     
     heal(victim, null, eventDamage)
@@ -253,7 +253,7 @@ rule "[doomfist/slam.opy]: Remove OW2 slam damage":
 
 rule "[doomfist/slam.opy]: Find slammed victims":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     
     if ((OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim)) \
@@ -269,7 +269,7 @@ rule "[doomfist/slam.opy]: Find slammed victims":
 
 rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.ow1_slam_victims
 

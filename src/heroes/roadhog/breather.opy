@@ -5,7 +5,7 @@ playervar breather_pvar
 
 # rule "[roadhog/breather.opy]: Remove healing buff after breather":
 #     @Event eachPlayer
-#     @Hero roadhog
+#     @Condition eventPlayer._hero_setup == Hero.ROADHOG
 #     @Condition eventPlayer.isUsingAbility2()
 
 #     wait(OW2_ROADHOG_BREATHER_DURATION, Wait.ABORT_WHEN_FALSE)
@@ -15,7 +15,7 @@ playervar breather_pvar
 
 rule "[roadhog/breather.opy]: OW1 Take a Breather":
     @Event eachPlayer
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not isCCd(eventPlayer)
@@ -46,7 +46,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
 
 rule "[roadhog/breather.opy]: Allow self healing during Breather":
     @Event eachPlayer
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition eventPlayer._is_using_breather
 
     pushSelfHealing(Button.ABILITY_2)

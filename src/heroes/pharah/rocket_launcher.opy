@@ -3,7 +3,7 @@
 
 rule "[pharah/rocket_launcher.opy]: OW1 Pharah fire rate":
     @Event eachPlayer
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition eventPlayer.isFiringPrimaryFire()
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE)

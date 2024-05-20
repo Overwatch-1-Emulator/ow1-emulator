@@ -24,7 +24,7 @@ rule "[winston/init.opy]: Initialize Winston":
 
 rule "[winston/init.opy]: Compensate Winston global damage reduction":
     @Event playerDealtDamage
-    @Hero winston
+    @Condition eventPlayer._hero_setup == Hero.WINSTON
     @Condition eventAbility in [Button.ABILITY_1]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

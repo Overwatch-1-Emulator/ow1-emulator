@@ -2,7 +2,7 @@
 
 rule "[orisa/fortify.opy]: Remove overhealth during fortify":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isUsingAbility1()
 
     damage(eventPlayer, null, OW2_ORISA_FORTIFY_OVERHEALTH/(1-OW2_ORISA_FORTIFY_DAMAGE_REDUCTION))
@@ -11,7 +11,7 @@ rule "[orisa/fortify.opy]: Remove overhealth during fortify":
 
 rule "[orisa/fortify.opy]: Correct movement speed during fortify":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isUsingAbility1()
 
     setBaseMovement(eventPlayer, eventPlayer._base_movement_scalar/(1-OW2_ORISA_FORTIFY_MOVEMENT_PENALTY))

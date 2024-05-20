@@ -39,7 +39,7 @@ playervar self_repair_time_left
 
 rule "[bastion/repair.opy]: Activate self-repair":
     @Event eachPlayer
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition isUsingSelfRepair(eventPlayer)
 
     stopChasingVariable(eventPlayer.self_repair_time_left) # Stop resource recharging
@@ -95,7 +95,7 @@ rule "[bastion/repair.opy]: Activate self-repair":
 
 rule "[bastion/repair.opy]: Deactivate self-repair":
     @Event eachPlayer
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition not isUsingSelfRepair(eventPlayer)
 
     stopHoT(eventPlayer.self_repair_instance) # Stop healing
@@ -114,7 +114,7 @@ rule "[bastion/repair.opy]: Deactivate self-repair":
 
 rule "[bastion/repair.opy]: Hide self repair resource GUI":
     @Event eachPlayer
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition eventPlayer.self_repair_time_left >= OW1_BASTION_MAX_SELF_REPAIR_DURATION
 
     hideSelfRepairResource()
@@ -122,7 +122,7 @@ rule "[bastion/repair.opy]: Hide self repair resource GUI":
 
 rule "[bastion/repair.opy]: Give ult charge for self repair":
     @Event playerDealtHealing
-    @Hero bastion
+    @Condition eventPlayer._hero_setup == Hero.BASTION
     @Condition healer == healee
 
     eventPlayer._missing_ult_points += eventHealing

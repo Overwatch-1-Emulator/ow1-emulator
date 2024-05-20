@@ -18,7 +18,7 @@ rule "[genji/init.opy]: Initialize Genji":
 
 rule "[genji/init.opy]: Deal OW1 shuriken damage":
     @Event playerDealtDamage
-    @Hero genji
+    @Condition eventPlayer._hero_setup == Hero.GENJI
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
 
     damage(victim, attacker, eventDamage*(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE)-eventDamage)

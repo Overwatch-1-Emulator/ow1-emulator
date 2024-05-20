@@ -19,7 +19,7 @@ rule "[ashe/init.opy]: Initialize Ashe":
 
 rule "[ashe/init.opy]: Compensate Ashe global damage reduction":
     @Event playerDealtDamage
-    @Hero ashe
+    @Condition eventPlayer._hero_setup == Hero.ASHE
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1, Button.ABILITY_2]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

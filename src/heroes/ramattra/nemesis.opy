@@ -3,7 +3,7 @@
 
 rule "[ramattra/nemesis.opy]: Disable Block during nemesis":
     @Event eachPlayer
-    @Hero ramattra
+    @Condition eventPlayer._hero_setup == Hero.RAMATTRA
     @Condition eventPlayer.isUsingAbility1() or eventPlayer.isUsingUltimate()
 
     eventPlayer.setSecondaryFireEnabled(false)
@@ -11,7 +11,7 @@ rule "[ramattra/nemesis.opy]: Disable Block during nemesis":
 
 rule "[ramattra/nemesis.opy]: Enable shield when not in nemesis":
     @Event eachPlayer
-    @Hero ramattra
+    @Condition eventPlayer._hero_setup == Hero.RAMATTRA
     @Condition not (eventPlayer.isUsingAbility1() or eventPlayer.isUsingUltimate())
 
     eventPlayer.setSecondaryFireEnabled(true)
@@ -19,7 +19,7 @@ rule "[ramattra/nemesis.opy]: Enable shield when not in nemesis":
 
 rule "[ramattra/nemesis.opy]: OW1 pummel damage":
     @Event playerDealtDamage
-    @Hero ramattra
+    @Condition eventPlayer._hero_setup == Hero.RAMATTRA
     @Condition eventPlayer.isUsingAbility1() or eventPlayer.isUsingUltimate()
     @Condition eventAbility == Button.ABILITY_1
 

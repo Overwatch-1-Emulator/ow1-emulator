@@ -21,7 +21,7 @@ rule "[zenyatta/init.opy]: Initialize Zenyatta":
 
 rule "[zenyatta/init.opy]: OW1 Zenyatta melee damage":
     @Event playerDealtDamage
-    @Hero zenyatta
+    @Condition eventPlayer._hero_setup == Hero.ZENYATTA
     @Condition eventAbility == null # for some reason, zenyatta melee doesn't show up as melee
     @Condition eventPlayer.isMeleeing()
 

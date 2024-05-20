@@ -6,7 +6,7 @@ playervar start_time_ult
 
 rule "[ashe/bob.opy]: Add ultimate charge while using BOB":
     @Event eachPlayer
-    @Hero ashe
+    @Condition eventPlayer._hero_setup == Hero.ASHE
     @Condition eventPlayer.isUsingUltimate() 
 
     eventPlayer.ult_point_while_ult_active = 0
@@ -22,7 +22,7 @@ rule "[ashe/bob.opy]: Add ultimate charge while using BOB":
 
 rule "[ashe/bob.opy]: Calcul of the damage made while BOB is active":
     @Event playerDealtDamage
-    @Hero ashe
+    @Condition eventPlayer._hero_setup == Hero.ASHE
     @Condition eventPlayer.isUsingUltimate()
     @Condition victim != attacker
 

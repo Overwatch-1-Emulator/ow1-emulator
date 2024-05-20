@@ -3,7 +3,7 @@
 
 rule "[illari/sun.opy]: Correct Captive Sun direct and splash hit damage":
     @Event playerDealtDamage
-    @Hero illari
+    @Condition eventPlayer._hero_setup == Hero.ILLARI
     @Condition eventAbility in [Button.ULTIMATE]
     @Condition eventDamage/eventPlayer._base_damage_scalar < (OW2_ILLARI_SUNSTRUCK_DAMAGE/2)
 

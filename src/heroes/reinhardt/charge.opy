@@ -3,7 +3,7 @@
 
 rule "[reinhardt/charge.opy]: Increase charge damage":
     @Event playerDealtDamage
-    @Hero reinhardt
+    @Condition eventPlayer._hero_setup == Hero.REINHARDT
     @Condition eventAbility == Button.ABILITY_1
     
     if eventDamage > (OW2_REINHARDT_CHARGE_BUMP_DAMAGE + 1): # Checks for pin vs boop damage (+ 1 because apparently 50.0 > 50 == true for whatever reason)
@@ -14,7 +14,7 @@ rule "[reinhardt/charge.opy]: Increase charge damage":
 
 rule "[reinhardt/charge.opy]: Reduce charge radius":
     @Event eachPlayer
-    @Hero reinhardt
+    @Condition eventPlayer._hero_setup == Hero.REINHARDT
     @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer.startForcingThrottle(0, 1/OW2_REINHARDT_TURN_BONUS, 0, 1/OW2_REINHARDT_TURN_BONUS, 0, 1/OW2_REINHARDT_TURN_BONUS)

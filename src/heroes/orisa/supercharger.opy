@@ -13,7 +13,7 @@ subroutine endSupercharger
 
 rule "[orisa/supercharger.opy]: play Terra Surge voiceline":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
     @Condition eventPlayer.getUltCharge() >= 100
     
@@ -28,7 +28,7 @@ rule "[orisa/supercharger.opy]: play Terra Surge voiceline":
 
 rule "[orisa/supercharger.opy]: Trigger Supercharger start":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.cancelPrimaryAction() # Stop Terra Surge animation
@@ -116,7 +116,7 @@ rule "[orisa/supercharger.opy]: De-supercharge teammates outside supercharger ra
 
 rule "[orisa/supercharger.opy]: De-supercharge teammates when supercharger ends":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition not eventPlayer.is_using_supercharger
     
     getPlayers(eventPlayer.getTeam()).is_supercharged = false

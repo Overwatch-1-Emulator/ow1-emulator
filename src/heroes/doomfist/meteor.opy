@@ -12,7 +12,7 @@ playervar meteor_strike_slow_time
 
 rule "[doomfist/meteor.opy]: Deal OW1 Meteor Strike damage":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility == Button.ULTIMATE
     # Only activate this rule when damage is dealt by inner ring (/2 accounts for damage reduction from armor, nanoboost, etc)
     @Condition eventDamage < (OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE + OW2_DOOMFIST_METEOR_STRIKE_INNER_SPHERE_DAMAGE)/2
@@ -22,7 +22,7 @@ rule "[doomfist/meteor.opy]: Deal OW1 Meteor Strike damage":
 
 rule "[doomfist/meteor.opy]: Compensate Meteor Strike slow effect":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility == Button.ULTIMATE
 
     victim.setMoveSpeed(percent(1/OW2_DOOMFIST_METEOR_STRIKE_SLOW))
@@ -40,7 +40,7 @@ rule "[doomfist/meteor.opy]: Reset Meteor Strike slow effect compensation":
 
 rule "[doomfist/meteor.opy]: OW1 Meteor Strike knockback":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility == Button.ULTIMATE
 
     victim.setGravity(50) 
@@ -54,7 +54,7 @@ rule "[doomfist/meteor.opy]: OW1 Meteor Strike knockback":
 
 rule "[doomfist/meteor.opy]: Remove Meteor Strike healing":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.setHealingDealt(0)

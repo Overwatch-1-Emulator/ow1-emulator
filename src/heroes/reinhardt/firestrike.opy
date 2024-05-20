@@ -3,7 +3,7 @@
 
 rule "[reinhardt/firestrike.opy]: Force single firestrike":
     @Event eachPlayer
-    @Hero reinhardt
+    @Condition eventPlayer._hero_setup == Hero.REINHARDT
     @Condition eventPlayer.isUsingAbility2()
 
     waitUntil(not eventPlayer.isUsingAbility2(), 1)

@@ -3,7 +3,7 @@
 
 rule "[brigitte/inspire.opy]: Inspire self healing logic":
     @Event playerDealtDamage
-    @Hero brigitte
+    @Condition eventPlayer._hero_setup == Hero.BRIGITTE
 
     pushSelfHealing(Button.MELEE)
     wait(OW1_BRIGITTE_INSPIRE_DURATION, Wait.RESTART_WHEN_TRUE)

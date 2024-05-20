@@ -12,7 +12,7 @@ subroutine cancelWholehog
 
 rule "[roadhog/wholehog.opy]: OW1 disable abilities during wholehog":
     @Event eachPlayer
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition eventPlayer.isUsingUltimate()
     
     eventPlayer.setMeleeEnabled(false)
@@ -22,7 +22,7 @@ rule "[roadhog/wholehog.opy]: OW1 disable abilities during wholehog":
 
 rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
     @Event eachPlayer
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition not eventPlayer.isUsingUltimate()
 
     eventPlayer.setMeleeEnabled(true)
@@ -33,7 +33,7 @@ rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
 
 rule "[roadhog/wholehog.opy]: OW1 Wholehog force autofire":
     @Event eachPlayer
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition eventPlayer.isUsingUltimate()
     @Condition not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     
@@ -42,7 +42,7 @@ rule "[roadhog/wholehog.opy]: OW1 Wholehog force autofire":
 
 rule "[roadhog/wholehog.opy]: Cancel ult when stunned":
     @Event eachPlayer
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition eventPlayer.isUsingUltimate()
     @Condition isCCd(eventPlayer)
 
@@ -65,7 +65,7 @@ rule "[roadhog/wholehog.opy]: Cancel ult when stunned":
 
 rule "[roadhog/wholehog.opy]: Reduce ultimate duration":
     @Event eachPlayer
-    @Hero roadhog
+    @Condition eventPlayer._hero_setup == Hero.ROADHOG
     @Condition eventPlayer.isUsingUltimate()
     
     wait(OW1_ROADHOG_ULTIMATE_DURATION, Wait.ABORT_WHEN_FALSE)

@@ -6,7 +6,7 @@ playervar emp_pvar
 
 rule "[sombra/emp.opy]: Detect EMP casting":
     @Event eachPlayer
-    @Hero sombra
+    @Condition eventPlayer._hero_setup == Hero.SOMBRA
     @Condition eventPlayer.getUltCharge() >= 100
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
     waitUntil(eventPlayer.getUltCharge() == 0, Math.INFINITY)
@@ -18,7 +18,7 @@ rule "[sombra/emp.opy]: Detect EMP casting":
 
 rule "[sombra/emp.opy]: Break barrier with EMP":
     @Event eachPlayer
-    @Hero sombra
+    @Condition eventPlayer._hero_setup == Hero.SOMBRA
     @Condition eventPlayer._is_casting_emp
     
     eventPlayer.setDamageDealt(100) # Deal 10000 damage to all barrier
@@ -28,7 +28,7 @@ rule "[sombra/emp.opy]: Break barrier with EMP":
 
 rule "[sombra/emp.opy]: Remove OW2 EMP damage":
     @Event playerDealtDamage
-    @Hero sombra
+    @Condition eventPlayer._hero_setup == Hero.SOMBRA
     @Condition eventAbility == Button.ULTIMATE
 
     heal(victim, null, eventDamage)

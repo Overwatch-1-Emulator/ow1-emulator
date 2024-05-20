@@ -21,7 +21,7 @@ rule "[illari/init.opy]: Initialize Illari":
 
 rule "[illari/init.opy]: Correct Outburst damage":
     @Event playerDealtDamage
-    @Hero illari
+    @Condition eventPlayer._hero_setup == Hero.ILLARI
     @Condition eventAbility == Button.ABILITY_1
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

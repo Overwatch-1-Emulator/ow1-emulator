@@ -5,7 +5,7 @@
 
 rule "[brigitte/bash.opy]: Add stun to shield bash":
     @Event playerDealtDamage
-    @Hero brigitte
+    @Condition eventPlayer._hero_setup == Hero.BRIGITTE
     @Condition attacker.isFiringSecondaryFire()
     @Condition eventAbility == Button.PRIMARY_FIRE
     # @Condition not attacker.shield_bash_through_barrier
@@ -15,7 +15,7 @@ rule "[brigitte/bash.opy]: Add stun to shield bash":
 
 rule "[brigitte/bash.opy]: Reduce shield bash distance":
     @Event eachPlayer
-    @Hero brigitte
+    @Condition eventPlayer._hero_setup == Hero.BRIGITTE
     @Condition eventPlayer.isFiringSecondaryFire()
     @Condition eventPlayer.isFiringPrimaryFire()
     @Condition not eventPlayer.isUsingUltimate()
@@ -30,7 +30,7 @@ rule "[brigitte/bash.opy]: Reduce shield bash distance":
 
 rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
     @Event playerDealtDamage
-    @Hero brigitte
+    @Condition eventPlayer._hero_setup == Hero.BRIGITTE
     @Condition eventPlayer.isFiringSecondaryFire()
     @Condition eventAbility == Button.PRIMARY_FIRE
 

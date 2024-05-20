@@ -28,7 +28,7 @@ rule "[widowmaker/init.opy]: Initialize Widowmaker":
 
 rule "[widowmaker.opy]: Revert sniper damage falloff":
     @Event playerDealtDamage
-    @Hero widowmaker
+    @Condition eventPlayer._hero_setup == Hero.WIDOWMAKER
     @Condition eventPlayer.isFiringSecondaryFire()
     @Condition eventPlayer.isFiringPrimaryFire()
     @Condition eventAbility == Button.PRIMARY_FIRE
