@@ -6,7 +6,7 @@
 rule "[torbjorn/init.opy]: Initialize Torbjorn":
     @Event eachPlayer
     @Hero torbjorn
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._call_init
 
     setCustomHp(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
     setUltCost(OW1_TORBJORN_ULT_COST)
@@ -14,7 +14,7 @@ rule "[torbjorn/init.opy]: Initialize Torbjorn":
 
     setBaseDamage(eventPlayer, OW1_TORBJORN_TURRET_DAMAGE/OW2_TORBJORN_TURRET_DAMAGE)
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[torbjorn/init.opy]: Correct Rivet Gun, Hammer, and ultimate damage":

@@ -5,7 +5,7 @@
 rule "[zenyatta/init.opy]: Initialize Zenyatta":
     @Event eachPlayer
     @Hero zenyatta
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_ZENYATTA_HEALTH, 0, OW1_ZENYATTA_SHIELDS)
     setUltCost(OW1_ZENYATTA_ULT_COST)
@@ -16,7 +16,7 @@ rule "[zenyatta/init.opy]: Initialize Zenyatta":
     eventPlayer.setAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[zenyatta/init.opy]: OW1 Zenyatta melee damage":

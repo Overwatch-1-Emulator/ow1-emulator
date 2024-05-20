@@ -6,7 +6,7 @@
 rule "[baptiste/init.opy]: Initialize Baptiste":
     @Event eachPlayer
     @Hero baptiste
-    @Condition eventPlayer.call_init == true
+    @Condition eventPlayer._call_init == true
 
     setCustomHp(OW1_BAPTISTE_HEALTH, 0, 0)
     setUltCost(OW1_BAPTISTE_ULT_COST)
@@ -21,4 +21,4 @@ rule "[baptiste/init.opy]: Initialize Baptiste":
 
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

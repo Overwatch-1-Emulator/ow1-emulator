@@ -8,11 +8,11 @@
 rule "[moira/init.opy]: Initialize Moira":
     @Event eachPlayer
     @Hero moira
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_MOIRA_HEALTH, 0, 0)
     setUltCost(OW1_MOIRA_ULT_COST)
     
     removePassiveHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

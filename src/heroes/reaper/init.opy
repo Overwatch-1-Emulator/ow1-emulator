@@ -6,13 +6,13 @@
 rule "[reaper/init.opy]: Initialize Reaper":
     @Event eachPlayer
     @Hero reaper
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._call_init
 
     setCustomHp(OW1_REAPER_HEALTH, 0, 0)
     setUltCost(OW1_REAPER_ULT_COST)
     removePassiveHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[reaper/init.opy]: Deal OW1 Reaper primary fire damage":

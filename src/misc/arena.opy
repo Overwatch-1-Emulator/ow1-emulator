@@ -93,7 +93,7 @@ subroutine processArena2Result
     player.startForcingHero(Hero.SYMMETRA)\
     wait()\
     player.startForcingHero(player.hero_bag[player.hero_number])\
-    player.call_init = true\
+    player._call_init = true\
 
 #!define startForcingSpectator(player)\
     player.teleport(SPEC_SPOT)\

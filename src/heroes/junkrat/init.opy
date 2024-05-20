@@ -6,7 +6,7 @@
 rule "[junkrat/init.opy]: Initialize Junkrat":
     @Event eachPlayer
     @Hero junkrat
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._call_init
     
     eventPlayer.setMaxHealth(percent((OW1_JUNKRAT_HEALTH-OW1_JUNKRAT_TIRE_HEALTH)/(OW2_JUNKRAT_HEALTH-OW2_JUNKRAT_TIRE_HEALTH)))
     eventPlayer.addHealthPool(Health.NORMAL, 
@@ -18,7 +18,7 @@ rule "[junkrat/init.opy]: Initialize Junkrat":
 
     setBaseDamage(eventPlayer, OW1_JUNKRAT_FRAG_DAMAGE/OW2_JUNKRAT_FRAG_DAMAGE)
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[junkrat/init.opy]: Correct Mine, Tire damage":

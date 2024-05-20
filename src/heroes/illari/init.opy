@@ -7,7 +7,7 @@
 rule "[illari/init.opy]: Initialize Illari":
     @Event eachPlayer
     @Hero illari
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_ILLARI_HEALTH, 0, 0)
     setUltCost(OW1_ILLARI_ULT_COST)
@@ -16,7 +16,7 @@ rule "[illari/init.opy]: Initialize Illari":
 
     setBaseDamage(eventPlayer, OW1_ILLARI_SUNSTRUCK_DAMAGE/OW2_ILLARI_SUNSTRUCK_DAMAGE)
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[illari/init.opy]: Correct Outburst damage":

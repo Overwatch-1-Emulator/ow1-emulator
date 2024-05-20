@@ -9,7 +9,7 @@
 rule "[orisa/init.opy]: Initialize Orisa":
     @Event eachPlayer
     @Hero orisa
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
     setUltCost(OW1_ORISA_ULT_COST)
@@ -36,7 +36,7 @@ rule "[orisa/init.opy]: Initialize Orisa":
 
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[orisa/init.opy]: Clean up Orisa":

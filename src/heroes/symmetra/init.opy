@@ -8,10 +8,10 @@
 rule "[symmetra/init.opy]: Initialize Symmetra":
     @Event eachPlayer
     @Hero symmetra
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._call_init
 
     setCustomHp(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
     setUltCost(OW1_SYMMETRA_ULT_COST)
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

@@ -7,7 +7,7 @@
 rule "[zarya/init.opy]: Initialize Zarya":
     @Event eachPlayer
     @Hero zarya
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._call_init
     @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
 
     setCustomHp(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
@@ -19,7 +19,7 @@ rule "[zarya/init.opy]: Initialize Zarya":
     initSelfBubble()
     initAllyBubble()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[zarya/init.opy]: Clean up Zarya":
