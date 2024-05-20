@@ -3,7 +3,7 @@
 
 rule "[mauga/init.opy]: Initialize Mauga":
     @Event eachPlayer
-    @Hero mauga
+    @Condition eventPlayer._hero_setup == Hero.MAUGA
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_MAUGA_HEALTH, OW1_MAUGA_ARMOR, 0)

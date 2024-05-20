@@ -6,7 +6,7 @@
 
 rule "[ramattra/init.opy]: Initialize Ramattra":
     @Event eachPlayer
-    @Hero ramattra
+    @Condition eventPlayer._hero_setup == Hero.RAMATTRA
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_RAMATTRA_HEALTH, OW1_RAMATTRA_ARMOR, OW1_RAMATTRA_SHIELDS)

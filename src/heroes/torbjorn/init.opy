@@ -5,7 +5,7 @@
 
 rule "[torbjorn/init.opy]: Initialize Torbjorn":
     @Event eachPlayer
-    @Hero torbjorn
+    @Condition eventPlayer._hero_setup == Hero.TORBJORN
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)

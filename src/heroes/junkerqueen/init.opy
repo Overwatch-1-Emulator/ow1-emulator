@@ -7,7 +7,7 @@ playervar jq_self_heal_id
 
 rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
     @Event eachPlayer
-    @Hero junkerQueen
+    @Condition eventPlayer._hero_setup == Hero.JUNKER_QUEEN
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_JUNKERQUEEN_HEALTH, OW1_JUNKERQUEEN_ARMOR, 0)

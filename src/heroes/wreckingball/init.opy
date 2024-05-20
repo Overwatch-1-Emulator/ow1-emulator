@@ -6,7 +6,7 @@
 
 rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
     @Event eachPlayer
-    @Hero hammond
+    @Condition eventPlayer._hero_setup == Hero.HAMMOND
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)

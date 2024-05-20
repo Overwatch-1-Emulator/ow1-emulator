@@ -3,7 +3,7 @@
 
 rule "[genji/init.opy]: Initialize Genji":
     @Event eachPlayer
-    @Hero genji
+    @Condition eventPlayer._hero_setup == Hero.GENJI
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_GENJI_HEALTH, 0, 0)

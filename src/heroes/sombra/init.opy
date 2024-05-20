@@ -8,7 +8,7 @@
 
 rule "[sombra/init.opy]: Initialize Sombra":
     @Event eachPlayer
-    @Hero sombra
+    @Condition eventPlayer._hero_setup == Hero.SOMBRA
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_SOMBRA_HEALTH, 0, 0)

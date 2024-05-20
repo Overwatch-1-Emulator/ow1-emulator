@@ -7,7 +7,7 @@
 
 rule "[moira/init.opy]: Initialize Moira":
     @Event eachPlayer
-    @Hero moira
+    @Condition eventPlayer._hero_setup == Hero.MOIRA
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_MOIRA_HEALTH, 0, 0)

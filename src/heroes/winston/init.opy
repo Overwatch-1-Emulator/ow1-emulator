@@ -6,7 +6,7 @@
 
 rule "[winston/init.opy]: Initialize Winston":
     @Event eachPlayer
-    @Hero winston
+    @Condition eventPlayer._hero_setup == Hero.WINSTON
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)

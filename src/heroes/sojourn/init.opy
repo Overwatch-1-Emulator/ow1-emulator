@@ -5,7 +5,7 @@
 
 rule "[sojourn/init.opy]: Initialize Sojourn":
     @Event eachPlayer
-    @Hero sojourn
+    @Condition eventPlayer._hero_setup == Hero.SOJOURN
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_SOJOURN_HEALTH, 0, 0)

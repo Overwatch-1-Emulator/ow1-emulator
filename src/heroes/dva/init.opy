@@ -8,7 +8,7 @@
 
 rule "[dva/init.opy]: Initialize DVa":
     @Event eachPlayer
-    @Hero dva
+    @Condition eventPlayer._hero_setup == Hero.DVA
     @Condition eventPlayer._call_init
     
     setUltCost(OW1_DVA_ULT_COST)

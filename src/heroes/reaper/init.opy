@@ -5,7 +5,7 @@
 
 rule "[reaper/init.opy]: Initialize Reaper":
     @Event eachPlayer
-    @Hero reaper
+    @Condition eventPlayer._hero_setup == Hero.REAPER
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_REAPER_HEALTH, 0, 0)

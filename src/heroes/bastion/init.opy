@@ -7,8 +7,8 @@
 
 rule "[bastion/init.opy]: Initialize Bastion":
     @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer._call_init == true
+    @Condition eventPlayer._hero_setup == Hero.BASTION
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_BASTION_HEALTH, OW1_BASTION_ARMOR, 0)
     setUltCost(OW1_BASTION_ULT_COST)

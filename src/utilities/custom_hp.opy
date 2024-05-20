@@ -28,6 +28,8 @@ def clearCustomHp():
 
     eventPlayer.removeAllHealthPools()
     wait()
+    eventPlayer.setMaxHealth(100.001)
+    wait()
     eventPlayer.setMaxHealth(100)
 
 

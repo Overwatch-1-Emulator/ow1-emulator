@@ -5,7 +5,7 @@
 
 rule "[tracer/init.opy]: Initialize Tracer":
     @Event eachPlayer
-    @Hero tracer
+    @Condition eventPlayer._hero_setup == Hero.TRACER
     @Condition eventPlayer._call_init
 
     setUltCost(OW1_TRACER_ULT_COST)

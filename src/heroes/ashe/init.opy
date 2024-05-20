@@ -5,8 +5,8 @@
 
 rule "[ashe/init.opy]: Initialize Ashe":
     @Event eachPlayer
-    @Hero ashe
-    @Condition eventPlayer._call_init == true
+    @Condition eventPlayer._hero_setup == Hero.ASHE
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_ASHE_HEALTH, 0, 0)
     setUltCost(OW1_ASHE_ULT_COST)

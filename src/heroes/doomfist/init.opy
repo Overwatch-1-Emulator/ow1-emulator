@@ -19,8 +19,8 @@ playervar is_ultimate_locked
 
 rule "[doomfist/init.opy]: Initialize Doomfist":
     @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer._call_init == true
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
+    @Condition eventPlayer._call_init
 
     setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)

@@ -7,7 +7,7 @@
 
 rule "[kiriko/init.opy]: Initialize Kiriko":
     @Event eachPlayer
-    @Hero kiriko
+    @Condition eventPlayer._hero_setup == Hero.KIRIKO
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_KIRIKO_HEALTH, 0, 0)

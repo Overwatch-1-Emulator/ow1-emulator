@@ -6,7 +6,7 @@
 
 rule "[lucio/init.opy]: Initialize Lucio":
     @Event eachPlayer
-    @Hero lucio
+    @Condition eventPlayer._hero_setup == Hero.LUCIO
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_LUCIO_HEALTH, 0, 0)

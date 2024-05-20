@@ -5,8 +5,8 @@
 
 rule "[ana/init.opy]: Initialize Ana":
     @Event eachPlayer
-    @Hero ana
-    @Condition eventPlayer._call_init == true
+    @Condition eventPlayer._hero_setup == Hero.ANA
+    @Condition eventPlayer._call_init
 
     setUltCost(OW1_ANA_ULT_COST)
     removeSelfHealing()

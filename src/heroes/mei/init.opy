@@ -6,7 +6,7 @@
 
 rule "[mei/init.opy]: Initialize Mei":
     @Event eachPlayer
-    @Hero mei
+    @Condition eventPlayer._hero_setup == Hero.MEI
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_MEI_HEALTH, 0, 0)

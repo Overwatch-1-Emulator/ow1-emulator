@@ -8,8 +8,8 @@
 
 rule "[brigitte/init.opy]: Initialize Brigitte":
     @Event eachPlayer
-    @Hero brigitte
-    @Condition eventPlayer._call_init == true
+    @Condition eventPlayer._hero_setup == Hero.BRIGITTE
+    @Condition eventPlayer._call_init
     
     setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
     setUltCost(OW1_BRIGITTE_ULT_COST)

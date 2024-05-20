@@ -3,7 +3,7 @@
 
 rule "[sigma/init.opy]: Initialize Sigma":
     @Event eachPlayer
-    @Hero sigma
+    @Condition eventPlayer._hero_setup == Hero.SIGMA
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)

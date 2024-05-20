@@ -6,7 +6,7 @@
 
 rule "[mccree/init.opy]: Initialize Cassidy":
     @Event eachPlayer
-    @Hero mccree
+    @Condition eventPlayer._hero_setup == Hero.MCCREE
     @Condition eventPlayer._call_init
 
     setUltCost(OW1_MCCREE_ULT_COST)

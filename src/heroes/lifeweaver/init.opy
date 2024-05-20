@@ -3,7 +3,7 @@
 
 rule "[lifeweaver/init.opy]: Initialize Lifeweaver":
     @Event eachPlayer
-    @Hero lifeweaver
+    @Condition eventPlayer._hero_setup == Hero.LIFEWEAVER
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_LIFEWEAVER_HEALTH, 0, 0)

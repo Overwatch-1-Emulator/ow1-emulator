@@ -8,7 +8,7 @@
 
 rule "[orisa/init.opy]: Initialize Orisa":
     @Event eachPlayer
-    @Hero orisa
+    @Condition eventPlayer._hero_setup == Hero.ORISA
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)

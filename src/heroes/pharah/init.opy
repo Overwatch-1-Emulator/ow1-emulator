@@ -7,7 +7,7 @@
 
 rule "[pharah/init.opy]: Initialize Pharah":
     @Event eachPlayer
-    @Hero pharah
+    @Condition eventPlayer._hero_setup == Hero.PHARAH
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_PHARAH_HEALTH, 0, 0)

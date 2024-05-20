@@ -6,7 +6,7 @@
 
 rule "[illari/init.opy]: Initialize Illari":
     @Event eachPlayer
-    @Hero illari
+    @Condition eventPlayer._hero_setup == Hero.ILLARI
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_ILLARI_HEALTH, 0, 0)

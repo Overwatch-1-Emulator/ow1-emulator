@@ -6,7 +6,7 @@
 
 rule "[soldier/init.opy]: Initialize Soldier 76":
     @Event eachPlayer
-    @Hero soldier
+    @Condition eventPlayer._hero_setup == Hero.SOLDIER
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_SOLDIER_HEALTH, 0, 0)

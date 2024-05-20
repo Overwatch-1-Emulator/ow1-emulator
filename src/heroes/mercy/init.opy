@@ -5,7 +5,7 @@
 
 rule "[mercy/init.opy]: Initialize Mercy":
     @Event eachPlayer
-    @Hero mercy
+    @Condition eventPlayer._hero_setup == Hero.MERCY
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_MERCY_HEALTH, 0, 0)

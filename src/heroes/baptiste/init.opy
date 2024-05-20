@@ -5,8 +5,8 @@
 
 rule "[baptiste/init.opy]: Initialize Baptiste":
     @Event eachPlayer
-    @Hero baptiste
-    @Condition eventPlayer._call_init == true
+    @Condition eventPlayer._hero_setup == Hero.BAPTISTE
+    @Condition eventPlayer._call_init
 
     setCustomHp(OW1_BAPTISTE_HEALTH, 0, 0)
     setUltCost(OW1_BAPTISTE_ULT_COST)

@@ -5,7 +5,7 @@
 
 rule "[hanzo/init.opy]: Initialize Hanzo":
     @Event eachPlayer
-    @Hero hanzo
+    @Condition eventPlayer._hero_setup == Hero.HANZO
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_HANZO_HEALTH, 0, 0)

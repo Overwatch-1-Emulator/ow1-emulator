@@ -5,7 +5,7 @@
 
 rule "[junkrat/init.opy]: Initialize Junkrat":
     @Event eachPlayer
-    @Hero junkrat
+    @Condition eventPlayer._hero_setup == Hero.JUNKRAT
     @Condition eventPlayer._call_init
     
     eventPlayer.setMaxHealth(percent((OW1_JUNKRAT_HEALTH-OW1_JUNKRAT_TIRE_HEALTH)/(OW2_JUNKRAT_HEALTH-OW2_JUNKRAT_TIRE_HEALTH)))

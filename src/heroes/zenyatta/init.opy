@@ -4,7 +4,7 @@
 
 rule "[zenyatta/init.opy]: Initialize Zenyatta":
     @Event eachPlayer
-    @Hero zenyatta
+    @Condition eventPlayer._hero_setup == Hero.ZENYATTA
     @Condition eventPlayer._call_init
     
     setCustomHp(OW1_ZENYATTA_HEALTH, 0, OW1_ZENYATTA_SHIELDS)

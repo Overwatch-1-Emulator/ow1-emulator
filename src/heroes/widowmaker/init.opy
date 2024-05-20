@@ -16,7 +16,7 @@ playervar expected_scoped_damage
 
 rule "[widowmaker/init.opy]: Initialize Widowmaker":
     @Event eachPlayer
-    @Hero widowmaker
+    @Condition eventPlayer._hero_setup == Hero.WIDOWMAKER
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_WIDOWMAKER_HEALTH, 0, 0)

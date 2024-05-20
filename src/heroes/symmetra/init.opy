@@ -7,7 +7,7 @@
 
 rule "[symmetra/init.opy]: Initialize Symmetra":
     @Event eachPlayer
-    @Hero symmetra
+    @Condition eventPlayer._hero_setup == Hero.SYMMETRA
     @Condition eventPlayer._call_init
 
     setCustomHp(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)

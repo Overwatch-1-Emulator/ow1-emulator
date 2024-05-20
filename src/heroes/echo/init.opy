@@ -6,9 +6,8 @@
 
 rule "[echo/init.opy]: Initialize Echo":
     @Event eachPlayer
-    @Hero echo
+    @Condition eventPlayer._hero_setup == Hero.ECHO
     @Condition eventPlayer._call_init
-    @Condition not eventPlayer.isDuplicatingAHero()
 
     setUltCost(OW1_ECHO_ULT_COST)
     removeSelfHealing()
