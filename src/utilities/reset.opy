@@ -10,6 +10,7 @@ playervar reset_pvar
 #!defineMember enemy_orisa_player reset_pvar[5]
 #!defineMember enemy_sombra_player reset_pvar[6]
 #!defineMember _hero_setup reset_pvar[7]
+#!defineMember _friendly_brigitte_player reset_pvar[8]
 
 subroutine enableAllAbilities
 subroutine disableAllAbilities
@@ -120,6 +121,7 @@ def resetFrenemies():
     eventPlayer.enemy_orisa_player = getPlayersOnHero(Hero.ORISA, getOppositeTeam(eventPlayer.getTeam()))[0]
     eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
+    eventPlayer._friendly_brigitte_player = getPlayersOnHero(Hero.BRIGITTE, eventPlayer.getTeam())[0]
 
 
 rule "[utilities/reset.opy]: Reinitialize hero on new round":

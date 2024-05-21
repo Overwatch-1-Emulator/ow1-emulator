@@ -11,6 +11,7 @@ rule "[reinhardt/init.opy]: Initialize Reinhardt":
     @Condition eventPlayer._hero_setup == Hero.REINHARDT
     @Condition eventPlayer._call_init
 
+    eventPlayer.setMaxHealth(percent(OW1_REINHARDT_BARRIER_HEALTH/OW2_REINHARDT_BARRIER_HEALTH))
     setCustomHp(OW1_REINHARDT_HEALTH, OW1_REINHARDT_ARMOR, 0)
     setUltCost(OW1_REINHARDT_ULT_COST)
     setBaseDamage(eventPlayer, OW1_REINHARDT_FIRESTRIKE_DAMAGE/OW2_REINHARDT_FIRESTRIKE_DAMAGE)

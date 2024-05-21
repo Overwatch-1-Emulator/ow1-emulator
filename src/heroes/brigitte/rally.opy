@@ -37,7 +37,7 @@ rule "[brigitte/rally.opy]: Remove OW2 Rally":
     eventPlayer.rally_armor_ids = []
 
 
-rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor":
+rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for self":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate()
@@ -46,5 +46,31 @@ rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor":
     do:
         eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
         eventPlayer.rally_armor_ids.append(getLastCreatedHealthPool())
+        wait(OW1_BRIGITTE_RALLY_ARMOR_PERIOD, Wait.ABORT_WHEN_FALSE)
+    while RULE_CONDITION
+
+
+rule "[brigitte/rally.opy]: Remove OW2 Rally Ally Overhealth":
+    @Event eachPlayer
+    @Condition eventPlayer != eventPlayer._friendly_brigitte_player
+    @Condition eventPlayer._friendly_brigitte_player.isUsingUltimate()
+    @Condition distance(eventPlayer, eventPlayer._friendly_brigitte_player) < OW2_BRIGITTE_RALLY_RADIUS
+    @Condition isInLoS(eventPlayer, eventPlayer._friendly_brigitte_player, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
+
+    do:
+        damage(eventPlayer, null, OW2_BRIGITTE_RALLY_OVERHEALTH * eventPlayer._base_hp_scalar)
+        wait(OW1_BRIGITTE_RALLY_ARMOR_PERIOD, Wait.ABORT_WHEN_FALSE)
+    while RULE_CONDITION
+
+
+rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for ally":
+    @Event eachPlayer
+    @Condition eventPlayer != eventPlayer._friendly_brigitte_player
+    @Condition eventPlayer._friendly_brigitte_player.isUsingUltimate()
+    @Condition getExtraArmor() < OW1_BRIGITTE_RALLY_ARMOR_MAX
+
+    do:
+        eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
+        eventPlayer._friendly_brigitte_player.rally_armor_ids.append(getLastCreatedHealthPool())
         wait(OW1_BRIGITTE_RALLY_ARMOR_PERIOD, Wait.ABORT_WHEN_FALSE)
     while RULE_CONDITION

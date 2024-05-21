@@ -30,7 +30,7 @@ def clearCustomHp():
     wait()
     eventPlayer.setMaxHealth(100.001)
     wait()
-    eventPlayer.setMaxHealth(100)
+    setBaseHp(eventPlayer, 1)
 
 
 def applyCustomHp():

@@ -22,6 +22,7 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
     @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer._call_init
 
+    setBaseHp(eventPlayer, OW2_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE) # for shield hp
     setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     removeTankPassive()

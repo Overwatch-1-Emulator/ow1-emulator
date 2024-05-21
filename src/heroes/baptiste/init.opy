@@ -8,6 +8,7 @@ rule "[baptiste/init.opy]: Initialize Baptiste":
     @Condition eventPlayer._hero_setup == Hero.BAPTISTE
     @Condition eventPlayer._call_init
 
+    setBaseHp(eventPlayer, OW1_BAPTISTE_LAMP_HP/OW2_BAPTISTE_LAMP_HP) # for immortality field hp
     setCustomHp(OW1_BAPTISTE_HEALTH, 0, 0)
     setUltCost(OW1_BAPTISTE_ULT_COST)
 

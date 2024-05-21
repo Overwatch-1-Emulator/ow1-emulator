@@ -9,6 +9,7 @@ rule "[mccree/init.opy]: Initialize Cassidy":
     @Condition eventPlayer._hero_setup == Hero.MCCREE
     @Condition eventPlayer._call_init
 
+    setBaseHp(eventPlayer, OW1_MCCREE_HEALTH/OW2_MCCREE_HEALTH)
     setUltCost(OW1_MCCREE_ULT_COST)
 
     eventPlayer.disallowButton(Button.ABILITY_2)

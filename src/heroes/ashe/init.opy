@@ -8,6 +8,7 @@ rule "[ashe/init.opy]: Initialize Ashe":
     @Condition eventPlayer._hero_setup == Hero.ASHE
     @Condition eventPlayer._call_init
     
+    setBaseHp(eventPlayer, OW1_ASHE_BOB_HEALTH/OW2_ASHE_BOB_HEALTH) # for BOB hp)
     setCustomHp(OW1_ASHE_HEALTH, 0, 0)
     setUltCost(OW1_ASHE_ULT_COST)
     setBaseDamage(eventPlayer, OW1_ASHE_BOB_DAMAGE/OW2_ASHE_BOB_DAMAGE)

@@ -4,6 +4,7 @@ playervar stat_helper_pvar
 #!defineMember _base_damage_scalar stat_helper_pvar[0]
 #!defineMember _base_healing_scalar stat_helper_pvar[1]
 #!defineMember _base_movement_scalar stat_helper_pvar[2]
+#!defineMember _base_hp_scalar stat_helper_pvar[3]
 
 #!define setBaseDamage(player, scalar) \
     player._base_damage_scalar = scalar \
@@ -12,6 +13,10 @@ playervar stat_helper_pvar
 #!define setBaseMovement(player, scalar) \
     player._base_movement_scalar = scalar \
     player.setMoveSpeed(percent(player._base_movement_scalar))
+
+#!define setBaseHp(player, scalar) \
+    player._base_hp_scalar = scalar \
+    player.setMaxHealth(percent(player._base_hp_scalar))
 
 
 rule "[utilities/stat_helper.opy]: OW1 melee damage":
