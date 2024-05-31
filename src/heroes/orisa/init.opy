@@ -6,19 +6,12 @@
 #!include "heroes/orisa/fusion_driver.opy"
 #!include "heroes/orisa/fortify.opy"
 
-rule "[orisa/init.opy]: Detect switch to Orisa":
-    @Event eachPlayer
-    @Hero orisa
-
-    eventPlayer.call_init = true
-
-
 rule "[orisa/init.opy]: Initialize Orisa":
     @Event eachPlayer
-    @Hero orisa
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.ORISA
+    @Condition eventPlayer._call_init
     
-    newHero(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
+    setCustomHp(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
     setUltCost(OW1_ORISA_ULT_COST)
 
     # Below variables are also declared and initialized in reset_hero.opy
@@ -43,7 +36,7 @@ rule "[orisa/init.opy]: Initialize Orisa":
 
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[orisa/init.opy]: Clean up Orisa":

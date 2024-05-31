@@ -1,10 +1,8 @@
-# #!mainFile "../../dev_main.opy"
+#!mainFile "../../dev_main.opy"
 
-# rule "[junkerqueen/shout.opy]: Set default Carnage cooldown":
-#     @Event eachPlayer
-#     @Hero junkerQueen
-#     @Condition eventPlayer.isUsingAbility2()
+rule "[junkerqueen/carnage.opy]: OW1 carnage damage":
+    @Event playerDealtDamage
+    @Hero junkerQueen
+    @Condition eventAbility == Button.ABILITY_2
     
-#     waitUntil(not eventPlayer.isUsingAbility2(), Math.INFINITY)
-#     waitUntil(eventPlayer.getAbilityCooldown(Button.ABILITY_2) > 0, Math.INFINITY)
-#     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_JUNKERQUEEN_CARNAGE_COOLDOWN_TIME)
+    heal(victim, null, eventDamage - eventDamage/eventPlayer._base_damage_scalar*(OW1_JUNKERQUEEN_CARNAGE_DAMAGE/OW2_JUNKERQUEEN_CARNAGE_DAMAGE))

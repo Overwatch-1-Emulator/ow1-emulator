@@ -69,9 +69,8 @@ rule "[doomfist/uppercut.opy]: Uppercut vfx + movement physics":
     wait()
     eventPlayer.applyImpulse(Vector.UP, 2.5, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.enablePlayerCollision()
-    wait(0.35)
-
     eventPlayer.is_using_uppercut = false # End of uppercut
+    wait(0.35)
 
     # set cooldown
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_DOOMFIST_UPPERCUT_COOLDOWN)
@@ -98,7 +97,7 @@ rule "[doomfist/uppercut.opy]: Detect uppercut victims":
                 eventPlayer, 
                 OW1_DOOMFIST_RISING_UPPERCUT_RADIUS, 
                 getOppositeTeam(eventPlayer.getTeam()), 
-                LosCheck.SURFACES)
+                LosCheck.SURFACES).exclude(eventPlayer)
         eventPlayer._uppercut_victims = \
             [uppercut_victim for uppercut_victim in eventPlayer._uppercut_victims 
                     if ((uppercut_victim.isAlive()) \

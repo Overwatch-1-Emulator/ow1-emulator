@@ -14,23 +14,16 @@ playervar expected_scoped_damage
 #!define OW2WidowmakerFalloff(d) ((OW2WidowmakerN(d)) * OW2_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR + (1 - OW2WidowmakerN(d)))
 
 
-rule "[widowmaker/init.opy]: Detect switch to Widowmaker":
-    @Event eachPlayer
-    @Hero widowmaker
-
-    eventPlayer.call_init = true
-
-
 rule "[widowmaker/init.opy]: Initialize Widowmaker":
     @Event eachPlayer
-    @Hero widowmaker
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.WIDOWMAKER
+    @Condition eventPlayer._call_init
 
-    newHero(OW1_WIDOWMAKER_HEALTH, 0, 0)
+    setCustomHp(OW1_WIDOWMAKER_HEALTH, 0, 0)
     setUltCost(OW1_WIDOWMAKER_ULT_COST)
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[widowmaker/init.opy]: Revert sniper damage falloff":

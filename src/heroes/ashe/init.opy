@@ -3,25 +3,19 @@
 #!include "heroes/ashe/coach_gun.opy"
 #!include "heroes/ashe/bob.opy"
 
-rule "[ashe/init.opy]: Detect switch to Ashe":
-    @Event eachPlayer
-    @Hero ashe
-
-    eventPlayer.call_init = true
-
 
 rule "[ashe/init.opy]: Initialize Ashe":
     @Event eachPlayer
-    @Hero ashe
-    @Condition eventPlayer.call_init == true
+    @Condition eventPlayer._hero_setup == Hero.ASHE
+    @Condition eventPlayer._call_init
     
-    newHero(OW1_ASHE_HEALTH, 0, 0)
+    setCustomHp(OW1_ASHE_HEALTH, 0, 0)
     setUltCost(OW1_ASHE_ULT_COST)
     setBaseDamage(eventPlayer, OW1_ASHE_BOB_DAMAGE/OW2_ASHE_BOB_DAMAGE)
 
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[ashe/init.opy]: Compensate Ashe global damage reduction":

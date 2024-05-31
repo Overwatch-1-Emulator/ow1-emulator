@@ -16,7 +16,7 @@ build-job:       # This job runs in the build stage, which runs first.
   script:
     - export NEXT_VERSION=v$(semantic-release --dry-run | grep 'The next release version is' | sed -E 's/.* ([[:alnum:].\-]+)$/\1/')
     - cd "overpy/VS Code Extension/" && npm install && cd ../../
-    - node build.js
+    - node build.js $NEXT_VERSION
   artifacts:
     paths:
       - build/ow1em.txt

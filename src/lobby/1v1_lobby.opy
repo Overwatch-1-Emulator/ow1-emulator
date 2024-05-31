@@ -7,7 +7,7 @@ settings {
     },
     "lobby": {
         "allowPlayersInQueue": true,
-        "ffaSlots": 8,
+        "ffaSlots": 12,
         "spectatorSlots": 12,
         "returnToLobby": "never"
     },
@@ -21,7 +21,7 @@ settings {
             "gamemodeStartTrigger": "immediately",
             "enableKillCam": false,
             "enableRandomHeroes": true,
-            "scoreToWin": 50,
+            "scoreToWin": 5000,
             "enableSelfInitiatedRespawn": false,
             "spawnHealthPacks": "disabled"
         }
@@ -31,6 +31,7 @@ settings {
             "ana": {
                 "ability1Cooldown%": percent(OW1_ANA_SLEEP_DART_COOLDOWN_TIME/OW2_ANA_SLEEP_DART_COOLDOWN_TIME),
                 "ability2Cooldown%": percent(OW1_ANA_BIOTIC_GRENADE_COOLDOWN/OW2_ANA_BIOTIC_GRENADE_COOLDOWN),
+                "health%": percent(OW1_ANA_HEALTH/OW2_ANA_HEALTH),
                 "ultGen%": percent(OW2_ANA_ULT_COST/OW1_ANA_ULT_COST)
             },
             "ashe": {
@@ -38,8 +39,8 @@ settings {
                 "ultGen%": percent(OW2_ASHE_ULT_COST/OW1_ASHE_ULT_COST)
             },
             "baptiste": {
-                "health%": percent(OW1_BAPTISTE_LAMP_HP/OW2_BAPTISTE_LAMP_HP), # for immortality field hp
                 "ability2Cooldown%": percent(OW1_BAPTISTE_LAMP_COOLDOWN_TIME/OW2_BAPTISTE_LAMP_COOLDOWN_TIME),
+                "health%": percent(OW1_BAPTISTE_LAMP_HP/OW2_BAPTISTE_LAMP_HP), # for immortality field hp
                 "ultGen%": percent(OW2_BAPTISTE_ULT_COST/OW1_BAPTISTE_ULT_COST)
             },
             "bastion": {
@@ -54,13 +55,15 @@ settings {
                 "ultGen%": percent(OW2_BRIGITTE_ULT_COST/OW1_BRIGITTE_ULT_COST)
             },
             "mccree": {
+                "health%": percent(OW1_MCCREE_HEALTH/OW2_MCCREE_HEALTH),
                 "ultGen%": percent(OW2_MCCREE_ULT_COST/OW1_MCCREE_ULT_COST)
             },
             "doomfist": {
                 "health%": percent(OW2_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE), # for shield hp
                 "ammoRegenerationTime%": percent(OW1_DOOMFIST_AMMO_REGEN/OW2_DOOMFIST_AMMO_REGEN),
                 "secondaryFireKb%": 0,
-                "ability1Cooldown%": percent(OW1_DOOMFIST_SLAM_CD/OW2_DOOMFIST_SLAM_CD),
+                "ability1Cooldown%": percent(OW1_DOOMFIST_SLAM_CD/OW2_DOOMFIST_SEISMIC_SLAM_COOLDOWN),
+                "ability2Cooldown%": percent(OW1_DOOMFIST_UPPERCUT_COOLDOWN_DEFAULT/OW2_DOOMFIST_POWER_BLOCK_COOLDOWN),
                 "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST)
             },
             "dva": {
@@ -71,6 +74,7 @@ settings {
                 "ultGen%": percent(OW2_DVA_ULT_COST/OW1_DVA_ULT_COST)
             },
             "echo": {
+                "health%": percent(OW1_ECHO_HEALTH/OW2_ECHO_HEALTH),
                 "ultGen%": percent(OW2_ECHO_ULT_COST/OW1_ECHO_ULT_COST)
             },
             "genji": {
@@ -181,7 +185,11 @@ settings {
             },
             "tracer": {
                 "health%": percent(OW1_TRACER_HEALTH/OW2_TRACER_HEALTH), # for recall hp
+                "ability2Cooldown%": percent(OW1_TRACER_RECALL_COOLDOWN/OW2_TRACER_RECALL_COOLDOWN),
                 "ultGen%": percent(OW2_TRACER_ULT_COST/OW1_TRACER_ULT_COST)
+            },
+            "venture": {
+                "ultGen%": percent(OW2_VENTURE_ULT_COST/OW1_VENTURE_ULT_COST),
             },
             "widowmaker": {
                 "ultGen%": percent(OW2_WIDOWMAKER_ULT_COST/OW1_WIDOWMAKER_ULT_COST)
@@ -193,11 +201,12 @@ settings {
             },
             "hammond": {
                 "ability1Kb%": percent(1/OW2_WRECKING_BALL_FIREBALL_KB),
+                "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME/OW2_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_WRECKING_BALL_ULT_COST/OW1_WRECKING_BALL_ULT_COST),
-                "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME/OW2_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME)
             },
             "zarya": {
                 "health%": percent(OW1_ZARYA_BARRIER_HEALTH/OW2_ZARYA_BARRIER_HEALTH),
+                "ultGen%": percent(OW2_ZARYA_ULT_COST/OW1_ZARYA_ULT_COST),
             },
             "zenyatta": {
                 "ultGen%": percent(OW2_ZENYATTA_ULT_COST/OW1_ZENYATTA_ULT_COST)
@@ -206,43 +215,49 @@ settings {
                 "ana",
                 "ashe",
                 "baptiste",
-                "bastion",
-                "brigitte",
+                # "bastion",
+                # "brigitte",
                 "mccree",
                 "doomfist",
-                "dva",
+                # "dva",
                 "echo",
                 "genji",
                 "hanzo",
                 "illari",
-                "junkerQueen",
-                "junkrat",
+                # "junkerQueen",
+                # "junkrat",
                 "kiriko",
                 # "lifeweaver",
-                "lucio",
+                # "lucio",
                 # "mauga",
-                "mei",
-                "mercy",
-                "moira",
-                "orisa",
-                "pharah",
-                "ramattra",
-                "reaper",
-                "reinhardt",
-                "roadhog",
-                "sigma",
+                # "mei",
+                # "mercy",
+                # "moira",
+                # "orisa",
+                # "pharah",
+                # "ramattra",
+                # "reaper",
+                # "reinhardt",
+                # "roadhog",
+                # "sigma",
                 "sojourn",
                 "soldier",
-                "sombra",
-                "symmetra",
-                "torbjorn",
+                # "sombra",
+                # "symmetra",
+                # "torbjorn",
                 "tracer",
+                # "venture",
                 "widowmaker",
-                "winston",
-                "hammond",
-                "zarya",
+                # "winston",
+                # "hammond",
+                # "zarya",
                 "zenyatta",
             ]
         }
+    },
+    "workshop": {
+        "Tank": 12,
+        "Damage": 12,
+        "Support": 12
     }
 }

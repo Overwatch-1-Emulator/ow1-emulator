@@ -3,26 +3,19 @@
 #!include "heroes/genji/deflect.opy"
 
 
-rule "[genji/init.opy]: Detect switch to Genji":
-    @Event eachPlayer
-    @Hero genji
-
-    eventPlayer.call_init = true
-
-
 rule "[genji/init.opy]: Initialize Genji":
     @Event eachPlayer
-    @Hero genji
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.GENJI
+    @Condition eventPlayer._call_init
     
-    newHero(OW1_GENJI_HEALTH, 0, 0)
+    setCustomHp(OW1_GENJI_HEALTH, 0, 0)
     setUltCost(OW1_GENJI_ULT_COST)
     eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
     
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[genji/init.opy]: Deal OW1 shuriken damage":

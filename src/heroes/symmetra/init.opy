@@ -5,22 +5,13 @@
 #!include "heroes/symmetra/teleporter.opy"
 
 
-rule "[symmetra/init.opy]: Detect switch to Symmetra":
-    @Event eachPlayer
-    @Hero symmetra
-
-    eventPlayer.call_init = true
-
-
 rule "[symmetra/init.opy]: Initialize Symmetra":
     @Event eachPlayer
-    @Hero symmetra
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.SYMMETRA
+    @Condition eventPlayer._call_init
 
-    newHero(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
+    setCustomHp(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
     setUltCost(OW1_SYMMETRA_ULT_COST)
     removeSelfHealing()
 
-    setBaseDamage(eventPlayer, OW1_SYMMETRA_TURRET_DAMAGE/OW2_SYMMETRA_TURRET_DAMAGE)
-
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

@@ -8,13 +8,15 @@ playervar self_heal_pvar
 #!defineMember _last_time_damage_taken self_heal_pvar[4]
 #!defineMember _suppress_passive_healing self_heal_pvar[5]
 
-#!define resetSelfHealing()\
-    stopHealingModification(eventPlayer._self_healing_id)\
-    eventPlayer._self_healing_id = null\
-    eventPlayer._self_healing_source = []\
-    eventPlayer._self_healing_percent = 0\
-    eventPlayer._passive_healing_active = true\
-    eventPlayer._suppress_passive_healing = false\
+def resetSelfHealing():
+    @Name "[passives/support/self_heal.opy]: resetSelfHealing()"
+
+    stopHealingModification(eventPlayer._self_healing_id)
+    eventPlayer._self_healing_id = null
+    eventPlayer._self_healing_source = []
+    eventPlayer._self_healing_percent = 0
+    eventPlayer._passive_healing_active = true
+    eventPlayer._suppress_passive_healing = false
 
 #!define removePassiveHealing()\
     eventPlayer._suppress_passive_healing = true

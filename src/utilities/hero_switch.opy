@@ -17,3 +17,15 @@ rule "[utilities/hero_switch.opy]: detect hero switch":
     eventPlayer._last_hero_played = eventPlayer.getCurrentHero()
     eventPlayer._hero_id = heroID(eventPlayer._last_hero_played)
     eventPlayer._hero_switched = false
+
+
+rule "[utilities/hero_setup.opy]: Reset and initialize hero on hero switch":
+    @Event eachPlayer
+    @Condition switchedHero(eventPlayer)
+
+    waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
+    waitUntil(not switchedHero(eventPlayer), Math.INFINITY)
+    # wait(10 * TICK_DURATION)
+    eventPlayer._hero_setup = eventPlayer.getCurrentHero()
+    resetHero()
+    eventPlayer._call_init = true

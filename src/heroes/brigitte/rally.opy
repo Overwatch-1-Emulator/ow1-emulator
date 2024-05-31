@@ -1,25 +1,50 @@
 #!mainFile "../../dev_main.opy"
 
-playervar ralley_hot_id
+playervar rally_pvar
+#!defineMember _hp_before_rally rally_pvar[0]
+playervar rally_i
+playervar rally_armor_ids
+
+#!define getMissingHp() (eventPlayer.getMaxHealth() - eventPlayer.getHealth())
+#!define getNaturalArmor() ((eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR)) - eventPlayer.getHealthOfType(Health.NORMAL) - getMissingHp())
+#!define getExtraArmor() (eventPlayer.getHealthOfType(Health.ARMOR) - getNaturalArmor())
 
 
-rule "[brigitte/rally.opy]: Rally 30% speed boost":
-    @Event eachPlayer
-    @Hero brigitte
-    @Condition eventPlayer.isUsingUltimate() == true
-    
-    eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF)) # 30% movement speed buff during ralley
-    waitUntil(not eventPlayer.isUsingUltimate(), 10)
-    eventPlayer.setMoveSpeed(100)
-
-
-rule "[brigitte/rally.opy]: Remove Rally instant armor":
+rule "[brigitte/rally.opy]: Remove OW2 Rally":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate()
 
-    damage(eventPlayer, null, OW2_BRIGITTE_RALLY_INSTANT_ARMOR/(1-OW2_ARMOR_DAMAGE_REDUCTION))
-    eventPlayer.startHoT(null, Math.INFINITY, OW1_BRIGITTE_RALLY_HEAL_RATE)
-    eventPlayer.ralley_hot_id = getLastHoT()
+    eventPlayer.setMaxHealth(percent(0))
+    eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF)) # 30% movement speed buff during ralley
+
+    for eventPlayer.rally_i in range(len(eventPlayer.rally_armor_ids)):
+        removeHealthPool(eventPlayer.rally_armor_ids[eventPlayer.rally_i])
+    eventPlayer.rally_armor_ids = []
+
+    eventPlayer._hp_before_rally = eventPlayer.getHealth()
+    setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
+    eventPlayer.setHealth(eventPlayer._hp_before_rally)
+
     waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
-    stopHoT(eventPlayer.ralley_hot_id)
+
+    eventPlayer.setMoveSpeed(100)
+
+    wait(OW1_BRIGITTE_RALLY_ARMOR_DURATION)
+
+    for eventPlayer.rally_i in range(len(eventPlayer.rally_armor_ids)):
+        removeHealthPool(eventPlayer.rally_armor_ids[eventPlayer.rally_i])
+    eventPlayer.rally_armor_ids = []
+
+
+rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor":
+    @Event eachPlayer
+    @Hero brigitte
+    @Condition eventPlayer.isUsingUltimate()
+    @Condition getExtraArmor() < OW1_BRIGITTE_RALLY_ARMOR_MAX
+
+    do:
+        eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
+        eventPlayer.rally_armor_ids.append(getLastCreatedHealthPool())
+        wait(OW1_BRIGITTE_RALLY_ARMOR_PERIOD, Wait.ABORT_WHEN_FALSE)
+    while RULE_CONDITION

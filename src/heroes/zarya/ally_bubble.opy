@@ -44,10 +44,12 @@ rule "[zarya/ally_bubble.opy]: OW1 zarya ally bubble cooldown":
     @Hero zarya
     @Condition eventPlayer.isUsingAbility2()
 
+    eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
+    wait(OW1_ZARYA_BUBBLE_DURATION) # wait bubble duration
     eventPlayer.setAbility2Enabled(false)
-    wait(OW1_ZARYA_BUBBLE_DURATION) # 2 second bubble duration
     eventPlayer.ally_bubble_cooldown = OW1_ZARYA_PROJECTED_BARRIER_COOLDOWN_TIME
+    eventPlayer.allowButton(Button.ABILITY_2)
     chase(eventPlayer.ally_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
 
 

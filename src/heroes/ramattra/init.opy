@@ -4,22 +4,15 @@
 #!include "heroes/ramattra/vortex.opy"
 
 
-rule "[ramattra/init.opy]: Detect switch to Ramattra":
-    @Event eachPlayer
-    @Hero ramattra
-
-    eventPlayer.call_init = true
-
-
 rule "[ramattra/init.opy]: Initialize Ramattra":
     @Event eachPlayer
-    @Hero ramattra
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.RAMATTRA
+    @Condition eventPlayer._call_init
 
-    newHero(OW1_RAMATTRA_HEALTH, OW1_RAMATTRA_ARMOR, OW1_RAMATTRA_SHIELDS)
+    setCustomHp(OW1_RAMATTRA_HEALTH, OW1_RAMATTRA_ARMOR, OW1_RAMATTRA_SHIELDS)
     setUltCost(OW1_RAMATTRA_ULT_COST)
 
     removeTankPassive()
     removeSelfHealing()
     
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

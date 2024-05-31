@@ -4,23 +4,16 @@
 #!include "heroes/mercy/resurrect.opy"
 
 
-rule "[mercy/init.opy]: Detect switch to Mercy":
-    @Event eachPlayer
-    @Hero mercy
-
-    eventPlayer.call_init = true
-
-
 rule "[mercy/init.opy]: Initialize Mercy":
     @Event eachPlayer
-    @Hero mercy
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.MERCY
+    @Condition eventPlayer._call_init
     
-    newHero(OW1_MERCY_HEALTH, 0, 0)
+    setCustomHp(OW1_MERCY_HEALTH, 0, 0)
     setUltCost(OW1_MERCY_ULT_COST)
     eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)
 
     eventPlayer.is_using_guardian_angel = false
     eventPlayer.is_slingshotting = false
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

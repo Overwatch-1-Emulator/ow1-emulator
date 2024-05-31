@@ -3,25 +3,18 @@
 #!include "heroes/torbjorn/overload.opy"
 
 
-rule "[torbjorn/init.opy]: Detect switch to Torbjorn":
-    @Event eachPlayer
-    @Hero torbjorn
-
-    eventPlayer.call_init = true
-
-
 rule "[torbjorn/init.opy]: Initialize Torbjorn":
     @Event eachPlayer
-    @Hero torbjorn
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.TORBJORN
+    @Condition eventPlayer._call_init
 
-    newHero(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
+    setCustomHp(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
     setUltCost(OW1_TORBJORN_ULT_COST)
     removeSelfHealing()
 
     setBaseDamage(eventPlayer, OW1_TORBJORN_TURRET_DAMAGE/OW2_TORBJORN_TURRET_DAMAGE)
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[torbjorn/init.opy]: Correct Rivet Gun, Hammer, and ultimate damage":

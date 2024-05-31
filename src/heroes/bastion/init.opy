@@ -4,19 +4,13 @@
 #!include "heroes/bastion/repair.opy"
 #!include "heroes/bastion/machine_gun.opy"
 
-rule "[bastion/init.opy]: Detect switch to Bastion":
-    @Event eachPlayer
-    @Hero bastion
-
-    eventPlayer.call_init = true
-
 
 rule "[bastion/init.opy]: Initialize Bastion":
     @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.call_init == true
+    @Condition eventPlayer._hero_setup == Hero.BASTION
+    @Condition eventPlayer._call_init
     
-    newHero(OW1_BASTION_HEALTH, OW1_BASTION_ARMOR, 0)
+    setCustomHp(OW1_BASTION_HEALTH, OW1_BASTION_ARMOR, 0)
     setUltCost(OW1_BASTION_ULT_COST)
     eventPlayer.machine_gun_ammo = OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE
     eventPlayer.machine_gun_reload_timer = 0
@@ -26,7 +20,7 @@ rule "[bastion/init.opy]: Initialize Bastion":
 
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[bastion/init.opy]: Clean up Bastion":

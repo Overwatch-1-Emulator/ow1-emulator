@@ -6,28 +6,13 @@
 #!include "heroes/dva/bomb.opy"
 
 
-rule "[dva/init.opy]: Detect switch to Dva":
-    @Event eachPlayer
-    @Hero dva
-    @Condition switchedHero(eventPlayer)
-    # Apparently Pilot DVa and Mech DVA are 2 seperate heroes but workshop considers them both dva
-    # Above condition is needed because otherwise, this rule activates every time dva transitions 
-    # from pilot to mech and vice versa
-
-    eventPlayer.call_init = true
-
-
 rule "[dva/init.opy]: Initialize DVa":
     @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.DVA
+    @Condition eventPlayer._call_init
     
-    defaultHero()
     setUltCost(OW1_DVA_ULT_COST)
     removeTankPassive()
-
-    setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
-
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false

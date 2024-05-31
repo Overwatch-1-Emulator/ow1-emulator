@@ -1,21 +1,16 @@
 #!mainFile "../../dev_main.opy"
 
+#!include "heroes/junkerqueen/carnage.opy"
+
 playervar jq_self_heal_id
-
-
-rule "[junkerqueen/init.opy]: Detect switch to Junkerqueen":
-    @Event eachPlayer
-    @Hero junkerQueen
-
-    eventPlayer.call_init = true
 
 
 rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
     @Event eachPlayer
-    @Hero junkerQueen
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.JUNKER_QUEEN
+    @Condition eventPlayer._call_init
     
-    newHero(OW1_JUNKERQUEEN_HEALTH, OW1_JUNKERQUEEN_ARMOR, 0)
+    setCustomHp(OW1_JUNKERQUEEN_HEALTH, OW1_JUNKERQUEEN_ARMOR, 0)
     setBaseDamage(eventPlayer, OW1_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE/OW2_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE)
     setUltCost(OW1_JUNKERQUEEN_ULT_COST)
 
@@ -25,7 +20,7 @@ rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
     removeTankPassive()
     removePassiveHealing()
     
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[junkerqueen/init.opy]: Clean up Junkerqueen":

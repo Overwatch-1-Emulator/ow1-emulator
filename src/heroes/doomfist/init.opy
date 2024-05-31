@@ -17,19 +17,12 @@ playervar is_ultimate_locked
 #!include "heroes/doomfist/cannon.opy"
 
 
-rule "[doomfist/init.opy]: Detect switch to Doomfist":
-    @Event eachPlayer
-    @Hero doomfist
-
-    eventPlayer.call_init = true
-
-
 rule "[doomfist/init.opy]: Initialize Doomfist":
     @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_init == true
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
+    @Condition eventPlayer._call_init
 
-    newHero(OW1_DOOMFIST_HEALTH, 0, 0)
+    setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     removeTankPassive()
     removeSelfHealing()
@@ -38,7 +31,7 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
     initSlam()
     eventPlayer.uppercut_shields = 0
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[doomfist/init.opy]: Clean up Doomfist":

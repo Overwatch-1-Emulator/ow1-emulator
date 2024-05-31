@@ -6,8 +6,11 @@ playervar custom_hp_pvar
 #!defineMember _hp_health custom_hp_pvar[0]
 #!defineMember _hp_armor custom_hp_pvar[1]
 #!defineMember _hp_shields custom_hp_pvar[2]
+#!defineMember _hp_iter_count custom_hp_pvar[3]
 
 #!define MIN_HP 1
+#!define HP_ROUNDING_ERROR_MARGIN 0.01
+#!define MAX_HP_ITER_COUNT 10
 
 subroutine clearCustomHp
 subroutine applyCustomHp
@@ -28,47 +31,53 @@ def clearCustomHp():
     eventPlayer.setMaxHealth(100.001)
     wait()
     eventPlayer.setMaxHealth(100)
-    heal(eventPlayer, null, Math.INFINITY)
 
 
 def applyCustomHp():
     @Name "[utilities/custom_hp.opy]: applyCustomHp()"
 
-    if (eventPlayer._hp_health + eventPlayer._hp_armor + eventPlayer._hp_shields <= 0):
-        clearCustomHp()
-        return
+    eventPlayer._hp_iter_count = 0
+
+    # loop MAX_HP_ITER_COUNT times if hp is incorrect
+    while (((abs(eventPlayer.getMaxHealthOfType(Health.NORMAL) - eventPlayer._hp_health) > HP_ROUNDING_ERROR_MARGIN)\
+         or (abs(eventPlayer.getMaxHealthOfType(Health.ARMOR) - eventPlayer._hp_armor) > HP_ROUNDING_ERROR_MARGIN)\
+         or (abs(eventPlayer.getMaxHealthOfType(Health.SHIELDS) - eventPlayer._hp_shields) > HP_ROUNDING_ERROR_MARGIN))\
+       and (eventPlayer._hp_iter_count < MAX_HP_ITER_COUNT)):
     
-    eventPlayer.setHealingReceived(0)
+        eventPlayer.setHealingReceived(0)
 
-    waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
-    waitUntil(not (eventPlayer.hasStatusEffect(Status.INVINCIBLE) \
-                or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), Math.INFINITY)
+        waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
+        waitUntil(not (eventPlayer.hasStatusEffect(Status.INVINCIBLE) \
+                    or eventPlayer.hasStatusEffect(Status.UNKILLABLE)), Math.INFINITY)
 
-    wait()
+        wait()
 
-    eventPlayer.setHealth(MIN_HP)
-    eventPlayer.addHealthPool(Health.NORMAL, MIN_HP, true, true)
-    eventPlayer.addHealthPool(Health.ARMOR, MIN_HP, true, true)
-    eventPlayer.addHealthPool(Health.SHIELDS, MIN_HP, true, true)
-    # Apply an unkillable status so we don't accidentally kill the player
-    eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
+        eventPlayer.setHealth(MIN_HP)
+        eventPlayer.addHealthPool(Health.NORMAL, MIN_HP, true, true)
+        eventPlayer.addHealthPool(Health.ARMOR, MIN_HP, true, true)
+        eventPlayer.addHealthPool(Health.SHIELDS, MIN_HP, true, true)
+        # Apply an unkillable status so we don't accidentally kill the player
+        eventPlayer.setStatusEffect(eventPlayer, Status.UNKILLABLE, Math.INFINITY)
 
-    eventPlayer.removeAllHealthPools()
+        eventPlayer.removeAllHealthPools()
 
-    # wait(0.064)
-    wait()
-    waitUntil(eventPlayer.getMaxHealth() <= MIN_HP, 1)
+        # wait(0.064)
+        wait()
+        waitUntil(eventPlayer.getMaxHealth() <= MIN_HP, 1)
 
-    # Apply custom health pool to player
-    if eventPlayer._hp_health > 0:
-        eventPlayer.addHealthPool(Health.NORMAL, max(1, eventPlayer._hp_health - MIN_HP), true, true)
-    if eventPlayer._hp_armor > 0:
-        eventPlayer.addHealthPool(Health.ARMOR, max(1, eventPlayer._hp_armor), true, true)
-    if eventPlayer._hp_shields > 0:
-        eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer._hp_shields), true, true)
-    eventPlayer.setHealingReceived(100)
-    heal(eventPlayer, null, Math.INFINITY)
-    eventPlayer.clearStatusEffect(Status.UNKILLABLE)
+        # Apply custom health pool to player
+        if eventPlayer._hp_health > 0:
+            eventPlayer.addHealthPool(Health.NORMAL, max(1, eventPlayer._hp_health - MIN_HP), true, true)
+        if eventPlayer._hp_armor > 0:
+            eventPlayer.addHealthPool(Health.ARMOR, max(1, eventPlayer._hp_armor), true, true)
+        if eventPlayer._hp_shields > 0:
+            eventPlayer.addHealthPool(Health.SHIELDS, max(1, eventPlayer._hp_shields), true, true)
+        eventPlayer.setHealingReceived(100)
+        heal(eventPlayer, null, Math.INFINITY)
+        eventPlayer.clearStatusEffect(Status.UNKILLABLE)
+
+        wait()
+        eventPlayer._hp_iter_count += 1
 
 
 # rule "[custom_hp.opy]: Remove Custom Health Conditions":

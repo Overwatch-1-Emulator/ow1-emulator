@@ -3,19 +3,11 @@
 #!include "heroes/junkrat/trap.opy"
 
 
-rule "[junkrat/init.opy]: Detect switch to Junkrat":
-    @Event eachPlayer
-    @Hero junkrat
-
-    eventPlayer.call_init = true
-
-
 rule "[junkrat/init.opy]: Initialize Junkrat":
     @Event eachPlayer
-    @Hero junkrat
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.JUNKRAT
+    @Condition eventPlayer._call_init
     
-    defaultHero()
     eventPlayer.setMaxHealth(percent((OW1_JUNKRAT_HEALTH-OW1_JUNKRAT_TIRE_HEALTH)/(OW2_JUNKRAT_HEALTH-OW2_JUNKRAT_TIRE_HEALTH)))
     eventPlayer.addHealthPool(Health.NORMAL, 
                               OW1_JUNKRAT_HEALTH - (OW1_JUNKRAT_HEALTH-OW1_JUNKRAT_TIRE_HEALTH)/(OW2_JUNKRAT_HEALTH-OW2_JUNKRAT_TIRE_HEALTH)*OW2_JUNKRAT_HEALTH, 
@@ -24,4 +16,14 @@ rule "[junkrat/init.opy]: Initialize Junkrat":
     setUltCost(OW1_JUNKRAT_ULT_COST)
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+    setBaseDamage(eventPlayer, OW1_JUNKRAT_FRAG_DAMAGE/OW2_JUNKRAT_FRAG_DAMAGE)
+
+    eventPlayer._call_init = false
+
+
+rule "[junkrat/init.opy]: Correct Mine, Tire damage":
+    @Event playerDealtDamage
+    @Hero junkrat
+    @Condition eventAbility in [Button.ABILITY_1, Button.ULTIMATE]
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

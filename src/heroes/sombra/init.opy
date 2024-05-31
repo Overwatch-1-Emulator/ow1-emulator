@@ -6,19 +6,12 @@
 #!include "heroes/sombra/translocator.opy"
 
 
-rule "[sombra/init.opy]: Detect switch to Sombra":
-    @Event eachPlayer
-    @Hero sombra
-
-    eventPlayer.call_init = true
-
-
 rule "[sombra/init.opy]: Initialize Sombra":
     @Event eachPlayer
-    @Hero sombra
-    @Condition eventPlayer.call_init
+    @Condition eventPlayer._hero_setup == Hero.SOMBRA
+    @Condition eventPlayer._call_init
 
-    newHero(OW1_SOMBRA_HEALTH, 0, 0)
+    setCustomHp(OW1_SOMBRA_HEALTH, 0, 0)
     setUltCost(OW1_SOMBRA_ULT_COST)
 
     getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
@@ -30,7 +23,7 @@ rule "[sombra/init.opy]: Initialize Sombra":
     eventPlayer.is_using_stealth = false
     # removeSelfHealing()
 
-    eventPlayer.call_init = false
+    eventPlayer._call_init = false
 
 
 rule "[sombra/init.opy]: Clean up Sombra":

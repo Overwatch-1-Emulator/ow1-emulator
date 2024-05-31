@@ -4,31 +4,29 @@ globalvar reset_gvar
 #!defineMember ready_color reset_gvar[0]
 
 playervar reset_pvar
-#!defineMember call_init reset_pvar[0]
+#!defineMember _call_init reset_pvar[0]
 #!defineMember friendly_orisa_player reset_pvar[2]
 #!defineMember friendly_sombra_player reset_pvar[3]
 #!defineMember enemy_orisa_player reset_pvar[5]
 #!defineMember enemy_sombra_player reset_pvar[6]
+#!defineMember _hero_setup reset_pvar[7]
 
 subroutine enableAllAbilities
 subroutine disableAllAbilities
 subroutine resetStats
 subroutine resetStatuses
 subroutine resetFrenemies
+subroutine resetUltCharge
+subroutine resetSelfHealing
 
-#!define defaultHero() \
-    newHero(0, 0, 0)
-
-# newHero(0, 0, 0) creates default OW2 hero
-#!define newHero(health, armor, shields) \
-    clearCustomHp() \
-    resetStats() \
-    resetStatuses() \
-    resetFrenemies() \
-    resetUltCharge() \
-    resetSelfHealing() \
-    setCustomHp(health, armor, shields) \
-    enableAllAbilities() \
+#!define resetHero()\
+    clearCustomHp()\
+    resetStats()\
+    resetStatuses()\
+    resetFrenemies()\
+    resetUltCharge()\
+    resetSelfHealing()\
+    enableAllAbilities()\
 
 
 def enableAllAbilities():
@@ -97,7 +95,7 @@ def resetStats():
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.setKnockbackDealt(100)
     eventPlayer.setGravity(100)
-    eventPlayer.setMoveSpeed(100)
+    setBaseMovement(eventPlayer, 1)
 
 
 def resetStatuses():
@@ -123,11 +121,12 @@ def resetFrenemies():
     eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
 
-    
+
 rule "[utilities/reset.opy]: Reinitialize hero on new round":
     @Event eachPlayer
-    @Condition getCurrentGamemode() == Gamemode.CONTROL
     @Condition isMatchBetweenRounds()
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
-    eventPlayer.call_init = true
+    resetHero()
+    eventPlayer._call_init = true
+    # printLog('called init after new round')
