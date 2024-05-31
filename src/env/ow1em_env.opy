@@ -30,7 +30,7 @@
                                "\n" + \
                                "Source code:" + "\n" + \
                                SOURCE_CODE_LINK)
-#!define GAMEMODE_CODE ""
+#!define GAMEMODE_CODE "CRNBE"
 #!define STAGING_CODE "CRNBE"
 #!define DISCORD_SHORT_LINK "dsc.gg/ow1"
 #!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"
