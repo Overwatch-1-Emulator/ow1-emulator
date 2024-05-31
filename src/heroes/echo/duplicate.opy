@@ -9,6 +9,8 @@ rule "[echo/duplicate.opy]: Set Life for echo when duplicating a tank":
     eventPlayer._hero_setup = eventPlayer.getHeroOfDuplication()
     resetHero()
     eventPlayer._call_init = true
+    waitUntil(not eventPlayer._call_init, Math.INFINITY)
+    enableAllAbilities()
 
 
 rule "[echo/duplicate.opy]: Reinitialize echo after exiting duplicate":
