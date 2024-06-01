@@ -4,10 +4,8 @@
 #!include "heroes/lucio/aura.opy"
 
 
-rule "[lucio/init.opy]: Initialize Lucio":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.LUCIO
-    @Condition eventPlayer._call_init
+def initLucio():
+    @Name "[lucio/init.opy]: initLucio()"
     
     setCustomHp(OW1_LUCIO_HEALTH, 0, 0)
     setUltCost(OW1_LUCIO_ULT_COST)
@@ -15,6 +13,13 @@ rule "[lucio/init.opy]: Initialize Lucio":
 
     eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
 
+
+rule "[lucio/init.opy]: Initialize Lucio":
+    @Event eachPlayer
+    @Hero lucio
+    @Condition eventPlayer._call_init
+
+    initLucio()
     eventPlayer._call_init = false
 
 

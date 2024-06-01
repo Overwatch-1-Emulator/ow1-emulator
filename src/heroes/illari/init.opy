@@ -4,10 +4,8 @@
 #!include "heroes/illari/solar_rifle.opy"
 
 
-rule "[illari/init.opy]: Initialize Illari":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.ILLARI
-    @Condition eventPlayer._call_init
+def initIllari():
+    @Name "[illari/init.opy]: initIllari()"
     
     setCustomHp(OW1_ILLARI_HEALTH, 0, 0)
     setUltCost(OW1_ILLARI_ULT_COST)
@@ -16,6 +14,13 @@ rule "[illari/init.opy]: Initialize Illari":
 
     setBaseDamage(eventPlayer, OW1_ILLARI_SUNSTRUCK_DAMAGE/OW2_ILLARI_SUNSTRUCK_DAMAGE)
 
+
+rule "[illari/init.opy]: Initialize Illari":
+    @Event eachPlayer
+    @Hero illari
+    @Condition eventPlayer._call_init
+
+    initIllari()
     eventPlayer._call_init = false
 
 

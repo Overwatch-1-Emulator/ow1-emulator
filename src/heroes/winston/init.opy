@@ -4,10 +4,8 @@
 #!include "heroes/winston/primal.opy"
 
 
-rule "[winston/init.opy]: Initialize Winston":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.WINSTON
-    @Condition eventPlayer._call_init
+def initWinston():
+    @Name "[winston/init.opy]: initWinston()"
 
     setCustomHp(OW1_WINSTON_HEALTH, OW1_WINSTON_ARMOR, 0)
     setUltCost(OW1_WINSTON_ULT_COST)
@@ -19,6 +17,13 @@ rule "[winston/init.opy]: Initialize Winston":
 
     eventPlayer.setSecondaryFireEnabled(false) # disable sniper monkey
 
+
+rule "[winston/init.opy]: Initialize Winston":
+    @Event eachPlayer
+    @Hero winston
+    @Condition eventPlayer._call_init
+
+    initWinston()
     eventPlayer._call_init = false
 
 

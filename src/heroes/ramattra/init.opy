@@ -4,10 +4,8 @@
 #!include "heroes/ramattra/vortex.opy"
 
 
-rule "[ramattra/init.opy]: Initialize Ramattra":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.RAMATTRA
-    @Condition eventPlayer._call_init
+def initRamattra():
+    @Name "[ramattra/init.opy]: initRamattra()"
 
     setCustomHp(OW1_RAMATTRA_HEALTH, OW1_RAMATTRA_ARMOR, OW1_RAMATTRA_SHIELDS)
     setUltCost(OW1_RAMATTRA_ULT_COST)
@@ -15,4 +13,11 @@ rule "[ramattra/init.opy]: Initialize Ramattra":
     removeTankPassive()
     removeSelfHealing()
     
+
+rule "[ramattra/init.opy]: Initialize Ramattra":
+    @Event eachPlayer
+    @Hero ramattra
+    @Condition eventPlayer._call_init
+
+    initRamattra()
     eventPlayer._call_init = false

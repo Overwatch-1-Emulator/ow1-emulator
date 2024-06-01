@@ -3,10 +3,8 @@
 #!include "heroes/ana/sleep.opy"
 #!include "heroes/ana/nade.opy"
 
-rule "[ana/init.opy]: Initialize Ana":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.ANA
-    @Condition eventPlayer._call_init
+def initAna():
+    @Name "[ana/init.opy]: initAna()"
 
     setUltCost(OW1_ANA_ULT_COST)
     removeSelfHealing()
@@ -16,6 +14,13 @@ rule "[ana/init.opy]: Initialize Ana":
 
     setBaseDamage(eventPlayer, OW1_ANA_BIOTIC_GRENADE_DAMAGE/OW2_ANA_BIOTIC_GRENADE_DAMAGE)
 
+
+rule "[ana/init.opy]: Initialize Ana":
+    @Event eachPlayer
+    @Hero ana
+    @Condition eventPlayer._call_init
+
+    initAna()
     eventPlayer._call_init = false
 
 

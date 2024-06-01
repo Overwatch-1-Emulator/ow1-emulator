@@ -5,10 +5,8 @@
 #!include "heroes/pharah/concussive.opy"
 
 
-rule "[pharah/init.opy]: Initialize Pharah":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.PHARAH
-    @Condition eventPlayer._call_init
+def initPharah():
+    @Name "[pharah/init.opy]: initPharah()"
 
     setCustomHp(OW1_PHARAH_HEALTH, 0, 0)
     setUltCost(OW1_PHARAH_ULT_COST)
@@ -16,6 +14,13 @@ rule "[pharah/init.opy]: Initialize Pharah":
 
     initHoverJets()
 
+
+rule "[pharah/init.opy]: Initialize Pharah":
+    @Event eachPlayer
+    @Hero pharah
+    @Condition eventPlayer._call_init
+
+    initPharah()
     eventPlayer._call_init = false
 
 

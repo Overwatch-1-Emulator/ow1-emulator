@@ -5,13 +5,18 @@
 #!include "heroes/symmetra/teleporter.opy"
 
 
-rule "[symmetra/init.opy]: Initialize Symmetra":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.SYMMETRA
-    @Condition eventPlayer._call_init
+def initSymmetra():
+    @Name "[symmetra/init.opy]: initSymmetra()"
 
     setCustomHp(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
     setUltCost(OW1_SYMMETRA_ULT_COST)
     removeSelfHealing()
 
+
+rule "[symmetra/init.opy]: Initialize Symmetra":
+    @Event eachPlayer
+    @Hero symmetra
+    @Condition eventPlayer._call_init
+
+    initSymmetra()
     eventPlayer._call_init = false

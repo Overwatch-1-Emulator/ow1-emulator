@@ -4,10 +4,8 @@
 #!define OW1_VENTURE_ULT_COST 1925
 
 
-rule "[venture/init.opy]: Initialize Venture":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.VENTURE
-    @Condition eventPlayer._call_init
+def initVenture():
+    @Name "[venture/init.opy]: initVenture()"
 
     setCustomHp(OW1_VENTURE_HEALTH, 0, 0)
     setUltCost(OW1_VENTURE_ULT_COST)
@@ -15,4 +13,11 @@ rule "[venture/init.opy]: Initialize Venture":
 
     setBaseDamage(eventPlayer, 0.8)
 
+
+rule "[venture/init.opy]: Initialize Venture":
+    @Event eachPlayer
+    @Hero venture
+    @Condition eventPlayer._call_init
+
+    initVenture()
     eventPlayer._call_init = false

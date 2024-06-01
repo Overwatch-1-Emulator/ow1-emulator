@@ -3,12 +3,17 @@
 #!include "heroes/tracer/pulse_pistol.opy"
 
 
-rule "[tracer/init.opy]: Initialize Tracer":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.TRACER
-    @Condition eventPlayer._call_init
+def initTracer():
+    @Name "[tracer/init.opy]: initTracer()"
 
     setUltCost(OW1_TRACER_ULT_COST)
     removeSelfHealing()
 
+
+rule "[tracer/init.opy]: Initialize Tracer":
+    @Event eachPlayer
+    @Hero tracer
+    @Condition eventPlayer._call_init
+
+    initTracer()
     eventPlayer._call_init = false

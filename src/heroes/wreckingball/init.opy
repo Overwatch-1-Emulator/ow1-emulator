@@ -4,10 +4,8 @@
 #!include "heroes/wreckingball/adaptive_shield.opy"
 
 
-rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.HAMMOND
-    @Condition eventPlayer._call_init
+def initHammond():
+    @Name "[wreckingball/init.opy]: initHammond()"
 
     setCustomHp(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)
     setUltCost(OW1_WRECKING_BALL_ULT_COST)
@@ -16,6 +14,13 @@ rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
 
     setBaseDamage(eventPlayer, OW1_WRECKING_BALL_MINEFIELD_DAMAGE/OW2_WRECKING_BALL_MINEFIELD_DAMAGE)
 
+
+rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
+    @Event eachPlayer
+    @Hero hammond
+    @Condition eventPlayer._call_init
+
+    initHammond()
     eventPlayer._call_init = false
 
 

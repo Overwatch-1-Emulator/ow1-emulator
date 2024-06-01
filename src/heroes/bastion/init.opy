@@ -5,10 +5,8 @@
 #!include "heroes/bastion/machine_gun.opy"
 
 
-rule "[bastion/init.opy]: Initialize Bastion":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.BASTION
-    @Condition eventPlayer._call_init
+def initBastion():
+    @Name "[bastion/init.opy]: initBastion()"
     
     setCustomHp(OW1_BASTION_HEALTH, OW1_BASTION_ARMOR, 0)
     setUltCost(OW1_BASTION_ULT_COST)
@@ -20,6 +18,13 @@ rule "[bastion/init.opy]: Initialize Bastion":
 
     removeSelfHealing()
 
+
+rule "[bastion/init.opy]: Initialize Bastion":
+    @Event eachPlayer
+    @Hero bastion
+    @Condition eventPlayer._call_init
+
+    initBastion()
     eventPlayer._call_init = false
 
 

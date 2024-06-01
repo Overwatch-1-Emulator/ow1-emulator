@@ -3,15 +3,20 @@
 #!include "heroes/hanzo/storm.opy"
 
 
-rule "[hanzo/init.opy]: Initialize Hanzo":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.HANZO
-    @Condition eventPlayer._call_init
+def initHanzo():
+    @Name "[hanzo/init.opy]: initHanzo()"
     
     setCustomHp(OW1_HANZO_HEALTH, 0, 0)
     setUltCost(OW1_HANZO_ULT_COST)
     removeSelfHealing()
 
+
+rule "[hanzo/init.opy]: Initialize Hanzo":
+    @Event eachPlayer
+    @Hero hanzo
+    @Condition eventPlayer._call_init
+
+    initHanzo()
     eventPlayer._call_init = false
 
 

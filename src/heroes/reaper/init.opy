@@ -3,15 +3,20 @@
 #!include "heroes/reaper/blossom.opy"
 
 
-rule "[reaper/init.opy]: Initialize Reaper":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.REAPER
-    @Condition eventPlayer._call_init
+def initReaper():
+    @Name "[reaper/init.opy]: initReaper()"
 
     setCustomHp(OW1_REAPER_HEALTH, 0, 0)
     setUltCost(OW1_REAPER_ULT_COST)
     removePassiveHealing()
 
+
+rule "[reaper/init.opy]: Initialize Reaper":
+    @Event eachPlayer
+    @Hero reaper
+    @Condition eventPlayer._call_init
+
+    initReaper()
     eventPlayer._call_init = false
 
 

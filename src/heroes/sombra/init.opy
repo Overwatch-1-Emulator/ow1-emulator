@@ -6,10 +6,8 @@
 #!include "heroes/sombra/translocator.opy"
 
 
-rule "[sombra/init.opy]: Initialize Sombra":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.SOMBRA
-    @Condition eventPlayer._call_init
+def initSombra():
+    @Name "[sombra/init.opy]: initSombra()"
 
     setCustomHp(OW1_SOMBRA_HEALTH, 0, 0)
     setUltCost(OW1_SOMBRA_ULT_COST)
@@ -23,6 +21,13 @@ rule "[sombra/init.opy]: Initialize Sombra":
     eventPlayer.is_using_stealth = false
     # removeSelfHealing()
 
+
+rule "[sombra/init.opy]: Initialize Sombra":
+    @Event eachPlayer
+    @Hero sombra
+    @Condition eventPlayer._call_init
+
+    initSombra()
     eventPlayer._call_init = false
 
 

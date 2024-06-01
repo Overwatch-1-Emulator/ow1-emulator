@@ -5,10 +5,8 @@
 playervar jq_self_heal_id
 
 
-rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.JUNKER_QUEEN
-    @Condition eventPlayer._call_init
+def initJunkerQueen():
+    @Name "[junkerqueen/init.opy]: initJunkerQueen()"
     
     setCustomHp(OW1_JUNKERQUEEN_HEALTH, OW1_JUNKERQUEEN_ARMOR, 0)
     setBaseDamage(eventPlayer, OW1_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE/OW2_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE)
@@ -20,10 +18,17 @@ rule "[junkerqueen/init.opy]: Initialize Junkerqueen":
     removeTankPassive()
     removePassiveHealing()
     
+
+rule "[junkerqueen/init.opy]: Initialize Junker Queen":
+    @Event eachPlayer
+    @Hero junkerQueen
+    @Condition eventPlayer._call_init
+
+    initJunkerQueen()
     eventPlayer._call_init = false
 
 
-rule "[junkerqueen/init.opy]: Clean up Junkerqueen":
+rule "[junkerqueen/init.opy]: Clean up Junker Queen":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.JUNKER_QUEEN
 

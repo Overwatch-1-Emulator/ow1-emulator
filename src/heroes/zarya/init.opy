@@ -4,11 +4,8 @@
 #!include "heroes/zarya/ally_bubble.opy"
 
 
-rule "[zarya/init.opy]: Initialize Zarya":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.ZARYA
-    @Condition eventPlayer._call_init
-    @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
+def initZarya():
+    @Name "[zarya/init.opy]: initZarya()"
 
     setCustomHp(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
     setUltCost(OW1_ZARYA_ULT_COST)
@@ -19,6 +16,14 @@ rule "[zarya/init.opy]: Initialize Zarya":
     initSelfBubble()
     initAllyBubble()
 
+
+rule "[zarya/init.opy]: Initialize Zarya":
+    @Event eachPlayer
+    @Hero zarya
+    @Condition eventPlayer._call_init
+    @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
+
+    initZarya()
     eventPlayer._call_init = false
 
 

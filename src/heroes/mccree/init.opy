@@ -4,14 +4,19 @@
 #!include "heroes/mccree/roll.opy"
 #!include "heroes/mccree/deadeye.opy"
 
-rule "[mccree/init.opy]: Initialize Cassidy":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.MCCREE
-    @Condition eventPlayer._call_init
+def initMccree():
+    @Name "[mccree/init.opy]: initMccree()"
 
     setUltCost(OW1_MCCREE_ULT_COST)
 
     eventPlayer.disallowButton(Button.ABILITY_2)
     removeSelfHealing()
 
+
+rule "[mccree/init.opy]: Initialize Cassidy":
+    @Event eachPlayer
+    @Hero mccree
+    @Condition eventPlayer._call_init
+
+    initMccree()
     eventPlayer._call_init = false

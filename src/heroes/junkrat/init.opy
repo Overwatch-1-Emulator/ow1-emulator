@@ -3,10 +3,8 @@
 #!include "heroes/junkrat/trap.opy"
 
 
-rule "[junkrat/init.opy]: Initialize Junkrat":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.JUNKRAT
-    @Condition eventPlayer._call_init
+def initJunkrat():
+    @Name "[junkrat/init.opy]: initJunkrat()"
     
     eventPlayer.setMaxHealth(percent((OW1_JUNKRAT_HEALTH-OW1_JUNKRAT_TIRE_HEALTH)/(OW2_JUNKRAT_HEALTH-OW2_JUNKRAT_TIRE_HEALTH)))
     eventPlayer.addHealthPool(Health.NORMAL, 
@@ -18,6 +16,13 @@ rule "[junkrat/init.opy]: Initialize Junkrat":
 
     setBaseDamage(eventPlayer, OW1_JUNKRAT_FRAG_DAMAGE/OW2_JUNKRAT_FRAG_DAMAGE)
 
+
+rule "[junkrat/init.opy]: Initialize Junkrat":
+    @Event eachPlayer
+    @Hero junkrat
+    @Condition eventPlayer._call_init
+
+    initJunkrat()
     eventPlayer._call_init = false
 
 

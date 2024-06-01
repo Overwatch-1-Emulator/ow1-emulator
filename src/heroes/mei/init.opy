@@ -4,10 +4,8 @@
 #!include "heroes/mei/cryo_freeze.opy"
 
 
-rule "[mei/init.opy]: Initialize Mei":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.MEI
-    @Condition eventPlayer._call_init
+def initMei():
+    @Name "[mei/init.opy]: initMei()"
     
     setCustomHp(OW1_MEI_HEALTH, 0, 0)
     setUltCost(OW1_MEI_ULT_COST)
@@ -15,4 +13,11 @@ rule "[mei/init.opy]: Initialize Mei":
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
     removeSelfHealing()
 
+
+rule "[mei/init.opy]: Initialize Mei":
+    @Event eachPlayer
+    @Hero mei
+    @Condition eventPlayer._call_init
+
+    initMei()
     eventPlayer._call_init = false

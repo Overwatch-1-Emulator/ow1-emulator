@@ -14,15 +14,20 @@ playervar expected_scoped_damage
 #!define OW2WidowmakerFalloff(d) ((OW2WidowmakerN(d)) * OW2_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR + (1 - OW2WidowmakerN(d)))
 
 
-rule "[widowmaker/init.opy]: Initialize Widowmaker":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.WIDOWMAKER
-    @Condition eventPlayer._call_init
+def initWidowmaker():
+    @Name "[widowmaker/init.opy]: initWidowmaker()"
 
     setCustomHp(OW1_WIDOWMAKER_HEALTH, 0, 0)
     setUltCost(OW1_WIDOWMAKER_ULT_COST)
     removeSelfHealing()
 
+
+rule "[widowmaker/init.opy]: Initialize Widowmaker":
+    @Event eachPlayer
+    @Hero widowmaker
+    @Condition eventPlayer._call_init
+
+    initWidowmaker()
     eventPlayer._call_init = false
 
 

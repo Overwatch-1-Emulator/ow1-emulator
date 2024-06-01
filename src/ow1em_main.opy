@@ -39,32 +39,41 @@
 #!include "heroes/brigitte/init.opy"
 #!include "heroes/doomfist/init.opy"
 #!include "heroes/dva/init.opy"
-#!include "heroes/echo/init.opy"
 #!include "heroes/genji/init.opy"
 #!include "heroes/hanzo/init.opy"
+subroutine initIllari
+subroutine initJunkerQueen
 #!include "heroes/junkrat/init.opy"
+subroutine initKiriko
+subroutine initLifeweaver
 #!include "heroes/lucio/init.opy"
+subroutine initMauga
 #!include "heroes/mccree/init.opy"
 #!include "heroes/mei/init.opy"
 #!include "heroes/mercy/init.opy"
 #!include "heroes/moira/init.opy"
 #!include "heroes/orisa/init.opy"
 #!include "heroes/pharah/init.opy"
+subroutine initRamattra
 #!include "heroes/reaper/init.opy"
 #!include "heroes/reinhardt/init.opy"
 #!include "heroes/roadhog/init.opy"
 #!include "heroes/sigma/init.opy"
+subroutine initSojourn
 #!include "heroes/soldier/init.opy"
 #!include "heroes/sombra/init.opy"
 #!include "heroes/symmetra/init.opy"
 #!include "heroes/torbjorn/init.opy"
 #!include "heroes/tracer/init.opy"
-#!include "heroes/venture/init.opy"
+subroutine initVenture
 #!include "heroes/widowmaker/init.opy"
 #!include "heroes/winston/init.opy"
 #!include "heroes/wreckingball/init.opy"
 #!include "heroes/zarya/init.opy"
 #!include "heroes/zenyatta/init.opy"
+
+# Include at the end for duplicate scoping
+#!include "heroes/echo/init.opy"
 
 # Include debug at the end so any variable can be viewed
 ##!include "utilities/debug.opy"

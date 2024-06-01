@@ -1,10 +1,8 @@
 #!mainFile "../../dev_main.opy"
 
 
-rule "[genji/init.opy]: Initialize Genji":
-    @Event eachPlayer
-    @Condition eventPlayer._hero_setup == Hero.GENJI
-    @Condition eventPlayer._call_init
+def initGenji():
+    @Name "[genji/init.opy]: initGenji()"
     
     setCustomHp(OW1_GENJI_HEALTH, 0, 0)
     setUltCost(OW1_GENJI_ULT_COST)
@@ -13,6 +11,13 @@ rule "[genji/init.opy]: Initialize Genji":
     
     removeSelfHealing()
 
+
+rule "[genji/init.opy]: Initialize Genji":
+    @Event eachPlayer
+    @Hero genji
+    @Condition eventPlayer._call_init
+
+    initGenji()
     eventPlayer._call_init = false
 
 
