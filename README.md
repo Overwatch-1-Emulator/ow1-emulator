@@ -1,4 +1,4 @@
-﻿# ow1_emulator
+﻿# ow1-emulator
 
 This repository contains OverPy source code for building [Overwatch 1 Emulator](https://workshop.codes/KHTG0) and [Overwatch 1++](https://workshop.codes/YKMXH) Workshop gamemode.  
 
