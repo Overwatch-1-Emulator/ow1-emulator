@@ -7,7 +7,7 @@ module.exports = {
     plugins: [
         "@semantic-release/commit-analyzer",
         "@semantic-release/release-notes-generator",
-        ["@semantic-release/gitlab", {
+        ["@semantic-release/github", {
             "assets": [
                 { "path": "build/ow1em.txt", "label": "Overwatch 1 Emulator" },
                 { "path": "build/ow1pp.txt", "label": "Overwatch 1++" },
