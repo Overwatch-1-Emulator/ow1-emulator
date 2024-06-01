@@ -23,7 +23,9 @@ rule "[utilities/hero_setup.opy]: Reset and initialize hero on hero switch":
     @Event eachPlayer
     @Condition switchedHero(eventPlayer)
 
+    waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
     waitUntil(not switchedHero(eventPlayer), Math.INFINITY)
+    # wait(10 * TICK_DURATION)
+    eventPlayer._hero_setup = eventPlayer.getCurrentHero()
     resetHero()
-    eventPlayer.call_init = true
-    # printLog('called init after switching hero')
+    eventPlayer._call_init = true

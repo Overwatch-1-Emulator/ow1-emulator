@@ -51,7 +51,7 @@ Progress (✅ = Equivalent to OW1, ✔ = Close to OW1, Blank = Untouched):
 | Zenyatta | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ Melee |
 ## Changelog
 
-See [releases](https://gitlab.com/MaxwellJung/ow1_emulator/-/releases)
+See [releases](https://github.com/Overwatch-1-Emulator/ow1-emulator/releases)
 
 ## Contributing Code
 

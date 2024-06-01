@@ -10,7 +10,7 @@ rule "[illari/solar_rifle.opy]: OW1 Solar Rifle body damage":
     damage(
         victim, 
         attacker, 
-        ((OW1_ILLARI_RIFLE_DAMAGE/OW2_ILLARI_RIFLE_DAMAGE) \
+        ((OW1_ILLARI_SOLAR_RIFLE_DAMAGE/OW2_ILLARI_SOLAR_RIFLE_DAMAGE) \
         * (eventDamage/eventPlayer._base_damage_scalar) \
         - eventDamage)/eventPlayer._base_damage_scalar)
 
@@ -24,7 +24,7 @@ rule "[illari/solar_rifle.opy]: OW1 Solar Rifle headshot damage":
     damage(
         victim, 
         attacker, 
-        (OW1_ILLARI_RIFLE_HEADSHOT_MULTIPLIER \
-        * (OW1_ILLARI_RIFLE_DAMAGE/OW2_ILLARI_RIFLE_DAMAGE) \
-        * (eventDamage/eventPlayer._base_damage_scalar/OW2_ILLARI_RIFLE_HEADSHOT_MULTIPLIER) \
+        (OW1_ILLARI_SOLAR_RIFLE_CRIT_MULTIPLIER \
+        * (OW1_ILLARI_SOLAR_RIFLE_DAMAGE/OW2_ILLARI_SOLAR_RIFLE_DAMAGE) \
+        * (eventDamage/eventPlayer._base_damage_scalar/OW2_ILLARI_SOLAR_RIFLE_CRIT_MULTIPLIER) \
         - eventDamage)/eventPlayer._base_damage_scalar)

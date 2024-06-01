@@ -1,17 +1,22 @@
 #!mainFile "../../dev_main.opy"
 
 
-rule "[sigma/init.opy]: Initialize Sigma":
-    @Event eachPlayer
-    @Hero sigma
-    @Condition eventPlayer.call_init
+def initSigma():
+    @Name "[sigma/init.opy]: initSigma()"
 
     setCustomHp(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
     setUltCost(OW1_SIGMA_ULT_COST)
     removeTankPassive()
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+
+rule "[sigma/init.opy]: Initialize Sigma":
+    @Event eachPlayer
+    @Hero sigma
+    @Condition eventPlayer._call_init
+
+    initSigma()
+    eventPlayer._call_init = false
 
 
 rule "[sigma/init.opy]: Change accretion damage":

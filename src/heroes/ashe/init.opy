@@ -3,10 +3,8 @@
 #!include "heroes/ashe/bob.opy"
 
 
-rule "[ashe/init.opy]: Initialize Ashe":
-    @Event eachPlayer
-    @Hero ashe
-    @Condition eventPlayer.call_init == true
+def initAshe():
+    @Name "[ashe/init.opy]: initAshe()"
     
     setCustomHp(OW1_ASHE_HEALTH, 0, 0)
     setUltCost(OW1_ASHE_ULT_COST)
@@ -14,7 +12,14 @@ rule "[ashe/init.opy]: Initialize Ashe":
 
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+
+rule "[ashe/init.opy]: Initialize Ashe":
+    @Event eachPlayer
+    @Hero ashe
+    @Condition eventPlayer._call_init
+
+    initAshe()
+    eventPlayer._call_init = false
 
 
 rule "[ashe/init.opy]: Compensate Ashe global damage reduction":

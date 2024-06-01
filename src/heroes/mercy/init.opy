@@ -3,10 +3,8 @@
 #!include "heroes/mercy/guardian.opy"
 
 
-rule "[mercy/init.opy]: Initialize Mercy":
-    @Event eachPlayer
-    @Hero mercy
-    @Condition eventPlayer.call_init
+def initMercy():
+    @Name "[mercy/init.opy]: initMercy()"
     
     setCustomHp(OW1_MERCY_HEALTH, 0, 0)
     setUltCost(OW1_MERCY_ULT_COST)
@@ -15,4 +13,11 @@ rule "[mercy/init.opy]: Initialize Mercy":
 
     eventPlayer.is_using_guardian_angel = false
     eventPlayer.is_slingshotting = false
-    eventPlayer.call_init = false
+
+rule "[mercy/init.opy]: Initialize Mercy":
+    @Event eachPlayer
+    @Hero mercy
+    @Condition eventPlayer._call_init
+
+    initMercy()
+    eventPlayer._call_init = false

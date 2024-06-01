@@ -17,10 +17,8 @@ playervar is_ultimate_locked
 #!include "heroes/doomfist/cannon.opy"
 
 
-rule "[doomfist/init.opy]: Initialize Doomfist":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer.call_init == true
+def initDoomfist():
+    @Name "[doomfist/init.opy]: initDoomfist()"
 
     setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
@@ -31,7 +29,14 @@ rule "[doomfist/init.opy]: Initialize Doomfist":
     initSlam()
     eventPlayer.uppercut_shields = 0
 
-    eventPlayer.call_init = false
+
+rule "[doomfist/init.opy]: Initialize Doomfist":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer._call_init
+
+    initDoomfist()
+    eventPlayer._call_init = false
 
 
 rule "[doomfist/init.opy]: Clean up Doomfist":

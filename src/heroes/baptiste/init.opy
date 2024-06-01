@@ -3,10 +3,8 @@
 #!include "heroes/baptiste/regen_burst.opy"
 
 
-rule "[baptiste/init.opy]: Initialize Baptiste":
-    @Event eachPlayer
-    @Hero baptiste
-    @Condition eventPlayer.call_init == true
+def initBaptiste():
+    @Name "[baptiste/init.opy]: initBaptiste()"
 
     setCustomHp(OW1_BAPTISTE_HEALTH, 0, 0)
     setUltCost(OW1_BAPTISTE_ULT_COST)
@@ -21,4 +19,11 @@ rule "[baptiste/init.opy]: Initialize Baptiste":
 
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+
+rule "[baptiste/init.opy]: Initialize Baptiste":
+    @Event eachPlayer
+    @Hero baptiste
+    @Condition eventPlayer._call_init
+
+    initBaptiste()
+    eventPlayer._call_init = false

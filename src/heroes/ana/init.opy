@@ -3,10 +3,8 @@
 #!include "heroes/ana/sleep.opy"
 #!include "heroes/ana/nade.opy"
 
-rule "[ana/init.opy]: Initialize Ana":
-    @Event eachPlayer
-    @Hero ana
-    @Condition eventPlayer.call_init == true
+def initAna():
+    @Name "[ana/init.opy]: initAna()"
 
     setUltCost(OW1_ANA_ULT_COST)
     removeSelfHealing()
@@ -16,7 +14,14 @@ rule "[ana/init.opy]: Initialize Ana":
 
     setBaseDamage(eventPlayer, OW1_ANA_BIOTIC_GRENADE_DAMAGE/OW2_ANA_BIOTIC_GRENADE_DAMAGE)
 
-    eventPlayer.call_init = false
+
+rule "[ana/init.opy]: Initialize Ana":
+    @Event eachPlayer
+    @Hero ana
+    @Condition eventPlayer._call_init
+
+    initAna()
+    eventPlayer._call_init = false
 
 
 rule "[ana/init.opy]: Correct rifle and sleep dart damage":

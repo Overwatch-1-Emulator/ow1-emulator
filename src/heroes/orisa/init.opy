@@ -6,10 +6,8 @@
 #!include "heroes/orisa/fusion_driver.opy"
 #!include "heroes/orisa/fortify.opy"
 
-rule "[orisa/init.opy]: Initialize Orisa":
-    @Event eachPlayer
-    @Hero orisa
-    @Condition eventPlayer.call_init
+def initOrisa():
+    @Name "[orisa/init.opy]: initOrisa()"
     
     setCustomHp(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
     setUltCost(OW1_ORISA_ULT_COST)
@@ -36,7 +34,14 @@ rule "[orisa/init.opy]: Initialize Orisa":
 
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+
+rule "[orisa/init.opy]: Initialize Orisa":
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer._call_init
+
+    initOrisa()
+    eventPlayer._call_init = false
 
 
 rule "[orisa/init.opy]: Clean up Orisa":

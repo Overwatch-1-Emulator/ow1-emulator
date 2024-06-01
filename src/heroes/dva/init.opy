@@ -6,17 +6,18 @@
 #!include "heroes/dva/bomb.opy"
 
 
+def initDva():
+    @Name "[dva/init.opy]: initDva()"
+    
+    setUltCost(OW1_DVA_ULT_COST)
+    removeTankPassive()
+    removeSelfHealing()
+
+
 rule "[dva/init.opy]: Initialize DVa":
     @Event eachPlayer
     @Hero dva
-    @Condition eventPlayer.call_init
-    
-    defaultHero()
-    setUltCost(OW1_DVA_ULT_COST)
-    removeTankPassive()
+    @Condition eventPlayer._call_init
 
-    setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
-
-    removeSelfHealing()
-
-    eventPlayer.call_init = false
+    initDva()
+    eventPlayer._call_init = false

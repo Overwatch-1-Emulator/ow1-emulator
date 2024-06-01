@@ -3,16 +3,21 @@
 #!include "heroes/hanzo/storm.opy"
 
 
-rule "[hanzo/init.opy]: Initialize Hanzo":
-    @Event eachPlayer
-    @Hero hanzo
-    @Condition eventPlayer.call_init
+def initHanzo():
+    @Name "[hanzo/init.opy]: initHanzo()"
     
     setCustomHp(OW1_HANZO_HEALTH, 0, 0)
     setUltCost(OW1_HANZO_ULT_COST)
     removeSelfHealing()
 
-    eventPlayer.call_init = false
+
+rule "[hanzo/init.opy]: Initialize Hanzo":
+    @Event eachPlayer
+    @Hero hanzo
+    @Condition eventPlayer._call_init
+
+    initHanzo()
+    eventPlayer._call_init = false
 
 
 rule "[hanzo/init.opy]: Deal OW1 primary fire damage":

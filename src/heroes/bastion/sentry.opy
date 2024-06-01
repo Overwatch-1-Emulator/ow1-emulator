@@ -1,6 +1,5 @@
 #!mainFile "../../dev_main.opy"
 
-
 rule "[bastion/sentry.opy]: Initialize sentry mode":
     @Event eachPlayer
     @Hero bastion
@@ -25,6 +24,7 @@ rule "[bastion/sentry.opy]: Extend sentry mode": # thanks to Wadetata for this w
     @Event eachPlayer
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
+    @Condition eventPlayer.current_configuration != Configuration.TANK
     @Condition eventPlayer.isUsingAbility1()
 
     do:
@@ -35,4 +35,8 @@ rule "[bastion/sentry.opy]: Extend sentry mode": # thanks to Wadetata for this w
             wait(0.016, Wait.IGNORE_CONDITION)
             eventPlayer.cancelPrimaryAction()
             eventPlayer.forceButtonPress(Button.ABILITY_1)
+            eventPlayer.setKnockbackReceived(0)
+            eventPlayer.setStatusEffect(null, Status.ROOTED, Math.INFINITY)
+            waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
+            eventPlayer.setMoveSpeed(0)
     while RULE_CONDITION

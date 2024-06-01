@@ -39,7 +39,6 @@
 #!include "heroes/brigitte/init.opy"
 #!include "heroes/doomfist/init.opy"
 #!include "heroes/dva/init.opy"
-#!include "heroes/echo/init.opy"
 #!include "heroes/genji/init.opy"
 #!include "heroes/hanzo/init.opy"
 #!include "heroes/illari/init.opy"
@@ -72,6 +71,9 @@
 #!include "heroes/wreckingball/init.opy"
 #!include "heroes/zarya/init.opy"
 #!include "heroes/zenyatta/init.opy"
+
+# Include at the end for duplicate scoping
+#!include "heroes/echo/init.opy"
 
 # Include debug at the end so any variable can be viewed
 ##!include "utilities/debug.opy"

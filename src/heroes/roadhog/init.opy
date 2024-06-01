@@ -6,11 +6,8 @@
 #!include "heroes/roadhog/scrap_gun.opy"
 
 
-rule "[roadhog/init.opy]: Initialize Roadhog":
-    @Event eachPlayer
-    @Hero roadhog
-    @Condition eventPlayer.call_init
-    @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
+def initRoadhog():
+    @Name "[roadhog/init.opy]: initRoadhog()"
 
     setCustomHp(OW1_ROADHOG_HEALTH, 0, 0)
     setUltCost(OW1_ROADHOG_ULT_COST)
@@ -32,4 +29,12 @@ rule "[roadhog/init.opy]: Initialize Roadhog":
     eventPlayer.preloadHero(Hero.ROADHOG)
     eventPlayer._is_exiting_wholehog = false
 
-    eventPlayer.call_init = false
+
+rule "[roadhog/init.opy]: Initialize Roadhog":
+    @Event eachPlayer
+    @Hero roadhog
+    @Condition eventPlayer._call_init
+    @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
+
+    initRoadhog()
+    eventPlayer._call_init = false

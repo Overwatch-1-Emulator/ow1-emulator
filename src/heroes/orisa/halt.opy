@@ -26,11 +26,13 @@ rule "[orisa/halt.opy]: Trigger Halt ability":
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0
+    @Condition eventPlayer.isAlive()
+    @Condition not isCCd(eventPlayer)
 
     shootHalt()
     waitUntil(not eventPlayer.isHoldingButton(Button.SECONDARY_FIRE), Math.INFINITY) # Ensure player releases right click
-    waitUntil(updateEveryTick(eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) \
-                          or (eventPlayer.halt_position == eventPlayer.halt_ending_position)), Math.INFINITY) # Detect halt pull activation on right click
+    waitUntil(updateEveryTick((eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) and eventPlayer.isAlive() and not isCCd(eventPlayer)) \
+                           or (eventPlayer.halt_position == eventPlayer.halt_ending_position)), Math.INFINITY) # Detect halt pull activation on right click
     explodeHalt()
 
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_ORISA_HALT_COOLDOWN_TIME)

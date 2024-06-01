@@ -50,10 +50,8 @@ def startMachineGunReload():
     @Name "[bastion/machine_gun.opy]: start machine gun reload timer"
     if eventPlayer.machine_gun_ammo >= OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE:
         return # do nothing if ammo already full
-    if eventPlayer.current_configuration == Configuration.SENTRY:
-        smallMessage(eventPlayer, "Reloading . . .")
-    eventPlayer.machine_gun_ready = false
     eventPlayer.machine_gun_reload_timer = OW1_BASTION_SENTRY_CONFIG_RELOAD_TIME
+    eventPlayer.setAmmo(1, 0)
     chase(eventPlayer.machine_gun_reload_timer, 0, rate=1, ChaseReeval.DESTINATION_AND_RATE)
 
 
@@ -63,9 +61,7 @@ rule "[bastion/machine_gun.opy]: finish reloading machine gun":
     @Condition eventPlayer.machine_gun_reload_timer <= 0
 
     eventPlayer.machine_gun_ammo = OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE
-    eventPlayer.machine_gun_ready = true
-    if eventPlayer.current_configuration == Configuration.SENTRY:
-        smallMessage(eventPlayer, "Done")
+    eventPlayer.setAmmo(1, OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE)
 
 
 rule "[bastion/machine_gun.opy]: Consume machine gun ammo when shooting":
@@ -99,7 +95,9 @@ rule "[bastion/machine_gun.opy]: Reload machine gun when not in sentry mode":
     @Hero bastion
     @Condition eventPlayer.current_configuration != Configuration.SENTRY
 
-    startMachineGunReload()
+    if eventPlayer.isUsingAbility1() and eventPlayer.isHoldingButton(Button.ABILITY_1):
+        eventPlayer.setAmmo(1, OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE)
+        eventPlayer.machine_gun_ammo = OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE
 
 
 rule "[bastion/machine_gun.opy]: Allow machine gun shooting when machine gun ready":

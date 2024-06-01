@@ -6,10 +6,8 @@
 #!include "heroes/brigitte/inspire.opy"
 
 
-rule "[brigitte/init.opy]: Initialize Brigitte":
-    @Event eachPlayer
-    @Hero brigitte
-    @Condition eventPlayer.call_init == true
+def initBrigitte():
+    @Name "[brigitte/init.opy]: initBrigitte()"
     
     setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
     setUltCost(OW1_BRIGITTE_ULT_COST)
@@ -17,8 +15,15 @@ rule "[brigitte/init.opy]: Initialize Brigitte":
     setBaseDamage(eventPlayer, OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
 
     removeSelfHealing()
-    
-    eventPlayer.call_init = false
+
+
+rule "[brigitte/init.opy]: Initialize Brigitte":
+    @Event eachPlayer
+    @Hero brigitte
+    @Condition eventPlayer._call_init
+
+    initBrigitte()
+    eventPlayer._call_init = false
 
 
 rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
