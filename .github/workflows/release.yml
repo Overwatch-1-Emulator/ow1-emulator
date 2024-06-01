@@ -29,7 +29,7 @@ jobs:
           submodules: recursive
       - name: install npm dependencies
         run: |
-             npm install -g semantic-release
+             npm install -g semantic-release @semantic-release/gitlab
              npm install semantic-release-discord-bot -D
              cd "overpy/VS Code Extension/" && npm install && cd ../../
       - name: build gamemode
@@ -69,7 +69,7 @@ jobs:
         uses: actions/download-artifact@master
       - name: install npm dependencies
         run: |
-             npm install -g semantic-release
+             npm install -g semantic-release @semantic-release/gitlab
              npm install semantic-release-discord-bot -D
       - name: release gamemode
         run: |
