@@ -32,7 +32,7 @@ rule "[bastion/sentry.opy]: Extend sentry mode": # thanks to Wadetata for this w
         waitUntil(not eventPlayer.isUsingAbility1(), 4.984) # 6 second total time - 1 second - 1 tick
         waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_1) or not eventPlayer.isUsingAbility1(), 1)
         if eventPlayer.isUsingAbility1() and not eventPlayer.isHoldingButton(Button.ABILITY_1):
-            wait(0.016, Wait.IGNORE_CONDITION)
+            wait(TICK_DURATION, Wait.IGNORE_CONDITION)
             eventPlayer.cancelPrimaryAction()
             eventPlayer.forceButtonPress(Button.ABILITY_1)
             eventPlayer.setKnockbackReceived(0)
