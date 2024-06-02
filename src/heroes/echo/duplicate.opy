@@ -143,6 +143,8 @@ rule "[echo/duplicate.opy]: Initialize Duplicate Echo":
         default:
             break
 
+    resetSelfHealing()
+    removePassiveHealing()
     eventPlayer._call_init = false
 
 
