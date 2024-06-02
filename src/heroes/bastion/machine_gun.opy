@@ -86,6 +86,7 @@ rule "[bastion/machine_gun.opy]: Reload machine gun on reload key or when out of
     @Hero bastion
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) or eventPlayer.machine_gun_ammo <= 0
     @Condition eventPlayer.current_configuration == Configuration.SENTRY
+    @Condition not eventPlayer.isReloading()
 
     startMachineGunReload()
 
