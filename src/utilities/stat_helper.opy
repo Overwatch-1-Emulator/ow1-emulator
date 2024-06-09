@@ -9,6 +9,10 @@ playervar stat_helper_pvar
     player._base_damage_scalar = scalar \
     player.setDamageDealt(percent(player._base_damage_scalar))
 
+#!define setBaseHealing(player, scalar) \
+    player._base_healing_scalar = scalar \
+    player.setHealingDealt(percent(player._base_healing_scalar))
+
 #!define setBaseMovement(player, scalar) \
     player._base_movement_scalar = scalar \
     player.setMoveSpeed(percent(player._base_movement_scalar))
