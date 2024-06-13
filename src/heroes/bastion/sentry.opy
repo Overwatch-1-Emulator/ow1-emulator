@@ -16,8 +16,8 @@ rule "[bastion/sentry.opy]: Initialize sentry mode":
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
-    waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
-    eventPlayer.setMoveSpeed(0)
+    #waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
+    #eventPlayer.setMoveSpeed(0)
 
 
 rule "[bastion/sentry.opy]: Extend sentry mode": # thanks to Wadetata for this wonderful piece of code that Ciach795 rewrote to OverPy: https://workshop.codes/AMSG8
