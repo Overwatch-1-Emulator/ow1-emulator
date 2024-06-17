@@ -14,10 +14,12 @@ rule "[roadhog/wholehog.opy]: OW1 disable abilities during wholehog":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.isUsingUltimate()
-    
+
     eventPlayer.setMeleeEnabled(false)
     eventPlayer.setAbility1Enabled(false)
     eventPlayer.setAbility2Enabled(false)
+    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_WHOLEHOG_DAMAGE/OW2_ROADHOG_WHOLEHOG_DAMAGE))
+    eventPlayer.setKnockbackDealt(percent(OW1_ROADHOG_WHOLEHOG_KNOCKBACK/OW2_ROADHOG_WHOLEHOG_KNOCKBACK))
 
 
 rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
@@ -28,6 +30,8 @@ rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
+    eventPlayer.setDamageDealt(100)
+    eventPlayer.setKnockbackDealt(100)
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
 
 
@@ -36,7 +40,7 @@ rule "[roadhog/wholehog.opy]: OW1 Wholehog force autofire":
     @Hero roadhog
     @Condition eventPlayer.isUsingUltimate()
     @Condition not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
-    
+
     eventPlayer.startForcingButton(Button.PRIMARY_FIRE)
 
 
