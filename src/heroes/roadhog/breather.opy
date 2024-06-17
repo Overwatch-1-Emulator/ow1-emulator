@@ -29,6 +29,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.setAbility2Enabled(false)
     eventPlayer.setDamageReceived(percent((1-OW1_ROADHOG_BREATHER_DAMAGE_REDUCTION)/(1-OW2_ROADHOG_BREATHER_DAMAGE_REDUCTION))) # reduce daamge intake
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
+    eventPlayer.setSecondaryFireEnabled(true)
     eventPlayer.startForcingButton(Button.SECONDARY_FIRE)
     waitUntil(not eventPlayer.isFiringSecondaryFire(), Math.INFINITY)
     eventPlayer.stopForcingButton(Button.SECONDARY_FIRE)
@@ -39,6 +40,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
 
     # cooldown
     eventPlayer.setAbility2Enabled(true)
+    eventPlayer.setSecondaryFireEnabled(false)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_ROADHOG_BREATHER_COOLDOWN)
 

@@ -20,6 +20,7 @@ def initRoadhog():
     # Breather init
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.setSecondaryFireEnabled(false)
     eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_TOTAL/OW2_ROADHOG_BREATHER_HEAL_TOTAL))
 
     removeTankPassive()
