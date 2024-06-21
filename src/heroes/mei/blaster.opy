@@ -58,4 +58,4 @@ rule "[mei/blaster.opy]: OW1 blaster damage":
     @Hero mei
     @Condition eventAbility == Button.PRIMARY_FIRE
 
-    heal(victim, null, eventDamage - (OW1_MEI_BLASTER_DAMAGE_RATE/OW2_MEI_BLASTER_DAMAGE_RATE)*eventDamage)
+    heal(victim, null, eventDamage - (eventDamage/eventPlayer._base_damage_scalar) * (OW1_MEI_BLASTER_DAMAGE_RATE/OW2_MEI_BLASTER_DAMAGE_RATE))
