@@ -30,3 +30,11 @@ rule "[illari/init.opy]: Correct Outburst damage":
     @Condition eventAbility == Button.ABILITY_1
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+
+rule "[illari/init.opy]: Correct Pylon self healing":
+    @Event playerDealtHealing
+    @Hero illari
+    @Condition healee == healer
+
+    heal(healee, null, eventHealing/OW2_ILLARI_PYLON_SELF_HEAL - eventHealing)
