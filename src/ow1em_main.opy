@@ -1,11 +1,12 @@
-#!include "env/ow1em_env.opy"
-
-# Useful constants
+# Useful constants and macros
 #!include "constants/ow1_constants.opy"
 #!include "constants/ow2_constants.opy"
+#!include "utilities/macro_functions.opy"
+
+# Custom game lobby settings
+#!include "lobby/ow1em_lobby.opy"
 
 # Useful functions
-#!include "utilities/macro_functions.opy"
 #!include "utilities/stat_helper.opy"
 #!include "utilities/custom_hp.opy"
 #!include "utilities/reset.opy"
@@ -15,9 +16,6 @@
 #!include "utilities/ready.opy"
 #!include "utilities/hit_detection.opy"
 #!include "utilities/anti_crash.opy"
-
-# Custom game lobby settings
-#!include "lobby/ow1em_lobby.opy"
 
 # OW1 logic
 # Remove damage passive
