@@ -25,7 +25,7 @@ Below HUD is tuned for 16:9 aspect ratio monitors (typical PC Overwatch setup).
     if eventPlayer.ally_bubble_cd_text == null:\
         createInWorldText(eventPlayer,\
                         "{0}".format(ceil(eventPlayer.ally_bubble_cooldown)),\
-                        updateEveryTick(eventPlayer.getEyePosition() + (100 * (2.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.46 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()),\
+                        updateEveryTick(eventPlayer.getEyePosition() + (100 * (2.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.7 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()),\
                         verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),\
                         3,\
                         Clip.NONE,\
@@ -46,8 +46,8 @@ rule "[zarya/ally_bubble.opy]: OW1 zarya ally bubble cooldown":
 
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
-    wait(OW1_ZARYA_BUBBLE_DURATION) # wait bubble duration
     eventPlayer.setAbility2Enabled(false)
+    wait(OW1_ZARYA_BUBBLE_DURATION) # wait bubble duration
     eventPlayer.ally_bubble_cooldown = OW1_ZARYA_PROJECTED_BARRIER_COOLDOWN_TIME
     eventPlayer.allowButton(Button.ABILITY_2)
     chase(eventPlayer.ally_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
