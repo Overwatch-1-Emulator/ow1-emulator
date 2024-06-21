@@ -9,7 +9,6 @@ def initMccree():
 
     setUltCost(OW1_MCCREE_ULT_COST)
 
-    eventPlayer.disallowButton(Button.ABILITY_2)
     removeSelfHealing()
 
 
