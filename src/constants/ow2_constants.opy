@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../../dev_main.opy"
 
 # Universal
 #!define OW2_ARMOR_DAMAGE_REDUCTION 0.3
