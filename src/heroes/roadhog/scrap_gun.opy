@@ -24,7 +24,7 @@ rule "[roadhog/scrap_gun.opy]: OW1 Scrap Gun secondary fire":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
-    @Condition not isCCd(eventPlayer)
+    @Condition (not isCCd(eventPlayer)) or (isHacked(eventPlayer))
     @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition not eventPlayer.isFiringSecondaryFire()
     @Condition not eventPlayer.isUsingAbility1()
