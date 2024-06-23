@@ -3,6 +3,9 @@
 playervar translocator_pvar
 
 #!defineMember _is_using_translocator translocator_pvar[0]
+#!defineMember _translocator_id translocator_pvar[1]
+#!defineMember _translocator_icon_id1 translocator_pvar[2]
+#!defineMember _translocator_icon_id2 translocator_pvar[3]
 
 playervar transloc_position
 playervar trasnloc_velocity
@@ -10,13 +13,12 @@ playervar transloc_p0
 playervar transloc_v0
 playervar transloc_time
 
-playervar translocator_id
-
 playervar call_throwTranslocator
 
 subroutine throwTranslocator
 subroutine destroyTranslocator
 subroutine showTranslocator
+subroutine showTranslocatorIcon
 subroutine hideTranslocator
 
 #!define getTranslocVelocity(t) vect(eventPlayer.transloc_v0.x, \
@@ -145,6 +147,7 @@ def throwTranslocator():
     stopChasingVariable(eventPlayer.trasnloc_velocity)
     stopChasingVariable(eventPlayer.transloc_position)
 
+    showTranslocatorIcon()
     # Play landing sound
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
 
@@ -152,17 +155,33 @@ def throwTranslocator():
 def showTranslocator():
     @Name "[sombra/translocator.opy]: showTranslocator()"
 
-    if eventPlayer.translocator_id == null:
-        # Draw translocator projectile object
+    # Draw translocator projectile object
+    if eventPlayer._translocator_id == null:
         createEffect(getAllPlayers(), Effect.ORB, Color.PURPLE, eventPlayer.transloc_position, 0.1, EffectReeval.POSITION_AND_RADIUS)
-        eventPlayer.translocator_id = getLastCreatedEntity()
+        eventPlayer._translocator_id = getLastCreatedEntity()
+
+
+def showTranslocatorIcon():
+    @Name "[sombra/translocator.opy]: showTranslocatorIcon()"
+
+    # Draw translocator icons
+    if eventPlayer._translocator_icon_id1 == null:
+        createIcon(eventPlayer, eventPlayer.transloc_position + 0.5*Vector.DOWN, Icon.HALO, IconReeval.VISIBILITY_POSITION_AND_COLOR, Color.SKY_BLUE, false)
+        eventPlayer._translocator_icon_id1 = getLastCreatedEntity()
+    if eventPlayer._translocator_icon_id2 == null:
+        createIcon(eventPlayer, eventPlayer.transloc_position, Icon.DIAMOND, IconReeval.VISIBILITY_POSITION_AND_COLOR, Color.SKY_BLUE, false)
+        eventPlayer._translocator_icon_id2 = getLastCreatedEntity()
 
 
 def hideTranslocator():
     @Name "[sombra/translocator.opy]: hideTranslocator()"
 
-    destroyEffect(eventPlayer.translocator_id)
-    eventPlayer.translocator_id = null
+    destroyEffect(eventPlayer._translocator_id)
+    eventPlayer._translocator_id = null
+    destroyIcon(eventPlayer._translocator_icon_id1)
+    eventPlayer._translocator_icon_id1 = null
+    destroyIcon(eventPlayer._translocator_icon_id2)
+    eventPlayer._translocator_icon_id2 = null
 
 
 rule "[sombra/translocator.opy]: Show using translocator GUI":
