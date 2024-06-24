@@ -41,18 +41,17 @@ def enterStealth():
     eventPlayer.setAbility1Enabled(false)
     eventPlayer.setSecondaryFireEnabled(false) # Disable hacking during invis
     showStealthHud()
-    wait(OW1_SOMBRA_STEALTH_CAST_TIME)
+    wait(SOMBRA_STEALTH_CAST_TIME)
     eventPlayer.setInvisibility(Invis.ENEMIES)
-    eventPlayer.setMoveSpeed(percent(OW1_SOMBRA_STEALTH_MOVEMENT_BONUS))
+    eventPlayer.setMoveSpeed(percent(SOMBRA_STEALTH_MOVEMENT_BONUS))
     eventPlayer.is_using_stealth = true
     damage(eventPlayer, null, 0.01)
     heal(eventPlayer, null, 0.01)
     wait(OW2_SOMBRA_STEALTH_COOLDOWN)
     wait(OW2_SOMBRA_STEALTH_CAST_TIME)
-    exitStealth()
     hideStealthHud()
+    exitStealth()
     eventPlayer.setInvisibility(Invis.NONE)
-    eventPlayer.setMoveSpeed(percent(OW1_SOMBRA_STEALTH_MOVEMENT_BONUS/OW2_SOMBRA_STEALTH_MOVEMENT_BONUS))
 
 
 rule "[sombra/stealth.opy]: Exit Stealth when shooting":
@@ -86,8 +85,7 @@ def exitStealth():
     eventPlayer.setSecondaryFireEnabled(true) # Enable hacking after exiting invis
     eventPlayer.setInvisibility(Invis.NONE)
     eventPlayer.setMoveSpeed(100)
-    hideStealthHud()
-    wait(OW1_SOMBRA_STEALTH_RECOVERY_TIME)
+    wait(SOMBRA_STEALTH_RECOVERY_TIME)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.is_using_stealth = false
 
