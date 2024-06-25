@@ -64,6 +64,7 @@ rule "[sombra/stealth.opy]: Exit Stealth when shooting":
             or eventPlayer.isHoldingButton(Button.ABILITY_1) \
             or eventPlayer.isHoldingButton(Button.ULTIMATE)
 
+    hideStealthHud
     exitStealth()
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_SOMBRA_STEALTH_COOLDOWN)
 
@@ -73,6 +74,7 @@ rule "[sombra/stealth.opy]: Exit Stealth when taking damage":
     @Hero sombra
     @Condition eventPlayer.is_using_stealth
 
+    hideStealthHud
     exitStealth()
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_SOMBRA_STEALTH_COOLDOWN)
 
