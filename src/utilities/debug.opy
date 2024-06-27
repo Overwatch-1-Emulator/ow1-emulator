@@ -28,16 +28,14 @@ rule "[utilities/debug.opy]: global debug (Top Left)":
     hudSubheader(getAllPlayers(), "Server Load Peak = {}%".format(getPeakServerLoad()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     # hudSubheader(getAllPlayers(), "isInSetup() = {}".format(isInSetup()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
     # hudSubheader(getAllPlayers(), "getTotalTimeElapsed() = {}".format(getTotalTimeElapsed()), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    hudSubheader(getAllPlayers(), "len(_available_heroes) = {}".format(len(_available_heroes)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubheader(getAllPlayers(), "len(_arena0_queue) = {}".format(len(_arena0_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubheader(getAllPlayers(), "len(_arena1_queue) = {}".format(len(_arena1_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubheader(getAllPlayers(), "len(_arena2_queue) = {}".format(len(_arena2_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubheader(getAllPlayers(), "_arena0_fighters = {} vs {}".format(_arena0_fighters[0], _arena0_fighters[1]), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubheader(getAllPlayers(), "_arena1_fighters = {} vs {}".format(_arena1_fighters[0], _arena1_fighters[1]), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubheader(getAllPlayers(), "_arena2_fighters = {} vs {}".format(_arena2_fighters[0], _arena2_fighters[1]), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubheader(getAllPlayers(), "len(_arena0_fighters) = {}".format(len(_arena0_fighters)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubheader(getAllPlayers(), "len(_arena1_fighters) = {}".format(len(_arena1_fighters)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
-    # hudSubheader(getAllPlayers(), "len(_arena2_fighters) = {}".format(len(_arena2_fighters)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "len(_available_heroes) = {}".format(len(_available_heroes)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "len(_player_queue) = {}".format(len(_player_queue)), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "_arena0_fighters = {} vs {}".format(_arena0_fighter0, _arena0_fighter1), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "_arena1_fighters = {} vs {}".format(_arena1_fighter0, _arena1_fighter1), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "_arena2_fighters = {} vs {}".format(_arena2_fighter0, _arena2_fighter1), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "_arena0_winner = {}".format(_arena0_winner), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "_arena1_winner = {}".format(_arena1_winner), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
+    # hudSubheader(getAllPlayers(), "_arena2_winner = {}".format(_arena2_winner), HudPosition.LEFT, 1, Color.WHITE, HudReeval.VISIBILITY_AND_STRING)
 
 
 rule "[utilities/debug.opy]: player debug (Top Right)":
@@ -45,7 +43,7 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     @Condition DEBUG_MODE == true
 
     hudHeader(eventPlayer, "Event Player", HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "current_configuration = {}".format(eventPlayer.current_configuration), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "current_configuration = {}".format(eventPlayer.current_configuration), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "len(getAllowedHeroes()) = {}".format(len(eventPlayer.getAllowedHeroes())), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_is_using_flashbang = {}".format(eventPlayer._is_using_flashbang), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_call_init = {}".format(eventPlayer._call_init), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -92,7 +90,7 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "_self_healing_percent = {}".format(eventPlayer._self_healing_percent), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_passive_healing_active = {}".format(eventPlayer._passive_healing_active), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_suppress_passive_healing = {}".format(eventPlayer._suppress_passive_healing), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "getPosition() = {}".format(eventPlayer.getPosition()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "getPosition() = {}".format(eventPlayer.getPosition()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "role = {}".format(eventPlayer.role), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isInAlternateForm() = {}".format(eventPlayer.isInAlternateForm()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "Primary Fire Cooldown = {}".format(eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
