@@ -69,13 +69,14 @@ def explodeHalt():
     @Name "[orisa/halt.opy]: Explode Halt Orb"
 
     stopChasingVariable(eventPlayer.halt_position)
-    wait(OW1_ORISA_HALT_ACTIVATION_TIME)
-    eventPlayer.halt_victims = getPlayersInRadius(eventPlayer.halt_position, 
-                                                  OW1_ORISA_HALT_AOE_RADIUS, 
-                                                  getOppositeTeam(eventPlayer.getTeam()), 
-                                                  LosCheck.SURFACES_AND_ALL_BARRIERS)
+    eventPlayer.halt_victims = getPlayersInRadius(eventPlayer.halt_position,
+    OW1_ORISA_HALT_AOE_RADIUS,
+    getOppositeTeam(eventPlayer.getTeam()),
+    LosCheck.SURFACES_AND_ALL_BARRIERS)
     eventPlayer.halt_victims.is_snared = true
+    wait(OW1_ORISA_HALT_ACTIVATION_TIME)
     eventPlayer.halt_victims.setEnvironmentalKillCreditor(eventPlayer)
+    eventPlayer.is_using_halt = false
 
     # Halt orb explosion sounds
     playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.LIME_GREEN, eventPlayer, 100)
@@ -86,13 +87,12 @@ def explodeHalt():
     destroyEffect(eventPlayer.halt_orb_id[1])
     eventPlayer.halt_orb_id[1] = null
 
-    eventPlayer.is_using_halt = false
-
 
 rule "[orisa/halt.opy]: Slow down snared enemies":
     @Event eachPlayer
     @Condition eventPlayer.is_snared
 
+    cancelMomentum(eventPlayer)
     eventPlayer.setMoveSpeed(100-OW1_ORISA_HALT_SNARE_MOVE_PENALTY)
     wait(OW1_ORISA_HALT_SNARE_DURATION)
     eventPlayer.setMoveSpeed(100)
@@ -102,6 +102,7 @@ rule "[orisa/halt.opy]: Pull halted victims":
     @Event eachPlayer
     @Condition eventPlayer.is_snared
 
+    wait(OW1_ORISA_HALT_ACTIVATION_TIME)
     eventPlayer.position = eventPlayer.getPosition()
     eventPlayer.startForcingPosition(eventPlayer.position, true)
     chase(eventPlayer.position, eventPlayer.enemy_orisa_player.halt_position, rate=OW1_ORISA_HALT_PULL_SPEED, ChaseReeval.DESTINATION_AND_RATE)
