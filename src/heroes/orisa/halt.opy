@@ -87,6 +87,8 @@ def explodeHalt():
     eventPlayer.halt_orb_id[1] = null
 
     eventPlayer.is_using_halt = false
+    wait(OW1_ORISA_HALT_SNARE_DURATION)
+    eventPlayer.halt_active = false
 
 
 rule "[orisa/halt.opy]: Slow down halted victims":
