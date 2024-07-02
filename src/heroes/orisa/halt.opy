@@ -94,7 +94,7 @@ def explodeHalt():
 rule "[orisa/halt.opy]: Slow down halted victims":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.halt_active
-    @Condition isInHaltAOE(eventPlayer)
+    if not isInHaltAOE(eventPlayer): return # prevents victim from reactivating this rule by going in and out of halt aoe range
 
     # slow down victims in halt range
     eventPlayer.setMoveSpeed(100-OW1_ORISA_HALT_SNARE_MOVE_PENALTY)
