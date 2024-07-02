@@ -7,17 +7,22 @@ playervar halt_position
 playervar halt_ending_position
 playervar halt_orb_id
 playervar halt_snare_line_id
-playervar position
+playervar halt_victim_position
+playervar halt_active
 
 subroutine shootHalt
 subroutine explodeHalt
+subroutine snareVictim
 subroutine showSnareLine
 subroutine hideSnareLine
 
+#!define isInHaltAOE(player) \
+    (distance(centerMass(player), player.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS \
+ and isInLoS(centerMass(player), player.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS))
+
 #!define snareVisible(player) \
     (player.enemy_orisa_player.is_using_halt \
- and distance(centerMass(player), player.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS \
- and isInLoS(centerMass(player), player.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS) \
+ and isInHaltAOE(player) \
  and player.isAlive())
 
 
@@ -58,25 +63,19 @@ def shootHalt():
     eventPlayer.halt_position = eventPlayer.getEyePosition()
     eventPlayer.halt_ending_position = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 1000*eventPlayer.getFacingDirection(), null, null, true).getHitPosition()
 
-    getPlayers(getOppositeTeam(eventPlayer.getTeam())).is_snared = false
     wait(OW1_ORISA_HALT_LAUNCH_CAST_TIME)
 
     # Start flying halt orb
     chase(eventPlayer.halt_position, eventPlayer.halt_ending_position, rate=OW1_ORISA_HALT_PROJECTILE_SPEED, ChaseReeval.DESTINATION_AND_RATE)
+    eventPlayer.halt_active = false
 
 
 def explodeHalt():
     @Name "[orisa/halt.opy]: Explode Halt Orb"
 
+    eventPlayer.halt_active = true
     stopChasingVariable(eventPlayer.halt_position)
-    eventPlayer.halt_victims = getPlayersInRadius(eventPlayer.halt_position,
-    OW1_ORISA_HALT_AOE_RADIUS,
-    getOppositeTeam(eventPlayer.getTeam()),
-    LosCheck.SURFACES_AND_ALL_BARRIERS)
-    eventPlayer.halt_victims.is_snared = true
     wait(OW1_ORISA_HALT_ACTIVATION_TIME)
-    eventPlayer.halt_victims.setEnvironmentalKillCreditor(eventPlayer)
-    eventPlayer.is_using_halt = false
 
     # Halt orb explosion sounds
     playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.LIME_GREEN, eventPlayer, 100)
@@ -87,30 +86,38 @@ def explodeHalt():
     destroyEffect(eventPlayer.halt_orb_id[1])
     eventPlayer.halt_orb_id[1] = null
 
+    eventPlayer.is_using_halt = false
+    wait(OW1_ORISA_HALT_SNARE_DURATION)
+    eventPlayer.halt_active = false
 
-rule "[orisa/halt.opy]: Slow down snared enemies":
+
+rule "[orisa/halt.opy]: Slow down halted victims":
     @Event eachPlayer
-    @Condition eventPlayer.is_snared
+    @Condition eventPlayer.enemy_orisa_player.halt_active
+    @Condition isInHaltAOE(eventPlayer)
 
-    cancelMomentum(eventPlayer)
+    # slow down victims in halt range
     eventPlayer.setMoveSpeed(100-OW1_ORISA_HALT_SNARE_MOVE_PENALTY)
+    wait(OW1_ORISA_HALT_ACTIVATION_TIME)
+
+    if isInHaltAOE(eventPlayer):
+        async(snareVictim, AsyncBehavior.RESTART)
+
     wait(OW1_ORISA_HALT_SNARE_DURATION)
     eventPlayer.setMoveSpeed(100)
 
 
-rule "[orisa/halt.opy]: Pull halted victims":
-    @Event eachPlayer
-    @Condition eventPlayer.is_snared
+def snareVictim():
+    @Name "[orisa/halt.opy]: snareVictim()"
 
-    wait(OW1_ORISA_HALT_ACTIVATION_TIME)
-    eventPlayer.position = eventPlayer.getPosition()
-    eventPlayer.startForcingPosition(eventPlayer.position, true)
-    chase(eventPlayer.position, eventPlayer.enemy_orisa_player.halt_position, rate=OW1_ORISA_HALT_PULL_SPEED, ChaseReeval.DESTINATION_AND_RATE)
-    waitUntil(eventPlayer.position == eventPlayer.enemy_orisa_player.halt_position, Math.INFINITY)
-    stopChasingVariable(eventPlayer.position)
+    eventPlayer.setEnvironmentalKillCreditor(eventPlayer)
+    eventPlayer.halt_victim_position = eventPlayer.getPosition()
+    eventPlayer.startForcingPosition(eventPlayer.halt_victim_position, true)
+    chase(eventPlayer.halt_victim_position, eventPlayer.enemy_orisa_player.halt_position, rate=OW1_ORISA_HALT_PULL_SPEED, ChaseReeval.DESTINATION_AND_RATE)
+    waitUntil(eventPlayer.halt_victim_position == eventPlayer.enemy_orisa_player.halt_position, Math.INFINITY)
+    stopChasingVariable(eventPlayer.halt_victim_position)
     eventPlayer.stopForcingPosition()
     cancelMomentum(eventPlayer)
-    eventPlayer.is_snared = false
 
 
 rule "[orisa/halt.opy]: Halt snare line VFX":
@@ -133,7 +140,7 @@ def showSnareLine():
                    Beam.GOOD, 
                    eventPlayer.enemy_orisa_player.halt_position, 
                    centerMass(eventPlayer), 
-                   Color.GREEN if eventPlayer.is_snared else Color.WHITE, 
+                   Color.GREEN if eventPlayer.halt_active else Color.WHITE, 
                    EffectReeval.VISIBILITY_POSITION_RADIUS_AND_COLOR)
         eventPlayer.halt_snare_line_id = getLastCreatedEntity()
 
