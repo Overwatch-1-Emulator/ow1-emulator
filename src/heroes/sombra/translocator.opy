@@ -13,8 +13,6 @@ playervar transloc_p0
 playervar transloc_v0
 playervar transloc_time
 
-playervar call_throwTranslocator
-
 subroutine throwTranslocator
 subroutine destroyTranslocator
 subroutine showTranslocator
@@ -41,20 +39,20 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
 
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
     destroyTranslocator()
-    eventPlayer.call_throwTranslocator = true
-    wait() # calls throwTranslocator() and returns immediately instead of waiting
-    eventPlayer.call_throwTranslocator = false
+    async(throwTranslocator(), AsyncBehavior.RESTART)
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
     waitUntil((eventPlayer.isHoldingButton(Button.ABILITY_2) \
             or eventPlayer.isHoldingButton(Button.INTERACT) \
-            or eventPlayer.isDead()) \
+            or eventPlayer.isDead()
+            or (eventPlayer.transloc_position == null)) \
        and not isCCd(eventPlayer) \
        and not eventPlayer._is_casting_emp, Math.INFINITY) # prevent tp when cc'd or when casting emp
     if (eventPlayer.isHoldingButton(Button.ABILITY_2)):
         playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer.getPosition(), 100)
         playEffect(getAllPlayers(), DynamicEffect.BAD_PICKUP_EFFECT, Color.PURPLE, eventPlayer, 100)
         playEffect(getAllPlayers(), DynamicEffect.BUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
-        eventPlayer.teleport(eventPlayer.transloc_position)
+        if eventPlayer.transloc_position != null: # guard to ensure sombra doesn't tp to map origin
+            eventPlayer.teleport(eventPlayer.transloc_position)
     if (eventPlayer.isHoldingButton(Button.INTERACT)):
         playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.PURPLE, eventPlayer.transloc_position, 3)
         playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
@@ -72,14 +70,6 @@ def destroyTranslocator():
     eventPlayer.trasnloc_velocity = null
     hideTranslocator()
     eventPlayer._is_using_translocator = false
-
-
-rule "[sombra/translocator.opy]: Call throwTranslocator()":
-    @Event eachPlayer
-    @Hero sombra
-    @Condition eventPlayer.call_throwTranslocator
-
-    throwTranslocator()
 
 
 def throwTranslocator():
@@ -191,3 +181,12 @@ rule "[sombra/translocator.opy]: Show using translocator GUI":
     @Condition eventPlayer._is_using_translocator
 
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0.4)
+
+
+rule "[sombra/translocator.opy]: Break translocator when shot":
+    @Event eachPlayer
+    @Condition eventPlayer.getTeam() == getOppositeTeam(eventPlayer.enemy_sombra_player.getTeam())
+    @Condition eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire()
+    @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_sombra_player.transloc_position, 0.1)
+
+    destroyTranslocator()

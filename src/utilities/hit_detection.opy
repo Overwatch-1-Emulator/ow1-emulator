@@ -21,7 +21,8 @@ playervar lsi_i
 # playervar lsi_i # indexing variable for this file
 
 #!define isAimingAtSphere(start_position, direction, sphere_center, sphere_radius)\
-    (distance(start_position, sphere_center) * sinDeg(angleBetweenVectors(direction, directionTowards(start_position, sphere_center))) <= sphere_radius)
+    ((angleBetweenVectors(direction, directionTowards(start_position, sphere_center)) < 90)\
+ and (distance(start_position, sphere_center) * sinDeg(angleBetweenVectors(direction, directionTowards(start_position, sphere_center))) <= sphere_radius))
     
 #!define findSphereHit(start_position, direction, sphere_center, sphere_radius)\
     eventPlayer._lsi_o = start_position\
