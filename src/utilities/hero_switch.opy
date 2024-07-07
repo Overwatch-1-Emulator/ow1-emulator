@@ -25,7 +25,6 @@ rule "[utilities/hero_setup.opy]: Reset and initialize hero on hero switch":
 
     waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
     waitUntil(not switchedHero(eventPlayer), Math.INFINITY)
-    # wait(10 * TICK_DURATION)
     eventPlayer._hero_setup = eventPlayer.getCurrentHero()
     resetHero()
-    eventPlayer._call_init = true
+    initHero()

@@ -19,13 +19,7 @@ def initBastion():
     removeSelfHealing()
 
 
-rule "[bastion/init.opy]: Initialize Bastion":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer._call_init
 
-    initBastion()
-    eventPlayer._call_init = false
 
 
 rule "[bastion/init.opy]: Clean up Bastion":

@@ -18,10 +18,4 @@ def initMei():
     removeSelfHealing()
 
 
-rule "[mei/init.opy]: Initialize Mei":
-    @Event eachPlayer
-    @Hero mei
-    @Condition eventPlayer._call_init
 
-    initMei()
-    eventPlayer._call_init = false

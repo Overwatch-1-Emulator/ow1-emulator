@@ -12,13 +12,7 @@ def initGenji():
     removeSelfHealing()
 
 
-rule "[genji/init.opy]: Initialize Genji":
-    @Event eachPlayer
-    @Hero genji
-    @Condition eventPlayer._call_init
 
-    initGenji()
-    eventPlayer._call_init = false
 
 
 rule "[genji/init.opy]: Deal OW1 shuriken damage":

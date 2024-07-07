@@ -15,13 +15,7 @@ def initPharah():
     initHoverJets()
 
 
-rule "[pharah/init.opy]: Initialize Pharah":
-    @Event eachPlayer
-    @Hero pharah
-    @Condition eventPlayer._call_init
 
-    initPharah()
-    eventPlayer._call_init = false
 
 
 rule "[pharah/init.opy]: Clean up Pharah":

@@ -20,13 +20,7 @@ def initKiriko():
     setBaseDamage(eventPlayer, (OW1_KIRIKO_KUNAI_HEADSHOT_DAMAGE/OW2_KIRIKO_KUNAI_HEADSHOT_DAMAGE))
 
 
-rule "[kiriko/init.opy]: Initialize Kiriko":
-    @Event eachPlayer
-    @Hero kiriko
-    @Condition eventPlayer._call_init
 
-    initKiriko()
-    eventPlayer._call_init = false
 
 
 rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":

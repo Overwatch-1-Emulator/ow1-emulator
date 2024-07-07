@@ -13,10 +13,4 @@ def initSymmetra():
     removeSelfHealing()
 
 
-rule "[symmetra/init.opy]: Initialize Symmetra":
-    @Event eachPlayer
-    @Hero symmetra
-    @Condition eventPlayer._call_init
 
-    initSymmetra()
-    eventPlayer._call_init = false

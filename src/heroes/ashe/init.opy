@@ -13,15 +13,6 @@ def initAshe():
     removeSelfHealing()
 
 
-rule "[ashe/init.opy]: Initialize Ashe":
-    @Event eachPlayer
-    @Hero ashe
-    @Condition eventPlayer._call_init
-
-    initAshe()
-    eventPlayer._call_init = false
-
-
 rule "[ashe/init.opy]: Compensate Ashe global damage reduction":
     @Event playerDealtDamage
     @Hero ashe

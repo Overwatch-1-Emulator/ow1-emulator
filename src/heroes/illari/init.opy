@@ -15,13 +15,7 @@ def initIllari():
     setBaseDamage(eventPlayer, OW1_ILLARI_SUNSTRUCK_DAMAGE/OW2_ILLARI_SUNSTRUCK_DAMAGE)
 
 
-rule "[illari/init.opy]: Initialize Illari":
-    @Event eachPlayer
-    @Hero illari
-    @Condition eventPlayer._call_init
 
-    initIllari()
-    eventPlayer._call_init = false
 
 
 rule "[illari/init.opy]: Correct Outburst damage":

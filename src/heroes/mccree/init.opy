@@ -13,10 +13,4 @@ def initMccree():
     removeSelfHealing()
 
 
-rule "[mccree/init.opy]: Initialize Cassidy":
-    @Event eachPlayer
-    @Hero cassidy
-    @Condition eventPlayer._call_init
 
-    initMccree()
-    eventPlayer._call_init = false

@@ -17,14 +17,13 @@ def initZarya():
     initAllyBubble()
 
 
-rule "[zarya/init.opy]: Initialize Zarya":
-    @Event eachPlayer
-    @Hero zarya
-    @Condition eventPlayer._call_init
-    @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
+# rule "[zarya/init.opy]: Initialize Zarya":
+#     @Event eachPlayer
+#     @Hero zarya
+#     @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
 
-    initZarya()
-    eventPlayer._call_init = false
+#     resetHero()
+#     async(initZarya, AsyncBehavior.RESTART)
 
 
 rule "[zarya/init.opy]: Clean up Zarya":

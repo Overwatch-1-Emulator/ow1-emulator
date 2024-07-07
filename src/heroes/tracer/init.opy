@@ -10,10 +10,4 @@ def initTracer():
     removeSelfHealing()
 
 
-rule "[tracer/init.opy]: Initialize Tracer":
-    @Event eachPlayer
-    @Hero tracer
-    @Condition eventPlayer._call_init
 
-    initTracer()
-    eventPlayer._call_init = false

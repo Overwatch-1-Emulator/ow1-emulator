@@ -9,7 +9,7 @@
 def initSombra():
     @Name "[sombra/init.opy]: initSombra()"
 
-    setCustomHp(OW1_SOMBRA_HEALTH, 0, 0)
+    # setCustomHp(OW1_SOMBRA_HEALTH, 0, 0)
     setUltCost(OW1_SOMBRA_ULT_COST)
 
     getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
@@ -22,13 +22,7 @@ def initSombra():
     # removeSelfHealing()
 
 
-rule "[sombra/init.opy]: Initialize Sombra":
-    @Event eachPlayer
-    @Hero sombra
-    @Condition eventPlayer._call_init
 
-    initSombra()
-    eventPlayer._call_init = false
 
 
 rule "[sombra/init.opy]: Clean up Sombra":

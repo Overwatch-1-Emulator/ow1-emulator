@@ -14,10 +14,4 @@ def initRamattra():
     removeSelfHealing()
     
 
-rule "[ramattra/init.opy]: Initialize Ramattra":
-    @Event eachPlayer
-    @Hero ramattra
-    @Condition eventPlayer._call_init
 
-    initRamattra()
-    eventPlayer._call_init = false

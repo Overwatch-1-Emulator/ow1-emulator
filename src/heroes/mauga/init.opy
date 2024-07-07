@@ -11,10 +11,4 @@ def initMauga():
     removeSelfHealing()
     
 
-rule "[mauga/init.opy]: Initialize Mauga":
-    @Event eachPlayer
-    @Hero mauga
-    @Condition eventPlayer._call_init
 
-    initMauga()
-    eventPlayer._call_init = false

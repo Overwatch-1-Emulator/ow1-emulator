@@ -4,7 +4,6 @@ globalvar reset_gvar
 #!defineMember ready_color reset_gvar[0]
 
 playervar reset_pvar
-#!defineMember _call_init reset_pvar[0]
 #!defineMember friendly_orisa_player reset_pvar[2]
 #!defineMember friendly_sombra_player reset_pvar[3]
 #!defineMember enemy_orisa_player reset_pvar[5]
@@ -19,14 +18,16 @@ subroutine resetFrenemies
 subroutine resetUltCharge
 subroutine resetSelfHealing
 
-#!define resetHero()\
-    clearCustomHp()\
-    resetStats()\
-    resetStatuses()\
-    resetFrenemies()\
-    resetUltCharge()\
-    resetSelfHealing()\
-    enableAllAbilities()\
+def resetHero():
+    @Name "[utilities/reset.opy]: resetHero()"
+
+    clearCustomHp()
+    resetStats()
+    resetStatuses()
+    resetFrenemies()
+    resetUltCharge()
+    resetSelfHealing()
+    enableAllAbilities()
 
 
 def enableAllAbilities():
@@ -128,5 +129,5 @@ rule "[utilities/reset.opy]: Reinitialize hero on new round":
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
     resetHero()
-    eventPlayer._call_init = true
-    # printLog('called init after new round')
+    initHero()
+    printLog('called init after new round')

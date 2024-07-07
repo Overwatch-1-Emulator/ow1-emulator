@@ -19,13 +19,7 @@ def initJunkerQueen():
     removePassiveHealing()
     
 
-rule "[junkerqueen/init.opy]: Initialize Junker Queen":
-    @Event eachPlayer
-    @Hero junkerQueen
-    @Condition eventPlayer._call_init
 
-    initJunkerQueen()
-    eventPlayer._call_init = false
 
 
 rule "[junkerqueen/init.opy]: Clean up Junker Queen":

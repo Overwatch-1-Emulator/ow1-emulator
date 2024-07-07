@@ -14,10 +14,4 @@ def initMercy():
     eventPlayer.is_using_guardian_angel = false
     eventPlayer.is_slingshotting = false
 
-rule "[mercy/init.opy]: Initialize Mercy":
-    @Event eachPlayer
-    @Hero mercy
-    @Condition eventPlayer._call_init
 
-    initMercy()
-    eventPlayer._call_init = false

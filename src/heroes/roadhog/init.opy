@@ -31,11 +31,10 @@ def initRoadhog():
     eventPlayer._is_exiting_wholehog = false
 
 
-rule "[roadhog/init.opy]: Initialize Roadhog":
-    @Event eachPlayer
-    @Hero roadhog
-    @Condition eventPlayer._call_init
-    @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
+# rule "[roadhog/init.opy]: Initialize Roadhog":
+#     @Event eachPlayer
+#     @Hero roadhog
+#     @Condition not eventPlayer._is_exiting_wholehog # guards against initialization when exiting wholehog
 
-    initRoadhog()
-    eventPlayer._call_init = false
+#     resetHero()
+#     async(initRoadhog, AsyncBehavior.RESTART)

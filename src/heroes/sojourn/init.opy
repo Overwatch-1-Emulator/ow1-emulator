@@ -12,10 +12,4 @@ def initSojourn():
     removeSelfHealing()
 
 
-rule "[sojourn/init.opy]: Initialize Sojourn":
-    @Event eachPlayer
-    @Hero sojourn
-    @Condition eventPlayer._call_init
 
-    initSojourn()
-    eventPlayer._call_init = false

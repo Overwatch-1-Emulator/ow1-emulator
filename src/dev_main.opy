@@ -9,6 +9,7 @@
 # Useful functions
 #!include "utilities/stat_helper.opy"
 #!include "utilities/custom_hp.opy"
+#!include "heroes/init.opy"
 #!include "utilities/reset.opy"
 #!include "utilities/hero_switch.opy"
 #!include "utilities/hero_roster.opy"

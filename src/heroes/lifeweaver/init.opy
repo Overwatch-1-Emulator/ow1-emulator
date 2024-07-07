@@ -9,10 +9,4 @@ def initLifeweaver():
     removeSelfHealing()
     
 
-rule "[lifeweaver/init.opy]: Initialize Lifeweaver":
-    @Event eachPlayer
-    @Hero lifeweaver
-    @Condition eventPlayer._call_init
 
-    initLifeweaver()
-    eventPlayer._call_init = false

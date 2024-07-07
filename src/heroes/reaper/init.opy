@@ -11,13 +11,7 @@ def initReaper():
     removePassiveHealing()
 
 
-rule "[reaper/init.opy]: Initialize Reaper":
-    @Event eachPlayer
-    @Hero reaper
-    @Condition eventPlayer._call_init
 
-    initReaper()
-    eventPlayer._call_init = false
 
 
 rule "[reaper/init.opy]: Deal OW1 Reaper primary fire damage":

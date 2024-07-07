@@ -15,13 +15,7 @@ def initHammond():
     setBaseDamage(eventPlayer, OW1_WRECKING_BALL_MINEFIELD_DAMAGE/OW2_WRECKING_BALL_MINEFIELD_DAMAGE)
 
 
-rule "[wreckingball/init.opy]: Initialize Wrecking Ball":
-    @Event eachPlayer
-    @Hero hammond
-    @Condition eventPlayer._call_init
 
-    initHammond()
-    eventPlayer._call_init = false
 
 
 rule "[wreckingball/init.opy]: Correct primary fire, fireball, piledriver damage":
