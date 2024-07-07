@@ -71,7 +71,7 @@ rule "[echo/duplicate.opy]: Initialize Duplicate Echo":
         case Hero.MAUGA:
             initMauga()
             break
-        case Hero.MCCREE:
+        case Hero.CASSIDY:
             initMccree()
             break
         case Hero.MEI:

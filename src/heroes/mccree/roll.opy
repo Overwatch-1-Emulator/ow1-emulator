@@ -3,7 +3,7 @@
 
 rule "[mccree/roll.opy]: Remove damage reduction during roll":
     @Event eachPlayer
-    @Hero mccree
+    @Hero cassidy
     @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer.setDamageReceived(percent(100/(100-OW2_MCCREE_COMBAT_ROLL_DAMAGE_REDUCTION)))

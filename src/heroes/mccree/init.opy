@@ -15,7 +15,7 @@ def initMccree():
 
 rule "[mccree/init.opy]: Initialize Cassidy":
     @Event eachPlayer
-    @Hero mccree
+    @Hero cassidy
     @Condition eventPlayer._call_init
 
     initMccree()
