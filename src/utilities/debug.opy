@@ -43,6 +43,7 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     @Condition DEBUG_MODE == true
 
     hudHeader(eventPlayer, "Event Player", HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "isResetComplete() = {}".format(isResetComplete(eventPlayer)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "current_configuration = {}".format(eventPlayer.current_configuration), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "len(getAllowedHeroes()) = {}".format(len(eventPlayer.getAllowedHeroes())), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_is_using_flashbang = {}".format(eventPlayer._is_using_flashbang), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)

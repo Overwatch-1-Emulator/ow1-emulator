@@ -11,12 +11,16 @@ playervar self_heal_pvar
 def resetSelfHealing():
     @Name "[passives/support/self_heal.opy]: resetSelfHealing()"
 
+    eventPlayer._self_healing_reset = false
+
     stopHealingModification(eventPlayer._self_healing_id)
     eventPlayer._self_healing_id = null
     eventPlayer._self_healing_source = []
     eventPlayer._self_healing_percent = 0
     eventPlayer._passive_healing_active = true
     eventPlayer._suppress_passive_healing = false
+
+    eventPlayer._self_healing_reset = true
 
 #!define removePassiveHealing()\
     eventPlayer._suppress_passive_healing = true

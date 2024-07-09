@@ -12,7 +12,6 @@ playervar custom_hp_pvar
 #!define HP_ROUNDING_ERROR_MARGIN 0.01
 #!define MAX_HP_ITER_COUNT 10
 
-subroutine clearCustomHp
 subroutine applyCustomHp
 
 # setCustomHp(0, 0, 0) simply clears the hero's hp
@@ -26,12 +25,15 @@ subroutine applyCustomHp
 def clearCustomHp():
     @Name "[utilities/custom_hp.opy]: clearCustomHp()"
 
+    eventPlayer._hp_reset = false
+
     eventPlayer.removeAllHealthPools()
     wait()
-    eventPlayer.setMaxHealth(100.001)
-    wait()
+    # eventPlayer.setMaxHealth(100.001)
+    # wait()
     eventPlayer.setMaxHealth(100)
 
+    eventPlayer._hp_reset = true
 
 def applyCustomHp():
     @Name "[utilities/custom_hp.opy]: applyCustomHp()"

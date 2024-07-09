@@ -4,12 +4,21 @@ globalvar reset_gvar
 #!defineMember ready_color reset_gvar[0]
 
 playervar reset_pvar
+#!defineMember _reset_complete reset_pvar[0]
 #!defineMember friendly_orisa_player reset_pvar[2]
 #!defineMember friendly_sombra_player reset_pvar[3]
 #!defineMember enemy_orisa_player reset_pvar[5]
 #!defineMember enemy_sombra_player reset_pvar[6]
 #!defineMember _hero_setup reset_pvar[7]
+#!defineMember _hp_reset reset_pvar[8]
+#!defineMember _stat_reset reset_pvar[9]
+#!defineMember _status_reset reset_pvar[10]
+#!defineMember _frenemy_reset reset_pvar[11]
+#!defineMember _ult_charge_reset reset_pvar[12]
+#!defineMember _self_healing_reset reset_pvar[13]
+#!defineMember _ability_reset reset_pvar[14]
 
+subroutine clearCustomHp
 subroutine enableAllAbilities
 subroutine disableAllAbilities
 subroutine resetStats
@@ -18,20 +27,33 @@ subroutine resetFrenemies
 subroutine resetUltCharge
 subroutine resetSelfHealing
 
+#!define isResetComplete(player)\
+    (player._hp_reset \
+ and player._stat_reset \
+ and player._status_reset \
+ and player._frenemy_reset \
+ and player._ult_charge_reset \
+ and player._self_healing_reset \
+ and player._ability_reset)
+
 def resetHero():
     @Name "[utilities/reset.opy]: resetHero()"
 
-    clearCustomHp()
-    resetStats()
-    resetStatuses()
-    resetFrenemies()
-    resetUltCharge()
-    resetSelfHealing()
-    enableAllAbilities()
+    async(clearCustomHp, AsyncBehavior.RESTART)
+    async(resetStats, AsyncBehavior.RESTART)
+    async(resetStatuses, AsyncBehavior.RESTART)
+    async(resetFrenemies, AsyncBehavior.RESTART)
+    async(resetUltCharge, AsyncBehavior.RESTART)
+    async(resetSelfHealing, AsyncBehavior.RESTART)
+    async(enableAllAbilities, AsyncBehavior.RESTART)
+
+    waitUntil(updateEveryTick(isResetComplete(eventPlayer)), Math.INFINITY)
 
 
 def enableAllAbilities():
     @Name "[utilities/reset.opy]: enableAllAbilities()"
+
+    eventPlayer._ability_reset = false
 
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
@@ -55,6 +77,8 @@ def enableAllAbilities():
     eventPlayer.setJumpEnabled(true)
     eventPlayer.setCrouchEnabled(true)
     eventPlayer.setReloadEnabled(true)
+
+    eventPlayer._ability_reset = true
 
 
 def disableAllAbilities():
@@ -87,6 +111,8 @@ def disableAllAbilities():
 def resetStats():
     @Name "[utilities/reset.opy]: resetStats()"
 
+    eventPlayer._stat_reset = false
+
     setBaseDamage(eventPlayer, 1)
     eventPlayer.setDamageReceived(100)
     eventPlayer.setProjectileSpeed(100)
@@ -98,9 +124,13 @@ def resetStats():
     eventPlayer.setGravity(100)
     setBaseMovement(eventPlayer, 1)
 
+    eventPlayer._stat_reset = true
+
 
 def resetStatuses():
     @Name "[utilities/reset.opy]: resetStatuses()"
+
+    eventPlayer._status_reset = false
 
     eventPlayer.clearStatusEffect(Status.ASLEEP)
     eventPlayer.clearStatusEffect(Status.BURNING)
@@ -113,14 +143,20 @@ def resetStatuses():
     eventPlayer.clearStatusEffect(Status.STUNNED)
     eventPlayer.clearStatusEffect(Status.UNKILLABLE)
 
+    eventPlayer._status_reset = true
+
 
 def resetFrenemies():
     @Name "[utilities/reset.opy]: resetFrenemies()"
+
+    eventPlayer._frenemy_reset = false
 
     eventPlayer.friendly_orisa_player = getPlayersOnHero(Hero.ORISA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_orisa_player = getPlayersOnHero(Hero.ORISA, getOppositeTeam(eventPlayer.getTeam()))[0]
     eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
+
+    eventPlayer._frenemy_reset = true
 
 
 rule "[utilities/reset.opy]: Reinitialize hero on new round":
@@ -128,6 +164,7 @@ rule "[utilities/reset.opy]: Reinitialize hero on new round":
     @Condition isMatchBetweenRounds()
 
     waitUntil(not isMatchBetweenRounds(), Math.INFINITY)
+    wait(1)
     resetHero()
     initHero()
     printLog('called init after new round')
