@@ -6,6 +6,7 @@ playervar translocator_pvar
 #!defineMember _translocator_id translocator_pvar[1]
 #!defineMember _translocator_icon_id1 translocator_pvar[2]
 #!defineMember _translocator_icon_id2 translocator_pvar[3]
+#!defineMember _sombra_player translocator_pvar[4]
 
 playervar transloc_position
 playervar trasnloc_velocity
@@ -14,10 +15,8 @@ playervar transloc_v0
 playervar transloc_time
 
 subroutine throwTranslocator
-subroutine destroyTranslocator
 subroutine showTranslocator
 subroutine showTranslocatorIcon
-subroutine hideTranslocator
 
 #!define getTranslocVelocity(t) vect(eventPlayer.transloc_v0.x, \
                                      OW1_SOMBRA_TRANSLOCATOR_GRAVITY * t + eventPlayer.transloc_v0.y, \
@@ -26,6 +25,24 @@ subroutine hideTranslocator
 #!define getTranslocPosition(t) vect(eventPlayer.transloc_v0.x * t + eventPlayer.transloc_p0.x, \
                                      OW1_SOMBRA_TRANSLOCATOR_GRAVITY/2 * (t ** 2) + eventPlayer.transloc_v0.y * t + eventPlayer.transloc_p0.y, \
                                      eventPlayer.transloc_v0.z * t + eventPlayer.transloc_p0.z)
+
+#!define destroyTranslocator(player)\
+    stopChasingVariable(player.transloc_time)\
+    stopChasingVariable(player.transloc_position)\
+    stopChasingVariable(player.trasnloc_velocity)\
+    player.transloc_time = null\
+    player.transloc_position = null\
+    player.trasnloc_velocity = null\
+\
+    # hide translocator\
+    destroyEffect(player._translocator_id)\
+    player._translocator_id = null\
+    destroyIcon(player._translocator_icon_id1)\
+    player._translocator_icon_id1 = null\
+    destroyIcon(player._translocator_icon_id2)\
+    player._translocator_icon_id2 = null\
+\
+    player._is_using_translocator = false\
 
 
 rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
@@ -38,7 +55,7 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
 
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
-    destroyTranslocator()
+    destroyTranslocator(eventPlayer)
     async(throwTranslocator(), AsyncBehavior.RESTART)
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
     waitUntil((eventPlayer.isHoldingButton(Button.ABILITY_2) \
@@ -56,20 +73,7 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
     if (eventPlayer.isHoldingButton(Button.INTERACT)):
         playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION, Color.PURPLE, eventPlayer.transloc_position, 3)
         playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
-    destroyTranslocator()
-
-
-def destroyTranslocator():
-    @Name "[sombra/translocator.opy]: destroyTranslocator()"
-
-    stopChasingVariable(eventPlayer.transloc_time)
-    stopChasingVariable(eventPlayer.transloc_position)
-    stopChasingVariable(eventPlayer.trasnloc_velocity)
-    eventPlayer.transloc_time = null
-    eventPlayer.transloc_position = null
-    eventPlayer.trasnloc_velocity = null
-    hideTranslocator()
-    eventPlayer._is_using_translocator = false
+    destroyTranslocator(eventPlayer)
 
 
 def throwTranslocator():
@@ -163,17 +167,6 @@ def showTranslocatorIcon():
         eventPlayer._translocator_icon_id2 = getLastCreatedEntity()
 
 
-def hideTranslocator():
-    @Name "[sombra/translocator.opy]: hideTranslocator()"
-
-    destroyEffect(eventPlayer._translocator_id)
-    eventPlayer._translocator_id = null
-    destroyIcon(eventPlayer._translocator_icon_id1)
-    eventPlayer._translocator_icon_id1 = null
-    destroyIcon(eventPlayer._translocator_icon_id2)
-    eventPlayer._translocator_icon_id2 = null
-
-
 rule "[sombra/translocator.opy]: Show using translocator GUI":
     @Event eachPlayer
     @Hero sombra
@@ -189,4 +182,4 @@ rule "[sombra/translocator.opy]: Break translocator when shot":
     @Condition eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire()
     @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_sombra_player.transloc_position, 0.1)
 
-    destroyTranslocator()
+    destroyTranslocator(eventPlayer.enemy_sombra_player)

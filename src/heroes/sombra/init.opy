@@ -22,13 +22,10 @@ def initSombra():
     # removeSelfHealing()
 
 
-
-
-
 rule "[sombra/init.opy]: Clean up Sombra":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.SOMBRA
 
     waitUntil(eventPlayer.getCurrentHero() != Hero.SOMBRA, Math.INFINITY)
     exitStealth()
-    destroyTranslocator()
+    destroyTranslocator(eventPlayer)
