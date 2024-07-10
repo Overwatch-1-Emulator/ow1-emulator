@@ -1,4 +1,4 @@
 #!mainFile "../../dev_main.opy"
 
 #!define removeTankPassive()\
-    eventPlayer.setKnockbackReceived(percent(1/(1-OW2_TANK_KNOCKBACK_REDUCTION)))
+    eventPlayer.setKnockbackReceived(percent(100/(100-OW2_TANK_KNOCKBACK_REDUCTION_PERCENT)))
