@@ -7,8 +7,8 @@
                                "ecksdee#11729's attempt to accurately recreate " + "\n" + \
                                "the last version of Overwatch 1 using workshop." + "\n" + \
                                "\n" + \
-                               "Check out Overwatch 1++ (YKMXH)" + "\n" + \
-                               "to enable Overwatch 2 heroes" + "\n" + \
+                               "Check out 6v6 Adjustment (7HSKW)" + "\n" + \
+                               "for 6v6 Overwatch 2" + "\n" + \
                                "\n" + \
                                "Stable build: " + GAMEMODE_CODE + "\n" + \
                                "Latest build: " + STAGING_CODE + "\n" + \
@@ -75,6 +75,9 @@ settings {
                     ]
                 },
                 {
+                    "antarcticPeninsula": []
+                },
+                {
                     "ilios": [
                         "morning"
                     ]
@@ -93,11 +96,19 @@ settings {
                     "oasis": [
                         "evening"
                     ]
-                }
+                },
+                # {
+                #     "samoa": []
+                # }
             ]
         },
         "escort": {
             "enabledMaps": [
+                # {
+                #     "circuitRoyal": [
+                #         "night"
+                #     ]
+                # },
                 {
                     "dorado": [
                         "night"
@@ -120,6 +131,9 @@ settings {
                     "route66": [
                         "morning"
                     ]
+                },
+                {
+                    "shambaliMonastery": []
                 },
                 {
                     "watchpointGibraltar": [
@@ -150,12 +164,53 @@ settings {
                         "night"
                     ]
                 },
-                "numbani"
+                # {
+                #     "midtown": [
+                #         "morning"
+                #     ]
+                # },
+                {
+                    "numbani": []
+                },
+                # {
+                #     "paraiso": [
+                #         "morning"
+                #     ]
+                # },
             ]
         },
         # "practiceRange": {
         #     "enabledMaps": []
         # },
+        "flashpoint": {
+            "captureSpeed%": 75,
+            "scoringSpeed%": 100,
+            "enabledMaps": [
+                # {
+                #     "newJunkCity": []
+                # },
+                {
+                    "suravasa": []
+                },
+            ]
+        },
+        "push": {
+            "enabledMaps": [
+                # {
+                #     "colosseo": [
+                #         "evening"
+                #     ]
+                # },
+                # {
+                #     "esperanca": []
+                # },
+                # {
+                #     "newQueenStreet": [
+                #         "morning"
+                #     ]
+                # },
+            ]
+        },
         "general": {
             "heroLimit": "1PerTeam",
             "roleLimit": "off",
@@ -364,22 +419,30 @@ settings {
                 "echo",
                 "genji",
                 "hanzo",
+                "illari",
+                "junkerQueen",
                 "junkrat",
+                "kiriko",
+                # "lifeweaver",
                 "lucio",
+                # "mauga",
                 "mei",
                 "mercy",
                 "moira",
                 "orisa",
                 "pharah",
+                "ramattra",
                 "reaper",
                 "reinhardt",
                 "roadhog",
                 "sigma",
+                "sojourn",
                 "soldier",
                 "sombra",
                 "symmetra",
                 "torbjorn",
                 "tracer",
+                "venture",
                 "widowmaker",
                 "winston",
                 "hammond",
