@@ -8,7 +8,7 @@
                                "the last version of Overwatch 1 using workshop." + "\n" + \
                                "\n" + \
                                "Check out 6v6 Adjustment (7HSKW)" + "\n" + \
-                               "for 6v6 Overwatch 2" + "\n" + \
+                               "for Overwatch 2 in 6v6 format." + "\n" + \
                                "\n" + \
                                "Stable build: " + GAMEMODE_CODE + "\n" + \
                                "Latest build: " + STAGING_CODE + "\n" + \
