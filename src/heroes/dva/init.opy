@@ -14,10 +14,4 @@ def initDva():
     removeSelfHealing()
 
 
-rule "[dva/init.opy]: Initialize DVa":
-    @Event eachPlayer
-    @Hero dva
-    @Condition eventPlayer._call_init
 
-    initDva()
-    eventPlayer._call_init = false

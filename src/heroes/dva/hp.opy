@@ -6,7 +6,6 @@ rule "[dva/hp.opy]: Correct DVa mech health":
     @Event eachPlayer
     @Hero dva
     @Condition not eventPlayer.isInAlternateForm()
-    @Condition not eventPlayer._call_init
 
     # wait(1, Wait.ABORT_WHEN_FALSE)
     eventPlayer.remech_damage_taken = eventPlayer.getMaxHealth() - eventPlayer.getHealth()
@@ -19,6 +18,5 @@ rule "[dva/hp.opy]: Correct DVa pilot health":
     @Hero dva
     @Condition eventPlayer.isInAlternateForm()
     @Condition eventPlayer.getMaxHealthOfType(Health.NORMAL) != OW1_DVA_PILOT_HEALTH
-    @Condition not eventPlayer._call_init
 
     clearCustomHp()

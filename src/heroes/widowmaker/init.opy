@@ -22,13 +22,7 @@ def initWidowmaker():
     removeSelfHealing()
 
 
-rule "[widowmaker/init.opy]: Initialize Widowmaker":
-    @Event eachPlayer
-    @Hero widowmaker
-    @Condition eventPlayer._call_init
 
-    initWidowmaker()
-    eventPlayer._call_init = false
 
 
 rule "[widowmaker.opy]: Revert sniper damage falloff":

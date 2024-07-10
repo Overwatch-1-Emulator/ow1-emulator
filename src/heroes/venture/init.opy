@@ -14,10 +14,4 @@ def initVenture():
     setBaseDamage(eventPlayer, 0.8)
 
 
-rule "[venture/init.opy]: Initialize Venture":
-    @Event eachPlayer
-    @Hero venture
-    @Condition eventPlayer._call_init
 
-    initVenture()
-    eventPlayer._call_init = false

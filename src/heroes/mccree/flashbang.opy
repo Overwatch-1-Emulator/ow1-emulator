@@ -6,7 +6,7 @@ playervar flashbang_pvar
 
 rule "[mccree/flashbang.opy]: OW1 flashbang":
     @Event playerDealtDamage
-    @Hero mccree
+    @Hero cassidy
     @Condition eventAbility == Button.ABILITY_2
 
     eventPlayer._is_using_flashbang = false

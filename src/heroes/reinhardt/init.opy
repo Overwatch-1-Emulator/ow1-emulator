@@ -17,10 +17,4 @@ def initReinhardt():
     eventPlayer.setKnockbackReceived(percent((1 - OW1_REINHARDT_STEADFAST_KNOCKBACK_REDUCTION)/(1 - OW2_TANK_KNOCKBACK_REDUCTION)))
 
 
-rule "[reinhardt/init.opy]: Initialize Reinhardt":
-    @Event eachPlayer
-    @Hero reinhardt
-    @Condition eventPlayer._call_init
 
-    initReinhardt()
-    eventPlayer._call_init = false

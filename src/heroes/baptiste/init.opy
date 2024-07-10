@@ -20,10 +20,4 @@ def initBaptiste():
     removeSelfHealing()
 
 
-rule "[baptiste/init.opy]: Initialize Baptiste":
-    @Event eachPlayer
-    @Hero baptiste
-    @Condition eventPlayer._call_init
 
-    initBaptiste()
-    eventPlayer._call_init = false

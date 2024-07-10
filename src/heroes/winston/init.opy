@@ -18,13 +18,7 @@ def initWinston():
     eventPlayer.setSecondaryFireEnabled(false) # disable sniper monkey
 
 
-rule "[winston/init.opy]: Initialize Winston":
-    @Event eachPlayer
-    @Hero winston
-    @Condition eventPlayer._call_init
 
-    initWinston()
-    eventPlayer._call_init = false
 
 
 rule "[winston/init.opy]: Compensate Winston global damage reduction":

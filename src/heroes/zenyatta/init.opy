@@ -15,13 +15,7 @@ def initZenyatta():
     eventPlayer.setMaxAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
 
 
-rule "[zenyatta/init.opy]: Initialize Zenyatta":
-    @Event eachPlayer
-    @Hero zenyatta
-    @Condition eventPlayer._call_init
 
-    initZenyatta()
-    eventPlayer._call_init = false
 
 
 rule "[zenyatta/init.opy]: OW1 Zenyatta melee damage":

@@ -30,13 +30,7 @@ def initDoomfist():
     eventPlayer.uppercut_shields = 0
 
 
-rule "[doomfist/init.opy]: Initialize Doomfist":
-    @Event eachPlayer
-    @Hero doomfist
-    @Condition eventPlayer._call_init
 
-    initDoomfist()
-    eventPlayer._call_init = false
 
 
 rule "[doomfist/init.opy]: Clean up Doomfist":

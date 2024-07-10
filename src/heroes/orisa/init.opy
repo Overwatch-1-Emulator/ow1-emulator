@@ -35,13 +35,7 @@ def initOrisa():
     removeSelfHealing()
 
 
-rule "[orisa/init.opy]: Initialize Orisa":
-    @Event eachPlayer
-    @Hero orisa
-    @Condition eventPlayer._call_init
 
-    initOrisa()
-    eventPlayer._call_init = false
 
 
 rule "[orisa/init.opy]: Clean up Orisa":

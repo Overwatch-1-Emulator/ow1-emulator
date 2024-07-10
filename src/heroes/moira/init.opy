@@ -14,10 +14,4 @@ def initMoira():
     removePassiveHealing()
 
 
-rule "[moira/init.opy]: Initialize Moira":
-    @Event eachPlayer
-    @Hero moira
-    @Condition eventPlayer._call_init
 
-    initMoira()
-    eventPlayer._call_init = false

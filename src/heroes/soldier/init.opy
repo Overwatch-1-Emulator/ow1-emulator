@@ -13,10 +13,4 @@ def initSoldier():
     removeSelfHealing()
 
 
-rule "[soldier/init.opy]: Initialize Soldier 76":
-    @Event eachPlayer
-    @Hero soldier
-    @Condition eventPlayer._call_init
 
-    initSoldier()
-    eventPlayer._call_init = false
