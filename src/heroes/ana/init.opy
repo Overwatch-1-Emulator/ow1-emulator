@@ -16,9 +16,9 @@ def initAna():
     setBaseDamage(eventPlayer, OW1_ANA_BIOTIC_GRENADE_DAMAGE/OW2_ANA_BIOTIC_GRENADE_DAMAGE)
 
 
-rule "[ana/init.opy]: Correct rifle and sleep dart damage":
+rule "[ana/init.opy]: Compensate Ana global damage reduction":
     @Event playerDealtDamage
     @Hero ana
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1]
+    @Condition eventAbility in [Button.PRIMARY_FIRE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
