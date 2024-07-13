@@ -30,8 +30,8 @@
                                "\n" + \
                                "Source code:" + "\n" + \
                                SOURCE_CODE_LINK)
-#!define GAMEMODE_CODE "YKMXH"
-#!define STAGING_CODE "SXGCQ"
+#!define GAMEMODE_CODE "KHTG0"
+#!define STAGING_CODE "ESMXJ"
 #!define DISCORD_SHORT_LINK "dsc.gg/ow1"
 #!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"
 #!define SOURCE_CODE_LINK "github.com/Overwatch-1-Emulator/ow1-emulator"

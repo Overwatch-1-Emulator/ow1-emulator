@@ -25,16 +25,16 @@ rule "[utilities/watermark.opy]: Create watermark HUD":
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
                      GAMEMODE_NAME" "GAMEMODE_VERSION" ""("GAMEMODE_CODE")", 
                      HudPosition.LEFT, 
-                     Math.INFINITY, 
+                     0, 
                      Color.WHITE, 
                      HudReeval.VISIBILITY)
         eventPlayer.info_id[0] = getLastCreatedText()
 
     if eventPlayer.info_id[1] == null:
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
-                     "dsc.gg/ow1", 
+                     "Discord: " DISCORD_SHORT_LINK, 
                      HudPosition.LEFT, 
-                     Math.INFINITY, 
+                     1, 
                      rgb(eventPlayer.rgb_vect.x, eventPlayer.rgb_vect.y, eventPlayer.rgb_vect.z), 
                      HudReeval.VISIBILITY_AND_COLOR)
         eventPlayer.info_id[1] = getLastCreatedText()
