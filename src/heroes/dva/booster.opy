@@ -28,4 +28,4 @@ rule "[dva/booster.opy]: Reduce boosters damage":
     @Hero dva
     @Condition eventAbility == Button.ABILITY_1
 
-    heal(victim, null, OW2_DVA_BOOSTERS_DAMAGE - OW1_DVA_BOOSTERS_DAMAGE)
+    heal(victim, null, eventDamage - (eventDamage/eventPlayer._base_damage_scalar)*(OW1_DVA_BOOSTERS_DAMAGE/OW2_DVA_BOOSTERS_DAMAGE))

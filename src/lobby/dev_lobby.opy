@@ -1,11 +1,14 @@
 #!mainFile "../dev_main.opy"
 
 #!define GAMEMODE_VERSION "Dev Build"
-#!define GAMEMODE_NAME "Overwatch 1++"
+#!define GAMEMODE_NAME "Overwatch 1 Emulator"
 #!define GAMDMODE_DESCRIPTION (GAMEMODE_NAME + " " + GAMEMODE_VERSION + "\n" + \
                                "\n" + \
-                               "Overwatch 1 Emulator (KHTG0)" + "\n" + \
-                               "extended with Overwatch 2 Heroes" + "\n" + \
+                               "ecksdee#11729's attempt to accurately recreate " + "\n" + \
+                               "the last version of Overwatch 1 using workshop." + "\n" + \
+                               "\n" + \
+                               "Check out 6v6 Adjustment (7HSKW)" + "\n" + \
+                               "for Overwatch 2 in 6v6 format." + "\n" + \
                                "\n" + \
                                "Stable build: " + GAMEMODE_CODE + "\n" + \
                                "Latest build: " + STAGING_CODE + "\n" + \
@@ -19,7 +22,7 @@
                                "Hikigaeru#11863" + "\n" + \
                                "Ciach795#2589" + "\n" + \
                                "\n" + \
-                               "workshop.codes/ow1-plus-plus" + "\n" + \
+                               "workshop.codes/ow1-emulator" + "\n" + \
                                "\n" + \
                                "Discord:" + "\n" + \
                                DISCORD_SHORT_LINK + "\n" + \
