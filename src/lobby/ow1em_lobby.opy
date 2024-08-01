@@ -53,8 +53,8 @@ settings {
         "spectatorSlots": 12,
         "team1Slots": 6,
         "team2Slots": 6,
-        "returnToLobby": "afterGame",
-        "teamBalancing": "off",
+        "returnToLobby": "never",
+        "teamBalancing": "afterGame",
         # "minimumLatencyInNs": 50000000
     },
     "gamemodes": {
@@ -214,9 +214,9 @@ settings {
         "general": {
             "heroLimit": "1PerTeam",
             "roleLimit": "off",
-            "gamemodeStartTrigger": "allSlotsFilled",
+            "gamemodeStartTrigger": "immediately",
             "tankPassiveHealthBonus": "disabled",
-            "enableCompetitiveRules": true
+            "enableCompetitiveRules": false
         }
     },
     "heroes": {
