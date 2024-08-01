@@ -14,6 +14,9 @@ def initDva():
     removeTankPassive()
     removeSelfHealing()
 
+    waitUntil(not eventPlayer.isInAlternateForm(), Math.INFINITY)
+    setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
+
     # setBaseDamage(eventPlayer, OW1_DVA_MICRO_MISSILES_DAMAGE/OW2_DVA_MICRO_MISSILES_DAMAGE)
 
 
