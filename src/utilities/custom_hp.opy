@@ -35,6 +35,7 @@ def clearCustomHp():
 
     eventPlayer._hp_reset = true
 
+
 def applyCustomHp():
     @Name "[utilities/custom_hp.opy]: applyCustomHp()"
 

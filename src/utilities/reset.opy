@@ -47,6 +47,7 @@ def resetHero():
     async(resetSelfHealing, AsyncBehavior.RESTART)
     async(enableAllAbilities, AsyncBehavior.RESTART)
 
+    wait() # wait at least 1 tick
     waitUntil(updateEveryTick(isResetComplete(eventPlayer)), Math.INFINITY)
 
 
