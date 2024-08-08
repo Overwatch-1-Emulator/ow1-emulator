@@ -110,6 +110,7 @@ rule "[doomfist/slam.opy]: Execute slam":
             waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
             cancelMomentum(eventPlayer)
             eventPlayer.stopForcingThrottle()
+            wait(0.25)
 
     else if eventPlayer.slam_to_use == SlamType.GROUND:
         # Initiate Ground Slam
@@ -117,11 +118,12 @@ rule "[doomfist/slam.opy]: Execute slam":
         eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
     
         startSlamAnimation()
-        eventPlayer.applyImpulse(getForwardDirection(eventPlayer) + 0.075*Vector.UP, 16, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION) # apply custom momentum
-        wait(0.3)
+        eventPlayer.applyImpulse(worldVector(vect(0, 1, 9), eventPlayer, Transform.ROTATION), 18.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # apply custom momentum
+        wait(0.25)
         eventPlayer.setGravity(100)
         waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
         eventPlayer.stopForcingThrottle()
+        wait(0.25)
 
 
 rule "[doomfist/slam.opy]: Check for LOS during indicator":
@@ -138,6 +140,8 @@ def startSlamAnimation():
     @Name "[doomfist/slam.opy]: startSlamAnimation()"
 
     # Start slam animation
+    if eventPlayer.slam_to_use == SlamType.GROUND:
+        eventPlayer.startForcingPosition(updateEveryTick(eventPlayer.getPosition()), false)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.forceButtonPress(Button.ABILITY_1)
@@ -145,6 +149,8 @@ def startSlamAnimation():
 
     wait()
     cancelMomentum(eventPlayer)
+    #if eventPlayer.slam_to_use == SlamType.GROUND:
+    eventPlayer.stopForcingPosition()
 
 
 rule "[doomfist/slam.opy]: Detect ground slam":
@@ -209,9 +215,10 @@ rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     eventPlayer.slam_damage = 0
     showSlamDamageGui()
     waitUntil(not eventPlayer.isOnGround(), Math.INFINITY)
-    if eventPlayer.slam_to_use == SlamType.GROUND: # Makes ground slam damage 49    
-        wait()
+    #if eventPlayer.slam_to_use == SlamType.GROUND: # Makes ground slam damage 49    
+        #wait()
     chase(eventPlayer.slam_damage, OW1_DOOMFIST_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
+    wait(0.25)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     stopChasingVariable(eventPlayer.slam_damage)
     wait(1, Wait.RESTART_WHEN_TRUE)
@@ -232,9 +239,9 @@ def showSlamDamageGui():
             WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
             Color.WHITE, 
             SpecVisibility.DEFAULT)
-    eventPlayer.slam_damage_text_entity = getLastCreatedText()
+    eventPlayer.slam_damage_text_entity = getLastCreatedText()        
 
-
+    
 def hideSlamDamageGui():
     @Name "[doomfist/slam.opy]: hideSlamDamageGui()"
 
