@@ -149,7 +149,6 @@ def startSlamAnimation():
 
     wait()
     cancelMomentum(eventPlayer)
-    #if eventPlayer.slam_to_use == SlamType.GROUND:
     eventPlayer.stopForcingPosition()
 
 
