@@ -3,7 +3,7 @@
 playervar ally_bubble_cooldown
 playervar ally_bubble_cd_text
 
-#!define initAllyBubble()\
+macro initAllyBubble():
     eventPlayer.ally_bubble_cooldown = 0
 
 /*
@@ -21,21 +21,21 @@ such as meleeing or reloading, the HUD moves/shakes around with the camera.
 
 Below HUD is tuned for 16:9 aspect ratio monitors (typical PC Overwatch setup).
 */
-#!define showAllyBubbleCD()\
-    if eventPlayer.ally_bubble_cd_text == null:\
-        createInWorldText(eventPlayer,\
-                        "{0}".format(ceil(eventPlayer.ally_bubble_cooldown)),\
-                        updateEveryTick(eventPlayer.getEyePosition() + (100 * (2.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.7 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()),\
-                        verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),\
-                        3,\
-                        Clip.NONE,\
-                        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,\
-                        Color.WHITE,\
-                        SpecVisibility.DEFAULT)\
+macro showAllyBubbleCD():
+    if eventPlayer.ally_bubble_cd_text == null:
+        createInWorldText(eventPlayer,
+                        "{0}".format(ceil(eventPlayer.ally_bubble_cooldown)),
+                        updateEveryTick(eventPlayer.getEyePosition() + (100 * (2.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.7 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()),
+                        verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),
+                        3,
+                        Clip.NONE,
+                        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+                        Color.WHITE,
+                        SpecVisibility.DEFAULT)
         eventPlayer.ally_bubble_cd_text = getLastCreatedText()
 
-#!define hideAllyBubbleCD()\
-    destroyInWorldText(eventPlayer.ally_bubble_cd_text)\
+macro hideAllyBubbleCD():
+    destroyInWorldText(eventPlayer.ally_bubble_cd_text)
     eventPlayer.ally_bubble_cd_text = null
 
 

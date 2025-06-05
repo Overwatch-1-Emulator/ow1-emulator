@@ -1,8 +1,8 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/pharah/hover_jets.opy"
-#!include "heroes/pharah/rocket_launcher.opy"
-#!include "heroes/pharah/concussive.opy"
+#!include "hover_jets.opy"
+#!include "rocket_launcher.opy"
+#!include "concussive.opy"
 
 
 def initPharah():

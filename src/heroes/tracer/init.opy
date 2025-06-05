@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/tracer/pulse_pistol.opy"
+#!include "pulse_pistol.opy"
 
 
 def initTracer():

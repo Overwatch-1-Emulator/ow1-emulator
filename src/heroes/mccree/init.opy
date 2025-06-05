@@ -1,9 +1,9 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/mccree/fan_hammer.opy"
-#!include "heroes/mccree/flashbang.opy"
-#!include "heroes/mccree/roll.opy"
-#!include "heroes/mccree/deadeye.opy"
+#!include "fan_hammer.opy"
+#!include "flashbang.opy"
+#!include "roll.opy"
+#!include "deadeye.opy"
 
 def initMccree():
     @Name "[mccree/init.opy]: initMccree()"

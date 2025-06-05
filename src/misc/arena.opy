@@ -74,35 +74,35 @@ subroutine processArena2Result
 
 #!define initQueue(q) (q = [])
 
-#!define enqueue(q, value) \
+macro enqueue(q, value):
     if value != null: q.append(value)
 
 #!define dequeue(q) (del q[0])
 
 #!define isEmpty(q) (len(q) <= 0)
 
-#!define fightingArena0(player)\
+macro fightingArena0(player):
     ((eventPlayer == _arena0_fighter0) or (eventPlayer == _arena0_fighter1))
 
-#!define fightingArena1(player)\
+macro fightingArena1(player):
     ((eventPlayer == _arena1_fighter0) or (eventPlayer == _arena1_fighter1))
 
-#!define fightingArena2(player)\
+macro fightingArena2(player):
     ((eventPlayer == _arena2_fighter0) or (eventPlayer == _arena2_fighter1))
 
-#!define nextHero(player)\
+macro nextHero(player):
     player.hero_number = (player.hero_number + 1) % len(player.hero_bag)\
     if player.hero_number == 0: player.hero_bag = random.shuffle(UNIVERSAL_HERO_ROSTER)\
     player.startForcingHero(player.hero_bag[player.hero_number])
 
 
-#!define refreshHero(player)\
+macro refreshHero(player):
     player.startForcingHero(Hero.SYMMETRA)\
     wait()\
     player.startForcingHero(player.hero_bag[player.hero_number])\
 
 
-#!define startForcingSpectator(player)\
+macro startForcingSpectator(player):
     player.teleport(SPEC_SPOT)\
     player.startForcingThrottle(0, 0, 0, 0, 0, 0)\
     player.setGravity(abs(0))\
@@ -126,7 +126,7 @@ subroutine processArena2Result
     player.setFacing(localVector(MAIN_FACING, player, Transform.ROTATION_AND_TRANSLATION), Relativity.TO_PLAYER)\
 
 
-#!define stopForcingSpectator(player)\
+macro stopForcingSpectator(player):
     player.setGravity(100)\
     player.setMoveSpeed(100)\
     player.setStatusEffect(null, Status.UNKILLABLE, 0)\

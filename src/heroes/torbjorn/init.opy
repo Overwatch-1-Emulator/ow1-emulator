@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/torbjorn/overload.opy"
+#!include "overload.opy"
 
 
 def initTorbjorn():

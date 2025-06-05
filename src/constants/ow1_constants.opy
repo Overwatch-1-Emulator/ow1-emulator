@@ -6,8 +6,6 @@
 #!define ULT_CHARGE_PER_SECOND 5
 #!define CRITICAL_HIT_MULTIPLIER 2
 #!define GRAVITY (-9.8)
-#!define MIN_DAMAGE 0.000001
-#!define TICK_DURATION 0.016
 
 # Ana
 #!define OW1_ANA_BIOTIC_GRENADE_COOLDOWN 10
@@ -121,7 +119,6 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 
 
 # Dva
 #!define OW1_DVA_ARMOR 300
-#!define OW1_DVA_PILOT_HEALTH 150
 #!define OW1_DVA_BOOSTER_COOLDOWN_TIME 4
 #!define OW1_DVA_BOOSTERS_DAMAGE 10
 #!define OW1_DVA_HEALTH 300
@@ -460,6 +457,7 @@ globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "O
 #!define OW1_TRACER_ULT_COST 1260
 
 # Venture
+#!define OW1_VENTURE_HEALTH 200
 #!define OW1_VENTURE_ULT_COST 1925
 
 # Widowmaker

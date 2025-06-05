@@ -1,40 +1,39 @@
 #!mainFile "../../dev_main.opy"
 
-playervar repair_pvar
-
-#!define isPressingSelfRepairButton(player)\
-    (player.isHoldingButton(Button.ABILITY_2) \
-  or player.isHoldingButton(Button.SECONDARY_FIRE))
-
-#!define isUsingSelfRepair(player)\
-    ((isPressingSelfRepairButton(player)) \
- and (not player.isFiringPrimaryFire()) \
- and (not player.isMeleeing()) \
- and (not isCCd(player)) \
- and (player.isAlive()) \
- and (player.self_repair_time_left > 0))
-
-# Remove repair resource vfx
-#!define hideSelfRepairResource()\
-    destroyProgressBarHud(eventPlayer._self_repair_resource_gui)\
-    eventPlayer._self_repair_resource_gui = null
-
-# Remove repair sparks and ring vfx
-#!define hideSelfRepairRing()\
-    destroyEffect(eventPlayer._self_repair_sparkles_upper_gui)\
-    eventPlayer._self_repair_sparkles_upper_gui = null\
-    destroyEffect(eventPlayer._self_repair_sparkles_lower_gui)\
-    eventPlayer._self_repair_sparkles_lower_gui = null\
-    destroyEffect(eventPlayer._self_repair_ring_gui)\
-    eventPlayer._self_repair_ring_gui = null
-
 playervar self_repair_time_left
-#!defineMember self_repair_instance repair_pvar[3]
 
+playervar repair_pvar
+#!defineMember self_repair_instance repair_pvar[3]
 #!defineMember _self_repair_resource_gui repair_pvar[4]
 #!defineMember _self_repair_sparkles_upper_gui repair_pvar[5]
 #!defineMember _self_repair_sparkles_lower_gui repair_pvar[6]
 #!defineMember _self_repair_ring_gui repair_pvar[7]
+
+macro isPressingSelfRepairButton(player):
+    (player.isHoldingButton(Button.ABILITY_2)
+  or player.isHoldingButton(Button.SECONDARY_FIRE))
+
+macro isUsingSelfRepair(player):
+    ((isPressingSelfRepairButton(player))
+ and (not player.isFiringPrimaryFire())
+ and (not player.isMeleeing())
+ and (not isCCd(player))
+ and (player.isAlive())
+ and (player.self_repair_time_left > 0))
+
+# Remove repair resource vfx
+macro hideSelfRepairResource():
+    destroyProgressBarHud(eventPlayer._self_repair_resource_gui)
+    eventPlayer._self_repair_resource_gui = null
+
+# Remove repair sparks and ring vfx
+macro hideSelfRepairRing():
+    destroyEffect(eventPlayer._self_repair_sparkles_upper_gui)
+    eventPlayer._self_repair_sparkles_upper_gui = null
+    destroyEffect(eventPlayer._self_repair_sparkles_lower_gui)
+    eventPlayer._self_repair_sparkles_lower_gui = null
+    destroyEffect(eventPlayer._self_repair_ring_gui)
+    eventPlayer._self_repair_ring_gui = null
 
 
 rule "[bastion/repair.opy]: Activate self-repair":

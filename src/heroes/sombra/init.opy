@@ -1,9 +1,9 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/sombra/emp.opy"
-#!include "heroes/sombra/hack.opy"
-#!include "heroes/sombra/stealth.opy"
-#!include "heroes/sombra/translocator.opy"
+#!include "emp.opy"
+#!include "hack.opy"
+#!include "stealth.opy"
+#!include "translocator.opy"
 
 
 def initSombra():

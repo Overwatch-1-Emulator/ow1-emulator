@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/hanzo/storm.opy"
+#!include "storm.opy"
 
 
 def initHanzo():

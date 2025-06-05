@@ -16,11 +16,11 @@ subroutine snareVictim
 subroutine showSnareLine
 subroutine hideSnareLine
 
-#!define isInHaltAOE(player) \
+macro isInHaltAOE(player):
     (distance(centerMass(player), player.enemy_orisa_player.halt_position) <= OW1_ORISA_HALT_AOE_RADIUS \
  and isInLoS(centerMass(player), player.enemy_orisa_player.halt_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS))
 
-#!define snareVisible(player) \
+macro snareVisible(player):
     (player.enemy_orisa_player.is_using_halt \
  and isInHaltAOE(player) \
  and player.isAlive())

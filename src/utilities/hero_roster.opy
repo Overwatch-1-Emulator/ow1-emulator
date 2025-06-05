@@ -15,9 +15,14 @@ globalvar hero_roster_gvar
 #!defineMember _damage_heroes hero_roster_gvar[6]
 #!defineMember _support_heroes hero_roster_gvar[7]
 
-#!define getOW1TankHeroes() _tank_heroes
-#!define getOW1DamageHeroes() _damage_heroes
-#!define getOW1SupportHeroes() _support_heroes
+macro getOW1TankHeroes():
+    _tank_heroes
+
+macro getOW1DamageHeroes():
+    _damage_heroes
+
+macro getOW1SupportHeroes():
+    _support_heroes
 
 
 rule "[utilities/hero_roster.opy]: Custom role definition":

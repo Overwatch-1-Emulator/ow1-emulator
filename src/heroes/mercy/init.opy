@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/mercy/guardian.opy"
+#!include "guardian.opy"
 
 
 def initMercy():

@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/baptiste/regen_burst.opy"
+#!include "regen_burst.opy"
 
 
 def initBaptiste():

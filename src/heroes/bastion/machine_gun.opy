@@ -8,8 +8,8 @@ playervar machine_gun_ammo_id
 
 subroutine reloadMachineGun
 
-#!define hideMachineGunAmmo()\
-    destroyInWorldText(eventPlayer.machine_gun_ammo_id)\
+macro hideMachineGunAmmo():
+    destroyInWorldText(eventPlayer.machine_gun_ammo_id)
     eventPlayer.machine_gun_ammo_id = null
 
 

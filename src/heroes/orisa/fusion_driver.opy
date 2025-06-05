@@ -10,7 +10,8 @@ subroutine reloadFusionDriver
 subroutine showOrisaAmmoHud
 subroutine hideOrisaAmmoHud
 
-#!define updateAmmo() eventPlayer.setAmmo(0, eventPlayer.orisa_ammo + 1)
+macro updateAmmo():
+    eventPlayer.setAmmo(0, eventPlayer.orisa_ammo + 1)
 
 
 rule "[orisa/fusion_driver.opy]: Decrease ammo when shooting gun":

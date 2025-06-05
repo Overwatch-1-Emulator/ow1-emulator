@@ -53,14 +53,14 @@ subroutine updateBarrierVisual
                                    -9.8/2 * (eventPlayer.barrier_seed_t ** 2) + eventPlayer._barrier_seed_v0.y * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_p0.y, \
                                    eventPlayer._barrier_seed_v0.z * eventPlayer.barrier_seed_t + eventPlayer._barrier_seed_p0.z)
 
-#!define isInsideOrisaBarrier(point, center, direction)\
+macro isInsideOrisaBarrier(point, center, direction):
     ((angleBetweenVectors(Vector.UP, directionTowards(center, point)) <= 90) and \
      (angleBetweenVectors(direction, directionTowards(center, point)) <= 90))
 
 # Angle of reflection formula from https://math.stackexchange.com/q/13261
 #!define reflection(d, n) (d - 2 * (dotProduct(d, n)) * n)
 
-#!define isAimingAtOrisaBarrier() \
+macro isAimingAtOrisaBarrier():
     ((distance(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player._barrier_origin) * sinDeg(angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player._barrier_origin))) <= OW1_ORISA_PROTECTIVE_BARRIER_RADIUS) \
  and (angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player._barrier_origin)) < 90) \
  and (eventPlayer.enemy_orisa_player.barrier_active))

@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/soldier/pulse_rifle.opy"
-#!include "heroes/soldier/biotic_field.opy"
+#!include "pulse_rifle.opy"
+#!include "biotic_field.opy"
 
 
 def initSoldier():

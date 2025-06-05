@@ -15,10 +15,10 @@ playervar custom_hp_pvar
 subroutine applyCustomHp
 
 # setCustomHp(0, 0, 0) simply clears the hero's hp
-#!define setCustomHp(health, armor, shields)\
-    eventPlayer._hp_health = health\
-    eventPlayer._hp_armor = armor\
-    eventPlayer._hp_shields = shields\
+macro setCustomHp(health, armor, shields):
+    eventPlayer._hp_health = health
+    eventPlayer._hp_armor = armor
+    eventPlayer._hp_shields = shields
     applyCustomHp()
 
 

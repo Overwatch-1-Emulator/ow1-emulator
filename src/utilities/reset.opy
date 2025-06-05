@@ -1,7 +1,6 @@
 #!mainFile "../dev_main.opy"
 
 globalvar reset_gvar
-#!defineMember ready_color reset_gvar[0]
 
 playervar reset_pvar
 #!defineMember _reset_complete reset_pvar[0]
@@ -27,7 +26,7 @@ subroutine resetFrenemies
 subroutine resetUltCharge
 subroutine resetSelfHealing
 
-#!define isResetComplete(player)\
+macro isResetComplete(player):
     (player._hp_reset \
  and player._stat_reset \
  and player._status_reset \
@@ -48,7 +47,7 @@ def resetHero():
     async(enableAllAbilities, AsyncBehavior.RESTART)
 
     wait() # wait at least 1 tick
-    waitUntil(updateEveryTick(isResetComplete(eventPlayer)), Math.INFINITY)
+    waitUntil(isResetComplete(eventPlayer), Math.INFINITY)
 
 
 def enableAllAbilities():

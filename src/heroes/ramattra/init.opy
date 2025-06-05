@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/ramattra/nemesis.opy"
-#!include "heroes/ramattra/vortex.opy"
+#!include "nemesis.opy"
+#!include "vortex.opy"
 
 
 def initRamattra():

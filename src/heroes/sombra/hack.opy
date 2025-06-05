@@ -1,9 +1,5 @@
 #!mainFile "../../dev_main.opy"
 
-playervar hack_timer
-
-#!define isHacked(player) (player.hack_timer > 0)
-
 
 rule "[sombra/hack.opy]: Apply OW1 hack on top of OW2 hack":
     @Event eachPlayer

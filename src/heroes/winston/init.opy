@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/winston/leap.opy"
-#!include "heroes/winston/primal.opy"
+#!include "leap.opy"
+#!include "primal.opy"
 
 
 def initWinston():

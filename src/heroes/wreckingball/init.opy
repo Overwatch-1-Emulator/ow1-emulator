@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/wreckingball/grapple.opy"
-#!include "heroes/wreckingball/adaptive_shield.opy"
+#!include "grapple.opy"
+#!include "adaptive_shield.opy"
 
 
 def initHammond():

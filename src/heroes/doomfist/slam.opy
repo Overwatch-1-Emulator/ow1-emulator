@@ -30,30 +30,30 @@ enum SlamType:
     INDICATOR
 
 # First raycast max range towards the direction the crosshair is aimed at
-#!define findProtoIndicatorPosition() \
-(raycast( \
-    eventPlayer.getEyePosition(), \
-    eventPlayer.getEyePosition() + OW1_DOOMFIST_SEISMIC_SLAM_RADIUS * eventPlayer.getFacingDirection(), \
-    null, \
-    getAllPlayers(), \
-    false).getHitPosition())
+macro findProtoIndicatorPosition():
+    raycast(
+        eventPlayer.getEyePosition(),
+        eventPlayer.getEyePosition() + OW1_DOOMFIST_SEISMIC_SLAM_RADIUS * eventPlayer.getFacingDirection(),
+        null,
+        getAllPlayers(),
+        false).getHitPosition()
 
 # Then drop straight down vertically to find the final indicator position
-#!define findIndicatorPosition() \
-(raycast(\
-    eventPlayer.proto_indicator_slam_position, \
-    eventPlayer.proto_indicator_slam_position + OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN, \
-    null, \
-    getAllPlayers(), \
-    false).getHitPosition() \
-if distance(eventPlayer.getEyePosition(), eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_SEISMIC_SLAM_RADIUS \
-else eventPlayer.proto_indicator_slam_position)
+macro findIndicatorPosition():
+    raycast(
+        eventPlayer.proto_indicator_slam_position,
+        eventPlayer.proto_indicator_slam_position + OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN,
+        null,
+        getAllPlayers(),
+        false).getHitPosition() \
+    if distance(eventPlayer.getEyePosition(), eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_SEISMIC_SLAM_RADIUS \
+    else eventPlayer.proto_indicator_slam_position
 
-#!define indicatorSlamValid() \
+macro indicatorSlamValid():
     ((distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
 and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= (90 + OW1_DOOMFIST_SLAM_PITCH_ANGLE)))
 
-#!define isIndicatorVisible() \
+macro isIndicatorVisible():
     ((indicatorSlamValid()) \
 and (eventPlayer.slam_to_use == SlamType.INDICATOR) \
 and (eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0) \
@@ -62,15 +62,15 @@ and (not eventPlayer.isUsingAbility1()) \
 and (not eventPlayer.isUsingUltimate()))
 
 #Conditions for when to stop an indicator slam and drop the player
-#!define impulseTrainActive() \
+macro impulseTrainActive():
    ((distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_position) > 2) \
 and (eventPlayer.isUsingAbility1()) \
 and (eventPlayer.getSpeed() > 2) \
-and not eventPlayer.stop_slam) \
+and not eventPlayer.stop_slam)
 
-#!define initSlam() \
-    eventPlayer.disallowButton(Button.ABILITY_1) \
-    eventPlayer.slam_damage = 0 \
+macro initSlam():
+    eventPlayer.disallowButton(Button.ABILITY_1)
+    eventPlayer.slam_damage = 0
     createSlamIndicatorGui()
 
 

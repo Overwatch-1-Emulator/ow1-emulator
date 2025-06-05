@@ -1,10 +1,10 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/orisa/supercharger.opy"
-#!include "heroes/orisa/halt.opy"
-#!include "heroes/orisa/barrier.opy"
-#!include "heroes/orisa/fusion_driver.opy"
-#!include "heroes/orisa/fortify.opy"
+#!include "supercharger.opy"
+#!include "halt.opy"
+#!include "barrier.opy"
+#!include "fusion_driver.opy"
+#!include "fortify.opy"
 
 def initOrisa():
     @Name "[orisa/init.opy]: initOrisa()"

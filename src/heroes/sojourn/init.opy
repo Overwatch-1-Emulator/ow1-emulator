@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/sojourn/railgun.opy"
+#!include "railgun.opy"
 
 
 def initSojourn():

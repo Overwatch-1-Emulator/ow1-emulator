@@ -26,23 +26,23 @@ subroutine showTranslocatorIcon
                                      OW1_SOMBRA_TRANSLOCATOR_GRAVITY/2 * (t ** 2) + eventPlayer.transloc_v0.y * t + eventPlayer.transloc_p0.y, \
                                      eventPlayer.transloc_v0.z * t + eventPlayer.transloc_p0.z)
 
-#!define destroyTranslocator(player)\
-    stopChasingVariable(player.transloc_time)\
-    stopChasingVariable(player.transloc_position)\
-    stopChasingVariable(player.trasnloc_velocity)\
-    player.transloc_time = null\
-    player.transloc_position = null\
-    player.trasnloc_velocity = null\
-\
-    # hide translocator\
-    destroyEffect(player._translocator_id)\
-    player._translocator_id = null\
-    destroyIcon(player._translocator_icon_id1)\
-    player._translocator_icon_id1 = null\
-    destroyIcon(player._translocator_icon_id2)\
-    player._translocator_icon_id2 = null\
-\
-    player._is_using_translocator = false\
+macro destroyTranslocator(player):
+    stopChasingVariable(player.transloc_time)
+    stopChasingVariable(player.transloc_position)
+    stopChasingVariable(player.trasnloc_velocity)
+    player.transloc_time = null
+    player.transloc_position = null
+    player.trasnloc_velocity = null
+
+    # hide translocator
+    destroyEffect(player._translocator_id)
+    player._translocator_id = null
+    destroyIcon(player._translocator_icon_id1)
+    player._translocator_icon_id1 = null
+    destroyIcon(player._translocator_icon_id2)
+    player._translocator_icon_id2 = null
+
+    player._is_using_translocator = false
 
 
 rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":

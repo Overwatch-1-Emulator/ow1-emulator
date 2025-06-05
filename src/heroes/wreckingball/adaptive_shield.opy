@@ -4,11 +4,6 @@ playervar adaptive_shield_pvar
 #!define _ow2_adaptive_shield_n adaptive_shield_pvar[0]
 #!define _ow1_adaptive_shield_n adaptive_shield_pvar[1]
 
-#!define OW2_WRECKING_BALL_ADAPTIVE_SHIELD_BASE 100
-#!define OW2_WRECKING_BALL_ADAPTIVE_SHIELD_DURATION 7
-#!define OW2_WRECKING_BALL_ADAPTIVE_SHIELD_RADIUS 13
-#!define OW2_WRECKING_BALL_SHIELD_PER_TARGET 100
-
 #!define getOW1AdaptiveShields(n) (OW1_WRECKING_BALL_SHIELD_PER_TARGET*n + OW1_WRECKING_BALL_ADAPTIVE_SHIELD_BASE)
 #!define getOW2AdaptiveShields(n) (OW2_WRECKING_BALL_SHIELD_PER_TARGET*n + OW2_WRECKING_BALL_ADAPTIVE_SHIELD_BASE)
 

@@ -1,8 +1,8 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/moira/biotic_grasp.opy"
-#!include "heroes/moira/biotic_orb.opy"
-#!include "heroes/moira/coalescence.opy"
+#!include "biotic_grasp.opy"
+#!include "biotic_orb.opy"
+#!include "coalescence.opy"
 
 
 def initMoira():

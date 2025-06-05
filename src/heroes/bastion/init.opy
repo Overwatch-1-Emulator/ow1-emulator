@@ -1,8 +1,8 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/bastion/configuration.opy"
-#!include "heroes/bastion/repair.opy"
-#!include "heroes/bastion/machine_gun.opy"
+#!include "configuration.opy"
+#!include "repair.opy"
+#!include "machine_gun.opy"
 
 
 def initBastion():

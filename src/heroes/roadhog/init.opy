@@ -1,9 +1,9 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/roadhog/hook.opy"
-#!include "heroes/roadhog/breather.opy"
-#!include "heroes/roadhog/wholehog.opy"
-#!include "heroes/roadhog/scrap_gun.opy"
+#!include "hook.opy"
+#!include "breather.opy"
+#!include "wholehog.opy"
+#!include "scrap_gun.opy"
 
 
 def initRoadhog():

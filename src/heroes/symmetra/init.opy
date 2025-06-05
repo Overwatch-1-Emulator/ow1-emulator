@@ -1,8 +1,8 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/symmetra/projector.opy"
-#!include "heroes/symmetra/orb.opy"
-#!include "heroes/symmetra/teleporter.opy"
+#!include "projector.opy"
+#!include "orb.opy"
+#!include "teleporter.opy"
 
 
 def initSymmetra():

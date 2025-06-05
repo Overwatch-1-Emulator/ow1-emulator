@@ -20,18 +20,19 @@ playervar lsi_i
 # playervar _lsi_x # points of intersection
 # playervar lsi_i # indexing variable for this file
 
-#!define isAimingAtSphere(start_position, direction, sphere_center, sphere_radius)\
-    ((angleBetweenVectors(direction, directionTowards(start_position, sphere_center)) < 90)\
+subroutine findLineSphereIntersection
+
+macro isAimingAtSphere(start_position, direction, sphere_center, sphere_radius):
+    ((angleBetweenVectors(direction, directionTowards(start_position, sphere_center)) < 90)
  and (distance(start_position, sphere_center) * sinDeg(angleBetweenVectors(direction, directionTowards(start_position, sphere_center))) <= sphere_radius))
     
-#!define findSphereHit(start_position, direction, sphere_center, sphere_radius)\
-    eventPlayer._lsi_o = start_position\
-    eventPlayer._lsi_u = direction\
-    eventPlayer._lsi_c = sphere_center\
-    eventPlayer._lsi_r = sphere_radius\
+macro findSphereHit(start_position, direction, sphere_center, sphere_radius):
+    eventPlayer._lsi_o = start_position
+    eventPlayer._lsi_u = direction
+    eventPlayer._lsi_c = sphere_center
+    eventPlayer._lsi_r = sphere_radius
     findLineSphereIntersection()
 
-subroutine findLineSphereIntersection
 
 def findLineSphereIntersection():
     @Name "[utilities/hit_detection.opy]: findLineSphereIntersection()"

@@ -1,10 +1,10 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/dva/hp.opy"
-#!include "heroes/dva/gun.opy"
-#!include "heroes/dva/booster.opy"
-#!include "heroes/dva/micro_missiles.opy"
-#!include "heroes/dva/bomb.opy"
+#!include "hp.opy"
+#!include "gun.opy"
+#!include "booster.opy"
+#!include "micro_missiles.opy"
+#!include "bomb.opy"
 
 
 def initDva():

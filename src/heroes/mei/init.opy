@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/mei/blaster.opy"
-#!include "heroes/mei/cryo_freeze.opy"
+#!include "blaster.opy"
+#!include "cryo_freeze.opy"
 
 
 def initMei():

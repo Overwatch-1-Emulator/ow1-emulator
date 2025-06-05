@@ -1,8 +1,8 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/kiriko/kunai.opy"
-#!include "heroes/kiriko/suzu.opy"
-#!include "heroes/kiriko/swift_step.opy"
+#!include "kunai.opy"
+#!include "suzu.opy"
+#!include "swift_step.opy"
 
 
 def initKiriko():

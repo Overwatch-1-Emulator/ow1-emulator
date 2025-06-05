@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/ashe/bob.opy"
+#!include "bob.opy"
 
 
 def initAshe():

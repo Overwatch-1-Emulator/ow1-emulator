@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/reaper/blossom.opy"
+#!include "blossom.opy"
 
 
 def initReaper():

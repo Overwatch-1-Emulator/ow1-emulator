@@ -10,11 +10,11 @@ created by discord users: Bebel#5658 and Xponit#1474
 playervar is_using_uppercut
 playervar is_ultimate_locked
 
-#!include "heroes/doomfist/uppercut.opy"
-#!include "heroes/doomfist/slam.opy"
-#!include "heroes/doomfist/punch.opy"
-#!include "heroes/doomfist/meteor.opy"
-#!include "heroes/doomfist/cannon.opy"
+#!include "uppercut.opy"
+#!include "slam.opy"
+#!include "punch.opy"
+#!include "meteor.opy"
+#!include "cannon.opy"
 
 
 def initDoomfist():

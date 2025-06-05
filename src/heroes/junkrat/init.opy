@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/junkrat/trap.opy"
+#!include "trap.opy"
 
 
 def initJunkrat():

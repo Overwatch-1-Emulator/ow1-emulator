@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/lucio/soundwave.opy"
-#!include "heroes/lucio/aura.opy"
+#!include "soundwave.opy"
+#!include "aura.opy"
 
 
 def initLucio():

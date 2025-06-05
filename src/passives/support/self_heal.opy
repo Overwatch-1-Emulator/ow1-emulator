@@ -22,14 +22,14 @@ def resetSelfHealing():
 
     eventPlayer._self_healing_reset = true
 
-#!define removePassiveHealing()\
+macro removePassiveHealing():
     eventPlayer._suppress_passive_healing = true
 
-#!define removeSelfHealing()\
-    eventPlayer._self_healing_source = []\
-    eventPlayer._self_healing_percent = 0\
-    if eventPlayer._self_healing_id == null:\
-        startHealingModification(eventPlayer, eventPlayer, eventPlayer._self_healing_percent, HealingReeval.RECEIVERS_HEALERS_AND_HEALPERCENT)\
+macro removeSelfHealing():
+    eventPlayer._self_healing_source = []
+    eventPlayer._self_healing_percent = 0
+    if eventPlayer._self_healing_id == null:
+        startHealingModification(eventPlayer, eventPlayer, eventPlayer._self_healing_percent, HealingReeval.RECEIVERS_HEALERS_AND_HEALPERCENT)
         eventPlayer._self_healing_id = getLastHealingModification()
 
 # Evaluates correct self healing percent from _self_healing_source array
@@ -38,17 +38,17 @@ def resetSelfHealing():
 # y: percent healing the player should receive given the self-healing sources
 # [TODO]: Derive more accurate formula
 # Currently sets self-heaing to 100% if there's any self healing source
-#!define evalSelfHealingPercent()\
-    eventPlayer._self_healing_percent = 100 if len(eventPlayer._self_healing_source) > 0 else 0\
+macro evalSelfHealingPercent():
+    eventPlayer._self_healing_percent = 100 if len(eventPlayer._self_healing_source) > 0 else 0
     eventPlayer._suppress_passive_healing = true if eventPlayer._self_healing_percent > 0 else false
 
-#!define pushSelfHealing(button) \
-    if (button not in eventPlayer._self_healing_source): \
-        eventPlayer._self_healing_source.append(button) \
-evalSelfHealingPercent()
+macro pushSelfHealing(button):
+    if (button not in eventPlayer._self_healing_source):
+        eventPlayer._self_healing_source.append(button)
+    evalSelfHealingPercent()
 
-#!define popSelfHealing(button) \
-    eventPlayer._self_healing_source.remove(button) \
+macro popSelfHealing(button):
+    eventPlayer._self_healing_source.remove(button)
     evalSelfHealingPercent()
 
 

@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/ana/sleep.opy"
-#!include "heroes/ana/nade.opy"
+#!include "sleep.opy"
+#!include "nade.opy"
 
 def initAna():
     @Name "[ana/init.opy]: initAna()"

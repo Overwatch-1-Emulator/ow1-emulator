@@ -5,7 +5,8 @@ playervar hero_switch_pvar
 #!defineMember _hero_switched hero_switch_pvar[1]
 #!defineMember _hero_id hero_switch_pvar[2]
 
-#!define switchedHero(player) player._hero_switched
+macro switchedHero(player):
+    player._hero_switched
 
 
 rule "[utilities/hero_switch.opy]: detect hero switch":

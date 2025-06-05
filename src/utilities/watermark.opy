@@ -9,7 +9,7 @@ playervar info_id
 playervar rgb_vect
 #!define RGB_DURATION 0.5
 
-# #!define infoVisible(player) \
+# macro infoVisible(player):
 #     ((player.isInSpawnRoom()) \
 #   or (player.isDead()) \
 #   or (isInSetup()))

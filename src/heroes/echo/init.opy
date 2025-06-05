@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "heroes/echo/focusing_beam.opy"
-#!include "heroes/echo/duplicate.opy"
+#!include "focusing_beam.opy"
+#!include "duplicate.opy"
 
 
 def initEcho():

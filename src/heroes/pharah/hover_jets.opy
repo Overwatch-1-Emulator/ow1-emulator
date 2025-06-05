@@ -6,7 +6,7 @@ playervar hover_jets_pvar
 #!defineMember _jet_dash_button hover_jets_pvar[2]
 playervar jet_fuel
 
-#!define isUsingHoverJets() \
+macro isUsingHoverJets():
     ((eventPlayer.isHoldingButton(eventPlayer._hover_jet_button)) \
  and (not eventPlayer.isOnGround()) \
  and (not eventPlayer.isJumping()) \
@@ -15,7 +15,7 @@ playervar jet_fuel
  and (eventPlayer.jet_fuel > 0)) \
 
 
-#!define isGlidingOnRoof() \
+macro isGlidingOnRoof():
     ((not eventPlayer.isOnGround()) \
  and (not eventPlayer.isJumping()) \
  and (eventPlayer.getAltitude() <= 0))
@@ -24,17 +24,17 @@ subroutine showFuelGui
 subroutine hideFuelGui
 
 
-#!define initHoverJets() \
-    eventPlayer.jet_fuel = 100 \
-    showFuelGui() \
-    eventPlayer.setAbilityCooldown(Button.JUMP, Math.INFINITY) \
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, Math.INFINITY) \
-    if (eventPlayer.getAbilityCooldown(Button.JUMP) == 0 and eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) > 0): \
-        eventPlayer._hover_jet_button = Button.JUMP \
-        eventPlayer._jet_dash_button = Button.SECONDARY_FIRE \
-    else: \
-        eventPlayer._hover_jet_button = Button.SECONDARY_FIRE \
-        eventPlayer._jet_dash_button = Button.JUMP \
+macro initHoverJets():
+    eventPlayer.jet_fuel = 100
+    showFuelGui()
+    eventPlayer.setAbilityCooldown(Button.JUMP, Math.INFINITY)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, Math.INFINITY)
+    if (eventPlayer.getAbilityCooldown(Button.JUMP) == 0 and eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) > 0):
+        eventPlayer._hover_jet_button = Button.JUMP
+        eventPlayer._jet_dash_button = Button.SECONDARY_FIRE
+    else:
+        eventPlayer._hover_jet_button = Button.SECONDARY_FIRE
+        eventPlayer._jet_dash_button = Button.JUMP
 
 
 rule "[pharah/hover_jets.opy]: Disable jet dash":

@@ -22,7 +22,7 @@ rule "[sombra/stealth.opy]: Remove Stealth passive":
         wait(cosDeg(1), Wait.ABORT_WHEN_FALSE) # some irrational value
         # explanation: since stealth passive activates every 3.5 seconds
         # damage must be applied in a way that never synchronizes with passive stealth activation
-    while RULE_CONDITION:
+    while ruleCondition:
 
 
 rule "[sombra/stealth.opy]: Bind Ability 1 to stealth":

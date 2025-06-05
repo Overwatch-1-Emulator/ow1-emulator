@@ -8,25 +8,25 @@ subroutine initRocketPunch
 
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
-#!define getRocketPunchDamage(charge_time) \
-    ((OW1_DOOMFIST_ROCKET_PUNCH_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_IMPACT_DAMAGE_MIN) \
-     / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
+macro getRocketPunchDamage(charge_time):
+    ((OW1_DOOMFIST_ROCKET_PUNCH_IMPACT_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_IMPACT_DAMAGE_MIN)
+     / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)
      * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_ROCKET_PUNCH_IMPACT_DAMAGE_MIN)
 # Calculate OW1 rocket punch damage given charge time
 # Assume damage scales linearly with charge time, then use the line from 2 points formula (y-y1) = (y2-y1)/(x2-x1)*(x-x1)
-#!define getRocketPunchWallImpactDamage(charge_time) \
-    ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MIN) \
-     / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
+macro getRocketPunchWallImpactDamage(charge_time):
+    ((OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MAX-OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MIN)
+     / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)
      * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_ROCKET_PUNCH_WALL_SLAM_DAMAGE_MIN)
 # Calculate punch knockback impulse speed from punch charge time
-#!define getPunchKnockbackSpeed(charge_time) \
-    ((OW1_DOOMFIST_PUNCH_KNOCKBACK_MAX-OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN) \
-     / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) \
+macro getPunchKnockbackSpeed(charge_time):
+    ((OW1_DOOMFIST_PUNCH_KNOCKBACK_MAX-OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN)
+     / (OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MAX-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN)
      * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN)
 
 
-#!define initRocketPunch() \
-    eventPlayer.punched_victims = [] \
+macro initRocketPunch():
+    eventPlayer.punched_victims = []
     eventPlayer.wall_impacted_victims = []
 
 
