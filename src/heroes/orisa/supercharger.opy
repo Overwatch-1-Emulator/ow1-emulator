@@ -1,37 +1,25 @@
 #!mainFile "../../dev_main.opy"
 
-playervar is_using_supercharger
-playervar is_supercharged
-playervar orisa_supercharger_id
-playervar orisa_supercharger_origin
-playervar orisa_supercharger_beam_id
-playervar orisa_supercharger_sound_id
+playervar supercharger_pvar
+
+#!defineMember is_using_supercharger supercharger_pvar[0]
+#!defineMember is_supercharged supercharger_pvar[1]
+#!defineMember orisa_supercharger_id supercharger_pvar[2]
+#!defineMember orisa_supercharger_origin supercharger_pvar[3]
+#!defineMember orisa_supercharger_beam_id supercharger_pvar[4]
+#!defineMember orisa_supercharger_sound_id supercharger_pvar[5]
+#!defineMember javelin_cooldown_before_ult supercharger_pvar[5]
 
 subroutine startSupercharger
 subroutine endSupercharger
 
 
-rule "[orisa/supercharger.opy]: play Terra Surge voiceline":
+rule "[orisa/supercharger.opy]: Trigger Supercharger start":
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
     @Condition eventPlayer.getUltCharge() >= 100
-    
-    eventPlayer.allowButton(Button.ULTIMATE)
-    getPlayersInRadius(eventPlayer, 
-                       OW2_ORISA_TERRA_SURGE_RADIUS, 
-                       getOppositeTeam(eventPlayer.getTeam()), 
-                       LosCheck.SURFACES).setStatusEffect(null, Status.PHASED_OUT, 0.016)
-    eventPlayer.forceButtonPress(Button.ULTIMATE)
-    eventPlayer.disallowButton(Button.ULTIMATE)
 
-
-rule "[orisa/supercharger.opy]: Trigger Supercharger start":
-    @Event eachPlayer
-    @Hero orisa
-    @Condition eventPlayer.isUsingUltimate()
-
-    eventPlayer.cancelPrimaryAction() # Stop Terra Surge animation
     if eventPlayer.isUsingAbility1():
         damage(eventPlayer, null, OW2_ORISA_FORTIFY_OVERHEALTH/(1-OW2_ORISA_FORTIFY_DAMAGE_REDUCTION)) # Remove shield gained from Terra Surge
 
@@ -72,6 +60,14 @@ def startSupercharger():
     # Supercharger deploy effect
     playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.GREEN, eventPlayer.orisa_supercharger_origin, 3)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.GREEN, eventPlayer.orisa_supercharger_origin, 200)
+    # play Javelin vfx
+    eventPlayer.javelin_cooldown_before_ult = eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE)
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
+    eventPlayer.allowButton(Button.SECONDARY_FIRE)
+    eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+    eventPlayer.cancelPrimaryAction() # Cancel vfx
+    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, eventPlayer.javelin_cooldown_before_ult)
 
     # Announce supercharger active
     eventPlayer.is_using_supercharger = true
