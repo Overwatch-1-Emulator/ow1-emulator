@@ -1,6 +1,5 @@
 #!mainFile "../../dev_main.opy"
 
-subroutine initDuplicate
 
 rule "[echo/duplicate.opy]: Initialize duplicate hero":
     @Event eachPlayer

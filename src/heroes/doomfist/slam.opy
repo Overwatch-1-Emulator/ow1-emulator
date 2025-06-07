@@ -16,7 +16,6 @@ playervar slam_indicator_beam_id
 playervar slam_indicator_ring_id
 
 subroutine initSlam
-subroutine executeSlam
 subroutine startSlamAnimation
 
 subroutine showSlamDamageGui
@@ -68,7 +67,7 @@ and (eventPlayer.isUsingAbility1()) \
 and (eventPlayer.getSpeed() > 2) \
 and not eventPlayer.stop_slam)
 
-macro initSlam():
+def initSlam():
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.slam_damage = 0
     createSlamIndicatorGui()

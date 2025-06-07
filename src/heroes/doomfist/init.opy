@@ -30,9 +30,6 @@ def initDoomfist():
     eventPlayer.uppercut_shields = 0
 
 
-
-
-
 rule "[doomfist/init.opy]: Clean up Doomfist":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST

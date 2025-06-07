@@ -25,7 +25,7 @@ macro getPunchKnockbackSpeed(charge_time):
      * (charge_time-OW1_DOOMFIST_ROCKET_PUNCH_CHARGE_TIME_MIN) + OW1_DOOMFIST_PUNCH_KNOCKBACK_MIN)
 
 
-macro initRocketPunch():
+def initRocketPunch():
     eventPlayer.punched_victims = []
     eventPlayer.wall_impacted_victims = []
 
