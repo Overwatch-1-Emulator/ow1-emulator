@@ -12,6 +12,8 @@ def initAshe():
 
     removeSelfHealing()
 
+    # eventPlayer.disallowButton(Button.ULTIMATE)
+
 
 rule "[ashe/init.opy]: Compensate Ashe global damage reduction":
     @Event playerDealtDamage

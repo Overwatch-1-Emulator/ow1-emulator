@@ -9,7 +9,7 @@
 def initSombra():
     @Name "[sombra/init.opy]: initSombra()"
 
-    # setCustomHp(OW1_SOMBRA_HEALTH, 0, 0)
+    setCustomHp(OW1_SOMBRA_HEALTH, 0, 0)
     setUltCost(OW1_SOMBRA_ULT_COST)
 
     getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer

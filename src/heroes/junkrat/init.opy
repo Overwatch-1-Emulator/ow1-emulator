@@ -6,12 +6,7 @@
 def initJunkrat():
     @Name "[junkrat/init.opy]: initJunkrat()"
 
-    wait() # without this delay, junkrat never gets extra health???
-    eventPlayer.addHealthPool(
-        Health.NORMAL, 
-        OW1_JUNKRAT_HEALTH - (OW1_JUNKRAT_HEALTH-OW1_JUNKRAT_TIRE_HEALTH)/(OW2_JUNKRAT_HEALTH-OW2_JUNKRAT_TIRE_HEALTH)*OW2_JUNKRAT_HEALTH, 
-        true, 
-        false)
+    setCustomHp(OW1_JUNKRAT_HEALTH, 0, 0)
     setUltCost(OW1_JUNKRAT_ULT_COST)
     removeSelfHealing()
 

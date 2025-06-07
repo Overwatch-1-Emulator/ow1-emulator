@@ -6,7 +6,7 @@
 def initAna():
     @Name "[ana/init.opy]: initAna()"
 
-    # setCustomHp(OW1_ANA_HEALTH, 0, 0)
+    setCustomHp(OW1_ANA_HEALTH, 0, 0)
     setUltCost(OW1_ANA_ULT_COST)
     removeSelfHealing()
 

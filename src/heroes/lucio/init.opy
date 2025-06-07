@@ -14,9 +14,6 @@ def initLucio():
     eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
 
 
-
-
-
 rule "[lucio/init.opy]: OW1 Sonic Amplifier damage":
     @Event playerDealtDamage
     @Hero lucio

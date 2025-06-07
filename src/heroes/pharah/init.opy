@@ -15,9 +15,6 @@ def initPharah():
     initHoverJets()
 
 
-
-
-
 rule "[pharah/init.opy]: Clean up Pharah":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.PHARAH

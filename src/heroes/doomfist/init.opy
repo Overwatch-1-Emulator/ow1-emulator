@@ -22,7 +22,7 @@ def initDoomfist():
 
     setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
-    removeTankPassive()
+    # removeTankPassive()
     removeSelfHealing()
 
     initRocketPunch()

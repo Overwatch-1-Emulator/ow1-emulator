@@ -11,9 +11,6 @@ def initHanzo():
     removeSelfHealing()
 
 
-
-
-
 rule "[hanzo/init.opy]: Deal OW1 primary fire damage":
     @Event playerDealtDamage
     @Hero hanzo

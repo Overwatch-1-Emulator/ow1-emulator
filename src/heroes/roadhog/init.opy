@@ -23,7 +23,7 @@ def initRoadhog():
     eventPlayer.setSecondaryFireEnabled(false)
     eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_TOTAL/OW2_ROADHOG_BREATHER_HEAL_TOTAL))
 
-    removeTankPassive()
+    # removeTankPassive()
     removeSelfHealing()
 
     eventPlayer.preloadHero(Hero.ZARYA)

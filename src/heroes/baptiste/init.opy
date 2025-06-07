@@ -1,6 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
 #!include "regen_burst.opy"
+# !include "lamp.opy"
 
 
 def initBaptiste():
@@ -19,5 +20,4 @@ def initBaptiste():
 
     removeSelfHealing()
 
-
-
+    # eventPlayer.disallowButton(Button.ABILITY_2)

@@ -13,9 +13,6 @@ def initTorbjorn():
     setBaseDamage(eventPlayer, OW1_TORBJORN_TURRET_DAMAGE/OW2_TORBJORN_TURRET_DAMAGE)
 
 
-
-
-
 rule "[torbjorn/init.opy]: Correct Rivet Gun, Hammer, and ultimate damage":
     @Event playerDealtDamage
     @Hero torbjorn

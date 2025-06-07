@@ -1,3 +1,6 @@
+# Include for global scoping
+#!include "heroes/sombra/hack_status.opy"
+
 # Useful constants and macros
 #!include "constants/ow1_constants.opy"
 #!include "constants/ow2_constants.opy"
@@ -27,9 +30,6 @@
 #!include "passives/tank/ult_charge.opy"
 # Remove support passive
 #!include "passives/support/self_heal.opy"
-
-# Include for global scoping
-#!include "heroes/sombra/hack.opy"
 
 # Hero specific logic
 #!include "heroes/ana/init.opy"

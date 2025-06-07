@@ -38,13 +38,13 @@ macro isResetComplete(player):
 def resetHero():
     @Name "[utilities/reset.opy]: resetHero()"
 
-    async(clearCustomHp, AsyncBehavior.RESTART)
-    async(resetStats, AsyncBehavior.RESTART)
-    async(resetStatuses, AsyncBehavior.RESTART)
-    async(resetFrenemies, AsyncBehavior.RESTART)
-    async(resetUltCharge, AsyncBehavior.RESTART)
-    async(resetSelfHealing, AsyncBehavior.RESTART)
-    async(enableAllAbilities, AsyncBehavior.RESTART)
+    clearCustomHp()
+    resetStats()
+    resetStatuses()
+    resetFrenemies()
+    resetUltCharge()
+    resetSelfHealing()
+    enableAllAbilities()
 
     wait() # wait at least 1 tick
     waitUntil(isResetComplete(eventPlayer), Math.INFINITY)

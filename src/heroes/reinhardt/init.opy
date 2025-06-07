@@ -4,6 +4,7 @@
 #!include "firestrike.opy"
 #!include "charge.opy"
 #!include "shatter.opy"
+# !include "barrier.opy"
 
 
 def initReinhardt():
@@ -14,7 +15,5 @@ def initReinhardt():
     setBaseDamage(eventPlayer, OW1_REINHARDT_FIRESTRIKE_DAMAGE/OW2_REINHARDT_FIRESTRIKE_DAMAGE)
 
     removeSelfHealing()
-    eventPlayer.setKnockbackReceived(percent((100 - OW1_REINHARDT_STEADFAST_KNOCKBACK_REDUCTION_PERCENT)/(100 - OW2_TANK_KNOCKBACK_REDUCTION_PERCENT)))
-
-
-
+    # eventPlayer.setKnockbackReceived(percent((100 - OW1_REINHARDT_STEADFAST_KNOCKBACK_REDUCTION_PERCENT)/(100 - OW2_TANK_KNOCKBACK_REDUCTION_PERCENT)))
+    # eventPlayer.disallowButton(Button.SECONDARY_FIRE)
