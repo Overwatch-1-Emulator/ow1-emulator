@@ -20,9 +20,6 @@ rule "[orisa/supercharger.opy]: Trigger Supercharger start":
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
     @Condition eventPlayer.getUltCharge() >= 100
 
-    if eventPlayer.isUsingAbility1():
-        damage(eventPlayer, null, OW2_ORISA_FORTIFY_OVERHEALTH/(1-OW2_ORISA_FORTIFY_DAMAGE_REDUCTION)) # Remove shield gained from Terra Surge
-
     endSupercharger() # Destroy any existing Supercharger
     waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
     startSupercharger() # Start new supercharger

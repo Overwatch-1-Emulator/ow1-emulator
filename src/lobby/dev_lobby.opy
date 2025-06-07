@@ -162,6 +162,7 @@ settings {
             },
             "orisa": {
                 "ammoClipSize%": percent(OW1_ORISA_CLIP_SIZE/OW2_ORISA_CLIP_SIZE),
+                "ability1Cooldown%": percent(OW1_ORISA_FORTIFY_COOLDOWN/OW2_ORISA_FORTIFY_COOLDOWN),
                 "ultGen%": percent(OW2_ORISA_ULT_COST/OW1_ORISA_ULT_COST)
             },
             "pharah": {
