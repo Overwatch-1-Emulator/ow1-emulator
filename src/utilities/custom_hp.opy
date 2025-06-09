@@ -49,6 +49,11 @@ def clearCustomHp():
 def applyCustomHp():
     @Name "[utilities/custom_hp.opy]: applyCustomHp()"
 
+    if (eventPlayer.getMaxHealthOfType(Health.NORMAL) == eventPlayer._hp_health) and \
+       (eventPlayer.getMaxHealthOfType(Health.ARMOR) == eventPlayer._hp_armor) and \
+       (eventPlayer.getMaxHealthOfType(Health.SHIELDS) == eventPlayer._hp_shields):
+       return
+
     # Find minimum hp scalar value that ensures
     # the scaled health/armor/shields is less or equal to
     # the desired custom health/armor/shield value

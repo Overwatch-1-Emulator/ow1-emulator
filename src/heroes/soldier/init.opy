@@ -11,6 +11,3 @@ def initSoldier():
     setUltCost(OW1_SOLDIER_ULT_COST)
     eventPlayer.setHealingDealt(percent(OW1_SOLDIER_BIOTIC_FIELD_HEAL/OW2_SOLDIER_BIOTIC_FIELD_HEAL))
     removeSelfHealing()
-
-
-

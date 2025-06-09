@@ -39,33 +39,46 @@ macro hideAllyBubbleCD():
     eventPlayer.ally_bubble_cd_text = null
 
 
-rule "[zarya/ally_bubble.opy]: OW1 zarya ally bubble cooldown":
+# rule "[zarya/ally_bubble.opy]: OW1 zarya ally bubble cooldown":
+#     @Event eachPlayer
+#     @Hero zarya
+#     @Condition eventPlayer.isUsingAbility2()
+
+#     eventPlayer.disallowButton(Button.ABILITY_2)
+#     eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
+#     eventPlayer.setAbility2Enabled(false)
+#     wait(OW1_ZARYA_BUBBLE_DURATION) # wait bubble duration
+#     eventPlayer.ally_bubble_cooldown = OW1_ZARYA_PROJECTED_BARRIER_COOLDOWN_TIME
+#     eventPlayer.allowButton(Button.ABILITY_2)
+#     chase(eventPlayer.ally_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
+
+
+# rule "[zarya/ally_bubble.opy]: Disable ally bubble if on cooldown":
+#     @Event eachPlayer
+#     @Hero zarya
+#     @Condition eventPlayer.ally_bubble_cooldown > 0
+
+#     eventPlayer.setAbility2Enabled(false)
+#     showAllyBubbleCD()
+
+
+# rule "[zarya/ally_bubble.opy]: Enable ally bubble if not on cooldown":
+#     @Event eachPlayer
+#     @Hero zarya
+#     @Condition eventPlayer.ally_bubble_cooldown <= 0
+
+#     eventPlayer.setAbility2Enabled(true)
+#     hideAllyBubbleCD()
+
+rule "[zarya/barrier.opy]: OW1 Zarya ally barrier health":
     @Event eachPlayer
     @Hero zarya
-    @Condition eventPlayer.isUsingAbility2()
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
+    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
 
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.setAbilityCharge(Button.ABILITY_2, 2)
-    eventPlayer.setAbility2Enabled(false)
-    wait(OW1_ZARYA_BUBBLE_DURATION) # wait bubble duration
-    eventPlayer.ally_bubble_cooldown = OW1_ZARYA_PROJECTED_BARRIER_COOLDOWN_TIME
+    eventPlayer.setMaxHealth(percent(OW1_ZARYA_BARRIER_HEALTH/OW2_ZARYA_BARRIER_HEALTH))
     eventPlayer.allowButton(Button.ABILITY_2)
-    chase(eventPlayer.ally_bubble_cooldown, 0, rate=1, ChaseReeval.NONE)
-
-
-rule "[zarya/ally_bubble.opy]: Disable ally bubble if on cooldown":
-    @Event eachPlayer
-    @Hero zarya
-    @Condition eventPlayer.ally_bubble_cooldown > 0
-
-    eventPlayer.setAbility2Enabled(false)
-    showAllyBubbleCD()
-
-
-rule "[zarya/ally_bubble.opy]: Enable ally bubble if not on cooldown":
-    @Event eachPlayer
-    @Hero zarya
-    @Condition eventPlayer.ally_bubble_cooldown <= 0
-
-    eventPlayer.setAbility2Enabled(true)
-    hideAllyBubbleCD()
+    eventPlayer.forceButtonPress(Button.ABILITY_2)
+    eventPlayer.disallowButton(Button.ABILITY_2)
+    waitUntil(eventPlayer.isUsingAbility2(), TICK_DURATION)
+    eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))

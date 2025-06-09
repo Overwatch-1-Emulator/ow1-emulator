@@ -12,6 +12,3 @@ def initMoira():
     setUltCost(OW1_MOIRA_ULT_COST)
     
     removePassiveHealing()
-
-
-

@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
 #!include "leap.opy"
-# !include "primal.opy"
+#!include "primal.opy"
 #!include "barrier.opy"
 
 
@@ -14,7 +14,7 @@ def initWinston():
     # eventPlayer._primal_hp_id = getLastCreatedHealthPool()
     setUltCost(OW1_WINSTON_ULT_COST)
 
-    setBaseDamage(eventPlayer, OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE)
+    setBaseDamage(eventPlayer, OW1_WINSTON_PRIMAL_DAMAGE/OW2_WINSTON_PRIMAL_DAMAGE)
 
     # removeTankPassive()
     removeSelfHealing()
@@ -23,11 +23,17 @@ def initWinston():
     eventPlayer.disallowButton(Button.ABILITY_2)
 
 
-rule "[winston/init.opy]: Compensate Winston global damage reduction":
+rule "[winston/leap.opy]: OW1 Winston tesla cannon damage":
     @Event playerDealtDamage
     @Hero winston
-    @Condition eventAbility in [Button.ABILITY_1]
+    @Condition eventAbility in [Button.PRIMARY_FIRE]
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
 
 
+# rule "[winston/init.opy]: Compensate Winston global damage reduction":
+#     @Event playerDealtDamage
+#     @Hero winston
+#     @Condition eventAbility in [Button.ABILITY_1]
+
+#     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

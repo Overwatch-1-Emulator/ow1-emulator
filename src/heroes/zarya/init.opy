@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-# !include "self_bubble.opy"
-# !include "ally_bubble.opy"
+#!include "self_bubble.opy"
+#!include "ally_bubble.opy"
 
 
 def initZarya():
@@ -21,34 +21,6 @@ def initZarya():
     # initAllyBubble()
 
 
-rule "[zarya/barrier.opy]: OW1 Zarya self barrier health":
-    @Event eachPlayer
-    @Hero zarya
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_1)
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) <= 0
-
-    eventPlayer.setMaxHealth(percent(OW1_ZARYA_BARRIER_HEALTH/OW2_ZARYA_BARRIER_HEALTH))
-    eventPlayer.allowButton(Button.ABILITY_1)
-    eventPlayer.forceButtonPress(Button.ABILITY_1)
-    eventPlayer.disallowButton(Button.ABILITY_1)
-    waitUntil(eventPlayer.isUsingAbility1(), 1)
-    eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))
-
-
-rule "[zarya/barrier.opy]: OW1 Zarya ally barrier health":
-    @Event eachPlayer
-    @Hero zarya
-    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
-
-    eventPlayer.setMaxHealth(percent(OW1_ZARYA_BARRIER_HEALTH/OW2_ZARYA_BARRIER_HEALTH))
-    eventPlayer.allowButton(Button.ABILITY_2)
-    eventPlayer.forceButtonPress(Button.ABILITY_2)
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    waitUntil(eventPlayer.isUsingAbility2(), 1)
-    eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))
-
-
 # rule "[zarya/init.opy]: Initialize Zarya":
 #     @Event eachPlayer
 #     @Hero zarya
@@ -58,11 +30,11 @@ rule "[zarya/barrier.opy]: OW1 Zarya ally barrier health":
 #     async(initZarya, AsyncBehavior.RESTART)
 
 
-rule "[zarya/init.opy]: Clean up Zarya":
-    @Event eachPlayer
-    @Condition eventPlayer.getCurrentHero() == Hero.ZARYA
+# rule "[zarya/init.opy]: Clean up Zarya":
+#     @Event eachPlayer
+#     @Condition eventPlayer.getCurrentHero() == Hero.ZARYA
 
-    waitUntil(eventPlayer.getCurrentHero() != Hero.ZARYA, Math.INFINITY)
+#     waitUntil(eventPlayer.getCurrentHero() != Hero.ZARYA, Math.INFINITY)
     # hideSelfBubbleCD()
     # hideAllyBubbleCD()
 

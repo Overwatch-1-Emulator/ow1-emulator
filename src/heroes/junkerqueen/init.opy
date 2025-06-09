@@ -17,9 +17,6 @@ def initJunkerQueen():
 
     # removeTankPassive()
     removePassiveHealing()
-    
-
-
 
 
 rule "[junkerqueen/init.opy]: Clean up Junker Queen":

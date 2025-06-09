@@ -12,6 +12,3 @@ def initRamattra():
 
     # removeTankPassive()
     removeSelfHealing()
-    
-
-

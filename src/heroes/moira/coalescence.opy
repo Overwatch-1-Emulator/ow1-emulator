@@ -13,6 +13,14 @@ rule "[moira/coalescence.opy]: Prevent fading during coalescence":
     eventPlayer.setAbility1Enabled(true)
 
 
+rule "[moira/coalescence.opy]: OW1 coalescence damage":
+    @Event playerDealtDamage
+    @Hero moira
+    @Condition eventAbility == Button.ULTIMATE
+
+    heal(victim, null, eventDamage - (OW1_MOIRA_COALESCENCE_DAMAGE/OW2_MOIRA_COALESCENCE_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar))
+
+
 # rule "[moira/coalescence.opy]: Allow self healing during Coalescence":
 #     @Event eachPlayer
 #     @Hero moira

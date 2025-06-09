@@ -10,6 +10,3 @@ def initSojourn():
     setUltCost(OW1_SOJOURN_ULT_COST)
 
     removeSelfHealing()
-
-
-
