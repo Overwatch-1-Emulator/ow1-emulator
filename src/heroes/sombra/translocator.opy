@@ -7,6 +7,7 @@ playervar translocator_pvar
 #!defineMember _translocator_icon_id1 translocator_pvar[2]
 #!defineMember _translocator_icon_id2 translocator_pvar[3]
 #!defineMember _sombra_player translocator_pvar[4]
+#!defineMember _seed_hit_surface_normal_sombra translocator_pvar[5]
 
 playervar transloc_position
 playervar trasnloc_velocity
@@ -112,12 +113,12 @@ def throwTranslocator():
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.PURPLE, eventPlayer.transloc_position, 100)
 
     # Fall down to floor after bouncing off wall
-    eventPlayer._seed_hit_surface_normal = (raycast(eventPlayer.transloc_position, \
+    eventPlayer._seed_hit_surface_normal_sombra = (raycast(eventPlayer.transloc_position, \
                                   eventPlayer.transloc_position + eventPlayer.trasnloc_velocity, \
                                   null, \
                                   null, \
                                   false).getNormal())
-    eventPlayer.transloc_v0 = 0.03 * reflection(eventPlayer.trasnloc_velocity, eventPlayer._seed_hit_surface_normal)
+    eventPlayer.transloc_v0 = 0.03 * reflection(eventPlayer.trasnloc_velocity, eventPlayer._seed_hit_surface_normal_sombra)
     eventPlayer.transloc_p0 = eventPlayer.transloc_position
     eventPlayer.transloc_time = 0
     chase(eventPlayer.transloc_time, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME, rate=1, ChaseReeval.DESTINATION_AND_RATE)

@@ -68,6 +68,7 @@ and (eventPlayer.getSpeed() > 2) \
 and not eventPlayer.stop_slam)
 
 def initSlam():
+    @Name "[doomfist/slam.opy]: initSlam()"
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.slam_damage = 0
     createSlamIndicatorGui()

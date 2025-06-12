@@ -25,6 +25,7 @@ subroutine resetStatuses
 subroutine resetFrenemies
 subroutine resetUltCharge
 subroutine resetSelfHealing
+subroutine resetPerkCost
 
 macro isResetComplete(player):
     (player._hp_reset \
@@ -38,13 +39,14 @@ macro isResetComplete(player):
 def resetHero():
     @Name "[utilities/reset.opy]: resetHero()"
 
-    clearCustomHp()
-    resetStats()
-    resetStatuses()
-    resetFrenemies()
-    resetUltCharge()
-    resetSelfHealing()
-    enableAllAbilities()
+    async(clearCustomHp, AsyncBehavior.RESTART)
+    async(resetStats, AsyncBehavior.RESTART)
+    async(resetStatuses, AsyncBehavior.RESTART)
+    async(resetFrenemies, AsyncBehavior.RESTART)
+    async(resetUltCharge, AsyncBehavior.RESTART)
+    async(resetPerkCost, AsyncBehavior.RESTART)
+    async(resetSelfHealing, AsyncBehavior.RESTART)
+    async(enableAllAbilities, AsyncBehavior.RESTART)
 
     wait() # wait at least 1 tick
     waitUntil(isResetComplete(eventPlayer), Math.INFINITY)

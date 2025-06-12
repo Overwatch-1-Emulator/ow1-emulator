@@ -49,3 +49,7 @@ macro isCCd(player):
   or player.hasStatusEffect(Status.ASLEEP) \
   or player.hasStatusEffect(Status.FROZEN) \
   or player.hasStatusEffect(Status.KNOCKED_DOWN))
+
+# Angle of reflection formula from https://math.stackexchange.com/q/13261
+macro reflection(d, n):
+    d - 2 * (dotProduct(d, n)) * n
