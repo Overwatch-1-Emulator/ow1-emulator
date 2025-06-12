@@ -9,6 +9,3 @@ def initVenture():
     removeSelfHealing()
 
     setBaseDamage(eventPlayer, 0.8)
-
-
-

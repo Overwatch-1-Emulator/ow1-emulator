@@ -8,11 +8,14 @@ subroutine initBrigitte
 subroutine initDoomfist
 subroutine initDva
 subroutine initEcho
+subroutine initFreja
 subroutine initGenji
 subroutine initHanzo
+subroutine initHazard
 subroutine initIllari
 subroutine initJunkerQueen
 subroutine initJunkrat
+subroutine initJuno
 subroutine initKiriko
 subroutine initLifeweaver
 subroutine initLucio
@@ -70,11 +73,17 @@ def initHero():
         case Hero.ECHO:
             initEcho()
             break
+        case Hero.FREJA:
+            initFreja()
+            break
         case Hero.GENJI:
             initGenji()
             break
         case Hero.HANZO:
             initHanzo()
+            break
+        case Hero.HAZARD:
+            initHazard()
             break
         case Hero.ILLARI:
             initIllari()
@@ -84,6 +93,9 @@ def initHero():
             break
         case Hero.JUNKRAT:
             initJunkrat()
+            break
+        case Hero.JUNO:
+            initJuno()
             break
         case Hero.KIRIKO:
             initKiriko()

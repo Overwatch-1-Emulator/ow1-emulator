@@ -115,12 +115,18 @@ settings {
             "echo": {
                 "ultGen%": percent(OW2_ECHO_ULT_COST/OW1_ECHO_ULT_COST)
             },
+            "freja": {
+                "ultGen%": percent(OW2_FREJA_ULT_COST/OW1_FREJA_ULT_COST)
+            },
             "genji": {
                 "ultGen%": percent(OW2_GENJI_ULT_COST/OW1_GENJI_ULT_COST)
             },
             "hanzo": {
                 "ability2Cooldown%": percent(OW1_HANZO_STORM_COOLDOWN/OW2_HANZO_STORM_COOLDOWN),
                 "ultGen%": percent(OW2_HANZO_ULT_COST/OW1_HANZO_ULT_COST)
+            },
+            "hazard": {
+                "ultGen%": percent(OW2_HAZARD_ULT_COST/OW1_HAZARD_ULT_COST)
             },
             "illari": {
                 "ability1Cooldown%": percent(OW1_ILLARI_OUTBURST_COOLDOWN/OW2_ILLARI_OUTBURST_COOLDOWN),
@@ -135,6 +141,9 @@ settings {
             "junkrat": {
                 "ability1Cooldown%": percent(OW1_JUNKRAT_CONCUSSION_MINE_COOLDOWN/OW2_JUNKRAT_CONCUSSION_MINE_COOLDOWN),
                 "ultGen%": percent(OW2_JUNKRAT_ULT_COST/OW1_JUNKRAT_ULT_COST)
+            },
+            "juno": {
+                "ultGen%": percent(OW2_JUNO_ULT_COST/OW1_JUNO_ULT_COST)
             },
             "kiriko": {
                 "ability1Cooldown%": percent(OW1_KIRIKO_SWIFT_STEP_COOLDOWN/OW2_KIRIKO_SWIFT_STEP_COOLDOWN),
