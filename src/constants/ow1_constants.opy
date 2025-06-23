@@ -247,8 +247,8 @@ globalvar OW1_DOOMFIST_SEISMIC_SLAM_RADIUS = createWorkshopSetting(float[0:30], 
 #!define OW1_LUCIO_ULT_COST 2940
 
 # Mauga
-#!define OW1_MAUGA_HEALTH 600
-#!define OW1_MAUGA_ARMOR 0
+#!define OW1_MAUGA_HEALTH 450
+#!define OW1_MAUGA_ARMOR 100
 #!define OW1_MAUGA_ULT_COST 2400
 
 # Mei
