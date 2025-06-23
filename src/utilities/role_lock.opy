@@ -8,8 +8,8 @@ globalvar role_lock_gvar
 
 rule "[utilities/role_lock.opy]: Initialize global variables":
     MAX_TANK_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Tank", 2, 0)
-    MAX_DAMAGE_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Damage", 2, 1)
-    MAX_SUPPORT_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Support", 2, 2)
+    MAX_DAMAGE_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Damage", 12, 1)
+    MAX_SUPPORT_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Support", 12, 2)
 
 playervar role_lock_pvar
 #!defineMember role role_lock_pvar[0]
