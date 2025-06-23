@@ -95,7 +95,7 @@ rule "[doomfist/uppercut.opy]: Detect uppercut victims":
         eventPlayer._uppercut_victims = \
             getPlayersInRadius(
                 eventPlayer, 
-                OW1_DOOMFIST_RISING_UPPERCUT_RADIUS, 
+                OW1_DOOMFIST_UPPERCUT_RADIUS, 
                 getOppositeTeam(eventPlayer.getTeam()), 
                 LosCheck.SURFACES).exclude(eventPlayer)
         eventPlayer._uppercut_victims = \
@@ -121,7 +121,7 @@ rule "[doomfist/uppercut.opy]: Damage uppercut victims + vfx + uppercut knockbac
     @Condition eventPlayer._last_uppercut_attacker != eventPlayer._uppercut_attacker
 
     # damage
-    damage(eventPlayer, eventPlayer._uppercut_attacker, OW1_DOOMFIST_RISING_UPPERCUT_DAMAGE)
+    damage(eventPlayer, eventPlayer._uppercut_attacker, OW1_DOOMFIST_UPPERCUT_DAMAGE)
     eventPlayer.setEnvironmentalKillCreditor(eventPlayer._uppercut_attacker)
 
     # upercut hit vfx
@@ -131,7 +131,7 @@ rule "[doomfist/uppercut.opy]: Damage uppercut victims + vfx + uppercut knockbac
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0) # Lose movement control
     eventPlayer.applyImpulse(Vector.UP, 13.5, Relativity.TO_PLAYER, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     eventPlayer.applyImpulse(getForwardDirection(eventPlayer._uppercut_attacker), 8.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
-    wait(OW1_DOOMFIST_RISING_UPPERCUT_AIR_LOCK_TIME)
+    wait(OW1_DOOMFIST_UPPERCUT_AIR_LOCK_TIME)
     eventPlayer.stopForcingThrottle() # Regain movement control
 
 

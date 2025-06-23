@@ -2,10 +2,10 @@
 
 playervar meteor_strike_slow_time
 
-# Calculate OW1 meteor strike outer sphere damage from OW2 meteor strike outer sphere damage
+# Calculate OW1 meteor strike outer ring damage from OW2 meteor strike outer ring damage
 macro getMeteorStrikeDamage(d):
-    (OW1_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE
-     + ((OW1_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE - OW1_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MIN_DAMAGE)
+    (OW1_DOOMFIST_METEOR_STRIKE_OUTER_RING_MAX_DAMAGE
+     + ((OW1_DOOMFIST_METEOR_STRIKE_OUTER_RING_MAX_DAMAGE - OW1_DOOMFIST_METEOR_STRIKE_OUTER_RING_MIN_DAMAGE)
         / (OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE - OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MIN_DAMAGE))
         * (d - OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE))
 
@@ -44,11 +44,13 @@ rule "[doomfist/meteor.opy]: OW1 Meteor Strike knockback":
     @Condition eventAbility == Button.ULTIMATE
 
     victim.setGravity(50) 
-    victim.applyImpulse(Vector.UP, 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
+    # Boop slammed victims up
+    victim.applyImpulse(Vector.UP, 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
+    # Boop slammed victims away from meteor strike
     victim.applyImpulse(directionTowards(attacker, victim), 
-                        20/max(distance(attacker, victim), OW1_DOOMFIST_METEOR_STRIKE_INNER_SPHERE_RADIUS), # inverse square curve passing through (2, 10)
+                        20/max(distance(attacker, victim), OW1_DOOMFIST_METEOR_STRIKE_INNER_RING_RADIUS), # inverse square curve passing through (2, 10)
                         Relativity.TO_WORLD, 
-                        Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
+                        Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     victim.setGravity(100)
 
 

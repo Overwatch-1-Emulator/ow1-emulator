@@ -32,7 +32,7 @@ enum SlamType:
 macro findProtoIndicatorPosition():
     raycast(
         eventPlayer.getEyePosition(),
-        eventPlayer.getEyePosition() + OW1_DOOMFIST_SEISMIC_SLAM_RADIUS * eventPlayer.getFacingDirection(),
+        eventPlayer.getEyePosition() + OW1_DOOMFIST_SLAM_INDIC_RANGE * eventPlayer.getFacingDirection(),
         null,
         getAllPlayers(),
         false).getHitPosition()
@@ -41,16 +41,16 @@ macro findProtoIndicatorPosition():
 macro findIndicatorPosition():
     raycast(
         eventPlayer.proto_indicator_slam_position,
-        eventPlayer.proto_indicator_slam_position + OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN*Vector.DOWN,
+        eventPlayer.proto_indicator_slam_position + OW1_DOOMFIST_SLAM_INDICATOR_MARGIN*Vector.DOWN,
         null,
         getAllPlayers(),
         false).getHitPosition() \
-    if distance(eventPlayer.getEyePosition(), eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_SEISMIC_SLAM_RADIUS \
+    if distance(eventPlayer.getEyePosition(), eventPlayer.proto_indicator_slam_position) >= OW1_DOOMFIST_SLAM_INDIC_RANGE \
     else eventPlayer.proto_indicator_slam_position
 
 macro indicatorSlamValid():
-    ((distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_MARGIN) \
-and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= (90 + OW1_DOOMFIST_SLAM_PITCH_ANGLE)))
+    ((distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_SLAM_INDICATOR_MARGIN) \
+and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= (90 + OW1_DOOMFIST_SLAM_INDIC_PITCH)))
 
 macro isIndicatorVisible():
     ((indicatorSlamValid()) \
@@ -99,7 +99,7 @@ rule "[doomfist/slam.opy]: Execute slam":
             eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
             startSlamAnimation()
             while(impulseTrainActive()):
-                eventPlayer.slam_velocity_correction = OW1_DOOMFIST_INDICATOR_SEISMIC_SLAM_SPEED * directionTowards(eventPlayer.getPosition(), 
+                eventPlayer.slam_velocity_correction = OW1_DOOMFIST_SLAM_INDICATOR_SPEED * directionTowards(eventPlayer.getPosition(), 
                                                                                                                     eventPlayer.indicator_slam_position) \
                                                        - eventPlayer.getVelocity()
                 eventPlayer.applyImpulse(eventPlayer.slam_velocity_correction, 
@@ -150,7 +150,7 @@ def startSlamAnimation():
 rule "[doomfist/slam.opy]: Detect ground slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.getAltitude() < OW1_DOOMFIST_GROUND_SLAM_HEIGHT
+    @Condition eventPlayer.getAltitude() < OW1_DOOMFIST_SLAM_GROUND_HEIGHT
     
     eventPlayer.slam_to_use = SlamType.GROUND
 
@@ -158,7 +158,7 @@ rule "[doomfist/slam.opy]: Detect ground slam":
 rule "[doomfist/slam.opy]: Detect indicator slam":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.getAltitude() >= OW1_DOOMFIST_INDICATOR_SLAM_HEIGHT
+    @Condition eventPlayer.getAltitude() >= OW1_DOOMFIST_SLAM_INDICATOR_HEIGHT
 
     eventPlayer.slam_to_use = SlamType.INDICATOR
 
@@ -211,7 +211,7 @@ rule "[doomfist/slam.opy]: Calculate slam damage based on air time":
     waitUntil(not eventPlayer.isOnGround(), Math.INFINITY)
     if eventPlayer.slam_to_use == SlamType.GROUND: # Makes ground slam damage 49    
         wait()
-    chase(eventPlayer.slam_damage, OW1_DOOMFIST_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SEISMIC_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
+    chase(eventPlayer.slam_damage, OW1_DOOMFIST_SLAM_DAMAGE_MAX, rate=OW1_DOOMFIST_SLAM_DAMAGE_RATE, ChaseReeval.NONE)
     waitUntil(eventPlayer.isOnGround() or not eventPlayer.isUsingAbility1(), Math.INFINITY)
     stopChasingVariable(eventPlayer.slam_damage)
     wait(1, Wait.RESTART_WHEN_TRUE)
@@ -277,44 +277,44 @@ rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
 
     victim.setGravity(50) 
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
-    victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-(OW1_DOOMFIST_RISING_UPPERCUT_RADIUS-1)), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
+    victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-(OW1_DOOMFIST_UPPERCUT_RADIUS-1)), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
     victim.setGravity(100)
 
 
 def createSlamIndicatorGui():
     @Name "[doomfist/slam.opy]: createSlamIndicatorGui()"
 
-    for slam_i in range(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT):
+    for slam_i in range(OW1_DOOM_SLAM_INDIC_BEAM_COUNT):
         if eventPlayer.slam_indicator_beam_id[slam_i] == null:
             createBeam(eventPlayer if isIndicatorVisible() else null,
                        Beam.GOOD, 
                        updateEveryTick(eventPlayer.indicator_slam_position + \
                                        OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS * \
-                                       worldVector(cosDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(slam_i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT-1))*Vector.FORWARD + \
-                                                   sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(slam_i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT-1))*Vector.LEFT, \
+                                       worldVector(cosDeg(OW1_DOOMFIST_SLAM_FAN_ANGLE/2-evalOnce(slam_i)*OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOM_SLAM_INDIC_BEAM_COUNT-1))*Vector.FORWARD + \
+                                                   sinDeg(OW1_DOOMFIST_SLAM_FAN_ANGLE/2-evalOnce(slam_i)*OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOM_SLAM_INDIC_BEAM_COUNT-1))*Vector.LEFT, \
                                                    eventPlayer, \
                                                    Transform.ROTATION)), 
                        updateEveryTick(eventPlayer.indicator_slam_position + \
                                        OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS * \
-                                       worldVector(cosDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(slam_i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT-1))*Vector.FORWARD + \
-                                                   sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2-evalOnce(slam_i)*OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/(OW1_DOOMFIST_SLAM_INDICATOR_BEAM_COUNT-1))*Vector.LEFT, \
+                                       worldVector(cosDeg(OW1_DOOMFIST_SLAM_FAN_ANGLE/2-evalOnce(slam_i)*OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOM_SLAM_INDIC_BEAM_COUNT-1))*Vector.FORWARD + \
+                                                   sinDeg(OW1_DOOMFIST_SLAM_FAN_ANGLE/2-evalOnce(slam_i)*OW1_DOOMFIST_SLAM_FAN_ANGLE/(OW1_DOOM_SLAM_INDIC_BEAM_COUNT-1))*Vector.LEFT, \
                                                    eventPlayer, \
                                                    Transform.ROTATION)), 
                        Color.BLUE, 
                        EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.slam_indicator_beam_id[slam_i] = getLastCreatedEntity()
 
-    for slam_i in range(OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT):
+    for slam_i in range(OW1_DOOM_SLAM_INDIC_RING_COUNT):
         if eventPlayer.slam_indicator_ring_id[slam_i] == null:
             createEffect(eventPlayer if isIndicatorVisible() else null, 
                          Effect.RING, 
                          Color.BLUE, 
                          updateEveryTick(eventPlayer.indicator_slam_position + \
-                                         evalOnce(slam_i+1)*(OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS)/OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT * \
+                                         evalOnce(slam_i+1)*(OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS)/OW1_DOOM_SLAM_INDIC_RING_COUNT * \
                                          worldVector(Vector.FORWARD, 
                                                      eventPlayer, 
                                                      Transform.ROTATION)), 
-                         (evalOnce(slam_i+1)*(OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS)/OW1_DOOMFIST_SLAM_INDICATOR_RING_COUNT)*sinDeg(OW1_DOOMFIST_SEISMIC_SLAM_FAN_ANGLE/2), 
+                         (evalOnce(slam_i+1)*(OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS)/OW1_DOOM_SLAM_INDIC_RING_COUNT)*sinDeg(OW1_DOOMFIST_SLAM_FAN_ANGLE/2), 
                          EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
             eventPlayer.slam_indicator_ring_id[slam_i] = getLastCreatedEntity()
     
