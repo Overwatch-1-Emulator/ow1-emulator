@@ -8,4 +8,4 @@ def initMauga():
     setUltCost(OW1_MAUGA_ULT_COST)
 
     # removeTankPassive()
-    removeSelfHealing()
+    #removeSelfHealing()

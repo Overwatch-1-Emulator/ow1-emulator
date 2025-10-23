@@ -31,7 +31,7 @@ def initOrisa():
     eventPlayer.setProjectileSpeed(percent(OW1_ORISA_GUN_PROJECTILE_SPEED/OW2_ORISA_GUN_PROJECTILE_SPEED))
 
     # removeTankPassive()
-    removeSelfHealing()
+    #removeSelfHealing()
 
     setPerkCost(OW2_ORISA_PERK_LVL3_COST)
 

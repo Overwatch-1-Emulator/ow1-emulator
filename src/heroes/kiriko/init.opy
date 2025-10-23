@@ -11,7 +11,7 @@ def initKiriko():
     setCustomHp(OW1_KIRIKO_HEALTH, 0, 0)
     setUltCost(OW1_KIRIKO_ULT_COST)
 
-    removeSelfHealing()
+    #removeSelfHealing()
 
     eventPlayer.setHealingDealt(percent(OW1_KIRKIO_OFUDA_HEALING/OW2_KIRIKO_OFUDA_HEALING))
 

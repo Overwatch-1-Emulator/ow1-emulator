@@ -119,7 +119,9 @@ settings {
                 "ultGen%": percent(OW2_FREJA_ULT_COST/OW1_FREJA_ULT_COST)
             },
             "genji": {
-                "ultGen%": percent(OW2_GENJI_ULT_COST/OW1_GENJI_ULT_COST)
+                "ultGen%": percent(OW2_GENJI_ULT_COST/OW1_GENJI_ULT_COST),
+                "ability2Cooldown%": percent(OW1_GENJI_DEFLECT_COOLDOWN/OW2_GENJI_DEFLECT_COOLDOWN),
+                "projectileSpeed%": percent(OW1_GENJI_PROJECTILE_SPEED/OW2_GENJI_PROJECTILE_SPEED)
             },
             "hanzo": {
                 "ability2Cooldown%": percent(OW1_HANZO_STORM_COOLDOWN/OW2_HANZO_STORM_COOLDOWN),
@@ -172,7 +174,9 @@ settings {
             },
             "orisa": {
                 "ammoClipSize%": percent(OW1_ORISA_CLIP_SIZE/OW2_ORISA_CLIP_SIZE),
+                "enableInfiniteAmmo": true,
                 "ability1Cooldown%": percent(OW1_ORISA_FORTIFY_COOLDOWN/OW2_ORISA_FORTIFY_COOLDOWN),
+                "ability2Cooldown%": 50,
                 "ultGen%": percent(OW2_ORISA_ULT_COST/OW1_ORISA_ULT_COST)
             },
             "pharah": {
@@ -180,6 +184,9 @@ settings {
                 "ability1RefuelScalar": 0,
                 "ability1Cooldown%": percent(OW1_PHARAH_JUMP_JET_COOLDOWN/OW2_PHARAH_JUMP_JET_COOLDOWN),
                 "ability2Cooldown%": percent(OW1_PHARAH_CONCUSSIVE_BLAST_COOLDOWN/OW2_PHARAH_CONCUSSIVE_BLAST_COOLDOWN),
+                "passiveExtraFuel%": 0,
+                "passiveMaxTime%": 20,
+                "passiveRechargeRate%": 100,
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST)
             },
             "ramattra": {
@@ -198,10 +205,10 @@ settings {
                 "ultGen%": percent(OW2_REINHARDT_ULT_COST/OW1_REINHARDT_ULT_COST)
             },
             "roadhog": {
-                "secondaryFireMaximumTime%": percent((OW1_ROADHOG_BREATHER_CAST_TIME+OW1_ROADHOG_BREATHER_DURATION)/OW2_ROADHOG_BREATHER_DURATION),
+                "secondaryFireMaximumTime%": percent((OW1_ROADHOG_BREATHER_DURATION)/OW2_ROADHOG_BREATHER_DURATION),
                 "secondaryFireRechargeRate%": 500,
+                "ammoClipSize%": percent((OW1_ROADHOG_CLIP_SIZE)/OW2_ROADHOG_CLIP_SIZE),
                 "ability1Cooldown%": percent(OW1_ROADHOG_HOOK_COOLDOWN_TIME/OW2_ROADHOG_HOOK_COOLDOWN_TIME),
-                "ability2Cooldown%": percent(OW1_ROADHOG_BREATHER_COOLDOWN/OW2_ROADHOG_TRAP_COOLDOWN),
                 "ultGen%": percent(OW2_ROADHOG_ULT_COST/OW1_ROADHOG_ULT_COST)
             },
             "sigma": {
@@ -237,6 +244,7 @@ settings {
                 "ultGen%": percent(OW2_WIDOWMAKER_ULT_COST/OW1_WIDOWMAKER_ULT_COST)
             },
             "winston": {
+                "ammoClipSize%": percent(OW1_WINSTON_AMMO/OW2_WINSTON_AMMO),
                 "ability1Cooldown%": percent(OW1_WINSTON_JUMP_PACK_COOLDOWN_TIME/OW2_WINSTON_JUMP_PACK_COOLDOWN_TIME),
                 "ability2Cooldown%": percent(OW1_WINSTON_BARRIER_COOLDOWN/OW2_WINSTON_BARRIER_COOLDOWN),
                 "ultGen%": percent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST)

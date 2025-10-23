@@ -9,20 +9,20 @@ subroutine showStealthHud
 subroutine hideStealthHud
 
 
-rule "[sombra/stealth.opy]: Remove Stealth passive":
-    @Event eachPlayer
-    @Hero sombra
-    @Condition not eventPlayer.is_using_stealth
-    @Condition not eventPlayer.isFiringPrimaryFire()
-    @Condition not eventPlayer.isFiringSecondaryFire()
-    @Condition not eventPlayer.isMeleeing()
-
-    do:
-        damage(eventPlayer, null, MIN_DAMAGE)
-        wait(cosDeg(1), Wait.ABORT_WHEN_FALSE) # some irrational value
-        # explanation: since stealth passive activates every 3.5 seconds
-        # damage must be applied in a way that never synchronizes with passive stealth activation
-    while ruleCondition:
+#rule "[sombra/stealth.opy]: Remove Stealth passive":
+#    @Event eachPlayer
+#    @Hero sombra
+#    @Condition not eventPlayer.is_using_stealth
+#    @Condition not eventPlayer.isFiringPrimaryFire()
+#    @Condition not eventPlayer.isFiringSecondaryFire()
+#    @Condition not eventPlayer.isMeleeing()
+#
+#    do:
+#        damage(eventPlayer, null, MIN_DAMAGE)
+#        wait(cosDeg(1), Wait.ABORT_WHEN_FALSE) # some irrational value
+#        # explanation: since stealth passive activates every 3.5 seconds
+#        # damage must be applied in a way that never synchronizes with passive stealth activation
+#    while ruleCondition:
 
 
 rule "[sombra/stealth.opy]: Bind Ability 1 to stealth":
@@ -45,10 +45,11 @@ def enterStealth():
     eventPlayer.setInvisibility(Invis.ENEMIES)
     eventPlayer.setMoveSpeed(percent(OW1_SOMBRA_STEALTH_MOVEMENT_BONUS))
     eventPlayer.is_using_stealth = true
-    damage(eventPlayer, null, 0.01)
-    heal(eventPlayer, null, 0.01)
-    wait(OW2_SOMBRA_STEALTH_COOLDOWN)
-    wait(OW2_SOMBRA_STEALTH_CAST_TIME)
+    #damage(eventPlayer, null, 0.01)
+    #heal(eventPlayer, null, 0.01)
+    #wait(OW2_SOMBRA_STEALTH_COOLDOWN)
+    #wait(OW2_SOMBRA_STEALTH_CAST_TIME)
+    waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_1))
     hideStealthHud()
     eventPlayer.setInvisibility(Invis.NONE)
     eventPlayer.setMoveSpeed(percent(OW1_SOMBRA_STEALTH_MOVEMENT_BONUS/OW2_SOMBRA_STEALTH_MOVEMENT_BONUS))
@@ -80,8 +81,8 @@ rule "[sombra/stealth.opy]: Exit Stealth when taking damage":
 def exitStealth():
     @Name "[sombra/stealth.opy]: exitStealth()"
 
-    damage(eventPlayer, null, 0.01)
-    heal(eventPlayer, null, 0.01)
+    #damage(eventPlayer, null, 0.01)
+    #heal(eventPlayer, null, 0.01)
     eventPlayer.setSecondaryFireEnabled(true) # Enable hacking after exiting invis
     eventPlayer.setInvisibility(Invis.NONE)
     eventPlayer.setMoveSpeed(100)

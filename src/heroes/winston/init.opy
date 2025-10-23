@@ -17,10 +17,10 @@ def initWinston():
     setBaseDamage(eventPlayer, OW1_WINSTON_PRIMAL_DAMAGE/OW2_WINSTON_PRIMAL_DAMAGE)
 
     # removeTankPassive()
-    removeSelfHealing()
+    #removeSelfHealing()
 
     eventPlayer.setSecondaryFireEnabled(false) # disable sniper monkey
-    eventPlayer.disallowButton(Button.ABILITY_2)
+    # eventPlayer.disallowButton(Button.ABILITY_2)
 
 
 rule "[winston/leap.opy]: OW1 Winston tesla cannon damage":

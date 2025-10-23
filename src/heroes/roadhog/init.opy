@@ -3,7 +3,7 @@
 #!include "hook.opy"
 #!include "breather.opy"
 #!include "wholehog.opy"
-#!include "scrap_gun.opy"
+# !include "scrap_gun.opy"
 
 
 def initRoadhog():
@@ -15,16 +15,16 @@ def initRoadhog():
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
 
-    # eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
+    #eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
 
     # Breather init
-    eventPlayer.disallowButton(Button.ABILITY_2)
-    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    eventPlayer.setSecondaryFireEnabled(false)
+    # eventPlayer.disallowButton(Button.ABILITY_2)
+    # eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+    # eventPlayer.setSecondaryFireEnabled(false)
     eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_TOTAL/OW2_ROADHOG_BREATHER_HEAL_TOTAL))
 
     # removeTankPassive()
-    removeSelfHealing()
+    #removeSelfHealing()
 
     eventPlayer.preloadHero(Hero.ZARYA)
     eventPlayer.preloadHero(Hero.ROADHOG)
@@ -38,3 +38,10 @@ def initRoadhog():
 
 #     resetHero()
 #     async(initRoadhog, AsyncBehavior.RESTART)
+
+rule "[roadhog/init.opy]: Deal OW1 hog damage":
+    @Event playerDealtDamage
+    @Hero roadhog
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
+
+    damage(victim, attacker, eventDamage*(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE)-eventDamage)

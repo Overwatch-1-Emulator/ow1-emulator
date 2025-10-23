@@ -9,12 +9,13 @@
 def initBrigitte():
     @Name "[brigitte/init.opy]: initBrigitte()"
     
-    setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
+    #setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
     setUltCost(OW1_BRIGITTE_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
 
-    removeSelfHealing()
+
+    #removeSelfHealing()
 
 
 rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
@@ -23,3 +24,22 @@ rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
     @Condition eventAbility in [Button.ABILITY_1]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+rule "brig test":
+    @Event eachPlayer
+    @Hero brigitte
+    @Condition eventPlayer.getHealthOfType(Health.NORMAL) < 199
+    #@Condition eventPlayer.isUsingUltimate() == false
+
+    eventPlayer.setDamageReceived(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH)
+
+    waitUntil(eventPlayer.getHealthOfType(Health.NORMAL) > 199)
+    eventPlayer.setDamageReceived(100)
+
+#rule "test":
+#    @Event eachPlayer
+#    @Hero brigitte
+#    @Condition eventPlayer.getHealthOfType(Health.NORMAL) > 199    
+#    @Condition eventPlayer.isUsingUltimate() == false
+
+#    eventPlayer.setDamageReceived(100)

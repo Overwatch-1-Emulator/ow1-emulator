@@ -4,6 +4,7 @@ playervar stat_helper_pvar
 #!defineMember _base_damage_scalar stat_helper_pvar[0]
 #!defineMember _base_healing_scalar stat_helper_pvar[1]
 #!defineMember _base_movement_scalar stat_helper_pvar[2]
+##!defineMember _damage_received_scalar stat_helper_pvar [3]
 
 macro setBaseDamage(player, scalar):
     player._base_damage_scalar = scalar
@@ -17,6 +18,9 @@ macro setBaseMovement(player, scalar):
     player._base_movement_scalar = scalar
     player.setMoveSpeed(percent(player._base_movement_scalar))
 
+#macro setDamageReceived(player, scalar):
+#    player._damage_received_scalar = scalar
+#    player.setDamageReceived(percent(player._damage_received_scalar))
 
 rule "[utilities/stat_helper.opy]: OW1 melee damage":
     @Event playerDealtDamage

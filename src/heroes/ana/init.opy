@@ -8,7 +8,7 @@ def initAna():
 
     setCustomHp(OW1_ANA_HEALTH, 0, 0)
     setUltCost(OW1_ANA_ULT_COST)
-    removeSelfHealing()
+    #removeSelfHealing()
 
     eventPlayer.setAmmo(0, OW1_ANA_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ANA_CLIP_SIZE)
