@@ -25,13 +25,13 @@ rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
 
-rule "brig test":
+rule "[brigitte/init.opy]: Compensate Brigitte 200hp":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.getHealthOfType(Health.NORMAL) < 199
     #@Condition eventPlayer.isUsingUltimate() == false
 
-    eventPlayer.setDamageReceived(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH)
+    eventPlayer.setDamageReceived(percent(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH))
 
     waitUntil(eventPlayer.getHealthOfType(Health.NORMAL) > 199)
     eventPlayer.setDamageReceived(100)

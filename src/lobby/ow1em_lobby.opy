@@ -217,7 +217,7 @@ settings {
             "respawnTime%": 80,
             "gamemodeStartTrigger": "immediately",
             "tankPassiveHealthBonus": "disabled",
-            "enableCompetitiveRules": false
+            "enableCompetitiveRules": true
         }
     },
     "heroes": {
