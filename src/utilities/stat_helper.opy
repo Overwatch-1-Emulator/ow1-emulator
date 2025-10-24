@@ -17,7 +17,7 @@ macro setBaseHealing(player, scalar):
 macro setBaseMovement(player, scalar):
     player._base_movement_scalar = scalar
     player.setMoveSpeed(percent(player._base_movement_scalar))
-
+    
 #macro setDamageReceived(player, scalar):
 #    player._damage_received_scalar = scalar
 #    player.setDamageReceived(percent(player._damage_received_scalar))

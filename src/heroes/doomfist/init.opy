@@ -40,10 +40,12 @@ rule "[doomfist/init.opy]: Clean up Doomfist":
     hideSlamDamageGui()
 
 
+
 rule "[doomfist/init.opy]: Track Doom Health for Best Defense":
     @Event eachPlayer
     @Hero doomfist
     eventPlayer.A = eventPlayer.getHealthOfType(Health.NORMAL)
+    eventPlayer.B = eventPlayer.getHealthOfType(Health.SHIELDS)
     wait(0.016)
     loop()
 
@@ -54,11 +56,59 @@ rule "[doomfist/init.opy]: Best Defense":
     @Condition eventAbility == Button.SECONDARY_FIRE
     #@Condition eventAbility == Button.ABILITY_1
 
+    #OverHealth
+    eventPlayer.D = eventPlayer.B
     eventPlayer.setHealth(eventPlayer.A)
     wait(0.016)
-    #eventPlayer.setHealth(eventPlayer.A)
-    eventPlayer.addHealthPool(Health.SHIELDS, 30, false, true)
-    #eventPlayer.B = eventPlayer.getLastCreatedHealthPool()
+    if eventPlayer.C > eventPlayer.D:
+        eventPlayer.addHealthPool(Health.SHIELDS, 30+eventPlayer.C, false, true)
+        eventPlayer.C = 0
+        eventPlayer.D = eventPlayer.B
+    else:
+        eventPlayer.addHealthPool(Health.SHIELDS, 30+eventPlayer.D, false, true)
+        eventPlayer.D = eventPlayer.B
+    wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER)
+    while eventPlayer.getHealthOfType(Health.SHIELDS):
+        damage(eventPlayer, null, 1)
+        wait(0.7)
+    if not eventPlayer.B < eventPlayer.D:
+        break
+        #wait(0.016)
+        #eventPlayer.setHealth(eventPlayer.A)
+        #eventPlayer.addHealthPool(Health.SHIELDS, 30+eventPlayer.D, false, true)
+
+        
+
+    
+
+#rule "[doomfist.init.opy]: Best Defense Decay":
+#    @Event eachPlayer
+#    @Hero doomfist
+    #decay
+#    while eventPlayer.B > 0:
+#        wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER)
+#        loop()
+#        damage(eventPlayer, null, 2)
+#    if eventPlayer.B >= eventPlayer.D:
+#        break
+        
+    #if eventPlayer.D < eventPlayer.B:
+    #    break
+
+
+    #if eventPlayer.D < OW1_DOOMFIST_BEST_DEFENSE_MAX:
+    #    damage(eventPlayer, null, )
+
+    
+    #if eventPlayer.B > OW1_DOOMFIST_BEST_DEFENSE_MAX:
+    #    eventPlayer.B = OW1_DOOMFIST_BEST_DEFENSE_MAX
+    
+
+    #eventPlayer.A = eventPlayer.getHealthOfType(Health.SHIELDS)
+    #if eventPlayer.getHealthOfType(Health.SHIELDS) < eventPlayer.B:
+    #    break
+    #wait(1)
+    #chaseOverTime(eventPlayer.B, 0, 3, DESTINATION_AND_DURATION)
     #if eventPlayer.getLastCreatedHealthPool():
 
     #eventPlayer.B = eventPlayer.getLastCreatedHealthPool()
