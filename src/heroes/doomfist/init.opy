@@ -71,8 +71,8 @@ rule "[doomfist/init.opy]: Best Defense":
     while eventPlayer.getHealthOfType(Health.SHIELDS):
         damage(eventPlayer, null, 1)
         wait(0.7)
-    if not eventPlayer.B < eventPlayer.D:
-        break
+        if not eventPlayer.getHealthOfType(Health.SHIELDS):
+            break
         #wait(0.016)
         #eventPlayer.setHealth(eventPlayer.A)
         #eventPlayer.addHealthPool(Health.SHIELDS, 30+eventPlayer.D, false, true)
