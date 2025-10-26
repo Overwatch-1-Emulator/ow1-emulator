@@ -34,9 +34,9 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     # eventPlayer.allowButton(Button.SECONDARY_FIRE)
     # eventPlayer.setSecondaryFireEnabled(true)
     eventPlayer.startForcingButton(Button.ABILITY_2)
-    #waitUntil(not OW1_ROADHOG_BREATHER_DURATION(), Math.INFINITY)
     wait(OW1_ROADHOG_BREATHER_DURATION)
-    wait(0.17)
+    waitUntil(not eventPlayer.isUsingAbility2(), Math.INFINITY)
+    #wait(0.17)
     eventPlayer.stopForcingButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_1)
@@ -60,15 +60,15 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
 #    waitUntil(not eventPlayer._is_using_breather, Math.INFINITY)
 #    popSelfHealing(Button.ABILITY_2)
 
-rule "[roadhog/breather.opy]: Stunned CC with Breahter":
-    @Event eachPlayer
-    @Hero roadhog
-    @Condition eventPlayer.isUsingAbility2()
-    @Condition isCCd(eventPlayer)
+#rule "[roadhog/breather.opy]: Stunned CC with Breahter":
+#    @Event eachPlayer
+#    @Hero roadhog
+#    @Condition eventPlayer.isUsingAbility2()
+#    @Condition isCCd(eventPlayer)
 
-    wait(0.016)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN_CC)
-    eventPlayer._is_using_breather = false
+#    wait(2)
+#    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN_CC)
+#    eventPlayer._is_using_breather = false
 
 
     

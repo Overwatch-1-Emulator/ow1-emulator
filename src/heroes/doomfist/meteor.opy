@@ -62,3 +62,13 @@ rule "[doomfist/meteor.opy]: Remove Meteor Strike healing":
     eventPlayer.setHealingDealt(0)
     waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.setHealingDealt(100)
+
+rule "[doomfist/meteor.opy]: Right Meteor Strike Overhealth":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventPlayer.isUsingUltimate()
+
+    waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
+    eventPlayer.addHealthPool(Health.NORMAL, 31 * victim, false, false)
+    wait(10)
+    removeHealthPool(getLastCreatedHealthPool())

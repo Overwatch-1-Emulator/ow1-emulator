@@ -6,7 +6,7 @@
 def initTorbjorn():
     @Name "[torbjorn/init.opy]: initTorbjorn()"
 
-    setCustomHp(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
+    setCustomHp(200, 50, 0)
     setUltCost(OW1_TORBJORN_ULT_COST)
     #removeSelfHealing()
 

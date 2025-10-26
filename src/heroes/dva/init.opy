@@ -10,6 +10,7 @@
 def initDva():
     @Name "[dva/init.opy]: initDva()"
     
+    #setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
     setUltCost(OW1_DVA_ULT_COST)
     # removeTankPassive()
     #removeSelfHealing()

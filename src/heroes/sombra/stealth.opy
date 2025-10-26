@@ -2,6 +2,7 @@
 
 playervar is_using_stealth
 playervar stealth_hud_id
+playervar hack_damage_modifier
 
 subroutine enterStealth
 subroutine exitStealth
@@ -24,7 +25,15 @@ subroutine hideStealthHud
 #        # damage must be applied in a way that never synchronizes with passive stealth activation
 #    while ruleCondition:
 
+rule "[sombra.opy]: Remove hack bonus damage":
+    @Event eachPlayer
+    @Condition eventPlayer.hasStatusEffect(Status.HACKED)
 
+    startDamageModification(eventPlayer, eventPlayer.enemy_sombra_player, percent(1/OW2_SOMBRA_HACK_DAMAGE_MULTIPLIER), DamageReeval.NONE)
+    eventPlayer.hack_damage_modifier = getLastDamageModification()
+    waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, Math.INFINITY)
+    stopDamageModification(eventPlayer.hack_damage_modifier)
+    
 rule "[sombra/stealth.opy]: Bind Ability 1 to stealth":
     @Event eachPlayer
     @Hero sombra

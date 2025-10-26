@@ -67,16 +67,16 @@ settings {
                 "volskaya"
             ]
         },
-        "control": {
-            "enabledMaps": [
+        #"control": {
+            #"enabledMaps": [
                 #{
                 #    "busan": [
                 #        "morning"
                 #    ]
                 #},
-                {
-                    "antarcticPeninsula": []
-                },
+                #{
+                #    "antarcticPeninsula": []
+                #},
                 #{
                 #    "ilios": [
                 #        "morning"
@@ -100,10 +100,10 @@ settings {
                 # {
                 #     "samoa": []
                 # }
-            ]
-        },
-        "escort": {
-            "enabledMaps": [
+            #]
+        #},
+        #"escort": {
+        #    "enabledMaps": [
                 # {
                 #     "circuitRoyal": [
                 #         "night"
@@ -132,18 +132,18 @@ settings {
                 #        "morning"
                 #    ]
                 #},
-                {
-                    "shambaliMonastery": []
-                },
+            #    {
+            #        "shambaliMonastery": []
+            #    },
                 #{
                 #    "watchpointGibraltar": [
                 #        "evening"
                 #    ]
                 #}
-            ]
-        },
-        "hybrid": {
-            "enabledMaps": [
+            #]
+        #},
+        #"hybrid": {
+            #"enabledMaps": [
                 #{
                 #    "blizzWorld": [
                 #        "morning"
@@ -169,16 +169,16 @@ settings {
                 #         "morning"
                 #     ]
                 # },
-                {
-                    "numbani": []
-                },
+            #    {
+            #        "numbani": []
+            #    },
                 # {
                 #     "paraiso": [
                 #         "morning"
                 #     ]
                 # },
-            ]
-        },
+            #]
+        #},
         # "practiceRange": {
         #     "enabledMaps": []
         # },
@@ -194,8 +194,8 @@ settings {
                 },
             ]
         },
-        "push": {
-            "enabledMaps": [
+        #"push": {
+        #    "enabledMaps": [
                 # {
                 #     "colosseo": [
                 #         "evening"
@@ -209,8 +209,8 @@ settings {
                 #         "morning"
                 #     ]
                 # },
-            ]
-        },
+        #    ]
+        #},
         "general": {
             "heroLimit": "1PerTeam",
             "roleLimit": "off",
