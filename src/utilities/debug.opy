@@ -162,8 +162,8 @@ rule "[utilities/debug.opy]: do something on interact":
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
-    setPerkCost(5000)
-    unlockAllPerks()
+    #setPerkCost(5000)
+    #unlockAllPerks()
     eventPlayer.setUltCharge(100)
 
 

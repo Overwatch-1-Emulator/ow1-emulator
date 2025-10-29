@@ -15,23 +15,6 @@ rule "[orisa/barrier.opy]: OW1 Orisa barrier health":
     wait(OW2_ORISA_PROJECTILE_BARRIER_DURATION, Wait.RESTART_WHEN_TRUE)
     eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))
 
-
-
-
-rule "[orisa/barrier]: OW1 Orisa health blah blah":
-    @Event eachPlayer
-    @Hero orisa
-    #@Condition eventPlayer.getMaxHealthOfType(Health.ARMOR) == 300
-    #@Condition eventPlayer.getMaxHealthOfType(Health.NORMAL) == 250
-    @Condition eventPlayer.getHealthOfType(Health.NORMAL) > 200
-    #@Condition eventPlayer.getHealthOfType(Health.ARMOR) > 250
-
-    eventPlayer.setHealingReceived(0)
-    eventPlayer.addHealthPool(Health.NORMAL, 200, false, false)
-    eventPlayer.addHealthPool(Health.ARMOR, 250, false, false)
-    waitUntil(eventPlayer.getHealthOfType(Health.NORMAL) < 200)
-    eventPlayer.setHealingReceived(100)
-    heal(eventPlayer, null, 50)
-
+    
 
   

@@ -31,7 +31,7 @@
 # Remove support passive
 #!include "passives/support/self_heal.opy"
 # Perk utility
-#!include "passives/perk.opy"
+# !include "passives/perk.opy"
 
 # Hero specific logic
 #!include "heroes/ana/init.opy"

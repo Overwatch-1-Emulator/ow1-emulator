@@ -33,7 +33,7 @@ def initOrisa():
     # removeTankPassive()
     #removeSelfHealing()
 
-    setPerkCost(OW2_ORISA_PERK_LVL3_COST)
+    # setPerkCost(OW2_ORISA_PERK_LVL3_COST)
 
 
 rule "[orisa/init.opy]: Clean up Orisa":

@@ -9,6 +9,7 @@ created by discord users: Bebel#5658 and Xponit#1474
 # Semi-public scoped variables
 playervar is_using_uppercut
 playervar is_ultimate_locked
+playervar decay_timer
 
 #!include "uppercut.opy"
 #!include "slam.opy"
@@ -41,25 +42,49 @@ rule "[doomfist/init.opy]: Clean up Doomfist":
 
 
 
-#rule "[doomfist/init.opy]: Track Doom Health for Best Defense":
-#    @Event eachPlayer
-#    @Hero doomfist
-#    eventPlayer.A = eventPlayer.getHealthOfType(Health.NORMAL)
-#    eventPlayer.B = eventPlayer.getHealthOfType(Health.SHIELDS)
-#    wait(0.016)
-#    loop()
+rule "[doomfist/init.opy]: Track Doom Health for Best Defense":
+    @Event eachPlayer
+    @Hero doomfist
+    eventPlayer.A = eventPlayer.getHealthOfType(Health.NORMAL)
+    #eventPlayer.D = eventPlayer.getHealthOfType(Health.SHIELDS)
+    wait(0.016)
+    loop()
 
-
-rule "[doomfist/init.opy]: Best Defense":
+rule "[doomfist/init.opy]: Add Best defense health":
     @Event playerDealtDamage
-    @Hero doomfist 
-    @Condition not eventPlayer.isUsingUltimate()
-    @Condition eventAbility == Button.SECONDARY_FIRE or eventAbility == Button.ABILITY_2
+    @Hero doomfist
+    #@Condition victim != attacker
+    @Condition not eventAbility == Button.PRIMARY_FIRE
+    @Condition any([eventAbility == i for i in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1]]) == true
 
-    eventPlayer.A = victim
-    eventPlayer.addHealthPool(Health.NORMAL, 9.4 * eventPlayer.A, false, false)
-    wait(getLastCreatedHealthPool())
-    removeHealthPool(getLastCreatedHealthPool())
+
+
+    attacker.decay_timer = 0.6
+    eventPlayer.G = eventPlayer.getHealthOfType(Health.SHIELDS)
+    #if eventPlayer.getHealth() >= eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS) + 150:
+    if eventPlayer.getHealthOfType(Health.SHIELDS) > eventPlayer.getMaxHealthOfType(Health.SHIELDS) + 150:
+        eventPlayer.setHealth(eventPlayer.A)
+        attacker.addHealthPool(Health.SHIELDS, 150, false, false)
+        return
+    if eventAbility == Button.ULTIMATE :
+        eventPlayer.setHealth(eventPlayer.A)
+        attacker.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + 150 - victim.getHealth(), eventPlayer.G+75), false, false)
+    else:
+        eventPlayer.setHealth(eventPlayer.A)
+        attacker.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + 150 - victim.getHealth(), eventPlayer.G+30), false, false)
+        wait(0.5)
+
+rule "[doomfist/init.opy]: Decay Health":
+    @Event eachPlayer
+    @Condition eventPlayer.getHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS)
+    
+    if eventPlayer.decay_timer == 0:
+        eventPlayer.setHealth(max(eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS), eventPlayer.getHealth() - 0.3))
+    else:
+        eventPlayer.decay_timer -= 0.1
+    wait(0.1)
+    if ruleCondition:
+        loop()
 
 
     #OverHealth
