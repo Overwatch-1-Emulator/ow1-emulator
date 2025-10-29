@@ -10,24 +10,17 @@ rule "[brigitte/rally.opy]: OW1 Rally":
 
     eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF)) # 30% movement speed buff during ralley
     damage(eventPlayer, null, OW2_BRIGITTE_RALLY_INSTANT_ARMOR*eventPlayer._hp_scalar + OW2_ARMOR_DAMAGE_REDUCTION) # Remove Rally instant armor
-    #eventPlayer.setMaxHealth(71.3)
-    #heal(eventPlayer, null, 100)
-    #eventPlayer.addHealthPool(Health.NORMAL, 15, false, false)
-    #wait(0.5)
-    #eventPlayer.addHealthPool(Health.NORMAL, 15, false, false)
-    #wait(0.5)
-    #eventPlayer.addHealthPool(Health.ARMOR, 15, false, false)
-    #wait(0.5)
-    #eventPlayer.addHealthPool(Health.ARMOR, 15, false, false)
-    #wait(0.5)
-    #eventPlayer.addHealthPool(Health.ARMOR, 15, false, false)
-    #wait(0.5)
-    #eventPlayer.addHealthPool(Health.NORMAL, 25, false, false)
+
+
     eventPlayer.startHoT(null, Math.INFINITY, OW1_BRIGITTE_RALLY_HEAL_RATE)
     eventPlayer.ralley_hot_id = getLastHoT()
+    eventPlayer.A = eventPlayer.getHealthOfType(Health.ARMOR)
 
     waitUntil(not eventPlayer.isUsingUltimate(), 10)
 
+    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.A, false, false)
+    wait(30)
+    removeHealthPool(getLastCreatedHealthPool())
     eventPlayer.setMoveSpeed(100)
     stopHoT(eventPlayer.ralley_hot_id)
     #eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))

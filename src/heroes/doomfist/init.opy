@@ -76,6 +76,7 @@ rule "[doomfist/init.opy]: Add Best defense health":
 
 rule "[doomfist/init.opy]: Decay Health":
     @Event eachPlayer
+    @Hero doomfist
     @Condition eventPlayer.getHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS)
     
     if eventPlayer.decay_timer == 0:
