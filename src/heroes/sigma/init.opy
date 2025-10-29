@@ -26,10 +26,3 @@ rule "[sigma/init.opy]: Compensate Sigma global damage reduction":
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
 
-
-#rule "[sigma/init.opy] Compensate for 450hp":
-#    @Event eachPlayer
-#    @Hero sigma
-#    @Condition eventPlayer.isUsingAbility1() == false
-
-#    eventPlayer.setDamageReceived((OW1_SIGMA_HEALTH + OW1_SIGMA_SHIELDS) / (OW2_SIGMA_HEALTH + OW2_SIGMA_SHIELDS))

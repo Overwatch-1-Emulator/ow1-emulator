@@ -3,7 +3,7 @@
 #!include "bash.opy"
 # !include "whipshot.opy"
 #!include "rally.opy"
-#!include "inspire.opy"
+# !include "inspire.opy"
 
 
 def initBrigitte():
