@@ -8,8 +8,7 @@ rule "[brigitte/rally.opy]: OW1 Rally":
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF)) # 30% movement speed buff during ralley
-    damage(eventPlayer, null, 100)
-    #damage(eventPlayer, null, OW2_BRIGITTE_RALLY_INSTANT_ARMOR*eventPlayer._hp_scalar + OW2_ARMOR_DAMAGE_REDUCTION) # Remove Rally instant armor
+    damage(eventPlayer, null, OW2_BRIGITTE_RALLY_INSTANT_ARMOR*eventPlayer._hp_scalar + OW2_ARMOR_DAMAGE_REDUCTION) # Remove Rally instant armor
 
 
     eventPlayer.ralley_hot_id = getLastHoT()
