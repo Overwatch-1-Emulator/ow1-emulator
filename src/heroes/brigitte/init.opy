@@ -4,6 +4,7 @@
 # !include "whipshot.opy"
 #!include "rally.opy"
 # !include "inspire.opy"
+# !include "pack.opy"
 
 
 def initBrigitte():
@@ -13,6 +14,7 @@ def initBrigitte():
     setUltCost(OW1_BRIGITTE_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
+    #setBaseHealing(eventPlayer, 0)
 
 
     #removeSelfHealing()
@@ -35,4 +37,5 @@ rule "[brigitte/init.opy]: Compensate Brigitte 200hp":
 
     waitUntil(eventPlayer.getHealthOfType(Health.NORMAL) > 200)
     eventPlayer.setDamageReceived(100)
+
 

@@ -55,23 +55,24 @@ rule "[doomfist/init.opy]: Add Best defense health":
     @Hero doomfist
     #@Condition victim != attacker
     @Condition any([eventAbility == i for i in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1, eventPlayer.is_hit_by_uppercut]]) == true
+     
 
 
 
-    attacker.decay_timer = 0.6
+    eventPlayer.decay_timer = 0.6
     eventPlayer.G = eventPlayer.getHealthOfType(Health.SHIELDS)
     #if eventPlayer.getHealth() >= eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS) + 150:
     if eventAbility == Button.ULTIMATE :
         eventPlayer.setHealth(eventPlayer.A)
-        attacker.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + 150 - victim.getHealth(), eventPlayer.G+75), false, false)
+        eventPlayer.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + 150 - victim.getHealth(), eventPlayer.G+75), false, false)
     else:
         eventPlayer.setHealth(eventPlayer.A)
-        attacker.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + 150 - victim.getHealth(), eventPlayer.G+30), false, false)
+        eventPlayer.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + 150 - victim.getHealth(), eventPlayer.G+30), false, false)
         wait(0.16)
     if eventPlayer.getHealthOfType(Health.SHIELDS) > eventPlayer.getMaxHealthOfType(Health.SHIELDS) + 150:
         removeHealthPool(getLastCreatedHealthPool())
         eventPlayer.setHealth(eventPlayer.A)
-        attacker.addHealthPool(Health.SHIELDS, 150, false, false)
+        eventPlayer.addHealthPool(Health.SHIELDS, 150, false, false)
         return
 
 rule "[doomfist/init.opy]: Decay Health":
