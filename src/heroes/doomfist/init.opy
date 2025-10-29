@@ -68,7 +68,7 @@ rule "[doomfist/init.opy]: Add Best defense health":
     else:
         eventPlayer.setHealth(eventPlayer.A)
         attacker.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + 150 - victim.getHealth(), eventPlayer.G+30), false, false)
-        #wait(0.5)
+        wait(0.16)
     if eventPlayer.getHealthOfType(Health.SHIELDS) > eventPlayer.getMaxHealthOfType(Health.SHIELDS) + 150:
         removeHealthPool(getLastCreatedHealthPool())
         eventPlayer.setHealth(eventPlayer.A)
