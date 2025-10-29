@@ -54,8 +54,7 @@ rule "[doomfist/init.opy]: Add Best defense health":
     @Event playerDealtDamage
     @Hero doomfist
     #@Condition victim != attacker
-    @Condition not eventAbility == Button.PRIMARY_FIRE
-    @Condition any([eventAbility == i for i in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1]]) == true
+    @Condition any([eventAbility == i for i in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1, eventPlayer.is_hit_by_uppercut]]) == true
 
 
 
