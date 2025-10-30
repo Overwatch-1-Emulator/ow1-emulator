@@ -23,7 +23,6 @@ rule "brigitt/init.opy: balh":
     @Hero brigitte
     
     if eventPlayer.B == 1:
-        waitUntil(getLastHealingOverTimeId() == 0)
         eventPlayer.B = 1
     else:
         eventPlayer.B = 1

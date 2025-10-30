@@ -432,7 +432,7 @@ settings {
                 "mei",
                 "mercy",
                 "moira",
-                #"orisa",
+                "orisa",
                 "pharah",
                 # "ramattra",
                 "reaper",

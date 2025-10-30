@@ -47,6 +47,7 @@ rule "[doomfist/init.opy]: Track Doom Health for Best Defense":
     @Hero doomfist
     eventPlayer.A = eventPlayer.getHealthOfType(Health.NORMAL)
     #eventPlayer.D = eventPlayer.getHealthOfType(Health.SHIELDS)
+    eventPlayer.F = eventPlayer._uppercut_victims
     wait(0.016)
     loop()
 
@@ -54,7 +55,7 @@ rule "[doomfist/init.opy]: Add Best defense health":
     @Event playerDealtDamage
     @Hero doomfist
     #@Condition victim != attacker
-    @Condition any([eventAbility == i for i in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1, eventPlayer.is_hit_by_uppercut]]) == true
+    @Condition any([eventAbility == i for i in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1, eventPlayer.F]]) == true
      
 
 

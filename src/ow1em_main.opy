@@ -31,7 +31,7 @@
 # Remove support passive
 #!include "passives/support/self_heal.opy"
 # Perk utility
-#!include "passives/perk.opy"
+# !include "passives/perk.opy"
 
 # Hero specific logic
 #!include "heroes/ana/init.opy"
@@ -57,7 +57,7 @@
 #!include "heroes/mei/init.opy"
 #!include "heroes/mercy/init.opy"
 #!include "heroes/moira/init.opy"
-# !include "heroes/orisa/init.opy"
+#!include "heroes/orisa/init.opy"
 #!include "heroes/pharah/init.opy"
 # !include "heroes/ramattra/init.opy"
 #!include "heroes/reaper/init.opy"

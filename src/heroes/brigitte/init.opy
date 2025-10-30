@@ -14,7 +14,7 @@ def initBrigitte():
     setUltCost(OW1_BRIGITTE_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
-    #setBaseHealing(eventPlayer, 0)
+    #setBaseHealing(eventPlayer, 0.1)
 
 
     #removeSelfHealing()

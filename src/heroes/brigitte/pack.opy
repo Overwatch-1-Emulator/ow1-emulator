@@ -4,8 +4,16 @@
 rule "[brigitte/repair.opy]: accurate repair packs":
     @Event playerDealtHealing
     @Hero brigitte
-    @Condition eventAbility == Button.ABILITY_2
+    @Condition eventPlayer.isUsingAbility2()
+
 
     eventPlayer.A = healee
     stopHealingOverTime(getLastHealingOverTimeId())
     eventPlayer.A.startHealingOverTime(eventPlayer, 2, 55)
+
+
+
+
+    #eventPlayer.A = healee
+    #stopHealingOverTime(getLastHealingOverTimeId())
+    #eventPlayer.A.startHealingOverTime(eventPlayer, 2, 55)
