@@ -83,4 +83,4 @@
 # Include debug at the end so any variable can be viewed
 ##!include "utilities/debug.opy"
 
-# !include "utilities/watermark.opy"
+#!include "utilities/watermark.opy"

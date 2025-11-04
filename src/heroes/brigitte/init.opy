@@ -34,8 +34,9 @@ rule "[brigitte/init.opy]: Compensate Brigitte 200hp":
     #@Condition eventPlayer.isUsingUltimate() == false
 
     eventPlayer.setDamageReceived(percent(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH))
+    eventPlayer.setHealingReceived(percent(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH))
 
     waitUntil(eventPlayer.getHealthOfType(Health.NORMAL) > 200)
     eventPlayer.setDamageReceived(100)
-
+    eventPlayer.setHealingReceived(100)
 

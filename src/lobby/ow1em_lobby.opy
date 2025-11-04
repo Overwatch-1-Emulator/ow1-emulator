@@ -1,13 +1,12 @@
 #!mainFile "../ow1em_main.opy"
 
-#!define GAMEMODE_VERSION "Internal Build"
+# !define GAMEMODE_VERSION "Internal Build"
 #!define GAMEMODE_NAME "Overwatch 1 Emulator"
-#!define GAMEMODE_CODE "KHTG0"
-#!define STAGING_CODE "ESMXJ"
+#!define GAMEMODE_CODE "PBMYC"
 #!define DISCORD_SHORT_LINK "dsc.gg/ow1"
 #!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"
-#!define SOURCE_CODE_LINK "github.com/Overwatch-1-Emulator/ow1-emulator"
-macro GAMDMODE_DESCRIPTION = (GAMEMODE_NAME" "GAMEMODE_VERSION"\n"\
+# !define SOURCE_CODE_LINK "github.com/Overwatch-1-Emulator/ow1-emulator"
+macro GAMDMODE_DESCRIPTION = (GAMEMODE_NAME"\n"\
                                "\n"\
                                "ecksdee#11729's attempt to accurately recreate ""\n"\
                                "the last version of Overwatch 1 using workshop.""\n"\
@@ -16,7 +15,6 @@ macro GAMDMODE_DESCRIPTION = (GAMEMODE_NAME" "GAMEMODE_VERSION"\n"\
                                "for Overwatch 2 in 6v6 format.""\n"\
                                "\n"\
                                "Stable build: "GAMEMODE_CODE"\n"\
-                               "Latest build: "STAGING_CODE"\n"\
                                "\n"\
                                "Codebase Contributors:""\n"\
                                "ecksdee#11729""\n"\
@@ -32,9 +30,9 @@ macro GAMDMODE_DESCRIPTION = (GAMEMODE_NAME" "GAMEMODE_VERSION"\n"\
                                "Discord:""\n"\
                                DISCORD_SHORT_LINK"\n"\
                                DISCORD_LONG_LINK"\n"\
-                               "\n"\
-                               "Source code:""\n"\
-                               SOURCE_CODE_LINK)
+                               "\n")
+                               #"Source code:""\n"\
+                               #SOURCE_CODE_LINK)
 
 
 rule "Copyright (c) 2024 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulator/ow1-emulator for license to use this code.":
@@ -43,7 +41,7 @@ rule "Copyright (c) 2024 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 
 settings {
     "main": {
-        "modeName": GAMEMODE_NAME" "GAMEMODE_VERSION,
+        "modeName": GAMEMODE_NAME,
         "description": GAMDMODE_DESCRIPTION,
     },
     "lobby": {

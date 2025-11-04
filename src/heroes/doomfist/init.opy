@@ -47,7 +47,7 @@ rule "[doomfist/init.opy]: Track Doom Health for Best Defense":
     @Hero doomfist
     eventPlayer.A = eventPlayer.getHealthOfType(Health.NORMAL)
     #eventPlayer.D = eventPlayer.getHealthOfType(Health.SHIELDS)
-    eventPlayer.F = eventPlayer._uppercut_victims
+    #eventPlayer.F = eventPlayer._uppercut_victims
     wait(0.016)
     loop()
 
@@ -55,7 +55,7 @@ rule "[doomfist/init.opy]: Add Best defense health":
     @Event playerDealtDamage
     @Hero doomfist
     #@Condition victim != attacker
-    @Condition any([eventAbility == i for i in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1, eventPlayer.F]]) == true
+    @Condition any([eventAbility == i for i in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1]]) == true
      
 
 
@@ -69,7 +69,7 @@ rule "[doomfist/init.opy]: Add Best defense health":
     else:
         eventPlayer.setHealth(eventPlayer.A)
         eventPlayer.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + 150 - victim.getHealth(), eventPlayer.G+30), false, false)
-        wait(0.16)
+        wait(0.4)
     if eventPlayer.getHealthOfType(Health.SHIELDS) > eventPlayer.getMaxHealthOfType(Health.SHIELDS) + 150:
         removeHealthPool(getLastCreatedHealthPool())
         eventPlayer.setHealth(eventPlayer.A)
@@ -79,35 +79,18 @@ rule "[doomfist/init.opy]: Add Best defense health":
 rule "[doomfist/init.opy]: Decay Health":
     @Event eachPlayer
     @Hero doomfist
-    @Condition eventPlayer.getHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS)
-    
+    @Condition eventPlayer.getHealthOfType(Health.SHIELDS) == true
+    #@Condition eventPlayer.getHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS)
+    #try getmaxhealth to shields then that
     if eventPlayer.decay_timer == 0:
-        eventPlayer.setHealth(max(eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS), eventPlayer.getHealth() - 0.3))
+        damage(eventPlayer, null, 0.3)
+        #eventPlayer.setHealth(max(getLastCreatedHealthPool(), eventPlayer.getHealth() - 0.3))
+        #eventPlayer.setHealth(max(eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS), eventPlayer.getHealth() - 0.3))
     else:
         eventPlayer.decay_timer -= 0.1
     wait(0.1)
     if ruleCondition:
         loop()
-
-
-    #OverHealth
-    #eventPlayer.D = eventPlayer.B
-    #eventPlayer.setHealth(eventPlayer.A + 30)
-    #wait(0.016)
-    #eventPlayer.addHealthPool(Health.SHIELDS, 30+eventPlayer.D, false, true)
-    #eventPlayer.D = eventPlayer.B
-    #wait(0.4)
-    #wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER)
-    #while eventPlayer.getHealthOfType(Health.SHIELDS):
-    #    damage(eventPlayer, null, 1)
-    #    wait(0.7)
-    #    if not eventPlayer.getHealthOfType(Health.SHIELDS):
-        
-
-    #else:
-    #    eventPlayer.addHealthPool(Health.SHIELDS, 30+eventPlayer.D, false, true)
-    #    eventPlayer.D = eventPlayer.B
-    #    eventPlayer.E = getTotalTimeElapsed()
 
 
 
