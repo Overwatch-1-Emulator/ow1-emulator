@@ -5,15 +5,16 @@ rule "[echo/duplicate.opy]: Initialize duplicate hero":
     @Event eachPlayer
     @Hero echo
     @Condition eventPlayer.isDuplicatingAHero()
-    
+
+    wait(0.016)
     eventPlayer._hero_setup = eventPlayer.getHeroOfDuplication()
     resetHero()
-    wait(0.016)
+    #wait(0.016)
     initHero()
     eventPlayer.setStatusEffect(null, Status.INVINCIBLE, 0.3)
     heal(eventPlayer, null, 600)
 
-    resetSelfHealing()
+    #resetSelfHealing()
     #removePassiveHealing()
     enableAllAbilities()
 
