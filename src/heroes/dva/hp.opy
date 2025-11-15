@@ -9,10 +9,10 @@ rule "[dva/hp.opy]: Correct DVa mech health":
 
 
     wait(0.016) #Wait.ABORT_WHEN_FALSE
-    #eventPlayer.remech_damage_taken = eventPlayer.getMaxHealth() - eventPlayer.getHealth()
+    eventPlayer.remech_damage_taken = eventPlayer.getMaxHealth() - eventPlayer.getHealth()
     clearCustomHp()
-    setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
-    #eventPlayer.setHealth(eventPlayer.getMaxHealth() - eventPlayer.remech_damage_taken)
+    #setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
+    eventPlayer.setHealth(eventPlayer.getMaxHealth() - eventPlayer.remech_damage_taken)
 
 
 rule "[dva/hp.opy]: Correct DVa pilot health":

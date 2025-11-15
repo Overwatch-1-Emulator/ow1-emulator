@@ -19,3 +19,5 @@ rule "[torbjorn/init.opy]: Correct Rivet Gun, Hammer, and ultimate damage":
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ULTIMATE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+

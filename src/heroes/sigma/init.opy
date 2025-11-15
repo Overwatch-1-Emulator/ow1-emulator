@@ -10,6 +10,9 @@ def initSigma():
 
     setBaseDamage(eventPlayer, OW1_SIGMA_ACCRETION_TOTAL_DAMAGE/OW2_SIGMA_ACCRETION_TOTAL_DAMAGE)
 
+    #eventPlayer.setDamageReceived(1.7575)
+    #eventPlayer.setHealingReceived(1.7575)
+
 rule "[sigma/init.opy]: OW1 accretion damage":
     @Event playerDealtDamage
     @Hero sigma
@@ -25,4 +28,3 @@ rule "[sigma/init.opy]: Compensate Sigma global damage reduction":
     @Condition eventAbility in [Button.PRIMARY_FIRE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
-

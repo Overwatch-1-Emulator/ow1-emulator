@@ -15,7 +15,7 @@ def initBrigitte():
 
     setBaseDamage(eventPlayer, OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
     eventPlayer.setDamageReceived(percent(50+OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_ARMOR+OW1_BRIGITTE_HEALTH))
-    eventPlayer.setHealingReceived(percent(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH))
+    eventPlayer.setHealingReceived(percent(50+OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH))
     #setBaseHealing(eventPlayer, 0.1)
 
 

@@ -13,6 +13,7 @@ def initHammond():
     #removeSelfHealing()
 
     setBaseDamage(eventPlayer, OW1_WRECKING_BALL_MINEFIELD_DAMAGE/OW2_WRECKING_BALL_MINEFIELD_DAMAGE)
+   
 
 
 rule "[wreckingball/init.opy]: Correct primary fire, fireball, piledriver damage":

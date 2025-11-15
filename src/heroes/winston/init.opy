@@ -15,6 +15,8 @@ def initWinston():
     setUltCost(OW1_WINSTON_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_WINSTON_PRIMAL_DAMAGE/OW2_WINSTON_PRIMAL_DAMAGE)
+    eventPlayer.setAmmo(0, OW1_WINSTON_AMMO)
+    eventPlayer.setMaxAmmo(0, OW1_WINSTON_AMMO)
 
     # removeTankPassive()
     #removeSelfHealing()
