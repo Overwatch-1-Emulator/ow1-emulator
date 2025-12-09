@@ -64,7 +64,7 @@ def applyCustomHp():
         (eventPlayer._hp_shields/eventPlayer._hp_shields_ow2) if eventPlayer._hp_shields_ow2 > 0 else Math.INFINITY)
 
     eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))
-
+    wait(0.016)
     waitUntil(eventPlayer.getMaxHealth() != eventPlayer._hp_health_ow2 + eventPlayer._hp_armor_ow2 + eventPlayer._hp_shields_ow2, 1)
     if (eventPlayer._hp_health - eventPlayer.getMaxHealthOfType(Health.NORMAL)) >= 1:
         eventPlayer.addHealthPool(Health.NORMAL, (eventPlayer._hp_health - eventPlayer.getMaxHealthOfType(Health.NORMAL)), true, false)
