@@ -215,6 +215,7 @@ globalvar OW1_DOOMFIST_UPPERCUT_RADIUS = createWorkshopSettingFloat('Doomfist', 
 #!define OW1_JUNKRAT_STEEL_TRAP_DURATION 3
 #!define OW1_JUNKRAT_TIRE_HEALTH 100
 #!define OW1_JUNKRAT_ULT_COST 1925
+#!define OW1_JUNKRAT_PROJECTILE 25
 
 # Juno
 #!define OW1_JUNO_HEALTH 75
