@@ -223,6 +223,7 @@ settings {
             "ana": {
                 "ability1Cooldown%": percent(OW1_ANA_SLEEP_DART_COOLDOWN_TIME/OW2_ANA_SLEEP_DART_COOLDOWN_TIME),
                 "ability2Cooldown%": percent(OW1_ANA_BIOTIC_GRENADE_COOLDOWN/OW2_ANA_BIOTIC_GRENADE_COOLDOWN),
+                "ammoClipSize%": percent(OW1_ANA_CLIP_SIZE/OW2_ANA_CLIP_SIZE),
                 "ultGen%": percent(OW2_ANA_ULT_COST/OW1_ANA_ULT_COST),
                 "passiveHealthRegen": false
             },
@@ -238,6 +239,7 @@ settings {
             },
             "bastion": {
                 "ability1Cooldown%": percent(OW1_BASTION_RECONFIGURE_COOLDOWN/OW2_BASTION_RECONFIGURE_COOLDOWN),
+                "ammoClipSize%": percent(OW1_BASTION_RECON_CLIP_SIZE/OW2_BASTION_RECON_CLIP_SIZE),
                 "ultGen%": percent(OW2_BASTION_ULT_COST/OW1_BASTION_ULT_COST),
                 "passiveHealthRegen": false
             },

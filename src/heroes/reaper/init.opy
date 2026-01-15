@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
 #!include "blossom.opy"
-
+#!include "passive.opy"
 
 def initReaper():
     @Name "[reaper/init.opy]: initReaper()"

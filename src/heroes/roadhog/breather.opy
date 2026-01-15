@@ -32,8 +32,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ULTIMATE)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
-    # eventPlayer.allowButton(Button.SECONDARY_FIRE)
-    # eventPlayer.setSecondaryFireEnabled(true)
+    eventPlayer.disallowButton(Button.PRIMARY_FIRE)
     eventPlayer.startForcingButton(Button.ABILITY_2)
     waitUntil(not eventPlayer.isUsingAbility2(), Math.INFINITY)
     #wait(0.17)
@@ -42,6 +41,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.allowButton(Button.ULTIMATE)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
+    eventPlayer.allowButton(Button.PRIMARY_FIRE)
     # eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.setDamageReceived(100) # reset damage intake
     wait(OW1_ROADHOG_BREATHER_RECOVERY_TIME)

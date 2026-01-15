@@ -20,8 +20,7 @@ def initWidowmaker():
     setCustomHp(OW1_WIDOWMAKER_HEALTH, 0, 0)
     setUltCost(OW1_WIDOWMAKER_ULT_COST)
     #removeSelfHealing()
-
-
+    
 rule "[widowmaker.opy]: Revert sniper damage falloff":
     @Event playerDealtDamage
     @Hero widowmaker
