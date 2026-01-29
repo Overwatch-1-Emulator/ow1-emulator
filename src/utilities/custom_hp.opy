@@ -64,9 +64,6 @@ def applyCustomHp():
                 (eventPlayer._hp_armor/eventPlayer._hp_armor_ow2)   if eventPlayer._hp_armor_ow2 > 0 else Math.INFINITY), 
             (eventPlayer._hp_shields/eventPlayer._hp_shields_ow2) if eventPlayer._hp_shields_ow2 > 0 else Math.INFINITY)
 
-    # infinite hp scalar exception
-    if eventPlayer._hp_scalar == Math.INFINITY:
-        return
 
     eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))
     wait(TICK_DURATION)
@@ -77,7 +74,10 @@ def applyCustomHp():
         eventPlayer.addHealthPool(Health.ARMOR, (eventPlayer._hp_armor - eventPlayer.getMaxHealthOfType(Health.ARMOR)), true, false)
     if (eventPlayer._hp_shields - eventPlayer.getMaxHealthOfType(Health.SHIELDS)) >= 1:
         eventPlayer.addHealthPool(Health.SHIELDS, (eventPlayer._hp_shields - eventPlayer.getMaxHealthOfType(Health.SHIELDS)), true, false)
-
+    
+        # infinite hp scalar exception
+    if eventPlayer.getMaxHealth() > 15000:
+        return
 
 # rule "[custom_hp.opy]: Remove Custom Health Conditions":
 #     @Event eachPlayer
