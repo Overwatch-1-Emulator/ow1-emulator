@@ -41,6 +41,6 @@ rule "[orisa/init.opy]: Clean up Orisa":
     @Condition eventPlayer.getCurrentHero() == Hero.ORISA
 
     waitUntil(eventPlayer.getCurrentHero() != Hero.ORISA, Math.INFINITY)
-    # destroyBarrier()
+    destroyBarrier()
     endSupercharger()
     hideOrisaAmmoHud()
