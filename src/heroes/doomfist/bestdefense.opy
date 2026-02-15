@@ -41,7 +41,7 @@ rule "[doomfist/bestdefense.opy]: Decay Health":
     @Condition eventPlayer.getHealthOfType(Health.SHIELDS) == true
     #@Condition eventPlayer.getHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS)
     #try getmaxhealth to shields then that
-    if eventPlayer.decay_timer == 0:
+    if eventPlayer.decay_timer == 0 and eventPlayer.hasStatus(Status.ASLEEP) == false:
         damage(eventPlayer, null, 0.3)
         #eventPlayer.setHealth(max(getLastCreatedHealthPool(), eventPlayer.getHealth() - 0.3))
         #eventPlayer.setHealth(max(eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS), eventPlayer.getHealth() - 0.3))

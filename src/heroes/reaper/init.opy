@@ -2,6 +2,7 @@
 
 #!include "blossom.opy"
 #!include "passive.opy"
+#!include "shadowstep.opy"
 
 def initReaper():
     @Name "[reaper/init.opy]: initReaper()"

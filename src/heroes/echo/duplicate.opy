@@ -12,8 +12,8 @@ rule "[echo/duplicate.opy]: Initialize duplicate hero":
     resetHero()
     #wait(0.016)
     initHero()
-    #eventPlayer.setStatusEffect(null, Status.INVINCIBLE, 0.3)
-    #heal(eventPlayer, null, 600)
+    eventPlayer.setStatusEffect(null, Status.INVINCIBLE, 0.3)
+    heal(eventPlayer, null, 600)
 
     #resetSelfHealing()
     #removePassiveHealing()

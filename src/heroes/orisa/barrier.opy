@@ -357,3 +357,9 @@ rule "[orisa/barrier.opy]: Crack Barrier at quarter health":
     @Condition eventPlayer.barrier_hp <= OW1_ORISA_PROJECTILE_BARRIER_HEALTH/4
 
     updateBarrierVisual()
+
+rule "[orisa/barrier.opy]: Destroy Barrier if swap":
+    @Event eachPlayer
+    @Condition eventPlayer._hero_switched
+    
+    destroyBarrier()

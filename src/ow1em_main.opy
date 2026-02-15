@@ -23,7 +23,7 @@
 
 # OW1 logic
 # Remove damage passive
-#!include "passives/damage/damage_passive.opy"
+# !include "passives/damage/damage_passive.opy"
 # Remove tank passive
 # !include "passives/tank/headshot.opy"
 # !include "passives/tank/knockback.opy"
