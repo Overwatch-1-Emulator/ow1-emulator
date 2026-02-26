@@ -6,7 +6,9 @@ rule "[torbjorn/overload.opy]: Correct overload hp":
     @Hero torbjorn
     @Condition eventPlayer.isUsingAbility2()
 
-    eventPlayer.addHealthPool(Health.NORMAL, 33, false, true)
+    damage(eventPlayer, null, 67)
+    eventPlayer.addHealthPool(Health.ARMOR, 50, false, true)
+    heal(eventPlayer, null, 1)
     wait(6)
     removeHealthPool(getLastCreatedHealthPool())
 
