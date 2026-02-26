@@ -10,7 +10,7 @@ def initAshe():
     setUltCost(OW1_ASHE_ULT_COST)
     setBaseDamage(eventPlayer, OW1_ASHE_BOB_DAMAGE/OW2_ASHE_BOB_DAMAGE)
 
-    removeSelfHealing()
+    #removeSelfHealing()
 
     # eventPlayer.disallowButton(Button.ULTIMATE)
 

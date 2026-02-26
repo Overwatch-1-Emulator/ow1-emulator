@@ -6,7 +6,7 @@ def initLifeweaver():
     
     setCustomHp(OW1_LIFEWEAVER_HEALTH, 0, OW1_LIFEWEAVER_SHIELDS)
     setUltCost(OW1_LIFEWEAVER_ULT_COST)
-    removeSelfHealing()
+    #removeSelfHealing()
     
 
 

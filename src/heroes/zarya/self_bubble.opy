@@ -1,10 +1,10 @@
 #!mainFile "../../dev_main.opy"
 
-playervar self_bubble_cooldown
-playervar self_bubble_cd_text
+#playervar self_bubble_cooldown
+#playervar self_bubble_cd_text
 
-macro initSelfBubble():
-    eventPlayer.self_bubble_cooldown = 0
+#macro initSelfBubble():
+#    eventPlayer.self_bubble_cooldown = 0
 
 /*
 Below HUD code is sourced from https://workshop.codes/wiki/articles/rendering-an-inworld-text-at-a-specific-onscreen-position
@@ -21,22 +21,22 @@ such as meleeing or reloading, the HUD moves/shakes around with the camera.
 
 Below HUD is tuned for 16:9 aspect ratio monitors (typical PC Overwatch setup).
 */
-macro showSelfBubbleCD():
-    if eventPlayer.self_bubble_cd_text == null:
-        createInWorldText(eventPlayer,
-                        "{0}".format(ceil(eventPlayer.self_bubble_cooldown)),
-                        updateEveryTick(eventPlayer.getEyePosition() + (100 * (1.99 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.7 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()),
-                        verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),
-                        3,
-                        Clip.NONE,
-                        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
-                        Color.WHITE,
-                        SpecVisibility.DEFAULT)
-        eventPlayer.self_bubble_cd_text = getLastCreatedText()
+#macro showSelfBubbleCD():
+#    if eventPlayer.self_bubble_cd_text == null:
+#        createInWorldText(eventPlayer,
+#                        "{0}".format(ceil(eventPlayer.self_bubble_cooldown)),
+#                        updateEveryTick(eventPlayer.getEyePosition() + (100 * (1.99 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((-1.7 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()),
+#                        verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),
+#                        3,
+#                        Clip.NONE,
+#                        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+#                        Color.WHITE,
+#                        SpecVisibility.DEFAULT)
+#        eventPlayer.self_bubble_cd_text = getLastCreatedText()
 
-macro hideSelfBubbleCD():
-    destroyInWorldText(eventPlayer.self_bubble_cd_text)
-    eventPlayer.self_bubble_cd_text = null
+#macro hideSelfBubbleCD():
+#    destroyInWorldText(eventPlayer.self_bubble_cd_text)
+#    eventPlayer.self_bubble_cd_text = null
 
 
 # rule "[zarya/self_bubble.opy]: OW1 zarya self bubble cooldown":

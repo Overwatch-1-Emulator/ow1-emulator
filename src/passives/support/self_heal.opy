@@ -54,29 +54,29 @@ macro popSelfHealing(button):
     evalSelfHealingPercent()
 
 
-rule "[passives/support/self_heal.opy]: Detect healing passive":
-    @Event playerTookDamage
+#rule "[passives/support/self_heal.opy]: Detect healing passive":
+#    @Event playerTookDamage
 
-    eventPlayer._passive_healing_active = false
-    if eventPlayer.getCurrentHero() in getSupportHeroes(): # supports
-        wait(OW2_SUPPORT_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION)
-    else: # all other roles
-        wait(OW2_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION)
-    eventPlayer._passive_healing_active = true
+#    eventPlayer._passive_healing_active = false
+#    if eventPlayer.getCurrentHero() in getSupportHeroes(): # supports
+#        wait(OW2_SUPPORT_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION)
+#    else: # all other roles
+#        wait(OW2_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION)
+#    eventPlayer._passive_healing_active = true
 
 
 # Deal damage to suppress passive self healing except when regenerating shield hp
-rule "[passives/support/self_heal.opy]: Remove Passive self healing":
-    @Event eachPlayer
-    @Condition eventPlayer._suppress_passive_healing
-    @Condition eventPlayer._passive_healing_active
-    @Condition eventPlayer.getHealthOfType(Health.SHIELDS) >= eventPlayer.getMaxHealthOfType(Health.SHIELDS)
-    @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
-    @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP)
+#rule "[passives/support/self_heal.opy]: Remove Passive self healing":
+#    @Event eachPlayer
+#    @Condition eventPlayer._suppress_passive_healing
+#    @Condition eventPlayer._passive_healing_active
+#    @Condition eventPlayer.getHealthOfType(Health.SHIELDS) >= eventPlayer.getMaxHealthOfType(Health.SHIELDS)
+#    @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
+#    @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP)
     
-    do:
-        damage(eventPlayer, null, MIN_DAMAGE)
-        wait(OW2_SUPPORT_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION \
-            if eventPlayer.getCurrentHero() in getSupportHeroes() \
-            else OW2_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION, Wait.ABORT_WHEN_FALSE)
-    while RULE_CONDITION
+#    do:
+#        damage(eventPlayer, null, MIN_DAMAGE)
+#        wait(OW2_SUPPORT_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION \
+#            if eventPlayer.getCurrentHero() in getSupportHeroes() \
+#            else OW2_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION, Wait.ABORT_WHEN_FALSE)
+#    while RULE_CONDITION

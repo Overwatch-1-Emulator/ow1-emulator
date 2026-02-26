@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
 # !include "soundwave.opy"
-#!include "aura.opy"
+# !include "aura.opy"
 
 
 def initLucio():
@@ -9,7 +9,7 @@ def initLucio():
     
     setCustomHp(OW1_LUCIO_HEALTH, 0, 0)
     setUltCost(OW1_LUCIO_ULT_COST)
-    removeSelfHealing()
+    #removeSelfHealing()
 
     setBaseDamage(eventPlayer, OW1_LUCIO_SOUNDWAVE_DAMAGE/OW2_LUCIO_SOUNDWAVE_DAMAGE)
 

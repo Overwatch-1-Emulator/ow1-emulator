@@ -57,14 +57,16 @@ def applyCustomHp():
     # Find minimum hp scalar value that ensures
     # the scaled health/armor/shields is less or equal to
     # the desired custom health/armor/shield value
-    eventPlayer._hp_scalar = min(
+    eventPlayer._hp_scalar = \
         min(
-            (eventPlayer._hp_health/eventPlayer._hp_health_ow2) if eventPlayer._hp_health_ow2 > 0 else Math.INFINITY, 
-            (eventPlayer._hp_armor/eventPlayer._hp_armor_ow2) if eventPlayer._hp_armor_ow2 > 0 else Math.INFINITY), 
-        (eventPlayer._hp_shields/eventPlayer._hp_shields_ow2) if eventPlayer._hp_shields_ow2 > 0 else Math.INFINITY)
+            min(
+                (eventPlayer._hp_health/eventPlayer._hp_health_ow2) if eventPlayer._hp_health_ow2 > 0 else Math.INFINITY, 
+                (eventPlayer._hp_armor/eventPlayer._hp_armor_ow2)   if eventPlayer._hp_armor_ow2 > 0 else Math.INFINITY), 
+            (eventPlayer._hp_shields/eventPlayer._hp_shields_ow2) if eventPlayer._hp_shields_ow2 > 0 else Math.INFINITY)
+
 
     eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))
-
+    wait(TICK_DURATION)
     waitUntil(eventPlayer.getMaxHealth() != eventPlayer._hp_health_ow2 + eventPlayer._hp_armor_ow2 + eventPlayer._hp_shields_ow2, 1)
     if (eventPlayer._hp_health - eventPlayer.getMaxHealthOfType(Health.NORMAL)) >= 1:
         eventPlayer.addHealthPool(Health.NORMAL, (eventPlayer._hp_health - eventPlayer.getMaxHealthOfType(Health.NORMAL)), true, false)
@@ -72,7 +74,10 @@ def applyCustomHp():
         eventPlayer.addHealthPool(Health.ARMOR, (eventPlayer._hp_armor - eventPlayer.getMaxHealthOfType(Health.ARMOR)), true, false)
     if (eventPlayer._hp_shields - eventPlayer.getMaxHealthOfType(Health.SHIELDS)) >= 1:
         eventPlayer.addHealthPool(Health.SHIELDS, (eventPlayer._hp_shields - eventPlayer.getMaxHealthOfType(Health.SHIELDS)), true, false)
-
+    
+        # infinite hp scalar exception
+    if eventPlayer.getMaxHealth() > 15000:
+        return
 
 # rule "[custom_hp.opy]: Remove Custom Health Conditions":
 #     @Event eachPlayer

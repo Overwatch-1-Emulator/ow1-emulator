@@ -16,7 +16,7 @@ def initJunkerQueen():
     eventPlayer.jq_self_heal_id = getLastHealingModification()
 
     # removeTankPassive()
-    removePassiveHealing()
+    #removePassiveHealing()
 
 
 rule "[junkerqueen/init.opy]: Clean up Junker Queen":

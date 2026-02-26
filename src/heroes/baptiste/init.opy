@@ -18,6 +18,6 @@ def initBaptiste():
     eventPlayer.setAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
     eventPlayer.setMaxAmmo(1, OW1_BAPTISTE_CLIP2_SIZE)
 
-    removeSelfHealing()
+    #removeSelfHealing()
 
     # eventPlayer.disallowButton(Button.ABILITY_2)

@@ -7,7 +7,8 @@ rule "[dva/hp.opy]: Correct DVa mech health":
     @Hero dva
     @Condition not eventPlayer.isInAlternateForm()
 
-    # wait(1, Wait.ABORT_WHEN_FALSE)
+
+    wait(0.016) #Wait.ABORT_WHEN_FALSE
     eventPlayer.remech_damage_taken = eventPlayer.getMaxHealth() - eventPlayer.getHealth()
     clearCustomHp()
     setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)

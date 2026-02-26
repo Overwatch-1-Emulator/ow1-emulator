@@ -23,7 +23,7 @@ rule "[utilities/watermark.opy]: Create watermark HUD":
 
     if eventPlayer.info_id[0] == null:
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
-                     GAMEMODE_NAME" "GAMEMODE_VERSION" ""("GAMEMODE_CODE")", 
+                     GAMEMODE_NAME" ""("GAMEMODE_CODE")", 
                      HudPosition.LEFT, 
                      0, 
                      Color.WHITE, 

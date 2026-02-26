@@ -10,9 +10,11 @@
 def initDva():
     @Name "[dva/init.opy]: initDva()"
     
+
     setUltCost(OW1_DVA_ULT_COST)
+    setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
     # removeTankPassive()
-    removeSelfHealing()
+    #removeSelfHealing()
 
     # waitUntil(not eventPlayer.isInAlternateForm(), Math.INFINITY)
     # setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)

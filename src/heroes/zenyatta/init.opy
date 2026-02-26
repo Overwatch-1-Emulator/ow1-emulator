@@ -1,13 +1,13 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "transc.opy"
+# !include "transc.opy"
 
 def initZenyatta():
     @Name "[zenyatta/init.opy]: initZenyatta()"
     
     setCustomHp(OW1_ZENYATTA_HEALTH, 0, OW1_ZENYATTA_SHIELDS)
     setUltCost(OW1_ZENYATTA_ULT_COST)
-    removeSelfHealing()
+    #removeSelfHealing()
     
     eventPlayer.setKnockbackDealt(percent(OW1_ZENYATTA_KNOCKBACK/OW2_ZENYATTA_KNOCKBACK))
     setBaseDamage(eventPlayer, OW1_ZENYATTA_ORB_DAMAGE/OW2_ZENYATTA_ORB_DAMAGE)

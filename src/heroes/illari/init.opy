@@ -10,7 +10,7 @@ def initIllari():
     setCustomHp(OW1_ILLARI_HEALTH, 0, 0)
     setUltCost(OW1_ILLARI_ULT_COST)
 
-    removePassiveHealing()
+    #removePassiveHealing()
 
     setBaseDamage(eventPlayer, OW1_ILLARI_SUNSTRUCK_DAMAGE/OW2_ILLARI_SUNSTRUCK_DAMAGE)
 
