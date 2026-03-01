@@ -86,6 +86,14 @@ rule "[sombra/stealth.opy]: Exit Stealth when taking damage":
     exitStealth()
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_SOMBRA_STEALTH_COOLDOWN)
 
+rule "[sombra/stealth.opy]: Force Exit Stealth if you can shoot":
+    @Event playerDealtDamage
+    @Hero sombra
+    @Condition eventPlayer.is_using_stealth
+
+    exitStealth()
+    eventPlayer.setAbilityCooldown(Button.ABILITY_1, OW1_SOMBRA_STEALTH_COOLDOWN)
+
 
 def exitStealth():
     @Name "[sombra/stealth.opy]: exitStealth()"

@@ -9,3 +9,4 @@ rule "[lucio/aura.opy]: Allow self healing during heal aura":
     pushSelfHealing(Button.ABILITY_1)
     waitUntil(eventPlayer.isUsingAbility1(), Math.INFINITY)
     popSelfHealing(Button.ABILITY_1)
+
