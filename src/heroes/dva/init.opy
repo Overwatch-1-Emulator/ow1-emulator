@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 #!include "hp.opy"
 #!include "gun.opy"

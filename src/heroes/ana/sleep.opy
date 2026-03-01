@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[ana/sleep.opy]: Sleep tanks for longer duration":

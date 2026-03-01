@@ -1,4 +1,6 @@
-#!mainFile "../dev_main.opy"
+###############################################################################
+# This file should be include-able by any module without dependency issues.
+###############################################################################
 
 # Universal
 #!define SETUP_BUFFER_TIME 5
@@ -109,34 +111,16 @@
 #!define OW1_DOOMFIST_PUNCH_CHARGE_TIME_MAX 1.4
 #!define OW1_DOOMFIST_PUNCH_CHARGE_TIME_MIN 0.192
 #!define OW1_DOOMFIST_PUNCH_COOLDOWN_DEFAULT 4
-globalvar OW1_DOOMFIST_PUNCH_COOLDOWN = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Cooldown', OW1_DOOMFIST_PUNCH_COOLDOWN_DEFAULT, 0, 12)
-globalvar OW1_DOOM_PUNCH_IMPACT_DAMAGE_MIN = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Impact Min Damage', 50, 0, 500)
-globalvar OW1_DOOM_PUNCH_IMPACT_DAMAGE_MAX = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Impact Max Damage', 100, 0, 1000)
-globalvar OW1_DOOM_PUNCH_KNOCKBACK_MIN = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Impact Min Knockback', 15, 0, 150)
-globalvar OW1_DOOM_PUNCH_KNOCKBACK_MAX = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Impact Max Knockback', 30, 0, 300)
-globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MIN = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Wall Slam Min Damage', 50, 0, 500)
-globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MAX = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Wall Slam Max Damage', 150, 0, 1500)
 #!define OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS 8
 #!define OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS 1
 #!define OW1_DOOMFIST_SLAM_COOLDOWN 6
-globalvar OW1_DOOMFIST_SLAM_DAMAGE_MAX = createWorkshopSettingInt('Doomfist', 'Seismic Slam Max Damage', 125, 0, 10000)
-# Slamming on flat ground should deal 49 damage
-# Frame by frame analysis of Youtube videos indicate that slam damage increases at a rate of 100 damage/second
-globalvar OW1_DOOMFIST_SLAM_DAMAGE_RATE = createWorkshopSettingInt('Doomfist', 'Seismic Slam Damage Rate', 100, 0, 1000)
 #!define OW1_DOOMFIST_SLAM_FAN_ANGLE 60
 #!define OW1_DOOMFIST_SLAM_GROUND_HEIGHT 1
 #!define OW1_DOOMFIST_SLAM_INDICATOR_HEIGHT 3
 #!define OW1_DOOMFIST_SLAM_INDICATOR_MARGIN 3
 #!define OW1_DOOMFIST_SLAM_INDICATOR_SPEED 25
-globalvar OW1_DOOM_SLAM_INDIC_BEAM_COUNT = createWorkshopSettingInt('Doomfist', 'Seismic Slam Indicator GUI Beam Count', 0, 0, 10)
-globalvar OW1_DOOMFIST_SLAM_INDIC_PITCH = createWorkshopSettingFloat('Doomfist', 'Seismic Slam Indicator Pitch', 10, -90, 90)
-globalvar OW1_DOOMFIST_SLAM_INDIC_RANGE = createWorkshopSettingFloat('Doomfist', 'Seismic Slam Indicator Range', 15, 0, 30)
-globalvar OW1_DOOM_SLAM_INDIC_RING_COUNT = createWorkshopSettingInt('Doomfist', 'Seismic Slam Indicator GUI Ring Count', 3, 0, 12)
 #!define OW1_DOOMFIST_UPPERCUT_AIR_LOCK_TIME 0.6
 #!define OW1_DOOMFIST_UPPERCUT_COOLDOWN_DEFAULT 6
-globalvar OW1_DOOMFIST_UPPERCUT_COOLDOWN = createWorkshopSettingFloat('Doomfist', 'Uppercut Cooldown', OW1_DOOMFIST_UPPERCUT_COOLDOWN_DEFAULT, 0, 12)
-globalvar OW1_DOOMFIST_UPPERCUT_DAMAGE = createWorkshopSettingInt('Doomfist', 'Uppercut Damage', 50, 0, 500)
-globalvar OW1_DOOMFIST_UPPERCUT_RADIUS = createWorkshopSettingFloat('Doomfist', 'Uppercut Radius', 5, 0, 50)
 #!define OW1_DOOMFIST_ULT_COST 1680
 
 # Dva
@@ -325,9 +309,7 @@ globalvar OW1_DOOMFIST_UPPERCUT_RADIUS = createWorkshopSettingFloat('Doomfist', 
 #!define OW1_ORISA_PROJECTILE_BARRIER_COOLDOWN_TIME 10
 #!define OW1_ORISA_PROJECTILE_BARRIER_HEALTH 600
 #!define OW1_ORISA_PROJECTILE_BARRIER_MAX_UPTIME 20
-globalvar OW1_ORISA_BARRIER_ORB_SIZE = createWorkshopSetting(float[0.1:3], 'Orisa', 'Barrier Orb Radius', 0.25)
 #!define OW1_ORISA_PROTECTIVE_BARRIER_RADIUS 3.5
-globalvar OW1_ORISA_BARRIER_ORB_COUNT = createWorkshopSetting(int[100:200], 'Orisa', 'Barrier Orb Count', 140)
 #!define OW1_ORISA_RELOAD_TIME 2.5
 #!define OW1_ORISA_SHIELDS 0
 #!define OW1_ORISA_SUPERCHARGER_AOE_RADIUS 25
@@ -336,7 +318,6 @@ globalvar OW1_ORISA_BARRIER_ORB_COUNT = createWorkshopSetting(int[100:200], 'Ori
 #!define OW1_ORISA_SUPERCHARGER_LINGER_TIME 1
 #!define OW1_ORISA_SUPERCHARGER_MAX_DURATION 15
 #!define OW1_ORISA_ULT_COST 1680
-globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "Orisa", "Barrier LOS Polling Frequency (Hz)", 1)
 
 # Pharah
 #!define OW1_PHARAH_CONCUSSIVE_BLAST_COOLDOWN 9

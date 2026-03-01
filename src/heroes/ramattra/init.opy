@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 #!include "nemesis.opy"
 #!include "vortex.opy"

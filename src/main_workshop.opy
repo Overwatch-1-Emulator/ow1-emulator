@@ -1,16 +1,16 @@
-# Include for global scoping
-#!include "heroes/sombra/hack_status.opy"
+###############################################################################
+# Compile Workshop Code.
+###############################################################################
+#!mainFile "main_workshop.opy"
 
-# Useful constants and macros
-#!include "constants/ow1_constants.opy"
-#!include "constants/ow2_constants.opy"
-#!include "utilities/macro_functions.opy"
+#!include "common/env.opy"
+#!include "common/constants/ow1_constants.opy"
+#!include "common/constants/ow2_constants.opy"
+#!include "common/macro_functions.opy"
 
-# Custom game lobby settings
-#!include "lobby/ow1em_lobby.opy"
-
-# Useful functions
-#!include "utilities/stat_helper.opy"
+# Useful functions.
+#!include "utilities/copyright.opy"
+#!include "utilities/emu_helper.opy"
 #!include "heroes/init.opy"
 #!include "utilities/reset.opy"
 #!include "utilities/custom_hp.opy"
@@ -20,8 +20,9 @@
 #!include "utilities/ready.opy"
 #!include "utilities/hit_detection.opy"
 #!include "utilities/anti_crash.opy"
+#!include "utilities/watermark.opy"
 
-# OW1 logic
+# OW1 hero logic.
 # Remove damage passive
 # !include "passives/damage/damage_passive.opy"
 # Remove tank passive
@@ -33,7 +34,7 @@
 # Perk utility
 # !include "passives/perk.opy"
 
-# Hero specific logic
+# Hero specific logic.
 #!include "heroes/ana/init.opy"
 #!include "heroes/ashe/init.opy"
 #!include "heroes/baptiste/init.opy"
@@ -81,6 +82,4 @@
 #!include "heroes/echo/init.opy"
 
 # Include debug at the end so any variable can be viewed
-##!include "utilities/debug.opy"
-
-#!include "utilities/watermark.opy"
+# !include "utilities/debug.opy"

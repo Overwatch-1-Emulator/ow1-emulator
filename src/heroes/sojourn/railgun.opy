@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 # corrects total headshot damage to range [2*ow1_min, 2*ow1_max]

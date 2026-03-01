@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[symmetra/orb.opy]: Set OW1 Symmetra Photo Projector projectile speed":

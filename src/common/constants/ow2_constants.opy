@@ -1,4 +1,6 @@
-#!mainFile "../dev_main.opy"
+###############################################################################
+# This file should be include-able by any module without dependency issues.
+###############################################################################
 
 # Misc
 #!define MIN_DAMAGE 0.000001

@@ -1,4 +1,4 @@
-# #!mainFile "../../dev_main.opy"
+# #!mainFile "../../main.opy"
 
 
 # rule "[lifeweaver/init.opy]: Allow self healing during Tree of Life":

@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 playervar freeze_progress
 playervar freeze_slow_linger_time

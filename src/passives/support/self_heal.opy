@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 playervar self_heal_pvar
 #!defineMember _self_healing_source self_heal_pvar[0]

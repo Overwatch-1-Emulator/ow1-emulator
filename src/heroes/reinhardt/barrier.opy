@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[reinhardt/barrier.opy]: OW1 Reinhardt barrier health":

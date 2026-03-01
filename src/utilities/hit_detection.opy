@@ -1,4 +1,4 @@
-#!mainFile "../dev_main.opy"
+#!mainFile "../main.opy"
 
 # lsi stands for line-sphere intersection
 # see https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection for derivation

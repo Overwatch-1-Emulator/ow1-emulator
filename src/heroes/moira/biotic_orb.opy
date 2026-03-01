@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 # rule "[moira/biotic_orb.opy]: Allow self healing during Biotic Orb":

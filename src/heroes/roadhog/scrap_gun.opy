@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 #!define OW1_ROADHOG_SCRAP_SECONDARY_SPEED 80
 #!define OW1_ROADHOG_SCRAP_SECONDARY_RANGE 8
