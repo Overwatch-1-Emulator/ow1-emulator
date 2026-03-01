@@ -8,16 +8,17 @@
 # !define SOURCE_CODE_LINK "github.com/Overwatch-1-Emulator/ow1-emulator"
 macro GAMDMODE_DESCRIPTION = (GAMEMODE_NAME"\n"\
                                "\n"\
-                               "ecksdee#11729's attempt to accurately recreate ""\n"\
+                               "ecksdee#11729's Original Code""\n"\
+                               "Darks#11729's attempt to accurately recreate""\n"\
                                "the last version of Overwatch 1 using workshop.""\n"\
                                "\n"\
-                               "Check out 6v6 Adjustment (7HSKW)""\n"\
-                               "for Overwatch 2 in 6v6 format.""\n"\
                                "\n"\
                                "Stable build: "GAMEMODE_CODE"\n"\
                                "\n"\
                                "Codebase Contributors:""\n"\
                                "ecksdee#11729""\n"\
+                               "Darks#11729""\n"\
+                               "Viper#18545""\n"\
                                "Snappy#11809""\n"\
                                "KingDonMike#2694""\n"\
                                "thenova#21104""\n"\
