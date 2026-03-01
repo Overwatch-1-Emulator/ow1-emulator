@@ -12,7 +12,7 @@ rule "[brigitte/inspire.opy]: Inspire self healing logic for 6 seconds in 4":
     stopHealingOverTime(eventPlayer.list_of_players.A)
     eventPlayer.list_of_players.startHealingOverTime(eventPlayer, 4, 7.5)
     eventPlayer.list_of_players.A = getLastHealingOverTimeId()
-    wait()
+    wait(4)
     eventPlayer.B = 0
     
 

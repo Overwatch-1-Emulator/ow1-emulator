@@ -48,7 +48,6 @@ def clearCustomHp():
 
 def applyCustomHp():
     @Name "[utilities/custom_hp.opy]: applyCustomHp()"
-
     if (eventPlayer.getMaxHealthOfType(Health.NORMAL) == eventPlayer._hp_health) and \
        (eventPlayer.getMaxHealthOfType(Health.ARMOR) == eventPlayer._hp_armor) and \
        (eventPlayer.getMaxHealthOfType(Health.SHIELDS) == eventPlayer._hp_shields):
@@ -77,7 +76,8 @@ def applyCustomHp():
     
         # infinite hp scalar exception
     if eventPlayer.getMaxHealth() > 15000:
-        return
+        applyCustomHp()
+
 
 # rule "[custom_hp.opy]: Remove Custom Health Conditions":
 #     @Event eachPlayer

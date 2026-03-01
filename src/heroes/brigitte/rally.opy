@@ -1,12 +1,15 @@
 #!mainFile "../../dev_main.opy"
 
 playervar ralley_hot_id
+playervar shield_bash_cd
 
 rule "[brigitte/rally.opy]: OW1 Rally":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate()
 
+
+    eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)
     eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF)) # 30% movement speed buff during ralley
     damage(eventPlayer, null, OW2_BRIGITTE_RALLY_INSTANT_ARMOR*eventPlayer._hp_scalar + OW2_ARMOR_DAMAGE_REDUCTION) # Remove Rally instant armor
 
@@ -32,3 +35,13 @@ rule "[brigitte/rally.opy]: OW1 Rally":
     #heal(eventPlayer, null, 31)
     #wait(30)
     #eventPlayer.removeAllHealthPools()
+
+
+
+#rule "[brigitte/rally.opy]: Doesnt reset bash on ult":
+#    @Event eachPlayer
+#    @Hero brigitte
+    
+#    eventPlayer.shield_bash_cd = eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE)
+#    wait()
+#    loop()
