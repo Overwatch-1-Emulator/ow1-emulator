@@ -37,6 +37,7 @@ rule "[brigitte/rally.opy]: OW1 Rally":
     #eventPlayer.removeAllHealthPools()
 
 
+# This might cause lag because its constantly running
 
 #rule "[brigitte/rally.opy]: Doesnt reset bash on ult":
 #    @Event eachPlayer
