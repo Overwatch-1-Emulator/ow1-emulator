@@ -36,8 +36,9 @@ rule "[bastion/tank.opy]: Initialize tank mode":
     eventPlayer.cancelPrimaryAction()
     eventPlayer.disallowButton(Button.ABILITY_1) # Re-disable reconfiguring out of tank mode
 
-    waitUntil(not eventPlayer.isUsingAbility1(), OW1_BASTION_TANK_CONFIG_DURATION)
+    wait(2+OW2_BASTION_ASSAULT_CONFIG_TRANSFORM_TIME) # Exit tank config
     eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.forceButtonPress(Button.ABILITY_1) # Leave tank mode
     eventPlayer.setUltEnabled(true)
 
 
