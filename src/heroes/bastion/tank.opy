@@ -26,7 +26,7 @@ rule "[bastion/tank.opy]: Initialize tank mode":
     eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to turret mode
     eventPlayer.disallowButton(Button.ABILITY_1) # Disable reconfiguring out of turret mode
 
-    wait(OW1_BASTION_TANK_CONFIG_DURATION-OW2_BASTION_ASSAULT_CONFIG_LENGTH+TICK_DURATION) # Restart tank mode
+    wait(OW2_BASTION_ASSAULT_CONFIG_LENGTH-(TICK_DURATION*4)) # Restart tank mode
 
     # Restart tank config
     eventPlayer.allowButton(Button.ABILITY_1)
