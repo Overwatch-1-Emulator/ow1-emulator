@@ -131,7 +131,7 @@ globalvar OW1_DOOMFIST_SLAM_DAMAGE_RATE = createWorkshopSettingInt('Doomfist', '
 globalvar OW1_DOOM_SLAM_INDIC_BEAM_COUNT = createWorkshopSettingInt('Doomfist', 'Seismic Slam Indicator GUI Beam Count', 0, 0, 10)
 globalvar OW1_DOOMFIST_SLAM_INDIC_PITCH = createWorkshopSettingFloat('Doomfist', 'Seismic Slam Indicator Pitch', 10, -90, 90)
 globalvar OW1_DOOMFIST_SLAM_INDIC_RANGE = createWorkshopSettingFloat('Doomfist', 'Seismic Slam Indicator Range', 15, 0, 30)
-globalvar OW1_DOOM_SLAM_INDIC_RING_COUNT = createWorkshopSettingInt('Doomfist', 'Seismic Slam Indicator GUI Ring Count', 6, 0, 12)
+globalvar OW1_DOOM_SLAM_INDIC_RING_COUNT = createWorkshopSettingInt('Doomfist', 'Seismic Slam Indicator GUI Ring Count', 3, 0, 12)
 #!define OW1_DOOMFIST_UPPERCUT_AIR_LOCK_TIME 0.6
 #!define OW1_DOOMFIST_UPPERCUT_COOLDOWN_DEFAULT 6
 globalvar OW1_DOOMFIST_UPPERCUT_COOLDOWN = createWorkshopSettingFloat('Doomfist', 'Uppercut Cooldown', OW1_DOOMFIST_UPPERCUT_COOLDOWN_DEFAULT, 0, 12)

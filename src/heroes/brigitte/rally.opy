@@ -39,10 +39,19 @@ rule "[brigitte/rally.opy]: OW1 Rally":
 
 # This might cause lag because its constantly running
 
-#rule "[brigitte/rally.opy]: Doesnt reset bash on ult":
-#    @Event eachPlayer
-#    @Hero brigitte
+rule "[brigitte/rally.opy]: Doesnt reset bash on ult":
+    @Event eachPlayer
+    @Hero brigitte
+    @Condition eventPlayer.isFiringPrimaryFire()
+    @Condition eventPlayer.isFiringSecondaryFire()
+
+    eventPlayer.shield_bash_cd = (OW1_BRIGITTE_SHIELD_BASH_COOLDOWN)
+    chase(eventPlayer.shield_bash_cd, 0, rate=1, ChaseReeval.NONE)
+
+
+rule "[brigitte/rally.opy]: Force cooldown when Rally":
+    @Event eachPlayer
+    @Hero brigitte
+    @Condition eventPlayer.isUsingUltimate()
     
-#    eventPlayer.shield_bash_cd = eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE)
-#    wait()
-#    loop()
+    eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)

@@ -32,6 +32,7 @@ rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
 
 
 
+
 #rule "[brigitte/init.opy]: Compensate Brigitte 200hp":
 #    @Event eachPlayer
 #    @Hero brigitte

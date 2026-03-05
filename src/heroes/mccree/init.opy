@@ -1,6 +1,6 @@
 #!mainFile "../../dev_main.opy"
 
-#!include "fan_hammer.opy"
+# !include "fan_hammer.opy"
 #!include "flashbang.opy"
 #!include "roll.opy"
 #!include "deadeye.opy"
