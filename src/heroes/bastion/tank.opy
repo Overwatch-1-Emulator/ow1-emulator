@@ -23,16 +23,22 @@ rule "[bastion/tank.opy]: Initialize tank mode":
     eventPlayer.setUltEnabled(false) # Prevent Bastion from getting ult charge during ultimate
     wait(OW1_BASTION_TANK_CONFIG_TRANSFORM_TIME-OW2_BASTION_ASSAULT_CONFIG_TRANSFORM_TIME)
     eventPlayer.cancelPrimaryAction() # interrupt ultimate animation right before it completes
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to turret mode
     eventPlayer.disallowButton(Button.ABILITY_1) # Disable reconfiguring out of turret mode
 
-    waitUntil(not eventPlayer.isUsingAbility1(), OW1_BASTION_TANK_CONFIG_DURATION)
+    wait(OW2_BASTION_ASSAULT_CONFIG_LENGTH-(TICK_DURATION*4)) # Restart tank mode
 
-    if eventPlayer.isUsingAbility1():
-        eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
-        eventPlayer.forceButtonPress(Button.ABILITY_1) # Go to recon mode
+    # Restart tank config
     eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.forceButtonPress(Button.ABILITY_1) # Leave tank mode
+    eventPlayer.cancelPrimaryAction()
+    eventPlayer.forceButtonPress(Button.ABILITY_1) # Re-enter tank and restart tank mode
+    eventPlayer.cancelPrimaryAction()
+    eventPlayer.disallowButton(Button.ABILITY_1) # Re-disable reconfiguring out of tank mode
+
+    wait(OW1_BASTION_TANK_CONFIG_DURATION-OW2_BASTION_ASSAULT_CONFIG_LENGTH+OW2_BASTION_ASSAULT_CONFIG_TRANSFORM_TIME+OW1_BASTION_TANK_CONFIG_SHELL_RELOAD_TIME+(TICK_DURATION*4)) # Exit tank mode
+    eventPlayer.allowButton(Button.ABILITY_1)
+    eventPlayer.forceButtonPress(Button.ABILITY_1) # Leave tank mode
     eventPlayer.setUltEnabled(true)
 
 
