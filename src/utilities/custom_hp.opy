@@ -76,6 +76,7 @@ def applyCustomHp():
     
         # infinite hp scalar exception
     if eventPlayer.getMaxHealth() > 15000:
+        eventPlayer.setMaxHealth(100)
         applyCustomHp()
 
 

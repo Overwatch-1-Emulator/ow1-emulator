@@ -14,6 +14,7 @@ def initBrigitte():
     setUltCost(OW1_BRIGITTE_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
+    #setBaseDamage(eventPlayer, OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE)
     eventPlayer.setDamageReceived(percent((50+OW2_BRIGITTE_HEALTH)/(OW1_BRIGITTE_ARMOR+OW1_BRIGITTE_HEALTH)))
     eventPlayer.setHealingReceived(percent((50+OW2_BRIGITTE_HEALTH)/(OW1_BRIGITTE_HEALTH)))
     #setBaseHealing(eventPlayer, 0.1)
@@ -27,7 +28,9 @@ rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
     @Hero brigitte
     @Condition eventAbility in [Button.ABILITY_1]
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)\
+
+
 
 #rule "[brigitte/init.opy]: Compensate Brigitte 200hp":
 #    @Event eachPlayer
