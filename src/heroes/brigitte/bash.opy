@@ -28,12 +28,12 @@ rule "[brigitte/bash.opy]: Reduce shield bash distance":
         eventPlayer.setMoveSpeed(100)
 
 
-rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
-    @Event playerDealtDamage
-    @Hero brigitte
-    @Condition eventPlayer.isFiringSecondaryFire()
-    @Condition eventAbility == Button.PRIMARY_FIRE
+#rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
+#    @Event playerDealtDamage
+#    @Hero brigitte
+#    @Condition eventPlayer.isFiringSecondaryFire()
+#    @Condition eventAbility == Button.PRIMARY_FIRE
 
     #heal(victim, null, eventDamage - OW1_BRIGITTE_SHIELD_BASH_DAMAGE)
-    heal(victim, null, eventDamage - eventDamage/eventPlayer._base_damage_scalar*(OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE)+ 21)
+#    heal(victim, null, eventDamage - eventDamage/eventPlayer._base_damage_scalar*(OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE)+ 21)
 
