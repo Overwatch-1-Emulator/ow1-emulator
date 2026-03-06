@@ -1,7 +1,7 @@
 #!mainFile "../../dev_main.opy"
 
-playervar breather_pvar
-#!defineMember _is_using_breather breather_pvar[0]
+#playervar breather_pvar
+# !defineMember _is_using_breather breather_pvar[0]
 
 # rule "[roadhog/breather.opy]: Remove healing buff after breather":
 #     @Event eachPlayer
@@ -17,7 +17,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
-    @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
+    #@Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not isCCd(eventPlayer)
     @Condition not eventPlayer.isFiringPrimaryFire()
     @Condition not eventPlayer.isUsingAbility1()
@@ -25,7 +25,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     @Condition not eventPlayer.isMeleeing()
 
     # activate ability
-    eventPlayer._is_using_breather = true
+    #eventPlayer._is_using_breather = true
     #eventPlayer.setAbility2Enabled(false)
     eventPlayer.setDamageReceived(percent((1-OW1_ROADHOG_BREATHER_DAMAGE_REDUCTION)/(1-OW2_ROADHOG_BREATHER_DAMAGE_REDUCTION))) # reduce daamge intake
     eventPlayer.disallowButton(Button.ABILITY_2)
@@ -36,8 +36,9 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.disallowButton(Button.MELEE)
     eventPlayer.disallowButton(Button.RELOAD)
     eventPlayer.startForcingButton(Button.ABILITY_2)
+    #wait(OW1_ROADHOG_BREATHER_DURATION)
     wait(OW1_ROADHOG_BREATHER_DURATION)
-    #waitUntil(not eventPlayer.isUsingAbility2(), Math.INFINITY)
+    #waitUntil(eventPlayer.isFiringSecondaryFire() == false, Math.INFINITY)
     #wait(0.17)
     eventPlayer.stopForcingButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_2)
@@ -47,15 +48,29 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.allowButton(Button.MELEE)
     eventPlayer.allowButton(Button.RELOAD)
+    #eventPlayer.setSecondaryFireEnabled(false) # disable secondary fire to prevent animation canceling, will be re-enabled after recovery time
     # eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.setDamageReceived(100) # reset damage intake
     wait(OW1_ROADHOG_BREATHER_RECOVERY_TIME)
-    eventPlayer._is_using_breather = false
+    #wait(OW1_ROADHOG_BREATHER_COOLDOWN)
+
+    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN)
+
+    
+
+
+    #eventPlayer._is_using_breather = false
+    #wait()
+    #eventPlayer.setAbilityCooldown(Button.ABILITY_2, 8) # set cooldown to 8 seconds after using breather, same as OW1
+    #wait(8)
+    #eventPlayer.allowButton(Button.ABILITY_2)
 
     # cooldown
     #eventPlayer.setAbility2Enabled(true)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN)
+    #eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN)
 
+
+    # do something for testing
 
 #rule "[roadhog/breather.opy]: Allow self healing during Breather":
 #    @Event eachPlayer
