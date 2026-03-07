@@ -56,10 +56,6 @@ To release:
 1. Merge the release PR created by [release-please bot](https://github.com/googleapis/release-please).
 2. After merging, [github-releases-to-discord bot](https://github.com/SethCohen/github-releases-to-discord) will forward the patch notes to Overwatch 1 Emulator [discord server](https://discord.com/channels/1125986404212670568/1157168349978050611).
 
-Note:
-- release-please bot requires Personal Access Token.
-- github-releases-to-discord bot requires Discord webhook URL.
-
 
 ## Coding Style Guidelines
 
