@@ -275,7 +275,7 @@ rule "Initialisation: Language Strings":
 
 rule "Initialisation: Player":
     @Event eachPlayer
-    
+
     eventPlayer.Text_PlayerLanguage = Text_DefaultLanguage
     eventPlayer.ReadyUp_PlayerReady = false
     eventPlayer.Logs_HeroesPlayedArray = []
@@ -285,7 +285,7 @@ rule "HUD Setup: Setup Info":
     @Condition ReadyUp_FreqMode != 2
     @Condition (getMatchRound() == 1 or ReadyUp_FreqMode == 0) == true
     @Condition isInSetup() == true
-    
+
     #ScrimTime
     hudSubtext(getAllPlayers(), Text_LanguageTextArray[0][localPlayer.Text_PlayerLanguage], HudPosition.LEFT, 0, Colour_TextTypeB, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
     #Countdown will start when
@@ -314,7 +314,7 @@ rule "HUD Setup: Ready Toggle":
     @Condition ReadyUp_FreqMode != 2
     @Condition (getMatchRound() == 1 or ReadyUp_FreqMode == 0) == true
     @Condition isInSetup() == true
-    
+
     if ReadyUp_CaptainMode == 0 or ReadyUp_CaptainMode == 1 and eventPlayer.getSlot() == 0:
         #Player Ready Status
         hudSubheader(getAllPlayers(), " {0} {1}".format("●" if eventPlayer.ReadyUp_PlayerReady else "○", eventPlayer), HudPosition.LEFT, (2 if eventPlayer.getTeam() == Team.1 else 4) + eventPlayer.getSlot() * 0.1, Colour_TextTypeC if eventPlayer.ReadyUp_PlayerReady else Colour_TextTypeB, HudReeval.VISIBILITY_STRING_AND_COLOR, SpecVisibility.ALWAYS)
@@ -332,7 +332,7 @@ rule "HUD Setup: Force Ready Hold Bar":
     @Event eachPlayer
     @Condition ReadyUp_FreqMode != 2
     @Condition ReadyUp_AllowForceTeamReady == true
-    
+
     progressBarHud(eventPlayer if eventPlayer.ReadyUp_CurrentHoldTime >= 0.2 else null, eventPlayer.ReadyUp_CurrentHoldTime / ReadyUp_ForceTeamReadyHoldTime * 100, null, HudPosition.TOP, 5.5, Colour_TextTypeA, null, ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, SpecVisibility.NEVER)
 
 
@@ -342,7 +342,7 @@ rule "HUD Setup: Defender Teleport":
     @Condition isInSetup() == true
     @Condition getCurrentGamemode() != Gamemode.PUSH
     @Condition isTeamOnDefense(eventPlayer.getTeam()) == true
-    
+
     #Teleport to the objective / Teleport back to spawn
     hudSubheader(eventPlayer, "[{0} + {1}] {2}".format(buttonString(Keybind_Command), buttonString(Keybind_DefenderTeleport), Text_LanguageTextArray[21][localPlayer.Text_PlayerLanguage] if eventPlayer.isInSpawnRoom() else Text_LanguageTextArray[22][localPlayer.Text_PlayerLanguage]), HudPosition.TOP, 5.3, Colour_TextTypeB if eventPlayer.isHoldingButton(Keybind_Command) and eventPlayer.isHoldingButton(Keybind_DefenderTeleport) else Colour_TextTypeA, HudReeval.STRING_AND_COLOR, SpecVisibility.NEVER)
 
@@ -353,7 +353,7 @@ rule "HUD Setup: Add Setup Time":
     @Condition (getMatchRound() == 1 or ReadyUp_FreqMode == 0) == true
     @Condition SetupAddTime_CaptainMode != 2
     @Condition isInSetup() == true
-    
+
     if eventPlayer.getSlot() == 0 or SetupAddTime_CaptainMode == 0:
         #Add {0} sec to setup timer
         hudSubheader(eventPlayer, "[{0} + {1}] {2}".format(buttonString(Keybind_Command), buttonString(Keybind_AddSetupTime), Text_LanguageTextArray[26][localPlayer.Text_PlayerLanguage].replace("[SETUP_TIME_STEP]", SetupAddTime_Step)), HudPosition.TOP, 5.4, Colour_TextTypeB if eventPlayer.isHoldingButton(Keybind_Command) and eventPlayer.isHoldingButton(Keybind_AddSetupTime) else Colour_TextTypeA, HudReeval.STRING_AND_COLOR, SpecVisibility.NEVER)
@@ -366,7 +366,7 @@ rule "HUD Setup: Change Language":
     @Event eachPlayer
     @Condition Text_EnableChangeLanguage == true
     @Condition isInSetup() == true
-    
+
     #○ EN   ○ KR   ○ CN   ○ JP   ○ ES   ○ FR   ○ TR
     hudSubheader(eventPlayer, "[{0} + {1}] {2}".format(buttonString(Keybind_Command), buttonString(Keybind_ChangeLanguage), Text_LanguageTextArray[36][eventPlayer.Text_PlayerLanguage]), HudPosition.TOP, 5.5, Colour_TextTypeB if eventPlayer.isHoldingButton(Keybind_Command) and eventPlayer.isHoldingButton(Keybind_ChangeLanguage) else Colour_TextTypeA, HudReeval.STRING_AND_COLOR, SpecVisibility.NEVER)
 
@@ -374,13 +374,13 @@ rule "HUD Setup: Change Language":
 rule "Setup: Remove Assembling Heroes":
     @Condition Setup_RemoveAssemblingHeroes == true
     @Condition isAssemblingHeroes() == true
-    
+
     setMatchTime(0)
 
 
 rule "Setup: Override Setup Time":
     @Condition isInSetup() == true
-    
+
     wait()
     setMatchTime(Setup_SetupTimeOverride)
 
@@ -390,7 +390,7 @@ rule "Setup: Freeze Setup Time":
     @Condition ReadyUp_FreezeSetupTime == true
     @Condition (getMatchRound() == 1 or ReadyUp_FreqMode == 0) == true
     @Condition isInSetup() == true
-    
+
     pauseMatchTime()
 
 
@@ -403,7 +403,7 @@ rule "Setup: Add Setup Time":
     @Condition (eventPlayer.getSlot() == 0 or SetupAddTime_CaptainMode == 0) == true
     @Condition eventPlayer.isHoldingButton(Keybind_Command) == true
     @Condition eventPlayer.isHoldingButton(Keybind_AddSetupTime) == true
-    
+
     if getMatchTime() < SetupAddTime_Max:
         if isInSetup():
             setMatchTime(min(SetupAddTime_Max + 0.9, SetupAddTime_Step + getMatchTime()))
@@ -421,7 +421,7 @@ rule "Setup: Teleport to Objective/Spawn (Defenders Only)":
     @Condition isInSetup() == true
     @Condition eventPlayer.isHoldingButton(Keybind_Command) == true
     @Condition eventPlayer.isHoldingButton(Keybind_DefenderTeleport) == true
-    
+
     if eventPlayer.isInSpawnRoom():
         if nearestWalkablePosition(getObjectivePosition(getCurrentObjective())) != null:
             eventPlayer.teleport(nearestWalkablePosition(getObjectivePosition(getCurrentObjective())))
@@ -442,7 +442,7 @@ rule "Setup: Change Player Language":
     @Condition isInSetup() == true
     @Condition eventPlayer.isHoldingButton(Keybind_Command) == true
     @Condition eventPlayer.isHoldingButton(Keybind_ChangeLanguage) == true
-    
+
     eventPlayer.Text_PlayerLanguage = (eventPlayer.Text_PlayerLanguage + 1) % len(Text_LanguageTextArray[0])
     #Changed language to English
     smallMessage(eventPlayer, Text_LanguageTextArray[37][eventPlayer.Text_PlayerLanguage])
@@ -456,7 +456,7 @@ rule "Setup: Toggle Player Ready / Force Team Ready":
     @Condition isInSetup() == true
     @Condition eventPlayer.isHoldingButton(Keybind_Command) == true
     @Condition eventPlayer.isHoldingButton(Keybind_Ready) == true
-    
+
     if ReadyUp_CaptainMode == 0 and ReadyUp_AllowForceTeamReady:
         eventPlayer.ReadyUp_CurrentHoldTime = 0
         chase(eventPlayer.ReadyUp_CurrentHoldTime, ReadyUp_ForceTeamReadyHoldTime, duration=ReadyUp_ForceTeamReadyHoldTime, ChaseReeval.NONE)
@@ -486,7 +486,7 @@ rule "Setup: Both Teams Ready, Start Match (Captain-Only Mode)":
     @Condition isInSetup() == true
     @Condition getPlayersInSlot(0, Team.1).ReadyUp_PlayerReady == true
     @Condition getPlayersInSlot(0, Team.2).ReadyUp_PlayerReady == true
-    
+
     if getNumberOfPlayers(Team.ALL) < ReadyUp_MinimumPlayersToStart:
         #Both teams ready, but not enough players in game ([MIN_PLAYERS_TO_START])
         smallMessage(getAllPlayers(), Text_LanguageTextArray[17][localPlayer.Text_PlayerLanguage].replace("[MIN_PLAYERS_TO_START]", ReadyUp_MinimumPlayersToStart))
@@ -511,7 +511,7 @@ rule "Setup: Both Teams Ready, Start Match (All Players Mode)":
     @Condition (getMatchRound() == 1 or ReadyUp_FreqMode == 0) == true
     @Condition isInSetup() == true
     @Condition all([player.ReadyUp_PlayerReady for player in getAllPlayers()]) == true
-    
+
     if getNumberOfPlayers(Team.ALL) < ReadyUp_MinimumPlayersToStart:
         #All players ready, but not enough players in game ([MIN_PLAYERS_TO_START])
         smallMessage(getAllPlayers(), Text_LanguageTextArray[16][localPlayer.Text_PlayerLanguage].replace("[MIN_PLAYERS_TO_START]", ReadyUp_MinimumPlayersToStart))
@@ -541,7 +541,7 @@ rule "Game: Clean Up HUD Text":
 rule "Game: Reset Player Ready Status":
     @Condition ReadyUp_FreqMode != 2
     @Condition isGameInProgress() == true
-    
+
     wait()
     getAllPlayers().ReadyUp_PlayerReady = false
     stopChasingVariable(getAllPlayers().ReadyUp_CurrentHoldTime)
@@ -560,7 +560,7 @@ rule "Scoreboard: Update Match Time":
 rule "Scoreboard: Create Match Time Display":
     @Condition Scoreboard_DisplayMatchTime == true
     @Condition isGameInProgress() == true
-    
+
     wait()
     if Scoreboard_Size == 0:
         hudSubheader(null, "{0} Match Time: {1}".format(abilityIconString(Hero.LUCIO, Button.ABILITY_2), "{0}:{1}{2}".format(floor(Match_CurrentMatchTime / 60), "0" if Match_CurrentMatchTime % 60 < 10 else "", floor(Match_CurrentMatchTime % 60))), HudPosition.LEFT, 4, Colour_TextTypeA, HudReeval.STRING, SpecVisibility.ALWAYS)
@@ -573,7 +573,7 @@ rule "Scoreboard A (Standard): Create Legend":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_DisplayLegend == true
     @Condition Scoreboard_StatsPreset == 0
-    
+
     wait()
     if Scoreboard_Size == 0:
         if Scoreboard_GroupMode == 0:
@@ -601,7 +601,7 @@ rule "Scoreboard A (Standard): Create Player Entries (Small)":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_Size == 0
     @Condition Scoreboard_StatsPreset == 0
-    
+
     wait()
     if Scoreboard_GroupMode == 0:
         hudSubheader(null, "{0} {1} • {2}".format(heroIcon(eventPlayer.getCurrentHero()), "{0} • {1} • {2}".format(eventPlayer.getStatistic(Stat.FINAL_BLOWS), eventPlayer.getStatistic(Stat.DEATHS), round(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT))), "{0} • {1} • {2}".format(round(eventPlayer.getStatistic(Stat.DAMAGE_TAKEN)), round(eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED)) if eventPlayer.getCurrentHero() in getTankHeroes() else round(eventPlayer.getStatistic(Stat.HEALING_DEALT)) if eventPlayer.getCurrentHero() in getSupportHeroes() else "{0}%".format(round(eventPlayer.getHeroStatistic(eventPlayer.getCurrentHero(), HeroStat.WEAPON_ACCURACY) * 100)), eventPlayer.getStatistic(Stat.ULTIMATES_USED))), HudPosition.LEFT, (1 if eventPlayer.getCurrentHero() in getDamageHeroes() else 2 if eventPlayer.getCurrentHero() in getTankHeroes() else 3) + (0.1 if eventPlayer.getTeam() == Team.1 else 0.2), Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, HudReeval.SORT_ORDER_AND_STRING, SpecVisibility.ALWAYS)
@@ -617,7 +617,7 @@ rule "Scoreboard A (Standard): Create Player Entries (Medium)":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_Size == 1
     @Condition Scoreboard_StatsPreset == 0
-    
+
     wait()
     if Scoreboard_GroupMode == 0:
         hudSubtext(null, "{0} {1} • {2}".format(heroIcon(eventPlayer.getCurrentHero()), "{0} • {1} • {2}".format(eventPlayer.getStatistic(Stat.FINAL_BLOWS), eventPlayer.getStatistic(Stat.DEATHS), round(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT))), "{0} • {1} • {2}".format(round(eventPlayer.getStatistic(Stat.DAMAGE_TAKEN)), round(eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED)) if eventPlayer.getCurrentHero() in getTankHeroes() else round(eventPlayer.getStatistic(Stat.HEALING_DEALT)) if eventPlayer.getCurrentHero() in getSupportHeroes() else "{0}%".format(round(eventPlayer.getHeroStatistic(eventPlayer.getCurrentHero(), HeroStat.WEAPON_ACCURACY) * 100)), eventPlayer.getStatistic(Stat.ULTIMATES_USED))), HudPosition.LEFT, (1 if eventPlayer.getCurrentHero() in getDamageHeroes() else 2 if eventPlayer.getCurrentHero() in getTankHeroes() else 3) + (0.1 if eventPlayer.getTeam() == Team.1 else 0.2), Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, HudReeval.SORT_ORDER_AND_STRING, SpecVisibility.ALWAYS)
@@ -633,7 +633,7 @@ rule "Scoreboard A (Standard): Create Player Entries (Large)":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_Size == 2
     @Condition Scoreboard_StatsPreset == 0
-    
+
     wait()
     if Scoreboard_GroupMode == 0:
         hudText(null, heroIcon(eventPlayer.getCurrentHero()), eventPlayer, "{1} • {2}".format("{0} • {1} • {2}".format(eventPlayer.getStatistic(Stat.FINAL_BLOWS), eventPlayer.getStatistic(Stat.DEATHS), round(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT))), "{0} • {1} • {2}".format(round(eventPlayer.getStatistic(Stat.DAMAGE_TAKEN)), round(eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED)) if eventPlayer.getCurrentHero() in getTankHeroes() else round(eventPlayer.getStatistic(Stat.HEALING_DEALT)) if eventPlayer.getCurrentHero() in getSupportHeroes() else "{0}%".format(round(eventPlayer.getHeroStatistic(eventPlayer.getCurrentHero(), HeroStat.WEAPON_ACCURACY) * 100)), eventPlayer.getStatistic(Stat.ULTIMATES_USED)), null), HudPosition.LEFT, (1 if eventPlayer.getCurrentHero() in getDamageHeroes() else 2 if eventPlayer.getCurrentHero() in getTankHeroes() else 3) + (0.1 if eventPlayer.getTeam() == Team.1 else 0.2), Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, Colour_TextTypeA, HudReeval.SORT_ORDER_AND_STRING, SpecVisibility.ALWAYS)
@@ -648,7 +648,7 @@ rule "Scoreboard B (Legacy Standard): Create Legend":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_DisplayLegend == true
     @Condition Scoreboard_StatsPreset == 1
-    
+
     wait()
     if Scoreboard_Size == 0:
         if Scoreboard_GroupMode == 0:
@@ -676,7 +676,7 @@ rule "Scoreboard B (Legacy Standard): Create Player Entries (Small)":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_Size == 0
     @Condition Scoreboard_StatsPreset == 1
-    
+
     wait()
     if Scoreboard_GroupMode == 0:
         hudSubheader(null, "{0} {1} • {2}".format(heroIcon(eventPlayer.getCurrentHero()), "{0} • {1} • {2}".format(eventPlayer.getStatistic(Stat.FINAL_BLOWS), eventPlayer.getStatistic(Stat.DEATHS), round(eventPlayer.getStatistic(Stat.HEALING_DEALT)) if eventPlayer.getCurrentHero() in getSupportHeroes() else round(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT))), "{0} • {1} • {2}".format(round(eventPlayer.getStatistic(Stat.DAMAGE_TAKEN)), round(eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED)) if eventPlayer.getCurrentHero() in getTankHeroes() else eventPlayer.getStatistic(Stat.OFFENSIVE_ASSISTS), eventPlayer.getStatistic(Stat.ULTIMATES_USED))), HudPosition.LEFT, (1 if eventPlayer.getCurrentHero() in getDamageHeroes() else 2 if eventPlayer.getCurrentHero() in getTankHeroes() else 3) + (0.1 if eventPlayer.getTeam() == Team.1 else 0.2), Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, HudReeval.SORT_ORDER_AND_STRING, SpecVisibility.ALWAYS)
@@ -692,7 +692,7 @@ rule "Scoreboard B (Legacy Standard): Create Player Entries (Medium)":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_Size == 1
     @Condition Scoreboard_StatsPreset == 1
-    
+
     wait()
     if Scoreboard_GroupMode == 0:
         hudSubtext(null, "{0} {1} • {2}".format(heroIcon(eventPlayer.getCurrentHero()), "{0} • {1} • {2}".format(eventPlayer.getStatistic(Stat.FINAL_BLOWS), eventPlayer.getStatistic(Stat.DEATHS), round(eventPlayer.getStatistic(Stat.HEALING_DEALT)) if eventPlayer.getCurrentHero() in getSupportHeroes() else round(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT))), "{0} • {1} • {2}".format(round(eventPlayer.getStatistic(Stat.DAMAGE_TAKEN)), round(eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED)) if eventPlayer.getCurrentHero() in getTankHeroes() else eventPlayer.getStatistic(Stat.OFFENSIVE_ASSISTS), eventPlayer.getStatistic(Stat.ULTIMATES_USED))), HudPosition.LEFT, (1 if eventPlayer.getCurrentHero() in getDamageHeroes() else 2 if eventPlayer.getCurrentHero() in getTankHeroes() else 3) + (0.1 if eventPlayer.getTeam() == Team.1 else 0.2), Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, HudReeval.SORT_ORDER_AND_STRING, SpecVisibility.ALWAYS)
@@ -708,7 +708,7 @@ rule "Scoreboard B (Legacy Standard): Create Player Entries (Large)":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_Size == 2
     @Condition Scoreboard_StatsPreset == 1
-    
+
     wait()
     if Scoreboard_GroupMode == 0:
         hudText(null, heroIcon(eventPlayer.getCurrentHero()), eventPlayer, "{1} • {2}".format(null, "{0} • {1} • {2}".format(eventPlayer.getStatistic(Stat.FINAL_BLOWS), eventPlayer.getStatistic(Stat.DEATHS), round(eventPlayer.getStatistic(Stat.HEALING_DEALT)) if eventPlayer.getCurrentHero() in getSupportHeroes() else round(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT))), "{0} • {1} • {2}".format(round(eventPlayer.getStatistic(Stat.DAMAGE_TAKEN)), round(eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED)) if eventPlayer.getCurrentHero() in getTankHeroes() else eventPlayer.getStatistic(Stat.OFFENSIVE_ASSISTS), eventPlayer.getStatistic(Stat.ULTIMATES_USED))), HudPosition.LEFT, (1 if eventPlayer.getCurrentHero() in getDamageHeroes() else 2 if eventPlayer.getCurrentHero() in getTankHeroes() else 3) + (0.1 if eventPlayer.getTeam() == Team.1 else 0.2), Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, Colour_TextTypeA, HudReeval.SORT_ORDER_AND_STRING, SpecVisibility.ALWAYS)
@@ -723,7 +723,7 @@ rule "Scoreboard C (Legacy OWL/OWC): Create Legend":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_DisplayLegend == true
     @Condition Scoreboard_StatsPreset == 2
-    
+
     wait()
     if Scoreboard_Size == 0:
         if Scoreboard_GroupMode == 0:
@@ -751,7 +751,7 @@ rule "Scoreboard C (Legacy OWL/OWC): Create Player Entries (Small)":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_Size == 0
     @Condition Scoreboard_StatsPreset == 2
-    
+
     wait()
     if Scoreboard_GroupMode == 0:
         hudSubheader(null, "{0} {1} • {2}".format(heroIcon(eventPlayer.getCurrentHero()), "{0} • {1} • {2}".format(eventPlayer.getStatistic(Stat.FINAL_BLOWS), eventPlayer.getStatistic(Stat.DEATHS), eventPlayer.getStatistic(Stat.ELIMINATIONS)), "{0} • {1} • {2}".format(round(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT)), round(eventPlayer.getStatistic(Stat.HEALING_DEALT)) if eventPlayer.getCurrentHero() in getSupportHeroes() else round(eventPlayer.getStatistic(Stat.DAMAGE_TAKEN)), eventPlayer.getStatistic(Stat.ULTIMATES_USED))), HudPosition.LEFT, (1 if eventPlayer.getCurrentHero() in getDamageHeroes() else 2 if eventPlayer.getCurrentHero() in getTankHeroes() else 3) + (0.1 if eventPlayer.getTeam() == Team.1 else 0.2), Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, HudReeval.SORT_ORDER_AND_STRING, SpecVisibility.ALWAYS)
@@ -767,7 +767,7 @@ rule "Scoreboard C (Legacy OWL/OWC): Create Player Entries (Medium)":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_Size == 1
     @Condition Scoreboard_StatsPreset == 2
-    
+
     wait()
     if Scoreboard_GroupMode == 0:
         hudSubtext(null, "{0} {1} • {2}".format(heroIcon(eventPlayer.getCurrentHero()), "{0} • {1} • {2}".format(eventPlayer.getStatistic(Stat.FINAL_BLOWS), eventPlayer.getStatistic(Stat.DEATHS), round(eventPlayer.getStatistic(Stat.HEALING_DEALT)) if eventPlayer.getCurrentHero() in getSupportHeroes() else round(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT))), "{0} • {1} • {2}".format(round(eventPlayer.getStatistic(Stat.DAMAGE_TAKEN)), round(eventPlayer.getStatistic(Stat.DAMAGE_BLOCKED)) if eventPlayer.getCurrentHero() in getTankHeroes() else eventPlayer.getStatistic(Stat.OFFENSIVE_ASSISTS), eventPlayer.getStatistic(Stat.ULTIMATES_USED))), HudPosition.LEFT, (1 if eventPlayer.getCurrentHero() in getDamageHeroes() else 2 if eventPlayer.getCurrentHero() in getTankHeroes() else 3) + (0.1 if eventPlayer.getTeam() == Team.1 else 0.2), Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, HudReeval.SORT_ORDER_AND_STRING, SpecVisibility.ALWAYS)
@@ -783,7 +783,7 @@ rule "Scoreboard C (Legacy OWL/OWC): Create Player Entries (Large)":
     @Condition Scoreboard_EnableScoreboard == true
     @Condition Scoreboard_Size == 2
     @Condition Scoreboard_StatsPreset == 2
-    
+
     wait()
     if Scoreboard_GroupMode == 0:
         hudText(null, heroIcon(eventPlayer.getCurrentHero()), eventPlayer, "{1} • {2}".format(null, "{0} • {1} • {2}".format(eventPlayer.getStatistic(Stat.FINAL_BLOWS), eventPlayer.getStatistic(Stat.DEATHS), eventPlayer.getStatistic(Stat.ELIMINATIONS)), "{0} • {1} • {2}".format(round(eventPlayer.getStatistic(Stat.HERO_DAMAGE_DEALT)), round(eventPlayer.getStatistic(Stat.HEALING_DEALT)) if eventPlayer.getCurrentHero() in getSupportHeroes() else round(eventPlayer.getStatistic(Stat.DAMAGE_TAKEN)), eventPlayer.getStatistic(Stat.ULTIMATES_USED))), HudPosition.LEFT, (1 if eventPlayer.getCurrentHero() in getDamageHeroes() else 2 if eventPlayer.getCurrentHero() in getTankHeroes() else 3) + (0.1 if eventPlayer.getTeam() == Team.1 else 0.2), Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, Colour_TeamOne if eventPlayer.getTeam() == Team.1 else Colour_TeamTwo, Colour_TextTypeA, HudReeval.SORT_ORDER_AND_STRING, SpecVisibility.ALWAYS)
@@ -800,7 +800,7 @@ rule "Scoreboard: Host Spectator Toggle":
     @Condition hostPlayer.isHoldingButton(Button.ULTIMATE) == true
     @Condition hostPlayer.isHoldingButton(Button.ABILITY_1) == true
     @Condition hostPlayer.getTeam() == Team.ALL
-    
+
     if Scoreboard_HideScoreboardID == null:
         #Host Toggled Scoreboard Off
         smallMessage(getAllPlayers(), Text_LanguageTextArray[35][localPlayer.Text_PlayerLanguage])
@@ -816,7 +816,7 @@ rule "Scoreboard: Host Spectator Toggle":
 rule "Map Completion: Save Team Scores on Round End":
     @Condition getCurrentGamemode() != Gamemode.CONTROL
     @Condition isMatchBetweenRounds() == true
-    
+
     if isTeamOnOffense(Team.1):
         MapComp_TeamOneScore = teamScore(Team.1)
     else:
@@ -828,7 +828,7 @@ rule "Map Completion: Ensure Map Completion (Non-Control)":
     @Condition isMatchBetweenRounds() == true
     @Condition getCurrentGamemode() != Gamemode.CONTROL
     @Condition (teamScore(Team.1 if isTeamOnOffense(Team.1) else Team.2)) < (2 if getCurrentGamemode() == Gamemode.ASSAULT else 3)
-    
+
     wait()
     if getCurrentGamemode() == Gamemode.ASSAULT:
         smallMessage(getAllPlayers(), (Text_LanguageTextArray[30][localPlayer.Text_PlayerLanguage].replace("[ATTACKING_TEAM]", Team.1 if isTeamOnOffense(Team.1) else Team.2)).replace("[MAP_COMPLETION_SCORE]", 2 + 0))
@@ -843,7 +843,7 @@ rule "Map Completion: Force Match End After Two Rounds (Non-Control)":
     @Condition getCurrentGamemode() != Gamemode.CONTROL
     @Condition isMatchBetweenRounds() == true
     @Condition getMatchRound() == 2
-    
+
     if MapComp_ForceNonControlTwoRounds == 0 and (MapComp_TeamOneScore + MapComp_TeamTwoScore == (4 if getCurrentGamemode() == Gamemode.ASSAULT else 6)):
         #Both teams completed map, match will proceed as normal
         smallMessage(getAllPlayers(), Text_LanguageTextArray[31][localPlayer.Text_PlayerLanguage])
@@ -858,7 +858,7 @@ rule "Map Completion: Force Match End After Three Rounds (Control)":
     @Condition MapComp_ForceControlThreeRounds == true
     @Condition getCurrentGamemode() == Gamemode.CONTROL
     @Condition teamScore(Team.1) + teamScore(Team.2) == 3
-    
+
     #Ending match after three rounds
     smallMessage(getAllPlayers(), Text_LanguageTextArray[33][localPlayer.Text_PlayerLanguage])
     wait(1)
@@ -868,7 +868,7 @@ rule "Map Completion: Force Match End After Three Rounds (Control)":
 rule "Logs: Match Start":
     @Condition Logs_EnableLogGenerator == true
     @Condition getMatchRound() == 1
-    
+
     if Logs_TrackMatchStartEnd:
         printLog(",match_start,{0},{1}".format("{0},{1},{2}".format(Match_CurrentMatchTime, getCurrentMap(), getCurrentGamemode()), "{0},{1}".format(Team.1, Team.2)))
 
@@ -876,7 +876,7 @@ rule "Logs: Match Start":
 rule "Logs: Round Start":
     @Condition Logs_EnableLogGenerator == true
     @Condition isInSetup() == true
-    
+
     Logs_CurrentControlScoringTeam = Team.ALL
     Logs_CurrentObjectiveIndex = getCurrentObjective()
     if Logs_TrackRoundStartEnd == true:
@@ -889,7 +889,7 @@ rule "Logs: Round Complete":
     @Condition Logs_EnableLogGenerator == true
     @Condition Logs_TrackRoundStartEnd == true
     @Condition isMatchBetweenRounds() == true
-    
+
     printLog(",round_end,{0},{1},{2}".format("{0},{1},{2}".format(Match_CurrentMatchTime, getMatchRound(), (Team.1 if isTeamOnOffense(Team.1) else Team.2) if getCurrentGamemode() != Gamemode.CONTROL else null), "{0},{1}".format(teamScore(Team.1), teamScore(Team.2)), "{0},{1},{2}".format(getCurrentObjective(), "{0},{1}".format(getControlScorePercentage(Team.1), getControlScorePercentage(Team.2)), getMatchTime())))
 
 
@@ -897,7 +897,7 @@ rule "Logs: Match Complete":
     @Condition Logs_EnableLogGenerator == true
     @Condition Logs_TrackMatchStartEnd == true
     @Condition isMatchComplete() == true
-    
+
     printLog(",match_end,{0},{1},{2}".format("{0},{1}".format(Match_CurrentMatchTime, getMatchRound()), "{0}".format(teamScore(Team.1)), "{0}".format(teamScore(Team.2))))
 
 
@@ -906,7 +906,7 @@ rule "Logs: Control Point Increment":
     @Condition Logs_PointCaptureProgressStep > 0
     @Condition isGameInProgress() == true
     @Condition getCapturePercentage() >= Logs_PointCaptureProgress + Logs_PointCaptureProgressStep
-    
+
     printLog(",point_progress,{0},{1}".format("{0},{1}".format(Match_CurrentMatchTime, getMatchRound()), "{0},{1},{2}".format(getOppositeTeam(getControlScoringTeam()) if getCurrentGamemode() == Gamemode.CONTROL else Team.1 if isTeamOnOffense(Team.1) else Team.2, getCurrentObjective(), getCapturePercentage())))
     Logs_PointCaptureProgress += Logs_PointCaptureProgressStep
 
@@ -916,7 +916,7 @@ rule "Logs: Payload Increment":
     @Condition Logs_PayloadCaptureProgressStep > 0
     @Condition isGameInProgress() == true
     @Condition getPayloadProgressPercentage() >= Logs_PayloadCaptureProgress + Logs_PayloadCaptureProgressStep
-    
+
     printLog(",payload_progress,{0},{1}".format("{0},{1}".format(Match_CurrentMatchTime, getMatchRound()), "{0},{1},{2}".format(Team.1 if isTeamOnOffense(Team.1) else Team.2, getCurrentObjective(), getPayloadProgressPercentage())))
     Logs_PayloadCaptureProgress += Logs_PayloadCaptureProgressStep
 
@@ -926,7 +926,7 @@ rule "Logs: Reset Control Point Progress":
     @Condition Logs_PointCaptureProgressStep > 0
     @Condition isGameInProgress() == true
     @Condition getCapturePercentage() == 0
-    
+
     Logs_PointCaptureProgress = 0
 
 
@@ -935,7 +935,7 @@ rule "Logs: Reset Payload Progress":
     @Condition Logs_PayloadCaptureProgressStep > 0
     @Condition isGameInProgress() == true
     @Condition getPayloadProgressPercentage() == 0
-    
+
     Logs_PayloadCaptureProgress = 0
 
 
@@ -944,7 +944,7 @@ rule "Logs: Objective Captured (Non-Control)":
     @Condition Logs_TrackObjectiveCapture == true
     @Condition getCurrentGamemode() != Gamemode.CONTROL
     @Condition isObjectiveComplete(Logs_CurrentObjectiveIndex) == true
-    
+
     printLog(",objective_captured,{0},{1},{2}".format("{0},{1}".format(Match_CurrentMatchTime, getMatchRound()), "{0},{1}".format(Team.1 if isTeamOnOffense(Team.1) else Team.2, getCurrentObjective()), "{0},{1},{2}".format(null, null, getMatchTime())))
     Logs_CurrentObjectiveIndex = getCurrentObjective()
 
@@ -955,7 +955,7 @@ rule "Logs: Objective Captured (Control)":
     @Condition isGameInProgress() == true
     @Condition getCurrentGamemode() == Gamemode.CONTROL
     @Condition getControlScoringTeam() != Logs_CurrentControlScoringTeam
-    
+
     printLog(",objective_captured,{0},{1},{2}".format("{0},{1}".format(Match_CurrentMatchTime, getMatchRound()), "{0},{1}".format(getControlScoringTeam(), getCurrentObjective()), "{0},{1},{2}".format(getControlScorePercentage(Team.1), getControlScorePercentage(Team.2), getMatchTime())))
     Logs_CurrentControlScoringTeam = getControlScoringTeam()
 
@@ -965,7 +965,7 @@ rule "Logs: Kills":
     @Condition Logs_EnableLogGenerator == true
     @Condition Logs_TrackKills == true
     @Condition isGameInProgress() == true
-    
+
     printLog(",kill,{0},{1}".format(Match_CurrentMatchTime, "{0},{1},{2}".format("{0},{1},{2}".format(attacker.getTeam(), attacker, attacker.getCurrentHero()), "{0},{1},{2}".format(victim.getTeam(), victim, victim.getCurrentHero()), "{0},{1},{2}".format("{0},{1}".format(eventAbility, eventDamage), eventWasCriticalHit, eventWasEnvironment))))
 
 
@@ -975,7 +975,7 @@ rule "Logs: Hero Spawn/Swap":
     @Condition (Logs_TrackHeroSwaps or Logs_PlayerSummaryCount != 2) == true
     @Condition eventPlayer.getCurrentHero() != eventPlayer.Logs_LastHero
     @Condition isMatchComplete() == false
-    
+
     if Logs_TrackHeroSwaps and eventPlayer.getCurrentHero() in getAllHeroes():
         if eventPlayer.Logs_LastHero in getAllHeroes():
             printLog(",hero_swap,{0},{1},{2}".format(Match_CurrentMatchTime, "{0},{1}".format(eventPlayer.getTeam(), eventPlayer), "{0},{1},{2}".format(eventPlayer.getCurrentHero(), eventPlayer.Logs_LastHero, Match_CurrentMatchTime - eventPlayer.Logs_LastHeroTime)))
@@ -991,7 +991,7 @@ rule "Logs: Hero Spawn/Swap":
 
 def CalcHeroPlayedTime():
     @Name "Logs: Calculate Hero Played Time (Subroutine)"
-    
+
     eventPlayer.Logs_HeroesPlayedTimeArray[eventPlayer.Logs_HeroesPlayedArray.index(eventPlayer.Logs_LastHero)] += Match_CurrentMatchTime - eventPlayer.Logs_LastHeroTime
 
 
@@ -1000,7 +1000,7 @@ rule "Logs: Damage":
     @Condition Logs_EnableLogGenerator == true
     @Condition Logs_TrackDamage == true
     @Condition isGameInProgress() == true
-    
+
     printLog(",damage,{0},{1}".format(Match_CurrentMatchTime, "{0},{1},{2}".format("{0},{1},{2}".format(attacker.getTeam(), attacker, attacker.getCurrentHero()), "{0},{1},{2}".format(victim.getTeam(), victim, victim.getCurrentHero()), "{0},{1},{2}".format("{0},{1}".format(eventAbility, eventDamage), eventWasCriticalHit, eventWasEnvironment))))
 
 
@@ -1009,7 +1009,7 @@ rule "Logs: Healing":
     @Condition Logs_EnableLogGenerator == true
     @Condition Logs_TrackHealing == true
     @Condition isGameInProgress() == true
-    
+
     printLog(",healing,{0},{1}".format(Match_CurrentMatchTime, "{0},{1},{2}".format("{0},{1},{2}".format(healer.getTeam(), healer, healer.getCurrentHero()), "{0},{1},{2}".format(healee.getTeam(), healee, healee.getCurrentHero()), "{0},{1},{2}".format(eventAbility, eventHealing, eventWasHealthPack))))
 
 
@@ -1019,7 +1019,7 @@ rule "Logs: Offensive Assists":
     @Condition Logs_TrackOffensiveAssists == true
     @Condition eventPlayer.Logs_OffensiveAssists < eventPlayer.getStatistic(Stat.OFFENSIVE_ASSISTS)
     @Condition isGameInProgress() == true
-    
+
     printLog(",offensive_assist,{0},{1},{2}".format("{0}".format(Match_CurrentMatchTime), "{0},{1},{2}".format(eventPlayer.getTeam(), eventPlayer, eventPlayer.getCurrentHero()), "{0}".format(eventPlayer.getHeroOfDuplication())))
     eventPlayer.Logs_OffensiveAssists += 1
     if RULE_CONDITION:
@@ -1032,7 +1032,7 @@ rule "Logs: Defensive Assists":
     @Condition Logs_TrackDefensiveAssists == true
     @Condition eventPlayer.Logs_DefensiveAssists < eventPlayer.getStatistic(Stat.DEFENSIVE_ASSISTS)
     @Condition isGameInProgress() == true
-    
+
     printLog(",defensive_assist,{0},{1},{2}".format("{0}".format(Match_CurrentMatchTime), "{0},{1},{2}".format(eventPlayer.getTeam(), eventPlayer, eventPlayer.getCurrentHero()), "{0}".format(eventPlayer.getHeroOfDuplication())))
     eventPlayer.Logs_DefensiveAssists += 1
     if RULE_CONDITION:
@@ -1045,7 +1045,7 @@ rule "Logs: Ability 1 Used":
     @Condition Logs_TrackAbilities == true
     @Condition eventPlayer.isUsingAbility1() == true
     @Condition isGameInProgress() == true
-    
+
     printLog(",ability_1_used,{0},{1},{2}".format("{0}".format(Match_CurrentMatchTime), "{0},{1},{2}".format(eventPlayer.getTeam(), eventPlayer, eventPlayer.getCurrentHero()), "{0}".format(eventPlayer.getHeroOfDuplication())))
 
 
@@ -1055,7 +1055,7 @@ rule "Logs: Ability 2 Used":
     @Condition Logs_TrackAbilities == true
     @Condition eventPlayer.isUsingAbility2() == true
     @Condition isGameInProgress() == true
-    
+
     printLog(",ability_2_used,{0},{1},{2}".format("{0}".format(Match_CurrentMatchTime), "{0},{1},{2}".format(eventPlayer.getTeam(), eventPlayer, eventPlayer.getCurrentHero()), "{0}".format(eventPlayer.getHeroOfDuplication())))
 
 
@@ -1065,7 +1065,7 @@ rule "Logs: Ultimate Charged":
     @Condition Logs_TrackUltimates == true
     @Condition eventPlayer.getUltCharge() == 100
     @Condition isGameInProgress() == true
-    
+
     eventPlayer.Logs_UltimateID += 1
     if eventPlayer.getCurrentHero() == Hero.DVA and eventPlayer.isInAlternateForm() and Logs_TrackDvaDemechs:
         printLog(",remech_charged,{0},{1},{2}".format("{0}".format(Match_CurrentMatchTime), "{0},{1},{2}".format(eventPlayer.getTeam(), eventPlayer, eventPlayer.getCurrentHero()), "{0},{1}".format(eventPlayer.getHeroOfDuplication(), eventPlayer.Logs_UltimateID)))
@@ -1080,7 +1080,7 @@ rule "Logs: Ultimate Used":
     @Condition eventPlayer.isUsingUltimate() == true
     @Condition eventPlayer.getCurrentHero() != Hero.DVA
     @Condition isGameInProgress() == true
-    
+
     printLog(",ultimate_start,{0},{1},{2}".format("{0}".format(Match_CurrentMatchTime), "{0},{1},{2}".format(eventPlayer.getTeam(), eventPlayer, eventPlayer.getCurrentHero()), "{0},{1}".format(eventPlayer.getHeroOfDuplication(), eventPlayer.Logs_UltimateID)))
     waitUntil(not eventPlayer.isUsingUltimate(), 99999)
     printLog(",ultimate_end,{0},{1},{2}".format("{0}".format(Match_CurrentMatchTime), "{0},{1},{2}".format(eventPlayer.getTeam(), eventPlayer, eventPlayer.getCurrentHero()), "{0},{1}".format(eventPlayer.getHeroOfDuplication(), eventPlayer.Logs_UltimateID)))
@@ -1092,7 +1092,7 @@ rule "Logs: D.Va Remech/Self-Destruct Used":
     @Condition eventPlayer.isUsingUltimate() == true
     @Condition eventPlayer.getCurrentHero() == Hero.DVA
     @Condition isGameInProgress() == true
-    
+
     wait(1.74)
     if Logs_TrackDvaDemechs and not eventPlayer.isInAlternateForm():
         printLog(",dva_remech,{0},{1},{2}".format("{0}".format(Match_CurrentMatchTime), "{0},{1},{2}".format(eventPlayer.getTeam(), eventPlayer, eventPlayer.getCurrentHero()), "{0}".format(eventPlayer.Logs_UltimateID)))
@@ -1108,7 +1108,7 @@ rule "Logs: Echo Duplicate":
     @Condition Logs_TrackEchoDuplicates == true
     @Condition isGameInProgress() == true
     @Condition eventPlayer.isDuplicatingAHero() == true
-    
+
     eventPlayer.Logs_DuplicateID = eventPlayer.Logs_UltimateID
     printLog(",echo_duplicate_start,{0},{1},{2}".format(Match_CurrentMatchTime, "{0},{1},{2}".format(eventPlayer.getTeam(), eventPlayer, eventPlayer.getCurrentHero()), "{0},{1}".format(eventPlayer.getHeroOfDuplication(), eventPlayer.Logs_DuplicateID)))
     waitUntil(not eventPlayer.isDuplicatingAHero(), 99999)
@@ -1121,7 +1121,7 @@ rule "Logs: Mercy Resurrect":
     @Condition Logs_TrackMercyRez == true
     @Condition isGameInProgress() == true
     @Condition eventPlayer.isDead() == true
-    
+
     waitUntil(eventPlayer.isAlive(), 99999)
     wait(0.24)
     if not eventPlayer.isInSpawnRoom() and isGameInProgress():
@@ -1133,7 +1133,7 @@ rule "Logs: Player Stat Summary":
     @Condition Logs_EnableLogGenerator == true
     @Condition (Logs_PlayerSummaryFrequency == 0 or Logs_PlayerSummaryFrequency == 1 and isMatchComplete()) == true
     @Condition isMatchBetweenRounds() == true
-    
+
     CalcHeroPlayedTime()
     eventPlayer.Logs_LastHero = eventPlayer.getCurrentHero()
     eventPlayer.Logs_LastHeroTime = Match_CurrentMatchTime
@@ -1149,7 +1149,7 @@ rule "Debug: Force Ready (Interact + Ability 1)":
     @Condition isInSetup() == true
     @Condition hostPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition hostPlayer.isHoldingButton(Button.ABILITY_1) == true
-    
+
     getAllPlayers().ReadyUp_PlayerReady = true
 
 
@@ -1158,7 +1158,7 @@ rule "Debug: Reduce Timer to 5 (Interact + Alt Fire)":
     @Condition Debug_EnableDebugMode == true
     @Condition hostPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition hostPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
-    
+
     setMatchTime(5)
 
 
@@ -1166,14 +1166,14 @@ rule "Debug: Spawn Test Bot (Interact + Melee)":
     @Condition Debug_EnableDebugMode == true
     @Condition hostPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition hostPlayer.isHoldingButton(Button.MELEE) == true
-    
+
     createDummy(Hero.REAPER, getOppositeTeam(hostPlayer.getTeam()), -1, hostPlayer.getPosition(), vect(0, 0, 0))
 
 
 rule "Debug: Automatically End Match":
     @Condition Debug_EnableDebugMode == true
     @Condition Logs_AutoMatchEndTime < 3600
-    
+
     wait(Logs_AutoMatchEndTime)
     declareTeamVictory(Team.ALL)
 
@@ -1182,8 +1182,6 @@ rule "Debug: Display Server Loads":
     @Condition Debug_EnableDebugMode == true
     @Condition Debug_DisplayServerLoad == true
     @Condition isGameInProgress() == true
-    
+
     wait()
     hudSubheader(getAllPlayers(), "{0} Current Server Load\r\n{1} Average Server Load\r\n{2} Peak Server Load".format(getServerLoad(), getAverageServerLoad(), getPeakServerLoad()), HudPosition.LEFT, 100, Colour_TextTypeA, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.ALWAYS)
-
-

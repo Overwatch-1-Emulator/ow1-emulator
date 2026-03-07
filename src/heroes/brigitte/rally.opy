@@ -53,5 +53,5 @@ rule "[brigitte/rally.opy]: Force cooldown when Rally":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate()
-    
+
     eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)

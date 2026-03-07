@@ -187,7 +187,7 @@ rule "GlobalVariables":
 
 rule "PlayerVariables":
     @Event eachPlayer
-    
+
     if not isGameInProgress():
         eventPlayer.active = true
     else:
@@ -243,7 +243,7 @@ rule "Toggle HUD 0":
     @Event eachPlayer
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.hudToggle == 2
-    
+
     wait(0.7, Wait.ABORT_WHEN_FALSE)
     eventPlayer.hudToggle = 0
     smallMessage(eventPlayer, "normal mode")
@@ -254,7 +254,7 @@ rule "Toggle HUD 1":
     @Event eachPlayer
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.hudToggle == 0
-    
+
     wait(0.7, Wait.ABORT_WHEN_FALSE)
     smallMessage(eventPlayer, "scoreboard off")
     eventPlayer.hudToggle = 1
@@ -265,7 +265,7 @@ rule "Toggle HUD 2":
     @Event eachPlayer
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
     @Condition eventPlayer.hudToggle == 1
-    
+
     wait(0.7, Wait.ABORT_WHEN_FALSE)
     smallMessage(eventPlayer, "simple mode")
     eventPlayer.hudToggle = 2
@@ -278,7 +278,7 @@ rule "Circle spawn":
     @Event eachPlayer
     @Condition circle_spawning == true
     @Condition eventPlayer.active == true
-    
+
     getAllPlayers().setStatusEffect(null, Status.UNKILLABLE, 999999)
     getAllPlayers().setDamageDealt(500)
     eventPlayer.startForcingPosition(vect(vectorArray[0].x + (6 * (cosDeg((getAllPlayers().index(eventPlayer) + totalRounds) * (360 / getNumberOfPlayers(Team.ALL))))), vectorArray[0].y, vectorArray[0].z + (6 * (sinDeg((getAllPlayers().index(eventPlayer) + totalRounds) * (360 / getNumberOfPlayers(Team.ALL)))))), true)
@@ -298,7 +298,7 @@ rule "Corner spawn":
     @Event eachPlayer
     @Condition corner_spawning == true
     @Condition eventPlayer.active == true
-    
+
     getAllPlayers().setStatusEffect(null, Status.UNKILLABLE, 999999)
     getAllPlayers().setDamageDealt(500)
     if corner_used == false:
@@ -333,7 +333,7 @@ rule "Event inactive player kill":
     @Condition isGameInProgress() == true
     @Condition eventPlayer.hasSpawned() == true
     @Condition eventPlayer.active == false
-    
+
     eventPlayer.teleport(vect(0, -2, 0))
     kill(eventPlayer, null)
     eventPlayer.disableRespawn()
@@ -344,7 +344,7 @@ rule "Event inactive player kill":
 rule "Event active player kill":
     @Event playerDied
     @Condition eventPlayer.active == true
-    
+
     createEffect(getAllPlayers(), Effect.SIGMA_GRAVITIC_FLUX_TARGET, Color.TEAM_2, eventPlayer.getPosition() + vect(0, 2, 0), 20, EffectReeval.VISIBILITY)
     eventPlayer.deathEffect = getLastCreatedEntity()
     createEffect(getAllPlayers(), Effect.WRECKING_BALL_PILEDRIVER_FIRE, Color.TEAM_1, eventPlayer, 2, EffectReeval.VISIBILITY)
@@ -364,13 +364,13 @@ rule "Event active player kill":
 rule "Kill counter":
     @Event playerEarnedElimination
     @Condition isGameInProgress() == true
-    
+
     eventPlayer.kills += 1
 
 
 rule "CampTimer":
     @Event eachPlayer
-    
+
     chase(eventPlayer.campTimer, 0, rate=1, ChaseReeval.DESTINATION_AND_RATE)
 
 
@@ -380,7 +380,7 @@ rule "CampSpots (kill)":
     @Condition eventPlayer.isAlive() == true
     @Condition any([distance(eventPlayer, player) <= 4.5 for player in campSpot]) == true
     @Condition eventPlayer.isUsingUltimate() == false
-    
+
     wait(4, Wait.ABORT_WHEN_FALSE)
     smallMessage(eventPlayer, "Stop stalling here, or die!")
     eventPlayer.campTimer = 4
@@ -399,7 +399,7 @@ rule "CampAreas (impulse)":
     @Condition eventPlayer.isAlive() == true
     @Condition any([distance(eventPlayer, player) <= 4 for player in campArea]) == true
     @Condition eventPlayer.isUsingUltimate() == false
-    
+
     wait(4, Wait.ABORT_WHEN_FALSE)
     smallMessage(eventPlayer, "Leave this spot!")
     eventPlayer.campTimer = 4
@@ -419,7 +419,7 @@ rule "Global.CampArea[0], CampCount[0]":
     @Condition eventPlayer.isAlive() == true
     @Condition distance(eventPlayer, campArea[0]) <= 4
     @Condition eventPlayer.isUsingUltimate() == false
-    
+
     wait(1.5, Wait.ABORT_WHEN_FALSE)
     eventPlayer.campCount[0] += 1
     if eventPlayer.campCount[0] == 3:
@@ -442,7 +442,7 @@ rule "Global.CampArea[1], CampCount[1]":
     @Condition eventPlayer.isAlive() == true
     @Condition distance(eventPlayer, campArea[1]) <= 4
     @Condition eventPlayer.isUsingUltimate() == false
-    
+
     wait(2, Wait.ABORT_WHEN_FALSE)
     eventPlayer.campCount[1] += 1
     if eventPlayer.campCount[1] == 3:
@@ -472,7 +472,7 @@ rule "Global.CampSpot[0], CampCount[1]":
     @Condition eventPlayer.isAlive() == true
     @Condition distance(eventPlayer, campSpot[0]) <= 4.5
     @Condition eventPlayer.isUsingUltimate() == false
-    
+
     wait(2, Wait.ABORT_WHEN_FALSE)
     eventPlayer.campCount[1] += 1
     if eventPlayer.campCount[1] == 3:
@@ -502,7 +502,7 @@ rule "CampCount[0] Reset":
     @Condition eventPlayer.isAlive() == true
     @Condition distance(eventPlayer, campArea[0]) <= 4
     @Condition eventPlayer.isUsingUltimate() == false
-    
+
     waitUntil(distance(eventPlayer, campArea[0]) > 4, 999)
     wait(2.5, Wait.RESTART_WHEN_TRUE)
     eventPlayer.campCount[0] = 0
@@ -514,7 +514,7 @@ rule "CampCount[1] Reset":
     @Condition eventPlayer.isAlive() == true
     @Condition (distance(eventPlayer, campSpot[0]) <= 4.5 or distance(eventPlayer, campArea[1]) <= 4) == true
     @Condition eventPlayer.isUsingUltimate() == false
-    
+
     waitUntil(distance(eventPlayer, campSpot[0]) > 4.5 and distance(eventPlayer, campArea[1]) > 4, 999)
     wait(10, Wait.RESTART_WHEN_TRUE)
     eventPlayer.campCount[1] = 0
@@ -527,7 +527,7 @@ rule "CampCount[1] Reset when (almost) on ground":
     @Condition eventPlayer.campCount != 0
     @Condition eventPlayer.getPosition().y >= -1
     @Condition eventPlayer.isUsingUltimate() == false
-    
+
     eventPlayer.campCount = 0
 
 
@@ -537,7 +537,7 @@ rule "Melee slam combo":
     @Condition victim.hasStatusEffect(Status.STUNNED) == true
     @Condition victim.isCloseSlam == true
     @Condition victim.isOnGround() == true
-    
+
     if victim.slamMeleeTimer < 1 and victim.getVelocity() != vect(0, 0, 0):
         victim.applyImpulse(victim.getVelocity(), 8, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
 
@@ -545,7 +545,7 @@ rule "Melee slam combo":
 rule "Melee effect":
     @Event playerDealtDamage
     @Condition eventAbility == Button.MELEE
-    
+
     playEffect(getAllPlayers(), DynamicEffect.DVA_MICRO_MISSILES_EXPLOSION, Color.WHITE, victim, 1)
     eventPlayer.randomEffectNumber = random.randint(0, 4)
     if eventPlayer.randomEffectNumber == 0:
@@ -576,7 +576,7 @@ rule "Visuals & variables":
 
 rule "Get ready visuals":
     @Condition get_ready_text == true
-    
+
     different_text_trigger = random.randint(1, 450)
     if different_text_trigger > 220:
         different_text_trigger = "Get ready"
@@ -732,7 +732,7 @@ rule "Get ready visuals":
 
 rule "Progress bar visuals":
     @Condition timer_progress_bar == true
-    
+
     timer_progress_bar = 0
     chase(timer_progress_bar, 100, duration=3, ChaseReeval.DESTINATION_AND_DURATION)
     wait(3)
@@ -743,7 +743,7 @@ rule "Progress bar visuals":
 
 rule "Corner spawn visuals":
     @Condition corner_timer == true
-    
+
     corner_timer = 3
     #chase(corner_timer, 0, duration=3, ChaseReeval.DESTINATION_AND_DURATION)
     wait(3)
@@ -756,7 +756,7 @@ rule "Corner spawn visuals":
 rule "Hit by ultimate":
     @Event playerDealtDamage
     @Condition eventAbility == Button.ULTIMATE
-    
+
     damage(victim, attacker, 999999)
     victim.applyImpulse(normalize(vect(vectorTowards(eventPlayer, victim).x, 0, vectorTowards(eventPlayer, victim).z)) + vect(0, 0.25, 0), 15, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
     victim.setStatusEffect(attacker, Status.KNOCKED_DOWN, 3)
@@ -764,7 +764,7 @@ rule "Hit by ultimate":
 rule "Hit by ultimate HP animation":
     @Event playerDealtDamage
     @Condition eventAbility == Button.ULTIMATE
-    
+
     victim.afterUltHp = 0
     chase(victim.afterUltHp, victim.getMaxHealthOfType(Health.NORMAL), duration=2, ChaseReeval.NONE)
     while victim.getHealthOfType(Health.NORMAL) < victim.getMaxHealthOfType(Health.NORMAL) and getNumberOfLivingPlayers(Team.ALL) == 2:
@@ -777,7 +777,7 @@ rule "Hit by ultimate HP animation":
 rule "Ow 1 delay":
     @Event eachPlayer
     @Condition eventPlayer.isUsingUltimate() == true
-    
+
     eventPlayer.setPrimaryFireEnabled(false)
     eventPlayer.setMoveSpeed(0)
     wait(1)
@@ -799,7 +799,7 @@ rule "Ultimate going up bug":
     @Condition eventPlayer.isUsingUltimate() == true
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
     @Condition eventPlayer.getPosition().y > 100
-    
+
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
 
@@ -807,7 +807,7 @@ rule "Ultimate going up bug":
 rule "Ultimate wheel animation":
     @Condition getNumberOfLivingPlayers(Team.ALL) == 2
     @Condition getLivingPlayers(Team.ALL)[0].hasStatusEffect(Status.FROZEN) == true
-    
+
     waitUntil(not getLivingPlayers(Team.ALL)[0].hasStatusEffect(Status.FROZEN), 999999)
     ultimateChargeTimer = 0
     chase(ultimateChargeTimer, 100, duration=2.5, ChaseReeval.NONE)
@@ -822,7 +822,7 @@ rule "Exit ult on round restart":
     @Event eachPlayer
     @Condition kickFromUltimate == true
     @Condition eventPlayer.isUsingUltimate() == true
-    
+
     wait(0.5)
     eventPlayer.startForcingButton(Button.PRIMARY_FIRE)
     waitUntil(not eventPlayer.isUsingUltimate(), 999999)
@@ -868,7 +868,7 @@ rule "uppercut ability":
 
         if not eventPlayer.slamRequested0g:
             eventPlayer.setGravity(100)
-            
+
         eventPlayer.cancelPrimaryAction()
         eventPlayer.setMoveSpeed(100)
         eventPlayer.enablePlayerCollision()
@@ -887,7 +887,7 @@ rule "uppercut ability":
 
         eventPlayer.isUppercutting = false
         return
-    
+
 
     eventPlayer.applyImpulse(vect(0, 1, 0), 40, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
 
@@ -947,7 +947,7 @@ rule "uppercut hitbox":
             eventPlayer.uppercutHitPlayers.append(eventPlayer.uppTickHitPlayers)
 
             damage(eventPlayer.uppTickHitPlayers, eventPlayer, 50)
-            
+
             eventPlayer.uppTickHitPlayers.upperHitRuleTrigger = true
 
             eventPlayer.uppTickHitPlayers.applyImpulse(vect(0, 1, 0), 14, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
@@ -958,7 +958,7 @@ rule "uppercut hitbox":
 rule "uppercut hit":
     @Event eachPlayer
     @Condition eventPlayer.upperHitRuleTrigger == true
-    
+
     eventPlayer.upperHitRuleTrigger = false
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
 
@@ -1174,7 +1174,7 @@ rule "indicator slam":
     eventPlayer.showIndicator = false
 
     eventPlayer.tickedFacingDirection = updateEveryTick(eventPlayer.getFacingDirection())
-    
+
     if updateEveryTick(eventPlayer.getAltitude()) > ALTITUDE and eventPlayer.tickedFacingDirection.y < MAX_UPDWARDS_SLAM_ANGLE and eventPlayer.isUppercutting == false and eventPlayer.isUsingAbility1() == false \
     and eventPlayer.getAbilityCooldown(Button.ABILITY_1) == 0 and eventPlayer.isUsingUltimate() == false and eventPlayer.isFiringSecondaryFire() == false:
         eventPlayer.slamEndPosition = SLAM_ENDPOS
@@ -1221,7 +1221,7 @@ rule "start slam timer (REVAMP)":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isUsingAbility1() == true
-    
+
     eventPlayer.slamTimer = 0
 
     /*
@@ -1251,7 +1251,7 @@ rule "Remove EMP PUNCH from ult":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isUsingUltimate() == true
-    
+
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
     waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 4.8)
@@ -1276,7 +1276,7 @@ rule "slam timer hud":
     @Hero doomfist
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     @Condition eventPlayer.hasSlamTimer == false
-    
+
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
@@ -1287,7 +1287,7 @@ rule "slam timer hud":
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
 
     hudText(eventPlayer if eventPlayer.slamTimerVisible else null, "", "{0}".format(round(eventPlayer.slamTimer)), "", HudPosition.TOP, 0.65, Color.BLUE, Color.WHITE, Color.BLUE, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
-    
+
     eventPlayer.hasSlamTimer = true
 
 
@@ -1295,7 +1295,7 @@ rule "slam timer visibility":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isUsingAbility1() == true
-    
+
     eventPlayer.slamTimerVisible = true
 
     wait(0.2)
@@ -1309,17 +1309,17 @@ rule "Final Slam Timer BOLD":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     @Condition eventPlayer.slamTimerTEXT == true
-    
+
     #ROUNDING, NORMAL GAMEPLAY
     createInWorldText(eventPlayer if eventPlayer.slamTimerTEXT else null, round(eventPlayer.slamTimer), updateEveryTick(eventPlayer.getEyePosition() \
     + (100 * (SLAM_TIMER_XPOS * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((SLAM_TIMER_YPOS - 0.2) *\
         (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) \
         + 3 * eventPlayer.getFacingDirection()))), 2, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, Color.WHITE, SpecVisibility.DEFAULT)
     eventPlayer.slamTimerTEXT = getLastCreatedText()
-    
+
     #NO ROUNDING FOR BUG TESTING
     #createInWorldText(eventPlayer if eventPlayer.slamTimerTEXT else null, eventPlayer.slamTimer, updateEveryTick(eventPlayer.getEyePosition() + (100 * (SLAM_TIMER_XPOS * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + ((SLAM_TIMER_YPOS - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 2, Clip.NONE, WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, Color.WHITE, SpecVisibility.DEFAULT)
-    
+
     wait(1)
     destroyInWorldText(eventPlayer.slamTimerTEXT)
     eventPlayer.slamTimerTEXT = false
@@ -1327,14 +1327,14 @@ rule "Final Slam Timer BOLD":
 rule "Shoot hack":
     @Event playerDealtDamage
     @Condition eventAbility == Button.PRIMARY_FIRE
-    
+
     victim.setStatusEffect(attacker, Status.HACKED, 1.5)
 
 
 rule "Stun hack":
     @Event playerDealtDamage
     @Condition eventAbility == Button.PRIMARY_FIRE
-    
+
     if attacker.isUsingAbility1() or (attacker.isHoldingButton(Button.ABILITY_1) and \
                                         attacker.getAbilityCooldown(Button.ABILITY_1) == 0 and\
                                         not attacker.isFiringSecondaryFire() and\
@@ -1351,7 +1351,7 @@ rule "Stun hack":
 
 rule "Cancel damage":
     @Event playerDealtDamage
-    
+
     if eventAbility != Button.ULTIMATE:
         victim.setHealth(victim.getMaxHealth())
 
@@ -1359,7 +1359,7 @@ rule "Cancel damage":
 rule "Slower shooting speed":
     @Event eachPlayer
     @Condition eventPlayer.getAmmo(0) == 3
-    
+
     eventPlayer.setPrimaryFireEnabled(false)
 
     wait(3.28)
@@ -1380,7 +1380,7 @@ rule "1v1 mode on":
     @Condition oneVoneMode == false
     @Condition gameIsReady == true
     @Condition corner_used == false
-    
+
     oneVoneMode = true
 
 
@@ -1389,7 +1389,7 @@ rule "1v1 mode off":
     @Condition getNumberOfLivingPlayers(Team.ALL) > 2
     @Condition oneVoneMode == true
     @Condition gameIsReady == true
-    
+
     wait(0.25, Wait.ABORT_WHEN_FALSE)
     oneVoneMode = false
 
@@ -1397,7 +1397,7 @@ rule "1v1 mode off":
 rule "1v1 mode enabled":
     @Condition oneVoneMode == true
     @Condition oneVoneUsed == false
-    
+
     oneVoneUsed = true
     corner_spawning = true
     smallMessage(getAllPlayers(), "Corner Spawning...")
@@ -1407,14 +1407,14 @@ rule "1v1 mode enabled":
 
 rule "1v1 mode disabled":
     @Condition oneVoneMode == false
-    
+
     getAllPlayers().setUltCharge(0)
     corner_used = false
 
 
 rule "Start Round, Ressurect and Teleport":
     @Condition matchStatus == 2
-    
+
     pickCornerDiagonal = random.randint(0, 1)
     pickRandomPlayer[0] = random.randint(0, 1)
     pickRandomPlayer[1] = 1 if pickRandomPlayer[0] == 0 else 0
@@ -1455,7 +1455,7 @@ rule "End Round, Player Scoring":
     @Condition getNumberOfLivingPlayers(Team.ALL) <= 1
     @Condition getNumberOfDeadPlayers(Team.ALL) >= 1
     @Condition matchStatus == 1
-    
+
     wait(0.05)
     if len([player for player in getAllPlayers() if player.active == true]) >= 2:
         getAllPlayers().roundsPlayed += 1
@@ -1480,6 +1480,6 @@ rule "Calculate scores":
     @Event eachPlayer
     @Condition isGameInProgress() == true
     @Condition calculateScores == true
-    
+
     eventPlayer.winrate = eventPlayer.roundsWon / eventPlayer.roundsPlayed * 100
     eventPlayer.setScore(eventPlayer.roundsWon)

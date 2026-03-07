@@ -175,46 +175,46 @@ rule "[utilities/debug.opy]: Show Player Damage/Healing":
 
     # most recent damage
     createInWorldText(
-        getAllPlayers() if eventPlayer._last_damage_received > 0 else null, 
-        eventPlayer._last_damage_received, 
-        eventPlayer.getEyePosition() + 1 * STAT_SPACING * Vector.UP, 
-        1, 
-        Clip.NONE, 
-        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
-        Color.RED, 
+        getAllPlayers() if eventPlayer._last_damage_received > 0 else null,
+        eventPlayer._last_damage_received,
+        eventPlayer.getEyePosition() + 1 * STAT_SPACING * Vector.UP,
+        1,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
+        Color.RED,
         SpecVisibility.DEFAULT)
 
     # most recent healing
     createInWorldText(
-        getAllPlayers() if eventPlayer._last_healing_received > 0 else null, 
-        eventPlayer._last_healing_received, 
-        eventPlayer.getEyePosition() + 2 * STAT_SPACING * Vector.UP, 
-        1, 
-        Clip.NONE, 
-        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
-        Color.YELLOW, 
+        getAllPlayers() if eventPlayer._last_healing_received > 0 else null,
+        eventPlayer._last_healing_received,
+        eventPlayer.getEyePosition() + 2 * STAT_SPACING * Vector.UP,
+        1,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
+        Color.YELLOW,
         SpecVisibility.DEFAULT)
 
     # total damage
     createInWorldText(
-        getAllPlayers() if eventPlayer._total_damage_received > 0 else null, 
-        eventPlayer._total_damage_received, 
-        eventPlayer.getEyePosition() + 3 * STAT_SPACING * Vector.UP, 
-        2, 
-        Clip.NONE, 
-        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
-        Color.RED, 
+        getAllPlayers() if eventPlayer._total_damage_received > 0 else null,
+        eventPlayer._total_damage_received,
+        eventPlayer.getEyePosition() + 3 * STAT_SPACING * Vector.UP,
+        2,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
+        Color.RED,
         SpecVisibility.DEFAULT)
 
     # total healing
     createInWorldText(
-        getAllPlayers() if eventPlayer._total_healing_received > 0 else null, 
-        eventPlayer._total_healing_received, 
-        eventPlayer.getEyePosition() + 4 * STAT_SPACING * Vector.UP, 
-        2, 
-        Clip.NONE, 
-        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
-        Color.YELLOW, 
+        getAllPlayers() if eventPlayer._total_healing_received > 0 else null,
+        eventPlayer._total_healing_received,
+        eventPlayer.getEyePosition() + 4 * STAT_SPACING * Vector.UP,
+        2,
+        Clip.NONE,
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
+        Color.YELLOW,
         SpecVisibility.DEFAULT)
 
 
@@ -236,7 +236,7 @@ rule "[utilities/debug.opy]: Debug healing instance":
     @Condition DEBUG_MODE
 
     printLog("healer={}, healee={}, ability={}, amount={}".format(healer, healee, eventAbility, eventHealing))
-    
+
     healee._last_healing_received = eventHealing
     healee._total_healing_received += eventHealing
     wait(STAT_KEEP_ALIVE, Wait.RESTART_WHEN_TRUE)

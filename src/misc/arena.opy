@@ -344,7 +344,7 @@ rule "Disable Scoring":
 
 rule "Pause Timer":
     @Condition isGameInProgress()
-    
+
     disableGamemodeCompletion()
     disableMusic()
     pauseMatchTime()
@@ -441,7 +441,7 @@ rule "Check Arena 0 Center OOB":
     @Condition distance(eventPlayer, MAIN_CENTER) >= 15.1
     @Condition fightingArena0(eventPlayer)
     @Condition (eventPlayer.getAltitude() >= 30) or (eventPlayer.getAltitude() <= 6)
-    
+
     eventPlayer.setStatusEffect(null, Status.BURNING, 0.5)
     damage(eventPlayer, null, BURN_DAMAGE)
     wait(0.5)
@@ -454,7 +454,7 @@ rule "Check Arena 0 Top OOB":
     @Condition distance(eventPlayer, MAIN_TOP_DECK) <= 3.75
     @Condition fightingArena0(eventPlayer)
     @Condition (eventPlayer.getAltitude() >= 30) or (eventPlayer.getAltitude() <= 6)
-    
+
     eventPlayer.setStatusEffect(null, Status.BURNING, 0.5)
     damage(eventPlayer, null, BURN_DAMAGE)
     wait(0.5)
@@ -467,7 +467,7 @@ rule "Check Arena 1 OOB":
     @Condition distance(eventPlayer, side_arena_center[1]) >= 17.4
     @Condition fightingArena1(eventPlayer)
     @Condition (eventPlayer.getAltitude() >= 30) or (eventPlayer.getAltitude() <= 6)
-    
+
     eventPlayer.setStatusEffect(null, Status.BURNING, 0.5)
     damage(eventPlayer, null, BURN_DAMAGE)
     wait(0.5)
@@ -480,10 +480,9 @@ rule "Check Arena 2 OOB":
     @Condition distance(eventPlayer, side_arena_center[3]) >= 17.4
     @Condition fightingArena2(eventPlayer)
     @Condition (eventPlayer.getAltitude() >= 30) or (eventPlayer.getAltitude() <= 6)
-    
+
     eventPlayer.setStatusEffect(null, Status.BURNING, 0.5)
     damage(eventPlayer, null, BURN_DAMAGE)
     wait(0.5)
     if RULE_CONDITION:
         goto RULE_START
-

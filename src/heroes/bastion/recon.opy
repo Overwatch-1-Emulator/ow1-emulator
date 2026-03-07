@@ -14,7 +14,7 @@ rule "[bastion/recon.opy]: Initialize recon mode":
     eventPlayer.setProjectileGravity(100)
     eventPlayer.setAmmo(0, 35)
     eventPlayer.setMaxAmmo(0, 35)
-    
+
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 

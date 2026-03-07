@@ -8,4 +8,3 @@ rule "[reaper/shadowstep.opy]: Cleanse on use":
     @Condition eventPlayer.isUsingAbility2()
 
     eventPlayer.clearStatusEffect(Status.BURNING)
-    

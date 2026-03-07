@@ -7,8 +7,8 @@ rule "[symmetra/init.opy]: Correct Photon Projector damage":
     @Condition eventAbility == Button.ABILITY_1
 
     damage(
-        victim, 
-        attacker, 
+        victim,
+        attacker,
         ((OW1_SYMMETRA_PROJECTOR_DAMAGE/OW2_SYMMETRA_PROJECTOR_DAMAGE) \
         * (eventDamage/eventPlayer._base_damage_scalar) \
         - eventDamage)/eventPlayer._base_damage_scalar)

@@ -43,7 +43,7 @@ rule "[doomfist/punch.opy]: Initialize rocket punch":
     waitUntil(not eventPlayer.isHoldingButton(Button.SECONDARY_FIRE), Math.INFINITY)
     stopChasingVariable(eventPlayer.punch_charge_time)
     eventPlayer.punch_charge_time = max(OW1_DOOMFIST_PUNCH_CHARGE_TIME_MIN, eventPlayer.punch_charge_time)
-    
+
     # cooldown
     waitUntil(not eventPlayer.isFiringSecondaryFire(), Math.INFINITY)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_DOOMFIST_PUNCH_COOLDOWN) # workshop bug (doesn't work)
@@ -89,7 +89,7 @@ rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isUsingUltimate() == true
-    
+
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.is_ultimate_locked = true
     waitUntil(eventPlayer.isHoldingButton(Button.PRIMARY_FIRE), 4.8)
@@ -117,5 +117,5 @@ rule "[doomfist/punch.opy]: Remove stun from wall impact":
     @Hero doomfist
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim in eventPlayer.wall_impacted_victims
-    
+
     victim.clearStatusEffect(Status.STUNNED)

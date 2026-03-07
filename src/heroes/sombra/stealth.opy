@@ -33,7 +33,7 @@ rule "[sombra.opy]: Remove hack bonus damage":
     eventPlayer.hack_damage_modifier = getLastDamageModification()
     waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, Math.INFINITY)
     stopDamageModification(eventPlayer.hack_damage_modifier)
-    
+
 rule "[sombra/stealth.opy]: Bind Ability 1 to stealth":
     @Event eachPlayer
     @Hero sombra

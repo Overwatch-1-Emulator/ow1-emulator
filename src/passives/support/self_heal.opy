@@ -73,7 +73,7 @@ macro popSelfHealing(button):
 #    @Condition eventPlayer.getHealthOfType(Health.SHIELDS) >= eventPlayer.getMaxHealthOfType(Health.SHIELDS)
 #    @Condition eventPlayer.getHealth() < eventPlayer.getMaxHealth()
 #    @Condition not eventPlayer.hasStatusEffect(Status.ASLEEP)
-    
+
 #    do:
 #        damage(eventPlayer, null, MIN_DAMAGE)
 #        wait(OW2_SUPPORT_HEAL_PASSIVE_ACTIVATION_TIME - TICK_DURATION \

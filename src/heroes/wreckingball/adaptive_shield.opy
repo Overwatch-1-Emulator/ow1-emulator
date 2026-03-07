@@ -19,15 +19,15 @@ rule "[wreckingball/adaptive_shield.opy]: OW1 Adaptive Shields":
 
     eventPlayer._ow2_adaptive_shield_n = \
         len(getPlayersInRadius(
-                eventPlayer.getEyePosition(), 
-                OW2_WRECKING_BALL_ADAPTIVE_SHIELD_RADIUS, 
-                getOppositeTeam(eventPlayer.getTeam()), 
+                eventPlayer.getEyePosition(),
+                OW2_WRECKING_BALL_ADAPTIVE_SHIELD_RADIUS,
+                getOppositeTeam(eventPlayer.getTeam()),
                 LosCheck.SURFACES_AND_ALL_BARRIERS))
     eventPlayer._ow1_adaptive_shield_n = \
         len(getPlayersInRadius(
-                eventPlayer.getEyePosition(), 
-                OW1_WRECKING_BALL_ADAPTIVE_SHIELD_RADIUS, 
-                getOppositeTeam(eventPlayer.getTeam()), 
+                eventPlayer.getEyePosition(),
+                OW1_WRECKING_BALL_ADAPTIVE_SHIELD_RADIUS,
+                getOppositeTeam(eventPlayer.getTeam()),
                 LosCheck.SURFACES_AND_ALL_BARRIERS))
 
     eventPlayer._expected_adapt_shields = getOW1AdaptiveShields(eventPlayer._ow1_adaptive_shield_n)

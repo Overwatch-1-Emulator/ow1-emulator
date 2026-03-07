@@ -56,7 +56,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
 
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN)
 
-    
+
 
 
     #eventPlayer._is_using_breather = false
@@ -90,6 +90,3 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
 #    wait(2)
 #    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN_CC)
 #    eventPlayer._is_using_breather = false
-
-
-    

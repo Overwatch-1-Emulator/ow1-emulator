@@ -7,7 +7,7 @@ playervar jq_self_heal_id
 
 def initJunkerQueen():
     @Name "[junkerqueen/init.opy]: initJunkerQueen()"
-    
+
     setCustomHp(OW1_JUNKERQUEEN_HEALTH, OW1_JUNKERQUEEN_ARMOR, 0)
     setBaseDamage(eventPlayer, OW1_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE/OW2_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE)
     setUltCost(OW1_JUNKERQUEEN_ULT_COST)
