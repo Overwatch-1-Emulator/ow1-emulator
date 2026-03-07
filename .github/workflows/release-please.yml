@@ -17,3 +17,4 @@ jobs:
         with:
           # Use 'node' for JS, 'python' for Python, or 'simple' for general projects
           release-type: simple
+          token: ${{ secrets.MY_RELEASE_TOKEN }} # This triggers github-releases-to-discord
