@@ -12,7 +12,7 @@ macro isHero(player, hero):
 macro percent(p):
     100*(p)
 
-# Macro function for converting percent to decimal 
+# Macro function for converting percent to decimal
 macro unpercent(p):
     (p)/100
 

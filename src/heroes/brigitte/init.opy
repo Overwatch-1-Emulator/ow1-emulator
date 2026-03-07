@@ -10,7 +10,7 @@
 
 def initBrigitte():
     @Name "[brigitte/init.opy]: initBrigitte()"
-    
+
     #setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
     setUltCost(OW1_BRIGITTE_ULT_COST)
 
@@ -46,4 +46,3 @@ rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
 #    waitUntil(eventPlayer.getHealthOfType(Health.NORMAL) > 200)
 #    eventPlayer.setDamageReceived(100)
 #    eventPlayer.setHealingReceived(100)
-

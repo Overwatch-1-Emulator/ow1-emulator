@@ -20,7 +20,7 @@ rule "[sombra/emp.opy]: Break barrier with EMP":
     @Event eachPlayer
     @Hero sombra
     @Condition eventPlayer._is_casting_emp
-    
+
     eventPlayer.setDamageDealt(100) # Deal 10000 damage to all barrier
     waitUntil(eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.setDamageDealt(percent(eventPlayer._base_damage_scalar))

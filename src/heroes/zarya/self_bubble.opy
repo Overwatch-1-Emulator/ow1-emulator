@@ -10,7 +10,7 @@
 Below HUD code is sourced from https://workshop.codes/wiki/articles/rendering-an-inworld-text-at-a-specific-onscreen-position
 
 This HUD works by placing a in-world-text visible to only the zarya player.
-The reason for doing this is to place the UI anywhere on the screen. 
+The reason for doing this is to place the UI anywhere on the screen.
 
 Currently, HUD texts can only be placed on the top left/middle/right of the screen.
 There's ways to move the text down to the bottom right using many new lines "\r\n" character,
@@ -43,7 +43,7 @@ Below HUD is tuned for 16:9 aspect ratio monitors (typical PC Overwatch setup).
 #     @Event eachPlayer
 #     @Hero zarya
 #     @Condition eventPlayer.isUsingAbility1()
-    
+
 #     eventPlayer.disallowButton(Button.ABILITY_1)
 #     eventPlayer.setAbilityCharge(Button.ABILITY_1, 2)
 #     waitUntil(not eventPlayer.isUsingAbility1(), OW1_ZARYA_BUBBLE_DURATION) # wait bubble duration

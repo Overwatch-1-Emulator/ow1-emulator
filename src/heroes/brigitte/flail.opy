@@ -7,5 +7,5 @@ rule "brigitte/flail.opy: OW1 flail damage":
     @Hero brigitte
     @Condition eventAbility == Button.PRIMARY_FIRE
     @Condition not eventPlayer.isFiringSecondaryFire()
-    
+
     damage(victim, attacker, 445)

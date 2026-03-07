@@ -7,7 +7,7 @@
 
 def initBastion():
     @Name "[bastion/init.opy]: initBastion()"
-    
+
     setCustomHp(OW1_BASTION_HEALTH, OW1_BASTION_ARMOR, 0)
     setUltCost(OW1_BASTION_ULT_COST)
     eventPlayer.machine_gun_ammo = OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE
@@ -25,7 +25,7 @@ def initBastion():
 rule "[bastion/init.opy]: Clean up Bastion":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.BASTION
-    
+
     waitUntil(eventPlayer.getCurrentHero() != Hero.BASTION, Math.INFINITY)
     hideMachineGunAmmo()
     hideSelfRepairResource()

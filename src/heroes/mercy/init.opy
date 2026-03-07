@@ -5,7 +5,7 @@
 
 def initMercy():
     @Name "[mercy/init.opy]: initMercy()"
-    
+
     setCustomHp(OW1_MERCY_HEALTH, 0, 0)
     setUltCost(OW1_MERCY_ULT_COST)
     eventPlayer.setAmmo(0, OW1_MERCY_CLIP_SIZE)

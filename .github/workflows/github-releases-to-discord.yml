@@ -1,0 +1,2 @@
+name: github-releases-to-discord
+uses: SethCohen/github-releases-to-discord@v1.19.0

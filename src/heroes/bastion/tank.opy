@@ -47,8 +47,8 @@ rule "[bastion/tank.opy]: Fire tank shells":
     @Hero bastion
     @Condition eventPlayer.current_configuration == Configuration.TANK
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
-    
-    do: 
+
+    do:
         eventPlayer.allowButton(Button.SECONDARY_FIRE)
         eventPlayer.forceButtonPress(Button.SECONDARY_FIRE)
         eventPlayer.disallowButton(Button.SECONDARY_FIRE)

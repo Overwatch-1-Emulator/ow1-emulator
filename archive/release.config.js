@@ -13,7 +13,7 @@ module.exports = {
                 { "path": "build/ow1pp.txt", "label": "Overwatch 1++" },
                 { "path": "build/1v1-ow1.txt", "label": "1v1 Arena - Overwatch 1 Edition" },
             ]
-        }], 
+        }],
         ["semantic-release-discord-bot", {
             "notifications": [
                 { "branch": "*" },

@@ -61,7 +61,7 @@ rule "[roadhog/wholehog.opy]: Cancel ult when stunned":
         waitUntil(not eventPlayer.hasStatusEffect(Status.ASLEEP), Math.INFINITY)
     elif eventPlayer.hasStatusEffect(Status.STUNNED):
         waitUntil(not eventPlayer.hasStatusEffect(Status.STUNNED), Math.INFINITY)
-    
+
     if eventPlayer.isUsingUltimate():
         eventPlayer._scrap_ammo = eventPlayer.getAmmo(0)
         cancelWholehog()
@@ -71,7 +71,7 @@ rule "[roadhog/wholehog.opy]: Reduce ultimate duration":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.isUsingUltimate()
-    
+
     wait(OW1_ROADHOG_ULTIMATE_DURATION, Wait.ABORT_WHEN_FALSE)
     eventPlayer._scrap_ammo = OW1_ROADHOG_CLIP_SIZE
     cancelWholehog()
@@ -82,7 +82,7 @@ def cancelWholehog():
     @Name "[roadhog/wholehog.opy]: cancelWholehog()"
 
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
-    
+
     # Save hog state
     eventPlayer._hog_hp = eventPlayer.getHealth()
     eventPlayer._hook_cooldown = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
