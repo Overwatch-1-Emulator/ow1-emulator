@@ -82,4 +82,4 @@
 #!include "heroes/echo/init.opy"
 
 # Include debug at the end so any variable can be viewed
-# !include "utilities/debug.opy"
+#!include "utilities/debug.opy"
