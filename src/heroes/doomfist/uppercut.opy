@@ -1,5 +1,15 @@
 #!mainFile "../../main.opy"
 
+globalvar OW1_DOOMFIST_UPPERCUT_COOLDOWN = createWorkshopSettingFloat(
+    'Doomfist', 'Uppercut Cooldown',
+    OW1_DOOMFIST_UPPERCUT_COOLDOWN_DEFAULT, 0, 12)
+globalvar OW1_DOOMFIST_UPPERCUT_DAMAGE = createWorkshopSettingInt(
+    'Doomfist', 'Uppercut Damage',
+    OW1_DOOMFIST_UPPERCUT_DAMAGE_DEFAULT, 0, 500)
+globalvar OW1_DOOMFIST_UPPERCUT_RADIUS = createWorkshopSettingFloat(
+    'Doomfist', 'Uppercut Radius',
+    OW1_DOOMFIST_UPPERCUT_RADIUS_DEFAULT, 0, 50)
+
 playervar uppercut_pvar
 #!defineMember is_hit_by_uppercut uppercut_pvar[0]
 #!defineMember is_uppercut_locked uppercut_pvar[1]

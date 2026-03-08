@@ -1,5 +1,27 @@
 #!mainFile "../../main.opy"
 
+globalvar OW1_DOOMFIST_PUNCH_COOLDOWN = createWorkshopSettingFloat(
+    'Doomfist', 'Rocket Punch Cooldown',
+    OW1_DOOMFIST_PUNCH_COOLDOWN_DEFAULT, 0, 12)
+globalvar OW1_DOOM_PUNCH_IMPACT_DAMAGE_MIN = createWorkshopSettingFloat(
+    'Doomfist', 'Rocket Punch Impact Min Damage',
+    OW1_DOOM_PUNCH_IMPACT_DAMAGE_MIN_DEFAULT, 0, 500)
+globalvar OW1_DOOM_PUNCH_IMPACT_DAMAGE_MAX = createWorkshopSettingFloat(
+    'Doomfist', 'Rocket Punch Impact Max Damage',
+    OW1_DOOM_PUNCH_IMPACT_DAMAGE_MAX_DEFAULT, 0, 1000)
+globalvar OW1_DOOM_PUNCH_KNOCKBACK_MIN = createWorkshopSettingFloat(
+    'Doomfist', 'Rocket Punch Impact Min Knockback',
+    OW1_DOOM_PUNCH_KNOCKBACK_MIN_DEFAULT, 0, 150)
+globalvar OW1_DOOM_PUNCH_KNOCKBACK_MAX = createWorkshopSettingFloat(
+    'Doomfist', 'Rocket Punch Impact Max Knockback',
+    OW1_DOOM_PUNCH_KNOCKBACK_MAX_DEFAULT, 0, 300)
+globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MIN = createWorkshopSettingFloat(
+    'Doomfist', 'Rocket Punch Wall Slam Min Damage',
+    OW1_DOOM_PUNCH_WALL_DAMAGE_MIN_DEFAULT, 0, 500)
+globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MAX = createWorkshopSettingFloat(
+    'Doomfist', 'Rocket Punch Wall Slam Max Damage',
+    OW1_DOOM_PUNCH_WALL_DAMAGE_MAX_DEFAULT, 0, 1500)
+
 playervar punched_victims
 playervar wall_impacted_victims
 playervar punch_charge_time

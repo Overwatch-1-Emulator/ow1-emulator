@@ -1,6 +1,26 @@
 #!mainFile "../../main.opy"
 
 globalvar slam_i
+globalvar OW1_DOOMFIST_SLAM_DAMAGE_MAX = createWorkshopSettingInt(
+    'Doomfist', 'Seismic Slam Max Damage',
+    OW1_DOOMFIST_SLAM_DAMAGE_MAX_DEFAULT, 0, 10000)
+# Slamming on flat ground should deal 49 damage
+# Frame by frame analysis of Youtube videos indicate that slam damage increases at a rate of 100 damage/second
+globalvar OW1_DOOMFIST_SLAM_DAMAGE_RATE = createWorkshopSettingInt(
+    'Doomfist', 'Seismic Slam Damage Rate',
+    OW1_DOOMFIST_SLAM_DAMAGE_RATE_DEFAULT, 0, 1000)
+globalvar OW1_DOOM_SLAM_INDIC_BEAM_COUNT = createWorkshopSettingInt(
+    'Doomfist', 'Seismic Slam Indicator GUI Beam Count',
+    OW1_DOOM_SLAM_INDIC_BEAM_COUNT_DEFAULT, 0, 10)
+globalvar OW1_DOOMFIST_SLAM_INDIC_PITCH = createWorkshopSettingFloat(
+    'Doomfist', 'Seismic Slam Indicator Pitch',
+    OW1_DOOMFIST_SLAM_INDIC_PITCH_DEFAULT, -90, 90)
+globalvar OW1_DOOMFIST_SLAM_INDIC_RANGE = createWorkshopSettingFloat(
+    'Doomfist', 'Seismic Slam Indicator Range',
+    OW1_DOOMFIST_SLAM_INDIC_RANGE_DEFAULT, 0, 30)
+globalvar OW1_DOOM_SLAM_INDIC_RING_COUNT = createWorkshopSettingInt(
+    'Doomfist', 'Seismic Slam Indicator GUI Ring Count',
+    OW1_DOOM_SLAM_INDIC_RING_COUNT_DEFAULT, 0, 12)
 
 playervar slam_to_use
 playervar proto_indicator_slam_position

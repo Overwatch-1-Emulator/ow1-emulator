@@ -5,6 +5,9 @@
 globalvar los_i
 globalvar los_j
 globalvar barrier_i
+globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "Orisa", "Barrier LOS Polling Frequency (Hz)", OW1_ORISA_BARRIER_LOS_FREQ_DEFAULT)
+globalvar OW1_ORISA_BARRIER_ORB_SIZE = createWorkshopSetting(float[0.1:3], 'Orisa', 'Barrier Orb Radius', OW1_ORISA_BARRIER_ORB_SIZE_DEFAULT)
+globalvar OW1_ORISA_BARRIER_ORB_COUNT = createWorkshopSetting(int[100:200], 'Orisa', 'Barrier Orb Count', OW1_ORISA_BARRIER_ORB_COUNT_DEFAULT)
 
 playervar barrier_pvar
 #!defineMember _barrier_seed_id barrier_pvar[0]
