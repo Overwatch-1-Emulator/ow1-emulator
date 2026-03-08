@@ -28,7 +28,7 @@ def initWinston():
 rule "[winston/leap.opy]: OW1 Winston tesla cannon damage":
     @Event playerDealtDamage
     @Hero winston
-    @Condition eventAbility in [Button.PRIMARY_FIRE]
+    @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
 
@@ -36,6 +36,6 @@ rule "[winston/leap.opy]: OW1 Winston tesla cannon damage":
 # rule "[winston/init.opy]: Compensate Winston global damage reduction":
 #     @Event playerDealtDamage
 #     @Hero winston
-#     @Condition eventAbility in [Button.ABILITY_1]
+#     @Condition eventAbility == Button.ABILITY_1
 
 #     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

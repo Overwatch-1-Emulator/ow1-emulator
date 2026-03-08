@@ -27,7 +27,7 @@ def initBrigitte():
 rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
     @Event playerDealtDamage
     @Hero brigitte
-    @Condition eventAbility in [Button.ABILITY_1]
+    @Condition eventAbility == Button.ABILITY_1
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)\
 

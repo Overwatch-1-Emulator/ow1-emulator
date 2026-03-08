@@ -10,6 +10,9 @@ playervar debug_pvar
 #!define _total_healing_received debug_pvar[2]
 #!define _last_healing_received debug_pvar[3]
 
+playervar debug_i
+playervar aimed_position
+
 
 rule "[utilities/debug.opy] Disable Inspector for performance":
     @Event global
@@ -152,6 +155,7 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "perk_ult_charge_backup_ = {}".format(eventPlayer.perk_ult_charge_backup_), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "perk_points_ = {}".format(eventPlayer.perk_points_), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "max_perk_points_ = {}".format(eventPlayer.max_perk_points_), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "_base_damage_scalar = {}".format(eventPlayer._base_damage_scalar), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
 rule "[utilities/debug.opy]: do something on interact":
@@ -159,7 +163,7 @@ rule "[utilities/debug.opy]: do something on interact":
     @Condition DEBUG_MODE
     @Condition eventPlayer.isHoldingButton(Button.INTERACT)
 
-    damage(eventPlayer, null, 25)
+    damage(getAllPlayers(), null, 25)
     # eventPlayer.setHealth(1)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
@@ -167,6 +171,36 @@ rule "[utilities/debug.opy]: do something on interact":
     #setPerkCost(5000)
     #unlockAllPerks()
     eventPlayer.setUltCharge(100)
+
+
+rule "[utilities/debug.opy]: spawn bots on interact, despawn on interact + primary":
+    @Event eachPlayer
+    @Condition DEBUG_MODE
+    @Condition eventPlayer.isHoldingButton(Button.INTERACT)
+
+    eventPlayer.aimed_position = \
+        raycast(
+            eventPlayer.getEyePosition(),
+            eventPlayer.getEyePosition()+100*eventPlayer.getFacingDirection(),
+            null,
+            null,
+            false).getHitPosition()
+
+    # Spawn 4 enemy and 4 friendly bots at crosshair location.
+    for eventPlayer.debug_i in range(4):
+        createDummy(
+            Hero.ROADHOG,
+            getOppositeTeam(eventPlayer.getTeam()),
+            -1,
+            eventPlayer.aimed_position)
+        createDummy(
+            Hero.ROADHOG,
+            eventPlayer.getTeam(),
+            -1,
+            eventPlayer.aimed_position)
+
+    waitUntil(eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.PRIMARY_FIRE))
+    destroyAllDummies()
 
 
 rule "[utilities/debug.opy]: Show Player Damage/Healing":

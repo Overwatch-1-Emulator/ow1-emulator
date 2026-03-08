@@ -25,6 +25,6 @@ rule "[sigma/init.opy]: OW1 accretion damage":
 rule "[sigma/init.opy]: Compensate Sigma global damage reduction":
     @Event playerDealtDamage
     @Hero sigma
-    @Condition eventAbility in [Button.PRIMARY_FIRE]
+    @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

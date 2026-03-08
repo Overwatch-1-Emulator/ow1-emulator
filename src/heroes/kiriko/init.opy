@@ -23,6 +23,6 @@ def initKiriko():
 rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":
     @Event playerDealtDamage
     @Hero kiriko
-    @Condition eventAbility in [Button.MELEE]
+    @Condition eventAbility == Button.MELEE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

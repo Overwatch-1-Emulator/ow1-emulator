@@ -12,7 +12,7 @@ macro storedDefenseHealth():
 rule "[doomfist/defense.opy]: Override OW2 best defense + Custom OW1 best defense":
     @Event playerDealtDamage
     @Hero doomfist
-    @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1] or eventPlayer.is_using_uppercut
+    @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ABILITY_1, Button.ULTIMATE] or eventPlayer.is_using_uppercut
 
     storedDefenseHealth()
     wait() # Try prevent crashes as much as possible

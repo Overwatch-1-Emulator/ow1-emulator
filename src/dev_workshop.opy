@@ -9,6 +9,7 @@
 #!include "common/macro_functions.opy"
 
 rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulator/ow1-emulator for license to use this code.":
+    @Disabled
     disableInspector()
 
 # Useful functions.
@@ -79,3 +80,9 @@ rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 #!include "heroes/wreckingball/init.opy"
 #!include "heroes/zarya/init.opy"
 #!include "heroes/zenyatta/init.opy"
+
+# Include at the end for duplicate scoping
+#!include "heroes/echo/init.opy"
+
+# Include debug at the end so any variable can be viewed
+#!include "utilities/debug.opy"

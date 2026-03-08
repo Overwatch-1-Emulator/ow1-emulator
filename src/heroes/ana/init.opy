@@ -20,7 +20,7 @@ def initAna():
 rule "[ana/init.opy]: OW1 Ana rifle damage":
     @Event playerDealtDamage
     @Hero ana
-    @Condition eventAbility in [Button.PRIMARY_FIRE]
+    @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ANA_BIOTIC_RIFLE_DAMAGE/OW2_ANA_BIOTIC_RIFLE_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
 
@@ -28,6 +28,6 @@ rule "[ana/init.opy]: OW1 Ana rifle damage":
 rule "[ana/init.opy]: Compensate Ana global heal reduction":
     @Event playerDealtHealing
     @Hero ana
-    @Condition eventAbility in [Button.ULTIMATE]
+    @Condition eventAbility == Button.ULTIMATE
 
     heal(healee, healer, eventHealing/eventPlayer._base_healing_scalar-eventHealing)
