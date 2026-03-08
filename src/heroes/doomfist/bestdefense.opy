@@ -12,7 +12,7 @@ macro storedDefenseHealth():
 rule "[doomfist/defense.opy]: Override OW2 best defense + Custom OW1 best defense":
     @Event playerDealtDamage
     @Hero doomfist
-    @Condition any([eventAbility == i for i in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1]]) or eventPlayer.is_using_uppercut
+    @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ULTIMATE, Button.ABILITY_1] or eventPlayer.is_using_uppercut
 
     storedDefenseHealth()
     wait() # Try prevent crashes as much as possible
@@ -38,7 +38,7 @@ rule "[doomfist/defense.opy] Decay Best Defense shields": # Logic by Alomare: ht
     @Event eachPlayer
     @Hero doomfist
     # @Condition not eventPlayer.isUsingUltimate()
-    @Condition eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) > 0
+    @Condition eventPlayer.getMaxHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL)
 
     wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER, Wait.RESTART_WHEN_TRUE)
     storedDefenseHealth()
