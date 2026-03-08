@@ -45,10 +45,12 @@ rule "[doomfist/defense.opy] Decay Best Defense shields": # Logic by Alomare: ht
     wait() # Try prevent crashes as much as possible
     while eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) > 0:
         if eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL)  > eventPlayer.current_health:
+            wait()
             loop()
         if eventPlayer.getHealth() < eventPlayer.getMaxHealth():
             eventPlayer.ow2_best_defense_overhealth = eventPlayer.getHealth() - eventPlayer.current_health
             while eventPlayer.getHealth() > eventPlayer.ow2_best_defense_overhealth:
+                wait()
                 eventPlayer.setHealth(eventPlayer.ow2_best_defense_overhealth)
             eventPlayer.current_health -= OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE
             if eventPlayer.current_health < 1:
