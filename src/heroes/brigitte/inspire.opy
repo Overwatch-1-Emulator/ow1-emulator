@@ -20,12 +20,9 @@ rule "[brigitte/inspire.opy]: Inspire self healing logic for 6 seconds in 4":
     #wait(OW1_BRIGITTE_INSPIRE_DURATION, Wait.RESTART_WHEN_TRUE)
     #popSelfHealing(Button.MELEE)
 
-rule "brigitt/init.opy: balh":
+rule "brigitt/init.opy: Inspire Trigger":
     @Event playerDealtDamage
     @Hero brigitte
     @Condition not eventPlayer.isFiringSecondaryFire() and eventAbility == Button.PRIMARY_FIRE
 
-    if eventPlayer.inspire_damage == 1:
-        eventPlayer.inspire_damage = 1
-    else:
-        eventPlayer.inspire_damage = 1
+    eventPlayer.inspire_damage = 1
