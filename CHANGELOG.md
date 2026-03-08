@@ -1,5 +1,18 @@
 # Changelog
 
+## [5.0.2](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.1...v5.0.2) (2026-03-08)
+
+
+### Bug Fixes
+
+* Brig Custom Inspire Trigger ([0cd3df1](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/0cd3df19fcab1cd460bf70b25d2d26e09302b555))
+* **Hog:** OW1 Breather ([d93090c](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/d93090c959eea9d7671b86c593f98f4d90d070a4))
+
+
+### Performance Improvements
+
+* Doom Best Defense wait between loops ([467e9d5](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/467e9d5762c96b60e19b4234ce9eba3c1dc8097c))
+
 ## [5.0.1](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.0...v5.0.1) (2026-03-08)
 
 
