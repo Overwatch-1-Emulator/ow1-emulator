@@ -38,6 +38,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.startForcingButton(Button.ABILITY_2)
     #wait(OW1_ROADHOG_BREATHER_DURATION)
     wait(OW1_ROADHOG_BREATHER_DURATION)
+    wait(0.02)
     #waitUntil(eventPlayer.isFiringSecondaryFire() == false, Math.INFINITY)
     #wait(0.17)
     eventPlayer.stopForcingButton(Button.ABILITY_2)

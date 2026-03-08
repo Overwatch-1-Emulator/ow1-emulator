@@ -1,5 +1,6 @@
 #!mainFile "../../main.opy"
 
+#!include "blade.opy"
 
 def initGenji():
     @Name "[genji/init.opy]: initGenji()"

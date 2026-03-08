@@ -23,6 +23,7 @@ rule "[brigitte/inspire.opy]: Inspire self healing logic for 6 seconds in 4":
 rule "brigitt/init.opy: balh":
     @Event playerDealtDamage
     @Hero brigitte
+    @Condition not eventPlayer.isFiringSecondaryFire() and eventAbility == Button.PRIMARY_FIRE
 
     if eventPlayer.inspire_damage == 1:
         eventPlayer.inspire_damage = 1
