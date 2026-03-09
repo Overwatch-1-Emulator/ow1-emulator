@@ -1,5 +1,19 @@
 # Changelog
 
+## [5.0.3](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.2...v5.0.3) (2026-03-09)
+
+
+### Bug Fixes
+
+* added echo to workshop.opy ([8bc22d2](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/8bc22d23abd01542119ba2434c2be1fcda271e38))
+* disinclude primal cause we dont use it ([0e5f4d4](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/0e5f4d41641bf96a4258658a4a219afe04c5d662))
+* **Doom:** More Accurate Ow1 Slam Damage ([fc8651d](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/fc8651d137b171db49f6d8580f3e6fd588102548))
+
+
+### Performance Improvements
+
+* Remove Best Defense till we can find a better solution ([70d43dd](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/70d43dd50d8f53fc0257341d28870ad372690b22))
+
 ## [5.0.2](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.1...v5.0.2) (2026-03-08)
 
 
