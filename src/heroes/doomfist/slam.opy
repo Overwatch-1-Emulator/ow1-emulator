@@ -283,8 +283,9 @@ rule "[doomfist/slam.opy]: Find slammed victims":
         damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
     else: # Handle OW2 slam victims
         # Transfer shield gained from uppercut to shield gained from OW2 slam victims
+        #heal(victim, null, eventDamage+18)
         damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields))
-        attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
+        #attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
 
 
 rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
