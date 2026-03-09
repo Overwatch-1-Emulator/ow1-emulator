@@ -16,7 +16,7 @@ playervar decay_timer
 #!include "punch.opy"
 #!include "meteor.opy"
 #!include "cannon.opy"
-#!include "bestdefense.opy"
+# !include "bestdefense.opy"
 
 
 def initDoomfist():
