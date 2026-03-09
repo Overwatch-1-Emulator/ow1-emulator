@@ -263,12 +263,12 @@ def hideSlamDamageGui():
 
 
 # Need more permanent/robust solution
-rule "[doomfist/slam.opy]: Remove OW2 slam damage":
-    @Event playerDealtDamage
-    @Hero doomfist
-    @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
+#rule "[doomfist/slam.opy]: Remove OW2 slam damage":
+#    @Event playerDealtDamage
+#    @Hero doomfist
+#    @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
 
-    heal(victim, null, eventDamage)
+#    heal(victim, null, eventDamage)
 
 
 rule "[doomfist/slam.opy]: Find slammed victims":
@@ -293,7 +293,7 @@ rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.ow1_slam_victims
 
-    damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
+    damage(victim, attacker, floor(attacker.slam_damage)-eventDamage) # Custom slam damage
 
     victim.setGravity(50)
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
