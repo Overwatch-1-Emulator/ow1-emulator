@@ -77,3 +77,5 @@ rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 #!include "heroes/wreckingball/init.opy"
 #!include "heroes/zarya/init.opy"
 #!include "heroes/zenyatta/init.opy"
+
+#!include "heroes/echo/init.opy"
