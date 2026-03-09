@@ -27,10 +27,11 @@ rule "[doomfist/defense.opy]: Override OW2 best defense + Custom OW1 best defens
         eventPlayer.setHealth(eventPlayer.ow2_best_defense_overhealth) # Overwrite OW2 best defense
         eventPlayer.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + OW1_DOOMFIST_BEST_DEFENSE_MAX - victim.getHealth(),
             eventPlayer.ow1_best_defense_shields + OW1_DOOMFIST_BEST_DEFENSE), false, false)
-        wait(0.4)
+            wait(0.25)
 
     if eventPlayer.getHealthOfType(Health.SHIELDS) > eventPlayer.getMaxHealthOfType(Health.SHIELDS) + OW1_DOOMFIST_BEST_DEFENSE_MAX: # Correct shields if over max shields limit
         removeHealthPool(getLastCreatedHealthPool())
+        wait()# Try prevent crashes as much as possible
         eventPlayer.addHealthPool(Health.SHIELDS, OW1_DOOMFIST_BEST_DEFENSE_MAX, false, false)
         return
 
@@ -44,12 +45,12 @@ rule "[doomfist/defense.opy] Decay Best Defense shields": # Logic by Alomare: ht
     storedDefenseHealth()
     wait() # Try prevent crashes as much as possible
     while eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) > 0:
-        if eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL)  > eventPlayer.current_health:
-            wait()
-            loop()
+        #if eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL)  > eventPlayer.current_health:
+        #    wait()
+        #    loop()
         if eventPlayer.getHealth() < eventPlayer.getMaxHealth():
             eventPlayer.ow2_best_defense_overhealth = eventPlayer.getHealth() - eventPlayer.current_health
-            while eventPlayer.getHealth() > eventPlayer.ow2_best_defense_overhealth:
+            if eventPlayer.getHealth() > eventPlayer.ow2_best_defense_overhealth:
                 wait()
                 eventPlayer.setHealth(eventPlayer.ow2_best_defense_overhealth)
             eventPlayer.current_health -= OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE
