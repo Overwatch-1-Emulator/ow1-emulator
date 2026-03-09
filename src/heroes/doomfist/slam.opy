@@ -293,7 +293,7 @@ rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.ow1_slam_victims
 
-    if eventPlayer.slam_damage < 49:
+    if eventPlayer.slam_damage < 50:
         heal(victim, null, eventDamage)
         damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
     else:
