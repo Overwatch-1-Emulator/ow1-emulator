@@ -293,8 +293,11 @@ rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.ow1_slam_victims
 
-    damage(victim, attacker, floor(attacker.slam_damage)-eventDamage) # Custom slam damage
-
+    if eventPlayer.slam_damage < 50:
+        heal(victim, null, eventDamage)
+        damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
+    else:
+        damage(victim, attacker, floor(attacker.slam_damage) - eventDamage)
     victim.setGravity(50)
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
     victim.applyImpulse(directionTowards(victim, attacker), 1.5*(distance(victim, attacker)-(OW1_DOOMFIST_UPPERCUT_RADIUS-1)), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Push/Pull slammed victims; multiply pull magnitude by 1.5 to counteract air resistance
