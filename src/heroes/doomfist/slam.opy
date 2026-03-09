@@ -205,7 +205,7 @@ rule "[doomfist/slam.opy]: Stop tracking indicator slam destination":
     stopChasingVariable(eventPlayer.indicator_slam_position)
 
 
-rule "[doomfist/uppercut.opy]: Disable abilities when slamming":
+rule "[doomfist/slam.opy]: Disable abilities when slamming":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isUsingAbility1()
