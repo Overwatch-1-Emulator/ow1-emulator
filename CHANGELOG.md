@@ -1,5 +1,24 @@
 # Changelog
 
+## [5.0.4](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.3...v5.0.4) (2026-03-10)
+
+
+### Bug Fixes
+
+* **Doom:** 15 Meter Slam Range ([61c0777](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/61c077743e40c8ad6478115eec701972caa74ff0))
+* **Doom:** Accurate Slam Gui ([dfd2065](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/dfd2065bb677e7791b4350fdd696cc9ac196b300))
+* **Doom:** Added Back Best Defense.opy ([12806f0](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/12806f05ffe97243626d6a7203d72bfb94693f6b))
+* **Doom:** Aoe Radius Potential Fix ([fc788fd](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/fc788fd86912a81f00bb62e62c18400c1f28b616))
+* **Doom:** More Accurate Slam ([ea6d3b6](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/ea6d3b613f2a6f847c23aa0b9a149ce2bbefd404))
+* **Echo:** Duplicate Hp_Scalar Working ([9108dd7](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/9108dd7b83e2ca7287266c1a3640e06acb70f6d8))
+
+
+### Performance Improvements
+
+* **Doom:** 3 Ring Count Instead of 6 ([246add5](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/246add5d11850a9f61f14ea33b88cde74e9ce576))
+* **Doom:** 4 rings now... ([da08848](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/da08848a132c5c9eb1127c1f936287be9206e63e))
+* **Doom:** Improved Custom Defense Code so hopefully less laggy ([ba959f9](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/ba959f98edd84b63be3709ce84e7d99f7deaa598))
+
 ## [5.0.3](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.2...v5.0.3) (2026-03-09)
 
 
