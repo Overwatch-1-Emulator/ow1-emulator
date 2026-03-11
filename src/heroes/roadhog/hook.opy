@@ -25,4 +25,4 @@ rule "[roadhog/hook.opy]: OW1 hook damage":
     damage(
         victim,
         attacker,
-        (OW1_ROADHOG_HOOK_DAMAGE/OW2_ROADHOG_HOOK_DAMAGE) * eventDamage - eventDamage)
+        6.82)
