@@ -27,6 +27,7 @@ rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
     @Hero roadhog
     @Condition not eventPlayer.isUsingUltimate()
 
+    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
