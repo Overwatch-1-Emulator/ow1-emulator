@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "pulse_rifle.opy"
 # !include "biotic_field.opy"

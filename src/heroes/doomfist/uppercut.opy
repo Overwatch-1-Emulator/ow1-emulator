@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 globalvar OW1_DOOMFIST_UPPERCUT_COOLDOWN = createWorkshopSettingFloat(
     'Doomfist', 'Uppercut Cooldown',
@@ -143,18 +143,6 @@ rule "[doomfist/uppercut.opy]: Damage uppercut victims + vfx + uppercut knockbac
     eventPlayer.applyImpulse(getForwardDirection(eventPlayer._uppercut_attacker), 8.5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     wait(OW1_DOOMFIST_UPPERCUT_AIR_LOCK_TIME)
     eventPlayer.stopForcingThrottle() # Regain movement control
-
-
-#rule "[doomfist/uppercut.opy]: Best defense for each uppercut victim hit":
-#    @Event eachPlayer
-#    @Condition eventPlayer.is_hit_by_uppercut
-#    @Condition eventPlayer._last_uppercut_attacker != eventPlayer._uppercut_attacker
-
-    # best defense
-#    stopChasingVariable(eventPlayer._uppercut_attacker.uppercut_shields)
-#    eventPlayer._uppercut_attacker.uppercut_shields += OW1_DOOMFIST_BEST_DEFENSE
-#    wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER)
-#    chase(eventPlayer._uppercut_attacker.uppercut_shields, 0, rate=OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE, ChaseReeval.NONE)
 
 
 rule "[doomfist/uppercut.opy]: Uppercut victim state variables":

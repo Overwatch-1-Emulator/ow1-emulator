@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 globalvar slam_i
 globalvar OW1_DOOMFIST_SLAM_DAMAGE_MAX = createWorkshopSettingInt(
@@ -280,7 +280,6 @@ rule "[doomfist/slam.opy]: Find slammed victims":
     and (distance(attacker, victim) <= OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS) \
     and true): # [TODO]: add condition to check victim in 60 degree cone
         attacker.ow1_slam_victims.append(victim)
-        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
     else: # Handle OW2 slam victims
         # Transfer shield gained from uppercut to shield gained from OW2 slam victims
         #heal(victim, null, eventDamage+18)

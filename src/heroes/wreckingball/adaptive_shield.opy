@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar adaptive_shield_pvar
 #!define _ow2_adaptive_shield_n adaptive_shield_pvar[0]

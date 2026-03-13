@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 # !include "sleep.opy"
 #!include "nade.opy"

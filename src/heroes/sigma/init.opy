@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 def initSigma():
     @Name "[sigma/init.opy]: initSigma()"

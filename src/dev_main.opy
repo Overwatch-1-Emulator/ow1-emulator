@@ -1,5 +1,5 @@
 ###############################################################################
-# Fully compile release version of OW1 Emulator
+# Fully compile dev version of OW1 Emulator
 ###############################################################################
-#!include "main_lobby.opy"
-#!include "main_workshop.opy"
+#!include "dev_lobby.opy"
+#!include "dev_workshop.opy"

@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar flashbang_pvar
 #!defineMember _is_using_flashbang flashbang_pvar[0]

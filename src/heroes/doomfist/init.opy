@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 /*
 This DPS doomfist workshop script is heavily based on
@@ -16,7 +16,7 @@ playervar decay_timer
 #!include "punch.opy"
 #!include "meteor.opy"
 #!include "cannon.opy"
-#!include "bestdefense.opy"
+#!include "defense.opy"
 
 
 def initDoomfist():

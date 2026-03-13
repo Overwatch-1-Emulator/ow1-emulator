@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 playervar emu_helper_pvar
 #!defineMember _base_damage_scalar emu_helper_pvar[0]

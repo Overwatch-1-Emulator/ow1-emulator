@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 # !include "fan_hammer.opy"
 #!include "flashbang.opy"

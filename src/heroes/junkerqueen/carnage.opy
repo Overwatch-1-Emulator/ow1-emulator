@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 rule "[junkerqueen/carnage.opy]: OW1 carnage damage":
     @Event playerDealtDamage

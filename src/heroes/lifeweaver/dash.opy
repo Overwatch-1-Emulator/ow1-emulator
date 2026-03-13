@@ -1,4 +1,4 @@
-# #!mainFile "../../main.opy"
+# #!mainFile "../../dev_main.opy"
 
 
 # rule "[lifeweaver/init.opy]: Allow self healing during Rejuvanating Dash":

@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 globalvar OW1_DOOMFIST_PUNCH_COOLDOWN = createWorkshopSettingFloat(
     'Doomfist', 'Rocket Punch Cooldown',
@@ -98,13 +98,13 @@ rule "[doomfist/punch.opy]: Find punched victims":
     attacker.punched_victims.append(victim)
     if (len(attacker.punched_victims) == 1): # OW1 single punch victim
         damage(victim, attacker, getRocketPunchDamage(eventPlayer.punch_charge_time)-eventDamage)
-        victim.applyImpulse(attacker.getFacingDirection(), getPunchKnockbackSpeed(eventPlayer.punch_charge_time), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
-        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
+        # Apply knockback manually.
+        victim.applyImpulse(
+            attacker.getFacingDirection(),
+            getPunchKnockbackSpeed(eventPlayer.punch_charge_time),
+            Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION)
     else: # OW2 multi punch victim
         heal(victim, null, eventDamage) # Heal back OW2 punch victims
-        # Transfer shield gained from uppercut to shield gained from OW2 punch victims
-        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields))
-        attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
 
 
 rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":

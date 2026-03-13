@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "self_bubble.opy"
 #!include "ally_bubble.opy"

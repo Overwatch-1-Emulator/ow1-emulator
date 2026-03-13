@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 rule "[genji/blade.opy]: OW1 Genji Blade Swing Speed":
     @Event eachPlayer

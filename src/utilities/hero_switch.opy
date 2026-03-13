@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 playervar hero_switch_pvar
 #!defineMember _last_hero_played hero_switch_pvar[0]

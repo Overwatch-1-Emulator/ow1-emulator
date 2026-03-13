@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 # rule "[roadhog/hook.opy]: Move hooked enemies closer":

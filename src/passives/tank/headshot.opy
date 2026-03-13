@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[passives/tank/headshot.opy]: OW1 tank headshot damage":
