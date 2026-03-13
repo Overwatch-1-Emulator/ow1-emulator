@@ -1,5 +1,14 @@
 # Changelog
 
+## [5.0.5](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.4...v5.0.5) (2026-03-11)
+
+
+### Bug Fixes
+
+* **Roadhog:** OW1 Hook Damage ([c539ee8](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/c539ee8f8519b601b7b81ff72ac20eb1df730ce9))
+* **Roadhog:** OW1 Scrap Gun Damage ([d362219](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/d36221938d4a93f1eb07027a215f42d0aa0e2167))
+* **Roadhog:** OW1 Wholehog Damage ([682800a](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/682800ae64de25ba233418fe534b9bc3d299a372))
+
 ## [5.0.4](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.3...v5.0.4) (2026-03-10)
 
 
