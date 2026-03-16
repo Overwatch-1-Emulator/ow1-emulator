@@ -37,7 +37,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.disallowButton(Button.RELOAD)
     eventPlayer.startForcingButton(Button.ABILITY_2)
     wait(OW1_ROADHOG_BREATHER_DURATION)
-    wait(0.02) #extra wait 
+    wait(0.04) #extra wait 
     eventPlayer.stopForcingButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_1)
