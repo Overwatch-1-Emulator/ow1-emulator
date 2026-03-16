@@ -22,29 +22,22 @@ Progress (✅ = Equivalent to OW1, ✔ = Close to OW1, Blank = Untouched):
 | Echo | ✅ | ✅ | ✅ | ✅ | ✔ |  |
 | Genji | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Hanzo | ✅ | ✅ | ✅ | ✅ | ✅ |  |
-| Junker Queen |  |  |  |  |  |  |
 | Junkrat | ✅ | ✅ | ✅ | ✅ | ✅ |  |
-| Kiriko |  |  |  |  |  |  |
-| Lifeweaver |  |  |  |  |  |  |
 | Lucio | ✅ | ✅ | ✅ | ✅ | ✔ |  |
-| Mauga |  |  |  |  |  |  |
 | Mei | ✔ | ✔ | ✅ | ✔ | ✅ |  |
 | Mercy | ✅ | ✅ | ✅ | ✅ | ✔ | ✅ Regen |
 | Moira | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Orisa | ✅ | ✅ | ✔ | ✔ | ✔ |  |
 | Pharah | ✅ | ✔ | ✔ | ✔ | ✅ |  |
-| Ramattra |  |  |  |  |  |  |
 | Reaper | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Reinhardt | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ Steadfast |
 | Roadhog | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ Ult Charge |
 | Sigma | ✅ | ✅ | ✅ | ✅ | ✅ |  |
-| Sojourn |  |  |  |  |  |  |
 | Soldier: 76 | ✅ | ✅ | ✅ | ✔ | ✅ |  |
 | Sombra |  | ✔ | ✔ | ✔ | ✔ |  |
 | Symmetra | ✔ | ✔ | ✔ | ✔ | ✅ |  |
 | Torbjorn | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Tracer | ✅ | ✅ | ✅ | ✅ | ✅ |  |
-| Venture |  |  |  |  |  |  |
 | Widowmaker | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Winston | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Wrecking Ball | ✅ | ✅ | ✅ | ✔ | ✔ | ✅ Piledriver |
