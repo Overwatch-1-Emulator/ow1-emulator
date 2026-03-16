@@ -24,7 +24,7 @@ rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 
 # OW1 hero logic.
 # Remove damage passive
-# !include "passives/damage/damage_passive.opy"
+#!include "passives/damage/damage_passive.opy"
 # Remove tank passive
 # !include "passives/tank/headshot.opy"
 # !include "passives/tank/knockback.opy"
