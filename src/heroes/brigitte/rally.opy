@@ -2,6 +2,7 @@
 
 playervar ralley_hot_id
 playervar shield_bash_cd
+playervar rally_armor
 
 rule "[brigitte/rally.opy]: OW1 Rally":
     @Event eachPlayer
@@ -17,14 +18,14 @@ rule "[brigitte/rally.opy]: OW1 Rally":
     eventPlayer.ralley_hot_id = getLastHoT()
 
     wait(9.9)
-    eventPlayer.A = eventPlayer.getHealthOfType(Health.ARMOR)
+    eventPlayer.rally_armor = eventPlayer.getHealthOfType(Health.ARMOR)
     waitUntil(not eventPlayer.isUsingUltimate(), 10)
 
 
-    if eventPlayer.A > 100:
-    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.A - 50, false, false)
+    if eventPlayer.rally_armor > 100:
+    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.rally_armor - 50, false, false)
     else:
-        eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.A, false, false)
+        eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.rally_armor, false, false)
     wait(30)
     removeHealthPool(getLastCreatedHealthPool())
     eventPlayer.setMoveSpeed(100)
