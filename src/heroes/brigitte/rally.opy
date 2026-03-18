@@ -3,15 +3,17 @@
 playervar ralley_hot_id
 playervar shield_bash_cd
 playervar rally_armor
+playervar intro_armor
 
 rule "[brigitte/rally.opy]: OW1 Rally":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate()
 
-
     eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)
     eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF)) # 30% movement speed buff during ralley
+    eventPlayer.addHealthPool(Health.ARMOR, 25, true, false)
+    eventPlayer.intro_armor = getLastCreatedHealthPool()
     damage(eventPlayer, null, OW2_BRIGITTE_RALLY_INSTANT_ARMOR*eventPlayer._hp_scalar + OW2_ARMOR_DAMAGE_REDUCTION) # Remove Rally instant armor
 
 
@@ -21,14 +23,13 @@ rule "[brigitte/rally.opy]: OW1 Rally":
     eventPlayer.rally_armor = eventPlayer.getHealthOfType(Health.ARMOR)
     waitUntil(not eventPlayer.isUsingUltimate(), 10)
 
-
+    removeHealthPool(eventPlayer.intro_armor)
     if eventPlayer.rally_armor > 100:
-    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.rally_armor - 50, false, false)
+        eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.rally_armor - 50, false, false)
     else:
         eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.rally_armor, false, false)
     wait(30)
     removeHealthPool(getLastCreatedHealthPool())
-    eventPlayer.setMoveSpeed(100)
     stopHoT(eventPlayer.ralley_hot_id)
     #eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))
     #heal(eventPlayer, null, 100)
@@ -48,11 +49,3 @@ rule "[brigitte/rally.opy]: Doesnt reset bash on ult":
 
     eventPlayer.shield_bash_cd = (OW1_BRIGITTE_SHIELD_BASH_COOLDOWN)
     chase(eventPlayer.shield_bash_cd, 0, rate=1, ChaseReeval.NONE)
-
-
-rule "[brigitte/rally.opy]: Force cooldown when Rally":
-    @Event eachPlayer
-    @Hero brigitte
-    @Condition eventPlayer.isUsingUltimate()
-
-    eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)
