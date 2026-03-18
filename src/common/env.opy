@@ -1,5 +1,5 @@
 #!define GAMEMODE_VERSION "Internal Build"
-#!define GAMEMODE_NAME "Overwatch 1 Emulator"
+#!define GAMEMODE_NAME "Project Halt"
 #!define GAMEMODE_CODE "PBMYC"
 #!define DISCORD_SHORT_LINK "dsc.gg/ow1"
 #!define DISCORD_LONG_LINK "discord.gg/GMVqwYXbWB"
