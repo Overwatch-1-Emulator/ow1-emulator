@@ -1,5 +1,23 @@
 # Changelog
 
+## [5.1.0](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.5...v5.1.0) (2026-03-18)
+
+
+### Features
+
+* 200 Hp Brig ([747e555](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/747e555f22ffccaf2254ed259625873219c6d61f))
+* Overwatch 1 Best Defense ([dd23c59](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/dd23c59de5b45b9848e49a012904c60858c825cb))
+* Rebrand to Project Halt ([810a6fc](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/810a6fc411d903f51fd2b6a35696ebc6e5dbabec))
+* Removed Anti Heal Passive ([650f167](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/650f167baf992e374219f04fdfdc3d3f30a73d78))
+
+
+### Bug Fixes
+
+* 2 3 3 Role lock ([c88a838](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/c88a8383e3013fbaa03d13f8c32ee95fa42eaccc))
+* Overwatch 1 Breather ([fbaace0](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/fbaace090e1a45757034429cd91fc15f113f9529))
+* OW1 Bastion Ammo ([649a851](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/649a8515bbd4686eed268876372a1c30ecdcc1b6))
+* removed something idk what ([a592aa0](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/a592aa01d92803c7c966740b8d959daaf4cd98ee))
+
 ## [5.0.5](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.4...v5.0.5) (2026-03-15)
 
 
