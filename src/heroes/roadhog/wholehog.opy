@@ -31,7 +31,7 @@ rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
-    eventPlayer.setDamageDealt(100)
+    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
     eventPlayer.setKnockbackDealt(100)
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
 
