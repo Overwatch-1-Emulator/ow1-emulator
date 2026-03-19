@@ -1,5 +1,12 @@
 # Changelog
 
+## [5.1.1](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.1.0...v5.1.1) (2026-03-18)
+
+
+### Bug Fixes
+
+* **Roadhog:** Accurate breather ([740c5dc](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/740c5dcce1ea268f8863ebcbdb76a5bbd91d9bf9))
+
 ## [5.1.0](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.0.5...v5.1.0) (2026-03-18)
 
 
