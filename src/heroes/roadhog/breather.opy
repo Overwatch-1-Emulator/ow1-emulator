@@ -16,14 +16,14 @@
 rule "[roadhog/breather.opy]: OW1 Take a Breather":
     @Event eachPlayer
     @Hero roadhog
-    #@Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
-    @Condition eventPlayer.isUsingAbility2()
+    @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
+    #@Condition eventPlayer.isUsingAbility2()
     #@Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
     @Condition not isCCd(eventPlayer)
-    #@Condition not eventPlayer.isFiringPrimaryFire()
-    #@Condition not eventPlayer.isUsingAbility1()
-    #@Condition not eventPlayer.isUsingUltimate()
-    #@Condition not eventPlayer.isMeleeing()
+    @Condition not eventPlayer.isFiringPrimaryFire()
+    @Condition not eventPlayer.isUsingAbility1()
+    @Condition not eventPlayer.isUsingUltimate()
+    @Condition not eventPlayer.isMeleeing()
 
     # activate ability
     #eventPlayer._is_using_breather = true
@@ -36,10 +36,10 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.disallowButton(Button.PRIMARY_FIRE)
     eventPlayer.disallowButton(Button.MELEE)
     eventPlayer.disallowButton(Button.RELOAD)
-    eventPlayer.startForcingButton(Button.ABILITY_2)
+    #eventPlayer.startForcingButton(Button.ABILITY_2)
     wait(OW1_ROADHOG_BREATHER_DURATION)
     wait(0.07) #extra wait 
-    eventPlayer.stopForcingButton(Button.ABILITY_2)
+    #eventPlayer.stopForcingButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_1)
     eventPlayer.allowButton(Button.ULTIMATE)
