@@ -1,8 +1,8 @@
 #!mainFile "../../main.opy"
 
 #!include "focusing_beam.opy"
-#!include "duplicate.opy"
-
+# !include "duplicate.opy"
+#!include "newduplicate.opy"
 
 def initEcho():
     @Name "[echo/init.opy]: initEcho()"

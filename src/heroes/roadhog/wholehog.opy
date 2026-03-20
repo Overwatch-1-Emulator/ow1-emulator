@@ -22,18 +22,17 @@ rule "[roadhog/wholehog.opy]: OW1 disable abilities during wholehog":
     eventPlayer.setKnockbackDealt(percent(OW1_ROADHOG_WHOLEHOG_KNOCKBACK/OW2_ROADHOG_WHOLEHOG_KNOCKBACK))
 
 
-rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
-    @Event eachPlayer
-    @Hero roadhog
-    @Condition not eventPlayer.isUsingUltimate()
+#rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
+#    @Event eachPlayer
+#    @Hero roadhog
+#    @Condition not eventPlayer.isUsingUltimate()
 
-    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
-    eventPlayer.setMeleeEnabled(true)
-    eventPlayer.setAbility1Enabled(true)
-    eventPlayer.setAbility2Enabled(true)
-    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
-    eventPlayer.setKnockbackDealt(100)
-    eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
+#    eventPlayer.setMeleeEnabled(true)
+#    eventPlayer.setAbility1Enabled(true)
+#    eventPlayer.setAbility2Enabled(true)
+#    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
+#    eventPlayer.setKnockbackDealt(100)
+#    eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
 
 
 rule "[roadhog/wholehog.opy]: OW1 Wholehog force autofire":
@@ -104,8 +103,15 @@ rule "[roadhog/wholehog.opy]: Go back to roadhog":
     # Restore hog state
     setCustomHp(eventPlayer._hp_health, eventPlayer._hp_armor, eventPlayer._hp_shields)
     eventPlayer.setHealth(eventPlayer._hog_hp)
+    eventPlayer.setMeleeEnabled(true)
+    eventPlayer.setAbility1Enabled(true)
+    eventPlayer.setAbility2Enabled(true)
+    eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
+    eventPlayer.setKnockbackDealt(100)
+    eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer._hook_cooldown)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, eventPlayer._breather_cooldown)
+
 
     eventPlayer.setAmmo(0, eventPlayer._scrap_ammo)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE) # Without this, hog gets his ow2 clip size back
