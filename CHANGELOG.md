@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.1.2](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.1.1...v5.1.2) (2026-03-21)
+
+
+### Bug Fixes
+
+* **Roadhog:** OW1 Breather ([d65764b](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/d65764b96c924d2ef8e835772bde687f045fc5f5))
+* **Roadhog:** OW1 Scrap Gun Damage After Exit Ult ([7858a1b](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/7858a1b70325483bdd43ed2441b9bd3fa029c16a))
+
 ## [5.1.1](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.1.0...v5.1.1) (2026-03-18)
 
 
