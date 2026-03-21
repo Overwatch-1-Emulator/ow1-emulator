@@ -11,10 +11,10 @@ def EchoCopyHud():
 
 rule "[echo/duplicate.opy]: Initialize duplicate hero":
     @Event eachPlayer
-    #@Hero echo
-    @Condition eventPlayer._hero_setup == Hero.ECHO
-    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
-    #@Condition eventPlayer.isDuplicatingAHero()
+    @Hero echo
+    #@Condition eventPlayer._hero_setup == Hero.ECHO
+    #@Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
+    @Condition eventPlayer.isDuplicatingAHero()
 
     #wait(0.016)
     eventPlayer._hero_setup = eventPlayer.getHeroOfDuplication()
