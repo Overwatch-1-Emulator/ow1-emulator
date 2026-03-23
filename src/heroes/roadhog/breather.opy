@@ -19,15 +19,16 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_2)
     #@Condition eventPlayer.isUsingAbility2()
     #@Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
-    @Condition not isCCd(eventPlayer)
-    @Condition not eventPlayer.isFiringPrimaryFire()
-    @Condition not eventPlayer.isUsingAbility1()
-    @Condition not eventPlayer.isUsingUltimate()
-    @Condition not eventPlayer.isMeleeing()
+    #@Condition not isCCd(eventPlayer)
+    #@Condition not eventPlayer.isFiringPrimaryFire()
+    #@Condition not eventPlayer.isUsingAbility1()
+    #@Condition not eventPlayer.isUsingUltimate()
+    #@Condition not eventPlayer.isMeleeing()
 
     # activate ability
     #eventPlayer._is_using_breather = true
     #eventPlayer.setAbility2Enabled(false)
+    #eventPlayer.startForcingButton(Button.ABILITY_2)
     eventPlayer.setDamageReceived(percent((1-OW1_ROADHOG_BREATHER_DAMAGE_REDUCTION)/(1-OW2_ROADHOG_BREATHER_DAMAGE_REDUCTION))) # reduce daamge intake
     eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.disallowButton(Button.ABILITY_1)
@@ -38,7 +39,8 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.disallowButton(Button.RELOAD)
     #eventPlayer.startForcingButton(Button.ABILITY_2)
     wait(OW1_ROADHOG_BREATHER_DURATION)
-    wait(0.55) #extra wait 
+    #waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2))
+    #wait(0.43) #extra wait 
     #eventPlayer.stopForcingButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_1)
@@ -50,10 +52,10 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     #eventPlayer.setSecondaryFireEnabled(false) # disable secondary fire to prevent animation canceling, will be re-enabled after recovery time
     # eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.setDamageReceived(100) # reset damage intake
-    wait(OW1_ROADHOG_BREATHER_RECOVERY_TIME)
+    #wait(OW1_ROADHOG_BREATHER_RECOVERY_TIME)
     #wait(OW1_ROADHOG_BREATHER_COOLDOWN)
 
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN)
+   eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN)
 
 
 
