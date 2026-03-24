@@ -22,6 +22,8 @@ def initBrigitte():
     #setBaseHealing(eventPlayer, 0.1)
 
 
+    getPlayers(eventPlayer.getTeam())._friendly_brigitte_player = eventPlayer
+
     #removeSelfHealing()
 
 
