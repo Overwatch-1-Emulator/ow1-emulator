@@ -1,7 +1,8 @@
 #!mainFile "../../main.opy"
 
 #!include "bash.opy"
-#!include "newrally.opy"
+#!include "newnewrally.opy"
+# !include "newrally.opy"
 # !include "whipshot.opy"
 # !include "rally.opy"
 #!include "flail.opy"

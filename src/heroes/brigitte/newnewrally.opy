@@ -66,19 +66,20 @@ rule "[brigitte/rally.opy]: Remove OW2 Rally Ally Overhealth":
     @Condition isInLoS(eventPlayer, eventPlayer._friendly_brigitte_player, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
 
     do:
-        # 1. Store ALL current armor (natural + rally)
-        eventPlayer._rally_stored_armor = eventPlayer.getHealthOfType(Health.ARMOR)
+        # 1. Store only the Rally armor we added, not natural armor
+        eventPlayer._rally_stored_armor = eventPlayer._rally_armor_added
 
         # 2. Remove our Rally armor pool so setHealth doesnt eat it
         for eventPlayer.rally_i in range(len(eventPlayer._friendly_brigitte_player.rally_armor_ids)):
             removeHealthPool(eventPlayer._friendly_brigitte_player.rally_armor_ids[eventPlayer.rally_i])
         eventPlayer._friendly_brigitte_player.rally_armor_ids = []
 
-        # 3. Set health to strip overhealth - now only natural armor and normal
-        #    HP exist so setHealth strips cleanly from the top
+        # 3. Set health to strip overhealth - rally armor pools removed so
+        #    getMaxHealthOfType values now reflect only base HP
         eventPlayer.setHealth(eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS))
 
-        # 4. Add the armor back that we stored in step 1
+        # 4. Add ONLY the Rally armor back capped at OW1_BRIGITTE_RALLY_ARMOR_MAX
+        eventPlayer._rally_stored_armor = min(eventPlayer._rally_stored_armor + OW1_BRIGITTE_RALLY_ARMOR, OW1_BRIGITTE_RALLY_ARMOR_MAX)
         if eventPlayer._rally_stored_armor > 0:
             eventPlayer.addHealthPool(Health.ARMOR, eventPlayer._rally_stored_armor, false, false)
             eventPlayer._friendly_brigitte_player.rally_armor_ids.append(getLastCreatedHealthPool())
@@ -88,15 +89,18 @@ rule "[brigitte/rally.opy]: Remove OW2 Rally Ally Overhealth":
     while RULE_CONDITION
 
 
-rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for ally":
+
+
+rule "[brigitte/rally.opy]: Strip OW2 overhealth from ally every tick":
     @Event eachPlayer
     @Condition eventPlayer != eventPlayer._friendly_brigitte_player
     @Condition eventPlayer._friendly_brigitte_player.isUsingUltimate()
-    @Condition getExtraArmor() < OW1_BRIGITTE_RALLY_ARMOR_MAX
+    @Condition distance(eventPlayer, eventPlayer._friendly_brigitte_player) < OW2_BRIGITTE_RALLY_RADIUS
+    @Condition isInLoS(eventPlayer, eventPlayer._friendly_brigitte_player, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
+    @Condition eventPlayer.getHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS)
 
-    do:
-        eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
-        eventPlayer._friendly_brigitte_player.rally_armor_ids.append(getLastCreatedHealthPool())
-        eventPlayer._rally_armor_added += min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor()))
-        wait(OW1_BRIGITTE_RALLY_ARMOR_PERIOD, Wait.ABORT_WHEN_FALSE)
-    while RULE_CONDITION
+    # Armor pools are present here so getMaxHealthOfType(ARMOR) includes Rally
+    # armor. Anything above the sum is purely OW2 overhealth. Strip it.
+    eventPlayer.setHealth(eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR) + eventPlayer.getMaxHealthOfType(Health.SHIELDS))
+
+    if RULE_CONDITION: goto RULE_START
