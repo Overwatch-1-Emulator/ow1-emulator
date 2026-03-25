@@ -276,16 +276,11 @@ rule "[doomfist/slam.opy]: Find slammed victims":
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
 
-    if ((OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim)) \
-    and (distance(attacker, victim) <= OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS) \
-    and true): # [TODO]: add condition to check victim in 60 degree cone
+    if (OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim) and distance(attacker, victim) <= OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS and angleBetweenVectors(getForwardDirection(attacker), directionTowards(attacker, victim)) <= OW1_DOOMFIST_SLAM_FAN_ANGLE/2): # [TODO]: add condition to check victim in 60 degree cone
         attacker.ow1_slam_victims.append(victim)
-        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
     else: # Handle OW2 slam victims
         # Transfer shield gained from uppercut to shield gained from OW2 slam victims
-        #heal(victim, null, eventDamage+18)
-        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields))
-        #attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
+        heal(victim, null, eventDamage)
 
 
 rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
@@ -294,7 +289,7 @@ rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.ow1_slam_victims
 
-    if eventPlayer.slam_damage < 50:
+    if eventPlayer.slam_damage <= 49:
         heal(victim, null, eventDamage)
         damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
     else:
