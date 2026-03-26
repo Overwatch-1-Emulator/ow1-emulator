@@ -143,7 +143,8 @@ rule "[brigitte/rally.opy]: Final overhealth check on leaving radius":
     @Event eachPlayer
     @Condition eventPlayer != eventPlayer._friendly_brigitte_player
     @Condition eventPlayer._friendly_brigitte_player.isUsingUltimate()
-    @Condition distance(eventPlayer, eventPlayer._friendly_brigitte_player) >= OW2_BRIGITTE_RALLY_RADIUS or not isInLoS(eventPlayer, eventPlayer._friendly_brigitte_player, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
+    @Condition distance(eventPlayer, eventPlayer._friendly_brigitte_player) >= OW2_BRIGITTE_RALLY_RADIUS \
+    or not isInLoS(eventPlayer, eventPlayer._friendly_brigitte_player, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
     @Condition eventPlayer._rally_armor_added > 0
 
     rally_strip_and_restore()
