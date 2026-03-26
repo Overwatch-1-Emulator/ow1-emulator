@@ -137,11 +137,10 @@ rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for self":
     @Condition eventPlayer.startrally == true
     @Condition getExtraArmor() < OW1_BRIGITTE_RALLY_ARMOR_MAX
 
-    do:
+    while RULE_CONDITION:
         eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
         eventPlayer.rally_armor_ids.append(getLastCreatedHealthPool())
         wait(OW1_BRIGITTE_RALLY_ARMOR_PERIOD, Wait.ABORT_WHEN_FALSE)
-    while RULE_CONDITION
 
 
 rule "[brigitte/rally.opy]: Reset ally tracker when Rally ends":
