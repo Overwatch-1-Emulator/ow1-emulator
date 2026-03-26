@@ -10,6 +10,7 @@ created by discord users: Bebel#5658 and Xponit#1474
 playervar is_using_uppercut
 playervar is_ultimate_locked
 playervar decay_timer
+playervar doom_hp
 
 #!include "uppercut.opy"
 #!include "slam.opy"
@@ -22,7 +23,9 @@ playervar decay_timer
 def initDoomfist():
     @Name "[doomfist/init.opy]: initDoomfist()"
 
-    setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
+    #setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
+    eventPlayer.setMaxHealth(0)
+    eventPlayer.addHealthPool(Health.NORMAL, 246, true, true)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     # removeTankPassive()
     #removeSelfHealing()

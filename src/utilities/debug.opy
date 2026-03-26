@@ -173,35 +173,35 @@ rule "[utilities/debug.opy]: do something on interact":
     eventPlayer.setUltCharge(100)
 
 
-rule "[utilities/debug.opy]: spawn bots on interact, despawn on interact + primary":
-    @Event eachPlayer
-    @Condition DEBUG_MODE
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.CROUCH)
-
-    eventPlayer.aimed_position = \
-        raycast(
-            eventPlayer.getEyePosition(),
-            eventPlayer.getEyePosition()+100*eventPlayer.getFacingDirection(),
-            null,
-            null,
-            false).getHitPosition()
-
+#rule "[utilities/debug.opy]: spawn bots on interact, despawn on interact + primary":
+#    @Event eachPlayer
+#    @Condition DEBUG_MODE
+ #   @Condition eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.CROUCH)
+#
+ #   eventPlayer.aimed_position = \
+  #      raycast(
+   #         eventPlayer.getEyePosition(),
+#            eventPlayer.getEyePosition()+100*eventPlayer.getFacingDirection(),
+#            null,
+#            null,
+#            false).getHitPosition()
+#
     # Spawn 4 enemy and 4 friendly bots at crosshair location.
-    for eventPlayer.debug_i in range(4):
-        createDummy(
-            Hero.MEI,
-            getOppositeTeam(eventPlayer.getTeam()),
-            -1,
-            eventPlayer.aimed_position)
-        createDummy(
-            Hero.MEI,
-            eventPlayer.getTeam(),
-            -1,
-            eventPlayer.aimed_position)
+#    for eventPlayer.debug_i in range(4):
+ #       createDummy(
+  #          Hero.MEI,
+  #          getOppositeTeam(eventPlayer.getTeam()),
+  #          -1,
+  #          eventPlayer.aimed_position)
+ #       createDummy(
+#            Hero.MEI,
+#            eventPlayer.getTeam(),
+#            -1,
+#            eventPlayer.aimed_position)
 
-    wait(1)
-    waitUntil(eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.CROUCH))
-    destroyAllDummies()
+#    wait(1)
+#    waitUntil(eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.CROUCH))
+#    destroyAllDummies()
 
 
 rule "[utilities/debug.opy]: Show Player Damage/Healing":

@@ -1,7 +1,8 @@
 #!mainFile "../../main.opy"
 
 playervar rally_pvar
-#!defineMember _hp_before_rally     rally_pvar[1]
+#!defineMember _hp_before_rally     rally_pvar[0]
+#!defineMember _rally_stored_armor  rally_pvar[1]
 #!defineMember _rally_armor_added   rally_pvar[2]
 #!defineMember _rally_pool_id       rally_pvar[3]
 #!defineMember rally_i rally_pvar[4]
@@ -139,8 +140,12 @@ rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for self":
     while RULE_CONDITION:
         eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
         eventPlayer.rally_armor_ids.append(getLastCreatedHealthPool())
+<<<<<<< Updated upstream
+        wait(OW1_BRIGITTE_RALLY_ARMOR_PERIOD, Wait.ABORT_WHEN_FALSE)
+=======
         wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
     while RULE_CONDITION
+>>>>>>> Stashed changes
 
 
 rule "[brigitte/rally.opy]: Reset ally tracker when Rally ends":
@@ -189,5 +194,34 @@ rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
             eventPlayer.rally_ally_ref.addHealthPool(Health.ARMOR, eventPlayer.rally_ally_ref._rally_armor_added, false, false)
             eventPlayer.rally_ally_ref._rally_pool_id = getLastCreatedHealthPool()
 
+<<<<<<< Updated upstream
+        wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
+=======
             wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
+>>>>>>> Stashed changes
     while RULE_CONDITION
+
+
+#rule "[brigitte/rally.opy]: Final overhealth check on leaving radius":
+#    @Event eachPlayer
+#    @Condition eventPlayer != eventPlayer._friendly_brigitte_player
+#    @Condition eventPlayer._friendly_brigitte_player.startrally
+#    @Condition distance(eventPlayer, eventPlayer._friendly_brigitte_player) >= OW2_BRIGITTE_RALLY_RADIUS or not isInLoS(eventPlayer, eventPlayer._friendly_brigitte_player, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
+#    @Condition eventPlayer._rally_armor_added > 0
+#
+#    rally_strip_and_restore()
+
+
+#IDK IF THESE ARE NEEDED I HAD THEM IN THE OTHER CODE
+
+#rule "[brigitte/rally.opy]: Overhealth check on re-entering radius":
+#    @Event eachPlayer
+#    @Condition eventPlayer != eventPlayer._friendly_brigitte_player
+#    @Condition eventPlayer._friendly_brigitte_player.startrally
+#    @Condition distance(eventPlayer, eventPlayer._friendly_brigitte_player) < OW2_BRIGITTE_RALLY_RADIUS
+#    @Condition isInLoS(eventPlayer, eventPlayer._friendly_brigitte_player, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
+#    @Condition eventPlayer._rally_armor_added > 0
+
+#    wait(0.064)
+#    if not eventPlayer._friendly_brigitte_player.startrally: return
+#    rally_strip_and_restore()
