@@ -37,6 +37,7 @@ rule "[brigitte/rally.opy]: Remove OW2 Rally":
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate()
 
+    eventPlayer.startScalingBarriers(0.72, true)
     eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)
     eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF))
 
