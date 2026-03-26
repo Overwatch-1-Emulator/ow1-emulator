@@ -5,14 +5,14 @@ playervar rally_pvar
 #!defineMember _rally_stored_armor  rally_pvar[1]
 #!defineMember _rally_armor_added   rally_pvar[2]
 #!defineMember _rally_pool_id       rally_pvar[3]
-playervar rally_i
-playervar rally_ally_i
-playervar rally_ally_ref
-playervar rally_team_cache
-playervar rally_armor_amount
-playervar rally_armor_ids
-playervar brig_self_armor_id
-playervar shield_bash_cd
+#!defineMember rally_i rally_pvar[4]
+#!defineMember rally_ally_i rally_pvar[5]
+#!defineMember rally_ally_ref rally_pvar[6]
+#!defineMember rally_team_cache rally_pvar[7]
+#!defineMember rally_armor_amount rally_pvar[8]
+#!defineMember rally_armor_ids rally_pvar[9]
+#!defineMember brig_Self_armor_id rally_pvar[10]
+#!defineMember shield_bash_cd rally_pvar[11]
 
 macro getMissingHp() (eventPlayer.getMaxHealth() - eventPlayer.getHealth())
 #!define getNaturalArmor() ((eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR)) - eventPlayer.getHealthOfType(Health.NORMAL) - getMissingHp())
@@ -69,8 +69,6 @@ rule "[brigitte/rally.opy]: Remove OW2 Rally":
 rule "[brigitte/rally.opy]: Doesnt reset bash on ult":
     @Event eachPlayer
     @Hero brigitte
-    @Condition eventPlayer.isFiringPrimaryFire()
-    @Condition eventPlayer.isFiringSecondaryFire()
 
     eventPlayer.shield_bash_cd = OW1_BRIGITTE_SHIELD_BASH_COOLDOWN
     chase(eventPlayer.shield_bash_cd, 0, rate=1, ChaseReeval.NONE)

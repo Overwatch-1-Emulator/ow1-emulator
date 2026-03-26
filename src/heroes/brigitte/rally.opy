@@ -1,22 +1,23 @@
 #!mainFile "../../main.opy"
 
 playervar rally_pvar
-#!defineMember _hp_before_rally     rally_pvar[1]
+#!defineMember _hp_before_rally     rally_pvar[0]
+#!defineMember _rally_stored_armor  rally_pvar[1]
 #!defineMember _rally_armor_added   rally_pvar[2]
 #!defineMember _rally_pool_id       rally_pvar[3]
-#!defineMember rally_i rally_pvar[4]
-#!defineMember rally_ally_i rally_pvar[5]
-#!defineMember rally_ally_ref rally_pvar[6]
-#!defineMember rally_team_cache rally_pvar[7]
-#!defineMember rally_armor_amount rally_pvar[8]
-#!defineMember rally_armor_ids rally_pvar[9]
-#!defineMember brig_self_armor_id rally_pvar[10]
-#!defineMember shield_bash_cd rally_pvar[11]
-#!defineMember switch_hero_ana rally_pvar[12]
-#!defineMember start_rally rally_pvar[13]
-#!defineMember rally_timer rally_pvar[14]
-#!defineMember rally_bar_id rally_pvar[15]
-#!defineMember rally_ring_id rally_pvar[16]
+playervar rally_i
+playervar rally_ally_i
+playervar rally_ally_ref
+playervar rally_team_cache
+playervar rally_armor_amount
+playervar rally_armor_ids
+playervar brig_self_armor_id
+playervar shield_bash_cd
+playervar switch_hero_ana
+playervar start_rally
+playervar rally_timer
+playervar rally_bar_id
+playervar rally_ring_id
 
 macro getMissingHp():
  (eventPlayer.getMaxHealth() - eventPlayer.getHealth())
@@ -89,7 +90,7 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte and start OW1 Rally":
     createEffect(
         getAllPlayers(),
         Effect.RING,
-        Color.ORANGE,
+        Color.TURQUOISE,
         eventPlayer,
         OW2_BRIGITTE_RALLY_RADIUS,
         EffectReeval.VISIBILITY_POSITION_AND_RADIUS
@@ -109,7 +110,7 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte and start OW1 Rally":
     eventPlayer.setUltEnabled(true) # Re-enable ult after rally ends
 
     # Store armor gained, reset HP cleanly, re-add as temp pool
-    #eventPlayer._rally_stored_armor = getExtraArmor()
+    eventPlayer._rally_stored_armor = getExtraArmor()
     #clearCustomHp()
     #setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
 
@@ -140,7 +141,6 @@ rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for self":
         eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
         eventPlayer.rally_armor_ids.append(getLastCreatedHealthPool())
         wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
-    while RULE_CONDITION
 
 
 rule "[brigitte/rally.opy]: Reset ally tracker when Rally ends":
@@ -191,3 +191,6 @@ rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
 
             wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
     while RULE_CONDITION
+
+
+
