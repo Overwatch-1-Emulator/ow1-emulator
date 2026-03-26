@@ -189,7 +189,7 @@ rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
             eventPlayer.rally_ally_ref.addHealthPool(Health.ARMOR, eventPlayer.rally_ally_ref._rally_armor_added, false, false)
             eventPlayer.rally_ally_ref._rally_pool_id = getLastCreatedHealthPool()
 
-        wait(OW1_BRIGITTE_RALLY_ARMOR_PERIOD, Wait.ABORT_WHEN_FALSE)
+        wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
     while RULE_CONDITION
 
 
