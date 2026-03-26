@@ -14,7 +14,7 @@ playervar rally_armor_ids
 playervar brig_self_armor_id
 playervar shield_bash_cd
 
-#!define getMissingHp() (eventPlayer.getMaxHealth() - eventPlayer.getHealth())
+macro getMissingHp() (eventPlayer.getMaxHealth() - eventPlayer.getHealth())
 #!define getNaturalArmor() ((eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR)) - eventPlayer.getHealthOfType(Health.NORMAL) - getMissingHp())
 #!define getExtraArmor() max(0, eventPlayer.getHealthOfType(Health.ARMOR) - getNaturalArmor())
 #!define getExtraArmorOf(p) max(0, p.getHealthOfType(Health.ARMOR) - max(0, (p.getMaxHealthOfType(Health.NORMAL) + p.getMaxHealthOfType(Health.ARMOR)) - p.getHealthOfType(Health.NORMAL) - (p.getMaxHealth() - p.getHealth())))

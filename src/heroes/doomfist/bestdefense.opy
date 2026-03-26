@@ -39,8 +39,8 @@ rule "[doomfist/defense.opy] Decay Best Defense shields": # Logic by Alomare: ht
     @Event eachPlayer
     @Hero doomfist
     # @Condition not eventPlayer.isUsingUltimate()
-    #@Condition eventPlayer.getMaxHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL)
-    @Condition eventPlayer.getHealthOfType(Health.SHIELDS) > 0
+    @Condition eventPlayer.getMaxHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL)
+    #@Condition eventPlayer.getHealthOfType(Health.SHIELDS) > 0
 
     wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER, Wait.RESTART_WHEN_TRUE)
     storedDefenseHealth()
