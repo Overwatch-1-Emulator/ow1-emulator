@@ -25,7 +25,7 @@ def initDoomfist():
 
     #setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     eventPlayer.setMaxHealth(0)
-    eventPlayer.addHealthPool(Health.NORMAL, 246, true, true)
+    eventPlayer.addHealthPool(Health.NORMAL, 245, true, true)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     # removeTankPassive()
     #removeSelfHealing()
@@ -33,7 +33,6 @@ def initDoomfist():
 
     initRocketPunch()
     initSlam()
-    eventPlayer.uppercut_shields = 0
 
 
 rule "[doomfist/init.opy]: Clean up Doomfist":

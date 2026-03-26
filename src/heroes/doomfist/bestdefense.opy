@@ -4,11 +4,13 @@ playervar defense_pvar
 #!defineMember ow1_best_defense_shields     defense_pvar[0]
 playervar best_defense_pool_id
 playervar best_defense_hit_count
-playervar best_defense_processed
 
 
-
-rule "[doomfist/defense.opy]: Count victims":
+# Count all valid victims per ability:
+# - Punch: direct impact only (wall slam excluded via wall_impacted_victims)
+# - Slam: only victims in the 60 degree cone (via ow1_slam_victims from slam.opy)
+# - Uppercut/Ult: all victims count
+rule "[doomfist/defense.opy]: Best Defense - Count victims":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition (eventAbility == Button.SECONDARY_FIRE and not (victim in attacker.wall_impacted_victims)) \
@@ -16,18 +18,16 @@ rule "[doomfist/defense.opy]: Count victims":
             or eventAbility == Button.ULTIMATE \
             or eventPlayer.is_using_uppercut
 
-    eventPlayer.best_defense_hit_count += 1
-    eventPlayer.best_defense_processed = false
+    attacker.best_defense_hit_count += 1
 
 
-rule "[doomfist/defense.opy]: Apply shields":
+rule "[doomfist/defense.opy]: Best Defense - Apply shields":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.best_defense_hit_count > 0
-    @Condition not eventPlayer.best_defense_processed
 
-    wait(0.1)
-    eventPlayer.best_defense_processed = true
+    # Wait for all simultaneous hits to register then apply
+    wait(0.1, Wait.RESTART_WHEN_TRUE)
 
     eventPlayer.ow1_best_defense_shields = min(
         eventPlayer.ow1_best_defense_shields + eventPlayer.best_defense_hit_count * OW1_DOOMFIST_BEST_DEFENSE,
@@ -40,6 +40,8 @@ rule "[doomfist/defense.opy]: Apply shields":
     wait()
     eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.ow1_best_defense_shields, false, false)
     eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
+
+    if RULE_CONDITION: goto RULE_START
 
 
 rule "[doomfist/defense.opy]: Decay Best Defense shields":

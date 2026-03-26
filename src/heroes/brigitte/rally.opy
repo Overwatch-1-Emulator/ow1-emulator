@@ -33,13 +33,17 @@ rule "[brigitte/rally.opy]: Cancel OW2 Rally via hero swap":
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate()
 
+
+    wait (0.46)
     eventPlayer.shield_bash_cd = eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE)
     eventPlayer.whipshot_cd = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
     eventPlayer.repair_pack_cd = eventPlayer.getAbilityCooldown(Button.ABILITY_2)
     eventPlayer.repair_pack_charges = eventPlayer.getAbilityCharge(Button.ABILITY_2)
     eventPlayer.switch_hero_ana = true
 
+  
     eventPlayer.startForcingHero(Hero.ANA)
+    eventPlayer.stopForcingCurrentHero()
 
 
 # Player is Ana here - no @Hero filter
@@ -49,7 +53,8 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte and start OW1 Rally":
 
     eventPlayer.switch_hero_ana = false
     eventPlayer.startForcingHero(Hero.BRIGITTE)
-    wait(0.064)
+    eventPlayer.stopForcingCurrentHero()
+    #wait(0.064)
 
     eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.whipshot_cd)
@@ -174,7 +179,7 @@ rule "[brigitte/bash.opy]: Reduce shield bash distance":
 
     eventPlayer.setMoveSpeed(77.8) # arbitrarily decided based on trial and error
     waitUntil(eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE) > 0, Math.INFINITY)
-        if eventPlayer.start_rally == true:
-            eventPlayer.setMoveSpeed(130)
-        else:
-            eventPlayer.setMoveSpeed(100)
+    if eventPlayer.start_rally == true:
+        eventPlayer.setMoveSpeed(130)
+    else:
+        eventPlayer.setMoveSpeed(100)

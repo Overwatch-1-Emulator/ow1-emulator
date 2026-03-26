@@ -121,15 +121,6 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte and start OW1 Rally":
     eventPlayer.rally_armor_ids = []
 
 
-rule "[brigitte/rally.opy]: Doesnt reset bash on ult":
-    @Event eachPlayer
-    @Hero brigitte
-    @Condition eventPlayer.isFiringPrimaryFire()
-    @Condition eventPlayer.isFiringSecondaryFire()
-
-    eventPlayer.shield_bash_cd = OW1_BRIGITTE_SHIELD_BASH_COOLDOWN
-    chase(eventPlayer.shield_bash_cd, 0, rate=1, ChaseReeval.NONE)
-
 
 rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for self":
     @Event eachPlayer
@@ -140,12 +131,8 @@ rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for self":
     while RULE_CONDITION:
         eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
         eventPlayer.rally_armor_ids.append(getLastCreatedHealthPool())
-<<<<<<< Updated upstream
-        wait(OW1_BRIGITTE_RALLY_ARMOR_PERIOD, Wait.ABORT_WHEN_FALSE)
-=======
         wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
     while RULE_CONDITION
->>>>>>> Stashed changes
 
 
 rule "[brigitte/rally.opy]: Reset ally tracker when Rally ends":
@@ -194,11 +181,7 @@ rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
             eventPlayer.rally_ally_ref.addHealthPool(Health.ARMOR, eventPlayer.rally_ally_ref._rally_armor_added, false, false)
             eventPlayer.rally_ally_ref._rally_pool_id = getLastCreatedHealthPool()
 
-<<<<<<< Updated upstream
-        wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
-=======
             wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
->>>>>>> Stashed changes
     while RULE_CONDITION
 
 
