@@ -1,5 +1,22 @@
 # Changelog
 
+## [5.2.0](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.1.1...v5.2.0) (2026-03-27)
+
+
+### Features
+
+* OW1 Best Defense ([fcb51e8](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/fcb51e8ab21f9b172ecee77f4c835519557bd1ec))
+* OW1 Lucio Beat WITH SHIELD HP ([8067c52](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/8067c52025a2ed7b9769ceaaac3f325354319781))
+* OW1 Rally With Temp Armor ([f985b28](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/f985b284a090400d26dc6cb47474b3f514d0231c))
+* OW1 Sigma Grasp With Shield Hp ([b792334](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/b792334b2d1c273f0ea062193deb62fea6fe1282))
+* OW1 Wrecking Ball Adaptive Shield with Shield HP ([a5a569d](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/a5a569da721719e53777ee7985729ba66f243c4b))
+
+
+### Bug Fixes
+
+* **Roadhog:** OW1 Breather ([d65764b](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/d65764b96c924d2ef8e835772bde687f045fc5f5))
+* **Roadhog:** OW1 Scrap Gun Damage After Exit Ult ([7858a1b](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/7858a1b70325483bdd43ed2441b9bd3fa029c16a))
+
 ## [5.1.1](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.1.0...v5.1.1) (2026-03-18)
 
 
