@@ -169,8 +169,8 @@ rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
         wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
     while RULE_CONDITION
 
-
-rule "[brigitte/bash.opy]: Reduce shield bash distance":
+ 
+rule "[brigitte/rally.opy]: Reduce shield bash distance":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.isFiringSecondaryFire()

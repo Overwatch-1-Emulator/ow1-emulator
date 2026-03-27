@@ -5,7 +5,7 @@ playervar defense_pvar
 playervar best_defense_pool_id
 playervar best_defense_hit_count
 
-
+ 
 # Count all valid victims per ability:
 # - Punch: direct impact only (wall slam excluded via wall_impacted_victims)
 # - Slam: only victims in the 60 degree cone (via ow1_slam_victims from slam.opy)
