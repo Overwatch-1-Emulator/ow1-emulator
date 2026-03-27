@@ -13,7 +13,6 @@ globalvar OW1_DOOMFIST_UPPERCUT_RADIUS = createWorkshopSettingFloat(
 playervar uppercut_pvar
 #!defineMember is_hit_by_uppercut uppercut_pvar[0]
 #!defineMember is_uppercut_locked uppercut_pvar[1]
-playervar uppercut_shields #uppercut_pvar[2]
 #!defineMember hp_before_uppercut uppercut_pvar[3]
 #!defineMember _uppercut_victims uppercut_pvar[4]
 #!defineMember _uppercut_attacker uppercut_pvar[5]
