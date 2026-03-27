@@ -16,8 +16,8 @@ def initBrigitte():
 
     #setBaseDamage(eventPlayer, OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
     setBaseDamage(eventPlayer, OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE)
-    #eventPlayer.setDamageReceived(percent((50+OW2_BRIGITTE_HEALTH)/(OW1_BRIGITTE_ARMOR+OW1_BRIGITTE_HEALTH)))
-    #eventPlayer.setHealingReceived(percent((50+OW2_BRIGITTE_HEALTH)/(OW1_BRIGITTE_HEALTH)))
+    # eventPlayer.setDamageReceived(percent((50+OW2_BRIGITTE_HEALTH)/(OW1_BRIGITTE_ARMOR+OW1_BRIGITTE_HEALTH)))
+    # eventPlayer.setHealingReceived(percent((50+OW2_BRIGITTE_HEALTH)/(OW1_BRIGITTE_HEALTH)))
     #setBaseHealing(eventPlayer, 0.1)
 
 
@@ -35,17 +35,9 @@ rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)\
 
 
+rule "[brigitte/init.opy]: Clean up brigitte":
+    @Event eachPlayer
+    @Condition eventPlayer.getCurrentHero() == Hero.BRIGITTE
 
-
-#rule "[brigitte/init.opy]: Compensate Brigitte 200hp":
-#    @Event eachPlayer
-#    @Hero brigitte
-#    @Condition eventPlayer.getHealthOfType(Health.NORMAL) < 200
-#    #@Condition eventPlayer.isUsingUltimate() == false
-
-#    eventPlayer.setDamageReceived(percent(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH))
-#    eventPlayer.setHealingReceived(percent(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH))
-
-#    waitUntil(eventPlayer.getHealthOfType(Health.NORMAL) > 200)
-#    eventPlayer.setDamageReceived(100)
-#    eventPlayer.setHealingReceived(100)
+    waitUntil(eventPlayer.getCurrentHero() != Hero.BRIGITTE, Math.INFINITY)
+    endRally()

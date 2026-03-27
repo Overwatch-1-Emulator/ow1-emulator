@@ -2,7 +2,7 @@
 
 # !include "soundwave.opy"
 # !include "aura.opy"
-#!include "beat.opy"
+#!include "sound_barrier.opy"
 
 
 def initLucio():

@@ -1,12 +1,12 @@
 #!mainFile "../../main.opy"
 
+playervar grasp_pvar
+#!defineMember grasp_pool_id grasp_pvar[0]
+#!defineMember grasp_shield_amount grasp_pvar[1]
+#!defineMember grasp_decaying grasp_pvar[2]
 
-playervar grasp_pool_id
-playervar grasp_shield_amount
-playervar grasp_decaying
 
-
-rule "[sigma/kineticgrasp.opy]: Convert Kinetic Grasp overhealth to shields":
+rule "[sigma/grasp.opy]: Convert Kinetic Grasp overhealth to shields":
     @Event eachPlayer
     @Hero sigma
     @Condition not eventPlayer.isUsingAbility1()
@@ -22,12 +22,12 @@ rule "[sigma/kineticgrasp.opy]: Convert Kinetic Grasp overhealth to shields":
     eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.grasp_shield_amount, false, false)
     eventPlayer.grasp_pool_id = getLastCreatedHealthPool()
 
-    # Wait linger then start decay
+    # Linger duration to Kinetic Grasp
     wait(OW1_SIGMA_GRASP_LINGER, Wait.RESTART_WHEN_TRUE)
     eventPlayer.grasp_decaying = true
 
 
-rule "[sigma/kineticgrasp.opy]: Decay Kinetic Grasp shields":
+rule "[sigma/grasp.opy]: Decay Kinetic Grasp shields":
     @Event eachPlayer
     @Hero sigma
     @Condition eventPlayer.grasp_decaying == true

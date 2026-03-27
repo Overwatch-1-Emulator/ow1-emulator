@@ -1,27 +1,26 @@
 #!mainFile "../../main.opy"
 
-playervar defense_pvar
-#!defineMember ow1_best_defense_shields     defense_pvar[0]
-playervar best_defense_pool_id
-playervar best_defense_hit_count
+playervar best_defense_pvar
+#!defineMember ow1_best_defense_shields best_defense_pvar[0]
+#!defineMember best_defense_pool_id best_defense_pvar[1]
+#!defineMember best_defense_hit_count best_defense_pvar[2]
 
 
-# Count all valid victims per ability:
-# - Punch: direct impact only (wall slam excluded via wall_impacted_victims)
-# - Slam: only victims in the 60 degree cone (via ow1_slam_victims from slam.opy)
-# - Uppercut/Ult: all victims count
-rule "[doomfist/defense.opy]: Best Defense - Count victims":
+rule "[doomfist/defense.opy]: Current OW1 Best Defense":
     @Event playerDealtDamage
     @Hero doomfist
-    @Condition (eventAbility == Button.SECONDARY_FIRE and not (victim in attacker.wall_impacted_victims)) \
+    @Condition (eventAbility == Button.SECONDARY_FIRE and not (victim in attacker.wall_impacted_victims) and (attacker.punched_victims >= 1)) \
             or (eventAbility == Button.ABILITY_1 and victim in attacker.ow1_slam_victims) \
             or eventAbility == Button.ULTIMATE \
             or eventPlayer.is_using_uppercut
 
-    attacker.best_defense_hit_count += 1
+    if attacker.punched_victims >= 1:
+        attacker.best_defense_hit_count = 1
+    else:
+        attacker.best_defense_hit_count += 1
 
 
-rule "[doomfist/defense.opy]: Best Defense - Apply shields":
+rule "[doomfist/defense.opy]: Apply Custom OW1 Best Defense shields":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.best_defense_hit_count > 0
@@ -33,13 +32,17 @@ rule "[doomfist/defense.opy]: Best Defense - Apply shields":
         eventPlayer.ow1_best_defense_shields + eventPlayer.best_defense_hit_count * OW1_DOOMFIST_BEST_DEFENSE,
         OW1_DOOMFIST_BEST_DEFENSE_MAX
     )
+    
     eventPlayer.best_defense_hit_count = 0
 
     if eventPlayer.best_defense_pool_id != null:
         removeHealthPool(eventPlayer.best_defense_pool_id)
-    wait()
+    wait(TICK_DURATION, Wait.IGNORE_CONDITION)
+
     eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.ow1_best_defense_shields, false, false)
+
     eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
+
 
     if RULE_CONDITION: goto RULE_START
 
