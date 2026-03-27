@@ -1,8 +1,5 @@
 #!mainFile "../../main.opy"
- 
-# Add to ow1_constants.opy:
-# #!define OW1_SIGMA_GRASP_DECAY_RATE 7
-# #!define OW1_SIGMA_GRASP_LINGER 3
+
 
 playervar grasp_pool_id
 playervar grasp_shield_amount
