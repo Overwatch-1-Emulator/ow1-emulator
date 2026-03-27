@@ -22,6 +22,7 @@ def initBrigitte():
 
 
     getPlayers(eventPlayer.getTeam())._friendly_brigitte_player = eventPlayer
+    getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_brigitte_player = eventPlayer
 
     #removeSelfHealing()
 

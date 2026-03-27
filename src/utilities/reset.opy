@@ -17,6 +17,7 @@ playervar reset_pvar
 #!defineMember _self_healing_reset reset_pvar[13]
 #!defineMember _ability_reset reset_pvar[14]
 #!defineMember _friendly_brigitte_player reset_pvar[15]
+#!defineMember enemy_brigitte_player reset_pvar[16]
 
 subroutine clearCustomHp
 subroutine enableAllAbilities
@@ -159,6 +160,7 @@ def resetFrenemies():
     eventPlayer.friendly_sombra_player = getPlayersOnHero(Hero.SOMBRA, eventPlayer.getTeam())[0]
     eventPlayer.enemy_sombra_player = getPlayersOnHero(Hero.SOMBRA, getOppositeTeam(eventPlayer.getTeam()))[0]
     eventPlayer._friendly_brigitte_player = getPlayersOnHero(Hero.BRIGITTE, eventPlayer.getTeam())[0]
+    eventPlayer.enemy_brigitte_player = getPlayersOnHero(Hero.BRIGITTE, getOppositeTeam(eventPlayer.getTeam()))[0]
 
     eventPlayer._frenemy_reset = true
 
