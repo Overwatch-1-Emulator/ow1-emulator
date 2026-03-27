@@ -1,10 +1,10 @@
 #!mainFile "../../main.opy"
 
 #!include "bash.opy"
-# !include "whipshot.opy"
 #!include "rally.opy"
+# !include "whipshot.opy"
 #!include "flail.opy"
-# !include "inspire.opy"
+#!include "inspire.opy"
 # !include "pack.opy"
 
 
@@ -20,6 +20,8 @@ def initBrigitte():
     #eventPlayer.setHealingReceived(percent((50+OW2_BRIGITTE_HEALTH)/(OW1_BRIGITTE_HEALTH)))
     #setBaseHealing(eventPlayer, 0.1)
 
+
+    getPlayers(eventPlayer.getTeam())._friendly_brigitte_player = eventPlayer
 
     #removeSelfHealing()
 

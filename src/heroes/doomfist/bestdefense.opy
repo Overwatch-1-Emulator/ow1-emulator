@@ -1,62 +1,65 @@
 #!mainFile "../../main.opy"
 
-
 playervar defense_pvar
-#!defineMember current_health defense_pvar[0]
-#!defineMember ow1_best_defense_shields defense_pvar[1]
-#!defineMember ow2_best_defense_overhealth defense_pvar[3]
+#!defineMember ow1_best_defense_shields     defense_pvar[0]
+playervar best_defense_pool_id
+playervar best_defense_hit_count
 
-macro storedDefenseHealth():
-    eventPlayer.current_health = eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL)
 
-rule "[doomfist/defense.opy]: Override OW2 best defense + Custom OW1 best defense":
+# Count all valid victims per ability:
+# - Punch: direct impact only (wall slam excluded via wall_impacted_victims)
+# - Slam: only victims in the 60 degree cone (via ow1_slam_victims from slam.opy)
+# - Uppercut/Ult: all victims count
+rule "[doomfist/defense.opy]: Best Defense - Count victims":
     @Event playerDealtDamage
     @Hero doomfist
-    @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ABILITY_1, Button.ULTIMATE] or eventPlayer.is_using_uppercut
+    @Condition (eventAbility == Button.SECONDARY_FIRE and not (victim in attacker.wall_impacted_victims)) \
+            or (eventAbility == Button.ABILITY_1 and victim in attacker.ow1_slam_victims) \
+            or eventAbility == Button.ULTIMATE \
+            or eventPlayer.is_using_uppercut
 
-    storedDefenseHealth()
-    wait() # Try prevent crashes as much as possible
-    eventPlayer.ow1_best_defense_shields = eventPlayer.getHealthOfType(Health.SHIELDS) # Detect how much shields you have right now so you dont get under shields
-    if eventAbility == Button.ULTIMATE: # Meteor Strike shields
-        eventPlayer.ow2_best_defense_overhealth = eventPlayer.getHealth() - eventPlayer.current_health # Detect OW2 best defense
-        eventPlayer.setHealth(eventPlayer.ow2_best_defense_overhealth) # Overwrite OW2 best defense
-        eventPlayer.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + OW1_DOOMFIST_BEST_DEFENSE_MAX - victim.getHealth(),
-            eventPlayer.ow1_best_defense_shields + OW1_DOOMFIST_BEST_DEFENSE_ULT), false, false)
-    else: # Slam, Punch, Uppercut shields
-        eventPlayer.ow2_best_defense_overhealth = eventPlayer.getHealth() - eventPlayer.current_health # Detect OW2 best defense
-        eventPlayer.setHealth(eventPlayer.ow2_best_defense_overhealth) # Overwrite OW2 best defense
-        eventPlayer.addHealthPool(Health.SHIELDS, min(victim.getMaxHealthOfType(Health.NORMAL) + victim.getMaxHealthOfType(Health.ARMOR) + victim.getMaxHealthOfType(Health.SHIELDS) + OW1_DOOMFIST_BEST_DEFENSE_MAX - victim.getHealth(),
-            eventPlayer.ow1_best_defense_shields + OW1_DOOMFIST_BEST_DEFENSE), false, false)
-            wait(0.25)
+    attacker.best_defense_hit_count += 1
 
-    if eventPlayer.getHealthOfType(Health.SHIELDS) > eventPlayer.getMaxHealthOfType(Health.SHIELDS) + OW1_DOOMFIST_BEST_DEFENSE_MAX: # Correct shields if over max shields limit
-        removeHealthPool(getLastCreatedHealthPool())
-        wait()# Try prevent crashes as much as possible
-        eventPlayer.addHealthPool(Health.SHIELDS, OW1_DOOMFIST_BEST_DEFENSE_MAX, false, false)
-        return
 
-rule "[doomfist/defense.opy] Decay Best Defense shields": # Logic by Alomare: https://workshop.codes/E1EW0
+rule "[doomfist/defense.opy]: Best Defense - Apply shields":
     @Event eachPlayer
     @Hero doomfist
-    # @Condition not eventPlayer.isUsingUltimate()
-    @Condition eventPlayer.getMaxHealth() > eventPlayer.getMaxHealthOfType(Health.NORMAL)
+    @Condition eventPlayer.best_defense_hit_count > 0
+
+    # Wait for all simultaneous hits to register then apply
+    wait(0.1, Wait.RESTART_WHEN_TRUE)
+
+    eventPlayer.ow1_best_defense_shields = min(
+        eventPlayer.ow1_best_defense_shields + eventPlayer.best_defense_hit_count * OW1_DOOMFIST_BEST_DEFENSE,
+        OW1_DOOMFIST_BEST_DEFENSE_MAX
+    )
+    eventPlayer.best_defense_hit_count = 0
+
+    if eventPlayer.best_defense_pool_id != null:
+        removeHealthPool(eventPlayer.best_defense_pool_id)
+    wait()
+    eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.ow1_best_defense_shields, false, false)
+    eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
+
+    if RULE_CONDITION: goto RULE_START
+
+
+rule "[doomfist/defense.opy]: Decay Best Defense shields":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.ow1_best_defense_shields > 0
 
     wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER, Wait.RESTART_WHEN_TRUE)
-    storedDefenseHealth()
-    wait() # Try prevent crashes as much as possible
-    while eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) > 0:
-        #if eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL)  > eventPlayer.current_health:
-        #    wait()
-        #    loop()
-        if eventPlayer.getHealth() < eventPlayer.getMaxHealth():
-            eventPlayer.ow2_best_defense_overhealth = eventPlayer.getHealth() - eventPlayer.current_health
-            if eventPlayer.getHealth() > eventPlayer.ow2_best_defense_overhealth:
-                eventPlayer.setHealth(eventPlayer.ow2_best_defense_overhealth)
-            eventPlayer.current_health -= OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE
-            if eventPlayer.current_health < 1:
-                return
-            eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.current_health, false, false)
-        else:
-            eventPlayer.setHealth(eventPlayer.getHealth() - OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE)
-            storedDefenseHealth()
+
+    while eventPlayer.ow1_best_defense_shields > 0:
+        eventPlayer.ow1_best_defense_shields = max(0, eventPlayer.getHealthOfType(Health.SHIELDS) - OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE)
+
+        if eventPlayer.best_defense_pool_id != null:
+            removeHealthPool(eventPlayer.best_defense_pool_id)
+            eventPlayer.best_defense_pool_id = null
+
+        if eventPlayer.ow1_best_defense_shields > 0:
+            eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.ow1_best_defense_shields, false, false)
+            eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
+
         wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER)

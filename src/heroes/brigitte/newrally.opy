@@ -1,30 +1,44 @@
 #!mainFile "../../main.opy"
 
 playervar rally_pvar
-#!defineMember _rally_armor_added   rally_pvar[0]
-#!defineMember _rally_pool_id       rally_pvar[1]
-#!defineMember rally_ally_ref       rally_pvar[2]
-#!defineMember rally_team_cache     rally_pvar[3]
-#!defineMember rally_armor_amount   rally_pvar[4]
-#!defineMember rally_armor_ids      rally_pvar[5]
-#!defineMember switch_hero_ana      rally_pvar[6]
-#!defineMember start_rally          rally_pvar[7]
-#!defineMember rally_bar_id         rally_pvar[8]
-#!defineMember rally_ring_id        rally_pvar[9]
-playervar rally_i
-playervar rally_ally_i
-playervar rally_timer
-playervar shield_bash_cd
-playervar whipshot_cd
-playervar repair_pack_charges
-playervar repair_pack_cd
+#!defineMember _hp_before_rally     rally_pvar[0]
+#!defineMember _rally_stored_armor  rally_pvar[1]
+#!defineMember _rally_armor_added   rally_pvar[2]
+#!defineMember _rally_pool_id       rally_pvar[3]
+#!defineMember rally_i rally_pvar[4]
+#!defineMember rally_ally_i rally_pvar[5]
+#!defineMember rally_ally_ref rally_pvar[6]
+#!defineMember rally_team_cache rally_pvar[7]
+#!defineMember rally_armor_amount rally_pvar[8]
+#!defineMember rally_armor_ids rally_pvar[9]
+#!defineMember brig_self_armor_id rally_pvar[10]
+#!defineMember shield_bash_cd rally_pvar[11]
+#!defineMember switch_hero_ana rally_pvar[12]
+#!defineMember start_rally rally_pvar[13]
+#!defineMember rally_timer rally_pvar[14]
+#!defineMember rally_bar_id rally_pvar[15]
+#!defineMember rally_ring_id rally_pvar[16]
 
 macro getMissingHp():
-    (eventPlayer.getMaxHealth() - eventPlayer.getHealth())
+ (eventPlayer.getMaxHealth() - eventPlayer.getHealth())
 macro getNaturalArmor():
-    ((eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR)) - eventPlayer.getHealthOfType(Health.NORMAL) - getMissingHp())
+ ((eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR)) - eventPlayer.getHealthOfType(Health.NORMAL) - getMissingHp())
 macro getExtraArmor():
-    max(0, eventPlayer.getHealthOfType(Health.ARMOR) - getNaturalArmor())
+ max(0, eventPlayer.getHealthOfType(Health.ARMOR) - getNaturalArmor())
+macro getExtraArmorOf(p):
+ max(0, p.getHealthOfType(Health.ARMOR) - max(0, (p.getMaxHealthOfType(Health.NORMAL) + p.getMaxHealthOfType(Health.ARMOR)) - p.getHealthOfType(Health.NORMAL) - (p.getMaxHealth() - p.getHealth())))
+macro rallyHealthCeiling(p):
+ (p.getMaxHealthOfType(Health.NORMAL) + p.getMaxHealthOfType(Health.ARMOR) + p.getMaxHealthOfType(Health.SHIELDS))
+
+subroutine rally_strip_and_restore
+
+def rally_strip_and_restore():
+    @Name "[brigitte/rally.opy]: rally_strip_and_restore()"
+    if eventPlayer._rally_armor_added > 0:
+        removeHealthPool(eventPlayer._rally_pool_id)
+    eventPlayer.setHealth(min(eventPlayer.getHealth(), rallyHealthCeiling(eventPlayer)))
+    eventPlayer.addHealthPool(Health.ARMOR, eventPlayer._rally_armor_added, false, false)
+    eventPlayer._rally_pool_id = getLastCreatedHealthPool()
 
 
 # Swap to Ana to cancel OW2 Rally before it applies overhealth to allies
@@ -33,17 +47,9 @@ rule "[brigitte/rally.opy]: Cancel OW2 Rally via hero swap":
     @Hero brigitte
     @Condition eventPlayer.isUsingUltimate()
 
-
-    wait (0.46)
-    eventPlayer.shield_bash_cd = eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE)
-    eventPlayer.whipshot_cd = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
-    eventPlayer.repair_pack_cd = eventPlayer.getAbilityCooldown(Button.ABILITY_2)
-    eventPlayer.repair_pack_charges = eventPlayer.getAbilityCharge(Button.ABILITY_2)
+    
     eventPlayer.switch_hero_ana = true
-
-  
     eventPlayer.startForcingHero(Hero.ANA)
-    eventPlayer.stopForcingCurrentHero()
 
 
 # Player is Ana here - no @Hero filter
@@ -53,15 +59,11 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte and start OW1 Rally":
 
     eventPlayer.switch_hero_ana = false
     eventPlayer.startForcingHero(Hero.BRIGITTE)
-    eventPlayer.stopForcingCurrentHero()
-    #wait(0.064)
+    wait(0.064) # Wait for hero swap to complete
 
     eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.whipshot_cd)
-    eventPlayer.setAbilityCooldown(Button.ABILITY_2, eventPlayer.repair_pack_cd)
-    eventPlayer.setAbilityCharge(Button.ABILITY_2, eventPlayer.repair_pack_charges)
-    eventPlayer.setMoveSpeed(130)
-    eventPlayer.setUltEnabled(false)
+    eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF))
+    eventPlayer.setUltEnabled(false) # Disable ult so player can't re-trigger
 
     for eventPlayer.rally_i in range(len(eventPlayer.rally_armor_ids)):
         removeHealthPool(eventPlayer.rally_armor_ids[eventPlayer.rally_i])
@@ -71,6 +73,7 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte and start OW1 Rally":
     eventPlayer.rally_timer = OW1_BRIGITTE_RALLY_DURATION
     chase(eventPlayer.rally_timer, 0, duration=OW1_BRIGITTE_RALLY_DURATION, ChaseReeval.NONE)
 
+    # Progress bar showing rally duration
     progressBarHud(
         eventPlayer,
         roundedPercent(eventPlayer.rally_timer / OW1_BRIGITTE_RALLY_DURATION),
@@ -83,7 +86,7 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte and start OW1 Rally":
         SpecVisibility.DEFAULT
     )
     eventPlayer.rally_bar_id = getLastCreatedText()
-
+    # Ring showing rally radius - visible to all players, follows Brigitte
     createEffect(
         getAllPlayers(),
         Effect.RING,
@@ -104,7 +107,12 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte and start OW1 Rally":
     eventPlayer.rally_ring_id = null
     eventPlayer.rally_timer = 0
     eventPlayer.setMoveSpeed(100)
-    eventPlayer.setUltEnabled(true)
+    eventPlayer.setUltEnabled(true) # Re-enable ult after rally ends
+
+    # Store armor gained, reset HP cleanly, re-add as temp pool
+    #eventPlayer._rally_stored_armor = getExtraArmor()
+    #clearCustomHp()
+    #setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
 
     wait(OW1_BRIGITTE_RALLY_ARMOR_DURATION)
 
@@ -124,14 +132,16 @@ rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for self":
         eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
         eventPlayer.rally_armor_ids.append(getLastCreatedHealthPool())
         wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
+    while RULE_CONDITION
 
 
-# Remove ally armor after Rally duration expires
-rule "[brigitte/rally.opy]: Remove ally armor after Rally duration":
+rule "[brigitte/rally.opy]: Reset ally tracker when Rally ends":
     @Event eachPlayer
     @Condition eventPlayer != eventPlayer._friendly_brigitte_player
     @Condition not eventPlayer._friendly_brigitte_player.start_rally
     @Condition eventPlayer._rally_armor_added > 0
+
+    rally_strip_and_restore()
 
     wait(OW1_BRIGITTE_RALLY_ARMOR_DURATION)
     if eventPlayer._rally_armor_added > 0:
@@ -159,6 +169,11 @@ rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
             if eventPlayer.rally_ally_ref._rally_armor_added > 0:
                 removeHealthPool(eventPlayer.rally_ally_ref._rally_pool_id)
 
+            eventPlayer.rally_ally_ref.setHealth(min(
+                eventPlayer.rally_ally_ref.getHealth(),
+                rallyHealthCeiling(eventPlayer.rally_ally_ref)
+            ))
+
             if eventPlayer.rally_ally_ref._rally_armor_added < OW1_BRIGITTE_RALLY_ARMOR_MAX:
                 eventPlayer.rally_armor_amount = min(OW1_BRIGITTE_RALLY_ARMOR, OW1_BRIGITTE_RALLY_ARMOR_MAX - eventPlayer.rally_ally_ref._rally_armor_added)
                 eventPlayer.rally_ally_ref._rally_armor_added += eventPlayer.rally_armor_amount
@@ -166,20 +181,30 @@ rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
             eventPlayer.rally_ally_ref.addHealthPool(Health.ARMOR, eventPlayer.rally_ally_ref._rally_armor_added, false, false)
             eventPlayer.rally_ally_ref._rally_pool_id = getLastCreatedHealthPool()
 
-        wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
+            wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
     while RULE_CONDITION
 
 
-rule "[brigitte/bash.opy]: Reduce shield bash distance":
-    @Event eachPlayer
-    @Hero brigitte
-    @Condition eventPlayer.isFiringSecondaryFire()
-    @Condition eventPlayer.isFiringPrimaryFire()
-    #@Condition not eventPlayer.isUsingUltimate()
+#rule "[brigitte/rally.opy]: Final overhealth check on leaving radius":
+#    @Event eachPlayer
+#    @Condition eventPlayer != eventPlayer._friendly_brigitte_player
+#    @Condition eventPlayer._friendly_brigitte_player.startrally
+#    @Condition distance(eventPlayer, eventPlayer._friendly_brigitte_player) >= OW2_BRIGITTE_RALLY_RADIUS or not isInLoS(eventPlayer, eventPlayer._friendly_brigitte_player, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
+#    @Condition eventPlayer._rally_armor_added > 0
+#
+#    rally_strip_and_restore()
 
-    eventPlayer.setMoveSpeed(77.8) # arbitrarily decided based on trial and error
-    waitUntil(eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE) > 0, Math.INFINITY)
-    if eventPlayer.start_rally == true:
-        eventPlayer.setMoveSpeed(130)
-    else:
-        eventPlayer.setMoveSpeed(100)
+
+#IDK IF THESE ARE NEEDED I HAD THEM IN THE OTHER CODE
+
+#rule "[brigitte/rally.opy]: Overhealth check on re-entering radius":
+#    @Event eachPlayer
+#    @Condition eventPlayer != eventPlayer._friendly_brigitte_player
+#    @Condition eventPlayer._friendly_brigitte_player.startrally
+#    @Condition distance(eventPlayer, eventPlayer._friendly_brigitte_player) < OW2_BRIGITTE_RALLY_RADIUS
+#    @Condition isInLoS(eventPlayer, eventPlayer._friendly_brigitte_player, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
+#    @Condition eventPlayer._rally_armor_added > 0
+
+#    wait(0.064)
+#    if not eventPlayer._friendly_brigitte_player.startrally: return
+#    rally_strip_and_restore()
