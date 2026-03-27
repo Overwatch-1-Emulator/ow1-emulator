@@ -3,9 +3,7 @@
 playervar lucio_pvar
 #!defineMember sb_pool_id       lucio_pvar[0]
 #!defineMember sb_pre_normal    lucio_pvar[1]
-#!defineMember sb_pre_armor     lucio_pvar[2]
-#!defineMember sb_pre_shields   lucio_pvar[3]
-#!defineMember sb_armed         lucio_pvar[4]
+#!defineMember sb_armed         lucio_pvar[2]
 playervar lucio_i
 playervar lucio_ally_ref
 playervar sb_shields
@@ -41,8 +39,6 @@ rule "[lucio/soundbarrier.opy]: Snapshot HP on own thread":
     @Condition eventPlayer.sb_armed == true
 
     eventPlayer.sb_pre_normal = eventPlayer.getHealthOfType(Health.NORMAL)
-    eventPlayer.sb_pre_armor = eventPlayer.getHealthOfType(Health.ARMOR)
-    eventPlayer.sb_pre_shields = eventPlayer.getHealthOfType(Health.SHIELDS)
     eventPlayer.sb_armed = false
 
 

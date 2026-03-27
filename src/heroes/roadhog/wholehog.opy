@@ -18,6 +18,7 @@ rule "[roadhog/wholehog.opy]: OW1 disable abilities during wholehog":
     eventPlayer.setMeleeEnabled(false)
     eventPlayer.setAbility1Enabled(false)
     eventPlayer.setAbility2Enabled(false)
+    eventPlayer.setSecondaryFireEnabled(false)
     eventPlayer.setDamageDealt(percent(OW1_ROADHOG_WHOLEHOG_DAMAGE/OW2_ROADHOG_WHOLEHOG_DAMAGE))
     eventPlayer.setKnockbackDealt(percent(OW1_ROADHOG_WHOLEHOG_KNOCKBACK/OW2_ROADHOG_WHOLEHOG_KNOCKBACK))
 
@@ -106,6 +107,7 @@ rule "[roadhog/wholehog.opy]: Go back to roadhog":
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setAbility1Enabled(true)
     eventPlayer.setAbility2Enabled(true)
+    eventPlayer.setSecondaryFireEnabled(false)
     eventPlayer.setDamageDealt(percent(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE))
     eventPlayer.setKnockbackDealt(100)
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
