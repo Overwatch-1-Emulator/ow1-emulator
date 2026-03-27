@@ -1,5 +1,7 @@
 #!mainFile "../../main.opy"
 
+#!include "grasp.opy"
+
 def initSigma():
     @Name "[sigma/init.opy]: initSigma()"
 
