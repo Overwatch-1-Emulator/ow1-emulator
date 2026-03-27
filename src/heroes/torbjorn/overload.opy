@@ -1,15 +1,19 @@
 #!mainFile "../../main.opy"
 
+playervar torbjorn_overload_id
 
-rule "[torbjorn/overload.opy]: Correct overload hp":
+rule "[torbjorn/overload.opy]: Convert Overload overhealth to shields":
     @Event eachPlayer
     @Hero torbjorn
     @Condition eventPlayer.isUsingAbility2()
 
     damage(eventPlayer, null, 67)
-    eventPlayer.addHealthPool(Health.ARMOR, 100, false, true)
-    heal(eventPlayer, null, 1)
-    wait(6)
-    removeHealthPool(getLastCreatedHealthPool())
+    heal(eventPlayer, null, 1) # Rounding error, enjoy magic numbers!
+    
+    eventPlayer.torbjorn_overload_id = getLastCreatedHealthPool()
 
-    #damage(eventPlayer, null, OW1_TORBJORN_OVERLOAD_OVERHEALTH*(OW1_TORBJORN_TURRET_HEALTH/OW2_TORBJORN_TURRET_HEALTH) - OW1_TORBJORN_OVERLOAD_OVERHEALTH)
+    eventPlayer.addHealthPool(Health.ARMOR, OW1_TORBJORN_OVERLOAD_OVERHEALTH, false, true)
+
+    wait(OW1_TORBJORN_OVERLOAD_DURATION)
+
+    removeHealthPool(eventPlayer.torbjorn_overload_id)
