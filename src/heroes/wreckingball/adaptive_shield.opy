@@ -42,6 +42,9 @@ rule "[wreckingball/adaptive_shield.opy]: OW1 Adaptive Shields":
     elif eventPlayer._actual_adapt_shields == 100:
         damage(eventPlayer, null, eventPlayer._actual_adapt_shields)
         eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer._expected_adapt_shields, false, false)
+        eventPlayer._adaptive_shield_hp_id = getLastCreatedHealthPool()
+        wait(OW1_WRECKING_BALL_ADAPTIVE_SHIELD_DURATION)
+        removeHealthPool(eventPlayer._adaptive_shield_hp_id)
 
 
 rule "[wreckingball/adaptive_shield.opy]: Disable OW2 shield transfer":
