@@ -4,14 +4,16 @@ playervar grasp_pvar
 #!defineMember grasp_pool_id grasp_pvar[0]
 #!defineMember grasp_shield_amount grasp_pvar[1]
 #!defineMember grasp_decaying grasp_pvar[2]
+#!defineMember grasp_hp_before_grasp grasp_pvar[3]
 
 
 rule "[sigma/grasp.opy]: Convert Kinetic Grasp overhealth to shields":
     @Event eachPlayer
     @Hero sigma
-    @Condition not eventPlayer.isUsingAbility1()
-    @Condition eventPlayer.getHealthOfType(Health.NORMAL) > eventPlayer.getMaxHealthOfType(Health.NORMAL)
+    @Condition eventPlayer.isUsingAbility1()
+    #@Condition eventPlayer.getHealthOfType(Health.NORMAL) > eventPlayer.getMaxHealthOfType(Health.NORMAL)
 
+    wait(2) #sigma grasp duration
     eventPlayer.grasp_shield_amount = eventPlayer.getHealthOfType(Health.NORMAL) - eventPlayer.getMaxHealthOfType(Health.NORMAL)
     eventPlayer.grasp_decaying = false
 
@@ -48,3 +50,10 @@ rule "[sigma/grasp.opy]: Decay Kinetic Grasp shields":
 
         wait(0.25)
     while eventPlayer.grasp_shield_amount > 0
+
+
+rule "[sigma/grasp]: Take Away Shield if he dies":
+    @Event playerDied
+    @Hero sigma
+
+    removeHealthPool(eventPlayer.grasp_shield_amount)
