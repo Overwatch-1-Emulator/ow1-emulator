@@ -1,5 +1,13 @@
 # Changelog
 
+## [5.2.1](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.2.0...v5.2.1) (2026-03-28)
+
+
+### Bug Fixes
+
+* add enenmy brig detection ([8dbc017](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/8dbc01762d33dde052000cf35b9ce1a6b4f9dfac))
+* **Lucio:** Beat not applying for allies with armor awnd shields ([5b0b9a8](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/5b0b9a85fb86db9737d13f58dfbd477e70fff05d))
+
 ## [5.2.0](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.1.1...v5.2.0) (2026-03-27)
 
 
