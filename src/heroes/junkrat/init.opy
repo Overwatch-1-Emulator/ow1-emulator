@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "trap.opy"
 
@@ -8,10 +8,9 @@ def initJunkrat():
 
     setCustomHp(OW1_JUNKRAT_HEALTH, 0, 0)
     setUltCost(OW1_JUNKRAT_ULT_COST)
-    #removeSelfHealing()
+    removeSelfHealing()
 
     setBaseDamage(eventPlayer, OW1_JUNKRAT_FRAG_DAMAGE/OW2_JUNKRAT_FRAG_DAMAGE)
-    eventPlayer.setProjectileSpeed(percent(OW1_JUNKRAT_PROJECTILE/OW2_JUNKRAT_PROJECTILE))
 
 
 rule "[junkrat/init.opy]: Correct Mine, Tire damage":

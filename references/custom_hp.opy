@@ -36,7 +36,7 @@ def applyCustomHp():
     if (eventPlayer.hp_health + eventPlayer.hp_armor + eventPlayer.hp_shields <= 0):
         clearCustomHp()
         return
-
+    
     waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
     # If the player is in spawn, teleport them out as they are invulnerable in spawn
     if eventPlayer.isInSpawnRoom():

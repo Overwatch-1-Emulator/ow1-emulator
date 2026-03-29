@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 
 globalvar ready_gvar
@@ -16,15 +16,15 @@ rule "[utilities/ready.opy]: Create ready HUD":
     @Condition isInSetup()
 
     if eventPlayer.ready_hud[0] == null:
-        hudText(eventPlayer,
-                "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())),
-                "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)),
-                GAMEMODE_NAME" ""("GAMEMODE_CODE")",
-                HudPosition.TOP,
-                Math.INFINITY,
-                ready_color if eventPlayer.ready else Color.RED,
-                Color.WHITE,
-                Color.WHITE,
+        hudText(eventPlayer, 
+                "{}/{} ready".format(len([player for player in getAllPlayers() if player.ready == true]), len(getAllPlayers())), 
+                "Press {} + {} to ready".format(buttonString(Button.INTERACT), buttonString(Button.RELOAD)), 
+                GAMEMODE_NAME" "GAMEMODE_VERSION" ""("GAMEMODE_CODE")", 
+                HudPosition.TOP, 
+                Math.INFINITY, 
+                ready_color if eventPlayer.ready else Color.RED, 
+                Color.WHITE, 
+                Color.WHITE, 
                 HudReeval.STRING_AND_COLOR)
         eventPlayer.ready_hud[0] = getLastCreatedText()
 
@@ -35,7 +35,7 @@ rule "[utilities/ready.opy]: Create ready HUD":
     if eventPlayer.ready_hud[2] == null:
         hudSubtext(eventPlayer, DISCORD_SHORT_LINK, HudPosition.TOP, Math.INFINITY, rgb(141, 187, 9), HudReeval.STRING_AND_COLOR)
         eventPlayer.ready_hud[2] = getLastCreatedText()
-
+    
     waitUntil(not isInSetup(), Math.INFINITY)
 
     for eventPlayer.ready_hud_i in range(len(eventPlayer.ready_hud)):

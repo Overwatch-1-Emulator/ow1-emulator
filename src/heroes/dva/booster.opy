@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[dva/booster.opy]: Decouple melee button from activating melee animation during booster":
@@ -16,7 +16,7 @@ rule "[dva/booster.opy]: Cancel booster if melee pressed":
     @Hero dva
     @Condition eventPlayer.isUsingAbility1()
     @Condition eventPlayer.isHoldingButton(Button.MELEE)
-
+    
     eventPlayer.forceButtonPress(Button.ABILITY_1)
     eventPlayer.allowButton(Button.MELEE)
     eventPlayer.forceButtonPress(Button.MELEE)

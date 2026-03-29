@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "self_bubble.opy"
 #!include "ally_bubble.opy"
@@ -10,7 +10,7 @@ def initZarya():
     setCustomHp(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
     setUltCost(OW1_ZARYA_ULT_COST)
     setBaseDamage(eventPlayer, OW1_ZARYA_CANNON_DAMAGE_MAX/OW2_ZARYA_CANNON_DAMAGE_MAX)
-    #removeSelfHealing()
+    removeSelfHealing()
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)

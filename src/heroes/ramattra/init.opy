@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "nemesis.opy"
 #!include "vortex.opy"
@@ -11,4 +11,4 @@ def initRamattra():
     setUltCost(OW1_RAMATTRA_ULT_COST)
 
     # removeTankPassive()
-    #removeSelfHealing()
+    removeSelfHealing()

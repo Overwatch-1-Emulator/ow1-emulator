@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 subroutine initAna
 subroutine initAshe
@@ -41,7 +41,6 @@ subroutine initVenture
 subroutine initWidowmaker
 subroutine initWinston
 subroutine initHammond
-subroutine initWuyang
 subroutine initZarya
 subroutine initZenyatta
 

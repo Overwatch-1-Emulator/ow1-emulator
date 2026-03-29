@@ -46,7 +46,7 @@ enum Role:
 rule "[hero_switch.opy]: detect hero switch":
     @Event eachPlayer
     @Condition eventPlayer.last_hero_played != eventPlayer.getCurrentHero()
-
+    
     eventPlayer.hero_switched = true
     wait()
     eventPlayer.last_hero_played = eventPlayer.getCurrentHero()
@@ -97,7 +97,7 @@ rule "[hero_roster.opy]: Initiaize hero roster workshop settings":
 
 rule "[hero_roster.opy]: Define tank, damage, support heroes array":
     @Event global
-
+    
     # Tanks
     tank_heroes = getTankHeroes()
     tank_heroes.remove(Hero.DOOMFIST)
@@ -122,7 +122,7 @@ rule "[hero_roster.opy]: Define tank, damage, support heroes array":
                 damage_roaster.append(getAllHeroes()[i])
             elif (getAllHeroes()[i] in support_heroes):
                 support_roaster.append(getAllHeroes()[i])
-
+        
 
     hero_roaster = []
     hero_roaster.append(tank_roaster)
@@ -133,7 +133,7 @@ rule "[hero_roster.opy]: Define tank, damage, support heroes array":
 rule "[role_lock.opy]: Find player's role":
     @Event eachPlayer
     @Condition eventPlayer.hero_switched
-
+    
     if eventPlayer.getCurrentHero() in tank_heroes:
         eventPlayer.role = Role.TANK
     elif eventPlayer.getCurrentHero() in damage_heroes:

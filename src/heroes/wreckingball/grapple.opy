@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!define OW1_WRECKING_BALL_GRAPPLE_COOLDOWN 5
 
@@ -14,10 +14,10 @@ rule "[wreckingball/grapple.opy]: Correct Fireball impact damage":
     @Event playerDealtDamage
     @Hero hammond
     @Condition eventAbility == Button.SECONDARY_FIRE
-
+        
         damage(
-            victim,
-            attacker,
+            victim, 
+            attacker, 
             ((OW1_WRECKING_BALL_FIREBALL_DAMAGE/OW2_WRECKING_BALL_FIREBALL_DAMAGE) \
             * (eventDamage/eventPlayer._base_damage_scalar) \
             - eventDamage)/eventPlayer._base_damage_scalar)

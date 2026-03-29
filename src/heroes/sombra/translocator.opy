@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar translocator_pvar
 
@@ -101,9 +101,9 @@ def throwTranslocator():
                                  eventPlayer.transloc_position + eventPlayer.trasnloc_velocity, \
                                  null, \
                                  null, \
-                                 false).getHitPosition()) \
+                                 false).getHitPosition()) \ 
                          < 0.5), OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
-
+    
     # Freeze translocator projectile
     stopChasingVariable(eventPlayer.transloc_time)
     stopChasingVariable(eventPlayer.trasnloc_velocity)
@@ -134,9 +134,9 @@ def throwTranslocator():
                                  eventPlayer.transloc_position + eventPlayer.trasnloc_velocity, \
                                  null, \
                                  null, \
-                                 false).getHitPosition()) \
+                                 false).getHitPosition()) \ 
                          < 0.5), OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
-
+    
     # Freeze translocator projectile
     stopChasingVariable(eventPlayer.transloc_time)
     stopChasingVariable(eventPlayer.trasnloc_velocity)

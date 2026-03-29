@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "grapple.opy"
 #!include "adaptive_shield.opy"
@@ -10,7 +10,7 @@ def initHammond():
     setCustomHp(OW1_WRECKING_BALL_HEALTH, OW1_WRECKING_BALL_ARMOR, 0)
     setUltCost(OW1_WRECKING_BALL_ULT_COST)
     # removeTankPassive()
-    # removeSelfHealing()
+    removeSelfHealing()
 
     setBaseDamage(eventPlayer, OW1_WRECKING_BALL_MINEFIELD_DAMAGE/OW2_WRECKING_BALL_MINEFIELD_DAMAGE)
 

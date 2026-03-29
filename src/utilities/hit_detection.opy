@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 # lsi stands for line-sphere intersection
 # see https://en.wikipedia.org/wiki/Line%E2%80%93sphere_intersection for derivation
@@ -25,7 +25,7 @@ subroutine findLineSphereIntersection
 macro isAimingAtSphere(start_position, direction, sphere_center, sphere_radius):
     ((angleBetweenVectors(direction, directionTowards(start_position, sphere_center)) < 90)
  and (distance(start_position, sphere_center) * sinDeg(angleBetweenVectors(direction, directionTowards(start_position, sphere_center))) <= sphere_radius))
-
+    
 macro findSphereHit(start_position, direction, sphere_center, sphere_radius):
     eventPlayer._lsi_o = start_position
     eventPlayer._lsi_u = direction

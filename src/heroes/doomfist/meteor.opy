@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar meteor_strike_slow_time
 
@@ -43,13 +43,13 @@ rule "[doomfist/meteor.opy]: OW1 Meteor Strike knockback":
     @Hero doomfist
     @Condition eventAbility == Button.ULTIMATE
 
-    victim.setGravity(50)
+    victim.setGravity(50) 
     # Boop slammed victims up
     victim.applyImpulse(Vector.UP, 5, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     # Boop slammed victims away from meteor strike
-    victim.applyImpulse(directionTowards(attacker, victim),
+    victim.applyImpulse(directionTowards(attacker, victim), 
                         20/max(distance(attacker, victim), OW1_DOOMFIST_METEOR_STRIKE_INNER_RING_RADIUS), # inverse square curve passing through (2, 10)
-                        Relativity.TO_WORLD,
+                        Relativity.TO_WORLD, 
                         Impulse.CANCEL_CONTRARY_MOTION_XYZ)
     victim.setGravity(100)
 

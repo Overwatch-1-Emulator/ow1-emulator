@@ -1,16 +1,16 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "bob.opy"
 
 
 def initAshe():
     @Name "[ashe/init.opy]: initAshe()"
-
+    
     setCustomHp(OW1_ASHE_HEALTH, 0, 0)
     setUltCost(OW1_ASHE_ULT_COST)
     setBaseDamage(eventPlayer, OW1_ASHE_BOB_DAMAGE/OW2_ASHE_BOB_DAMAGE)
 
-    #removeSelfHealing()
+    removeSelfHealing()
 
     # eventPlayer.disallowButton(Button.ULTIMATE)
 

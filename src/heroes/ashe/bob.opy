@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar ult_point_while_ult_active
 playervar start_time_ult
@@ -7,7 +7,7 @@ playervar start_time_ult
 rule "[ashe/bob.opy]: Add ultimate charge while using BOB":
     @Event eachPlayer
     @Hero ashe
-    @Condition eventPlayer.isUsingUltimate()
+    @Condition eventPlayer.isUsingUltimate() 
 
     eventPlayer.ult_point_while_ult_active = 0
     eventPlayer.start_time_ult = getTotalTimeElapsed()
@@ -26,7 +26,7 @@ rule "[ashe/bob.opy]: Calcul of the damage made while BOB is active":
     @Condition victim != attacker
 
     if victim.getCurrentHero() in getTankHeroes() :
-        eventPlayer.ult_point_while_ult_active += (1 + unpercent(OW2_TANK_ULT_NEGATION_PERCENT)) * eventDamage
+        eventPlayer.ult_point_while_ult_active += (1 + unpercent(OW2_TANK_ULT_NEGATION_PERCENT)) * eventDamage 
     else :
         eventPlayer.ult_point_while_ult_active += eventDamage
 

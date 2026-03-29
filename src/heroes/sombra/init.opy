@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "emp.opy"
 #!include "hack.opy"
@@ -14,7 +14,7 @@ def initSombra():
 
     getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra_player = eventPlayer
-
+    
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
 

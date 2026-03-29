@@ -1,4 +1,4 @@
-# #!mainFile "../../main.opy"
+# #!mainFile "../../dev_main.opy"
 
 
 # rule "[lifeweaver/init.opy]: Allow self healing during Rejuvanating Dash":
@@ -11,7 +11,7 @@
 #     waitUntil(eventPlayer.isHoldingButton(Button.JUMP) or eventPlayer.isOnGround(), Math.INFINITY)
 #     if eventPlayer.isOnGround():
 #         return
-
+    
 #     pushSelfHealing(Button.JUMP)
 #     # waitUntil(eventPlayer.getAbilityCooldown(Button.JUMP) > 0, Math.INFINITY)
 #     wait(0.25)

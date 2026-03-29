@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 playervar hero_switch_pvar
 #!defineMember _last_hero_played hero_switch_pvar[0]
@@ -12,7 +12,7 @@ macro switchedHero(player):
 rule "[utilities/hero_switch.opy]: detect hero switch":
     @Event eachPlayer
     @Condition eventPlayer._last_hero_played != eventPlayer.getCurrentHero()
-
+    
     eventPlayer._hero_switched = true
     wait()
     eventPlayer._last_hero_played = eventPlayer.getCurrentHero()

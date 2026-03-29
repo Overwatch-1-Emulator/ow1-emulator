@@ -5,8 +5,8 @@ This DPS doomfist workshop script is sourced from
 https://workshop.codes/dpsdoom        code: ZXJB4
 created by discord users: Bebel#5658 and Xponit#1474
 
-This file was created by decompiling the original
-workshop gamemode through OverPy, and editing the
+This file was created by decompiling the original 
+workshop gamemode through OverPy, and editing the 
 rules/functions as needed.
 */
 
@@ -103,7 +103,7 @@ rule "[doomfist.opy]: (ALL SLAM) EVERYWHERE New slam indicator & allowance":
     @Condition eventPlayer.isUsingAbility1() == false
     @Condition eventPlayer.is_uppercutting == false
     @Condition eventPlayer.isUsingUltimate() == false
-
+    
     eventPlayer.slam_raycast_end_position = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 15, null, getAllPlayers(), false).getHitPosition()
     #if distance(eventPlayer.slam_raycast_end_position, nearestWalkablePosition(eventPlayer.slam_raycast_end_position)) > 0.25:
     eventPlayer.original_raycast_height = eventPlayer.getPosition().y - eventPlayer.slam_raycast_end_position.y
@@ -162,7 +162,7 @@ rule "[doomfist.opy]: Seismic slam Bounce / Pull":
     @Event playerDealtDamage
     @Condition eventAbility == Button.ABILITY_1
     @Condition attacker.getCurrentHero() == Hero.DOOMFIST
-
+    
     victim.setGravity(50)
     if distance(eventPlayer, victim) < 2.5:
         #eventPlayer.TrueSlamVics.forceButtonPress(Button.JUMP)
@@ -187,7 +187,7 @@ rule "[doomfist.opy]: New ground slam":
     @Condition eventPlayer.getAltitude() <= 3
     @Condition eventPlayer.hasUsedSlam == false
     @Condition eventPlayer.is_uppercutting == false
-
+    
     #eventPlayer.PfP = eventPlayer.getFacingDirection()
     #eventPlayer.FakeSlamVictims = []
     #eventPlayer.TrueSlamVics = []
@@ -248,7 +248,7 @@ rule "[doomfist.opy]: New indicator slam":
     @Condition eventPlayer.is_uppercutting == false
     @Condition isInLoS(eventPlayer, eventPlayer.slam_raycast_end_position, BarrierLos.PASS_THROUGH_BARRIERS) == true
     @Condition eventPlayer.isInViewAngle(eventPlayer.slam_raycast_end_position, 45) == true
-
+    
     #eventPlayer.FakeSlamVictims = []
     #eventPlayer.TrueSlamVics = []
     eventPlayer.indicator_slam = true
@@ -295,7 +295,7 @@ rule "[doomfist.opy]: start slam timer (REVAMP)":
     #@Condition eventPlayer.isUsingAbility1() == true
     @Condition eventPlayer.isHoldingButton(Button.ABILITY_1) == true
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_1) == false
-
+    
     eventPlayer.FakeSlamVictims = []
     waitUntil(eventPlayer.isUsingAbility1(), 99999)
     eventPlayer.slam_timer = 0
@@ -389,7 +389,7 @@ rule "[doomfist.opy]: New uppercut":
     @Condition eventPlayer.isPunching == false
     @Condition (eventPlayer.indicator_slam and eventPlayer.ground_slam) == false
     @Condition eventPlayer.isUsingUltimate() == false
-
+    
     eventPlayer.UpperFloat = true
     eventPlayer.is_uppercutting = true
     eventPlayer.disablePlayerCollision()
@@ -428,7 +428,7 @@ rule "[doomfist.opy]: New uppercut":
 rule "[doomfist.opy]: uppercut momentum":
     @Event eachPlayer
     @Condition eventPlayer.uppercut_momentum == true
-
+    
     eventPlayer.uppercut_lock_timer = 0.6
     chase(eventPlayer.uppercut_lock_timer, 0, duration=0.6, ChaseReeval.NONE)
     eventPlayer.startForcingThrottle(0, 0, 0, 0, 0, 0)
@@ -441,7 +441,7 @@ rule "[doomfist.opy]: uppercut momentum":
 rule "[doomfist.opy]: uppercut momentum stop":
     @Event eachPlayer
     @Condition eventPlayer.uppercut_lock_timer == 0
-
+    
     stopChasingVariable(eventPlayer.uppercut_lock_timer)
     #if not eventPlayer.isUsingAbility1():
     eventPlayer.stopForcingThrottle()
@@ -451,7 +451,7 @@ rule "[doomfist.opy]: uppercut hit":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.is_uppercutting == true
-
+    
     eventPlayer.players_in_view = eventPlayer.getPlayersInViewAngle(getOppositeTeam(eventPlayer.getTeam()), 45)
     for eventPlayer.player_id in range(len(eventPlayer.players_in_view)):
         eventPlayer.beam_id = eventPlayer.players_in_view[eventPlayer.player_id]
@@ -472,19 +472,19 @@ rule "[doomfist.opy]: Uppercut Victim Effect":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventPlayer.is_uppercutting == true
-
+    
     playEffect(getAllPlayers(), DynamicEffect.BAD_EXPLOSION, eventPlayer.getTeam(), victim, 5)
     playEffect(getAllPlayers(), DynamicEffect.EXPLOSION_SOUND, Color.WHITE, victim, 100)
 
 
-# =========================================== DPS CONVERSTION / STAT CORRECTION ===========================================
+# =========================================== DPS CONVERSTION / STAT CORRECTION =========================================== 
 
 rule "[doomfist.opy]: punch damage change 2":
     @Event playerDealtDamage
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim.second_hit == true
     @Condition attacker.getCurrentHero() == Hero.DOOMFIST
-
+    
     damage(victim, attacker, 3.167 * (eventDamage / 1.2))
 
 
@@ -493,7 +493,7 @@ rule "[doomfist.opy]: punch damage change":
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim.second_hit == false
     @Condition attacker.getCurrentHero() == Hero.DOOMFIST
-
+    
     eventPlayer.victimHASbeenPUNCHED = true
     damage(victim, attacker, 0.667 * (eventDamage / 1.2))
     victim.punch_hit_timer = 0
@@ -505,21 +505,21 @@ rule "[doomfist.opy]: punch damage change":
 rule "[doomfist.opy]: punch hit timer":
     @Event eachPlayer
     @Condition eventPlayer.punch_hit_timer == 1
-
+    
     eventPlayer.second_hit = false
     stopChasingVariable(eventPlayer.punch_hit_timer)
 
 
 rule "[doomfist.opy]: ============================================================ BUG TESTING =================================================":
     @Event eachPlayer
-
+    
 
 
 /*
 rule "[doomfist.opy]: slam effect (Bug testing)":
     @Event eachPlayer
     @Hero doomfist
-
+    
     #hudText(getAllPlayers(), "", "{0}".format(distance(raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 20 * eventPlayer.getFacingDirection(), [], getAllPlayers(), true).getHitPosition(), nearestWalkablePosition(raycast(eventPlayer.getEyePo
     #hudHeader(eventPlayer, "angle: {0}".format(asin(eventPlayer.slam_direction_when_pressed.y) * 180 / 3.142), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
     #hudHeader(eventPlayer, "better angle: {0}".format(eventPlayer.average_angle * 180 / 3.142), HudPosition.LEFT, 1, Color.ORANGE, HudReeval.STRING, SpecVisibility.DEFAULT)
@@ -558,7 +558,7 @@ rule "[doomfist.opy]: slam effect (Bug testing)":
 rule "[doomfist.opy]: Dummy Bots (+) (Bug Testing)":
     @Event eachPlayer
     @Condition eventPlayer.isHoldingButton(Button.INTERACT) == true
-
+    
     if eventPlayer.isHoldingButton(Button.CROUCH):
         createDummy(Hero.TRACER, getOppositeTeam(eventPlayer.getTeam()), -1, eventPlayer.getPosition(), eventPlayer.getFacingDirection())
     elif eventPlayer.isHoldingButton(Button.JUMP):
@@ -571,7 +571,7 @@ rule "[doomfist.opy]: Dummy Bots (+) (Bug Testing)":
 rule "[doomfist.opy]: Dummy Bots (-) (Bug Testing)":
     @Event eachPlayer
     @Condition eventPlayer.isHoldingButton(Button.RELOAD) == true
-
+    
     destroyAllDummies()
     #if eventPlayer.isHoldingButton(Button.CROUCH):
     #createDummy(Hero.TRACER, getOppositeTeam(eventPlayer.getTeam()), -1, eventPlayer.getPosition(), eventPlayer.getFacingDirection())
@@ -589,7 +589,7 @@ rule "[doomfist.opy]: slam timer hud":
     @Hero doomfist
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     @Condition eventPlayer.has_slam_timer == false
-
+    
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
     hudText(eventPlayer, "", " ", " ", HudPosition.TOP, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
@@ -607,7 +607,7 @@ rule "[doomfist.opy]: slam timer visibility":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isUsingAbility1() == true
-
+    
     eventPlayer.slam_timer_visible = true
     #waitUntil(not eventPlayer.isUsingAbility1(), 999999)
     wait()
@@ -624,7 +624,7 @@ rule "[doomfist.opy]: Final Slam Timer BOLD":
     #@Condition eventPlayer.isOnGround() == true
     #@Condition eventPlayer.slam_timer_visible == true
     @Condition eventPlayer.SlamTimerTEXT == true
-
+    
     eventPlayer.Y_POS = -0.1
     eventPlayer.X_POS = 0
     #ROUNDING, NORMAL GAMEPLAY
@@ -640,7 +640,7 @@ rule "[doomfist.opy]: Fake Uppercut Symbol (+)":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     @Condition eventPlayer.RisingFistSymbolTracker == false
-
+    
     hudText(eventPlayer, "", " ", " ", HudPosition.RIGHT, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
     hudText(eventPlayer, "", " ", " ", HudPosition.RIGHT, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
     hudText(eventPlayer, "", " ", " ", HudPosition.RIGHT, 0.6, Color.BLUE, Color.BLUE, Color.BLUE, HudReeval.NONE, SpecVisibility.DEFAULT)
@@ -669,7 +669,7 @@ rule "[doomfist.opy]: Fake Uppercut Symbol (Temp - on cooldown)":
     @Hero doomfist
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) == true
     @Condition eventPlayer.RisingFistSymbolTracker == true
-
+    
     destroyHudText(eventPlayer.RisingFistSymbol)
     waitUntil(eventPlayer.getAbilityCooldown(Button.ABILITY_2) == 0, 99999)
     hudText(getAllPlayers(), null, "ㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤㅤ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎ ‎", iconString(Icon.ARROW_UP), HudPosition.RIGHT, 0.7, Color.BLACK, Color.BLACK, Color.BLACK, HudReeval.VISIBILITY_AND_STRING, SpecVisibility.DEFAULT)
@@ -681,7 +681,7 @@ rule "[doomfist.opy]: Fake Uppercut Symbol (-)":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() != Hero.DOOMFIST
     @Condition eventPlayer.RisingFistSymbolTracker == true
-
+    
     destroyAllHudTexts()
     eventPlayer.RisingFistSymbolTracker = false
 */
@@ -692,7 +692,7 @@ rule "[doomfist.opy]: Fake Uppercut Symbol (-)":
 rule "[doomfist.opy]: Single Punch Condition":
     @Event eachPlayer
     @Condition eventPlayer.isPunching == true
-
+    
     eventPlayer.MainPunchVictim.clearStatusEffect(Status.PHASED_OUT)
     #eventPlayer.hit_players = []
     #eventPlayer.PunchCast = raycast(eventPlayer.getPosition(), eventPlayer.getEyePosition() + eventPlayer.getFacingDirection() * 20, getPlayers(getOppositeTeam(eventPlayer.getTeam())), eventPlayer, false).getHitPosition()
@@ -741,7 +741,7 @@ rule "[doomfist.opy]: is punching":
     @Condition eventPlayer.isFiringSecondaryFire() == true
     #@Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
     #@Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
-
+    
     #waitUntil(eventPlayer.isFiringSecondaryFire() == true, 99999)
     #waitUntil(not eventPlayer.isHoldingButton(Button.SECONDARY_FIRE), 99999)
     #eventPlayer.MainPunchVictim = eventPlayer.getPlayerClosestToReticle(getOppositeTeam(eventPlayer.getTeam()))
@@ -769,7 +769,7 @@ rule "[doomfist.opy]: Update MainPunchVic every Tick":
     @Condition eventPlayer.isPunching == true
     #@Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE) == true
     #@Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
-
+    
     #eventPlayer.MainPunchVictim = null
     #wait()
     #waitUntil(eventPlayer.isFiringSecondaryFire() == true, 99999)
@@ -787,7 +787,7 @@ rule "[doomfist.opy]: MainPunchVic Phased Fix":
     @Event eachPlayer
     #@Condition eventPlayer.MainPunchVictim.hasStatusEffect(Status.PHASED_OUT) == true
     @Condition eventPlayer.isPunching == true
-
+    
     eventPlayer.MainPunchVictim.clearStatusEffect(Status.PHASED_OUT)
     wait()
     if RULE_CONDITION:
@@ -797,7 +797,7 @@ rule "[doomfist.opy]: MainPunchVic Phased Fix":
 rule "[doomfist.opy]: Phase MultiPunchVics ONLY (+/-)":
     @Event eachPlayer
     @Condition eventPlayer.PhaseVictims == true
-
+    
     #wait()
     #waitUntil(eventPlayer.isPunching == true, 99999)
     eventPlayer.FakePunchVictims.setStatusEffect(null, Status.PHASED_OUT, 100000000)
@@ -826,7 +826,7 @@ rule "[doomfist.opy]: Dps Slam And Tank Slam Radius":
     #@Condition eventPlayer.isUsingAbility1() == true
     #@Condition (eventPlayer.isUsingAbility1() and eventPlayer.SlamCamLocked != true) == true
     @Condition (eventPlayer.isUsingAbility1() and eventPlayer.getAbilityCooldown(Button.ABILITY_1) != true) == true
-
+    
     eventPlayer.MONKEYslamVicsInVA = getPlayersInRadius(eventPlayer, 17.31, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF)
     eventPlayer.DpsSlam = getPlayersInRadius(eventPlayer, 8, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF)
     wait()
@@ -841,7 +841,7 @@ rule "[doomfist.opy]: True / Fake Slam Vics":
     #@Condition eventPlayer.DamageTrueSlamVics == true
     #@Condition (eventPlayer.isUsingAbility1() and eventPlayer.isOnGround()) == true
     @Condition eventPlayer.isUsingAbility1() == true
-
+    
     #eventPlayer.FakeSlamVictims = [player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player in getPlayersInRadius(eventPlayer, 17.3, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF) and player in eventPlayer.isInViewAngle(eventPlayer, 90) and not player in getPlayersInRadius(eventPlayer, 8, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF) and player in eventPlayer.isInViewAngle(eventPlayer, 45)]
     #eventPlayer.TrueSlamVics = [player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player in getPlayersInRadius(eventPlayer, 8, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF) and player in eventPlayer.isInViewAngle(eventPlayer, 45)]
     #eventPlayer.all_slam_vics = [player for player in getPlayers(getOppositeTeam(eventPlayer.getTeam())) if player in getPlayersInRadius(eventPlayer, 17.3, getOppositeTeam(eventPlayer.getTeam()), LosCheck.OFF) and player in eventPlayer.isInViewAngle(eventPlayer, 90)]
@@ -858,7 +858,7 @@ rule "[doomfist.opy]: Slam Victim Damage":
     @Event eachPlayer
     #@Condition eventPlayer.DamageTrueSlamVics == true
     @Condition eventPlayer.isUsingAbility1() == true
-
+    
     #waitUntil(eventPlayer.SlamCamLocked == true, 99999)
     #waitUntil(eventPlayer.isOnGround(), 99999)
     #wait(0.067)
@@ -887,7 +887,7 @@ rule "[doomfist.opy]: SlamCamLocked":
     @Event eachPlayer
     @Condition eventPlayer.isUsingAbility1() == true
     @Condition eventPlayer.isOnGround() == true
-
+    
     wait(0.017, Wait.ABORT_WHEN_FALSE)
     eventPlayer.SlamCamLocked = true
     waitUntil(not eventPlayer.isUsingAbility1(), 99999)
@@ -901,7 +901,7 @@ rule "[doomfist.opy]: Phase Out FSV (var)":
     #@Condition eventAbility == Button.ABILITY_1
     @Condition (eventPlayer.isUsingAbility1() and eventPlayer.SlamCamLocked) == true
     #@Condition (eventPlayer.isUsingAbility1() and eventPlayer.isOnGround()) == true
-
+    
     eventPlayer.FakeSlamVictims.clearStatusEffect(Status.PHASED_OUT)
     eventPlayer.MONKEYslamVicsInVA.clearStatusEffect(Status.PHASED_OUT)
     #eventPlayer.SlamVicsInView.addHealthPool(Health.NORMAL, 60, false, false)
@@ -939,7 +939,7 @@ rule "[doomfist.opy]: TankBugSlamRemoval":
     #@Condition (eventPlayer.indicator_slam == false or eventPlayer.ground_slam) == false
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     #@Condition eventPlayer.isUsingAbility1() == true
-
+    
     #if eventPlayer.show_indicator == false or eventPlayer.getAltitude() <= 3:
     #eventPlayer.disallowButton(Button.ABILITY_1)
     #eventPlayer.allowButton(Button.ABILITY_1)
@@ -964,7 +964,7 @@ rule "[doomfist.opy]: Remove EMP PUNCH from ult":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.isUsingUltimate() == true
-
+    
     eventPlayer.isPunching = false
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
@@ -987,7 +987,7 @@ rule "[doomfist.opy]: uppercut Cooldown correction":
     @Event eachPlayer
     #@Condition eventPlayer.isUsingAbility2() == true
     @Condition eventPlayer.is_uppercutting == true
-
+    
     #waitUntil(eventPlayer.getAbilityCooldown(Button.ABILITY_2), 99999)
     wait(0.38)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 6)
@@ -1001,7 +1001,7 @@ rule "[doomfist.opy]: ================================== THE BEST DEFFENCE CORRE
 rule "[doomfist.opy]: TempHP removal":
     @Event eachPlayer
     @Condition eventPlayer.temphpTracker > 1
-
+    
     wait(1, Wait.ABORT_WHEN_FALSE)
     chase(eventPlayer.temphpTracker, 1, rate=3, ChaseReeval.DESTINATION_AND_RATE)
 */
@@ -1010,7 +1010,7 @@ rule "[doomfist.opy]: TempHP removal":
 rule "[doomfist.opy]: Temp HP Setter":
     @Event eachPlayer
     @Condition eventPlayer.temphpTracker != evalOnce(eventPlayer.temphpTracker)
-
+    
     eventPlayer.setHealth(eventPlayer.getHealthOfType(Health.NORMAL) + eventPlayer.temphpTracker)
     wait(0.25)
     goto RULE_START
@@ -1026,7 +1026,7 @@ rule "[doomfist.opy]: Has been punched Temp Health Fix":
     @Event playerDealtDamage
     @Condition eventPlayer.victimHASbeenPUNCHED == true
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
-
+    
     damage(eventPlayer, null, 35)
     eventPlayer.temphpTracker += 30
 */
@@ -1036,7 +1036,7 @@ rule "[doomfist.opy]: ULT temp":
     @Event playerDealtDamage
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     @Condition eventAbility == Button.ULTIMATE
-
+    
     eventPlayer.UltimatePlayers_Hit += 1
     damage(eventPlayer, null, 75)
     wait()
@@ -1048,7 +1048,7 @@ rule "[doomfist.opy]: SLAM temp":
     @Event playerDealtDamage
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     @Condition eventAbility == Button.ABILITY_1
-
+    
     damage(eventPlayer, null, 35)
     eventPlayer.temphpTracker += 30
 */
@@ -1056,7 +1056,7 @@ rule "[doomfist.opy]: SLAM temp":
 /*
 def HandleUltimateDamage():
     @Name "Rule 99"
-
+    
     for eventPlayer.UltimatePlayers_Hit_increment in range(eventPlayer.UltimatePlayers_Hit):
         eventPlayer.temphpTracker += 75
     wait(1)
@@ -1067,7 +1067,7 @@ def HandleUltimateDamage():
 rule "[doomfist.opy]: Max Shields":
     @Event eachPlayer
     @Condition eventPlayer.temphpTracker > 150 == true
-
+    
     eventPlayer.temphpTracker = 150
 */
 
@@ -1076,6 +1076,7 @@ rule "[doomfist.opy]: UPPERCUT temp":
     @Event playerDealtDamage
     @Condition eventPlayer.getCurrentHero() == Hero.DOOMFIST
     @Condition eventPlayer.is_uppercutting == true
-
+    
     eventPlayer.temphpTracker += 30
 */
+

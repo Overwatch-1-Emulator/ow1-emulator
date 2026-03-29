@@ -1,6 +1,6 @@
 # Contribution Guide
 
-If you're interested in submitting code to this gamemode, read this guide carefully.
+If you're interested in submitting code to this gamemode, read this guide carefully.  
 
 
 ## Required Tools
@@ -20,17 +20,16 @@ If you're interested in submitting code to this gamemode, read this guide carefu
 ## Setup Instructions
 1. Download [Visual Studio Code](https://code.visualstudio.com/download).
 2. Go to extension tab in VScode and install `OverPy` extension.
-3. Clone the repository to your local computer (use [GitHub Desktop](https://desktop.github.com/) if you don't know how to clone using terminal).
-4. Open cloned repository folder on VScode.
-5. (Optional) Install pre-commit hooks. Skip if you don't know what this is.
-6. Try building gamemode using instructions [below](#building).
-7. Follow [general workflow](#general-workflow) to start development.
+5. Clone the repository to your local computer (use [GitHub Desktop](https://desktop.github.com/) if you don't know how to clone using terminal).
+6. Open cloned repository folder on VScode.
+7. Try building gamemode using instructions [below](#building).
+8. Follow [general workflow](#general-workflow) to start development.
 
 
 ## Building
 
 For instructions on how to use OverPy, see [here](https://github.com/Zezombye/overpy/wiki)
-
+  
 1. Compile main.opy using the compiling instructions at [OverPy Wiki](https://github.com/Zezombye/overpy/wiki/General-usage#Compiling)
 2. Open a custom game in Overwatch
 3. Paste the compiled gamemode code
@@ -43,18 +42,15 @@ For instructions on how to use OverPy, see [here](https://github.com/Zezombye/ov
 3. Modify codebase using VScode. Be sure to follow [styling guidelines](#coding-style-guidelines).
 4. Compile and test new codebase.
 6. Commit working changes.
-7. Submit [Pull Request](https://github.com/Overwatch-1-Emulator/ow1-emulator/pulls) (PR) to merge your fix into main branch.
-8. Wait for owner to approve and merge your Pull Request.
+7. Submit [Pull Request](https://github.com/Overwatch-1-Emulator/ow1-emulator/pulls) (PR) to merge your branch into staging branch.
+8. Wait for owner to approve and merge your Merge Request.
 
 
-## Release
+## Release Cycle
 
-Any commit messages formatted to [conventional commits](https://www.conventionalcommits.org) will be included in the patch notes.\
-See example commit messages [here](https://github.com/googleapis/release-please?tab=readme-ov-file#how-should-i-write-my-commits).
-
-To release:
-1. Merge the release PR created by [release-please bot](https://github.com/googleapis/release-please).
-2. After merging, [github-releases-to-discord bot](https://github.com/SethCohen/github-releases-to-discord) will forward the patch notes to Overwatch 1 Emulator [discord server](https://discord.com/channels/1125986404212670568/1157168349978050611).
+1. For every 3~5 features added to staging branch, the devs will compile a staging build and test each feature manually.
+2. If your feature fails to meet quality expectations, the MR corresponding to that feature will be reverted to drop the changes.
+3. After each feature in staging branch is confirmed, the staging branch will be merged to main branch and released as latest build. If the latest build plays without crashing, it will be set as the stable build.  
 
 
 ## Coding Style Guidelines

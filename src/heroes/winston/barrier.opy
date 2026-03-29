@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 
 rule "[winston/barrier.opy]: OW1 Winston barrier health":

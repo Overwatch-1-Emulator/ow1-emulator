@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 globalvar role_lock_gvar
 #!defineMember _hero_select_time role_lock_gvar[0]
@@ -8,8 +8,8 @@ globalvar role_lock_gvar
 
 rule "[utilities/role_lock.opy]: Initialize global variables":
     MAX_TANK_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Tank", 2, 0)
-    MAX_DAMAGE_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Damage", 3, 1)
-    MAX_SUPPORT_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Support", 3, 2)
+    MAX_DAMAGE_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Damage", 12, 1)
+    MAX_SUPPORT_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Support", 12, 2)
 
 playervar role_lock_pvar
 #!defineMember role role_lock_pvar[0]
@@ -25,7 +25,7 @@ enum Role:
 rule "[utilities/role_lock.opy]: Find player's role":
     @Event eachPlayer
     @Condition switchedHero(eventPlayer)
-
+    
     if eventPlayer.getCurrentHero() in getOW1TankHeroes():
         eventPlayer.role = Role.TANK
     elif eventPlayer.getCurrentHero() in getOW1DamageHeroes():

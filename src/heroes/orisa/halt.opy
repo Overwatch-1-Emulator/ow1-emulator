@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar is_using_halt
 playervar is_snared
@@ -58,7 +58,7 @@ def shootHalt():
 
     # Halt orb sounds
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.LIME_GREEN, eventPlayer, 100)
-
+    
     # Calculate starting/ending positions
     eventPlayer.halt_position = eventPlayer.getEyePosition()
     eventPlayer.halt_ending_position = raycast(eventPlayer.getEyePosition(), eventPlayer.getEyePosition() + 1000*eventPlayer.getFacingDirection(), null, null, true).getHitPosition()
@@ -127,7 +127,7 @@ rule "[orisa/halt.opy]: Halt snare line VFX":
     # Halt orb explosion sounds
     showSnareLine()
     playEffect(getAllPlayers(), DynamicEffect.DEBUFF_IMPACT_SOUND, Color.LIME_GREEN, eventPlayer, 100)
-
+    
     waitUntil(not (snareVisible(eventPlayer)), Math.INFINITY)
     hideSnareLine()
 
@@ -136,11 +136,11 @@ def showSnareLine():
     @Name "[orisa/halt.opy]: showSnareLine()"
 
     if (eventPlayer.halt_snare_line_id == null):
-        createBeam(getAllPlayers() if snareVisible(eventPlayer) else null,
-                   Beam.GOOD,
-                   eventPlayer.enemy_orisa_player.halt_position,
-                   centerMass(eventPlayer),
-                   Color.GREEN if eventPlayer.halt_active else Color.WHITE,
+        createBeam(getAllPlayers() if snareVisible(eventPlayer) else null, 
+                   Beam.GOOD, 
+                   eventPlayer.enemy_orisa_player.halt_position, 
+                   centerMass(eventPlayer), 
+                   Color.GREEN if eventPlayer.halt_active else Color.WHITE, 
                    EffectReeval.VISIBILITY_POSITION_RADIUS_AND_COLOR)
         eventPlayer.halt_snare_line_id = getLastCreatedEntity()
 

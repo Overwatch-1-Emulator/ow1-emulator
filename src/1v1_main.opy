@@ -1,38 +1,33 @@
-###############################################################################
-# Compile Workshop Code.
-###############################################################################
-#!include "common/env.opy"
-#!include "common/constants/ow1_constants.opy"
-#!include "common/constants/ow2_constants.opy"
-#!include "common/macro_functions.opy"
+# Useful constants and macros
+#!include "constants/ow1_constants.opy"
+#!include "constants/ow2_constants.opy"
+#!include "utilities/macro_functions.opy"
 
-rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulator/ow1-emulator for license to use this code.":
-    disableInspector()
+# Custom game lobby settings
+#!include "lobby/1v1_lobby.opy"
 
-# Useful functions.
-#!include "utilities/emu_helper.opy"
+# Useful functions
+#!include "utilities/stat_helper.opy"
+#!include "utilities/custom_hp.opy"
 #!include "heroes/init.opy"
 #!include "utilities/reset.opy"
-#!include "utilities/custom_hp.opy"
 #!include "utilities/hero_switch.opy"
 #!include "utilities/hero_roster.opy"
-#!include "utilities/role_lock.opy"
-#!include "utilities/ready.opy"
 #!include "utilities/hit_detection.opy"
 #!include "utilities/anti_crash.opy"
-#!include "utilities/watermark.opy"
 
-# OW1 hero logic.
+# OW1 logic
 # Remove damage passive
-#!include "passives/global/global_passive.opy"
+#!include "passives/damage/damage_passive.opy"
 # Remove tank passive
-# !include "passives/tank/headshot.opy"
-# !include "passives/tank/knockback.opy"
+#!include "passives/tank/headshot.opy"
+#!include "passives/tank/knockback.opy"
 #!include "passives/tank/ult_charge.opy"
 # Remove support passive
 #!include "passives/support/self_heal.opy"
-# Perk utility
-# !include "passives/perk.opy"
+
+# Include for global scoping
+#!include "heroes/sombra/hack.opy"
 
 # Hero specific logic
 #!include "heroes/ana/init.opy"
@@ -84,3 +79,6 @@ rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 #!include "utilities/watermark.opy"
 
 #!include "misc/arena.opy"
+
+# Include debug at the end so any variable can be viewed
+# !include "utilities/debug.opy"

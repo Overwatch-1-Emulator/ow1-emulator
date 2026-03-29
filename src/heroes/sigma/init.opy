@@ -1,19 +1,16 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
-#!include "grasp.opy"
 
 def initSigma():
     @Name "[sigma/init.opy]: initSigma()"
 
-    #setCustomHp(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
+    setCustomHp(OW1_SIGMA_HEALTH, 0, OW1_SIGMA_SHIELDS)
     setUltCost(OW1_SIGMA_ULT_COST)
     # removeTankPassive()
-    #removeSelfHealing()
+    removeSelfHealing()
 
     setBaseDamage(eventPlayer, OW1_SIGMA_ACCRETION_TOTAL_DAMAGE/OW2_SIGMA_ACCRETION_TOTAL_DAMAGE)
 
-    #eventPlayer.setDamageReceived(1.7575)
-    #eventPlayer.setHealingReceived(1.7575)
 
 rule "[sigma/init.opy]: OW1 accretion damage":
     @Event playerDealtDamage
@@ -27,6 +24,6 @@ rule "[sigma/init.opy]: OW1 accretion damage":
 rule "[sigma/init.opy]: Compensate Sigma global damage reduction":
     @Event playerDealtDamage
     @Hero sigma
-    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition eventAbility in [Button.PRIMARY_FIRE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

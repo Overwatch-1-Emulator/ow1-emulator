@@ -1,18 +1,9 @@
-#!mainFile "../../main.opy"
-
-globalvar OW1_DOOMFIST_UPPERCUT_COOLDOWN = createWorkshopSettingFloat(
-    'Doomfist', 'Uppercut Cooldown',
-    OW1_DOOMFIST_UPPERCUT_COOLDOWN_DEFAULT, 0, 12)
-globalvar OW1_DOOMFIST_UPPERCUT_DAMAGE = createWorkshopSettingInt(
-    'Doomfist', 'Uppercut Damage',
-    OW1_DOOMFIST_UPPERCUT_DAMAGE_DEFAULT, 0, 500)
-globalvar OW1_DOOMFIST_UPPERCUT_RADIUS = createWorkshopSettingFloat(
-    'Doomfist', 'Uppercut Radius',
-    OW1_DOOMFIST_UPPERCUT_RADIUS_DEFAULT, 0, 50)
+#!mainFile "../../dev_main.opy"
 
 playervar uppercut_pvar
 #!defineMember is_hit_by_uppercut uppercut_pvar[0]
 #!defineMember is_uppercut_locked uppercut_pvar[1]
+playervar uppercut_shields #uppercut_pvar[2]
 #!defineMember hp_before_uppercut uppercut_pvar[3]
 #!defineMember _uppercut_victims uppercut_pvar[4]
 #!defineMember _uppercut_attacker uppercut_pvar[5]
@@ -103,18 +94,18 @@ rule "[doomfist/uppercut.opy]: Detect uppercut victims":
     do:
         eventPlayer._uppercut_victims = \
             getPlayersInRadius(
-                eventPlayer,
-                OW1_DOOMFIST_UPPERCUT_RADIUS,
-                getOppositeTeam(eventPlayer.getTeam()),
+                eventPlayer, 
+                OW1_DOOMFIST_UPPERCUT_RADIUS, 
+                getOppositeTeam(eventPlayer.getTeam()), 
                 LosCheck.SURFACES).exclude(eventPlayer)
         eventPlayer._uppercut_victims = \
-            [uppercut_victim for uppercut_victim in eventPlayer._uppercut_victims
+            [uppercut_victim for uppercut_victim in eventPlayer._uppercut_victims 
                     if ((uppercut_victim.isAlive()) \
                     and (angleBetweenVectors(
-                            getForwardDirection(eventPlayer),
+                            getForwardDirection(eventPlayer), 
                                 directionTowards(
-                                    eventPlayer,
-                                    uppercut_victim))
+                                    eventPlayer, 
+                                    uppercut_victim)) 
                         <= 90))] # Victim in front of doomfist
 
         eventPlayer._uppercut_victims.is_hit_by_uppercut = true
@@ -144,6 +135,18 @@ rule "[doomfist/uppercut.opy]: Damage uppercut victims + vfx + uppercut knockbac
     eventPlayer.stopForcingThrottle() # Regain movement control
 
 
+rule "[doomfist/uppercut.opy]: Best defense for each uppercut victim hit":
+    @Event eachPlayer
+    @Condition eventPlayer.is_hit_by_uppercut
+    @Condition eventPlayer._last_uppercut_attacker != eventPlayer._uppercut_attacker
+
+    # best defense
+    stopChasingVariable(eventPlayer._uppercut_attacker.uppercut_shields)
+    eventPlayer._uppercut_attacker.uppercut_shields += OW1_DOOMFIST_BEST_DEFENSE
+    wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER)
+    chase(eventPlayer._uppercut_attacker.uppercut_shields, 0, rate=OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE, ChaseReeval.NONE)
+
+
 rule "[doomfist/uppercut.opy]: Uppercut victim state variables":
     @Event eachPlayer
     @Condition eventPlayer.is_hit_by_uppercut
@@ -155,3 +158,16 @@ rule "[doomfist/uppercut.opy]: Uppercut victim state variables":
     eventPlayer._uppercut_attacker = null
     eventPlayer._last_uppercut_attacker = null
 
+
+rule "[doomfist/uppercut.opy]: Heal doomfist uppercut shields":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition updateEveryTick(eventPlayer.uppercut_shields > 0)
+    @Condition updateEveryTick(eventPlayer.getHealth() < eventPlayer.getMaxHealth())
+    
+    do:
+        eventPlayer.hp_before_uppercut = eventPlayer.getHealth()
+        heal(eventPlayer, null, eventPlayer.uppercut_shields)
+        eventPlayer.uppercut_shields -= min(eventPlayer.getMaxHealth() - eventPlayer.hp_before_uppercut, eventPlayer.uppercut_shields)
+        wait()
+    while RULE_CONDITION

@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "carnage.opy"
 
@@ -7,7 +7,7 @@ playervar jq_self_heal_id
 
 def initJunkerQueen():
     @Name "[junkerqueen/init.opy]: initJunkerQueen()"
-
+    
     setCustomHp(OW1_JUNKERQUEEN_HEALTH, OW1_JUNKERQUEEN_ARMOR, 0)
     setBaseDamage(eventPlayer, OW1_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE/OW2_JUNKERQUEEN_RAMPAGE_WOUND_DAMAGE)
     setUltCost(OW1_JUNKERQUEEN_ULT_COST)
@@ -16,7 +16,7 @@ def initJunkerQueen():
     eventPlayer.jq_self_heal_id = getLastHealingModification()
 
     # removeTankPassive()
-    #removePassiveHealing()
+    removePassiveHealing()
 
 
 rule "[junkerqueen/init.opy]: Clean up Junker Queen":
@@ -30,6 +30,6 @@ rule "[junkerqueen/init.opy]: Clean up Junker Queen":
 rule "[junkerqueen/init.opy]: Compensate Junkerqueen global damage reduction":
     @Event playerDealtDamage
     @Hero junkerQueen
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_2, Button.MELEE]
+    @Condition eventAbility in [Button.MELEE, Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_2]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

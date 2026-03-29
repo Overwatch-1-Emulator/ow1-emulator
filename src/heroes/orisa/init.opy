@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "supercharger.opy"
 #!include "halt.opy"
@@ -8,14 +8,14 @@
 
 def initOrisa():
     @Name "[orisa/init.opy]: initOrisa()"
-
+    
     setCustomHp(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
     setUltCost(OW1_ORISA_ULT_COST)
 
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_orisa_player = eventPlayer
-
+    
     eventPlayer.disallowButton(Button.ULTIMATE)
     eventPlayer.is_using_supercharger = false
 
@@ -31,9 +31,9 @@ def initOrisa():
     eventPlayer.setProjectileSpeed(percent(OW1_ORISA_GUN_PROJECTILE_SPEED/OW2_ORISA_GUN_PROJECTILE_SPEED))
 
     # removeTankPassive()
-    #removeSelfHealing()
+    removeSelfHealing()
 
-    # setPerkCost(OW2_ORISA_PERK_LVL3_COST)
+    setPerkCost(OW2_ORISA_PERK_LVL3_COST)
 
 
 rule "[orisa/init.opy]: Clean up Orisa":
@@ -41,7 +41,6 @@ rule "[orisa/init.opy]: Clean up Orisa":
     @Condition eventPlayer.getCurrentHero() == Hero.ORISA
 
     waitUntil(eventPlayer.getCurrentHero() != Hero.ORISA, Math.INFINITY)
-    destroyBarrier()
-    destroyBarrierHud()
+    # destroyBarrier()
     endSupercharger()
     hideOrisaAmmoHud()

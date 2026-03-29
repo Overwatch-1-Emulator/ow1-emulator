@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar supercharger_pvar
 
@@ -38,22 +38,22 @@ def startSupercharger():
 
     # Supercharge GUI
     if eventPlayer.orisa_supercharger_id[0] == null:
-        createEffect(getAllPlayers(),
-                     Effect.SPHERE,
-                     Color.LIME_GREEN,
-                     eventPlayer.orisa_supercharger_origin + OW1_ORISA_SUPERCHARGER_HEIGHT/4*Vector.UP,
-                     OW1_ORISA_SUPERCHARGER_HEIGHT/3,
+        createEffect(getAllPlayers(), 
+                     Effect.SPHERE, 
+                     Color.LIME_GREEN, 
+                     eventPlayer.orisa_supercharger_origin + OW1_ORISA_SUPERCHARGER_HEIGHT/4*Vector.UP, 
+                     OW1_ORISA_SUPERCHARGER_HEIGHT/3, 
                      EffectReeval.NONE)
         eventPlayer.orisa_supercharger_id[0] = getLastCreatedEntity()
     if eventPlayer.orisa_supercharger_id[1] == null:
-        createEffect(getAllPlayers(),
-                     Effect.SPHERE,
-                     Color.LIME_GREEN,
-                     eventPlayer.orisa_supercharger_origin + OW1_ORISA_SUPERCHARGER_HEIGHT/4*Vector.DOWN,
-                     OW1_ORISA_SUPERCHARGER_HEIGHT/3,
+        createEffect(getAllPlayers(), 
+                     Effect.SPHERE, 
+                     Color.LIME_GREEN, 
+                     eventPlayer.orisa_supercharger_origin + OW1_ORISA_SUPERCHARGER_HEIGHT/4*Vector.DOWN, 
+                     OW1_ORISA_SUPERCHARGER_HEIGHT/3, 
                      EffectReeval.NONE)
         eventPlayer.orisa_supercharger_id[1] = getLastCreatedEntity()
-
+    
     # Supercharger deploy effect
     playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.GREEN, eventPlayer.orisa_supercharger_origin, 3)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.GREEN, eventPlayer.orisa_supercharger_origin, 200)
@@ -96,13 +96,13 @@ rule "[orisa/supercharger.opy]: De-supercharge teammates outside supercharger ra
     @Event eachPlayer
     @Condition eventPlayer.friendly_orisa_player.is_using_supercharger
     @Condition eventPlayer.is_supercharged
-    @Condition not (distance(eventPlayer,
+    @Condition not (distance(eventPlayer, 
                              eventPlayer.friendly_orisa_player.orisa_supercharger_origin) <= OW1_ORISA_SUPERCHARGER_AOE_RADIUS \
                     and \
-                    isInLoS(eventPlayer,
-                            eventPlayer.friendly_orisa_player.orisa_supercharger_origin,
+                    isInLoS(eventPlayer, 
+                            eventPlayer.friendly_orisa_player.orisa_supercharger_origin, 
                             BarrierLos.PASS_THROUGH_BARRIERS))
-
+    
     wait(OW1_ORISA_SUPERCHARGER_LINGER_TIME, Wait.ABORT_WHEN_FALSE)
     eventPlayer.is_supercharged = false
 
@@ -111,14 +111,14 @@ rule "[orisa/supercharger.opy]: De-supercharge teammates when supercharger ends"
     @Event eachPlayer
     @Hero orisa
     @Condition not eventPlayer.is_using_supercharger
-
+    
     getPlayers(eventPlayer.getTeam()).is_supercharged = false
 
 
 rule "[orisa/supercharger.opy]: De-supercharge teammates when they die":
     @Event playerDied
     @Condition eventPlayer.is_supercharged
-
+    
     eventPlayer.is_supercharged = false
 
 
@@ -130,19 +130,19 @@ rule "[orisa/supercharger.opy]: Damage boost player when supercharged":
 
     # Beam and sound effects
     if (eventPlayer.orisa_supercharger_beam_id == null): # beam
-        createBeam(getAllPlayers(),
-                   Beam.GOOD,
-                   eventPlayer.friendly_orisa_player.orisa_supercharger_origin,
-                   (eventPlayer.getPosition() + eventPlayer.getEyePosition())/2,
-                   Color.BLUE,
+        createBeam(getAllPlayers(), 
+                   Beam.GOOD, 
+                   eventPlayer.friendly_orisa_player.orisa_supercharger_origin, 
+                   (eventPlayer.getPosition() + eventPlayer.getEyePosition())/2, 
+                   Color.BLUE, 
                    EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer.orisa_supercharger_beam_id = getLastCreatedEntity()
     if (eventPlayer.orisa_supercharger_sound_id == null): # sound
-        createEffect(eventPlayer,
-                     Effect.ENERGY_SOUND,
-                     Color.GREEN,
-                     eventPlayer.getPosition(),
-                     100,
+        createEffect(eventPlayer, 
+                     Effect.ENERGY_SOUND, 
+                     Color.GREEN, 
+                     eventPlayer.getPosition(), 
+                     100, 
                      EffectReeval.POSITION_AND_RADIUS)
         eventPlayer.orisa_supercharger_sound_id = getLastCreatedEntity()
 
@@ -150,7 +150,7 @@ rule "[orisa/supercharger.opy]: Damage boost player when supercharged":
 rule "[orisa/supercharger.opy]: Revert damage boost if not supercharged":
     @Event eachPlayer
     @Condition not eventPlayer.is_supercharged
-
+    
     eventPlayer.setDamageDealt(percent(eventPlayer._base_damage_scalar))
 
     # Beam and sound effects

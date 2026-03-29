@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 playervar self_repair_time_left
 
@@ -47,42 +47,42 @@ rule "[bastion/repair.opy]: Activate self-repair":
 
     # repair sparks and ring vfx
     if eventPlayer._self_repair_sparkles_upper_gui == null:
-        createEffect(getAllPlayers(),
-                     Effect.SPARKLES,
-                     Color.YELLOW,
-                     updateEveryTick(eventPlayer.getEyePosition()),
-                     1.5,
+        createEffect(getAllPlayers(), 
+                     Effect.SPARKLES, 
+                     Color.YELLOW, 
+                     updateEveryTick(eventPlayer.getEyePosition()), 
+                     1.5, 
                      EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer._self_repair_sparkles_upper_gui = getLastCreatedEntity()
 
     if eventPlayer._self_repair_sparkles_lower_gui == null:
-        createEffect(getAllPlayers(),
-                     Effect.SPARKLES,
-                     Color.YELLOW,
-                     updateEveryTick((eventPlayer.getEyePosition()+eventPlayer.getPosition())/2),
-                     1.5,
+        createEffect(getAllPlayers(), 
+                     Effect.SPARKLES, 
+                     Color.YELLOW, 
+                     updateEveryTick((eventPlayer.getEyePosition()+eventPlayer.getPosition())/2), 
+                     1.5, 
                      EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer._self_repair_sparkles_lower_gui = getLastCreatedEntity()
 
     if eventPlayer._self_repair_ring_gui == null:
-        createEffect(getAllPlayers(),
-                     Effect.LIGHT_SHAFT,
-                     Color.YELLOW,
-                     updateEveryTick(eventPlayer.getPosition()),
-                     1.5,
+        createEffect(getAllPlayers(), 
+                     Effect.LIGHT_SHAFT, 
+                     Color.YELLOW, 
+                     updateEveryTick(eventPlayer.getPosition()), 
+                     1.5, 
                      EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
         eventPlayer._self_repair_ring_gui = getLastCreatedEntity()
 
     # resource bar vfx
     if eventPlayer._self_repair_resource_gui == null:
-        progressBarHud(eventPlayer if eventPlayer.self_repair_time_left < OW1_BASTION_MAX_SELF_REPAIR_DURATION else null,
-                        roundedPercent(eventPlayer.self_repair_time_left/OW1_BASTION_MAX_SELF_REPAIR_DURATION),
-                        "Self-Repair",
-                        HudPosition.TOP,
-                        1,
-                        Color.YELLOW,
-                        Color.YELLOW,
-                        ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR,
+        progressBarHud(eventPlayer if eventPlayer.self_repair_time_left < OW1_BASTION_MAX_SELF_REPAIR_DURATION else null, 
+                        roundedPercent(eventPlayer.self_repair_time_left/OW1_BASTION_MAX_SELF_REPAIR_DURATION), 
+                        "Self-Repair", 
+                        HudPosition.TOP, 
+                        1, 
+                        Color.YELLOW, 
+                        Color.YELLOW, 
+                        ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
                         SpecVisibility.DEFAULT)
         eventPlayer._self_repair_resource_gui = getLastCreatedText()
 

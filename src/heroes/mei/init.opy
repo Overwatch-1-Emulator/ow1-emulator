@@ -1,4 +1,4 @@
-#!mainFile "../../main.opy"
+#!mainFile "../../dev_main.opy"
 
 #!include "blaster.opy"
 #!include "cryo_freeze.opy"
@@ -6,7 +6,7 @@
 
 def initMei():
     @Name "[mei/init.opy]: initMei()"
-
+    
     setCustomHp(OW1_MEI_HEALTH, 0, 0)
     setUltCost(OW1_MEI_ULT_COST)
 
@@ -15,4 +15,7 @@ def initMei():
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
 
-    #removeSelfHealing()
+    removeSelfHealing()
+
+
+

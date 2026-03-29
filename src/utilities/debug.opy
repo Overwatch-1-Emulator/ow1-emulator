@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+#!mainFile "../dev_main.opy"
 
 globalvar DEBUG_MODE = createWorkshopSetting(bool, "Dev Tools", "debug mode", true)
 #!define STAT_KEEP_ALIVE (2)
@@ -9,9 +9,6 @@ playervar debug_pvar
 #!define _last_damage_received debug_pvar[1]
 #!define _total_healing_received debug_pvar[2]
 #!define _last_healing_received debug_pvar[3]
-
-playervar debug_i
-playervar aimed_position
 
 
 rule "[utilities/debug.opy] Disable Inspector for performance":
@@ -47,13 +44,13 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     @Condition DEBUG_MODE == true
 
     hudHeader(eventPlayer, "Event Player", HudPosition.RIGHT, 0, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_hp_health = {}".format(eventPlayer._hp_health), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_hp_armor = {}".format(eventPlayer._hp_armor), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_hp_shields = {}".format(eventPlayer._hp_shields), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_hp_health_ow2 = {}".format(eventPlayer._hp_health_ow2), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_hp_armor_ow2 = {}".format(eventPlayer._hp_armor_ow2), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_hp_shields_ow2 = {}".format(eventPlayer._hp_shields_ow2), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_hp_scalar = {}".format(eventPlayer._hp_scalar), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_hp_health = {}".format(eventPlayer._hp_health), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_hp_armor = {}".format(eventPlayer._hp_armor), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_hp_shields = {}".format(eventPlayer._hp_shields), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_hp_health_ow2 = {}".format(eventPlayer._hp_health_ow2), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_hp_armor_ow2 = {}".format(eventPlayer._hp_armor_ow2), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_hp_shields_ow2 = {}".format(eventPlayer._hp_shields_ow2), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "_hp_scalar = {}".format(eventPlayer._hp_scalar), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_primal_exit_health = {}".format(eventPlayer._primal_exit_health), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_primal_exit_armor = {}".format(eventPlayer._primal_exit_armor), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isResetComplete() = {}".format(isResetComplete(eventPlayer)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -82,9 +79,9 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "isFiringSecondaryFire() = {}".format(eventPlayer.isFiringSecondaryFire()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isHoldingButton(Button.ABILITY_1) = {}".format(eventPlayer.isHoldingButton(Button.ABILITY_1)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isUsingAbility1() = {}".format(eventPlayer.isUsingAbility1()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "Ability 1 Cooldown = {}".format(eventPlayer.getAbilityCooldown(Button.ABILITY_1)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "Ability 1 Cooldown = {}".format(eventPlayer.getAbilityCooldown(Button.ABILITY_1)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isUsingAbility2() = {}".format(eventPlayer.isUsingAbility2()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "Ability 2 Cooldown = {}".format(eventPlayer.getAbilityCooldown(Button.ABILITY_2)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    hudSubheader(eventPlayer, "Ability 2 Cooldown = {}".format(eventPlayer.getAbilityCooldown(Button.ABILITY_2)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getAbilityCharge(ABILITY_2) = {}".format(eventPlayer.getAbilityCharge(Button.ABILITY_2)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getSpeed() = {}".format(eventPlayer.getSpeed()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "_ult_cost = {}".format(eventPlayer._ult_cost), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -121,10 +118,8 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "barrier_damage_block_id = {}".format(eventPlayer.barrier_damage_block_id), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "len(enemies_behind_barrier) = {}".format(len(eventPlayer.enemies_behind_barrier)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isAimingAtOrisaBarrier() = {}".format(isAimingAtOrisaBarrier()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "_ow1_adaptive_shield_n = {}".format(eventPlayer._ow1_adaptive_shield_n), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "_ow2_adaptive_shield_n = {}".format(eventPlayer._ow2_adaptive_shield_n), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "_expected_adapt_shields = {}".format(eventPlayer._expected_adapt_shields), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "_actual_adapt_shields = {}".format(eventPlayer._actual_adapt_shields), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "ow1_adaptive_shield_n = {}".format(eventPlayer.ow1_adaptive_shield_n), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "ow2_adaptive_shield_n = {}".format(eventPlayer.ow2_adaptive_shield_n), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "is_using_shield_bash = {}".format(eventPlayer.is_using_shield_bash), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "shield_bash_through_barrier = {}".format(eventPlayer.shield_bash_through_barrier), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "transloc_time = {}".format(eventPlayer.transloc_time), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
@@ -155,7 +150,6 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "perk_ult_charge_backup_ = {}".format(eventPlayer.perk_ult_charge_backup_), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "perk_points_ = {}".format(eventPlayer.perk_points_), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "max_perk_points_ = {}".format(eventPlayer.max_perk_points_), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    hudSubheader(eventPlayer, "_base_damage_scalar = {}".format(eventPlayer._base_damage_scalar), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
 
 
 rule "[utilities/debug.opy]: do something on interact":
@@ -163,45 +157,14 @@ rule "[utilities/debug.opy]: do something on interact":
     @Condition DEBUG_MODE
     @Condition eventPlayer.isHoldingButton(Button.INTERACT)
 
-    #damage(getAllPlayers(), null, 25)
+    damage(eventPlayer, null, 25)
     # eventPlayer.setHealth(1)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, 0)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, 0)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
-    #setPerkCost(5000)
-    #unlockAllPerks()
+    setPerkCost(5000)
+    unlockAllPerks()
     eventPlayer.setUltCharge(100)
-
-
-rule "[utilities/debug.opy]: spawn bots on interact, despawn on interact + primary":
-    @Event eachPlayer
-    @Condition DEBUG_MODE
-    @Condition eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.CROUCH)
-
-    eventPlayer.aimed_position = \
-        raycast(
-            eventPlayer.getEyePosition(),
-            eventPlayer.getEyePosition()+100*eventPlayer.getFacingDirection(),
-            null,
-            null,
-            false).getHitPosition()
-
-    # Spawn 4 enemy and 4 friendly bots at crosshair location.
-    for eventPlayer.debug_i in range(4):
-        createDummy(
-            Hero.MEI,
-            getOppositeTeam(eventPlayer.getTeam()),
-            -1,
-            eventPlayer.aimed_position)
-        createDummy(
-            Hero.MEI,
-            eventPlayer.getTeam(),
-            -1,
-            eventPlayer.aimed_position)
-
-    wait(1)
-    waitUntil(eventPlayer.isHoldingButton(Button.INTERACT) and eventPlayer.isHoldingButton(Button.CROUCH))
-    destroyAllDummies()
 
 
 rule "[utilities/debug.opy]: Show Player Damage/Healing":
@@ -210,46 +173,46 @@ rule "[utilities/debug.opy]: Show Player Damage/Healing":
 
     # most recent damage
     createInWorldText(
-        getAllPlayers() if eventPlayer._last_damage_received > 0 else null,
-        eventPlayer._last_damage_received,
-        eventPlayer.getEyePosition() + 1 * STAT_SPACING * Vector.UP,
-        1,
-        Clip.NONE,
-        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
-        Color.RED,
+        getAllPlayers() if eventPlayer._last_damage_received > 0 else null, 
+        eventPlayer._last_damage_received, 
+        eventPlayer.getEyePosition() + 1 * STAT_SPACING * Vector.UP, 
+        1, 
+        Clip.NONE, 
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
+        Color.RED, 
         SpecVisibility.DEFAULT)
 
     # most recent healing
     createInWorldText(
-        getAllPlayers() if eventPlayer._last_healing_received > 0 else null,
-        eventPlayer._last_healing_received,
-        eventPlayer.getEyePosition() + 2 * STAT_SPACING * Vector.UP,
-        1,
-        Clip.NONE,
-        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
-        Color.YELLOW,
+        getAllPlayers() if eventPlayer._last_healing_received > 0 else null, 
+        eventPlayer._last_healing_received, 
+        eventPlayer.getEyePosition() + 2 * STAT_SPACING * Vector.UP, 
+        1, 
+        Clip.NONE, 
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
+        Color.YELLOW, 
         SpecVisibility.DEFAULT)
 
     # total damage
     createInWorldText(
-        getAllPlayers() if eventPlayer._total_damage_received > 0 else null,
-        eventPlayer._total_damage_received,
-        eventPlayer.getEyePosition() + 3 * STAT_SPACING * Vector.UP,
-        2,
-        Clip.NONE,
-        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
-        Color.RED,
+        getAllPlayers() if eventPlayer._total_damage_received > 0 else null, 
+        eventPlayer._total_damage_received, 
+        eventPlayer.getEyePosition() + 3 * STAT_SPACING * Vector.UP, 
+        2, 
+        Clip.NONE, 
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
+        Color.RED, 
         SpecVisibility.DEFAULT)
 
     # total healing
     createInWorldText(
-        getAllPlayers() if eventPlayer._total_healing_received > 0 else null,
-        eventPlayer._total_healing_received,
-        eventPlayer.getEyePosition() + 4 * STAT_SPACING * Vector.UP,
-        2,
-        Clip.NONE,
-        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
-        Color.YELLOW,
+        getAllPlayers() if eventPlayer._total_healing_received > 0 else null, 
+        eventPlayer._total_healing_received, 
+        eventPlayer.getEyePosition() + 4 * STAT_SPACING * Vector.UP, 
+        2, 
+        Clip.NONE, 
+        WorldTextReeval.VISIBILITY_POSITION_AND_STRING, 
+        Color.YELLOW, 
         SpecVisibility.DEFAULT)
 
 
@@ -271,7 +234,7 @@ rule "[utilities/debug.opy]: Debug healing instance":
     @Condition DEBUG_MODE
 
     printLog("healer={}, healee={}, ability={}, amount={}".format(healer, healee, eventAbility, eventHealing))
-
+    
     healee._last_healing_received = eventHealing
     healee._total_healing_received += eventHealing
     wait(STAT_KEEP_ALIVE, Wait.RESTART_WHEN_TRUE)
