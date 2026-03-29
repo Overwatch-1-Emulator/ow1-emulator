@@ -1,8 +1,8 @@
 ﻿# ow1-emulator
 
-This repository contains OverPy source code for building [Overwatch 1 Emulator](https://workshop.codes/KHTG0) and [Overwatch 1++](https://workshop.codes/YKMXH) Workshop gamemode.  
+This repository contains OverPy source code for building [Overwatch 1 Emulator](https://workshop.codes/KHTG0) and [Overwatch 1++](https://workshop.codes/YKMXH) Workshop gamemode.
 
-Overwatch 1 stats are referenced using the [Wayback Machine](https://web.archive.org/web/20220929084035/https://overwatch.fandom.com/wiki/Overwatch_Wiki).  
+Overwatch 1 stats are referenced using the [Wayback Machine](https://web.archive.org/web/20220929084035/https://overwatch.fandom.com/wiki/Overwatch_Wiki).\
 Overwatch 2 heroes are balanced in-house with the help of our [Discord](https://discord.gg/GMVqwYXbWB) community.
 
 
