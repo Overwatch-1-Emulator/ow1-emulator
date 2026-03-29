@@ -402,6 +402,7 @@ settings {
             },
             "sigma": {
                 # barrier recharge rate scales with health scalar for some reason
+                "health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH),
                 "secondaryFireRechargeRate%": percent((OW1_SIGMA_BARRIER_REGEN/OW2_SIGMA_BARRIER_REGEN)/(OW1_SIGMA_SHIELDS/OW2_SIGMA_SHIELDS)),
                 "ultGen%": percent(OW2_SIGMA_ULT_COST/OW1_SIGMA_ULT_COST),
                 "enableRolePassive": false,
