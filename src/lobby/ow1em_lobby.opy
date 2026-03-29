@@ -326,6 +326,8 @@ settings {
             },
             "lucio": {
                 "ultGen%": percent(OW2_LUCIO_ULT_COST/OW1_LUCIO_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "mauga": {
                 "ultGen%": percent(OW2_MAUGA_ULT_COST/OW1_MAUGA_ULT_COST),
