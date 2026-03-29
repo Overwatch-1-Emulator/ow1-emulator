@@ -10,4 +10,4 @@ def initSymmetra():
 
     setCustomHp(OW1_SYMMETRA_HEALTH, 0, OW1_SYMMETRA_SHIELDS)
     setUltCost(OW1_SYMMETRA_ULT_COST)
-    removeSelfHealing()
+    #removeSelfHealing()

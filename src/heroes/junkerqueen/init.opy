@@ -16,7 +16,7 @@ def initJunkerQueen():
     eventPlayer.jq_self_heal_id = getLastHealingModification()
 
     # removeTankPassive()
-    removePassiveHealing()
+    #removePassiveHealing()
 
 
 rule "[junkerqueen/init.opy]: Clean up Junker Queen":
@@ -30,6 +30,6 @@ rule "[junkerqueen/init.opy]: Clean up Junker Queen":
 rule "[junkerqueen/init.opy]: Compensate Junkerqueen global damage reduction":
     @Event playerDealtDamage
     @Hero junkerQueen
-    @Condition eventAbility in [Button.MELEE, Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_2]
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_2, Button.MELEE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

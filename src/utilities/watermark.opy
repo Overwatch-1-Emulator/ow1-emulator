@@ -23,7 +23,7 @@ rule "[utilities/watermark.opy]: Create watermark HUD":
 
     if eventPlayer.info_id[0] == null:
         hudSubheader(eventPlayer if infoVisible(eventPlayer) else null,
-                     GAMEMODE_NAME" "GAMEMODE_VERSION" ""("GAMEMODE_CODE")",
+                     GAMEMODE_NAME" ""("GAMEMODE_CODE")",
                      HudPosition.LEFT,
                      0,
                      Color.WHITE,
@@ -43,13 +43,13 @@ rule "[utilities/watermark.opy]: Create watermark HUD":
     eventPlayer.rgb_vect = rgb_list[eventPlayer.rgb_i]
 
 
-rule "[utilities/watermark.opy]: Cycle RGB":
-    @Event eachPlayer
-    @Condition infoVisible(eventPlayer)
-    # @Condition not DEBUG_MODE
+#rule "[utilities/watermark.opy]: Cycle RGB":
+#    @Event eachPlayer
+#    @Condition infoVisible(eventPlayer)
+#    # @Condition not DEBUG_MODE
 
-    do:
-        eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))
-        chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], duration=RGB_DURATION, ChaseReeval.NONE)
-        waitUntil(eventPlayer.rgb_vect == rgb_list[eventPlayer.rgb_i], Math.INFINITY)
-    while RULE_CONDITION
+#    do:
+#        eventPlayer.rgb_i = (eventPlayer.rgb_i + 1)%(len(rgb_list))
+#        chase(eventPlayer.rgb_vect, rgb_list[eventPlayer.rgb_i], duration=RGB_DURATION, ChaseReeval.NONE)
+#        waitUntil(eventPlayer.rgb_vect == rgb_list[eventPlayer.rgb_i], Math.INFINITY)
+#    while RULE_CONDITION

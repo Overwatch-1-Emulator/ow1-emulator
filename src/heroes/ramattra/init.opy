@@ -11,4 +11,4 @@ def initRamattra():
     setUltCost(OW1_RAMATTRA_ULT_COST)
 
     # removeTankPassive()
-    removeSelfHealing()
+    #removeSelfHealing()
