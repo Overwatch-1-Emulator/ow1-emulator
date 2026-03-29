@@ -6,7 +6,7 @@
 #!include "common/constants/ow2_constants.opy"
 #!include "common/macro_functions.opy"
 
-rule "Copyright (c) 2024 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulator/ow1-emulator for license to use this code.":
+rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulator/ow1-emulator for license to use this code.":
     disableInspector()
 
 # Useful functions.
@@ -22,9 +22,9 @@ rule "Copyright (c) 2024 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 #!include "utilities/anti_crash.opy"
 #!include "utilities/watermark.opy"
 
-# OW1 logic
+# OW1 hero logic.
 # Remove damage passive
-#!include "passives/damage/damage_passive.opy"
+#!include "passives/global/global_passive.opy"
 # Remove tank passive
 # !include "passives/tank/headshot.opy"
 # !include "passives/tank/knockback.opy"
@@ -32,9 +32,9 @@ rule "Copyright (c) 2024 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 # Remove support passive
 #!include "passives/support/self_heal.opy"
 # Perk utility
-#!include "passives/perk.opy"
+# !include "passives/perk.opy"
 
-# Hero specific logic
+# Hero specific logic.
 #!include "heroes/ana/init.opy"
 #!include "heroes/ashe/init.opy"
 #!include "heroes/baptiste/init.opy"
@@ -43,40 +43,39 @@ rule "Copyright (c) 2024 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 #!include "heroes/doomfist/init.opy"
 #!include "heroes/dva/init.opy"
 #!include "heroes/genji/init.opy"
-#!include "heroes/freja/init.opy"
+# !include "heroes/freja/init.opy"
 #!include "heroes/hanzo/init.opy"
-#!include "heroes/hazard/init.opy"
-#!include "heroes/illari/init.opy"
-#!include "heroes/junkerqueen/init.opy"
+# !include "heroes/hazard/init.opy"
+# !include "heroes/illari/init.opy"
+# !include "heroes/junkerqueen/init.opy"
 #!include "heroes/junkrat/init.opy"
-#!include "heroes/juno/init.opy"
-#!include "heroes/kiriko/init.opy"
-#!include "heroes/lifeweaver/init.opy"
+# !include "heroes/juno/init.opy"
+# !include "heroes/kiriko/init.opy"
+# !include "heroes/lifeweaver/init.opy"
 #!include "heroes/lucio/init.opy"
-#!include "heroes/mauga/init.opy"
+# !include "heroes/mauga/init.opy"
 #!include "heroes/mccree/init.opy"
 #!include "heroes/mei/init.opy"
 #!include "heroes/mercy/init.opy"
 #!include "heroes/moira/init.opy"
 #!include "heroes/orisa/init.opy"
 #!include "heroes/pharah/init.opy"
-#!include "heroes/ramattra/init.opy"
+# !include "heroes/ramattra/init.opy"
 #!include "heroes/reaper/init.opy"
 #!include "heroes/reinhardt/init.opy"
 #!include "heroes/roadhog/init.opy"
 #!include "heroes/sigma/init.opy"
-#!include "heroes/sojourn/init.opy"
+# !include "heroes/sojourn/init.opy"
 #!include "heroes/soldier/init.opy"
 #!include "heroes/sombra/init.opy"
 #!include "heroes/symmetra/init.opy"
 #!include "heroes/torbjorn/init.opy"
 #!include "heroes/tracer/init.opy"
-#!include "heroes/venture/init.opy"
+# !include "heroes/venture/init.opy"
 #!include "heroes/widowmaker/init.opy"
 #!include "heroes/winston/init.opy"
 #!include "heroes/wreckingball/init.opy"
 #!include "heroes/zarya/init.opy"
 #!include "heroes/zenyatta/init.opy"
 
-# Include at the end for duplicate scoping
 #!include "heroes/echo/init.opy"

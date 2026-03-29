@@ -41,6 +41,7 @@ subroutine initVenture
 subroutine initWidowmaker
 subroutine initWinston
 subroutine initHammond
+subroutine initWuyang
 subroutine initZarya
 subroutine initZenyatta
 

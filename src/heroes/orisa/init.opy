@@ -31,9 +31,9 @@ def initOrisa():
     eventPlayer.setProjectileSpeed(percent(OW1_ORISA_GUN_PROJECTILE_SPEED/OW2_ORISA_GUN_PROJECTILE_SPEED))
 
     # removeTankPassive()
-    removeSelfHealing()
+    #removeSelfHealing()
 
-    setPerkCost(OW2_ORISA_PERK_LVL3_COST)
+    # setPerkCost(OW2_ORISA_PERK_LVL3_COST)
 
 
 rule "[orisa/init.opy]: Clean up Orisa":
@@ -41,6 +41,7 @@ rule "[orisa/init.opy]: Clean up Orisa":
     @Condition eventPlayer.getCurrentHero() == Hero.ORISA
 
     waitUntil(eventPlayer.getCurrentHero() != Hero.ORISA, Math.INFINITY)
-    # destroyBarrier()
+    destroyBarrier()
+    destroyBarrierHud()
     endSupercharger()
     hideOrisaAmmoHud()

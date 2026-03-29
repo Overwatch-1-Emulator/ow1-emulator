@@ -11,7 +11,7 @@ def initKiriko():
     setCustomHp(OW1_KIRIKO_HEALTH, 0, 0)
     setUltCost(OW1_KIRIKO_ULT_COST)
 
-    removeSelfHealing()
+    #removeSelfHealing()
 
     eventPlayer.setHealingDealt(percent(OW1_KIRKIO_OFUDA_HEALING/OW2_KIRIKO_OFUDA_HEALING))
 
@@ -23,6 +23,6 @@ def initKiriko():
 rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":
     @Event playerDealtDamage
     @Hero kiriko
-    @Condition eventAbility in [Button.MELEE]
+    @Condition eventAbility == Button.MELEE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

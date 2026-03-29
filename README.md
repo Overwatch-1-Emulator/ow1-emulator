@@ -1,6 +1,6 @@
 ﻿# ow1-emulator
 
-This repository contains OverPy source code for building [Overwatch 1 Emulator](https://workshop.codes/KHTG0) and [Overwatch 1++](https://workshop.codes/YKMXH) Workshop gamemode.
+This repository contains OverPy source code for building [Overwatch 1 Emulator](https://workshop.codes/PBMYC) Workshop gamemode.
 
 Overwatch 1 stats are referenced using the [Wayback Machine](https://web.archive.org/web/20220929084035/https://overwatch.fandom.com/wiki/Overwatch_Wiki).\
 Overwatch 2 heroes are balanced in-house with the help of our [Discord](https://discord.gg/GMVqwYXbWB) community.
@@ -22,29 +22,22 @@ Progress (✅ = Equivalent to OW1, ✔ = Close to OW1, Blank = Untouched):
 | Echo | ✅ | ✅ | ✅ | ✅ | ✔ |  |
 | Genji | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Hanzo | ✅ | ✅ | ✅ | ✅ | ✅ |  |
-| Junker Queen |  |  |  |  |  |  |
 | Junkrat | ✅ | ✅ | ✅ | ✅ | ✅ |  |
-| Kiriko |  |  |  |  |  |  |
-| Lifeweaver |  |  |  |  |  |  |
 | Lucio | ✅ | ✅ | ✅ | ✅ | ✔ |  |
-| Mauga |  |  |  |  |  |  |
 | Mei | ✔ | ✔ | ✅ | ✔ | ✅ |  |
 | Mercy | ✅ | ✅ | ✅ | ✅ | ✔ | ✅ Regen |
 | Moira | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Orisa | ✅ | ✅ | ✔ | ✔ | ✔ |  |
 | Pharah | ✅ | ✔ | ✔ | ✔ | ✅ |  |
-| Ramattra |  |  |  |  |  |  |
 | Reaper | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Reinhardt | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ Steadfast |
 | Roadhog | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ Ult Charge |
 | Sigma | ✅ | ✅ | ✅ | ✅ | ✅ |  |
-| Sojourn |  |  |  |  |  |  |
 | Soldier: 76 | ✅ | ✅ | ✅ | ✔ | ✅ |  |
 | Sombra |  | ✔ | ✔ | ✔ | ✔ |  |
 | Symmetra | ✔ | ✔ | ✔ | ✔ | ✅ |  |
 | Torbjorn | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Tracer | ✅ | ✅ | ✅ | ✅ | ✅ |  |
-| Venture |  |  |  |  |  |  |
 | Widowmaker | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Winston | ✅ | ✅ | ✅ | ✅ | ✅ |  |
 | Wrecking Ball | ✅ | ✅ | ✅ | ✔ | ✔ | ✅ Piledriver |
@@ -57,3 +50,6 @@ See [releases](https://github.com/Overwatch-1-Emulator/ow1-emulator/releases)
 ## Contributing Code
 
 See [contribution guide](./CONTRIBUTING.md) for step by step instruction.
+
+
+

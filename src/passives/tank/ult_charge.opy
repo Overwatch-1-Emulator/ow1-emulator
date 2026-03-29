@@ -29,31 +29,31 @@ def resetUltCharge():
     eventPlayer._ult_charge_reset = true
 
 
-rule "[passives/tank/ult_charge.opy]: Remember missing ult charge from damaging tank":
-    @Event playerDealtDamage
-    @Condition victim.getCurrentHero() in getTankHeroes()
-    @Condition not eventPlayer.isUsingUltimate()
-    @Condition victim != eventPlayer
+#rule "[passives/tank/ult_charge.opy]: Remember missing ult charge from damaging tank":
+#    @Event playerDealtDamage
+#    @Condition victim.getCurrentHero() in getTankHeroes()
+#    @Condition not eventPlayer.isUsingUltimate()
+#    @Condition victim != eventPlayer
 
-    eventPlayer._missing_ult_points += unpercent(OW2_TANK_ULT_NEGATION_PERCENT - OW1_TANK_ULT_NEGATION_PERCENT) * eventDamage
-
-
-rule "[passives/tank/ult_charge.opy]: Remember missing ult charge from healing tank":
-    @Event playerDealtHealing
-    @Condition healee.getCurrentHero() in getTankHeroes()
-    @Condition not eventPlayer.isUsingUltimate()
-
-    eventPlayer._missing_ult_points += unpercent(OW2_TANK_ULT_NEGATION_PERCENT - OW1_TANK_ULT_NEGATION_PERCENT) * eventHealing
+#    eventPlayer._missing_ult_points += unpercent(OW2_TANK_ULT_NEGATION_PERCENT - OW1_TANK_ULT_NEGATION_PERCENT) * eventDamage
 
 
-rule "[passives/tank/ult_charge.opy]: Compensate missing ultimate percentage":
-    @Event eachPlayer
-    @Condition eventPlayer._missing_ult_points > percentOf(1, eventPlayer._ult_cost)
-    @Condition eventPlayer._ult_cost > 0 # guard to protect ult resetting accidentally
+#rule "[passives/tank/ult_charge.opy]: Remember missing ult charge from healing tank":
+#    @Event playerDealtHealing
+#    @Condition healee.getCurrentHero() in getTankHeroes()
+#    @Condition not eventPlayer.isUsingUltimate()
 
-    eventPlayer._new_ult_percent = ceil(percent((getUltPoints(eventPlayer) + eventPlayer._missing_ult_points)/eventPlayer._ult_cost))
-    eventPlayer._missing_ult_points -= percentOf(eventPlayer._new_ult_percent, eventPlayer._ult_cost) - getUltPoints(eventPlayer)
-    eventPlayer.setUltCharge(eventPlayer._new_ult_percent)
+#    eventPlayer._missing_ult_points += unpercent(OW2_TANK_ULT_NEGATION_PERCENT - OW1_TANK_ULT_NEGATION_PERCENT) * eventHealing
+
+
+#rule "[passives/tank/ult_charge.opy]: Compensate missing ultimate percentage":
+#    @Event eachPlayer
+#    @Condition eventPlayer._missing_ult_points > percentOf(1, eventPlayer._ult_cost)
+#    @Condition eventPlayer._ult_cost > 0 # guard to protect ult resetting accidentally
+
+#    eventPlayer._new_ult_percent = ceil(percent((getUltPoints(eventPlayer) + eventPlayer._missing_ult_points)/eventPlayer._ult_cost))
+#    eventPlayer._missing_ult_points -= percentOf(eventPlayer._new_ult_percent, eventPlayer._ult_cost) - getUltPoints(eventPlayer)
+#    eventPlayer.setUltCharge(eventPlayer._new_ult_percent)
 
 
 rule "[passives/tank/ult_charge.opy]: Reset ult compensation after using ult":

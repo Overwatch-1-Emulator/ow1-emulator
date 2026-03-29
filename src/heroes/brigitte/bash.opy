@@ -18,20 +18,20 @@ rule "[brigitte/bash.opy]: Reduce shield bash distance":
     @Hero brigitte
     @Condition eventPlayer.isFiringSecondaryFire()
     @Condition eventPlayer.isFiringPrimaryFire()
-    @Condition not eventPlayer.isUsingUltimate()
+    # @Condition not eventPlayer.isUsingUltimate()
 
     eventPlayer.setMoveSpeed(77.8) # arbitrarily decided based on trial and error
     waitUntil(eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE) > 0, Math.INFINITY)
     if eventPlayer.isUsingUltimate():
-        eventPlayer.setMoveSpeed(percent(OW1_BRIGITTE_RALLY_SPEED_BUFF/OW2_BRIGITTE_RALLY_SPEED_BUFF))
+        eventPlayer.setMoveSpeed(130)
     else:
         eventPlayer.setMoveSpeed(100)
 
+#rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
+#    @Event playerDealtDamage
+#    @Hero brigitte
+#    @Condition eventPlayer.isFiringSecondaryFire()
+#    @Condition eventAbility == Button.PRIMARY_FIRE
 
-rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
-    @Event playerDealtDamage
-    @Hero brigitte
-    @Condition eventPlayer.isFiringSecondaryFire()
-    @Condition eventAbility == Button.PRIMARY_FIRE
-
-    heal(victim, null, eventDamage - eventDamage/eventPlayer._base_damage_scalar*(OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE))
+    #heal(victim, null, eventDamage - OW1_BRIGITTE_SHIELD_BASH_DAMAGE)
+#    heal(victim, null, eventDamage - eventDamage/eventPlayer._base_damage_scalar*(OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE)+ 21)
