@@ -94,18 +94,18 @@ rule "[doomfist/uppercut.opy]: Detect uppercut victims":
     do:
         eventPlayer._uppercut_victims = \
             getPlayersInRadius(
-                eventPlayer, 
-                OW1_DOOMFIST_UPPERCUT_RADIUS, 
-                getOppositeTeam(eventPlayer.getTeam()), 
+                eventPlayer,
+                OW1_DOOMFIST_UPPERCUT_RADIUS,
+                getOppositeTeam(eventPlayer.getTeam()),
                 LosCheck.SURFACES).exclude(eventPlayer)
         eventPlayer._uppercut_victims = \
-            [uppercut_victim for uppercut_victim in eventPlayer._uppercut_victims 
+            [uppercut_victim for uppercut_victim in eventPlayer._uppercut_victims
                     if ((uppercut_victim.isAlive()) \
                     and (angleBetweenVectors(
-                            getForwardDirection(eventPlayer), 
+                            getForwardDirection(eventPlayer),
                                 directionTowards(
-                                    eventPlayer, 
-                                    uppercut_victim)) 
+                                    eventPlayer,
+                                    uppercut_victim))
                         <= 90))] # Victim in front of doomfist
 
         eventPlayer._uppercut_victims.is_hit_by_uppercut = true
@@ -164,7 +164,7 @@ rule "[doomfist/uppercut.opy]: Heal doomfist uppercut shields":
     @Hero doomfist
     @Condition updateEveryTick(eventPlayer.uppercut_shields > 0)
     @Condition updateEveryTick(eventPlayer.getHealth() < eventPlayer.getMaxHealth())
-    
+
     do:
         eventPlayer.hp_before_uppercut = eventPlayer.getHealth()
         heal(eventPlayer, null, eventPlayer.uppercut_shields)

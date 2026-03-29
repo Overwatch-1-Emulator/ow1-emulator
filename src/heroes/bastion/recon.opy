@@ -12,7 +12,7 @@ rule "[bastion/recon.opy]: Initialize recon mode":
     setBaseDamage(eventPlayer, 1)
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)
-    
+
     eventPlayer.allowButton(Button.PRIMARY_FIRE)
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 

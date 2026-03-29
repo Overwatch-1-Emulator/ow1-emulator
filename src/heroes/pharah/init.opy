@@ -18,6 +18,6 @@ def initPharah():
 rule "[pharah/init.opy]: Clean up Pharah":
     @Event eachPlayer
     @Condition eventPlayer.getCurrentHero() == Hero.PHARAH
-    
+
     waitUntil(eventPlayer.getCurrentHero() != Hero.PHARAH, Math.INFINITY)
     hideFuelGui()

@@ -22,23 +22,23 @@ rule "[utilities/watermark.opy]: Create watermark HUD":
     @Condition SHOW_WATERMARK
 
     if eventPlayer.info_id[0] == null:
-        hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
-                     GAMEMODE_NAME" "GAMEMODE_VERSION" ""("GAMEMODE_CODE")", 
-                     HudPosition.LEFT, 
-                     0, 
-                     Color.WHITE, 
+        hudSubheader(eventPlayer if infoVisible(eventPlayer) else null,
+                     GAMEMODE_NAME" "GAMEMODE_VERSION" ""("GAMEMODE_CODE")",
+                     HudPosition.LEFT,
+                     0,
+                     Color.WHITE,
                      HudReeval.VISIBILITY)
         eventPlayer.info_id[0] = getLastCreatedText()
 
     if eventPlayer.info_id[1] == null:
-        hudSubheader(eventPlayer if infoVisible(eventPlayer) else null, 
-                     "Discord: " DISCORD_SHORT_LINK, 
-                     HudPosition.LEFT, 
-                     1, 
-                     rgb(eventPlayer.rgb_vect.x, eventPlayer.rgb_vect.y, eventPlayer.rgb_vect.z), 
+        hudSubheader(eventPlayer if infoVisible(eventPlayer) else null,
+                     "Discord: " DISCORD_SHORT_LINK,
+                     HudPosition.LEFT,
+                     1,
+                     rgb(eventPlayer.rgb_vect.x, eventPlayer.rgb_vect.y, eventPlayer.rgb_vect.z),
                      HudReeval.VISIBILITY_AND_COLOR)
         eventPlayer.info_id[1] = getLastCreatedText()
-    
+
     eventPlayer.rgb_i = 0
     eventPlayer.rgb_vect = rgb_list[eventPlayer.rgb_i]
 

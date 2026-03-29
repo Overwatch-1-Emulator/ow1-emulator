@@ -9,7 +9,7 @@
 
 def initDva():
     @Name "[dva/init.opy]: initDva()"
-    
+
     setUltCost(OW1_DVA_ULT_COST)
     # removeTankPassive()
     removeSelfHealing()

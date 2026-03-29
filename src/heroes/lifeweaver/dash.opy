@@ -11,7 +11,7 @@
 #     waitUntil(eventPlayer.isHoldingButton(Button.JUMP) or eventPlayer.isOnGround(), Math.INFINITY)
 #     if eventPlayer.isOnGround():
 #         return
-    
+
 #     pushSelfHealing(Button.JUMP)
 #     # waitUntil(eventPlayer.getAbilityCooldown(Button.JUMP) > 0, Math.INFINITY)
 #     wait(0.25)

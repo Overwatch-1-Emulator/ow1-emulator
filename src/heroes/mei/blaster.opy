@@ -22,7 +22,7 @@ rule "[mei/blaster.opy]: Track freezing on enemy":
 
     victim.freeze_move_penalty = victim.freeze_progress if victim.freeze_progress < OW1_MEI_FREEZE_MAX_SLOW else OW1_MEI_FREEZE_MAX_SLOW
     # victim.setMoveSpeed(100-victim.freeze_move_penalty)
-    
+
     victim.freeze_slow_linger_time = 0
     chase(victim.freeze_slow_linger_time, OW1_MEI_FREEZE_SLOW_LINGER_DURATION, rate=1, ChaseReeval.NONE)
 
@@ -35,7 +35,7 @@ rule "[mei/blaster.opy]: Freeze enemy":
     victim.setStatusEffect(eventPlayer, Status.FROZEN, 1*OW1_MEI_FREEZE_DURATION) # 1x feels too short for some reason
     waitUntil(not victim.hasStatusEffect(Status.FROZEN), Math.INFINITY)
     clearFreezeEffect()
-    
+
 
 rule "[mei/blaster.opy]: clear freeze after exceeding linger time":
     @Event eachPlayer
@@ -47,7 +47,7 @@ rule "[mei/blaster.opy]: clear freeze after exceeding linger time":
 
 def clearFreezeEffect():
     @Name "[mei/blaster.opy]: clearFreezeEffect()"
-    
+
     stopChasingVariable(eventPlayer.freeze_slow_linger_time)
     eventPlayer.setMoveSpeed(100)
     eventPlayer.freeze_progress = 0

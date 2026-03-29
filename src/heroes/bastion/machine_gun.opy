@@ -28,12 +28,12 @@ rule "[bastion/machine_gun.opy]: Activate machine gun in sentry mode":
             "{0}|{1}".format(ceil(eventPlayer.machine_gun_ammo), OW1_BASTION_SENTRY_CONFIG_CLIP_SIZE),
             updateEveryTick(eventPlayer.getEyePosition() + \
             (100 * (3.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + \
-            ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
-            verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
-            2, 
-            Clip.NONE, 
-            WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
-            Color.WHITE, 
+            ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()),
+            verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),
+            2,
+            Clip.NONE,
+            WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+            Color.WHITE,
             SpecVisibility.DEFAULT)
         eventPlayer.machine_gun_ammo_id = getLastCreatedText()
 
@@ -48,7 +48,7 @@ rule "[bastion/machine_gun.opy]: Hide machine gun ammo when not in sentry mode":
 
 def reloadMachineGun():
     @Name "[bastion/machine_gun.opy]: start machine gun reload timer"
- 
+
     eventPlayer.machine_gun_reload_timer = OW1_BASTION_SENTRY_CONFIG_RELOAD_TIME
     chase(eventPlayer.machine_gun_reload_timer, 0, rate=1, ChaseReeval.DESTINATION_AND_RATE)
 

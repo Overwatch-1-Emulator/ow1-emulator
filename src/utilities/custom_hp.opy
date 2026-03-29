@@ -59,8 +59,8 @@ def applyCustomHp():
     # the desired custom health/armor/shield value
     eventPlayer._hp_scalar = min(
         min(
-            (eventPlayer._hp_health/eventPlayer._hp_health_ow2) if eventPlayer._hp_health_ow2 > 0 else Math.INFINITY, 
-            (eventPlayer._hp_armor/eventPlayer._hp_armor_ow2) if eventPlayer._hp_armor_ow2 > 0 else Math.INFINITY), 
+            (eventPlayer._hp_health/eventPlayer._hp_health_ow2) if eventPlayer._hp_health_ow2 > 0 else Math.INFINITY,
+            (eventPlayer._hp_armor/eventPlayer._hp_armor_ow2) if eventPlayer._hp_armor_ow2 > 0 else Math.INFINITY),
         (eventPlayer._hp_shields/eventPlayer._hp_shields_ow2) if eventPlayer._hp_shields_ow2 > 0 else Math.INFINITY)
 
     eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))

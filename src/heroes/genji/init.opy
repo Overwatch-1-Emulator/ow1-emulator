@@ -3,12 +3,12 @@
 
 def initGenji():
     @Name "[genji/init.opy]: initGenji()"
-    
+
     setCustomHp(OW1_GENJI_HEALTH, 0, 0)
     setUltCost(OW1_GENJI_ULT_COST)
     eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
-    
+
     removeSelfHealing()
 
 

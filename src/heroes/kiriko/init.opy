@@ -7,7 +7,7 @@
 
 def initKiriko():
     @Name "[kiriko/init.opy]: initKiriko()"
-    
+
     setCustomHp(OW1_KIRIKO_HEALTH, 0, 0)
     setUltCost(OW1_KIRIKO_ULT_COST)
 
@@ -24,5 +24,5 @@ rule "[kiriko/init.opy]: Deal regular damage for any non custom damage":
     @Event playerDealtDamage
     @Hero kiriko
     @Condition eventAbility in [Button.MELEE]
-    
+
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

@@ -25,7 +25,7 @@ subroutine findLineSphereIntersection
 macro isAimingAtSphere(start_position, direction, sphere_center, sphere_radius):
     ((angleBetweenVectors(direction, directionTowards(start_position, sphere_center)) < 90)
  and (distance(start_position, sphere_center) * sinDeg(angleBetweenVectors(direction, directionTowards(start_position, sphere_center))) <= sphere_radius))
-    
+
 macro findSphereHit(start_position, direction, sphere_center, sphere_radius):
     eventPlayer._lsi_o = start_position
     eventPlayer._lsi_u = direction

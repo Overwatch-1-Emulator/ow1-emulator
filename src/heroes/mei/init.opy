@@ -6,7 +6,7 @@
 
 def initMei():
     @Name "[mei/init.opy]: initMei()"
-    
+
     setCustomHp(OW1_MEI_HEALTH, 0, 0)
     setUltCost(OW1_MEI_ULT_COST)
 
@@ -16,6 +16,3 @@ def initMei():
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
 
     removeSelfHealing()
-
-
-

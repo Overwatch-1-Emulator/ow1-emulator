@@ -106,14 +106,14 @@ def showFuelGui():
     @Name "[pharah/hover_jets.opy]: showFuelGui()"
 
     if eventPlayer._fuel_gui == null:
-        progressBarHud(eventPlayer if eventPlayer.jet_fuel < OW1_PHARAH_HOVER_JETS_MAX_FUEL else null, 
-                        roundedPercent(eventPlayer.jet_fuel/OW1_PHARAH_HOVER_JETS_MAX_FUEL), 
-                        "Fuel", 
-                        HudPosition.TOP, 
-                        Math.INFINITY, 
-                        Color.WHITE, 
-                        Color.WHITE, 
-                        ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR, 
+        progressBarHud(eventPlayer if eventPlayer.jet_fuel < OW1_PHARAH_HOVER_JETS_MAX_FUEL else null,
+                        roundedPercent(eventPlayer.jet_fuel/OW1_PHARAH_HOVER_JETS_MAX_FUEL),
+                        "Fuel",
+                        HudPosition.TOP,
+                        Math.INFINITY,
+                        Color.WHITE,
+                        Color.WHITE,
+                        ProgressHudReeval.VISIBILITY_VALUES_AND_COLOR,
                         SpecVisibility.DEFAULT)
         eventPlayer._fuel_gui = getLastCreatedText()
 

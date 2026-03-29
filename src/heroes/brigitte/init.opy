@@ -8,7 +8,7 @@
 
 def initBrigitte():
     @Name "[brigitte/init.opy]: initBrigitte()"
-    
+
     setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
     setUltCost(OW1_BRIGITTE_ULT_COST)
 

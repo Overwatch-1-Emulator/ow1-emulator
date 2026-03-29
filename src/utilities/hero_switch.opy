@@ -12,7 +12,7 @@ macro switchedHero(player):
 rule "[utilities/hero_switch.opy]: detect hero switch":
     @Event eachPlayer
     @Condition eventPlayer._last_hero_played != eventPlayer.getCurrentHero()
-    
+
     eventPlayer._hero_switched = true
     wait()
     eventPlayer._last_hero_played = eventPlayer.getCurrentHero()

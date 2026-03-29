@@ -42,23 +42,23 @@ rule "[roadhog/scrap_gun.opy]: OW1 Scrap Gun secondary fire":
     eventPlayer.setAmmo(0, eventPlayer.getAmmo(0) - 1)
     eventPlayer._scrap_orientation = eventPlayer.getFacingDirection()
     createProjectile(
-        Projectile.ORB, 
-        eventPlayer, 
-        eventPlayer.getEyePosition(), 
-        eventPlayer._scrap_orientation, 
-        Relativity.TO_WORLD, 
-        ModifyHealth.DAMAGE, 
-        getOppositeTeam(eventPlayer.getTeam()), 
-        50, 
-        1, 
-        0, 
-        DynamicEffect.GOOD_EXPLOSION, 
-        DynamicEffect.EXPLOSION_SOUND, 
-        0.001, 
-        OW1_ROADHOG_SCRAP_SECONDARY_SPEED, 
-        OW1_ROADHOG_SCRAP_SECONDARY_RANGE/OW1_ROADHOG_SCRAP_SECONDARY_SPEED, 
-        0, 
-        0, 
+        Projectile.ORB,
+        eventPlayer,
+        eventPlayer.getEyePosition(),
+        eventPlayer._scrap_orientation,
+        Relativity.TO_WORLD,
+        ModifyHealth.DAMAGE,
+        getOppositeTeam(eventPlayer.getTeam()),
+        50,
+        1,
+        0,
+        DynamicEffect.GOOD_EXPLOSION,
+        DynamicEffect.EXPLOSION_SOUND,
+        0.001,
+        OW1_ROADHOG_SCRAP_SECONDARY_SPEED,
+        OW1_ROADHOG_SCRAP_SECONDARY_RANGE/OW1_ROADHOG_SCRAP_SECONDARY_SPEED,
+        0,
+        0,
         0)
 
     eventPlayer._scrap_detonation_pos = raycast(
@@ -85,11 +85,11 @@ rule "[roadhog/scrap_gun.opy]: OW1 Scrap Gun secondary fire":
 
     for eventPlayer.scrap_i in range(len(eventPlayer._scrap_enemies)):
         damage(
-            eventPlayer._scrap_enemies[eventPlayer.scrap_i], 
-            eventPlayer, 
+            eventPlayer._scrap_enemies[eventPlayer.scrap_i],
+            eventPlayer,
             min(
-                OW1_ROADHOG_SCRAP_DAMAGE, 
-                (OW1_ROADHOG_SCRAP_DAMAGE * 2**OW1_ROADHOG_SCRAP_DECAY) 
+                OW1_ROADHOG_SCRAP_DAMAGE,
+                (OW1_ROADHOG_SCRAP_DAMAGE * 2**OW1_ROADHOG_SCRAP_DECAY)
                 / (distance(eventPlayer._scrap_detonation_pos, centerMass(eventPlayer._scrap_enemies[eventPlayer.scrap_i])))**OW1_ROADHOG_SCRAP_DECAY)) # decrease damage quadratically with distance
 
 

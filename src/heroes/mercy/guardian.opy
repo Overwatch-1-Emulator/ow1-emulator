@@ -20,7 +20,7 @@ rule "[mercy/guardian.opy]: Disable jump and crouch during guardian angel":
     @Event eachPlayer
     @Hero mercy
     @Condition eventPlayer.is_using_guardian_angel
-    
+
     eventPlayer.disallowButton(Button.JUMP)
     eventPlayer.disallowButton(Button.CROUCH)
     waitUntil(not eventPlayer.is_using_guardian_angel, Math.INFINITY)
@@ -51,9 +51,9 @@ rule "[mercy/guardian.opy]: Apply upwards momentum when starting slingshot":
 
     if eventPlayer.isUsingAbility2(): return
     eventPlayer.applyImpulse(
-        Vector.UP, 
-        OW1_MERCY_SLINGSHOT_JUMP_SPEED, 
-        Relativity.TO_WORLD, 
+        Vector.UP,
+        OW1_MERCY_SLINGSHOT_JUMP_SPEED,
+        Relativity.TO_WORLD,
         Impulse.INCORPORATE_CONTRARY_MOTION)
 
 
@@ -61,13 +61,13 @@ rule "[mercy/guardian.opy]: Give speed boost during slingshot":
     @Event eachPlayer
     @Hero mercy
     @Condition eventPlayer.is_slingshotting
-    
+
     do:
         if eventPlayer.isUsingAbility2(): return
         eventPlayer.applyImpulse(
-            eventPlayer.slingshot_velocity, 
+            eventPlayer.slingshot_velocity,
             OW1_MERCY_SLINGSHOT_BOOST if not eventPlayer.isUsingUltimate() else OW1_MERCY_VALKYRIE_SLINGSHOT_BOOST,
-            Relativity.TO_WORLD, 
+            Relativity.TO_WORLD,
             Impulse.INCORPORATE_CONTRARY_MOTION)
         wait()
     while RULE_CONDITION
@@ -77,7 +77,7 @@ rule "[mercy/guardian.opy]: Force angelic descent during slingshot":
     @Event eachPlayer
     @Hero mercy
     @Condition eventPlayer.is_slingshotting
-    
+
     eventPlayer.allowButton(Button.JUMP)
     eventPlayer.startForcingButton(Button.JUMP)
     waitUntil(not eventPlayer.isHoldingButton(Button.JUMP), Math.INFINITY)

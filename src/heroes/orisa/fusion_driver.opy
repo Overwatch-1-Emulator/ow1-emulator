@@ -21,7 +21,7 @@ rule "[orisa/fusion_driver.opy]: Decrease ammo when shooting gun":
     @Condition not eventPlayer.is_orisa_reloading
     @Condition not eventPlayer.isMeleeing()
     @Condition eventPlayer.orisa_ammo > 0
-    
+
     eventPlayer.orisa_ammo -= 1
     wait(1/OW1_ORISA_GUN_FIRE_RATE)
     if RULE_CONDITION:
@@ -89,18 +89,18 @@ def resetFusionDriver():
 
 def showOrisaAmmoHud():
     @Name "[orisa/fusion_driver.opy]: showOrisaAmmoHud()"
-    
+
     if eventPlayer.orisa_ammo_hud == null:
-        createInWorldText(eventPlayer, 
+        createInWorldText(eventPlayer,
                         "{0}|{1}".format(ceil(eventPlayer.orisa_ammo), OW1_ORISA_CLIP_SIZE),
                         updateEveryTick(eventPlayer.getEyePosition() + \
                         (100 * (3.3 * worldVector(Vector.RIGHT, eventPlayer, Transform.ROTATION) + \
-                        ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()), 
-                        verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))), 
-                        2, 
-                        Clip.NONE, 
-                        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR, 
-                        Color.WHITE, 
+                        ((-1.3 - 0.2) * (angleToDirection(horizontalAngleOfDirection(eventPlayer.getFacingDirection()),
+                        verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),
+                        2,
+                        Clip.NONE,
+                        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+                        Color.WHITE,
                         SpecVisibility.DEFAULT)
         eventPlayer.orisa_ammo_hud = getLastCreatedText()
 
