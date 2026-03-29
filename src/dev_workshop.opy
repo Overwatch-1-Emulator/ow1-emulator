@@ -1,16 +1,17 @@
-# Include for global scoping
-#!include "heroes/sombra/hack_status.opy"
+###############################################################################
+# Compile Workshop Code.
+###############################################################################
+#!include "common/env.opy"
+#!include "common/constants/ow1_constants.opy"
+#!include "common/constants/ow2_constants.opy"
+#!include "common/macro_functions.opy"
 
-# Useful constants and macros
-#!include "constants/ow1_constants.opy"
-#!include "constants/ow2_constants.opy"
-#!include "utilities/macro_functions.opy"
+rule "Copyright (c) 2024 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulator/ow1-emulator for license to use this code.":
+    @Disabled
+    disableInspector()
 
-# Custom game lobby settings
-#!include "lobby/ow1em_lobby.opy"
-
-# Useful functions
-#!include "utilities/stat_helper.opy"
+# Useful functions.
+#!include "utilities/emu_helper.opy"
 #!include "heroes/init.opy"
 #!include "utilities/reset.opy"
 #!include "utilities/custom_hp.opy"
@@ -20,16 +21,19 @@
 #!include "utilities/ready.opy"
 #!include "utilities/hit_detection.opy"
 #!include "utilities/anti_crash.opy"
+#!include "utilities/watermark.opy"
 
 # OW1 logic
 # Remove damage passive
 #!include "passives/damage/damage_passive.opy"
 # Remove tank passive
-#!include "passives/tank/headshot.opy"
-#!include "passives/tank/knockback.opy"
+# !include "passives/tank/headshot.opy"
+# !include "passives/tank/knockback.opy"
 #!include "passives/tank/ult_charge.opy"
 # Remove support passive
 #!include "passives/support/self_heal.opy"
+# Perk utility
+#!include "passives/perk.opy"
 
 # Hero specific logic
 #!include "heroes/ana/init.opy"
@@ -40,10 +44,13 @@
 #!include "heroes/doomfist/init.opy"
 #!include "heroes/dva/init.opy"
 #!include "heroes/genji/init.opy"
+#!include "heroes/freja/init.opy"
 #!include "heroes/hanzo/init.opy"
+#!include "heroes/hazard/init.opy"
 #!include "heroes/illari/init.opy"
 #!include "heroes/junkerqueen/init.opy"
 #!include "heroes/junkrat/init.opy"
+#!include "heroes/juno/init.opy"
 #!include "heroes/kiriko/init.opy"
 #!include "heroes/lifeweaver/init.opy"
 #!include "heroes/lucio/init.opy"
@@ -76,6 +83,4 @@
 #!include "heroes/echo/init.opy"
 
 # Include debug at the end so any variable can be viewed
-##!include "utilities/debug.opy"
-
-#!include "utilities/watermark.opy"
+#!include "utilities/debug.opy"

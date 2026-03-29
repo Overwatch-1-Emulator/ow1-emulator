@@ -1,4 +1,6 @@
-#!mainFile "../dev_main.opy"
+###############################################################################
+# This file should be include-able by any module without dependency issues.
+###############################################################################
 
 # Universal
 #!define SETUP_BUFFER_TIME 5

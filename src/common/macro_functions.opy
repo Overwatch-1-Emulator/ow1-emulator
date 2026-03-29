@@ -1,4 +1,6 @@
-#!mainFile "../dev_main.opy"
+###############################################################################
+# This file should be include-able by any module without dependency issues.
+###############################################################################
 
 # Macro function for retrieving id of hero
 macro heroID(h):
@@ -12,7 +14,7 @@ macro isHero(player, hero):
 macro percent(p):
     100*(p)
 
-# Macro function for converting percent to decimal 
+# Macro function for converting percent to decimal
 macro unpercent(p):
     (p)/100
 
@@ -42,13 +44,6 @@ macro cancelMomentum(player):
 
 macro centerMass(player):
     (player.getPosition() + player.getEyePosition())/2
-
-macro isCCd(player):
-    (player.hasStatusEffect(Status.STUNNED) \
-  or isHacked(player) \
-  or player.hasStatusEffect(Status.ASLEEP) \
-  or player.hasStatusEffect(Status.FROZEN) \
-  or player.hasStatusEffect(Status.KNOCKED_DOWN))
 
 # Angle of reflection formula from https://math.stackexchange.com/q/13261
 macro reflection(d, n):
