@@ -141,6 +141,8 @@ settings {
             },
             "lucio": {
                 "ultGen%": percent(OW2_LUCIO_ULT_COST/OW1_LUCIO_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "mauga": {
                 "ultGen%": percent(OW2_MAUGA_ULT_COST/OW1_MAUGA_ULT_COST),
@@ -198,8 +200,11 @@ settings {
             },
             "sigma": {
                 # barrier recharge rate scales with health scalar for some reason
+                "health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH),
                 "secondaryFireRechargeRate%": percent((OW1_SIGMA_BARRIER_REGEN/OW2_SIGMA_BARRIER_REGEN)/(OW1_SIGMA_SHIELDS/OW2_SIGMA_SHIELDS)),
                 "ultGen%": percent(OW2_SIGMA_ULT_COST/OW1_SIGMA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "sojourn": {
                 "ultGen%": percent(OW2_SOJOURN_ULT_COST/OW1_SOJOURN_ULT_COST),
