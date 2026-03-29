@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 rule "[orisa/barrier.opy]: OW1 Orisa barrier health":
     @Event eachPlayer

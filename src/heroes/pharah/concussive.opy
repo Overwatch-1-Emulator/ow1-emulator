@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[pharah/concussive.opy]: Remove OW2 Concussive Blast damage":

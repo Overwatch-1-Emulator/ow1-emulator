@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 #!include "hover_jets.opy"
 #!include "rocket_launcher.opy"

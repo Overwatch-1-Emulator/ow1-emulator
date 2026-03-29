@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 playervar ally_bubble_cooldown
 playervar ally_bubble_cd_text

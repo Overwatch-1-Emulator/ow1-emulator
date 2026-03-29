@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 #!include "biotic_grasp.opy"
 #!include "biotic_orb.opy"

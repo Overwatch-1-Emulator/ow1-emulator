@@ -1,4 +1,4 @@
-# #!mainFile "../../dev_main.opy"
+# #!mainFile "../../main.opy"
 
 # rule "[junkerqueen/shout.opy]: Set default Commanding Shout cooldown":
 #     @Event eachPlayer

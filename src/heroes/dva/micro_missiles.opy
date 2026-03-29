@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[dva/micro_missiles.opy]: Reduce Micro Missiles damage":

@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[sombra/hack.opy]: Apply OW1 hack on top of OW2 hack":

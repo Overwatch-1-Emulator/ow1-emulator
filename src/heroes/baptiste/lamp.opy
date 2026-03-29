@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[baptiste/lamp.opy]: OW1 Baptiste Immortality drone health":

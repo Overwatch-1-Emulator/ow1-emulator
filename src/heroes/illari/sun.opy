@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 rule "[illari/sun.opy]: Correct Captive Sun direct and splash hit damage":

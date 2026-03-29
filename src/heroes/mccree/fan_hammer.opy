@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 
 # rule "[mccree/fan_hammer.opy]: OW1 Fan the Hammer damage":

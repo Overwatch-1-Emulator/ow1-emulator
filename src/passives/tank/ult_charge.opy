@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 #!define OW1_TANK_ULT_NEGATION_PERCENT_DEFAULT 0
 globalvar OW1_TANK_ULT_NEGATION_PERCENT = createWorkshopSetting(int[0:OW2_TANK_ULT_NEGATION_PERCENT], 'Passive', 'Tank - Ultimate Charge Negation Percent', OW1_TANK_ULT_NEGATION_PERCENT_DEFAULT)

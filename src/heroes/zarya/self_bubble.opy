@@ -1,4 +1,4 @@
-#!mainFile "../../dev_main.opy"
+#!mainFile "../../main.opy"
 
 playervar self_bubble_cooldown
 playervar self_bubble_cd_text
