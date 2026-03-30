@@ -21,6 +21,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.disallowButton(Button.RELOAD)
     eventPlayer.startForcingButton(Button.ABILITY_2)
     wait(OW1_ROADHOG_BREATHER_DURATION)
+    wait(OW1_ROADHOG_BREATHER_RECOVERY_TIME)
     eventPlayer.stopForcingButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.allowButton(Button.ABILITY_1)
@@ -30,7 +31,7 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.allowButton(Button.MELEE)
     eventPlayer.allowButton(Button.RELOAD)
     eventPlayer.setDamageReceived(100) # reset damage intake
-    wait(OW1_ROADHOG_BREATHER_RECOVERY_TIME)
+
 
    eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN)
 
