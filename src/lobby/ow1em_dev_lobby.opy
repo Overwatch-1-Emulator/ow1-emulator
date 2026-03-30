@@ -31,8 +31,6 @@ settings {
     "heroes": {
         "allTeams": {
             "general": {
-                "enableRolePassive": false,
-                "passiveHealthRegen": false
             },
             "disabledHeroes": [
                 "anran",
@@ -58,28 +56,40 @@ settings {
                 "ability1Cooldown%": percent(OW1_ANA_SLEEP_DART_COOLDOWN_TIME/OW2_ANA_SLEEP_DART_COOLDOWN_TIME),
                 "ability2Cooldown%": percent(OW1_ANA_BIOTIC_GRENADE_COOLDOWN/OW2_ANA_BIOTIC_GRENADE_COOLDOWN),
                 "ultGen%": percent(OW2_ANA_ULT_COST/OW1_ANA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "ashe": {
                 "ultGen%": percent(OW2_ASHE_ULT_COST/OW1_ASHE_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "baptiste": {
                 "ability1Cooldown%": percent(OW1_BAPTISTE_REGEN_BURST_COOLDOWN/OW2_BAPTISTE_REGEN_BURST_COOLDOWN),
                 "ability2Cooldown%": percent(OW1_BAPTISTE_LAMP_COOLDOWN_TIME/OW2_BAPTISTE_LAMP_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_BAPTISTE_ULT_COST/OW1_BAPTISTE_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "bastion": {
                 "ability1Cooldown%": percent(OW1_BASTION_RECONFIGURE_COOLDOWN/OW2_BASTION_RECONFIGURE_COOLDOWN),
                 "ultGen%": percent(OW2_BASTION_ULT_COST/OW1_BASTION_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "brigitte": {
                 "shieldBashCooldown%": percent(OW1_BRIGITTE_SHIELD_BASH_COOLDOWN/OW2_BRIGITTE_SHIELD_BASH_COOLDOWN),
                 "shieldBashKb%": percent(OW1_BRIGITTE_SHIELD_BASH_KNOCKBACK/OW2_BRIGITTE_SHIELD_BASH_KNOCKBACK),
                 "ability2Cooldown%": percent(OW1_BRIGITTE_REPAIR_PACK_COOLDOWN/OW2_BRIGITTE_REPAIR_PACK_COOLDOWN),
                 "ultGen%": percent(OW2_BRIGITTE_ULT_COST/OW1_BRIGITTE_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "cassidy": {
                 "ability2Cooldown%": percent(OW1_MCCREE_FLASHBANG_COOLDOWN/OW2_MCCREE_FLASHBANG_COOLDOWN),
                 "ultGen%": percent(OW2_MCCREE_ULT_COST/OW1_MCCREE_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "doomfist": {
                 "ammoRegenerationTime%": percent(OW1_DOOMFIST_AMMO_REGEN/OW2_DOOMFIST_AMMO_REGEN),
@@ -87,6 +97,8 @@ settings {
                 "ability1Cooldown%": percent(OW1_DOOMFIST_UPPERCUT_COOLDOWN_DEFAULT/OW2_DOOMFIST_POWER_BLOCK_COOLDOWN),
                 "ability2Cooldown%": percent(OW1_DOOMFIST_SLAM_COOLDOWN/OW2_DOOMFIST_SEISMIC_SLAM_COOLDOWN),
                 "ultGen%": percent(OW2_DOOMFIST_ULT_COST/OW1_DOOMFIST_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "dva": {
                 #"health%": percent(OW1_DVA_PILOT_HEALTH/OW2_DVA_PILOT_HEALTH),
@@ -95,29 +107,43 @@ settings {
                 "ability1Cooldown%": percent(OW1_DVA_BOOSTER_COOLDOWN_TIME/OW2_DVA_BOOSTER_COOLDOWN_TIME),
                 "ability2Cooldown%": percent(OW1_DVA_MICRO_MISSILES_COOLDOWN_TIME/OW2_DVA_MICRO_MISSILES_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_DVA_ULT_COST/OW1_DVA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "echo": {
                 "ultGen%": percent(OW2_ECHO_ULT_COST/OW1_ECHO_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "freja": {
                 "ultGen%": percent(OW2_FREJA_ULT_COST/OW1_FREJA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "genji": {
                 "ultGen%": percent(OW2_GENJI_ULT_COST/OW1_GENJI_ULT_COST),
                 "ability2Cooldown%": percent(OW1_GENJI_DEFLECT_COOLDOWN/OW2_GENJI_DEFLECT_COOLDOWN),
                 "projectileSpeed%": percent(OW1_GENJI_PROJECTILE_SPEED/OW2_GENJI_PROJECTILE_SPEED),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "hanzo": {
                 "ability2Cooldown%": percent(OW1_HANZO_STORM_COOLDOWN/OW2_HANZO_STORM_COOLDOWN),
                 "ultGen%": percent(OW2_HANZO_ULT_COST/OW1_HANZO_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "hazard": {
                 "ultGen%": percent(OW2_HAZARD_ULT_COST/OW1_HAZARD_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "illari": {
                 "ability1Cooldown%": percent(OW1_ILLARI_OUTBURST_COOLDOWN/OW2_ILLARI_OUTBURST_COOLDOWN),
                 "ability2Cooldown%": percent(OW1_ILLARI_PYLON_COOLDOWN/OW2_ILLARI_PYLON_COOLDOWN),
                 "ultGen%": percent(OW2_ILLARI_ULT_COST/OW1_ILLARI_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             #"junkerQueen": {
             #    "secondaryFireCooldown%": percent(OW1_JUNKERQUEEN_BLADE_COOLDOWN/OW2_JUNKERQUEEN_BLADE_COOLDOWN),
@@ -127,17 +153,25 @@ settings {
             "junkrat": {
                 "ability1Cooldown%": percent(OW1_JUNKRAT_CONCUSSION_MINE_COOLDOWN/OW2_JUNKRAT_CONCUSSION_MINE_COOLDOWN),
                 "ultGen%": percent(OW2_JUNKRAT_ULT_COST/OW1_JUNKRAT_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "juno": {
                 "ultGen%": percent(OW2_JUNO_ULT_COST/OW1_JUNO_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "kiriko": {
                 "ability1Cooldown%": percent(OW1_KIRIKO_SWIFT_STEP_COOLDOWN/OW2_KIRIKO_SWIFT_STEP_COOLDOWN),
                 "ability2Cooldown%": percent(OW1_KIRIKO_SUZU_COOLDOWN/OW2_KIRIKO_SUZU_COOLDOWN),
                 "ultGen%": percent(OW2_KIRIKO_ULT_COST/OW1_KIRIKO_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "lifeweaver": {
                 "ultGen%": percent(OW2_LIFEWEAVER_ULT_COST/OW1_LIFEWEAVER_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "lucio": {
                 "ultGen%": percent(OW2_LUCIO_ULT_COST/OW1_LUCIO_ULT_COST),
@@ -146,17 +180,24 @@ settings {
             },
             "mauga": {
                 "ultGen%": percent(OW2_MAUGA_ULT_COST/OW1_MAUGA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "mei": {
                 "ultGen%": percent(OW2_MEI_ULT_COST/OW1_MEI_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "mercy": {
                 "ultGen%": percent(OW2_MERCY_ULT_COST/OW1_MERCY_ULT_COST),
-                "passiveHealthRegen": true
+                "enableRolePassive": true,
+                "passiveHealthRegen": true,
             },
             "moira": {
                 "ultGen%": percent(OW2_MOIRA_ULT_COST/OW1_MOIRA_ULT_COST),
                 "primaryFireMaximumTime%": percent((OW2_MOIRA_HEAL_GRASP_AMMO_USAGE/OW1_MOIRA_HEAL_GRASP_AMMO_USAGE)*(OW1_MOIRA_HEAL_GRASP_AMMO/OW2_MOIRA_HEAL_GRASP_AMMO)),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "orisa": {
                 "ammoClipSize%": percent(OW1_ORISA_CLIP_SIZE/OW2_ORISA_CLIP_SIZE),
@@ -164,6 +205,8 @@ settings {
                 "ability1Cooldown%": percent(OW1_ORISA_FORTIFY_COOLDOWN/OW2_ORISA_FORTIFY_COOLDOWN),
                 "ability2Cooldown%": 50,
                 "ultGen%": percent(OW2_ORISA_ULT_COST/OW1_ORISA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "pharah": {
                 "enablePassiveUnlimitedFuel": true,
@@ -174,15 +217,21 @@ settings {
                 "passiveMaxTime%": 20,
                 "passiveRechargeRate%": 100,
                 "ultGen%": percent(OW2_PHARAH_ULT_COST/OW1_PHARAH_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "ramattra": {
                 "ability1Cooldown%": percent(OW1_RAMATTRA_NEMESIS_COOLDOWN/OW2_RAMATTRA_NEMESIS_COOLDOWN),
                 "ability2Cooldown%": percent(OW1_RAMATTRA_VORTEX_COOLDOWN/OW2_RAMATTRA_VORTEX_COOLDOWN),
                 "secondaryFireCooldown%": percent(OW1_RAMATTRA_VOID_BARRIER_COOLDOWN/OW2_RAMATTRA_VOID_BARRIER_COOLDOWN),
                 "ultGen%": percent(OW2_RAMATTRA_ULT_COST/OW1_RAMATTRA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "reaper": {
                 "ultGen%": percent(OW2_REAPER_ULT_COST/OW1_REAPER_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "reinhardt": {
                 "health%": percent(OW1_REINHARDT_BARRIER_HEALTH/OW2_REINHARDT_BARRIER_HEALTH),
@@ -190,6 +239,8 @@ settings {
                 "ability1Cooldown%": percent(OW1_REINHARDT_CHARGE_COOLDOWN_TIME/OW2_REINHARDT_CHARGE_COOLDOWN_TIME),
                 "ability2Cooldown%": percent(OW1_REINHARDT_FIRESTRIKE_COOLDOWN_TIME/OW2_REINHARDT_FIRESTRIKE_COOLDOWN),
                 "ultGen%": percent(OW2_REINHARDT_ULT_COST/OW1_REINHARDT_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "roadhog": {
                 "secondaryFireMaximumTime%": percent((OW1_ROADHOG_BREATHER_DURATION)/OW2_ROADHOG_BREATHER_DURATION),
@@ -197,6 +248,8 @@ settings {
                 "ammoClipSize%": percent((OW1_ROADHOG_CLIP_SIZE)/OW2_ROADHOG_CLIP_SIZE),
                 "ability1Cooldown%": percent(OW1_ROADHOG_HOOK_COOLDOWN_TIME/OW2_ROADHOG_HOOK_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_ROADHOG_ULT_COST/OW1_ROADHOG_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "sigma": {
                 # barrier recharge rate scales with health scalar for some reason
@@ -208,47 +261,71 @@ settings {
             },
             "sojourn": {
                 "ultGen%": percent(OW2_SOJOURN_ULT_COST/OW1_SOJOURN_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "soldier": {
                 "ability2Cooldown%": percent(OW1_SOLDIER_BIOTIC_FIELD_COOLDOWN/OW2_SOLDIER_BIOTIC_FIELD_COOLDOWN),
                 "ultGen%": percent(OW2_SOLDIER_ULT_COST/OW1_SOLDIER_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "sombra": {
                 "secondaryFireCooldown%": percent(OW1_SOMBRA_HACK_COOLDOWN_TIME/OW2_SOMBRA_HACK_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_SOMBRA_ULT_COST/OW1_SOMBRA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "symmetra": {
                 "ultGen%": percent(OW2_SYMMETRA_ULT_COST/OW1_SYMMETRA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "torbjorn": {
                 "ultGen%": percent(OW2_TORBJORN_ULT_COST/OW1_TORBJORN_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "tracer": {
                 "ability2Cooldown%": percent(OW1_TRACER_RECALL_COOLDOWN/OW2_TRACER_RECALL_COOLDOWN),
                 "ultGen%": percent(OW2_TRACER_ULT_COST/OW1_TRACER_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "venture": {
                 "ultGen%": percent(OW2_VENTURE_ULT_COST/OW1_VENTURE_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "widowmaker": {
                 "ultGen%": percent(OW2_WIDOWMAKER_ULT_COST/OW1_WIDOWMAKER_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "winston": {
                 "ammoClipSize%": percent(OW1_WINSTON_AMMO/OW2_WINSTON_AMMO),
                 "ability1Cooldown%": percent(OW1_WINSTON_JUMP_PACK_COOLDOWN_TIME/OW2_WINSTON_JUMP_PACK_COOLDOWN_TIME),
                 "ability2Cooldown%": percent(OW1_WINSTON_BARRIER_COOLDOWN/OW2_WINSTON_BARRIER_COOLDOWN),
                 "ultGen%": percent(OW2_WINSTON_ULT_COST/OW1_WINSTON_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "hammond": {
                 "ability1Kb%": percent(1/OW2_WRECKING_BALL_FIREBALL_KB),
                 "ability3Cooldown%": percent(OW1_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME/OW2_WRECKING_BALL_PILEDRIVER_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_WRECKING_BALL_ULT_COST/OW1_WRECKING_BALL_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "zarya": {
                 "ultGen%": percent(OW2_ZARYA_ULT_COST/OW1_ZARYA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
             "zenyatta": {
                 "ultGen%": percent(OW2_ZENYATTA_ULT_COST/OW1_ZENYATTA_ULT_COST),
+                "enableRolePassive": false,
+                "passiveHealthRegen": false,
             },
         }
     }

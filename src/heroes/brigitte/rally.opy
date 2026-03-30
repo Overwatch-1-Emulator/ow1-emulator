@@ -122,12 +122,12 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte and start OW1 Rally + vfx":
 
     # Rally timer text hud vfx
     hudSubheader(
-        eventPlayer, 
+        eventPlayer,
         "{}"
-        .format(ceil(eventPlayer.rally_timer)), 
-        HudPosition.TOP, 
+        .format(ceil(eventPlayer.rally_timer)),
+        HudPosition.TOP,
         2, # Nearby players crosshair
-        Color.WHITE, 
+        Color.WHITE,
         HudReeval.VISIBILITY_AND_STRING
     )
     eventPlayer.rally_text_id = getLastCreatedText()
