@@ -9,8 +9,6 @@ created by discord users: Bebel#5658 and Xponit#1474
 # Semi-public scoped variables
 playervar is_using_uppercut
 playervar is_ultimate_locked
-playervar decay_timer
-playervar doom_hp
 
 #!include "uppercut.opy"
 #!include "slam.opy"
@@ -25,9 +23,9 @@ def initDoomfist():
     setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
 
-
     initRocketPunch()
     initSlam()
+    eventPlayer.uppercut_shields = 0
 
 
 rule "[doomfist/init.opy]: Clean up Doomfist":

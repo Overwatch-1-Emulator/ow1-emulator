@@ -50,6 +50,3 @@ See [releases](https://github.com/Overwatch-1-Emulator/ow1-emulator/releases)
 ## Contributing Code
 
 See [contribution guide](./CONTRIBUTING.md) for step by step instruction.
-
-
-

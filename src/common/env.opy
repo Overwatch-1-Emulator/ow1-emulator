@@ -15,7 +15,7 @@ macro GAMDMODE_DESCRIPTION = (GAMEMODE_NAME" ("GAMEMODE_CODE")\n"\
                                "Codebase Contributors:""\n"\
                                "ecksdee#11729""\n"\
                                "Darks#11729""\n"\
-                               "Viper#18545""\n"\
+                               "viper#18545""\n"\
                                "Snappy#11809""\n"\
                                "KingDonMike#2694""\n"\
                                "thenova#21104""\n"\

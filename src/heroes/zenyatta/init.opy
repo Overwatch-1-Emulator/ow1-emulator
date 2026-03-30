@@ -21,6 +21,5 @@ rule "[zenyatta/init.opy]: OW1 Zenyatta Orb Damage":
     @Event playerDealtDamage
     @Hero zenyatta
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
-    
-    damage(victim, attacker, ((OW1_ZENYATTA_ORB_DAMAGE/OW2_ZENYATTA_ORB_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)
 
+    damage(victim, attacker, ((OW1_ZENYATTA_ORB_DAMAGE/OW2_ZENYATTA_ORB_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)

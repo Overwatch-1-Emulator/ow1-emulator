@@ -1,26 +1,12 @@
 #!mainFile "../../main.opy"
 
-globalvar OW1_DOOMFIST_PUNCH_COOLDOWN = createWorkshopSettingFloat(
-    'Doomfist', 'Rocket Punch Cooldown',
-    OW1_DOOMFIST_PUNCH_COOLDOWN_DEFAULT, 0, 12)
-globalvar OW1_DOOM_PUNCH_IMPACT_DAMAGE_MIN = createWorkshopSettingFloat(
-    'Doomfist', 'Rocket Punch Impact Min Damage',
-    OW1_DOOM_PUNCH_IMPACT_DAMAGE_MIN_DEFAULT, 0, 500)
-globalvar OW1_DOOM_PUNCH_IMPACT_DAMAGE_MAX = createWorkshopSettingFloat(
-    'Doomfist', 'Rocket Punch Impact Max Damage',
-    OW1_DOOM_PUNCH_IMPACT_DAMAGE_MAX_DEFAULT, 0, 1000)
-globalvar OW1_DOOM_PUNCH_KNOCKBACK_MIN = createWorkshopSettingFloat(
-    'Doomfist', 'Rocket Punch Impact Min Knockback',
-    OW1_DOOM_PUNCH_KNOCKBACK_MIN_DEFAULT, 0, 150)
-globalvar OW1_DOOM_PUNCH_KNOCKBACK_MAX = createWorkshopSettingFloat(
-    'Doomfist', 'Rocket Punch Impact Max Knockback',
-    OW1_DOOM_PUNCH_KNOCKBACK_MAX_DEFAULT, 0, 300)
-globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MIN = createWorkshopSettingFloat(
-    'Doomfist', 'Rocket Punch Wall Slam Min Damage',
-    OW1_DOOM_PUNCH_WALL_DAMAGE_MIN_DEFAULT, 0, 500)
-globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MAX = createWorkshopSettingFloat(
-    'Doomfist', 'Rocket Punch Wall Slam Max Damage',
-    OW1_DOOM_PUNCH_WALL_DAMAGE_MAX_DEFAULT, 0, 1500)
+globalvar OW1_DOOMFIST_PUNCH_COOLDOWN = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Cooldown', OW1_DOOMFIST_PUNCH_COOLDOWN_DEFAULT, 0, 12)
+globalvar OW1_DOOM_PUNCH_IMPACT_DAMAGE_MIN = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Impact Min Damage', OW1_DOOM_PUNCH_IMPACT_DAMAGE_MIN_DEFAULT, 0, 500)
+globalvar OW1_DOOM_PUNCH_IMPACT_DAMAGE_MAX = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Impact Max Damage', OW1_DOOM_PUNCH_IMPACT_DAMAGE_MAX_DEFAULT, 0, 1000)
+globalvar OW1_DOOM_PUNCH_KNOCKBACK_MIN = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Impact Min Knockback', OW1_DOOM_PUNCH_KNOCKBACK_MIN_DEFAULT, 0, 150)
+globalvar OW1_DOOM_PUNCH_KNOCKBACK_MAX = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Impact Max Knockback', OW1_DOOM_PUNCH_KNOCKBACK_MAX_DEFAULT, 0, 300)
+globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MIN = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Wall Slam Min Damage', OW1_DOOM_PUNCH_WALL_DAMAGE_MIN_DEFAULT, 0, 500)
+globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MAX = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Wall Slam Max Damage', OW1_DOOM_PUNCH_WALL_DAMAGE_MAX_DEFAULT, 0, 1500)
 
 playervar punched_victims
 playervar wall_impacted_victims
@@ -99,12 +85,12 @@ rule "[doomfist/punch.opy]: Find punched victims":
     if (len(attacker.punched_victims) == 1): # OW1 single punch victim
         damage(victim, attacker, getRocketPunchDamage(eventPlayer.punch_charge_time)-eventDamage)
         victim.applyImpulse(attacker.getFacingDirection(), getPunchKnockbackSpeed(eventPlayer.punch_charge_time), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
-        #damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
+        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
     else: # OW2 multi punch victim
         heal(victim, null, eventDamage) # Heal back OW2 punch victims
         # Transfer shield gained from uppercut to shield gained from OW2 punch victims
-        #damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields))
-        #attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
+        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields))
+        attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
 
 
 rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":

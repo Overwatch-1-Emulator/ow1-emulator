@@ -14,7 +14,6 @@ def initBrigitte():
 
     setBaseDamage(eventPlayer, OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE)
 
-
     getPlayers(eventPlayer.getTeam())._friendly_brigitte_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_brigitte_player = eventPlayer
 
@@ -28,5 +27,9 @@ rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)\
 
 
+rule "[brigitte/init.opy]: Clean up brigitte":
+    @Event eachPlayer
+    @Condition eventPlayer.getCurrentHero() == Hero.BRIGITTE
 
-
+    waitUntil(eventPlayer.getCurrentHero() != Hero.BRIGITTE, Math.INFINITY)
+    endRally()
