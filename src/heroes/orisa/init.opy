@@ -30,10 +30,6 @@ def initOrisa():
     setBaseDamage(eventPlayer, OW1_ORISA_FUSION_DRIVER_DAMAGE/OW2_ORISA_FUSION_DRIVER_DAMAGE)
     eventPlayer.setProjectileSpeed(percent(OW1_ORISA_GUN_PROJECTILE_SPEED/OW2_ORISA_GUN_PROJECTILE_SPEED))
 
-    # removeTankPassive()
-    #removeSelfHealing()
-
-    # setPerkCost(OW2_ORISA_PERK_LVL3_COST)
 
 
 rule "[orisa/init.opy]: Clean up Orisa":
