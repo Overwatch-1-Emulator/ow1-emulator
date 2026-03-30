@@ -10,8 +10,8 @@ rule "[torbjorn/overload.opy]: Convert Overload overhealth to shields":
     damage(eventPlayer, null, OW1_TORBJORN_OVERLOAD_OVERHEALTH*eventPlayer._hp_scalar)
     heal(eventPlayer, null, 1) # Rounding error, enjoy magic numbers!
 
-    eventPlayer.torbjorn_overload_id = getLastCreatedHealthPool()
     eventPlayer.addHealthPool(Health.ARMOR, OW1_TORBJORN_OVERLOAD_OVERHEALTH, false, true)
+    eventPlayer.torbjorn_overload_id = getLastCreatedHealthPool()
 
     wait(OW1_TORBJORN_OVERLOAD_DURATION)
 
