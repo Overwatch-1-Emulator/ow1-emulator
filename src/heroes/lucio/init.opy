@@ -1,7 +1,6 @@
 #!mainFile "../../main.opy"
 
-# !include "soundwave.opy"
-# !include "aura.opy"
+
 #!include "beat.opy"
 
 
@@ -23,10 +22,3 @@ rule "[lucio/init.opy]: OW1 Lucio gun damage":
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_LUCIO_SOUND_GUN_DAMAGE/OW2_LUCIO_SOUND_GUN_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
 
-
-# rule "[lucio/init.opy]: Compensate Lucio global damage reduction":
-#     @Event playerDealtDamage
-#     @Hero lucio
-#     @Condition eventAbility in []
-
-#     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

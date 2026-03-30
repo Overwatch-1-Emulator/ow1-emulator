@@ -10,7 +10,6 @@ def initPharah():
 
     setCustomHp(OW1_PHARAH_HEALTH, 0, 0)
     setUltCost(OW1_PHARAH_ULT_COST)
-    #removeSelfHealing()
 
     initHoverJets()
 

@@ -10,7 +10,6 @@ def initZenyatta():
     #removeSelfHealing()
 
     eventPlayer.setKnockbackDealt(percent(OW1_ZENYATTA_KNOCKBACK/OW2_ZENYATTA_KNOCKBACK))
-    #setBaseDamage(eventPlayer, OW1_ZENYATTA_ORB_DAMAGE/OW2_ZENYATTA_ORB_DAMAGE)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_ZENYATTA_MELEE_DAMAGE)
 
     eventPlayer.setAmmo(0, OW1_ZENYATTA_CLIP_SIZE)
@@ -25,10 +24,3 @@ rule "[zenyatta/init.opy]: OW1 Zenyatta Orb Damage":
     
     damage(victim, attacker, ((OW1_ZENYATTA_ORB_DAMAGE/OW2_ZENYATTA_ORB_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)
 
-
-#rule "[zenyatta/init.opy]: OW1 Zenyatta melee damage":
-#    @Event playerDealtDamage
-#    @Hero zenyatta
-#    @Condition eventAbility == Button.MELEE
-
-#    heal(victim, null, eventDamage - (OW1_MELEE_DAMAGE/OW2_ZENYATTA_MELEE_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar))

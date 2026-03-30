@@ -30,16 +30,3 @@ rule "[ashe/bob.opy]: Calcul of the damage made while BOB is active":
     else :
         eventPlayer.ult_point_while_ult_active += eventDamage
 
-
-# rule "[ashe/bob.opy]: OW1 Bob health":
-#     @Event eachPlayer
-#     @Hero ashe
-#     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
-#     @Condition eventPlayer.getAbilityCooldown(Button.ULTIMATE) <= 0
-
-#     eventPlayer.setMaxHealth(percent(OW1_ASHE_BOB_HEALTH/OW2_ASHE_BOB_HEALTH))
-#     eventPlayer.allowButton(Button.ULTIMATE)
-#     eventPlayer.forceButtonPress(Button.ULTIMATE)
-#     eventPlayer.disallowButton(Button.ULTIMATE)
-#     waitUntil(eventPlayer.isUsingUltimate(), 1)
-#     eventPlayer.setMaxHealth(percent(eventPlayer._hp_scalar))

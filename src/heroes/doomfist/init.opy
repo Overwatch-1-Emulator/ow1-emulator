@@ -17,18 +17,13 @@ playervar doom_hp
 #!include "punch.opy"
 #!include "meteor.opy"
 #!include "cannon.opy"
-#!include "bestdefense.opy"
 
 
 def initDoomfist():
     @Name "[doomfist/init.opy]: initDoomfist()"
 
-    #setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
-    eventPlayer.setMaxHealth(0)
-    eventPlayer.addHealthPool(Health.NORMAL, 245, true, true)
+    setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
-    # removeTankPassive()
-    #removeSelfHealing()
 
 
     initRocketPunch()

@@ -2,10 +2,8 @@
 
 #!include "bash.opy"
 #!include "rally.opy"
-# !include "whipshot.opy"
 #!include "flail.opy"
 #!include "inspire.opy"
-# !include "pack.opy"
 
 
 def initBrigitte():
@@ -14,17 +12,12 @@ def initBrigitte():
     setCustomHp(OW1_BRIGITTE_HEALTH, OW1_BRIGITTE_ARMOR, 0)
     setUltCost(OW1_BRIGITTE_ULT_COST)
 
-    #setBaseDamage(eventPlayer, OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE)
     setBaseDamage(eventPlayer, OW1_BRIGITTE_SHIELD_BASH_DAMAGE/OW2_BRIGITTE_SHIELD_BASH_DAMAGE)
-    #eventPlayer.setDamageReceived(percent((50+OW2_BRIGITTE_HEALTH)/(OW1_BRIGITTE_ARMOR+OW1_BRIGITTE_HEALTH)))
-    #eventPlayer.setHealingReceived(percent((50+OW2_BRIGITTE_HEALTH)/(OW1_BRIGITTE_HEALTH)))
-    #setBaseHealing(eventPlayer, 0.1)
 
 
     getPlayers(eventPlayer.getTeam())._friendly_brigitte_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_brigitte_player = eventPlayer
 
-    #removeSelfHealing()
 
 
 rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
@@ -37,15 +30,3 @@ rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
 
 
 
-#rule "[brigitte/init.opy]: Compensate Brigitte 200hp":
-#    @Event eachPlayer
-#    @Hero brigitte
-#    @Condition eventPlayer.getHealthOfType(Health.NORMAL) < 200
-#    #@Condition eventPlayer.isUsingUltimate() == false
-
-#    eventPlayer.setDamageReceived(percent(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH))
-#    eventPlayer.setHealingReceived(percent(OW2_BRIGITTE_HEALTH/OW1_BRIGITTE_HEALTH))
-
-#    waitUntil(eventPlayer.getHealthOfType(Health.NORMAL) > 200)
-#    eventPlayer.setDamageReceived(100)
-#    eventPlayer.setHealingReceived(100)

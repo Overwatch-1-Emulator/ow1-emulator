@@ -6,9 +6,9 @@ rule "[torbjorn/overload.opy]: Correct overload hp":
     @Hero torbjorn
     @Condition eventPlayer.isUsingAbility2()
 
-    damage(eventPlayer, null, 67)
-    eventPlayer.addHealthPool(Health.ARMOR, 100, false, true)
-    heal(eventPlayer, null, 1)
+    damage(eventPlayer, null, OW1_TORBJORN_OVERLOAD_OVERHEALTH*eventPlayer._hp_scalar)
+    eventPlayer.addHealthPool(Health.ARMOR, OW1_TORBJORN_OVERLOAD_OVERHEALTH, false, true)
+    heal(eventPlayer, null, 1) #internal Rounding Error
     wait(6)
     removeHealthPool(getLastCreatedHealthPool())
 
