@@ -8,10 +8,9 @@ def initJunkrat():
 
     setCustomHp(OW1_JUNKRAT_HEALTH, 0, 0)
     setUltCost(OW1_JUNKRAT_ULT_COST)
-    #removeSelfHealing()
 
     setBaseDamage(eventPlayer, OW1_JUNKRAT_FRAG_DAMAGE/OW2_JUNKRAT_FRAG_DAMAGE)
-    eventPlayer.setProjectileSpeed(percent(OW1_JUNKRAT_PROJECTILE/OW2_JUNKRAT_PROJECTILE))
+    eventPlayer.setProjectileSpeed(percent(OW1_JUNKRAT_PROJECTILE/OW2_JUNKRAT_PROJECTILE)) # Junkrat's projectile speed was changed in OW2, so we need to adjust it to match OW1 values
 
 
 rule "[junkrat/init.opy]: Correct Mine, Tire damage":

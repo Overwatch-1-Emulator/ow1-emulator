@@ -1,22 +1,5 @@
 #!mainFile "../../main.opy"
 
-
-# rule "[roadhog/hook.opy]: Move hooked enemies closer":
-#     @Event playerDealtDamage
-#     @Hero roadhog
-#     @Condition eventPlayer.isUsingAbility1()
-
-#     waitUntil(not eventPlayer.isUsingAbility1(), Math.INFINITY)
-#     if distance(victim, attacker) <= OW2_ROADHOG_HOOK_PROXIMITY + 1:
-#         victim.teleport(
-#             raycast(
-#                 victim.getPosition(),
-#                 victim.getPosition() + (OW2_ROADHOG_HOOK_PROXIMITY - OW1_ROADHOG_HOOK_PROXIMITY)*directionTowards(victim, attacker),
-#                 null,
-#                 null,
-#                 false).getHitPosition())
-
-
 rule "[roadhog/hook.opy]: OW1 hook damage":
     @Event playerDealtDamage
     @Hero roadhog
@@ -25,4 +8,4 @@ rule "[roadhog/hook.opy]: OW1 hook damage":
     damage(
         victim,
         attacker,
-        6.82)
+        6.82)  #todo fix this, the code that shoudl fix it is not working and idk why

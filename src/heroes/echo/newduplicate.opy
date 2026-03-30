@@ -52,4 +52,3 @@ rule "[echo/duplicate.opy]: If Hero Dies during ech oult":
     eventPlayer.setHealth(50)
     destroyAllProgressBarInWorldTexts()
     eventPlayer.echo_dupe = false
-

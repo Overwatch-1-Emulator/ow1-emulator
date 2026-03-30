@@ -14,5 +14,3 @@ def initMei():
 
     eventPlayer.setAmmo(0, OW1_MEI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_MEI_CLIP_SIZE)
-
-    #removeSelfHealing()
