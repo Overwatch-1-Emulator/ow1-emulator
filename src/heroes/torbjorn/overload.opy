@@ -3,7 +3,7 @@
 playervar overload_pvar
 #!defineMember _torbjorn_overload_id overload_pvar[0]
 
-rule "[torbjorn/overload.opy]: Convert Overload overhealth to shields":
+rule "[torbjorn/overload.opy]: Convert Overload overhealth to armor":
     @Event eachPlayer
     @Hero torbjorn
     @Condition eventPlayer.isUsingAbility2()
