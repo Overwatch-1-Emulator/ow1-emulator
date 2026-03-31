@@ -121,3 +121,10 @@ rule "[orisa/fusion_driver.opy]: Slow down Orisa when shooting":
     setBaseMovement(eventPlayer, eventPlayer._base_movement_scalar*(1-OW1_ORISA_MOVEMENT_PENALTY))
     waitUntil((not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)) or (eventPlayer.is_orisa_reloading), Math.INFINITY)
     setBaseMovement(eventPlayer, eventPlayer._base_movement_scalar/(1-OW1_ORISA_MOVEMENT_PENALTY))
+
+rule "[orisa/fusion_driver.opy]: OW1 Fusion Driver damage":
+    @Event playerDealtDamage
+    @Hero orisa
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ORISA_FUSION_DRIVER_DAMAGE/OW2_ORISA_FUSION_DRIVER_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
