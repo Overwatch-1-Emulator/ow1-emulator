@@ -15,6 +15,6 @@ def initEcho():
 rule "[echo/init.opy]: Compensate Echo global damage reduction":
     @Event playerDealtDamage
     @Hero echo
-    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_2]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

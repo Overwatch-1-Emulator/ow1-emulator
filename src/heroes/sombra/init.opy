@@ -17,7 +17,6 @@ def initSombra():
 
     eventPlayer.disallowButton(Button.ABILITY_1)
     eventPlayer.disallowButton(Button.ABILITY_2)
-    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
 
     eventPlayer.is_using_stealth = false
     # removeSelfHealing()

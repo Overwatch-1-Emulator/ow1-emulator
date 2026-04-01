@@ -15,7 +15,7 @@ def initRoadhog():
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
 
-    eventPlayer.setDamageDealt(percent(OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE))
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     eventPlayer.setHealingDealt(percent(OW1_ROADHOG_BREATHER_HEAL_TOTAL/OW2_ROADHOG_BREATHER_HEAL_TOTAL)-1.6)
     #-1.6 is set there because idk why but its 300 healing when its like that
 
