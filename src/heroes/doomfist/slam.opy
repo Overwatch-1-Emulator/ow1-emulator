@@ -256,6 +256,7 @@ rule "[doomfist/slam.opy]: Remove OW2 slam damage":
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
 
+    wait(TICK_DURATION)
     heal(victim, null, eventDamage)
 
 
@@ -281,7 +282,7 @@ rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.ow1_slam_victims
 
-    damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
+    damage(victim, attacker, floor(attacker.slam_damage)/eventPlayer._base_damage_scalar) # Custom slam damage
 
     victim.setGravity(50)
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up

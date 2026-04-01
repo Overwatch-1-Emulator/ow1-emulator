@@ -37,9 +37,9 @@ rule "[doomfist/init.opy]: Clean up Doomfist":
     destroySlamIndicatorGui()
     hideSlamDamageGui()
 
-rule "[doomfist/init.opy]: Compensate Doomfist global damage reduction":
+rule "[doomfist/init.opy]: Compensate Global Damage Reduction":
     @Event playerDealtDamage
     @Hero doomfist
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_1, Button.ULTIMATE]
+    @Condition eventAbility in [Button.ULTIMATE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

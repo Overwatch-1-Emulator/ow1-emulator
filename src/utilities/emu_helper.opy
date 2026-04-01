@@ -34,9 +34,10 @@ macro isCCd(player):
   or player.hasStatusEffect(Status.KNOCKED_DOWN))
 
 #rule "[utilities/emu_helper.opy]: OW1 melee damage":
-    #@Event playerDealtDamage
-    #@Condition eventAbility == Button.MELEE
-    #@Condition eventPlayer.getCurrentHero() not in [Hero.BRIGITTE, Hero.REINHARDT, Hero.ZENYATTA]
+#    @Event playerDealtDamage
+#    @Condition eventAbility == Button.MELEE
+#    @Condition eventPlayer.getCurrentHero() not in [Hero.BRIGITTE, Hero.REINHARDT, Hero.ZENYATTA]
 
+    
     #heal(victim, null, eventDamage - (OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar))
     #damage(victim, attacker, ((OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)
