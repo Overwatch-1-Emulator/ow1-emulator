@@ -19,6 +19,7 @@ def initWidowmaker():
 
     setCustomHp(OW1_WIDOWMAKER_HEALTH, 0, 0)
     setUltCost(OW1_WIDOWMAKER_ULT_COST)
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     #removeSelfHealing()
 
 rule "[widowmaker.opy]: Revert sniper damage falloff":
@@ -46,4 +47,4 @@ rule "[widowmaker.opy]: Revert sniper damage falloff":
         eventPlayer.ow1_scoped_damage_falloff_scalar = OW1_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR
 
     eventPlayer.expected_scoped_damage = eventPlayer.scoped_damage_base * eventPlayer.ow1_scoped_damage_falloff_scalar
-    damage(victim, attacker, eventPlayer.expected_scoped_damage - eventDamage)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(eventPlayer.expected_scoped_damage) - eventDamage)/eventPlayer._base_damage_scalar)

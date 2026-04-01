@@ -9,7 +9,7 @@ def initZarya():
 
     setCustomHp(OW1_ZARYA_HEALTH, 0, OW1_ZARYA_SHIELDS)
     setUltCost(OW1_ZARYA_ULT_COST)
-    setBaseDamage(eventPlayer, OW1_ZARYA_CANNON_DAMAGE_MAX/OW2_ZARYA_CANNON_DAMAGE_MAX)
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     #removeSelfHealing()
 
     eventPlayer.disallowButton(Button.ABILITY_1)
@@ -21,6 +21,13 @@ def initZarya():
     # initAllyBubble()
 
 
+
+rule "[zarya/init.opy]: Deal OW1 Beam Damage":
+    @Event playerDealtDamage
+    @Hero zarya
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ZARYA_CANNON_DAMAGE_MAX/OW2_ZARYA_CANNON_DAMAGE_MAX) - eventDamage)/eventPlayer._base_damage_scalar)
 # rule "[zarya/init.opy]: Initialize Zarya":
 #     @Event eachPlayer
 #     @Hero zarya
