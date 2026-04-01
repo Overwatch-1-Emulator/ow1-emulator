@@ -1,6 +1,6 @@
 #!mainFile "../../main.opy"
 
-# !include "biotic_grasp.opy"
+#!include "biotic_grasp.opy"
 #!include "coalescence.opy"
 
 

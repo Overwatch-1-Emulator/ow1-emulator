@@ -22,6 +22,7 @@ def initDoomfist():
 
     setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
 
     initRocketPunch()
     initSlam()
@@ -35,3 +36,10 @@ rule "[doomfist/init.opy]: Clean up Doomfist":
     waitUntil(eventPlayer.getCurrentHero() != Hero.DOOMFIST, Math.INFINITY)
     destroySlamIndicatorGui()
     hideSlamDamageGui()
+
+rule "[doomfist/init.opy]: Compensate Doomfist global damage reduction":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_1, Button.ULTIMATE]
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

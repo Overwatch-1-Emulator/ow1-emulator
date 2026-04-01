@@ -31,4 +31,4 @@ rule "[sigma/init.opy]: Deal OW1 Accretion direct hit damage":
     @Condition eventAbility == Button.ABILITY_2
     @Condition eventDamage/eventPlayer._base_damage_scalar >= OW2_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE # accretion is direct hit
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE/OW2_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE)-eventDamage)/eventPlayer._base_damage_scalar)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_SIGMA_ACCRETION_TOTAL_DAMAGE/OW2_SIGMA_ACCRETION_TOTAL_DAMAGE)-eventDamage)/eventPlayer._base_damage_scalar)
