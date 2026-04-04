@@ -16,7 +16,7 @@ def initRoadhog():
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
-    setBaseHealing(eventPlayer, OW1_ROADHOG_BREATHER_HEAL_TOTAL/OW2_ROADHOG_BREATHER_HEAL_TOTAL)
+    setBaseHealing(eventPlayer, 296/OW2_ROADHOG_BREATHER_HEAL_TOTAL)
 
     eventPlayer.disallowButton(Button.ABILITY_2)
 
