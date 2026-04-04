@@ -22,10 +22,10 @@ rule "[roadhog/breather.opy]: OW1 Take a Breather":
     eventPlayer.disallowButton(Button.RELOAD)
     eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.startForcingButton(Button.ABILITY_2)
+    eventPlayer.disallowButton(Button.ABILITY_2) # in case player releases button during breather, we still want to end it properly
     wait(OW1_ROADHOG_BREATHER_DURATION)
     wait(OW1_ROADHOG_BREATHER_RECOVERY_TIME)
     eventPlayer.stopForcingButton(Button.ABILITY_2)
-    eventPlayer.disallowButton(Button.ABILITY_2)
     eventPlayer.setDamageReceived(100)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_ROADHOG_BREATHER_COOLDOWN)
     eventPlayer.allowButton(Button.ABILITY_2)
