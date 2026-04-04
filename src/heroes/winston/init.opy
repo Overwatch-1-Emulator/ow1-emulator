@@ -30,6 +30,7 @@ rule "[winston/leap.opy]: OW1 Winston tesla cannon damage":
     @Hero winston
     @Condition eventAbility == Button.PRIMARY_FIRE
 
+
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
 
 
