@@ -29,7 +29,6 @@ rule "[roadhog/wholehog.opy]: OW1 enable abilities when not in wholehog":
 
     eventPlayer.setMeleeEnabled(true)
     eventPlayer.setAbility1Enabled(true)
-    eventPlayer.setAbility2Enabled(true)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     eventPlayer.setKnockbackDealt(100)
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
@@ -102,9 +101,6 @@ rule "[roadhog/wholehog.opy]: Go back to roadhog":
 
     # Restore hog 
     eventPlayer.setHealth(eventPlayer._hog_hp)
-    eventPlayer.setMeleeEnabled(true)
-    eventPlayer.setAbility1Enabled(true)
-    eventPlayer.allowButton(Button.ABILITY_2)
     eventPlayer.setKnockbackDealt(100)
     eventPlayer.stopForcingButton(Button.PRIMARY_FIRE)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer._hook_cooldown)
