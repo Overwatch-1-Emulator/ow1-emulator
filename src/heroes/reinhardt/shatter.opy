@@ -1,6 +1,6 @@
 #!mainFile "../../main.opy"
 
-playervar shatter_distance
+playervar shatter_origin
 
 rule "[reinhardt/shatter.opy]: OW1 one shot earthshatter":
     @Event playerDealtDamage
@@ -29,15 +29,14 @@ rule "[reinhardt/shatter.opy]: Get Ow1 earthshatter distance":
     @Hero reinhardt
     @Condition eventPlayer.isUsingUltimate()
 
-    eventPlayer.shatter_distance = eventPlayer.getPosition()
+    waitUntil(eventPlayer.isUsingUltimate())
+    eventPlayer.shatter_origin = eventPlayer.getPosition()
 
 rule "[reinhardt/shatter.opy]: OW1 earthshatter range":
     @Event playerDealtDamage
     @Hero reinhardt
     @Condition eventAbility == Button.ULTIMATE
-    @Condition distance(eventPlayer.shatter_distance, victim) > OW1_REINHARDT_EARTHSHATTER_MAX_RANGE
+    @Condition distance(attacker.shatter_origin, victim) > OW1_REINHARDT_EARTHSHATTER_MAX_RANGE
 
    heal(victim, null, eventDamage)
-   victim.setStatusEffect(null, Status.INVINCIBLE, 2) #the invicible might not be needed but since u still get knoccked down and insta gfet up so u diont take excessd damage
    victim.clearStatusEffect(Status.KNOCKED_DOWN)
-   victim.clearStatusEffect(Status.INVINCIBLE)
