@@ -22,7 +22,7 @@ def initDoomfist():
 
     setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
-    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    setBaseDamage(eventPlayer, 10/OW2_DOOMFIST_SEISMIC_SLAM_DAMAGE) # this is set to 10 because of a bug thats not healing back fully
 
     initRocketPunch()
     initSlam()
