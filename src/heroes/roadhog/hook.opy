@@ -5,7 +5,4 @@ rule "[roadhog/hook.opy]: OW1 hook damage":
     @Hero roadhog
     @Condition eventAbility == Button.ABILITY_1
 
-    damage(
-        victim,
-        attacker,
-        6.82)  #todo fix this, the code that shoudl fix it is not working and idk why
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_HOOK_DAMAGE/OW2_ROADHOG_HOOK_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)    

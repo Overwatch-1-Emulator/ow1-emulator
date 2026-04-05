@@ -10,4 +10,5 @@ def initSoldier():
     setCustomHp(OW1_SOLDIER_HEALTH, 0, 0)
     setUltCost(OW1_SOLDIER_ULT_COST)
     eventPlayer.setHealingDealt(percent(OW1_SOLDIER_BIOTIC_FIELD_HEAL/OW2_SOLDIER_BIOTIC_FIELD_HEAL))
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     #removeSelfHealing()

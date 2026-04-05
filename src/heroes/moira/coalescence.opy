@@ -18,7 +18,7 @@ rule "[moira/coalescence.opy]: OW1 coalescence damage":
     @Hero moira
     @Condition eventAbility == Button.ULTIMATE
 
-    heal(victim, null, eventDamage - (OW1_MOIRA_COALESCENCE_DAMAGE/OW2_MOIRA_COALESCENCE_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar))
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_MOIRA_COALESCENCE_DAMAGE/OW2_MOIRA_COALESCENCE_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
 
 
 # rule "[moira/coalescence.opy]: Allow self healing during Coalescence":
