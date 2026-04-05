@@ -27,8 +27,6 @@ def initRoadhog():
 rule "[roadhog/init.opy]: Deal OW1 Scrap Gun damage":
     @Event playerDealtDamage
     @Hero roadhog
-    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
-
-
