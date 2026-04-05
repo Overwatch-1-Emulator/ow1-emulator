@@ -16,6 +16,7 @@ playervar rally_pvar
 #!defineMember whipshot_cd          rally_pvar[12]
 #!defineMember repair_pack_charges  rally_pvar[13]
 #!defineMember repair_pack_cd       rally_pvar[14]
+#!defineMember brig_hp              rally_pvar[15]
 playervar rally_i
 playervar rally_ally_i
 playervar rally_timer
@@ -59,6 +60,7 @@ def cancelRally():
     wait(0.46) # Rally voiceline, dont remove this wait
 
     # Save Brigitte state
+    eventPlayer.brig_hp = eventPlayer.getHealth()
     eventPlayer.shield_bash_cd = eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE)
     eventPlayer.whipshot_cd = eventPlayer.getAbilityCooldown(Button.ABILITY_1)
     eventPlayer.repair_pack_cd = eventPlayer.getAbilityCooldown(Button.ABILITY_2)
@@ -76,7 +78,8 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte":
     eventPlayer.startForcingHero(Hero.BRIGITTE)
     eventPlayer.stopForcingCurrentHero()
 
-    # Restore brigitte state & setup for ult
+    # Restore brigitte state & setup for ul
+    eventPlayer.setHealth(eventPlayer.brig_hp)
     eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.whipshot_cd)
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, eventPlayer.repair_pack_cd)

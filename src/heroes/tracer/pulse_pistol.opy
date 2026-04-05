@@ -6,4 +6,4 @@ rule "[tracer/pulse_pistol.opy]: Deal OW1 tracer Pulse Pistol damage":
     @Hero tracer
     @Condition eventAbility == Button.PRIMARY_FIRE
 
-    damage(victim, attacker, eventDamage*(OW1_TRACER_PULSE_PISTOL_DAMAGE/OW2_TRACER_PULSE_PISTOL_DAMAGE)-eventDamage)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_TRACER_PULSE_PISTOL_DAMAGE/OW2_TRACER_PULSE_PISTOL_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)

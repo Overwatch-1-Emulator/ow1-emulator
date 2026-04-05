@@ -7,4 +7,4 @@ rule "[echo/focusing_beam.opy]: Deal OW1 echo focusing beam under 50% hp":
     @Condition eventPlayer.isUsingAbility2()
     @Condition percent(victim.getHealth()/victim.getMaxHealth()) < OW1_ECHO_FOCUSING_BEAM_TRESHOLD
 
-    damage(victim, attacker, eventDamage*(OW1_ECHO_FOCUSING_BEAM_DMG/OW2_ECHO_FOCUSING_BEAM_DMG)-eventDamage)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ECHO_FOCUSING_BEAM_DMG/OW2_ECHO_FOCUSING_BEAM_DMG) - eventDamage)/eventPlayer._base_damage_scalar)

@@ -22,6 +22,7 @@ def initDoomfist():
 
     setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
+    setBaseDamage(eventPlayer, 1/OW2_DOOMFIST_SEISMIC_SLAM_DAMAGE) # this is set to 10 because of a bug thats not healing back fully and for 60 degree cone so u dont get too much ult charge from 90 degree
 
     initRocketPunch()
     initSlam()
@@ -35,3 +36,10 @@ rule "[doomfist/init.opy]: Clean up Doomfist":
     waitUntil(eventPlayer.getCurrentHero() != Hero.DOOMFIST, Math.INFINITY)
     destroySlamIndicatorGui()
     hideSlamDamageGui()
+
+rule "[doomfist/init.opy]: Compensate Global Damage Reduction":
+    @Event playerDealtDamage
+    @Hero doomfist
+    @Condition eventAbility in [Button.ULTIMATE]
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
