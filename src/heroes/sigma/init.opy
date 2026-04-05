@@ -6,7 +6,7 @@ def initSigma():
 
     setUltCost(OW1_SIGMA_ULT_COST)
 
-    setBaseDamage(eventPlayer, OW1_SIGMA_ACCRETION_TOTAL_DAMAGE/OW2_SIGMA_ACCRETION_TOTAL_DAMAGE)
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
 
 
 rule "[sigma/init.opy]: OW1 accretion damage":
@@ -24,3 +24,11 @@ rule "[sigma/init.opy]: Compensate Sigma global damage reduction":
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+rule "[sigma/init.opy]: Deal OW1 Accretion direct hit damage":
+    @Event playerDealtDamage
+    @Hero sigma
+    @Condition eventAbility == Button.ABILITY_2
+    @Condition eventDamage/eventPlayer._base_damage_scalar >= OW2_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE # accretion is direct hit
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_SIGMA_ACCRETION_TOTAL_DAMAGE/OW2_SIGMA_ACCRETION_TOTAL_DAMAGE)-eventDamage)/eventPlayer._base_damage_scalar)

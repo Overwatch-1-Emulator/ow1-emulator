@@ -17,8 +17,8 @@ rule "[doomfist/meteor.opy]: Deal OW1 Meteor Strike damage":
     # Only activate this rule when damage is dealt by inner ring (/2 accounts for damage reduction from armor, nanoboost, etc)
     @Condition eventDamage < (OW2_DOOMFIST_METEOR_STRIKE_OUTER_SPHERE_MAX_DAMAGE + OW2_DOOMFIST_METEOR_STRIKE_INNER_SPHERE_DAMAGE)/2
 
-    damage(victim, attacker, getMeteorStrikeDamage(eventDamage) - eventDamage)
-
+    damage(victim, attacker, (getMeteorStrikeDamage(eventDamage) / eventPlayer._base_damage_scalar))
+    
 
 rule "[doomfist/meteor.opy]: Compensate Meteor Strike slow effect":
     @Event playerDealtDamage

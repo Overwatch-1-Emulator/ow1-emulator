@@ -22,10 +22,3 @@ rule "[dva/booster.opy]: Cancel booster if melee pressed":
     eventPlayer.forceButtonPress(Button.MELEE)
     eventPlayer.disallowButton(Button.MELEE)
 
-
-rule "[dva/booster.opy]: Reduce boosters damage":
-    @Event playerDealtDamage
-    @Hero dva
-    @Condition eventAbility == Button.ABILITY_1
-
-    heal(victim, null, eventDamage - (eventDamage/eventPlayer._base_damage_scalar)*(OW1_DVA_BOOSTERS_DAMAGE/OW2_DVA_BOOSTERS_DAMAGE))

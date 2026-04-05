@@ -250,26 +250,19 @@ def hideSlamDamageGui():
     eventPlayer.slam_damage_text_entity = null
 
 
-# Need more permanent/robust solution
-rule "[doomfist/slam.opy]: Remove OW2 slam damage":
-    @Event playerDealtDamage
-    @Hero doomfist
-    @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
-
-    heal(victim, null, eventDamage)
-
-
 rule "[doomfist/slam.opy]: Find slammed victims":
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
 
-    if ((OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim)) \
-    and (distance(attacker, victim) <= OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS) \
-    and true): # [TODO]: add condition to check victim in 60 degree cone
+    if (OW1_DOOMFIST_SLAM_AOE_MIN_RADIUS <= distance(attacker, victim) \
+    and distance(attacker, victim) <= OW1_DOOMFIST_SLAM_AOE_MAX_RADIUS \
+    and angleBetweenVectors(getForwardDirection(attacker), directionTowards(attacker, victim)) <= OW1_DOOMFIST_SLAM_FAN_ANGLE/2):
         attacker.ow1_slam_victims.append(victim)
         damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
     else: # Handle OW2 slam victims
+        # Remove OW2 slam damage
+        heal(victim, null, eventDamage)
         # Transfer shield gained from uppercut to shield gained from OW2 slam victims
         damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields))
         attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
@@ -281,7 +274,13 @@ rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
     @Condition eventAbility == Button.ABILITY_1 # Ability used to damage player is Seismic Slam
     @Condition victim in attacker.ow1_slam_victims
 
-    damage(victim, attacker, floor(attacker.slam_damage)) # Custom slam damage
+    # Custom slam damage.
+    if (attacker.slam_damage < eventDamage):
+        heal(victim, null, eventDamage)
+        damage(victim, attacker, attacker.slam_damage)
+    else:
+        damage(victim, attacker, floor(attacker.slam_damage-eventDamage)/eventPlayer._base_damage_scalar) # Apply additional damage based on air time
+
 
     victim.setGravity(50)
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
