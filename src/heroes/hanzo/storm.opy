@@ -6,4 +6,4 @@ rule "[hanzo/storm.opy]: OW1 storm arrow damage":
     @Hero hanzo
     @Condition eventAbility == Button.ABILITY_2
 
-    heal(victim, null, eventDamage - eventDamage*(OW1_HANZO_STORM_DAMAGE/OW2_HANZO_STORM_DAMAGE))
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_HANZO_STORM_DAMAGE/OW2_HANZO_STORM_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)    

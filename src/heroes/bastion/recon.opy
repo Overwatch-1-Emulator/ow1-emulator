@@ -9,7 +9,7 @@ rule "[bastion/recon.opy]: Initialize recon mode":
     eventPlayer.current_configuration = Configuration.RECON
 
     eventPlayer.setMoveSpeed(100)
-    setBaseDamage(eventPlayer, 1)
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)
 
@@ -20,12 +20,10 @@ rule "[bastion/recon.opy]: Initialize recon mode":
     eventPlayer.setKnockbackReceived(100)
 
 
-# rule "[bastion/sentry.opy]: OW1 Bastion recon fire rate":
-#     @Event eachPlayer
-#     @Hero bastion
-#     @Condition eventPlayer.isFiringPrimaryFire()
+rule "[bastion/recon.opy]: Compensate recon mode global damage reduction":
+    @Event playerDealtDamage
+    @Hero bastion
+    @Condition not eventPlayer.isInAlternateForm() # built in workshop function for detecting default hero form
+    @Condition eventAbility == Button.PRIMARY_FIRE
 
-#     do:
-#         eventPlayer.setProjectileSpeed(100)
-#         wait(1/OW1_BASTION_RECON_GUN_FIRERATE)
-#     while (RULE_CONDITION)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

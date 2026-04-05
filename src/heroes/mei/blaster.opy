@@ -53,9 +53,3 @@ def clearFreezeEffect():
     eventPlayer.freeze_progress = 0
 
 
-rule "[mei/blaster.opy]: OW1 blaster damage":
-    @Event playerDealtDamage
-    @Hero mei
-    @Condition eventAbility == Button.PRIMARY_FIRE
-
-    heal(victim, null, eventDamage - (eventDamage/eventPlayer._base_damage_scalar) * (OW1_MEI_BLASTER_DAMAGE_RATE/OW2_MEI_BLASTER_DAMAGE_RATE))
