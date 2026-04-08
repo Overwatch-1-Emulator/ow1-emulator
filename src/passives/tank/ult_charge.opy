@@ -50,9 +50,9 @@ def resetUltCharge():
 
 rule "[passives/tank/ult_charge.opy]: Remember missing ult charge from damaging overhealth":
     @Event playerDealtDamage
-    @Condition (victim.getMaxHealth() > victim.getMaxHealthOfType(Health.NORMAL) - victim.getHealthOfType(Health.ARMOR) - victim.getHealthOfType(Health.SHIELDS)) > 0
-    @Condition victim != eventPlayer
+    @Condition victim.getMaxHealth() - victim.getMaxHealthOfType(Health.NORMAL) - victim.getMaxHealthOfType(Health.ARMOR) - victim.getMaxHealthOfType(Health.SHIELDS) > 0
     @Condition not eventPlayer.isUsingUltimate()
+    @Condition victim != eventPlayer
 
     eventPlayer._missing_ult_points += unpercent(OW2_OVERHEALTH_ULT_CHARGE_REDUCTION - OW1_OVERHEALTH_ULT_CHARGE_REDUCTION) * eventDamage
 
