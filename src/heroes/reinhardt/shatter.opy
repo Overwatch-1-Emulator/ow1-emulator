@@ -1,5 +1,6 @@
 #!mainFile "../../main.opy"
 
+playervar shatter_origin
 
 rule "[reinhardt/shatter.opy]: OW1 one shot earthshatter":
     @Event playerDealtDamage
@@ -22,3 +23,20 @@ rule "[reinhardt/shatter.opy]: OW1 earthshatter knock down duration":
 
     wait(OW1_REINHARDT_EARTHSHATTER_KNOCK_DOWN_DURATION)
     victim.clearStatusEffect(Status.KNOCKED_DOWN)
+
+rule "[reinhardt/shatter.opy]: Get Ow1 earthshatter distance":
+    @Event eachPlayer
+    @Hero reinhardt
+    @Condition eventPlayer.isUsingUltimate()
+
+    waitUntil(eventPlayer.isUsingUltimate())
+    eventPlayer.shatter_origin = eventPlayer.getPosition()
+
+rule "[reinhardt/shatter.opy]: OW1 earthshatter range":
+    @Event playerDealtDamage
+    @Hero reinhardt
+    @Condition eventAbility == Button.ULTIMATE
+    @Condition distance(attacker.shatter_origin, victim) > OW1_REINHARDT_EARTHSHATTER_MAX_RANGE
+
+   heal(victim, null, eventDamage)
+   victim.clearStatusEffect(Status.KNOCKED_DOWN)
