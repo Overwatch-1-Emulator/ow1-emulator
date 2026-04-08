@@ -10,11 +10,9 @@ rule "[brigitte/bash.opy]: Add stun to shield bash":
     @Condition eventAbility == Button.PRIMARY_FIRE
     # @Condition not attacker.shield_bash_through_barrier
 
-    if not isInLoS(attacker.getEyePosition(), victim.getEyePosition(), BarrierLos.BLOCKED_BY_ENEMY_BARRIERS):
+    if not isInLoS(attacker.getPosition(), victim.getPosition(), BarrierLos.BLOCKED_BY_ALL_BARRIERS):
         return
-    else:
-        victim.setStatusEffect(attacker, Status.STUNNED, OW1_BRIGITTE_SHIELD_BASH_STUN_DURATION)
-
+    victim.setStatusEffect(attacker, Status.STUNNED, OW1_BRIGITTE_SHIELD_BASH_STUN_DURATION)
 
 rule "[brigitte/bash.opy]: Reduce shield bash distance":
     @Event eachPlayer
@@ -25,10 +23,6 @@ rule "[brigitte/bash.opy]: Reduce shield bash distance":
 
     eventPlayer.setMoveSpeed(77.8) # arbitrarily decided based on trial and error
     waitUntil(eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE) > 0, Math.INFINITY)
-    if eventPlayer.isUsingUltimate():
-        eventPlayer.setMoveSpeed(130)
-    else:
-        eventPlayer.setMoveSpeed(100)
 
 #rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
 #    @Event playerDealtDamage
