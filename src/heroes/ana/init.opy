@@ -27,3 +27,10 @@ rule "[ana/init.opy]: Compensate Ana global heal reduction":
     @Condition eventAbility == Button.ULTIMATE
 
     heal(healee, healer, eventHealing/eventPlayer._base_healing_scalar-eventHealing)
+
+rule "[ana/init.opy]: Compensate Damage Reduction":
+    @Event playerDealtDamage
+    @Hero ana
+    @Condition eventAbility == Button.ABILITY_1
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

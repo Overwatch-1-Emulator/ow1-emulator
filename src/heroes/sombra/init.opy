@@ -20,6 +20,7 @@ def initSombra():
 
     eventPlayer.is_using_stealth = false
     # removeSelfHealing()
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
 
 
 rule "[sombra/init.opy]: Clean up Sombra":
@@ -29,3 +30,11 @@ rule "[sombra/init.opy]: Clean up Sombra":
     waitUntil(eventPlayer.getCurrentHero() != Hero.SOMBRA, Math.INFINITY)
     exitStealth()
     destroyTranslocator(eventPlayer)
+
+
+rule "[sombra/init.opy]: Compensate Damage Reduction":
+    @Event playerDealtDamage
+    @Hero sombra
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
