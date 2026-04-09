@@ -38,5 +38,10 @@ rule "[utilities/emu_helper.opy]: OW1 melee damage":
     @Condition eventAbility == Button.MELEE
     @Condition eventPlayer.getCurrentHero() not in [Hero.BRIGITTE, Hero.REINHARDT, Hero.ZENYATTA]
 
-    heal(victim, null, eventDamage - (OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar))
-    damage(victim, attacker, ((OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)
+    if eventPlayer.getCurrentHero() in [Hero.SYMMETRA, Hero.TORBJORN, Hero.ASHE]:
+    heal(victim, null, eventDamage)
+    damage(victim, attacker,
+        (OW1_MELEE_DAMAGE / OW2_MELEE_DAMAGE) * (eventDamage / eventPlayer._base_damage_scalar) / eventPlayer._base_damage_scalar
+    )
+    else:
+        damage(victim, attacker, ((OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)*(eventDamage/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)
