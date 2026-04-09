@@ -54,8 +54,9 @@ rule "[passives/tank/ult_charge.opy]: Remember missing ult charge from damaging 
     @Condition not eventPlayer.isUsingUltimate()
     @Condition victim != eventPlayer
 
-    eventPlayer._missing_ult_points += unpercent(OW2_OVERHEALTH_ULT_CHARGE_REDUCTION - OW1_OVERHEALTH_ULT_CHARGE_REDUCTION) * eventDamage
+    eventPlayer._missing_ult_points += unpercent(OW2_OVERHEALTH_ULT_CHARGE_REDUCTION - OW1_OVERHEALTH_ULT_CHARGE_REDUCTION) * min(eventDamage, victim.getMaxHealth() - victim.getMaxHealthOfType(Health.NORMAL) - victim.getMaxHealthOfType(Health.ARMOR) - victim.getMaxHealthOfType(Health.SHIELDS))
 
+    
 rule "[passives/tank/ult_charge.opy]: Compensate missing ultimate percentage":
     @Event eachPlayer
     @Condition eventPlayer._missing_ult_points > percentOf(1, eventPlayer._ult_cost)
