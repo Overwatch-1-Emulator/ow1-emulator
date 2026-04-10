@@ -38,5 +38,5 @@ rule "[passives/global/armor_passive.opy]: OW1 armor damage reduction correction
 
     # OW1 Armor Reduction
     if eventDamage >= OW2_ARMOR_DAMAGE_REDUCTION:
-        wait(0.16) #Let Damage Apply
+        wait(0.2) #Let Damage Apply
         eventPlayer.setHealth(eventPlayer.getHealth() - 2)
