@@ -1,5 +1,6 @@
 #!mainFile "../../main.opy"
 
+playervar armor_correcting
 
 rule "[passives/global/global_passive.opy]: Remove DPS passive (Dealing damage reduces enemy healing received)":
     @Event playerDealtDamage
@@ -12,10 +13,14 @@ rule "[passives/global/global_passive.opy]: Remove DPS passive (Dealing damage r
 
 
 
+
+
+
 rule "[passives/global/armor_passive.opy]: OW1 armor damage reduction correction":
     @Event playerTookDamage
     @Condition eventPlayer.getHealthOfType(Health.ARMOR) > 0
     @Condition attacker != null
+    @Condition not eventPlayer.armor_correcting
 
     # Skip DoT(Damage Over Time) abilities
     if attacker.getCurrentHero() == Hero.ASHE and eventAbility == Button.ABILITY_2: return
@@ -35,8 +40,14 @@ rule "[passives/global/armor_passive.opy]: OW1 armor damage reduction correction
     if attacker.getCurrentHero() == Hero.SYMMETRA and eventAbility == Button.PRIMARY_FIRE: return
     if attacker.getCurrentHero() == Hero.SYMMETRA and eventAbility == Button.ABILITY_2: return
     if attacker.getCurrentHero() == Hero.ZARYA and eventAbility == Button.PRIMARY_FIRE: return
-
-    # OW1 Armor Reduction
-    if eventDamage >= OW2_ARMOR_DAMAGE_REDUCTION:
-        wait(0.2) #Let Damage Apply
-        eventPlayer.setHealth(eventPlayer.getHealth() - 2)
+    
+    # Flat correction - OW2 reduced by 7, OW1 by 5, player takes 2 more
+    wait(0.16)
+    if eventDamage >= 7:
+        eventPlayer.armor_correcting = true
+        damage(eventPlayer, attacker, 2 / attacker._base_damage_scalar)
+        eventPlayer.armor_correcting = false
+    else if eventDamage >= 5:
+        eventPlayer.armor_correcting = true
+        damage(eventPlayer, attacker, (eventDamage - 5) / attacker._base_damage_scalar)
+        eventPlayer.armor_correcting = false
