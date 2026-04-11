@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!define OW1_TANK_ULT_NEGATION_PERCENT_DEFAULT 0
+#!define OW1_OVERHEALTH_ULT_CHARGE_REDUCTION 0
 globalvar OW1_TANK_ULT_NEGATION_PERCENT = createWorkshopSetting(int[0:OW2_TANK_ULT_NEGATION_PERCENT], 'Passive', 'Tank - Ultimate Charge Negation Percent', OW1_TANK_ULT_NEGATION_PERCENT_DEFAULT)
 
 # Player variables
@@ -46,6 +47,16 @@ def resetUltCharge():
 #    eventPlayer._missing_ult_points += unpercent(OW2_TANK_ULT_NEGATION_PERCENT - OW1_TANK_ULT_NEGATION_PERCENT) * eventHealing
 
 
+
+rule "[passives/tank/ult_charge.opy]: Remember missing ult charge from damaging overhealth":
+    @Event playerDealtDamage
+    @Condition victim.getMaxHealth() - victim.getMaxHealthOfType(Health.NORMAL) - victim.getMaxHealthOfType(Health.ARMOR) - victim.getMaxHealthOfType(Health.SHIELDS) > 0
+    @Condition not eventPlayer.isUsingUltimate()
+    @Condition victim != eventPlayer
+
+    eventPlayer._missing_ult_points += unpercent(OW2_OVERHEALTH_ULT_CHARGE_REDUCTION - OW1_OVERHEALTH_ULT_CHARGE_REDUCTION) * min(eventDamage, victim.getMaxHealth() - victim.getMaxHealthOfType(Health.NORMAL) - victim.getMaxHealthOfType(Health.ARMOR) - victim.getMaxHealthOfType(Health.SHIELDS))
+
+    
 rule "[passives/tank/ult_charge.opy]: Compensate missing ultimate percentage":
     @Event eachPlayer
     @Condition eventPlayer._missing_ult_points > percentOf(1, eventPlayer._ult_cost)
