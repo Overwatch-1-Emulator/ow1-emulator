@@ -11,3 +11,11 @@ def initMoira():
     setUltCost(OW1_MOIRA_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+
+
+rule "[moira/init.opy]: Compensate Moira orb damage reduction":
+    @Event playerDealtDamage
+    @Hero moira
+    @Condition eventAbility == Button.ABILITY_2
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
