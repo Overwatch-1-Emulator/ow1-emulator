@@ -36,4 +36,4 @@ rule "[roadhog/init.opy]: Deal OW1 Scrap Gun secondary damage":
     @Hero roadhog
     @Condition eventAbility == Button.SECONDARY_FIRE
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE if eventDamage/eventPlayer._base_damage_scalar < OW1_ROADHOG_SCRAP_GUN_PRE_DETONATION_DAMAGE else 1) - eventDamage)/eventPlayer._base_damage_scalar)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
