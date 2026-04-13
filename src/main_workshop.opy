@@ -2,6 +2,7 @@
 # Compile Workshop Code.
 ###############################################################################
 #!include "common/env.opy"
+#!include "common/constants/armor_damage_constants.opy"
 #!include "common/constants/ow1_constants.opy"
 #!include "common/constants/ow2_constants.opy"
 #!include "common/macro_functions.opy"
