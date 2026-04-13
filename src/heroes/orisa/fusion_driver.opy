@@ -127,4 +127,7 @@ rule "[orisa/fusion_driver.opy]: OW1 Fusion Driver damage":
     @Hero orisa
     @Condition eventAbility == Button.PRIMARY_FIRE
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ORISA_FUSION_DRIVER_DAMAGE/OW2_ORISA_FUSION_DRIVER_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ORISA_FUSION_DRIVER_DAMAGE_VS_ARMOR/OW2_ORISA_FUSION_DRIVER_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    else:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ORISA_FUSION_DRIVER_DAMAGE/OW2_ORISA_FUSION_DRIVER_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)

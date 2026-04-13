@@ -15,7 +15,6 @@ def initBastion():
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
     eventPlayer.self_repair_time_left = OW1_BASTION_MAX_SELF_REPAIR_DURATION
-    eventPlayer.startForcingButton(Button.ABILITY_1)
 
 
 

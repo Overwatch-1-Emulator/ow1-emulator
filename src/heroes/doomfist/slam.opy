@@ -275,12 +275,18 @@ rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
     @Condition victim in attacker.ow1_slam_victims
 
     # Custom slam damage.
-    if (attacker.slam_damage < eventDamage):
-        heal(victim, null, eventDamage)
-        damage(victim, attacker, attacker.slam_damage)
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        if (attacker.slam_damage < eventDamage):
+            heal(victim, null, eventDamage)
+            damage(victim, attacker, attacker.slam_damage)
+        else:
+            damage(victim, attacker, floor(attacker.slam_damage-eventDamage-OW1_ARMOR_DAMAGE_REDUCTION)/eventPlayer._base_damage_scalar) # Apply additional damage based on air time
     else:
-        damage(victim, attacker, floor(attacker.slam_damage-eventDamage)/eventPlayer._base_damage_scalar) # Apply additional damage based on air time
-
+        if (attacker.slam_damage < eventDamage):
+            heal(victim, null, eventDamage)
+            damage(victim, attacker, attacker.slam_damage)
+        else:
+            damage(victim, attacker, floor(attacker.slam_damage-eventDamage)/eventPlayer._base_damage_scalar) # Apply additional damage based on air time
 
     victim.setGravity(50)
     victim.applyImpulse(Vector.UP, 5.25, Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION_XYZ) # Boop slammed victims up
