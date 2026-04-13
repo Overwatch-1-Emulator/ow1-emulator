@@ -16,3 +16,10 @@ def initMercy():
 
     eventPlayer.is_using_guardian_angel = false
     eventPlayer.is_slingshotting = false
+
+rule "[mercy/init.opy]: Comepnsate Damage Reduction":
+    @Event playerDealtDamage
+    @Hero mercy
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

@@ -33,12 +33,13 @@ rule "[wreckingball/adaptive_shield.opy]: OW1 Adaptive Shields":
     eventPlayer._expected_adapt_shields = getOW1AdaptiveShields(eventPlayer._ow1_adaptive_shield_n)
     eventPlayer._actual_adapt_shields = getOW2AdaptiveShields(eventPlayer._ow2_adaptive_shield_n)
 
-    eventPlayer.setHealth(eventPlayer.getHealth() - (eventPlayer._actual_adapt_shields-TICK_DURATION))
-
-    eventPlayer.addHealthPool(Health.SHIELDS, (eventPlayer._expected_adapt_shields-TICK_DURATION), false, false)
-    eventPlayer._adaptive_shield_hp_id = getLastCreatedHealthPool()
-    wait(OW1_WRECKING_BALL_ADAPTIVE_SHIELD_DURATION)
-    removeHealthPool(eventPlayer._adaptive_shield_hp_id)
+    if eventPlayer._expected_adapt_shields > eventPlayer._actual_adapt_shields:
+        eventPlayer.addHealthPool(Health.NORMAL, eventPlayer._expected_adapt_shields - eventPlayer._actual_adapt_shields, false, false)
+        eventPlayer._adaptive_shield_hp_id = getLastCreatedHealthPool()
+        wait(OW1_WRECKING_BALL_ADAPTIVE_SHIELD_DURATION)
+        removeHealthPool(eventPlayer._adaptive_shield_hp_id)
+    elif eventPlayer._expected_adapt_shields < eventPlayer._actual_adapt_shields:
+        damage(eventPlayer, null, eventPlayer._actual_adapt_shields - eventPlayer._expected_adapt_shields)
 
 
 rule "[wreckingball/adaptive_shield.opy]: Disable OW2 shield transfer":

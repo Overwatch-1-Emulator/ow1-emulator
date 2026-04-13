@@ -12,3 +12,10 @@ def initSoldier():
     eventPlayer.setHealingDealt(percent(OW1_SOLDIER_BIOTIC_FIELD_HEAL/OW2_SOLDIER_BIOTIC_FIELD_HEAL))
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     #removeSelfHealing()
+
+rule "[soldier/init.opy]: Compensate Damage Reduction":
+    @Event playerDealtDamage
+    @Hero soldier
+    @Condition eventAbility == Button.SECONDARY_FIRE
+
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
