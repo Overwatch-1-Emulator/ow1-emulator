@@ -68,7 +68,10 @@ rule "[doomfist/punch.opy]: Find wall impacted victims":
 
     attacker.wall_impacted_victims.append(victim)
     if (len(attacker.wall_impacted_victims) == 1): # OW1 single punch victim
-        damage(victim, attacker, (getRocketPunchWallImpactDamage(eventPlayer.punch_charge_time) - eventDamage) / eventPlayer._base_damage_scalar)
+        if victim.getHealthOfType(Health.ARMOR) > 0:
+            damage(victim, attacker, (getRocketPunchWallImpactDamage(eventPlayer.punch_charge_time) - eventDamage-OW1_ARMOR_DAMAGE_REDUCTION)/ eventPlayer._base_damage_scalar)
+        else:
+            damage(victim, attacker, (getRocketPunchWallImpactDamage(eventPlayer.punch_charge_time) - eventDamage) / eventPlayer._base_damage_scalar)
     else: # OW2 multi punch victim
         heal(victim, null, eventDamage)
 
@@ -83,9 +86,14 @@ rule "[doomfist/punch.opy]: Find punched victims":
 
     attacker.punched_victims.append(victim)
     if (len(attacker.punched_victims) == 1): # OW1 single punch victim
-        damage(victim, attacker, (getRocketPunchDamage(eventPlayer.punch_charge_time) - eventDamage) / eventPlayer._base_damage_scalar)
-        victim.applyImpulse(attacker.getFacingDirection(), getPunchKnockbackSpeed(eventPlayer.punch_charge_time), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
-        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
+        if victim.getHealthOfType(Health.ARMOR) > 0:
+            damage(victim, attacker, (getRocketPunchDamage(eventPlayer.punch_charge_time) - eventDamage-OW1_ARMOR_DAMAGE_REDUCTION) / eventPlayer._base_damage_scalar)
+            victim.applyImpulse(attacker.getFacingDirection(), getPunchKnockbackSpeed(eventPlayer.punch_charge_time), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
+            damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
+        else:
+            damage(victim, attacker, (getRocketPunchDamage(eventPlayer.punch_charge_time) - eventDamage) / eventPlayer._base_damage_scalar)
+            victim.applyImpulse(attacker.getFacingDirection(), getPunchKnockbackSpeed(eventPlayer.punch_charge_time), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
+            damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
     else: # OW2 multi punch victim
         heal(victim, null, eventDamage) # Heal back OW2 punch victims
         # Transfer shield gained from uppercut to shield gained from OW2 punch victims

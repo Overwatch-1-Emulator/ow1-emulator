@@ -9,7 +9,7 @@ def initAna():
     setUltCost(OW1_ANA_ULT_COST)
 
 
-    setBaseDamage(eventPlayer, 1)
+    setBaseDamage(eventPlayer, 1/OW2_MELEE_DAMAGE)
     setBaseHealing(eventPlayer, OW1_ANA_BIOTIC_RIFLE_HEALING/OW2_ANA_BIOTIC_RIFLE_HEALING)
 
 
