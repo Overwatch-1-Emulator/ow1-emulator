@@ -26,7 +26,10 @@ rule "[zarya/init.opy]: Deal OW1 Beam Damage":
     @Hero zarya
     @Condition eventAbility == Button.PRIMARY_FIRE
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ZARYA_CANNON_DAMAGE_MAX/OW2_ZARYA_CANNON_DAMAGE_MAX) - eventDamage)/eventPlayer._base_damage_scalar)
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ZARYA_CANNON_DAMAGE_MAX_VS_ARMOR/OW2_ZARYA_CANNON_DAMAGE_MAX) - eventDamage)/eventPlayer._base_damage_scalar)
+    else:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ZARYA_CANNON_DAMAGE_MAX/OW2_ZARYA_CANNON_DAMAGE_MAX) - eventDamage)/eventPlayer._base_damage_scalar)
 # rule "[zarya/init.opy]: Initialize Zarya":
 #     @Event eachPlayer
 #     @Hero zarya
@@ -48,6 +51,16 @@ rule "[zarya/init.opy]: Deal OW1 Beam Damage":
 rule "[zarya/init.opy]: Compensate zarya global damage reduction":
     @Event playerDealtDamage
     @Hero zarya
-    @Condition eventAbility in [Button.SECONDARY_FIRE, Button.ULTIMATE]
+    @Condition eventAbility == Button.SECONDARY_FIRE
+
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage-OW1_ARMOR_DAMAGE_REDUCTION)/eventPlayer._base_damage_scalar)
+    else:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+rule "[zarya/init.opy]: Compensate zarya global damage reduction":
+    @Event playerDealtDamage
+    @Hero zarya
+    @Condition eventAbility == Button.ULTIMATE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

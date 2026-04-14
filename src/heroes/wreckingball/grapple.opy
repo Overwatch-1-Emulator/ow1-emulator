@@ -15,6 +15,14 @@ rule "[wreckingball/grapple.opy]: Correct Fireball impact damage":
     @Hero hammond
     @Condition eventAbility == Button.SECONDARY_FIRE
 
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        damage(
+            victim,
+            attacker,
+            ((OW1_WRECKING_BALL_FIREBALL_DAMAGE_VS_ARMOR/OW2_WRECKING_BALL_FIREBALL_DAMAGE) \
+            * (eventDamage/eventPlayer._base_damage_scalar) \
+            - eventDamage)/eventPlayer._base_damage_scalar)
+    else:
         damage(
             victim,
             attacker,

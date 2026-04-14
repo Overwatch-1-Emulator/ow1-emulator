@@ -15,7 +15,10 @@ rule "[winston/leap.opy]: OW1 Winston jump pack damage":
     @Hero winston
     @Condition eventAbility == Button.ABILITY_1
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_JUMP_PACK_DAMAGE/OW2_WINSTON_JUMP_PACK_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_JUMP_PACK_DAMAGE_VS_ARMOR/OW2_WINSTON_JUMP_PACK_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    else:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_JUMP_PACK_DAMAGE/OW2_WINSTON_JUMP_PACK_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
 
 
 rule "[winston/leap.opy]: OW1 Winston Leap Cooldown":

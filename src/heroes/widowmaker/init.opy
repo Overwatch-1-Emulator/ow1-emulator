@@ -19,7 +19,7 @@ def initWidowmaker():
 
     setCustomHp(OW1_WIDOWMAKER_HEALTH, 0, 0)
     setUltCost(OW1_WIDOWMAKER_ULT_COST)
-    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    setBaseDamage(eventPlayer, 1/OW2_MELEE_DAMAGE)
     #removeSelfHealing()
 
 rule "[widowmaker.opy]: Revert sniper damage falloff":
@@ -54,4 +54,7 @@ rule "[widowmaker.opy]: Compensate Widow global damage reduction":
     @Hero widowmaker
     @Condition eventAbility in [Button.ABILITY_2, Button.PRIMARY_FIRE]
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage-OW1_ARMOR_DAMAGE_REDUCTION)/eventPlayer._base_damage_scalar)
+    else:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

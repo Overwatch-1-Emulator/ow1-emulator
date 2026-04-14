@@ -5,4 +5,7 @@ rule "[roadhog/hook.opy]: OW1 hook damage":
     @Hero roadhog
     @Condition eventAbility == Button.ABILITY_1
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_HOOK_DAMAGE/OW2_ROADHOG_HOOK_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)    
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_HOOK_DAMAGE_VS_ARMOR/OW2_ROADHOG_HOOK_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)    
+    else:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_HOOK_DAMAGE/OW2_ROADHOG_HOOK_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)    

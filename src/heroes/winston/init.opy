@@ -14,7 +14,7 @@ def initWinston():
     # eventPlayer._primal_hp_id = getLastCreatedHealthPool()
     setUltCost(OW1_WINSTON_ULT_COST)
 
-    setBaseDamage(eventPlayer, OW1_WINSTON_TESLA_DAMAGE*0.7/OW2_WINSTON_TESLA_DAMAGE)
+    setBaseDamage(eventPlayer, 1/OW2_MELEE_DAMAGE)
     eventPlayer.setAmmo(0, OW1_WINSTON_AMMO)
     eventPlayer.setMaxAmmo(0, OW1_WINSTON_AMMO)
 
@@ -29,9 +29,11 @@ rule "[winston/leap.opy]: OW1 Winston tesla cannon damage":
     @Event playerDealtDamage
     @Hero winston
     @Condition eventAbility == Button.PRIMARY_FIRE
-    @Condition not victim.getHealthOfType(Health.ARMOR) > 0
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_TESLA_DAMAGE_VS_ARMOR/OW2_WINSTON_TESLA_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    else:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_TESLA_DAMAGE/OW2_WINSTON_TESLA_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
 
 
 rule "[winston/init.opy]: Deal Primal Damage":
@@ -39,4 +41,7 @@ rule "[winston/init.opy]: Deal Primal Damage":
     @Hero winston
     @Condition eventAbility == Button.ULTIMATE
 
-    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_PRIMAL_DAMAGE/OW2_WINSTON_PRIMAL_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    if victim.getHealthOfType(Health.ARMOR) > 0:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_PRIMAL_DAMAGE_VS_ARMOR/OW2_WINSTON_PRIMAL_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    else:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_WINSTON_PRIMAL_DAMAGE/OW2_WINSTON_PRIMAL_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)

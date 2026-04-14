@@ -15,7 +15,7 @@ def initRoadhog():
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
 
-    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    setBaseDamage(eventPlayer, 1/OW2_MELEE_DAMAGE)
     setBaseHealing(eventPlayer, 296/OW2_ROADHOG_BREATHER_HEAL_TOTAL) # I think this needs to be exact because when I was playing I noticed with the anti healing passive number was off sometimes
 
     eventPlayer.disallowButton(Button.ABILITY_2)
@@ -27,9 +27,21 @@ def initRoadhog():
 rule "[roadhog/init.opy]: Deal OW1 Scrap Gun damage":
     @Event playerDealtDamage
     @Hero roadhog
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
+    @Condition eventAbility == Button.PRIMARY_FIRE
 
+    if victim.getHealthOfType(Health.ARMOR) > 0::
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_SCRAP_GUN_DAMAGE_VS_ARMOR/OW2_ROADHOG_SCRAP_GUN_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    else:
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+
+rule "[roadhog/init.opy]: Deal OW1 Scrap Gun Secondary Fire Damage":
+    @Event playerDealtDamage
+    @Hero roadhog
+    @Condition eventAbility == Button.SECONDARY_FIRE
     if eventDamage < OW1_ROADHOG_SCRAP_GUN_PRE_DETONATION_DAMAGE:
-        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+        if victim.getHealthOfType(Health.ARMOR) > 0:
+            damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage-OW1_ARMOR_DAMAGE_REDUCTION)/eventPlayer._base_damage_scalar)
+        else:
+            damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
     else:
         damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)

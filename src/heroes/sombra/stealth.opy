@@ -29,7 +29,7 @@ rule "[sombra.opy]: Remove hack bonus damage":
     @Event eachPlayer
     @Condition eventPlayer.hasStatusEffect(Status.HACKED)
 
-    startDamageModification(eventPlayer, eventPlayer.enemy_sombra_player, percent(1/OW2_SOMBRA_HACK_DAMAGE_MULTIPLIER), DamageReeval.NONE)
+    startDamageModification(eventPlayer, eventPlayer.enemy_sombra_player, percent(eventPlayer._base_damage_scalar/OW2_SOMBRA_HACK_DAMAGE_MULTIPLIER), DamageReeval.NONE)
     eventPlayer.hack_damage_modifier = getLastDamageModification()
     waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, Math.INFINITY)
     stopDamageModification(eventPlayer.hack_damage_modifier)
