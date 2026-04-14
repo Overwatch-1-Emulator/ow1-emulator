@@ -9,7 +9,7 @@
 def initOrisa():
     @Name "[orisa/init.opy]: initOrisa()"
 
-    setCustomHp(0, 500, 0)
+    setCustomHp(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
     setUltCost(OW1_ORISA_ULT_COST)
 
     # Below variables are also declared and initialized in reset_hero.opy
