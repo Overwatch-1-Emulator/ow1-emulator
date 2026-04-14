@@ -28,6 +28,6 @@ rule "[pharah/init.opy]: Compensate Pharah global damage reduction":
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ULTIMATE]
 
     if victim.getHealthOfType(Health.ARMOR) > 0:
-        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - OW2_ARMOR_DAMAGE_REDUCTION - eventDamage)/eventPlayer._base_damage_scalar)
+        damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - OW1_ARMOR_DAMAGE_REDUCTION - eventDamage)/eventPlayer._base_damage_scalar)
     else:
         damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
