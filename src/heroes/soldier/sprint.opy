@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 
-rule "[soldier/sprint.opy]: Disallow Reload while Sprinting":
+rule "[soldier/sprint.opy]: Disallow Reload while using Sprint":
     @Event eachPlayer
     @Hero soldier
     @Condition eventPlayer.isUsingAbility1()
@@ -13,12 +13,12 @@ rule "[soldier/sprint.opy]: Disallow Reload while Sprinting":
     eventPlayer.cancelPrimaryAction() # Cancel out reloading after Sprinting ends
 
 
-rule "[soldier/sprint.opy]: Disallow Reload while Sprinting":
+rule "[soldier/sprint.opy]: Force reload when using Sprint":
     @Event eachPlayer
     @Hero soldier
     @Condition eventPlayer.isUsingAbility1()
     @Condition eventPlayer.isHoldingButton(Button.RELOAD)
-    @Condition eventPlayer.getMaxAmmo(0) > eventPlayer.getAmmo(0)
+    @Condition eventPlayer.getMaxAmmo(0) > eventPlayer.getAmmo(0) # Won't cancel if at max ammo
 
     eventPlayer.cancelPrimaryAction()
     eventPlayer.setReloadEnabled(true)
