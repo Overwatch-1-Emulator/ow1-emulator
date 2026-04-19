@@ -11,6 +11,8 @@ def initReaper():
     setUltCost(OW1_REAPER_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
 
+    eventPlayer.disallowButton(Button.SECONDARY_FIRE)
+
 
 rule "[reaper/init.opy]: Deal OW1 Reaper primary fire damage":
     @Event playerDealtDamage

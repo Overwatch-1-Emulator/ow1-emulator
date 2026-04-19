@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!include "pulse_rifle.opy"
+#!include "sprint.opy"
 # !include "biotic_field.opy"
 
 
