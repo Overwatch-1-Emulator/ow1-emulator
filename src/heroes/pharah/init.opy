@@ -3,6 +3,7 @@
 #!include "hover_jets.opy"
 #!include "rocket_launcher.opy"
 #!include "concussive.opy"
+#!include "barrage.opy"
 
 
 def initPharah():
@@ -10,7 +11,7 @@ def initPharah():
 
     setCustomHp(OW1_PHARAH_HEALTH, 0, 0)
     setUltCost(OW1_PHARAH_ULT_COST)
-    setBaseDamage(eventPlayer, 1/OW2_PHARAH_CONCUSSIVE_BLAST_DAMAGE) #set it to 1 so its the lowest amount of damage possible
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE) #set it to 1 so its the lowest amount of damage possible
 
     initHoverJets()
 
