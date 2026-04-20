@@ -1,5 +1,34 @@
 # Changelog
 
+## [5.3.0](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.2.0...v5.3.0) (2026-04-19)
+
+
+### Features
+
+* Better OW1 Melee dmg + misc changes ([#1628](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1628)) ([2d72a9d](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/2d72a9dc8eaa16649808967266be05c2f27e94ca))
+* Overhealth Ult Charge Reduction ([#1634](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1634)) ([d3580ec](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/d3580ec4218fed4cc86f986b2389575f41c4cc87))
+* **Reinhardt:** OW1 Earthshatter distance ([#1630](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1630)) ([090f215](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/090f215d13910e4328648c42e898bcca5bd4b141))
+* **Sombra:** Cancel hack when taking damage ([#1636](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1636)) ([230e0f0](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/230e0f0c4e7b9c7923408c3f0188b0d0ef052fb7))
+
+
+### Bug Fixes
+
+* add enenmy brig detection ([8dbc017](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/8dbc01762d33dde052000cf35b9ce1a6b4f9dfac))
+* **Doomfist:** reduce extra ult charge gained from OW1 slam ([#1631](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1631)) ([974a0c8](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/974a0c88302052bac555b57f942265b36c2e719a))
+* **Lucio:** Beat not applying for allies with armor awnd shields ([5b0b9a8](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/5b0b9a85fb86db9737d13f58dfbd477e70fff05d))
+* **Roadhog:** Correct Secondary fire damage ([#1633](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1633)) ([5a393c2](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/5a393c28e1d9163607064b873099da7a9caeea4f))
+* **Roadhog:** Fix Breather ([df2362f](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/df2362f6d70a22d7f31ba4ca63fb1bf6b3c4d275))
+* Season 2 Patch Notes ([#1640](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1640)) ([d3944cf](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/d3944cf5995ddb836366c92ed334b3546fa6c68e))
+* **Torbjorn:** Fix overload armor logic ([#1626](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1626)) ([5886b9e](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/5886b9ef2e86790cc390c5ee36c3ece985c6db8a))
+
+
+### Reverts
+
+* revert Doomfist, Sigma, and Lucio to v4.1.1 ([#1620](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1620)) ([5ef41a7](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/5ef41a79535548c134bcb7d0280163c10495a0ba))
+* update Doomfist to known working version ([#1622](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1622)) ([920bf8a](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/920bf8a276a7e146417989b49da05d5f2e4354cd))
+* update Lucio to known working version ([#1621](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1621)) ([bbb03ea](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/bbb03ead9d100bc55bfc65115f6365952844e368))
+* update Sigma to known working version ([#1623](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1623)) ([18fac02](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/18fac02814d2feeabea37a78d9f7a6645b10fda5))
+
 ## [5.2.0](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.1.1...v5.2.0) (2026-03-27)
 
 
