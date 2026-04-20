@@ -33,3 +33,14 @@ rule "[echo/duplicate.opy]: Correct duplicate ultimate charge rate":
 
     wait()
     eventPlayer.setUltCharge((percent(1 - (OW2_ECHO_DUPLICATE_ULT_CHARGE_MULTIPLIER/OW1_ECHO_DUPLICATE_ULT_CHARGE_MULTIPLIER)))/OW2_ECHO_DUPLICATE_ULT_CHARGE_MULTIPLIER)
+
+rule "[echo/duplicate.opy]: Disallow Copy Teammates":
+    @Event eachPlayer
+    @Hero echo
+    @Condition eventPlayer.getUltCharge() == 100
+    @Condition not (eventPlayer.getRealPlayerClosestToReticle(Team.ALL) in getPlayers(getOppositeTeam(eventPlayer.getTeam())))
+    @Condition not eventPlayer.isDuplicatingAHero()
+
+    eventPlayer.disallowButton(Button.ULTIMATE)
+    waitUntil(eventPlayer.getRealPlayerClosestToReticle(Team.ALL) in getPlayers(getOppositeTeam(eventPlayer.getTeam())), Math.INFINITY)
+    eventPlayer.allowButton(Button.ULTIMATE)
