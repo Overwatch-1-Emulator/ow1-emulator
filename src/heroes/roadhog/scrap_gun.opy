@@ -1,6 +1,6 @@
 #!mainFile "../../main.opy"
 
-rule "[roadhog/blade.opy]: OW1 RoadHog Gun Fire Rate":
+rule "[roadhog/scrap_gun.opy]: OW1 RoadHog Gun Fire Rate":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.isFiringPrimaryFire()
@@ -12,7 +12,7 @@ rule "[roadhog/blade.opy]: OW1 RoadHog Gun Fire Rate":
         eventPlayer.forceButtonPress(Button.PRIMARY_FIRE)
 
 
-rule "[roadhog/blade.opy]: OW1 RoadHog Gun Fire Rate":
+rule "[roadhog/scrap_gun.opy]: OW1 RoadHog Gun Fire Rate":
     @Event eachPlayer
     @Hero roadhog
     @Condition eventPlayer.isFiringSecondaryFire()
