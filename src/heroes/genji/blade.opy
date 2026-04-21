@@ -3,8 +3,8 @@
 rule "[genji/blade.opy]: OW1 Genji Blade Swing Speed":
     @Event eachPlayer
     @Hero genji
-    @Condition eventPlayer.isUsingUltimate()
     @Condition eventPlayer.isFiringPrimaryFire()
+    @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.disallowButton(Button.PRIMARY_FIRE)
     wait(OW1_GENJI_BLADE_SWING_SPEED)
