@@ -78,7 +78,7 @@ rule "[brigitte/rally.opy]: Swap back to Brigitte":
     eventPlayer.startForcingHero(Hero.BRIGITTE)
     eventPlayer.stopForcingCurrentHero()
 
-    # Restore brigitte state & setup for ul
+    # Restore brigitte state & setup for ult
     eventPlayer.setHealth(eventPlayer.brig_hp)
     eventPlayer.setAbilityCooldown(Button.PRIMARY_FIRE, eventPlayer.shield_bash_cd)
     eventPlayer.setAbilityCooldown(Button.ABILITY_1, eventPlayer.whipshot_cd)
