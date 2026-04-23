@@ -15,14 +15,14 @@ subroutine startSupercharger
 subroutine endSupercharger
 
 
-rule "[orisa/supercharger.opy]: Detect Supercharger animation": # DONT SWITCH THIS RULE ORDER! THIS IS IMPORTANT!
+rule "[orisa/supercharger.opy]: Detect Supercharger animation": # DO NOT SWITCH THIS RULE ORDER! OTHERWISE IT WILL BREAK!
     @Event eachPlayer
     @Hero orisa
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
     @Condition eventPlayer.getUltCharge() >= 100
 
     eventPlayer.is_starting_supercharger = true
-    wait(TICK_DURATION, Wait.IGNORE_CONDITION)
+    waitUntil(eventPlayer.is_using_supercharger, Math.INFINITY)
     eventPlayer.is_starting_supercharger = false
 
 
