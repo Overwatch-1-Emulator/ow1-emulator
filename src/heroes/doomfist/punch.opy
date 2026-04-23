@@ -40,7 +40,7 @@ def initRocketPunch():
 
 rule "[doomfist/punch.opy]: Initialize rocket punch":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.isFiringSecondaryFire()
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
 
@@ -61,7 +61,7 @@ rule "[doomfist/punch.opy]: Initialize rocket punch":
 # The order is functionally significant
 rule "[doomfist/punch.opy]: Find wall impacted victims":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim in attacker.punched_victims
     @Condition victim not in attacker.wall_impacted_victims
@@ -77,7 +77,7 @@ rule "[doomfist/punch.opy]: Find wall impacted victims":
 # The order is functionally significant
 rule "[doomfist/punch.opy]: Find punched victims":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim not in attacker.punched_victims
 
@@ -95,7 +95,7 @@ rule "[doomfist/punch.opy]: Find punched victims":
 
 rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
     @Event eachPlayer
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventPlayer.isUsingUltimate() == true
 
     eventPlayer.disallowButton(Button.ABILITY_2)
@@ -122,7 +122,7 @@ rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":
 
 rule "[doomfist/punch.opy]: Remove stun from wall impact":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility == Button.SECONDARY_FIRE
     @Condition victim in eventPlayer.wall_impacted_victims
 

@@ -39,7 +39,7 @@ rule "[doomfist/init.opy]: Clean up Doomfist":
 
 rule "[doomfist/init.opy]: Compensate Global Damage Reduction":
     @Event playerDealtDamage
-    @Hero doomfist
+    @Condition eventPlayer._hero_setup == Hero.DOOMFIST
     @Condition eventAbility in [Button.ULTIMATE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
