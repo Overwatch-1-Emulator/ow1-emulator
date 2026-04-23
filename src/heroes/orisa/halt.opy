@@ -33,6 +33,7 @@ rule "[orisa/halt.opy]: Trigger Halt ability":
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0
     @Condition eventPlayer.isAlive()
     @Condition not isCCd(eventPlayer)
+    @Condition not eventPlayer.is_starting_supercharger
 
     shootHalt()
     waitUntil(not eventPlayer.isHoldingButton(Button.SECONDARY_FIRE), Math.INFINITY) # Ensure player releases right click

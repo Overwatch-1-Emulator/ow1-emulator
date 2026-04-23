@@ -8,10 +8,22 @@ playervar supercharger_pvar
 #!defineMember orisa_supercharger_origin supercharger_pvar[3]
 #!defineMember orisa_supercharger_beam_id supercharger_pvar[4]
 #!defineMember orisa_supercharger_sound_id supercharger_pvar[5]
-#!defineMember javelin_cooldown_before_ult supercharger_pvar[5]
+#!defineMember javelin_cooldown_before_ult supercharger_pvar[6]
+#!defineMember is_starting_supercharger supercharger_pvar[7]
 
 subroutine startSupercharger
 subroutine endSupercharger
+
+
+rule "[orisa/supercharger.opy]: Detect Supercharger animation": # DONT SWITCH THIS RULE ORDER! THIS IS IMPORTANT!
+    @Event eachPlayer
+    @Hero orisa
+    @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
+    @Condition eventPlayer.getUltCharge() >= 100
+
+    eventPlayer.is_starting_supercharger = true
+    wait(TICK_DURATION, Wait.IGNORE_CONDITION)
+    eventPlayer.is_starting_supercharger = false
 
 
 rule "[orisa/supercharger.opy]: Trigger Supercharger start":
@@ -58,6 +70,7 @@ def startSupercharger():
     playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.GREEN, eventPlayer.orisa_supercharger_origin, 3)
     playEffect(getAllPlayers(), DynamicEffect.RING_EXPLOSION_SOUND, Color.GREEN, eventPlayer.orisa_supercharger_origin, 200)
     # play Javelin vfx
+    wait(TICK_DURATION, Wait.IGNORE_CONDITION)
     eventPlayer.javelin_cooldown_before_ult = eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE)
     eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, 0)
     eventPlayer.allowButton(Button.SECONDARY_FIRE)
