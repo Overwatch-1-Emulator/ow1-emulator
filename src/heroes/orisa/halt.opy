@@ -32,6 +32,7 @@ rule "[orisa/halt.opy]: Trigger Halt ability":
     @Condition eventPlayer.isHoldingButton(Button.SECONDARY_FIRE)
     @Condition eventPlayer.getAbilityCooldown(Button.SECONDARY_FIRE) <= 0
     @Condition eventPlayer.isAlive()
+    @Condition not eventPlayer.is_starting_supercharger
     @Condition not isCCd(eventPlayer)
 
     shootHalt()
