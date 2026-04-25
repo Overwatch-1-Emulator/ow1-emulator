@@ -10,6 +10,7 @@ def initGenji():
     eventPlayer.setAmmo(0, OW1_GENJI_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_GENJI_CLIP_SIZE)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    eventPlayer.setProjectileSpeed(percent(OW1_GENJI_PROJECTILE_SPEED/OW2_GENJI_PROJECTILE_SPEED))
 
 
 rule "[genji/init.opy]: Deal OW1 shuriken damage":
