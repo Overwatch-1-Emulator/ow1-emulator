@@ -131,7 +131,7 @@ rule "[doomfist/uppercut.opy]: Damage uppercut victims + vfx + uppercut knockbac
     @Condition eventPlayer._last_uppercut_attacker != eventPlayer._uppercut_attacker
 
     # damage
-    damage(eventPlayer, eventPlayer._uppercut_attacker, (OW1_DOOMFIST_UPPERCUT_DAMAGE*50)) # idk why _base_damage_scalar isnt working but it doesnt and it gives u like 13 damage so magic number it is
+    damage(eventPlayer, eventPlayer._uppercut_attacker, OW1_DOOMFIST_UPPERCUT_DAMAGE*OW2_MELEE_DAMAGE/OW1_MELEE_DAMAGE)
     eventPlayer.setEnvironmentalKillCreditor(eventPlayer._uppercut_attacker)
 
     # upercut hit vfx
