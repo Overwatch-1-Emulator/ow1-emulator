@@ -11,8 +11,6 @@ playervar supercharger_pvar
 #!defineMember javelin_cooldown_before_ult supercharger_pvar[6]
 #!defineMember is_starting_supercharger supercharger_pvar[7]
 #!defineMember supercharger_hp supercharger_pvar[8]
-#!defineMember supercharger_hp_hud_id supercharger_pvar[9]
-
 subroutine startSupercharger
 subroutine endSupercharger
 
@@ -69,16 +67,14 @@ def startSupercharger():
         eventPlayer.orisa_supercharger_id[1] = getLastCreatedEntity()
     # Supercharge HP
     eventPlayer.supercharger_hp = OW1_ORISA_SUPERCHARGER_HEALTH
-    progressBarHud(eventPlayer,
-               percent(eventPlayer.supercharger_hp / OW1_ORISA_SUPERCHARGER_HEALTH),
-               "{}".format(ceil(eventPlayer.supercharger_hp)),
-               HudPosition.TOP,
-               Math.INFINITY,
-               Color.LIME_GREEN,
-               Color.WHITE,
-               ProgressHudReeval.VALUES,
-               SpecVisibility.DEFAULT)
-    eventPlayer.supercharger_hp_hud_id = getLastCreatedText()
+        createProgressBarInWorldText(getAllPlayers(), 
+                     eventPlayer.supercharger_hp, 
+                     "", 
+                     eventPlayer.orisa_supercharger_origin + OW1_ORISA_SUPERCHARGER_HEIGHT/4*Vector.UP,
+                     0.5, 
+                     Clip.SURFACES, 
+                     Color.GREEN)
+        eventPlayer.orisa_supercharger_id[2] = getLastCreatedEntity() 
 
     # Supercharger deploy effect
     playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.GREEN, eventPlayer.orisa_supercharger_origin, 3)
@@ -106,7 +102,7 @@ def endSupercharger():
     eventPlayer.orisa_supercharger_id[1] = null
     eventPlayer.is_using_supercharger = false
     getPlayers(eventPlayer.getTeam()).is_supercharged = false
-    destroyProgressBarHud(eventPlayer.supercharger_hp_hud_id)
+    destroyProgressBarInWorldText(eventPlayer.orisa_supercharger_id[2])
 
 
 rule "[orisa/supercharger.opy]: Supercharge teammates in supercharger range":
@@ -192,7 +188,7 @@ rule "[orisa/supercharger.opy]: Damage supercharger when shot":
     @Condition eventPlayer.enemy_orisa_player.is_using_supercharger
     @Condition eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire()
     @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, 0.5)
-    @Condition isInLoS(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, BarrierLos.BLOCKED_BY_ALL_BARRIERS)
+    @Condition isInLoS(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
 
     eventPlayer.enemy_orisa_player.supercharger_hp -= 10
     wait(0.1, Wait.RESTART_WHEN_TRUE)
