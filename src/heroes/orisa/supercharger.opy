@@ -66,7 +66,8 @@ def startSupercharger():
                      EffectReeval.NONE)
         eventPlayer.orisa_supercharger_id[1] = getLastCreatedEntity()
     # Supercharge HP
-    eventPlayer.supercharger_hp = OW1_ORISA_SUPERCHARGER_HEALTH
+    if eventPlayer.orisa_supercharger_id[2] == null:
+        eventPlayer.supercharger_hp = OW1_ORISA_SUPERCHARGER_HEALTH
         createProgressBarInWorldText(getAllPlayers(), 
                      eventPlayer.supercharger_hp, 
                      "", 
@@ -74,7 +75,7 @@ def startSupercharger():
                      0.5, 
                      Clip.SURFACES, 
                      Color.GREEN)
-        eventPlayer.orisa_supercharger_id[2] = getLastCreatedEntity() 
+        eventPlayer.orisa_supercharger_id[2] = getLastCreatedText()
 
     # Supercharger deploy effect
     playEffect(getAllPlayers(), DynamicEffect.GOOD_EXPLOSION, Color.GREEN, eventPlayer.orisa_supercharger_origin, 3)
@@ -100,9 +101,10 @@ def endSupercharger():
     eventPlayer.orisa_supercharger_id[0] = null
     destroyEffect(eventPlayer.orisa_supercharger_id[1])
     eventPlayer.orisa_supercharger_id[1] = null
+    destroyProgressBarInWorldText(eventPlayer.orisa_supercharger_id[2])
+    eventPlayer.orisa_supercharger_id[2] = null
     eventPlayer.is_using_supercharger = false
     getPlayers(eventPlayer.getTeam()).is_supercharged = false
-    destroyProgressBarInWorldText(eventPlayer.orisa_supercharger_id[2])
 
 
 rule "[orisa/supercharger.opy]: Supercharge teammates in supercharger range":
@@ -185,14 +187,13 @@ rule "[orisa/supercharger.opy]: Revert damage boost if not supercharged":
 rule "[orisa/supercharger.opy]: Damage supercharger when shot":
     @Event eachPlayer
     @Condition eventPlayer.getTeam() == getOppositeTeam(eventPlayer.enemy_orisa_player.getTeam())
-    @Condition eventPlayer.enemy_orisa_player.is_using_supercharger
     @Condition eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire()
-    @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, 0.5)
+    @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, 1)
     @Condition isInLoS(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
 
     eventPlayer.enemy_orisa_player.supercharger_hp -= 10
-    wait(0.1, Wait.RESTART_WHEN_TRUE)
-    if RULE_CONDITION: goto RULE_START
+    #wait(0.16, Wait.RESTART_WHEN_TRUE)
+    #if RULE_CONDITION: goto RULE_START
 
 rule "[orisa/supercharger.opy]: Destroy Supercharger when hp drops":
     @Event eachPlayer
