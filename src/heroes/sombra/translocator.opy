@@ -181,7 +181,7 @@ rule "[sombra/translocator.opy]: Break translocator when shot":
     @Event eachPlayer
     @Condition eventPlayer.getTeam() == getOppositeTeam(eventPlayer.enemy_sombra_player.getTeam())
     @Condition eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire()
-    @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_sombra_player.transloc_position, 0.1)
-    @Condition isInLoS(eventPlayer.getEyePosition(), eventPlayer.enemy_sombra_player.transloc_position, BarrierLos.BLOCKED_BY_ALL_BARRIERS)
+    @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_sombra_player.transloc_position, 0.5)
+    @Condition isInLoS(eventPlayer.getEyePosition(), eventPlayer.enemy_sombra_player.transloc_position, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
 
     destroyTranslocator(eventPlayer.enemy_sombra_player)
