@@ -195,6 +195,12 @@ rule "[orisa/supercharger.opy]: Damage supercharger when shot":
     #wait(0.16, Wait.RESTART_WHEN_TRUE)
     #if RULE_CONDITION: goto RULE_START
 
+rule "[orisa/supercharger.opy]: Damage supercharger when enemys are shot neaby":
+    @Event playerTookDamage
+    @Condition getRealPlayersInRadius(eventPlayer.orisa_supercharger_origin, 5, eventPlayer.getTeam(), LosCheck.SURFACES)
+
+    eventPlayer.supercharger_hp -= eventDamage/2
+
 rule "[orisa/supercharger.opy]: Destroy Supercharger when hp drops":
     @Event eachPlayer
     @Hero orisa
