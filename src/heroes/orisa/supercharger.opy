@@ -11,6 +11,8 @@ playervar supercharger_pvar
 #!defineMember javelin_cooldown_before_ult supercharger_pvar[6]
 #!defineMember is_starting_supercharger supercharger_pvar[7]
 #!defineMember supercharger_hp supercharger_pvar[8]
+#!defineMember travel_time supercharger_pvar[9]
+#!defineMember proj_speed supercharger_pvar[10]
 subroutine startSupercharger
 subroutine endSupercharger
 
@@ -186,20 +188,16 @@ rule "[orisa/supercharger.opy]: Revert damage boost if not supercharged":
 
 rule "[orisa/supercharger.opy]: Damage supercharger when shot":
     @Event eachPlayer
+    @Condition eventPlayer.enemy_orisa_player.is_using_supercharger == true
     @Condition eventPlayer.getTeam() == getOppositeTeam(eventPlayer.enemy_orisa_player.getTeam())
-    @Condition eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire()
     @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, 1)
     @Condition isInLoS(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
 
+    waitUntil(eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire(), Math.INFINITY)
+    eventPlayer.proj_speed = getProjectileSpeed(eventPlayer)
+    eventPlayer.travel_time = distance(eventPlayer.getPosition(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin) / eventPlayer.proj_speed if eventPlayer.proj_speed > 0 else 0
+    wait(eventPlayer.travel_time, Wait.IGNORE_CONDITION)
     eventPlayer.enemy_orisa_player.supercharger_hp -= 10
-    #wait(0.16, Wait.RESTART_WHEN_TRUE)
-    #if RULE_CONDITION: goto RULE_START
-
-rule "[orisa/supercharger.opy]: Damage supercharger when enemys are shot neaby":
-    @Event playerTookDamage
-    @Condition getRealPlayersInRadius(eventPlayer.orisa_supercharger_origin, 5, eventPlayer.getTeam(), LosCheck.SURFACES)
-
-    eventPlayer.supercharger_hp -= eventDamage/2
 
 rule "[orisa/supercharger.opy]: Destroy Supercharger when hp drops":
     @Event eachPlayer

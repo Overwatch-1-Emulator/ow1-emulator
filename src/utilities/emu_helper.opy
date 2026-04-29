@@ -24,23 +24,18 @@ macro setBaseMovement(player, scalar):
 #    player.setDamageReceived(percent(player._damage_received_scalar))
 
 macro getProjectileSpeed(player):
-    # Hitscan heroes return 0 (instant)
-    # Ana, Ashe (primary), Baptiste (primary), Cassidy, D.Va (minigun), 
-    # Reaper, Soldier 76, Sombra, Tracer, Widowmaker, Zenyatta (orbs are projectile actually)
     0 if player.getCurrentHero() in [Hero.ANA, Hero.ASHE, Hero.BAPTISTE, Hero.CASSIDY, 
-                                       Hero.DVA, Hero.REAPER, Hero.SOLDIER_76, Hero.SOMBRA, 
+                                       Hero.DVA, Hero.REAPER, Hero.SOLDIER, Hero.SOMBRA, 
                                        Hero.TRACER, Hero.WIDOWMAKER] \
-    else OW1_PHARAH_ROCKET_SPEED if player.getCurrentHero() == Hero.PHARAH \
+    else OW1_PHARAH_ROCKET_PROJECTILE_SPEED if player.getCurrentHero() == Hero.PHARAH \
     else OW1_GENJI_PROJECTILE_SPEED if player.getCurrentHero() == Hero.GENJI \
-    else OW1_HANZO_ARROW_SPEED if player.getCurrentHero() == Hero.HANZO \
+    else OW1_HANZO_STORM_PROJECTILE_SPEED if player.getCurrentHero() == Hero.HANZO \
     else OW1_JUNKRAT_PROJECTILE if player.getCurrentHero() == Hero.JUNKRAT \
     else OW1_ORISA_GUN_PROJECTILE_SPEED if player.getCurrentHero() == Hero.ORISA \
-    else OW1_SIGMA_PROJECTILE_SPEED if player.getCurrentHero() == Hero.SIGMA \
-    else OW1_REINHARDT_FIRESTRIKE_SPEED if player.getCurrentHero() == Hero.REINHARDT \
-    else OW1_ZENYATTA_ORB_SPEED if player.getCurrentHero() == Hero.ZENYATTA \
+    else OW1_SIGMA_HYPERSPHERE_PROJECTILE_SPEED if player.getCurrentHero() == Hero.SIGMA \
+    else OW1_ZENYATTA_ORB_PROJECTILE_SPEED if player.getCurrentHero() == Hero.ZENYATTA \
     else OW1_SYMMETRA_ORB_SPEED if player.getCurrentHero() == Hero.SYMMETRA \
-    else OW1_LUCIO_PROJECTILE_SPEED if player.getCurrentHero() == Hero.LUCIO \
-    else OW1_MEI_ICICLE_SPEED if player.getCurrentHero() == Hero.MEI \
+    else OW1_LUCIO_SOUND_GUN_PROJECTILE_SPEED if player.getCurrentHero() == Hero.LUCIO \
     else 60
 macro isHacked(player):
     player.hack_timer > 0
