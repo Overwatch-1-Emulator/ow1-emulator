@@ -1,5 +1,16 @@
 # Changelog
 
+## [5.3.1](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.3.0...v5.3.1) (2026-05-02)
+
+
+### Bug Fixes
+
+* **Doomfist:** make Uppercut not Oneshot everyone ([#1650](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1650)) ([cae35ab](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/cae35ab8a2d5a899aca1e7276988189885585c5c))
+* **echo:** Disallow Copying Teammates + misc(Genji) ([#1644](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1644)) ([5bc84d6](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/5bc84d695d6ed0600bebdd97c3f7745fb14bb727))
+* **Orisa:** Stop shooting out Halt when starting Supercharger ([#1648](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1648)) ([94d2a09](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/94d2a0997b583aee8b8b8f3abb1860be613249a0))
+* **Roadhog:** Correct Primary and Secondary Fire Rate ([#1643](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1643)) ([0184b0d](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/0184b0de6b5825211eb292269c39a2f49d998067))
+* **Soldier:** Cancel reload when sprinting ([#1641](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1641)) ([ae1ec93](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/ae1ec931973ea42ef15277a6751f280b340cc315))
+
 ## [5.3.0](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.2.0...v5.3.0) (2026-04-19)
 
 
