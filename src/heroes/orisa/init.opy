@@ -1,8 +1,8 @@
 #!mainFile "../../main.opy"
 
+#!include "barrier.opy"
 #!include "supercharger.opy"
 #!include "halt.opy"
-#!include "barrier.opy"
 #!include "fusion_driver.opy"
 #!include "fortify.opy"
 

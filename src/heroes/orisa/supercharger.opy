@@ -188,16 +188,19 @@ rule "[orisa/supercharger.opy]: Revert damage boost if not supercharged":
 
 rule "[orisa/supercharger.opy]: Damage supercharger when shot":
     @Event eachPlayer
+    @Condition not isAimingAtOrisaBarrier()
     @Condition eventPlayer.enemy_orisa_player.is_using_supercharger == true
+    @Condition eventPlayer.isFiringPrimaryFire()
     @Condition eventPlayer.getTeam() == getOppositeTeam(eventPlayer.enemy_orisa_player.getTeam())
     @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, 1)
     @Condition isInLoS(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
 
-    waitUntil(eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire(), Math.INFINITY)
-    eventPlayer.proj_speed = getProjectileSpeed(eventPlayer)
-    eventPlayer.travel_time = distance(eventPlayer.getPosition(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin) / eventPlayer.proj_speed if eventPlayer.proj_speed > 0 else 0
-    wait(eventPlayer.travel_time, Wait.IGNORE_CONDITION)
-    eventPlayer.enemy_orisa_player.supercharger_hp -= 10
+    if eventPlayer.getCurrentHero() in [Hero.REINHARDT, Hero.BRIGITTE] and getRealPlayersInRadius(eventPlayer.enemy_orisa_player.orisa_supercharger_origin, 5, eventPlayer.getTeam(), LosCheck.SURFACES):
+        eventPlayer.enemy_orisa_player.supercharger_hp -= OW1_REINHARDT_HAMMER_DAMAGE if Role.TANK else OW1_BRIGITTE_FLAIL_DAMAGE
+    else:
+        eventPlayer.travel_time = (distance(eventPlayer.getPosition(), eventPlayer.enemy_orisa_player.orisa_supercharger_origin) / getProjectileSpeed(eventPlayer)) if getProjectileSpeed(eventPlayer) > 0 else 0
+        wait(eventPlayer.travel_time, Wait.IGNORE_CONDITION)
+        eventPlayer.enemy_orisa_player.supercharger_hp -= 10
 
 rule "[orisa/supercharger.opy]: Destroy Supercharger when hp drops":
     @Event eachPlayer
