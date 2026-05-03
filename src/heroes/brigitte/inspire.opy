@@ -12,16 +12,17 @@ rule "[brigitte/inspire.opy]: Inspire self healing logic":
 
     eventPlayer.list_of_players = getRealPlayersInRadius(eventPlayer.getPosition(), OW1_BRIGITTE_INSPIRE_RADIUS, eventPlayer.getTeam(), LosCheck.SURFACES)
     stopHealingOverTime(eventPlayer.list_of_players.inspire_allies)
-    eventPlayer.list_of_players.startHealingOverTime(eventPlayer, OW2_BRIGITTE_INSPIRE_DURATION, (OW1_BRIGITTE_INSPIRE_HEALING/2)) # Compensate to get 90 healing
+    eventPlayer.list_of_players.startHealingOverTime(eventPlayer, OW1_BRIGITTE_INSPIRE_DURATION, OW1_BRIGITTE_INSPIRE_HEALING) # Compensate to get 90 healing
     eventPlayer.list_of_players.inspire_allies = getLastHealingOverTimeId()
-    wait(OW2_BRIGITTE_INSPIRE_DURATION)
+    wait(OW1_BRIGITTE_INSPIRE_DURATION)
     eventPlayer.inspire_damage = false
 
 
 rule "[brigitte/inspire.opy]: Trigger custom Inspire":
     @Event playerDealtDamage
     @Hero brigitte
-    @Condition not eventPlayer.isFiringSecondaryFire() and eventAbility == Button.PRIMARY_FIRE
+    @Condition not eventPlayer.isFiringSecondaryFire()
+    @Condition eventAbility in [Button.ABILITY_1, Button.PRIMARY_FIRE]
 
     eventPlayer.inspire_damage = true
     
