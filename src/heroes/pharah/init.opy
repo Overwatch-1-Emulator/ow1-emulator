@@ -36,4 +36,5 @@ rule "im super bored":
     @Hero pharah
     @Condition eventPlayer.isUsingAbility1()
 
+    eventPlayer.applyImpulse(eventPlayer.getFacingDirection() * vect(1, 0, 1),OW1_PHARAH_JUMP_JET_SPEED,Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
     eventPlayer.applyImpulse(Vector.UP, OW1_PHARAH_JUMP_JET_RANGE-OW2_PHARAH_JUMP_JET_RANGE, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)

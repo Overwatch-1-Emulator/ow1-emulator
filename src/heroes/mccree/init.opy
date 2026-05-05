@@ -24,7 +24,7 @@ def initMccree():
 
     setCustomHp(OW1_MCCREE_HEALTH, 0, 0)
     setUltCost(OW1_MCCREE_ULT_COST)
-    setBaseDamage(eventPlayer, OW1_MCCREE_FLASHBANG_DAMAGE/OW2_MCCREE_FLASHBANG_DAMAGE)
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
 
 #rule "[mccree/flashbang.opy]: Compensate McCree global damage reduction":
 #    @Event playerDealtDamage
@@ -45,7 +45,9 @@ rule "BLAH":
     if eventPlayer.mccree_shot_distance < OW1_MCCREE_DAMAGE_FALLOFF_START_DISTANCE:
         damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
     elif eventPlayer.mccree_shot_distance < OW1_MCCREE_DAMAGE_FALLOFF_END_DISTANCE and not eventPlayer.mccree_shot_distance > OW1_MCCREE_DAMAGE_FALLOFF_END_DISTANCE:
-        damage(victim, attacker, (eventPlayer.mccree_ow1_falloff_scalar * OW1_MCCREE_PEACEKEEPER_DAMAGE - eventDamage/eventPlayer._base_damage_scalar) / eventPlayer._base_damage_scalar)
+        eventPlayer.mccree_shot_distance = eventPlayer.mccree_shot_distance/100
+        damage(victim, attacker, (eventPlayer.mccree_shot_distance * 21 + (1.00 - eventPlayer.mccree_shot_distance) * OW1_MCCREE_PEACEKEEPER_DAMAGE) - eventDamage)
+
 
 #rule "[cassidy/init.opy]: Revert Cassidy damage falloff":
 #    @Event playerDealtDamage
