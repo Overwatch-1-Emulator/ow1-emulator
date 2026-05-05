@@ -1,7 +1,5 @@
 #!mainFile "../../main.opy"
 
-playervar flashbang_pvar
-#!defineMember _is_using_flashbang flashbang_pvar[0]
 
 
 rule "[mccree/flashbang.opy]: OW1 flashbang":
@@ -9,7 +7,6 @@ rule "[mccree/flashbang.opy]: OW1 flashbang":
     @Hero cassidy
     @Condition eventAbility == Button.ABILITY_2
 
-    eventPlayer._is_using_flashbang = false
     victim.setStatusEffect(eventPlayer, Status.STUNNED, OW1_MCCREE_FLASHBANG_STUN_DURATION)
     victim.setMoveSpeed(percent(1/OW2_MCCREE_FLASHBANG_SPEED_REDUCTION))
     wait(OW2_MCCREE_FLASHBANG_HINDER_DURATION)

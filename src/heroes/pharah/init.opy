@@ -29,3 +29,11 @@ rule "[pharah/init.opy]: Compensate Pharah global damage reduction":
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ULTIMATE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    
+
+rule "im super bored":
+    @Event eachPlayer
+    @Hero pharah
+    @Condition eventPlayer.isUsingAbility1()
+
+    eventPlayer.applyImpulse(Vector.UP, OW1_PHARAH_JUMP_JET_RANGE-OW2_PHARAH_JUMP_JET_RANGE, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)

@@ -1,5 +1,6 @@
 #!mainFile "../../main.opy"
 
+#!include "crossfade.opy"
 
 def initLucio():
     @Name "[lucio/init.opy]: initLucio()"
@@ -8,7 +9,7 @@ def initLucio():
     setUltCost(OW1_LUCIO_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_LUCIO_SOUNDWAVE_DAMAGE/OW2_LUCIO_SOUNDWAVE_DAMAGE)
-    setBaseHealing(eventPlayer, OW1_LUCIO_ALLY_HEALING/OW2_LUCIO_ALLY_HEALING)
+    setBaseHealing(eventPlayer, OW1_LUCIO_SELF_HEALING/OW2_LUCIO_SELF_HEALING)
     eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
 
 
