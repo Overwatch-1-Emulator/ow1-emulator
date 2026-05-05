@@ -45,7 +45,7 @@ rule "BLAH":
     if eventPlayer.mccree_shot_distance < OW1_MCCREE_DAMAGE_FALLOFF_START_DISTANCE:
         damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
     elif eventPlayer.mccree_shot_distance < OW1_MCCREE_DAMAGE_FALLOFF_END_DISTANCE and not eventPlayer.mccree_shot_distance > OW1_MCCREE_DAMAGE_FALLOFF_END_DISTANCE:
-        damage(victim, attacker, (eventPlayer.mccree_shot_distance/100 * 21 + (100 - eventPlayer.mccree_shot_distance/100) * 70))
+        damage(victim, attacker, (eventPlayer.mccree_ow1_falloff_scalar * OW1_MCCREE_PEACEKEEPER_DAMAGE - eventDamage/eventPlayer._base_damage_scalar) / eventPlayer._base_damage_scalar)
 
 #rule "[cassidy/init.opy]: Revert Cassidy damage falloff":
 #    @Event playerDealtDamage
