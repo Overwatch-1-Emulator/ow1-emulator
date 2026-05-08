@@ -41,3 +41,15 @@ rule "[bastion/sentry.opy]: Extend sentry mode": # thanks to Wadetata for this w
             waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
             eventPlayer.setMoveSpeed(0)
     while RULE_CONDITION
+
+
+rule "[bastion/machine.opy]: Plkease work":
+    @Event playerTookDamage
+    @Hero bastion
+    @Condition attacker == Hero.ROADHOG
+    @Condition eventAbility == Button.ABILITY_1
+    @Condition eventPlayer.current_configuration == Configuration.SENTRY
+    @Condition eventPlayer.current_configuration != Configuration.TANK
+
+    eventPlayer.forceButtonPress(Button.ABILITY_1)
+    
