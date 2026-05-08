@@ -9,7 +9,7 @@ def initLucio():
     setUltCost(OW1_LUCIO_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_LUCIO_SOUNDWAVE_DAMAGE/OW2_LUCIO_SOUNDWAVE_DAMAGE)
-    setBaseHealing(eventPlayer, OW1_LUCIO_SELF_HEALING/OW2_LUCIO_SELF_HEALING)
+    setBaseHealing(eventPlayer, OW1_LUCIO_SELF_HEALING/OW2_LUCIO_SELF_HEALING) #IDK if this has the penalty healing i like dont know how to track it
     eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
 
 

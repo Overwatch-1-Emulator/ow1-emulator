@@ -1,7 +1,7 @@
 #!mainFile "../../main.opy"
 
 
-rule "BLASH BLAYH BLAH":
+rule "[lucio/crossfade.opy]: OW1 Ally Healing":
     @Event playerDealtHealing
     @Hero lucio
     @Condition eventAbility == Button.ABILITY_1
@@ -9,7 +9,7 @@ rule "BLASH BLAYH BLAH":
     heal(healee, healer, eventHealing/eventPlayer._base_healing_scalar*(OW1_LUCIO_ALLY_HEALING/OW2_LUCIO_ALLY_HEALING)-eventHealing)
 
 
-rule "BLAH BLAH BLAH AMPED UP":
+rule "[lucio/crossfade.opy]: AMPED UP Correct Healing":
     @Event playerDealtHealing
     @Hero lucio
     @Condition eventAbility == Button.ABILITY_1

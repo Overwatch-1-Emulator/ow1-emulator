@@ -37,4 +37,5 @@ rule "im super bored":
     @Condition eventPlayer.isUsingAbility1()
 
     eventPlayer.applyImpulse(eventPlayer.getFacingDirection() * vect(1, 0, 1),OW1_PHARAH_JUMP_JET_SPEED,Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)
+    #the impulse rule above the reason its there is so u can do directional movement but its hard to do that so if this isnt good lmk and we can remove it
     eventPlayer.applyImpulse(Vector.UP, OW1_PHARAH_JUMP_JET_RANGE-OW2_PHARAH_JUMP_JET_RANGE, Relativity.TO_WORLD, Impulse.INCORPORATE_CONTRARY_MOTION)

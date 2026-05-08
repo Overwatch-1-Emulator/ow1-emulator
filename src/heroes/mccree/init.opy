@@ -26,16 +26,16 @@ def initMccree():
 
     #eventPlayer.disallowButton(Button.ABILITY_2)
 
-#rule "[mccree/flashbang.opy]: Compensate McCree global damage reduction":
-#    @Event playerDealtDamage
-#    @Hero cassidy
-#    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
+rule "[mccree/init.opy]: Compensate McCree global damage reduction":
+    @Event playerDealtDamage
+    @Hero cassidy
+    @Condition eventAbility == Button.SECONDARY_FIRE
 
-#    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
 
 
 
-rule "BLAH":
+rule "[mccree/init.opy]: OW1 Fall Off Range":
     @Event playerDealtDamage
     @Hero cassidy
     @Condition eventAbility == Button.PRIMARY_FIRE
