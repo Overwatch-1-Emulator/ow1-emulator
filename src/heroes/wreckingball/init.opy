@@ -35,6 +35,7 @@ rule "[wreckingball/init.opy]: OW1 MineField Activation Time":
     @Hero wreckingBall
     @Condition eventPlayer.isHoldingButton(Button.ULTIMATE)
     @Condition eventPlayer.getUltCharge() == 100
+    @Condition not isCCd(eventPlayer)
 
     wait(OW2_WRECKING_BALL_MINEFIELD_ACTIVATION_TIME-OW1_WRECKING_BALL_MINEFIELD_ACTIVATION_TIME)
     eventPlayer.allowButton(Button.ULTIMATE)

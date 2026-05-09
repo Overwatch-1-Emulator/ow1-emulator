@@ -41,4 +41,3 @@ rule "[bastion/sentry.opy]: Extend sentry mode": # thanks to Wadetata for this w
             waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
             eventPlayer.setMoveSpeed(0)
     while RULE_CONDITION
-    

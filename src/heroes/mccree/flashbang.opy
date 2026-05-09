@@ -19,5 +19,5 @@ rule "[mccree/flashbang.opy]: OW1 flashbang damage":
     @Condition eventPlayer.getAbilityCooldown(Button.ABILITY_2) <= 0
 
     eventPlayer.setDamageDealt(percent(OW1_MCCREE_FLASHBANG_DAMAGE/OW2_MCCREE_FLASHBANG_DAMAGE))
-    wait(0.4)
+    wait(OW2_MCCREE_FLASHBANG_DAMAGE_INTERVAL)
     eventPlayer.setDamageDealt(percent(eventPlayer._base_damage_scalar))

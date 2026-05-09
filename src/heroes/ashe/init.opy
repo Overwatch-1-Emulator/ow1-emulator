@@ -36,7 +36,7 @@ rule "[ashe/init.opy]: Compensate Ashe global damage reduction":
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
 
 
-rule "[ashe/init.opy]: OW1 Ashe Fall Off Range":
+rule "[ashe/init.opy]: OW1 Viper ADS Damage Falloff":
     @Event playerDealtDamage
     @Hero ashe
     @Condition eventAbility == Button.PRIMARY_FIRE

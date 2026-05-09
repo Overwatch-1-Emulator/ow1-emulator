@@ -35,7 +35,7 @@ rule "[mccree/init.opy]: Compensate McCree global damage reduction":
 
 
 
-rule "[mccree/init.opy]: OW1 Fall Off Range":
+rule "[mccree/init.opy]: OW1 Peacekeeper Damage FallOff":
     @Event playerDealtDamage
     @Hero cassidy
     @Condition eventAbility == Button.PRIMARY_FIRE
