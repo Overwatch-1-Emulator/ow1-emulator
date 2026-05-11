@@ -9,7 +9,7 @@ def initTorbjorn():
     setCustomHp(OW1_TORBJORN_HEALTH, OW1_TORBJORN_ARMOR, 0)
     setUltCost(OW1_TORBJORN_ULT_COST)
     setBaseDamage(eventPlayer, OW1_TORBJORN_TURRET_DAMAGE/OW2_TORBJORN_TURRET_DAMAGE)
-
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 rule "[torbjorn/init.opy]: Correct Rivet Gun, Hammer, and ultimate damage":
     @Event playerDealtDamage

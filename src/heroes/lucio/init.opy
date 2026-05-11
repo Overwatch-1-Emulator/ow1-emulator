@@ -10,7 +10,7 @@ def initLucio():
     setBaseDamage(eventPlayer, OW1_LUCIO_SOUNDWAVE_DAMAGE/OW2_LUCIO_SOUNDWAVE_DAMAGE)
     setBaseHealing(eventPlayer, OW1_LUCIO_ALLY_HEALING/OW2_LUCIO_ALLY_HEALING)
     eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
-
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 rule "[lucio/init.opy]: OW1 Lucio gun damage":
     @Event playerDealtDamage

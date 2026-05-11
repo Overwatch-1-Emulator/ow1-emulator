@@ -20,6 +20,7 @@ def initWidowmaker():
     setCustomHp(OW1_WIDOWMAKER_HEALTH, 0, 0)
     setUltCost(OW1_WIDOWMAKER_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
     #removeSelfHealing()
 
 rule "[widowmaker.opy]: Revert sniper damage falloff":

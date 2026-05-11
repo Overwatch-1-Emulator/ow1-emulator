@@ -23,6 +23,7 @@ def initDoomfist():
     setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
     initRocketPunch()
     initSlam()

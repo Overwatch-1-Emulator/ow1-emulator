@@ -10,6 +10,7 @@ def initMccree():
     setCustomHp(OW1_MCCREE_HEALTH, 0, 0)
     setUltCost(OW1_MCCREE_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MCCREE_FLASHBANG_DAMAGE/OW2_MCCREE_FLASHBANG_DAMAGE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 rule "[mccree/flashbang.opy]: Compensate McCree global damage reduction":
     @Event playerDealtDamage

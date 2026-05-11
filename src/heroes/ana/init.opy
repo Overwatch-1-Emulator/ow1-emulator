@@ -11,7 +11,7 @@ def initAna():
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     setBaseHealing(eventPlayer, OW1_ANA_BIOTIC_RIFLE_HEALING/OW2_ANA_BIOTIC_RIFLE_HEALING)
-
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 rule "[ana/init.opy]: OW1 Ana rifle damage":
     @Event playerDealtDamage

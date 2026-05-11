@@ -13,6 +13,7 @@ def initWinston():
     # eventPlayer.addHealthPool(Health.NORMAL, (OW2_WINSTON_PRIMAL_HEALTH_BONUS * (OW1_WINSTON_BARRIER_HEALTH/OW2_WINSTON_BARRIER_HEALTH) - OW1_WINSTON_PRIMAL_HEALTH_BONUS), true, true)
     # eventPlayer._primal_hp_id = getLastCreatedHealthPool()
     setUltCost(OW1_WINSTON_ULT_COST)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     eventPlayer.setAmmo(0, OW1_WINSTON_AMMO)

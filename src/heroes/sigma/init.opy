@@ -7,6 +7,7 @@ def initSigma():
     setUltCost(OW1_SIGMA_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 
 rule "[sigma/init.opy]: OW1 accretion damage":

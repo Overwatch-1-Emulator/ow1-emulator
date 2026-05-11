@@ -11,7 +11,7 @@ def initJunkrat():
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     eventPlayer.setProjectileSpeed(percent(OW1_JUNKRAT_PROJECTILE/OW2_JUNKRAT_PROJECTILE)) # Junkrat's projectile speed was changed in OW2, so we need to adjust it to match OW1 values
-
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 rule "[junkrat/init.opy]: Correct Mine, Tire damage":
     @Event playerDealtDamage

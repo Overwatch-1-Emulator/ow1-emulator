@@ -14,6 +14,7 @@ def initRoadhog():
 
     eventPlayer.setAmmo(0, OW1_ROADHOG_CLIP_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_ROADHOG_CLIP_SIZE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     setBaseHealing(eventPlayer, 296/OW2_ROADHOG_BREATHER_HEAL_TOTAL) # I think this needs to be exact because when I was playing I noticed with the anti healing passive number was off sometimes

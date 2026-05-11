@@ -10,6 +10,7 @@ def initEcho():
     setCustomHp(OW1_ECHO_HEALTH-1, 0, 0) # Need to subtract 1 because of extra 1 shield health
     setUltCost(OW1_ECHO_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 
 rule "[echo/init.opy]: Compensate Echo global damage reduction":

@@ -11,6 +11,7 @@ def initSombra():
 
     setCustomHp(OW1_SOMBRA_HEALTH, 0, 0)
     setUltCost(OW1_SOMBRA_ULT_COST)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
     getPlayers(eventPlayer.getTeam()).friendly_sombra_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_sombra_player = eventPlayer

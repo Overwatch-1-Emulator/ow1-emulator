@@ -11,6 +11,7 @@ def initOrisa():
 
     setCustomHp(OW1_ORISA_HEALTH, OW1_ORISA_ARMOR, 0)
     setUltCost(OW1_ORISA_ULT_COST)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
     # Below variables are also declared and initialized in reset_hero.opy
     getPlayers(eventPlayer.getTeam()).friendly_orisa_player = eventPlayer

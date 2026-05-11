@@ -15,6 +15,7 @@ def initDva():
     setCustomHp(OW1_DVA_HEALTH, OW1_DVA_ARMOR, 0)
 
     setBaseDamage(eventPlayer, OW1_DVA_BOOSTERS_DAMAGE/OW2_DVA_BOOSTERS_DAMAGE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 
 rule "[dva/init.opy]: Compensate DVa global damage reduction":

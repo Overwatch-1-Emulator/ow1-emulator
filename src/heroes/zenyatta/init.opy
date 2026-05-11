@@ -9,6 +9,7 @@ def initZenyatta():
     setUltCost(OW1_ZENYATTA_ULT_COST)
     #removeSelfHealing()
 
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
     eventPlayer.setKnockbackDealt(percent(OW1_ZENYATTA_KNOCKBACK/OW2_ZENYATTA_KNOCKBACK))
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_ZENYATTA_MELEE_DAMAGE)
 

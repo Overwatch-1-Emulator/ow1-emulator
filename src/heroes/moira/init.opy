@@ -11,7 +11,7 @@ def initMoira():
     setUltCost(OW1_MOIRA_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
-
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 rule "[moira/init.opy]: Compensate Moira orb damage reduction":
     @Event playerDealtDamage

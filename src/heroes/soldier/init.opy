@@ -12,6 +12,7 @@ def initSoldier():
     setUltCost(OW1_SOLDIER_ULT_COST)
     eventPlayer.setHealingDealt(percent(OW1_SOLDIER_BIOTIC_FIELD_HEAL/OW2_SOLDIER_BIOTIC_FIELD_HEAL))
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
     #removeSelfHealing()
 
 rule "[soldier/init.opy]: Compensate Damage Reduction":

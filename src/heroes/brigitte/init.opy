@@ -19,7 +19,7 @@ def initBrigitte():
     getPlayers(eventPlayer.getTeam())._friendly_brigitte_player = eventPlayer
     getPlayers(getOppositeTeam(eventPlayer.getTeam())).enemy_brigitte_player = eventPlayer
 
-
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
 rule "[brigitte/init.opy]: Compensate Brigitte global damage reduction":
     @Event playerDealtDamage

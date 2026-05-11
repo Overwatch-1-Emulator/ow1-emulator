@@ -12,6 +12,7 @@ def initMercy():
     eventPlayer.setMaxAmmo(0, OW1_MERCY_CLIP_SIZE)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
     eventPlayer.is_using_guardian_angel = false
     eventPlayer.is_slingshotting = false

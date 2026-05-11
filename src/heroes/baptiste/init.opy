@@ -11,6 +11,7 @@ def initBaptiste():
     setUltCost(OW1_BAPTISTE_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    eventPlayer.startScalingSize(MODEL_SIZE_PRE_SEASON_9, true)
 
     eventPlayer.setAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
     eventPlayer.setMaxAmmo(0, OW1_BAPTISTE_CLIP1_SIZE)
