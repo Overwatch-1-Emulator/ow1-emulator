@@ -10,23 +10,28 @@ created by discord users: Bebel#5658 and Xponit#1474
 playervar is_using_uppercut
 playervar is_ultimate_locked
 
+
 #!include "uppercut.opy"
 #!include "slam.opy"
 #!include "punch.opy"
 #!include "meteor.opy"
 #!include "cannon.opy"
+#!include "defense.opy"
 
 
 def initDoomfist():
     @Name "[doomfist/init.opy]: initDoomfist()"
 
-    setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
+    eventPlayer.setMaxHealth(percent(0.1/OW2_DOOMFIST_BEST_DEFENSE))
+    eventPlayer._hp_scalar = percent(0.1/OW2_DOOMFIST_BEST_DEFENSE)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
-
+    if eventPlayer.getHealth() < 5:
+        eventPlayer.addHealthPool(Health.NORMAL, 246, true, true)
     initRocketPunch()
     initSlam()
-    eventPlayer.uppercut_shields = 0
+    eventPlayer.best_defense_shields = 0
+    #eventPlayer.uppercut_shields = 0
 
 
 rule "[doomfist/init.opy]: Clean up Doomfist":
@@ -36,6 +41,7 @@ rule "[doomfist/init.opy]: Clean up Doomfist":
     waitUntil(eventPlayer.getCurrentHero() != Hero.DOOMFIST, Math.INFINITY)
     destroySlamIndicatorGui()
     hideSlamDamageGui()
+
 
 rule "[doomfist/init.opy]: Compensate Global Damage Reduction":
     @Event playerDealtDamage
