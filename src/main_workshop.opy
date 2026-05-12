@@ -24,7 +24,6 @@ rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 
 # OW1 hero logic.
 # Remove damage passive
-#!include "passives/global/global_passive.opy"
 # Remove tank passive
 # !include "passives/tank/headshot.opy"
 # !include "passives/tank/knockback.opy"
@@ -79,3 +78,6 @@ rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 #!include "heroes/zenyatta/init.opy"
 
 #!include "heroes/echo/init.opy"
+
+#!include "passives/global/global_passive.opy" 
+##include this down here for ana nade

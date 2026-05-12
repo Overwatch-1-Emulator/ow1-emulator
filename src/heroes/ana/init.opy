@@ -34,3 +34,8 @@ rule "[ana/init.opy]: Compensate Damage Reduction":
     @Condition eventAbility == Button.ABILITY_1
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+rule "[ana/init.opy]: Detect Ally With Healing":
+    @Event playerReceivedHealing
+    @Condition healee = Hero.ANA
+    @Condition eventAbility == Button.ABILITY_1
