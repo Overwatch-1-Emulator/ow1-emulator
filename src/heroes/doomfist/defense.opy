@@ -12,7 +12,6 @@ rule "[doomfist/defense.opy]: OW1 Best Defense":
             or eventAbility == Button.ULTIMATE \
             or eventPlayer.is_using_uppercut
 
-    # Remove existing pool and replace with updated amount
     if eventPlayer.best_defense_pool_id != null:
         removeHealthPool(eventPlayer.best_defense_pool_id)
 
@@ -25,9 +24,17 @@ rule "[doomfist/defense.opy]: OW1 Best Defense":
     eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
 
 
-rule "[doomfist/defense.opy]: Decay OW1 Best Defense":
+rule "[doomfist/bestdefense.opy]: Decay Best Defense shields":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.best_defense_shields > 0
 
-    wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER)
+    wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER, Wait.RESTART_WHEN_TRUE)
+
+    while eventPlayer.best_defense_shields > 0:
+        eventPlayer.best_defense_shields = max(0, eventPlayer.best_defense_shields - OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE)
+        eventPlayer.setHealth(max(eventPlayer.getHealth() - OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE, eventPlayer.getMaxHealthOfType(Health.NORMAL)))
+        if eventPlayer.best_defense_shields <= 0:
+            removeHealthPool(eventPlayer.best_defense_pool_id)
+            eventPlayer.best_defense_pool_id = null
+        wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER)
