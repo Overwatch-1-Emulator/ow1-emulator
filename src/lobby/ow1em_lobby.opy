@@ -237,8 +237,8 @@ settings {
                 "passiveHealthRegen": false,
             },
             "cassidy": {
-                "ability2Cooldown%": percent(OW1_MCCREE_FLASHBANG_COOLDOWN/OW2_MCCREE_FLASHBANG_COOLDOWN),
-                "ultGen%": percent(OW2_MCCREE_ULT_COST/OW1_MCCREE_ULT_COST),
+                "ability2Cooldown%": percent(OW1_CASSIDY_FLASHBANG_COOLDOWN/OW2_CASSIDY_FLASHBANG_COOLDOWN),
+                "ultGen%": percent(OW2_CASSIDY_ULT_COST/OW1_CASSIDY_ULT_COST),
                 "enableRolePassive": false,
                 "passiveHealthRegen": false,
             },

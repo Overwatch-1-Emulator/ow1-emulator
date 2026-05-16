@@ -81,9 +81,9 @@ settings {
                 "ultGen%": percent(OW2_BRIGITTE_ULT_COST/OW1_BRIGITTE_ULT_COST)
             },
             "cassidy": {
-                "health%": percent(OW1_MCCREE_HEALTH/OW2_MCCREE_HEALTH),
-                "ability2Cooldown%": percent(OW1_MCCREE_FLASHBANG_COOLDOWN/OW2_MCCREE_FLASHBANG_COOLDOWN),
-                "ultGen%": percent(OW2_MCCREE_ULT_COST/OW1_MCCREE_ULT_COST)
+                "health%": percent(OW1_CASSIDY_HEALTH/OW2_CASSIDY_HEALTH),
+                "ability2Cooldown%": percent(OW1_CASSIDY_FLASHBANG_COOLDOWN/OW2_CASSIDY_FLASHBANG_COOLDOWN),
+                "ultGen%": percent(OW2_CASSIDY_ULT_COST/OW1_CASSIDY_ULT_COST)
             },
             "doomfist": {
                 "health%": percent(OW2_DOOMFIST_BEST_DEFENSE/OW2_DOOMFIST_BEST_DEFENSE), # for shield hp
