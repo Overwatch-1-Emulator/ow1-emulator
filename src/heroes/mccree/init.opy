@@ -17,6 +17,6 @@ def initMccree():
 rule "[mccree/flashbang.opy]: Compensate McCree global damage reduction":
     @Event playerDealtDamage
     @Hero cassidy
-    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
+    @Condition eventAbility == Button.SECONDARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
