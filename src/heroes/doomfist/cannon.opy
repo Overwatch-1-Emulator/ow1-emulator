@@ -5,4 +5,4 @@ rule "[doomfist/cannon.opy]: Deal OW1 hand cannon damage":
     @Hero doomfist
     @Condition eventAbility == Button.PRIMARY_FIRE
 
-     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_DOOMFIST_HAND_CANNON_DAMAGE/OW2_DOOMFIST_HAND_CANNON_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar) # Deal additional damage to match OW1 damage
+    damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_DOOMFIST_HAND_CANNON_DAMAGE/OW2_DOOMFIST_HAND_CANNON_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar) # Deal additional damage to match OW1 damage
