@@ -6,15 +6,15 @@
 #!include "peacekeeper.opy"
 
 
-def initMccree():
-    @Name "[mccree/init.opy]: initMccree()"
+def initCassidy():
+    @Name "[cassidy/init.opy]: initCassidy()"
 
-    setCustomHp(OW1_MCCREE_HEALTH, 0, 0)
-    setUltCost(OW1_MCCREE_ULT_COST)
-    setBaseDamage(eventPlayer, OW1_MCCREE_FLASHBANG_DAMAGE/OW2_MCCREE_FLASHBANG_DAMAGE)
+    setCustomHp(OW1_CASSIDY_HEALTH, 0, 0)
+    setUltCost(OW1_CASSIDY_ULT_COST)
+    setBaseDamage(eventPlayer, OW1_CASSIDY_FLASHBANG_DAMAGE/OW2_CASSIDY_FLASHBANG_DAMAGE)
 
 
-rule "[mccree/flashbang.opy]: Compensate McCree global damage reduction":
+rule "[cassidy/flashbang.opy]: Compensate Cassidy global damage reduction":
     @Event playerDealtDamage
     @Hero cassidy
     @Condition eventAbility == Button.SECONDARY_FIRE
