@@ -4,15 +4,12 @@ playervar cassidy_falloff_pvar
 #!defineMember mccree_shot_distance          cassidy_falloff_pvar[0]
 #!defineMember mccree_ow1_falloff_scalar     cassidy_falloff_pvar[1]
 
-#!include "flashbang.opy"
-#!include "roll.opy"
-#!include "deadeye.opy"
-
 #!define OW1CassidyN(d) ((d - OW1_MCCREE_DAMAGE_FALLOFF_START_DISTANCE)/(OW1_MCCREE_DAMAGE_FALLOFF_END_DISTANCE - OW1_MCCREE_DAMAGE_FALLOFF_START_DISTANCE))
 #!define OW1CassidyFalloff(d) ((OW1CassidyN(d)) * OW1_MCCREE_DAMAGE_FALLOFF_SCALAR + (1 - OW1CassidyN(d)))
 
-
-
+#!include "flashbang.opy"
+#!include "roll.opy"
+#!include "deadeye.opy"
 
 
 def initMccree():
@@ -20,16 +17,13 @@ def initMccree():
 
     setCustomHp(OW1_MCCREE_HEALTH, 0, 0)
     setUltCost(OW1_MCCREE_ULT_COST)
-    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    setBaseDamage(eventPlayer, OW1_MCCREE_FLASHBANG_DAMAGE/OW2_MCCREE_FLASHBANG_DAMAGE)
 
-    
 
-    #eventPlayer.disallowButton(Button.ABILITY_2)
-
-rule "[mccree/init.opy]: Compensate McCree global damage reduction":
+rule "[mccree/flashbang.opy]: Compensate McCree global damage reduction":
     @Event playerDealtDamage
     @Hero cassidy
-    @Condition eventAbility == Button.SECONDARY_FIRE
+    @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
 
