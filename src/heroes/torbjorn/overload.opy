@@ -14,6 +14,8 @@ rule "[torbjorn/overload.opy]: Convert Overload overhealth to armor":
     if eventPlayer._torbjorn_overload_id == null:
         eventPlayer.addHealthPool(Health.ARMOR, OW1_TORBJORN_OVERLOAD_OVERHEALTH, false, true)
         eventPlayer._torbjorn_overload_id = getLastCreatedHealthPool()
+        wait()
+        print(eventPlayer._torbjorn_overload_id)
 
     wait(OW1_TORBJORN_OVERLOAD_DURATION)
 
