@@ -11,7 +11,7 @@ playervar cassidy_falloff_pvar
 rule "[cassidy/init.opy]: OW1 Peacekeeper Damage falloff":
     @Event playerDealtDamage
     @Hero cassidy
-    @Condition eventAbility == Button.SECONDARY_FIRE
+    @Condition eventAbility == Button.PRIMARY_FIRE
     @Condition not eventPlayer.isUsingUltimate()
 
     eventPlayer.cassidy_shot_distance = distance(attacker.getEyePosition(), victim)
