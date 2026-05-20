@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!include "bob.opy"
+#!include "viper.opy"
 
 
 def initAshe():
@@ -8,7 +9,7 @@ def initAshe():
 
     setCustomHp(OW1_ASHE_HEALTH, 0, 0)
     setUltCost(OW1_ASHE_ULT_COST)
-    setBaseDamage(eventPlayer, OW1_ASHE_BOB_DAMAGE/OW2_ASHE_BOB_DAMAGE)
+    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
 
 
 
@@ -16,5 +17,6 @@ rule "[ashe/init.opy]: Compensate Ashe global damage reduction":
     @Event playerDealtDamage
     @Hero ashe
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ABILITY_1, Button.ABILITY_2]
+    @Condition not eventPlayer.isFiringSecondaryFire()
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)

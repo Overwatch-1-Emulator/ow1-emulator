@@ -20,7 +20,7 @@ subroutine initKiriko
 subroutine initLifeweaver
 subroutine initLucio
 subroutine initMauga
-subroutine initMccree
+subroutine initCassidy
 subroutine initMei
 subroutine initMercy
 subroutine initMoira
@@ -111,7 +111,7 @@ def initHero():
             initMauga()
             break
         case Hero.CASSIDY:
-            initMccree()
+            initCassidy()
             break
         case Hero.MEI:
             initMei()
