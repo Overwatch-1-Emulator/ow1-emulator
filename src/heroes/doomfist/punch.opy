@@ -52,10 +52,6 @@ rule "[doomfist/punch.opy]: Initialize rocket punch":
     stopChasingVariable(eventPlayer.punch_charge_time)
     eventPlayer.punch_charge_time = max(OW1_DOOMFIST_PUNCH_CHARGE_TIME_MIN, eventPlayer.punch_charge_time)
 
-    # cooldown
-    waitUntil(not eventPlayer.isFiringSecondaryFire(), Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_DOOMFIST_PUNCH_COOLDOWN) # workshop bug (doesn't work)
-
 
 # DO NOT switch the order of this rule with the next rule
 # The order is functionally significant
