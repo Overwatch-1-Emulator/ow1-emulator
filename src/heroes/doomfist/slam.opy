@@ -58,7 +58,8 @@ macro findIndicatorPosition():
 
 macro indicatorSlamValid():
     ((distance(eventPlayer.indicator_slam_position, eventPlayer.proto_indicator_slam_position) < OW1_DOOMFIST_SLAM_INDICATOR_MARGIN) \
-and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= (90 + OW1_DOOMFIST_SLAM_INDIC_PITCH)))
+and (angleBetweenVectors(Vector.DOWN, eventPlayer.getFacingDirection()) <= (90 + OW1_DOOMFIST_SLAM_INDIC_PITCH))) \
+and (distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_position) <= OW1_DOOMFIST_SLAM_INDIC_RANGE)
 
 macro isIndicatorVisible():
     ((indicatorSlamValid()) \
