@@ -4,6 +4,8 @@ playervar freeze_progress
 playervar freeze_slow_linger_time
 playervar freeze_move_penalty
 
+playervar blaster_damage_range
+
 subroutine clearFreezeEffect
 
 
@@ -11,6 +13,7 @@ rule "[mei/blaster.opy]: Track freezing on enemy":
     @Event playerDealtDamage
     @Hero mei
     @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition not eventPlayer.blaster_damage_range > OW1_MEI_ENDOTHERMIC_BLASTER_RANGE # Account for Endothermic Blaster range
     @Condition victim.freeze_progress < 100
 
     stopChasingVariable(victim.freeze_slow_linger_time)
@@ -53,3 +56,25 @@ def clearFreezeEffect():
     eventPlayer.freeze_progress = 0
 
 
+rule "[mei/blaster.opy]: OW1 Endothermic Blaster range":
+    @Event playerDealtDamage
+    @Hero mei
+    @Condition eventAbility == Button.PRIMARY_FIRE
+
+    eventPlayer.blaster_damage_range = distance(attacker.getEyePosition(), victim)
+    
+    if eventPlayer.blaster_damage_range > OW1_MEI_ENDOTHERMIC_BLASTER_RANGE: 
+        heal(victim, null, eventDamage)
+        setBaseDamage(eventPlayer, MIN_DAMAGE)
+    elif eventPlayer.blaster_damage_range < OW1_MEI_ENDOTHERMIC_BLASTER_RANGE:
+        setBaseDamage(eventPlayer, OW1_MEI_BLASTER_DAMAGE_RATE/OW2_MEI_BLASTER_DAMAGE_RATE)
+    
+
+rule "[mei/blaster.opy]: Reset Damage when not firing primary":
+    @Event eachPlayer
+    @Hero mei
+    @Condition not eventPlayer.isFiringPrimaryFire() and eventPlayer._base_damage_scalar == MIN_DAMAGE
+
+    setBaseDamage(eventPlayer, OW1_MEI_BLASTER_DAMAGE_RATE/OW2_MEI_BLASTER_DAMAGE_RATE)
+    wait(TICK_DURATION)
+    if RULE_CONDITION: goto RULE_START

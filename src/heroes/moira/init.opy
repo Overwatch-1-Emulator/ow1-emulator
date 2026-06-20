@@ -11,6 +11,7 @@ def initMoira():
     setUltCost(OW1_MOIRA_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    setBaseHealing(eventPlayer, OW1_MOIRA_BIOTIC_ORB_HEALING/OW2_MOIRA_BIOTIC_ORB_HEALING)
 
 
 rule "[moira/init.opy]: Compensate Moira orb damage reduction":
