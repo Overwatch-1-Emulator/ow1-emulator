@@ -15,16 +15,15 @@ rule "[doomfist/defense.opy]: OW1 Best Defense":
 
     if eventPlayer.best_defense_pool_id != null:
         removeHealthPool(eventPlayer.best_defense_pool_id)
-        eventPlayer.start_decay = false
 
     if eventAbility == Button.ULTIMATE:
         eventPlayer.best_defense_shields = min(eventPlayer.best_defense_shields + OW1_DOOMFIST_BEST_DEFENSE_ULT, OW1_DOOMFIST_BEST_DEFENSE_MAX)
     else:
         eventPlayer.best_defense_shields = min(eventPlayer.best_defense_shields + OW1_DOOMFIST_BEST_DEFENSE, OW1_DOOMFIST_BEST_DEFENSE_MAX)
 
-    eventPlayer.addHealthPool(Health.NORMAL, eventPlayer.best_defense_shields, false, false)
+    eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.best_defense_shields, false, false)
     eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
-    eventPlayer.start_decay = OW1_DOOMFIST_BEST_DEFENSE_LINGER
+    eventPlayer.best_defense = OW1_DOOMFIST_BEST_DEFENSE_LINGER
 
 
 #rule "[doomfist/bestdefense.opy]: Decay Best Defense shields":
@@ -59,18 +58,26 @@ rule "[doomfist/bestdefense.opy]: Decay Best Defense shields":
     @Event eachPlayer
     @Hero doomfist
     @Condition eventPlayer.best_defense_shields > 0
+    @Condition eventPlayer.best_defense == 0
 
-    wait(OW1_DOOMFIST_BEST_DEFENSE_LINGER, Wait.RESTART_WHEN_TRUE)
 
     while eventPlayer.best_defense_shields > 0:
-        eventPlayer.best_defense_shields = (eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) - eventPlayer.getHealthOfType(Health.ARMOR))
-        eventPlayer.best_defense_shields = max(0, eventPlayer.best_defense_shields - OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE)
+        eventPlayer.best_defense_shields = eventPlayer.getHealthOfType(Health.SHIELDS)
+        eventPlayer.best_defense_shields -= OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE
         if eventPlayer.best_defense_pool_id != null:
             removeHealthPool(eventPlayer.best_defense_pool_id)
             eventPlayer.best_defense_pool_id = null
         if eventPlayer.best_defense_shields <= 0:
             eventPlayer.best_defense_shields = 0
         if eventPlayer.best_defense_shields > 0:
-            eventPlayer.addHealthPool(Health.NORMAL, eventPlayer.best_defense_shields, false, false)
+            eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.best_defense_shields, false, false)
             eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
         wait(0.33)
+
+
+rule "[doomfist/bestdefense.opy]: Decay Linger Start":
+    @Event eachPlayer
+    @Hero doomfist
+    @Condition eventPlayer.best_defense == OW1_DOOMFIST_BEST_DEFENSE_LINGER
+
+    chase(eventPlayer.best_defense, 0, rate=1, ChaseReeval.DESTINATION_AND_RATE)
