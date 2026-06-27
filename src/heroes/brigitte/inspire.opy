@@ -14,7 +14,7 @@ rule "[brigitte/inspire.opy]: Inspire self healing logic":
     stopHealingOverTime(eventPlayer.list_of_players.inspire_allies)
     eventPlayer.list_of_players.startHealingOverTime(eventPlayer, OW1_BRIGITTE_INSPIRE_DURATION, OW1_BRIGITTE_INSPIRE_HEALING) # Compensate to get 90 healing
     eventPlayer.list_of_players.inspire_allies = getLastHealingOverTimeId()
-    wait(OW1_BRIGITTE_INSPIRE_DURATION)
+    wait(OW1_BRIGITTE_INSPIRE_DURATION, Wait.RESTART_WHEN_TRUE)
     eventPlayer.inspire_damage = false
 
 
