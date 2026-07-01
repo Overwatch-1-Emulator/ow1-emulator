@@ -7,7 +7,7 @@ created by discord users: Bebel#5658 and Xponit#1474
 */
 
 
-macro removebestdefense(player):
+macro removeBestDefence(player):
     player.setMaxHealth(percent(0.1/OW2_DOOMFIST_BEST_DEFENSE))
     player._hp_scalar = percent(0.1/OW2_DOOMFIST_BEST_DEFENSE)
     if player.getHealth() > 4:
@@ -28,7 +28,7 @@ playervar is_ultimate_locked
 def initDoomfist():
     @Name "[doomfist/init.opy]: initDoomfist()"
 
-    removebestdefense(eventPlayer)
+    removeBestDefence(eventPlayer)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     initRocketPunch()
