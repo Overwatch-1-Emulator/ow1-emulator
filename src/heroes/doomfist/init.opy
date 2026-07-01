@@ -26,7 +26,7 @@ def initDoomfist():
     eventPlayer._hp_scalar = percent(0.1/OW2_DOOMFIST_BEST_DEFENSE)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
-    if eventPlayer.getHealth() < 7:
+    if eventPlayer.getHealth() < 5:
         eventPlayer.addHealthPool(Health.NORMAL, 246, true, true)
     initRocketPunch()
     initSlam()
