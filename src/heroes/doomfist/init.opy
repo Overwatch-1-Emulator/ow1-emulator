@@ -6,6 +6,13 @@ https://workshop.codes/dpsdoom        code: ZXJB4
 created by discord users: Bebel#5658 and Xponit#1474
 */
 
+
+macro removebestdefense(player):
+    player.setMaxHealth(percent(0.1/OW2_DOOMFIST_BEST_DEFENSE))
+    player._hp_scalar = percent(0.1/OW2_DOOMFIST_BEST_DEFENSE)
+    if player.getHealth() > 4:
+        player.addHealthPool(Health.NORMAL, 245, true, true)
+
 # Semi-public scoped variables
 playervar is_using_uppercut
 playervar is_ultimate_locked
@@ -21,12 +28,9 @@ playervar is_ultimate_locked
 def initDoomfist():
     @Name "[doomfist/init.opy]: initDoomfist()"
 
-    eventPlayer.setMaxHealth(percent(0.1/OW2_DOOMFIST_BEST_DEFENSE))
-    eventPlayer._hp_scalar = percent(0.1/OW2_DOOMFIST_BEST_DEFENSE)
+    removebestdefense(eventPlayer)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
-    if eventPlayer.getHealth() < 5:
-        eventPlayer.addHealthPool(Health.NORMAL, 246, true, true)
     initRocketPunch()
     initSlam()
     eventPlayer.best_defense_shields = 0
