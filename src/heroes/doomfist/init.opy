@@ -10,7 +10,6 @@ created by discord users: Bebel#5658 and Xponit#1474
 playervar is_using_uppercut
 playervar is_ultimate_locked
 
-
 #!include "uppercut.opy"
 #!include "slam.opy"
 #!include "punch.opy"
