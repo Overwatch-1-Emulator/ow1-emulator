@@ -9,6 +9,7 @@ playervar ult_charge_pvar
 #!defineMember _missing_ult_points ult_charge_pvar[0]
 #!defineMember _ult_cost ult_charge_pvar[1]
 #!defineMember _new_ult_percent ult_charge_pvar[2]
+#!defineMember wreckingball_shield_excess_ult_points ult_charge_pvar[3]
 
 macro getUltPoints(player):
     percentOf(player.getUltCharge(), player._ult_cost)
@@ -46,16 +47,14 @@ def resetUltCharge():
 
 #    eventPlayer._missing_ult_points += unpercent(OW2_TANK_ULT_NEGATION_PERCENT - OW1_TANK_ULT_NEGATION_PERCENT) * eventHealing
 
+rule "[passives/tank/ult_charge.opy]: Claw back ult charge from damaging Adaptive Shield":
+    @Event eachPlayer
+    @Condition eventPlayer.wreckingball_shield_excess_ult_points > percentOf(1, eventPlayer._ult_cost)
+    @Condition eventPlayer._ult_cost > 0
 
-
-rule "[passives/tank/ult_charge.opy]: Remember missing ult charge from damaging overhealth":
-    @Event playerDealtDamage
-    @Condition victim.getMaxHealth() - victim.getMaxHealthOfType(Health.NORMAL) - victim.getMaxHealthOfType(Health.ARMOR) - victim.getMaxHealthOfType(Health.SHIELDS) > 0
-    @Condition not eventPlayer.isUsingUltimate()
-    @Condition victim != eventPlayer
-
-    eventPlayer._missing_ult_points += unpercent(OW2_OVERHEALTH_ULT_CHARGE_REDUCTION - OW1_OVERHEALTH_ULT_CHARGE_REDUCTION) * min(eventDamage, victim.getMaxHealth() - victim.getMaxHealthOfType(Health.NORMAL) - victim.getMaxHealthOfType(Health.ARMOR) - victim.getMaxHealthOfType(Health.SHIELDS))
-
+    eventPlayer._new_ult_percent = floor(percent((getUltPoints(eventPlayer) - eventPlayer.wreckingball_shield_excess_ult_points)/eventPlayer._ult_cost))
+    eventPlayer.wreckingball_shield_excess_ult_points -= getUltPoints(eventPlayer) - percentOf(eventPlayer._new_ult_percent, eventPlayer._ult_cost)
+    eventPlayer.setUltCharge(eventPlayer._new_ult_percent)
     
 rule "[passives/tank/ult_charge.opy]: Compensate missing ultimate percentage":
     @Event eachPlayer
@@ -72,3 +71,4 @@ rule "[passives/tank/ult_charge.opy]: Reset ult compensation after using ult":
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer._missing_ult_points = 0
+    eventPlayer.wreckingball_shield_excess_ult_points = 0
