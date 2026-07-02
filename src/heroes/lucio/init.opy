@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!include "crossfade.opy"
+#!include "barrier.opy"
 
 def initLucio():
     @Name "[lucio/init.opy]: initLucio()"

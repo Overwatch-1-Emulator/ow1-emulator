@@ -15,6 +15,7 @@ rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 #!include "heroes/init.opy"
 #!include "utilities/reset.opy"
 #!include "utilities/custom_hp.opy"
+#!include "utilities/temp_shields.opy"
 #!include "utilities/hero_switch.opy"
 #!include "utilities/hero_roster.opy"
 #!include "utilities/role_lock.opy"
