@@ -15,6 +15,7 @@ rule "[doomfist/defense.opy]: OW1 Best Defense":
 
     if eventPlayer.best_defense_pool_id != null:
         removeHealthPool(eventPlayer.best_defense_pool_id)
+        eventPlayer.best_defense_shields = 0
 
     if eventAbility == Button.ULTIMATE:
         eventPlayer.best_defense_shields = min(eventPlayer.best_defense_shields + OW1_DOOMFIST_BEST_DEFENSE_ULT, OW1_DOOMFIST_BEST_DEFENSE_MAX)
@@ -38,7 +39,6 @@ rule "[doomfist/bestdefense.opy]: Decay Best Defense shields":
         eventPlayer.best_defense_shields -= OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE
         eventPlayer.setHealth(eventPlayer.getHealth() - OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE)
         wait(OW1_DOOMFIST_BEST_DEFENSE_DECAY_PER_SECOND)
-
     removeHealthPool(eventPlayer.best_defense_pool_id)
     eventPlayer.best_defense_pool_id = null
 
