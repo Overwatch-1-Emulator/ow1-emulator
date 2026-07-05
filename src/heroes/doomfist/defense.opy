@@ -40,6 +40,7 @@ rule "[doomfist/bestdefense.opy]: Decay Best Defense shields":
         wait(OW1_DOOMFIST_BEST_DEFENSE_DECAY_PER_SECOND)
     removeHealthPool(eventPlayer.best_defense_pool_id)
     eventPlayer.best_defense_pool_id = null
+    eventPlayer.best_defense_shields = 0
 
 
 rule "[doomfist/bestdefense.opy]: Decay Linger Start":
