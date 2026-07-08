@@ -7,6 +7,7 @@ def initLucio():
     @Name "[lucio/init.opy]: initLucio()"
 
     setCustomHp(OW1_LUCIO_HEALTH, 0, 0)
+    eventPlayer.setHealth(1)
     setUltCost(OW1_LUCIO_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_LUCIO_SOUNDWAVE_DAMAGE/OW2_LUCIO_SOUNDWAVE_DAMAGE)

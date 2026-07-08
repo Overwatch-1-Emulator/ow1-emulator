@@ -5,22 +5,22 @@ playervar sound_barrier_pvar
 #!defineMember sound_barrier_gen sound_barrier_pvar[1]
 
 playervar sound_barrier_i
-#!defineMember sound_barrier_recipients sound_barrier_i[1]
+playervar  sound_barrier_recipients
 #!defineMember sound_barrier_target sound_barrier_i[2]
 #!defineMember sound_barrier_decay_gen sound_barrier_i[3]
 
 
-rule "[lucio/soundbarrier.opy]: Remove OW2 Beat":
+rule "[lucio/barrier.opy]: Remove OW2 Beat":
     @Event eachPlayer
     @Hero lucio
     @Condition eventPlayer.isUsingUltimate()
 
-    wait(0.12)
-    waitUntil(eventPlayer.getAltitude() < 0.4, Math.INFINITY)
+    wait(0.1)
+    waitUntil(eventPlayer.getAltitude() < 0.4, Math.INFINITY) #0.4 is a SafeGuard
     eventPlayer.cancelPrimaryAction()
 
 
-rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier - grant shields to allies in radius":
+rule "[lucio/barrier.opy]: OW1 Sound Barrier - grant shields to allies in radius":
     @Event eachPlayer
     @Hero lucio
     @Condition eventPlayer.isUsingUltimate()
@@ -35,21 +35,21 @@ rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier - grant shields to allies in r
         if eventPlayer.sound_barrier_target.sound_barrier_pool_id != null:
             removeHealthPool(eventPlayer.sound_barrier_target.sound_barrier_pool_id)
 
-        waitUntil(eventPlayer.getAltitude() == 0)
+        waitUntil(eventPlayer.getAltitude() == 1)
         eventPlayer.sound_barrier_target.sound_barrier_amount = OW1_LUCIO_SOUND_BARRIER
         eventPlayer.sound_barrier_target.addHealthPool(Health.SHIELDS, OW1_LUCIO_SOUND_BARRIER, false, false)
         eventPlayer.sound_barrier_target.sound_barrier_pool_id = getLastCreatedHealthPool()
         eventPlayer.sound_barrier_target.sound_barrier_gen += 1
 
 
-rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier - decay shields":
+rule "[lucio/barrier.opy]: Decay shields":
     @Event eachPlayer
     @Condition eventPlayer.sound_barrier_amount > 0
 
     eventPlayer.sound_barrier_decay_gen = eventPlayer.sound_barrier_gen
 
     while eventPlayer.sound_barrier_amount > 0 and eventPlayer.sound_barrier_decay_gen == eventPlayer.sound_barrier_gen:
-        eventPlayer.sound_barrier_amount = min(eventPlayer.sound_barrier_amount, max(0, eventPlayer.getHealthOfType(Health.SHIELDS) - eventPlayer.best_defense_shields))
+        eventPlayer.sound_barrier_amount = min(eventPlayer.sound_barrier_amount, max(0, eventPlayer.getHealthOfType(Health.SHIELDS)))
         eventPlayer.sound_barrier_amount = max(0, eventPlayer.sound_barrier_amount - OW1_LUCIO_SOUND_BARRIER_DECAY_RATE * OW1_LUCIO_SOUND_BARRIER_TICK)
         removeHealthPool(eventPlayer.sound_barrier_pool_id)
         if eventPlayer.sound_barrier_amount > 0:
@@ -60,3 +60,10 @@ rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier - decay shields":
     if eventPlayer.sound_barrier_decay_gen == eventPlayer.sound_barrier_gen:
         eventPlayer.sound_barrier_pool_id = null
         eventPlayer.sound_barrier_amount = 0
+
+
+rule "[lucio/soundbarrier.opy]: Track event damage dealt to beat":
+    @Event playerTookDamage
+    @Condition eventPlayer.sound_barrier_amount > 0
+
+    eventPlayer.sound_barrier_amount -= eventDamage
