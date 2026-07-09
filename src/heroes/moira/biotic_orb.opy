@@ -1,18 +1,25 @@
 #!mainFile "../../main.opy"
 
 
-playervar orb
+playervar orb_damage_dealt
 
-rule "[moira/biotic_orb.opy]: OW1 Max Damage Orb":
-    @Event playerDealtDamage
+rule "[moira/biotic_orb.opy]: Reset orb damage total on new orb":
+    @Event eachPlayer
     @Hero moira
+    @Condition eventPlayer.isUsingAbility2()
+
+    eventPlayer.orb_damage_dealt = 0
+
+
+rule "[moira/biotic_orb.opy]: OW1 orb total damage cap":
+    @Event playerTookDamage
+    @Condition attacker.getCurrentHero() == Hero.MOIRA
     @Condition eventAbility == Button.ABILITY_2
 
-    eventPlayer.orb = min(eventPlayer.orb + eventDamage, OW1_MOIRA_BIOTIC_ORB_MAX_DAMAGE)
-
-    if eventPlayer.orb >= OW1_MOIRA_BIOTIC_ORB_MAX_DAMAGE:
-        heal(eventPlayer, null, OW1_MOIRA_BIOTIC_ORB_HEALING)
-        eventPlayer.orb = 0
+    attacker.orb_damage_dealt += eventDamage
+    if attacker.orb_damage_dealt > OW1_MOIRA_BIOTIC_ORB_MAX_DAMAGE:
+        print(attacker.orb_damage_dealt)
+        #heal(victim, null, min(eventDamage, attacker.orb_damage_dealt - OW1_MOIRA_BIOTIC_ORB_MAX_DAMAGE))
 
 
 
