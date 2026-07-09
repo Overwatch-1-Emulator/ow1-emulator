@@ -16,10 +16,10 @@ rule "[moira/biotic_orb.opy]: OW1 orb total damage cap":
     @Condition attacker.getCurrentHero() == Hero.MOIRA
     @Condition eventAbility == Button.ABILITY_2
 
-    attacker.orb_damage_dealt += eventDamage
+    attacker.orb_damage_dealt += eventDamage/attacker._hp_scalar
     if attacker.orb_damage_dealt > OW1_MOIRA_BIOTIC_ORB_MAX_DAMAGE:
-        print(attacker.orb_damage_dealt)
-        #heal(victim, null, min(eventDamage, attacker.orb_damage_dealt - OW1_MOIRA_BIOTIC_ORB_MAX_DAMAGE))
+        #print(attacker.orb_damage_dealt)
+        heal(victim, null, min(eventDamage, attacker.orb_damage_dealt - OW1_MOIRA_BIOTIC_ORB_MAX_DAMAGE))
 
 
 
