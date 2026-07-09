@@ -5,19 +5,24 @@ playervar sound_barrier_pvar
 #!defineMember sound_barrier_gen sound_barrier_pvar[1]
 
 playervar sound_barrier_i
-playervar  sound_barrier_recipients
-#!defineMember sound_barrier_target sound_barrier_i[2]
-#!defineMember sound_barrier_decay_gen sound_barrier_i[3]
+playervar sound_barrier_scratch
+#!defineMember sound_barrier_recipients sound_barrier_scratch[0]
+#!defineMember sound_barrier_target sound_barrier_scratch[1]
+#!defineMember sound_barrier_decay_gen sound_barrier_scratch[2]
+
 
 
 rule "[lucio/barrier.opy]: Remove OW2 Beat":
     @Event eachPlayer
     @Hero lucio
     @Condition eventPlayer.isUsingUltimate()
+    @Condition not eventPlayer.isOnGround()
 
-    wait(0.1)
-    waitUntil(eventPlayer.getAltitude() < 0.4, Math.INFINITY) #0.4 is a SafeGuard
-    eventPlayer.cancelPrimaryAction()
+    #wait(0.16)
+    waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
+    eventPlayer.setHealth(eventPlayer.getHealth() - OW2_LUCIO_SOUND_BARRIER_HEALTH * eventPlayer._hp_scalar) #0.4 is a SafeGuard
+    wait(5)
+    #eventPlayer.cancelPrimaryAction()
 
 
 rule "[lucio/barrier.opy]: OW1 Sound Barrier - grant shields to allies in radius":
@@ -26,6 +31,7 @@ rule "[lucio/barrier.opy]: OW1 Sound Barrier - grant shields to allies in radius
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.sound_barrier_recipients = getPlayers(eventPlayer.getTeam())
+    waitUntil(eventPlayer.getAltitude() < 0.05, Math.INFINITY)
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
 
@@ -35,7 +41,6 @@ rule "[lucio/barrier.opy]: OW1 Sound Barrier - grant shields to allies in radius
         if eventPlayer.sound_barrier_target.sound_barrier_pool_id != null:
             removeHealthPool(eventPlayer.sound_barrier_target.sound_barrier_pool_id)
 
-        waitUntil(eventPlayer.getAltitude() == 1)
         eventPlayer.sound_barrier_target.sound_barrier_amount = OW1_LUCIO_SOUND_BARRIER
         eventPlayer.sound_barrier_target.addHealthPool(Health.SHIELDS, OW1_LUCIO_SOUND_BARRIER, false, false)
         eventPlayer.sound_barrier_target.sound_barrier_pool_id = getLastCreatedHealthPool()

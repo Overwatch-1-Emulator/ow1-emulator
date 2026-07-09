@@ -3,7 +3,8 @@
 
 def initSigma():
     @Name "[sigma/init.opy]: initSigma()"
-
+    
+    eventPlayer.setMaxHealth(percent(OW1_SIGMA_BARRIER_HEALTH*0.75/OW2_SIGMA_BARRIER_HEALTH))
     setUltCost(OW1_SIGMA_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
