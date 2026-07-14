@@ -1,53 +1,51 @@
 #!mainFile "../../main.opy"
 
+macro getOverhealth(player):
+    (player.getMaxHealth() - player.getMaxHealthOfType(Health.NORMAL) - player.getMaxHealthOfType(Health.ARMOR) - player.getMaxHealthOfType(Health.SHIELDS))
+
 playervar sound_barrier_pvar
 #!defineMember sound_barrier_pool_id sound_barrier_pvar[0]
 #!defineMember sound_barrier_gen sound_barrier_pvar[1]
+#!defineMember sound_barrier_pre_overhealth sound_barrier_pvar[2]
 
 playervar sound_barrier_i
 playervar sound_barrier_scratch
 #!defineMember sound_barrier_recipients sound_barrier_scratch[0]
 #!defineMember sound_barrier_target sound_barrier_scratch[1]
 #!defineMember sound_barrier_decay_gen sound_barrier_scratch[2]
+#!defineMember sound_barrier_gained sound_barrier_scratch[3]
 
 
-
-rule "[lucio/barrier.opy]: Remove OW2 Beat":
-    @Event eachPlayer
-    @Hero lucio
-    @Condition eventPlayer.isUsingUltimate()
-    @Condition not eventPlayer.isOnGround()
-
-    #wait(0.16)
-    waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
-    eventPlayer.setHealth(eventPlayer.getHealth() - OW2_LUCIO_SOUND_BARRIER_HEALTH * eventPlayer._hp_scalar) #0.4 is a SafeGuard
-    wait(5)
-    #eventPlayer.cancelPrimaryAction()
-
-
-rule "[lucio/barrier.opy]: OW1 Sound Barrier - grant shields to allies in radius":
+rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier - detect native overhealth gain and replace with OW1 shield":
     @Event eachPlayer
     @Hero lucio
     @Condition eventPlayer.isUsingUltimate()
 
     eventPlayer.sound_barrier_recipients = getPlayers(eventPlayer.getTeam())
-    waitUntil(eventPlayer.getAltitude() < 0.05, Math.INFINITY)
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
+        eventPlayer.sound_barrier_target.sound_barrier_pre_overhealth = getOverhealth(eventPlayer.sound_barrier_target)
 
-        if distance(eventPlayer.sound_barrier_target, eventPlayer) > OW1_LUCIO_SOUND_BARRIER_RADIUS: continue
-        if not isInLoS(eventPlayer.sound_barrier_target, eventPlayer, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS): continue
+    waitUntil(eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) - eventPlayer.getMaxHealthOfType(Health.SHIELDS) - eventPlayer.getMaxHealthOfType(Health.ARMOR) > 300, Math.INFINITY)
+    
 
-        if eventPlayer.sound_barrier_target.sound_barrier_pool_id != null:
-            removeHealthPool(eventPlayer.sound_barrier_target.sound_barrier_pool_id)
+    for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
+        eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
+        eventPlayer.sound_barrier_gained = getOverhealth(eventPlayer.sound_barrier_target) - eventPlayer.sound_barrier_target.sound_barrier_pre_overhealth
 
-        eventPlayer.sound_barrier_target.sound_barrier_amount = OW1_LUCIO_SOUND_BARRIER
-        eventPlayer.sound_barrier_target.addHealthPool(Health.SHIELDS, OW1_LUCIO_SOUND_BARRIER, false, false)
-        eventPlayer.sound_barrier_target.sound_barrier_pool_id = getLastCreatedHealthPool()
-        eventPlayer.sound_barrier_target.sound_barrier_gen += 1
+        if eventPlayer.sound_barrier_gained > 0:
+            eventPlayer.sound_barrier_target.setHealth(eventPlayer.sound_barrier_target.getHealth() - eventPlayer.sound_barrier_gained)
+
+            if eventPlayer.sound_barrier_target.sound_barrier_pool_id != null:
+                removeHealthPool(eventPlayer.sound_barrier_target.sound_barrier_pool_id)
+
+            eventPlayer.sound_barrier_target.sound_barrier_amount = OW1_LUCIO_SOUND_BARRIER
+            eventPlayer.sound_barrier_target.addHealthPool(Health.SHIELDS, OW1_LUCIO_SOUND_BARRIER, false, false)
+            eventPlayer.sound_barrier_target.sound_barrier_pool_id = getLastCreatedHealthPool()
+            eventPlayer.sound_barrier_target.sound_barrier_gen += 1
 
 
-rule "[lucio/barrier.opy]: Decay shields":
+rule "[lucio/soundbarrier.opy]: Decay shields":
     @Event eachPlayer
     @Condition eventPlayer.sound_barrier_amount > 0
 
