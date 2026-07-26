@@ -1,9 +1,10 @@
 #!mainFile "../../main.opy"
 
 playervar repair_pack_duration
-#!defineMember repair_pack_target      repair_pack_duration[0]
-#!defineMember repair_pack_travel_time repair_pack_duration[1]
-#!defineMember repair_pack_id          repair_pack_duration[2]
+playervar repair_pack
+#!defineMember repair_pack_target      repair_pack[0]
+#!defineMember repair_pack_travel_time repair_pack[1]
+#!defineMember repair_pack_id          repair_pack[2]
 
 
 rule "[brigitte/repair.opy] OW1 Repair Pack":
