@@ -1,7 +1,6 @@
 #!mainFile "../../main.opy"
 
 #!include "blossom.opy"
-#!include "passive.opy"
 #!include "shadowstep.opy"
 
 def initReaper():
@@ -10,6 +9,7 @@ def initReaper():
     setCustomHp(OW1_REAPER_HEALTH, 0, 0)
     setUltCost(OW1_REAPER_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    setBaseHealing(eventPlayer, OW1_REAPER_LIFESTEAL/OW2_REAPER_LIFESTEAL)
 
     eventPlayer.disallowButton(Button.SECONDARY_FIRE)
 
