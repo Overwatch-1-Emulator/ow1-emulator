@@ -47,7 +47,7 @@ def resetUltCharge():
 
 #    eventPlayer._missing_ult_points += unpercent(OW2_TANK_ULT_NEGATION_PERCENT - OW1_TANK_ULT_NEGATION_PERCENT) * eventHealing
 
-rule "[passives/tank/ult_charge.opy]: Claw back ult charge from damaging Adaptive Shield":
+rule "[passives/tank/ult_charge.opy]: Remove ult charge from damaging Adaptive Shield":
     @Event eachPlayer
     @Condition eventPlayer.wreckingball_shield_excess_ult_points > percentOf(1, eventPlayer._ult_cost)
     @Condition eventPlayer._ult_cost > 0
