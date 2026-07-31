@@ -14,6 +14,7 @@ rule "[doomfist/defense.opy]: OW1 Best Defense":
             or eventPlayer.is_using_uppercut
 
     if eventPlayer.best_defense_pool_id != null:
+        eventPlayer.best_defense_shields = eventPlayer.getHealthOfType(Health.SHIELDS)
         removeHealthPool(eventPlayer.best_defense_pool_id)
 
     if eventAbility == Button.ULTIMATE:
@@ -36,6 +37,7 @@ rule "[doomfist/bestdefense.opy]: Decay Best Defense shields":
         waitUntil(eventPlayer.best_defense_linger == 0)
         eventPlayer.best_defense_shields = eventPlayer.getHealthOfType(Health.SHIELDS)
         eventPlayer.best_defense_shields -= OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE
+        wait() #Allow Damage to Accumlate so theres no way he gains HP
         eventPlayer.setHealth(eventPlayer.getHealth() - OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE)
         wait(OW1_DOOMFIST_BEST_DEFENSE_DECAY_PER_SECOND)
     removeHealthPool(eventPlayer.best_defense_pool_id)
