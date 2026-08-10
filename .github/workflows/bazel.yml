@@ -12,7 +12,7 @@ concurrency:
 
 jobs:
   build-and-test:
-    name: bazel build & test
+    name: Build & Test Gamemode
     runs-on: ubuntu-latest
     steps:
       - name: Checkout
