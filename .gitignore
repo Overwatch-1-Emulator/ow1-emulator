@@ -1,5 +1,9 @@
 build/
 
+# Bazel
+bazel-*
+.bazel-cache/
+
 # Logs
 logs
 *.log
