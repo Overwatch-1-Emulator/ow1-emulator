@@ -43,6 +43,25 @@ Progress (✅ = Equivalent to OW1, ✔ = Close to OW1, Blank = Untouched):
 | Wrecking Ball | ✅ | ✅ | ✅ | ✔ | ✔ | ✅ Piledriver |
 | Zarya | ✅ | ✅ | ✅ | ✅ | ✔ |  |
 | Zenyatta | ✅ | ✅ | ✅ | ✅ | ✅ | ✅ Melee |
+
+## Building with Bazel
+
+Install Bazelisk by following [https://github.com/bazelbuild/bazelisk#installation](https://github.com/bazelbuild/bazelisk#installation).
+
+Then compile the gamemode (hermetic Node + OverPy; no local Node install required):
+
+```bash
+bazel build //:gamemode
+# Output: bazel-bin/gamemode.txt
+```
+
+CI also runs:
+
+```bash
+bazel build //...
+bazel test //...
+```
+
 ## Changelog
 
 See [releases](https://github.com/Overwatch-1-Emulator/ow1-emulator/releases)

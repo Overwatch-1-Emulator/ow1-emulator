@@ -1,0 +1,2 @@
+common --enable_bzlmod
+common --incompatible_disallow_empty_glob=false

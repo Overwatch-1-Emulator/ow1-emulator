@@ -1,0 +1,11 @@
+{
+  "name": "ow1-emulator",
+  "private": true,
+  "description": "Overwatch 1 Emulator Workshop gamemode (OverPy)",
+  "devDependencies": {
+    "overpy": "9.7.9"
+  },
+  "pnpm": {
+    "onlyBuiltDependencies": []
+  }
+}
