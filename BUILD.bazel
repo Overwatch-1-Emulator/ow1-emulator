@@ -1,3 +1,4 @@
+load("@bazel_skylib//rules:build_test.bzl", "build_test")
 load("@npm//:defs.bzl", "npm_link_all_packages")
 load("//tools/overpy:overpy.bzl", "overpy_compile")
 
@@ -9,4 +10,9 @@ overpy_compile(
     out = "gamemode.txt",
     srcs = glob(["src/**/*.opy"]),
     visibility = ["//visibility:public"],
+)
+
+build_test(
+    name = "gamemode_build_test",
+    targets = [":gamemode"],
 )
