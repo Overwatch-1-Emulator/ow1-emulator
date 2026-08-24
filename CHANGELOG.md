@@ -1,5 +1,34 @@
 # Changelog
 
+## [5.4.0](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.3.0...v5.4.0) (2026-08-24)
+
+
+### Features
+
+* **Brigitte:** OW1 Repair pack & Inspire ([#1651](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1651)) ([a2f0321](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/a2f0321338d4ce9436f3de26a343c62d814baa69))
+* **Doomfist:** OW1 Best Defense ([#1664](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1664)) ([ebaaf7b](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/ebaaf7b5a912814d2f44985bb9aa7035228b45a0))
+
+
+### Bug Fixes
+
+* **Brig:** OW1 Inspire + Cooldown ([#1658](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1658)) ([3bf83df](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/3bf83df119f378e173d187afc26ea90be01f0cf9))
+* **Cassidy:** Account for Primary Fire & Secondary Fire damage falloff ([#1661](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1661)) ([0b86ba1](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/0b86ba1d8f384045df59c586f8d9b48502562f38))
+* **Doomfist:** 15 Meter Verticle Slam ([68a0ba6](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/68a0ba66c33c48e841bf3022e4f2462a066b2ca0))
+* **Doomfist:** make Uppercut not Oneshot everyone ([#1650](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1650)) ([cae35ab](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/cae35ab8a2d5a899aca1e7276988189885585c5c))
+* **Doomfist:** Punch CD if keep holding M2 ([#1662](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1662)) ([3ec8f85](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/3ec8f859c9e6c78cbf23b061a433700e6da5498a))
+* **echo:** Disallow Copying Teammates + misc(Genji) ([#1644](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1644)) ([5bc84d6](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/5bc84d695d6ed0600bebdd97c3f7745fb14bb727))
+* **Orisa:** Stop shooting out Halt when starting Supercharger ([#1648](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1648)) ([94d2a09](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/94d2a0997b583aee8b8b8f3abb1860be613249a0))
+* OW2 Mid Season Patch Notes ([#1657](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1657)) ([d48e7b0](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/d48e7b0b7c782854e709319ab856ccbf5a593827))
+* **Roadhog:** Correct Primary and Secondary Fire Rate ([#1643](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1643)) ([0184b0d](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/0184b0de6b5825211eb292269c39a2f49d998067))
+* season 3 patch notes ([#1663](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1663)) ([13e7f37](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/13e7f376f0a2aef4716ce1157404f868f7f29784))
+* **Soldier:** Cancel reload when sprinting ([#1641](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1641)) ([ae1ec93](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/ae1ec931973ea42ef15277a6751f280b340cc315))
+* update gamemode ([#1665](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1665)) ([25cd6ce](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/25cd6ce8d4acdd64b66c862a55c7ed66c8e50af1))
+
+
+### Performance Improvements
+
+* **Brigitte:** Optimize pvar ([#1652](https://github.com/Overwatch-1-Emulator/ow1-emulator/issues/1652)) ([bc252f9](https://github.com/Overwatch-1-Emulator/ow1-emulator/commit/bc252f90df8fb6bb64ff947d28a23a9ff3d6a2fb))
+
 ## [5.3.0](https://github.com/Overwatch-1-Emulator/ow1-emulator/compare/v5.2.0...v5.3.0) (2026-04-19)
 
 
