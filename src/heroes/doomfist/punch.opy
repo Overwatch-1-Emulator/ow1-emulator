@@ -52,10 +52,6 @@ rule "[doomfist/punch.opy]: Initialize rocket punch":
     stopChasingVariable(eventPlayer.punch_charge_time)
     eventPlayer.punch_charge_time = max(OW1_DOOMFIST_PUNCH_CHARGE_TIME_MIN, eventPlayer.punch_charge_time)
 
-    # cooldown
-    waitUntil(not eventPlayer.isFiringSecondaryFire(), Math.INFINITY)
-    eventPlayer.setAbilityCooldown(Button.SECONDARY_FIRE, OW1_DOOMFIST_PUNCH_COOLDOWN) # workshop bug (doesn't work)
-
 
 # DO NOT switch the order of this rule with the next rule
 # The order is functionally significant
@@ -85,12 +81,12 @@ rule "[doomfist/punch.opy]: Find punched victims":
     if (len(attacker.punched_victims) == 1): # OW1 single punch victim
         damage(victim, attacker, (getRocketPunchDamage(eventPlayer.punch_charge_time) - eventDamage) / eventPlayer._base_damage_scalar)
         victim.applyImpulse(attacker.getFacingDirection(), getPunchKnockbackSpeed(eventPlayer.punch_charge_time), Relativity.TO_WORLD, Impulse.CANCEL_CONTRARY_MOTION) # Apply knockback manually
-        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
+        #damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - OW1_DOOMFIST_BEST_DEFENSE)
     else: # OW2 multi punch victim
         heal(victim, null, eventDamage) # Heal back OW2 punch victims
         # Transfer shield gained from uppercut to shield gained from OW2 punch victims
-        damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields))
-        attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
+        #damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar - min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields))
+        #attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
 
 
 rule "[doomfist/punch.opy]: Remove Empowered Punch from ultimate":

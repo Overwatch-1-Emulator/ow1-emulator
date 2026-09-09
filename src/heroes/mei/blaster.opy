@@ -60,6 +60,7 @@ rule "[mei/blaster.opy]: OW1 Endothermic Blaster range":
     @Event playerDealtDamage
     @Hero mei
     @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition not eventAbility == Button.ULTIMATE
 
     eventPlayer.blaster_damage_range = distance(attacker.getEyePosition(), victim)
     
