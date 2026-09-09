@@ -128,3 +128,4 @@ rule "[orisa/fusion_driver.opy]: OW1 Fusion Driver damage":
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ORISA_FUSION_DRIVER_DAMAGE/OW2_ORISA_FUSION_DRIVER_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_ORISA_FUSION_DRIVER_DAMAGE/OW2_ORISA_FUSION_DRIVER_DAMAGE) - eventDamage

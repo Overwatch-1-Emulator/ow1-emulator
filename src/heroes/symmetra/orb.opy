@@ -22,3 +22,4 @@ rule "[symmetra/orb.opy]: Deal OW1 symmetra secondary fire damage":
         ((OW1_SYMMETRA_ORB_DAMAGE/OW2_SYMMETRA_ORB_DAMAGE) \
         * (eventDamage/eventPlayer._base_damage_scalar) \
         - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_SYMMETRA_ORB_DAMAGE/OW2_SYMMETRA_ORB_DAMAGE) - eventDamage

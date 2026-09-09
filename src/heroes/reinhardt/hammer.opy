@@ -12,3 +12,4 @@ rule "[reinhardt/hammer.opy]: Correct Hammer damage":
         ((OW1_REINHARDT_HAMMER_DAMAGE/OW2_REINHARDT_HAMMER_DAMAGE) \
         * (eventDamage/eventPlayer._base_damage_scalar) \
         - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_REINHARDT_HAMMER_DAMAGE/OW2_REINHARDT_HAMMER_DAMAGE) - eventDamage

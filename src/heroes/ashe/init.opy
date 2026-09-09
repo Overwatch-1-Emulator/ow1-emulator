@@ -20,3 +20,4 @@ rule "[ashe/init.opy]: Compensate Ashe global damage reduction":
     @Condition not eventPlayer.isFiringSecondaryFire()
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar - eventDamage

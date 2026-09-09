@@ -243,8 +243,8 @@ settings {
                 "passiveHealthRegen": false,
             },
             "roadhog": {
-                "secondaryFireMaximumTime%": percent((OW1_ROADHOG_BREATHER_DURATION)/OW2_ROADHOG_BREATHER_DURATION),
-                "secondaryFireRechargeRate%": 500,
+                #"secondaryFireMaximumTime%": percent((OW1_ROADHOG_BREATHER_DURATION)/OW2_ROADHOG_BREATHER_DURATION),
+                #"secondaryFireRechargeRate%": 500,
                 "ammoClipSize%": percent((OW1_ROADHOG_CLIP_SIZE)/OW2_ROADHOG_CLIP_SIZE),
                 "ability1Cooldown%": percent(OW1_ROADHOG_HOOK_COOLDOWN_TIME/OW2_ROADHOG_HOOK_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_ROADHOG_ULT_COST/OW1_ROADHOG_ULT_COST),

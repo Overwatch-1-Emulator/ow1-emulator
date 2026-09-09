@@ -69,4 +69,4 @@ rule "[lucio/soundbarrier.opy]: Track event damage dealt to beat":
     @Event playerTookDamage
     @Condition eventPlayer.sound_barrier_amount > 0
 
-    eventPlayer.sound_barrier_amount -= eventDamage
+    eventPlayer.sound_barrier_amount -= eventDamage + eventPlayer.ow1_true_damage

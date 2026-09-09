@@ -14,6 +14,7 @@ rule "[reinhardt/shatter.opy]: OW1 one shot earthshatter":
         ((eventDamage/eventPlayer._base_damage_scalar) * ((OW1_REINHARDT_EARTHSHATTER_BASE_DAMAGE + OW1_REINHARDT_EARTHSHATTER_BONUS_DAMAGE)
             / (OW2_REINHARDT_EARTHSHATTER_BASE_DAMAGE + OW2_REINHARDT_EARTHSHATTER_BONUS_DAMAGE))
             - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = (eventDamage/eventPlayer._base_damage_scalar) * ((OW1_REINHARDT_EARTHSHATTER_BASE_DAMAGE + OW1_REINHARDT_EARTHSHATTER_BONUS_DAMAGE) / (OW2_REINHARDT_EARTHSHATTER_BASE_DAMAGE + OW2_REINHARDT_EARTHSHATTER_BONUS_DAMAGE)) - eventDamage
 
 
 rule "[reinhardt/shatter.opy]: OW1 earthshatter knock down duration":

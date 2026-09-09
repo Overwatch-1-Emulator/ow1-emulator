@@ -4,7 +4,7 @@
 def initSigma():
     @Name "[sigma/init.opy]: initSigma()"
     
-    eventPlayer.setMaxHealth(percent(OW1_SIGMA_BARRIER_HEALTH*0.75/OW2_SIGMA_BARRIER_HEALTH))
+    #eventPlayer.setMaxHealth(percent(OW1_SIGMA_BARRIER_HEALTH*0.75/OW2_SIGMA_BARRIER_HEALTH))
     setUltCost(OW1_SIGMA_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
@@ -17,7 +17,7 @@ rule "[sigma/init.opy]: OW1 accretion damage":
     @Condition eventDamage/eventPlayer._base_damage_scalar < OW2_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE # accretion is not direct hit
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_SIGMA_ACCRETION_SPLASH_DAMAGE/OW2_SIGMA_ACCRETION_SPLASH_DAMAGE)-eventDamage)/eventPlayer._base_damage_scalar)
-
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_SIGMA_ACCRETION_SPLASH_DAMAGE/OW2_SIGMA_ACCRETION_SPLASH_DAMAGE) - eventDamage
 
 rule "[sigma/init.opy]: Compensate Sigma global damage reduction":
     @Event playerDealtDamage
@@ -25,6 +25,7 @@ rule "[sigma/init.opy]: Compensate Sigma global damage reduction":
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar - eventDamage
 
 rule "[sigma/init.opy]: Deal OW1 Accretion direct hit damage":
     @Event playerDealtDamage
@@ -33,3 +34,4 @@ rule "[sigma/init.opy]: Deal OW1 Accretion direct hit damage":
     @Condition eventDamage/eventPlayer._base_damage_scalar >= OW2_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE # accretion is direct hit
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_SIGMA_ACCRETION_TOTAL_DAMAGE/OW2_SIGMA_ACCRETION_TOTAL_DAMAGE)-eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_SIGMA_ACCRETION_TOTAL_DAMAGE/OW2_SIGMA_ACCRETION_TOTAL_DAMAGE) - eventDamage

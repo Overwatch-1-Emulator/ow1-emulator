@@ -20,3 +20,4 @@ rule "[cassidy/flashbang.opy]: Compensate Cassidy global damage reduction":
     @Condition eventAbility == Button.SECONDARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar - eventDamage

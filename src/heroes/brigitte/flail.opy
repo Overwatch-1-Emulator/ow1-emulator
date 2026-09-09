@@ -9,3 +9,4 @@ rule "brigitte/flail.opy: OW1 flail damage":
     @Condition not eventPlayer.isFiringSecondaryFire()
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_BRIGITTE_FLAIL_DAMAGE/OW2_BRIGITTE_FLAIL_DAMAGE) - eventDamage

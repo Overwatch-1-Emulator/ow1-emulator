@@ -297,7 +297,7 @@ rule "[orisa/barrier.opy]: Decrease barrier health":
     @Condition victim in eventPlayer.enemies_behind_barrier
     @Condition eventPlayer.enemy_orisa_player.barrier_active
 
-    eventPlayer.enemy_orisa_player.barrier_hp -= (eventDamage if not eventWasCriticalHit else eventDamage/2)/OW1_ORISA_PROJECTILE_BARRIER_BLOCK
+    eventPlayer.enemy_orisa_player.barrier_hp -= ((eventDamage + eventPlayer.ow1_true_damage) if not eventWasCriticalHit else (eventDamage/2 + eventPlayer.ow1_true_damage))/OW1_ORISA_PROJECTILE_BARRIER_BLOCK
 
 
 # rule "[orisa/barrier.opy]: Receive no healing when behind barrier":

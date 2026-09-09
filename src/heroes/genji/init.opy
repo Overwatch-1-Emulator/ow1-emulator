@@ -1,6 +1,7 @@
 #!mainFile "../../main.opy"
 
 #!include "blade.opy"
+playervar true_omega_lol_damage
 
 def initGenji():
     @Name "[genji/init.opy]: initGenji()"
@@ -19,6 +20,7 @@ rule "[genji/init.opy]: Deal OW1 shuriken damage":
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_GENJI_SHURIKEN_DAMAGE/OW2_GENJI_SHURIKEN_DAMAGE) - eventDamage
 
 rule "[genji/blade.opy]: Compensate Genji global damage reduction":
     @Event playerDealtDamage
@@ -26,3 +28,4 @@ rule "[genji/blade.opy]: Compensate Genji global damage reduction":
     @Condition eventAbility in [Button.ULTIMATE, Button.ABILITY_1]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar - eventDamage

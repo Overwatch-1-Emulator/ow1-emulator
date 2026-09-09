@@ -31,5 +31,8 @@ rule "[roadhog/init.opy]: Deal OW1 Scrap Gun damage":
 
     if eventDamage < OW1_ROADHOG_SCRAP_GUN_PRE_DETONATION_DAMAGE:
         damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+        eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar - eventDamage
     else:
         damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+        eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_ROADHOG_SCRAP_GUN_DAMAGE/OW2_ROADHOG_SCRAP_GUN_DAMAGE) - eventDamage
+        print(eventDamage+eventPlayer.ow1_true_damage)

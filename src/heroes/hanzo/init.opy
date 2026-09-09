@@ -16,3 +16,4 @@ rule "[hanzo/storm.opy]: Compensate Hanzo global damage reduction":
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.ULTIMATE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar - eventDamage

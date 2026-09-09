@@ -7,3 +7,4 @@ rule "[reaper/blossom.opy]: OW1 Death Blossom damage":
     @Condition eventAbility == Button.ULTIMATE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_REAPER_DEATH_BLOSSON_DAMAGE/OW2_REAPER_DEATH_BLOSSON_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_REAPER_DEATH_BLOSSON_DAMAGE/OW2_REAPER_DEATH_BLOSSON_DAMAGE) - eventDamage
