@@ -21,7 +21,6 @@ rule "[mei/init.opy]: Mei OW1 Icicle damage":
     @Condition eventAbility == Button.SECONDARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_MEI_ICICLE_DAMAGE/OW2_MEI_ICICLE_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
-    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar*(OW1_MEI_ICICLE_DAMAGE/OW2_MEI_ICICLE_DAMAGE) - eventDamage
 
 rule "[mei/init.opy]: Compensate Damage Reduction":
     @Event playerDealtDamage
@@ -29,4 +28,3 @@ rule "[mei/init.opy]: Compensate Damage Reduction":
     @Condition eventAbility == Button.ULTIMATE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
-    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar - eventDamage

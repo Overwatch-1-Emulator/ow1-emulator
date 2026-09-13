@@ -18,4 +18,3 @@ rule "[echo/init.opy]: Compensate Echo global damage reduction":
     @Condition eventAbility in [Button.PRIMARY_FIRE, Button.SECONDARY_FIRE, Button.ABILITY_2]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
-    eventPlayer.ow1_true_damage = eventDamage/eventPlayer._base_damage_scalar - eventDamage

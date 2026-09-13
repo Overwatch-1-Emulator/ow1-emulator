@@ -36,7 +36,9 @@ rule "[doomfist/bestdefense.opy]: Decay Best Defense shields":
         waitUntil(eventPlayer.best_defense_linger == 0)
         eventPlayer.best_defense_shields = eventPlayer.getHealthOfType(Health.SHIELDS)
         eventPlayer.best_defense_shields -= OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE
-        eventPlayer.setHealth(eventPlayer.getHealth() - OW1_DOOMFIST_BEST_DEFENSE_DECAY_RATE)
+        removeHealthPool(eventPlayer.best_defense_pool_id)
+        eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.best_defense_shields, false, false)
+        eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
         wait(OW1_DOOMFIST_BEST_DEFENSE_DECAY_PER_SECOND)
     removeHealthPool(eventPlayer.best_defense_pool_id)
     eventPlayer.best_defense_pool_id = null
