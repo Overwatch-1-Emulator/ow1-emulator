@@ -12,6 +12,11 @@ playervar temp_shield_pvar
 playervar pvar_id
 #!defineMember _torbjorn_overload_id pvar_id[0]
 #!defineMember _rally_pool_id pvar_id[1]
+#!defineMember _adaptive_shield_hp_id pvar_id[2]
+
+
+
+
 
 macro getMissingHp(player):
     (player.getMaxHealth() - player.getHealth())
