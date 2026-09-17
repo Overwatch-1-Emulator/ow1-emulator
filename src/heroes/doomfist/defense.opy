@@ -2,8 +2,7 @@
 
 playervar best_defense
 playervar best_defense_linger
-#!defineMember best_defense_shields best_defense[0]
-#!defineMember best_defense_pool_id best_defense[1]
+#!defineMember best_defense_pool_id best_defense[0]
 
 rule "[doomfist/defense.opy]: OW1 Best Defense":
     @Event playerDealtDamage

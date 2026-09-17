@@ -21,13 +21,6 @@ playervar rally_i
 playervar rally_ally_i
 playervar rally_timer
 
-macro getMissingHp():
-    (eventPlayer.getMaxHealth() - eventPlayer.getHealth())
-macro getNaturalArmor():
-    ((eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR)) - eventPlayer.getHealthOfType(Health.NORMAL) - getMissingHp())
-macro getExtraArmor():
-    max(0, eventPlayer.getHealthOfType(Health.ARMOR) - getNaturalArmor())
-
 macro hideRallyProgressbar():
     destroyProgressBarHud(eventPlayer.rally_bar_id)
     eventPlayer.rally_bar_id = null

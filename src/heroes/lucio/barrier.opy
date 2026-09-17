@@ -7,6 +7,7 @@ playervar sound_barrier_pvar
 #!defineMember sound_barrier_pool_id sound_barrier_pvar[0]
 #!defineMember sound_barrier_gen sound_barrier_pvar[1]
 #!defineMember sound_barrier_pre_overhealth sound_barrier_pvar[2]
+#!defineMember shield_pvar sound_barrier_pvar[3]
 
 playervar sound_barrier_i
 playervar sound_barrier_scratch
@@ -32,7 +33,6 @@ rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier - detect native overhealth gai
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
         eventPlayer.sound_barrier_gained = getOverhealth(eventPlayer.sound_barrier_target) - eventPlayer.sound_barrier_target.sound_barrier_pre_overhealth
-
         if eventPlayer.sound_barrier_gained > 0:
             eventPlayer.sound_barrier_target.setHealth(eventPlayer.sound_barrier_target.getHealth() - eventPlayer.sound_barrier_gained)
 
@@ -69,4 +69,4 @@ rule "[lucio/soundbarrier.opy]: Track event damage dealt to beat":
     @Event playerTookDamage
     @Condition eventPlayer.sound_barrier_amount > 0
 
-    eventPlayer.sound_barrier_amount -= eventDamage + eventPlayer.ow1_true_damage
+    eventPlayer.sound_barrier_amount -= eventDamage

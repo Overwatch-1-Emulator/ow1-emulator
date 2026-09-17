@@ -12,6 +12,7 @@ def initLucio():
     setBaseDamage(eventPlayer, OW1_LUCIO_SOUNDWAVE_DAMAGE/OW2_LUCIO_SOUNDWAVE_DAMAGE)
     setBaseHealing(eventPlayer, OW1_LUCIO_ALLY_HEALING/OW2_LUCIO_ALLY_HEALING) #IDK if this has the penalty healing i like dont know how to track it
     eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
+    eventPlayer.addHealthPool(Health.SHIELDS, 100, false, false)
 
 
 rule "[lucio/init.opy]: OW1 Lucio gun damage":

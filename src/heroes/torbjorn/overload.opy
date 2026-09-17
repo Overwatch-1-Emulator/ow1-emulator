@@ -1,7 +1,6 @@
 #!mainFile "../../main.opy"
 
-playervar overload_pvar
-#!defineMember _torbjorn_overload_id overload_pvar[0]
+
 
 rule "[torbjorn/overload.opy]: Convert Overload overhealth to armor":
     @Event eachPlayer
