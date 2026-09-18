@@ -1,7 +1,6 @@
 #!mainFile "../../main.opy"
 
 #!include "blade.opy"
-playervar true_omega_lol_damage
 
 def initGenji():
     @Name "[genji/init.opy]: initGenji()"
