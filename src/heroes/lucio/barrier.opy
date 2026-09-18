@@ -22,12 +22,12 @@ rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier":
     eventPlayer.sound_barrier_recipients = getPlayers(eventPlayer.getTeam())
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
-        eventPlayer.sound_barrier_target.armor_pvar = getTempArmor(eventPlayer.sound_barrier_target)
-        eventPlayer.sound_barrier_target.shield_pvar = getTempShields(eventPlayer.sound_barrier_target)
+        eventPlayer.sound_barrier_target.temp_armor_pvar = getTempArmor(eventPlayer.sound_barrier_target)
+        eventPlayer.sound_barrier_target.temp_shield_pvar = getTempShields(eventPlayer.sound_barrier_target)
         eventPlayer.sound_barrier_target.pre_beat_health = eventPlayer.sound_barrier_target.getHealth()
 
-    #waitUntil(eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) - eventPlayer.getMaxHealthOfType(Health.SHIELDS) - eventPlayer.getMaxHealthOfType(Health.ARMOR) > 499, Math.INFINITY)
-    waitUntil(getCurrentOverhealth(eventPlayer.sound_barrier_target) > 499, Math.INFINITY)
+    waitUntil(eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) - eventPlayer.getMaxHealthOfType(Health.SHIELDS) - eventPlayer.getMaxHealthOfType(Health.ARMOR) > 400, Math.INFINITY)
+    #waitUntil(getCurrentOverhealth(eventPlayer.sound_barrier_target) > 499, Math.INFINITY)
 
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]

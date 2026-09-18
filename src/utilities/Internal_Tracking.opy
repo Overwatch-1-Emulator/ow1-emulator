@@ -4,10 +4,10 @@
 playervar temp_shield_pvar
 #!defineMember sound_barrier_amount temp_shield_pvar[0]
 #!defineMember best_defense_shields temp_shield_pvar[1]
-#!defineMember shield_pvar temp_shield_pvar[2]
-#!defineMember armor_pvar temp_shield_pvar[3]
-#!defineMember armor_pvar_id temp_shield_pvar[4]
-#!defineMember shield_pvar_id temp_shield_pvar[5]
+#!defineMember temp_shield_pvar temp_shield_pvar[2]
+#!defineMember temp_armor_pvar temp_shield_pvar[3]
+#!defineMember amor_pvar temp_shield_pvar[4]
+#!defineMember shield_pvar temp_shield_pvar[5]
 #!defineMember adaptive_shield_amount temp_shield_pvar[6]
 #!defineMember grasp_amount temp_shield_pvar[7]
 #!defineMember overload_amount temp_shield_pvar[8]
@@ -19,6 +19,8 @@ playervar pvar_id
 #!defineMember _adaptive_shield_hp_id pvar_id[2]
 #!defineMember best_defense_pool_id pvar_id[3]
 #!defineMember _grasp_pool_id pvar_id[4]
+#!defineMember armor_pvar_id pvar_id[5]
+#!defineMember shield_pvar_id pvar_id[6]
 
 
 # The reason this is here is because when beat activates to get rid of temp armor and shield we have to strip it
@@ -32,7 +34,8 @@ macro getMissingHp(player):
 macro getNaturalArmor(player):
     ((player.getMaxHealthOfType(Health.NORMAL) + player.getMaxHealthOfType(Health.ARMOR)) - player.getHealthOfType(Health.NORMAL) - getMissingHp(player))
 macro getTempArmor(player):
-    (max(0, player.getHealthOfType(Health.ARMOR) - getNaturalArmor(player)) * min(1, player.getMaxHealthOfType(Health.ARMOR)))
+    max(0, player.getHealthOfType(Health.ARMOR) - player._hp_armor)
+
 
 macro getMissingArmor(player):
     (player.getMaxHealthOfType(Health.ARMOR) - player.getHealthOfType(Health.ARMOR))
@@ -42,7 +45,7 @@ macro getMissingShields(player):
 macro getNaturalShields(player):
     ((player.getMaxHealthOfType(Health.NORMAL) + player.getMaxHealthOfType(Health.SHIELDS)) - player.getHealthOfType(Health.NORMAL) - getMissingHp(player))
 macro getTempShields(player):
-    (max(0, player.getHealthOfType(Health.SHIELDS) - getNaturalShields(player)) * min(1, player.getMaxHealthOfType(Health.SHIELDS)))
+    max(0, player.getHealthOfType(Health.SHIELDS) - player._hp_shields)
 
 macro getOverhealth(player):
     (player.getMaxHealth() - player.getMaxHealthOfType(Health.NORMAL) - player.getMaxHealthOfType(Health.ARMOR) - player.getMaxHealthOfType(Health.SHIELDS))
