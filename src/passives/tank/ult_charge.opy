@@ -56,7 +56,7 @@ def resetUltCharge():
 rule "[passives/tank/ult_charge]: Remove ult Charge from Damaging Wrecking Ball Shields":
     @Event playerDealtDamage
     @Condition victim._adaptive_shield_hp_id != null
-    @Condition getExtraShields(victim) > 0
+    @Condition getTempShields(victim) > 0
     @Condition victim.sound_barrier_amount == 0
 
     eventPlayer._excess_ult_charge += unpercent(OW1_WRECKING_BALL_SHIELDS_ULT_CHARGE_REDUCTION - OW1_TANK_ULT_NEGATION_PERCENT) * eventDamage

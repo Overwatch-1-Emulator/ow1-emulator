@@ -17,8 +17,8 @@ def initLucio():
     eventPlayer.addHealthPool(Health.SHIELDS, 100, false, false)
     eventPlayer.addHealthPool(Health.ARMOR, 100, false, false)
     eventPlayer.test = getLastCreatedHealthPool()
-    print(getExtraArmor(eventPlayer))
-    print(getExtraShields(eventPlayer))
+    print(getTempArmor(eventPlayer))
+    print(getTempShields(eventPlayer))
 
 
 rule "[lucio/init.opy]: OW1 Lucio gun damage":

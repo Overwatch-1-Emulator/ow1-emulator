@@ -22,14 +22,13 @@ rule "[Internal_Tracking.opy]: Switch Pvar Back To Original":
     @Event eachPlayer
     @Condition eventPlayer.shield_pvar_id or eventPlayer.armor_pvar_id != null
 
-    
 macro getMissingHp(player):
     (player.getMaxHealth() - player.getHealth())
 
-     
+
 macro getNaturalArmor(player):
     ((player.getMaxHealthOfType(Health.NORMAL) + player.getMaxHealthOfType(Health.ARMOR)) - player.getHealthOfType(Health.NORMAL) - getMissingHp(player))
-macro getExtraArmor(player):
+macro getTempArmor(player):
     max(0, player.getHealthOfType(Health.ARMOR) - getNaturalArmor(player))
 
 macro getMissingArmor(player):
@@ -39,7 +38,7 @@ macro getMissingShields(player):
 
 macro getNaturalShields(player):
     ((player.getMaxHealthOfType(Health.NORMAL) + player.getMaxHealthOfType(Health.SHIELDS)) - player.getHealthOfType(Health.NORMAL) - getMissingHp(player))
-macro getExtraShields(player):
+macro getTempShields(player):
     max(0, player.getHealthOfType(Health.SHIELDS) - getNaturalShields(player))
 
 macro getHealthPercent(player):
@@ -66,7 +65,7 @@ macro getNaturalMissingHealth(player):
     (getNaturalMaxHealth(player) - getNaturalHealth(player))
 
 macro getTotalExtraHealth(player):
-    (getExtraArmor(player) + getExtraShields(player))
+    (getTempArmor(player) + getTempShields(player))
 macro isOverhealed(player):
     (getTotalExtraHealth(player) > 0)
     

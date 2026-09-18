@@ -153,10 +153,10 @@ rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for self":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.start_rally == true
-    @Condition getExtraArmor(eventPlayer) < OW1_BRIGITTE_RALLY_ARMOR_MAX
+    @Condition getTempArmor(eventPlayer) < OW1_BRIGITTE_RALLY_ARMOR_MAX
 
     while RULE_CONDITION:
-        eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor(eventPlayer))), false, false)
+        eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getTempArmor(eventPlayer))), false, false)
         eventPlayer.rally_armor_ids.append(getLastCreatedHealthPool())
         wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
 

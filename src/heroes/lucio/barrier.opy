@@ -16,7 +16,7 @@ playervar sound_barrier_scratch
 #!defineMember sound_barrier_gained sound_barrier_scratch[3]
 
 
-rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier - detect native overhealth gain and replace with OW1 shield":
+rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier":
     @Event eachPlayer
     @Hero lucio
     @Condition eventPlayer.isUsingUltimate()
@@ -24,8 +24,8 @@ rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier - detect native overhealth gai
     eventPlayer.sound_barrier_recipients = getPlayers(eventPlayer.getTeam())
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
-        eventPlayer.sound_barrier_target.armor_pvar = getExtraArmor(eventPlayer.sound_barrier_target)
-        eventPlayer.sound_barrier_target.shield_pvar = getExtraShields(eventPlayer.sound_barrier_target)
+        eventPlayer.sound_barrier_target.armor_pvar = getTempArmor(eventPlayer.sound_barrier_target)
+        eventPlayer.sound_barrier_target.shield_pvar = getTempShields(eventPlayer.sound_barrier_target)
 
     waitUntil(eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) - eventPlayer.getMaxHealthOfType(Health.SHIELDS) - eventPlayer.getMaxHealthOfType(Health.ARMOR) > 499, Math.INFINITY)
 
