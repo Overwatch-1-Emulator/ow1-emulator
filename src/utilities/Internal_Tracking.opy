@@ -13,13 +13,20 @@ playervar pvar_id
 #!defineMember _torbjorn_overload_id pvar_id[0]
 #!defineMember _rally_pool_id pvar_id[1]
 #!defineMember _adaptive_shield_hp_id pvar_id[2]
+#!defineMember best_defense_pool_id pvar_id[3]
 
 
+# The reason this is here is because when beat activates to get rid of temp armor and shield we have to strip it
+# This puts the pools back to its original id so it can be removed
+rule "[Internal_Tracking.opy]: Switch Pvar Back To Original":
+    @Event eachPlayer
+    @Condition eventPlayer.shield_pvar_id or eventPlayer.armor_pvar_id != null
 
-
-
+    
 macro getMissingHp(player):
     (player.getMaxHealth() - player.getHealth())
+
+     
 macro getNaturalArmor(player):
     ((player.getMaxHealthOfType(Health.NORMAL) + player.getMaxHealthOfType(Health.ARMOR)) - player.getHealthOfType(Health.NORMAL) - getMissingHp(player))
 macro getExtraArmor(player):
