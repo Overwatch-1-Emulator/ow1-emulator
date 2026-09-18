@@ -14,11 +14,15 @@ rule "[doomfist/defense.opy]: OW1 Best Defense":
     if eventPlayer.best_defense_pool_id != null:
         removeHealthPool(eventPlayer.best_defense_pool_id)
 
+
     if eventAbility == Button.ULTIMATE:
         eventPlayer.best_defense_shields = min(eventPlayer.best_defense_shields + OW1_DOOMFIST_BEST_DEFENSE_ULT, OW1_DOOMFIST_BEST_DEFENSE_MAX)
     else:
         eventPlayer.best_defense_shields = min(eventPlayer.best_defense_shields + OW1_DOOMFIST_BEST_DEFENSE, OW1_DOOMFIST_BEST_DEFENSE_MAX)
 
+    
+    if getCurrentOverhealth(eventPlayer) > 0:
+        eventPlayer.setHealth(eventPlayer.getHealth() - getCurrentOverhealth(eventPlayer))
     eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.best_defense_shields, false, false)
     eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
     eventPlayer.best_defense_linger = OW1_DOOMFIST_BEST_DEFENSE_LINGER

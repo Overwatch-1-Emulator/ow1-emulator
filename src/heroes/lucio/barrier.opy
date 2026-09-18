@@ -1,7 +1,5 @@
 #!mainFile "../../main.opy"
 
-macro getOverhealth(player):
-    (player.getMaxHealth() - player.getMaxHealthOfType(Health.NORMAL) - player.getMaxHealthOfType(Health.ARMOR) - player.getMaxHealthOfType(Health.SHIELDS))
 
 playervar sound_barrier_pvar
 #!defineMember sound_barrier_pool_id sound_barrier_pvar[0]
@@ -26,13 +24,15 @@ rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier":
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
         eventPlayer.sound_barrier_target.armor_pvar = getTempArmor(eventPlayer.sound_barrier_target)
         eventPlayer.sound_barrier_target.shield_pvar = getTempShields(eventPlayer.sound_barrier_target)
+        eventPlayer.sound_barrier_target.pre_beat_health = eventPlayer.sound_barrier_target.getHealth()
 
-    waitUntil(eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) - eventPlayer.getMaxHealthOfType(Health.SHIELDS) - eventPlayer.getMaxHealthOfType(Health.ARMOR) > 499, Math.INFINITY)
+    #waitUntil(eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) - eventPlayer.getMaxHealthOfType(Health.SHIELDS) - eventPlayer.getMaxHealthOfType(Health.ARMOR) > 499, Math.INFINITY)
+    waitUntil(getCurrentOverhealth(eventPlayer.sound_barrier_target) > 499, Math.INFINITY)
 
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
 
-        eventPlayer.sound_barrier_target.setHealth(eventPlayer.sound_barrier_target.getHealth() - OW2_LUCIO_SOUND_BARRIER_HEALTH * eventPlayer._hp_scalar - eventPlayer.sound_barrier_target.armor_pvar - eventPlayer.sound_barrier_target.shield_pvar)
+        eventPlayer.sound_barrier_target.setHealth(eventPlayer.sound_barrier_target.pre_beat_health)
 
         if eventPlayer.sound_barrier_target.sound_barrier_pool_id != null:
             removeHealthPool(eventPlayer.sound_barrier_target.sound_barrier_pool_id)

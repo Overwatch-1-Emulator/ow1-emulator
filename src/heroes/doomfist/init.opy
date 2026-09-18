@@ -28,12 +28,13 @@ playervar is_ultimate_locked
 def initDoomfist():
     @Name "[doomfist/init.opy]: initDoomfist()"
 
-    removeBestDefence(eventPlayer)
+    setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     initRocketPunch()
     initSlam()
     eventPlayer.best_defense_shields = 0
+    print(getCurrentOverhealth(eventPlayer))
     #eventPlayer.uppercut_shields = 0
 
 
