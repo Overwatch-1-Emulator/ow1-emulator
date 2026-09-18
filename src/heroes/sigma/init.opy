@@ -3,11 +3,12 @@
 
 def initSigma():
     @Name "[sigma/init.opy]: initSigma()"
-
+    
+    setCustomHp(OW2_SIGMA_HEALTH, 0, OW2_SIGMA_SHIELDS)
+    #eventPlayer.setMaxHealth(percent(OW1_SIGMA_BARRIER_HEALTH*0.75/OW2_SIGMA_BARRIER_HEALTH))
     setUltCost(OW1_SIGMA_ULT_COST)
 
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
-
 
 rule "[sigma/init.opy]: OW1 accretion damage":
     @Event playerDealtDamage
@@ -16,7 +17,6 @@ rule "[sigma/init.opy]: OW1 accretion damage":
     @Condition eventDamage/eventPlayer._base_damage_scalar < OW2_SIGMA_ACCRETION_DIRECT_HIT_DAMAGE # accretion is not direct hit
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_SIGMA_ACCRETION_SPLASH_DAMAGE/OW2_SIGMA_ACCRETION_SPLASH_DAMAGE)-eventDamage)/eventPlayer._base_damage_scalar)
-
 
 rule "[sigma/init.opy]: Compensate Sigma global damage reduction":
     @Event playerDealtDamage

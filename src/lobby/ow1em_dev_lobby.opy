@@ -243,8 +243,8 @@ settings {
                 "passiveHealthRegen": false,
             },
             "roadhog": {
-                "secondaryFireMaximumTime%": percent((OW1_ROADHOG_BREATHER_DURATION)/OW2_ROADHOG_BREATHER_DURATION),
-                "secondaryFireRechargeRate%": 500,
+                #"secondaryFireMaximumTime%": percent((OW1_ROADHOG_BREATHER_DURATION)/OW2_ROADHOG_BREATHER_DURATION),
+                #"secondaryFireRechargeRate%": 500,
                 "ammoClipSize%": percent((OW1_ROADHOG_CLIP_SIZE)/OW2_ROADHOG_CLIP_SIZE),
                 "ability1Cooldown%": percent(OW1_ROADHOG_HOOK_COOLDOWN_TIME/OW2_ROADHOG_HOOK_COOLDOWN_TIME),
                 "ultGen%": percent(OW2_ROADHOG_ULT_COST/OW1_ROADHOG_ULT_COST),
@@ -253,7 +253,7 @@ settings {
             },
             "sigma": {
                 # barrier recharge rate scales with health scalar for some reason
-                "health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH),
+                #"health%": percent(OW1_SIGMA_BARRIER_HEALTH/OW2_SIGMA_BARRIER_HEALTH),
                 "secondaryFireRechargeRate%": percent((OW1_SIGMA_BARRIER_REGEN/OW2_SIGMA_BARRIER_REGEN)/(OW1_SIGMA_SHIELDS/OW2_SIGMA_SHIELDS)),
                 "ultGen%": percent(OW2_SIGMA_ULT_COST/OW1_SIGMA_ULT_COST),
                 "enableRolePassive": false,

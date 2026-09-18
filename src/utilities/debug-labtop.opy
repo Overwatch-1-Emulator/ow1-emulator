@@ -278,3 +278,4 @@ rule "[utilities/debug.opy]: Debug healing instance":
     wait(STAT_KEEP_ALIVE, Wait.RESTART_WHEN_TRUE)
     healee._last_healing_received = 0
     healee._total_healing_received = 0
+    
