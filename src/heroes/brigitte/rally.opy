@@ -16,6 +16,7 @@ playervar rally_pvar
 #!defineMember repair_pack_charges  rally_pvar[13]
 #!defineMember repair_pack_cd       rally_pvar[14]
 #!defineMember brig_hp              rally_pvar[15]
+#!defineMember rally_true_armor    rally_pvar[16]
 playervar rally_i
 playervar rally_ally_i
 playervar rally_timer
@@ -191,8 +192,10 @@ rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
             if eventPlayer.rally_ally_ref._rally_armor_added > 0:
                 removeHealthPool(eventPlayer.rally_ally_ref._rally_pool_id)
 
-            if eventPlayer.rally_ally_ref._rally_armor_added < OW1_BRIGITTE_RALLY_ARMOR_MAX:
-                eventPlayer.rally_armor_amount = min(OW1_BRIGITTE_RALLY_ARMOR, OW1_BRIGITTE_RALLY_ARMOR_MAX - eventPlayer.rally_ally_ref._rally_armor_added)
+            eventPlayer.rally_ally_ref.rally_true_armor = max(0, OW1_BRIGITTE_RALLY_ARMOR_MAX - eventPlayer.rally_ally_ref._rally_armor_added - eventPlayer.rally_ally_ref.overload_amount)
+
+            if eventPlayer.rally_ally_ref.rally_true_armor > 0:
+                eventPlayer.rally_armor_amount = min(OW1_BRIGITTE_RALLY_ARMOR, eventPlayer.rally_ally_ref.rally_true_armor)
                 eventPlayer.rally_ally_ref._rally_armor_added += eventPlayer.rally_armor_amount
 
             eventPlayer.rally_ally_ref.addHealthPool(Health.ARMOR, eventPlayer.rally_ally_ref._rally_armor_added, false, false)

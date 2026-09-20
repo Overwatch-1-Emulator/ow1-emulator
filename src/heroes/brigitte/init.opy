@@ -35,3 +35,9 @@ rule "[brigitte/init.opy]: Clean up brigitte":
 
     waitUntil(eventPlayer.getCurrentHero() != Hero.BRIGITTE, Math.INFINITY)
     endRally()
+
+rule "[brigitte/init.opy]: Give Ult Charge for Healing":
+    @Event playerDealtHealing
+    @Hero brigitte
+
+    eventPlayer._missing_ult_points += eventHealing

@@ -7,10 +7,17 @@ rule "[torbjorn/overload.opy]: Convert Overload overhealth to armor":
     @Hero torbjorn
     @Condition eventPlayer.isUsingAbility2()
 
-    damage(eventPlayer, null, OW1_TORBJORN_OVERLOAD_OVERHEALTH*eventPlayer._hp_scalar)
-    heal(eventPlayer, null, 1) # Rounding error, enjoy magic numbers!
+    if eventPlayer.sound_barrier_pool_id != null:
+        removeHealthPool(eventPlayer.sound_barrier_pool_id)
+
+    if eventPlayer.rally_armor_ids != null:
+        removeHealthPool(eventPlayer.rally_armor_ids)
+
+    if getCurrentOverhealth(eventPlayer) > 0:
+        eventPlayer.setHealth(eventPlayer.getHealth() - getCurrentOverhealth(eventPlayer))
 
     if eventPlayer._torbjorn_overload_id == null:
+        eventPlayer.overload_amount = OW1_TORBJORN_OVERLOAD_OVERHEALTH
         eventPlayer.addHealthPool(Health.ARMOR, OW1_TORBJORN_OVERLOAD_OVERHEALTH, false, true)
         eventPlayer._torbjorn_overload_id = getLastCreatedHealthPool()
 

@@ -34,7 +34,6 @@ def initDoomfist():
     initRocketPunch()
     initSlam()
     eventPlayer.best_defense_shields = 0
-    print(getCurrentOverhealth(eventPlayer))
     #eventPlayer.uppercut_shields = 0
 
 

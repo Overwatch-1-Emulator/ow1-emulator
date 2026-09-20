@@ -22,9 +22,9 @@ rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier":
     eventPlayer.sound_barrier_recipients = getPlayers(eventPlayer.getTeam())
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
-        eventPlayer.sound_barrier_target.temp_armor_pvar = getTempArmor(eventPlayer.sound_barrier_target)
-        eventPlayer.sound_barrier_target.temp_shield_pvar = getTempShields(eventPlayer.sound_barrier_target)
-        eventPlayer.sound_barrier_target.pre_beat_health = eventPlayer.sound_barrier_target.getHealth()
+        eventPlayer.sound_barrier_target.armor_pvar = getNaturalArmor(eventPlayer.sound_barrier_target)
+        eventPlayer.sound_barrier_target.temp_shield_pvar = getNaturalShields(eventPlayer.sound_barrier_target)
+        eventPlayer.sound_barrier_target.pre_beat_health = getNaturalHealth(eventPlayer.sound_barrier_target)
 
     waitUntil(eventPlayer.getMaxHealth() - eventPlayer.getMaxHealthOfType(Health.NORMAL) - eventPlayer.getMaxHealthOfType(Health.SHIELDS) - eventPlayer.getMaxHealthOfType(Health.ARMOR) > 400, Math.INFINITY)
     #waitUntil(getCurrentOverhealth(eventPlayer.sound_barrier_target) > 499, Math.INFINITY)
@@ -32,22 +32,44 @@ rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier":
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
 
-        eventPlayer.sound_barrier_target.setHealth(eventPlayer.sound_barrier_target.pre_beat_health)
+        eventPlayer.sound_barrier_target.setHealth(1)
+        heal(eventPlayer.sound_barrier_target, null, eventPlayer.sound_barrier_target.pre_beat_health-1)
+        heal(eventPlayer.sound_barrier_target, null, eventPlayer.sound_barrier_target.armor_pvar)
+        heal(eventPlayer.sound_barrier_target, null, eventPlayer.sound_barrier_target.shield_pvar)
 
-        if eventPlayer.sound_barrier_target.sound_barrier_pool_id != null:
-            removeHealthPool(eventPlayer.sound_barrier_target.sound_barrier_pool_id)
-        if eventPlayer.sound_barrier_target.shield_pvar_id != null:
-            removeHealthPool(eventPlayer.sound_barrier_target.shield_pvar_id)
-        if eventPlayer.sound_barrier_target.armor_pvar_id != null:
-            removeHealthPool(eventPlayer.sound_barrier_target.armor_pvar_id)
 
-        if eventPlayer.sound_barrier_target.shield_pvar > 0:
-            eventPlayer.sound_barrier_target.addHealthPool(Health.SHIELDS, eventPlayer.sound_barrier_target.shield_pvar, false, false)
-            eventPlayer.sound_barrier_target.shield_pvar_id = getLastCreatedHealthPool()
+        if eventPlayer.sound_barrier_pool_id != null:
+            removeHealthPool(eventPlayer.sound_barrier_pool_id)
+        if eventPlayer._torbjorn_overload_id != null:
+            removeHealthPool(eventPlayer._torbjorn_overload_id)
+        if eventPlayer._rally_pool_id != null:
+            removeHealthPool(eventPlayer._rally_pool_id)
+        if eventPlayer._adaptive_shield_hp_id != null:
+            removeHealthPool(eventPlayer._adaptive_shield_hp_id)
+        if eventPlayer.best_defense_pool_id != null:
+            removeHealthPool(eventPlayer.best_defense_pool_id)
+        if eventPlayer._grasp_pool_id != null:
+            removeHealthPool(eventPlayer._grasp_pool_id)
 
-        if eventPlayer.sound_barrier_target.armor_pvar > 0:
-            eventPlayer.sound_barrier_target.addHealthPool(Health.ARMOR, eventPlayer.sound_barrier_target.armor_pvar, false, false)
-            eventPlayer.sound_barrier_target.armor_pvar_id = getLastCreatedHealthPool()
+        if eventPlayer.overload_amount > 0:
+            eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.overload_amount, false, false)
+            eventPlayer._torbjorn_overload_id = getLastCreatedHealthPool()
+
+        if eventPlayer.rally_armor_amount > 0:
+            eventPlayer.addHealthPool(Health.ARMOR, eventPlayer.rally_armor_amount, false, false)
+            eventPlayer._rally_pool_id = getLastCreatedHealthPool()
+
+        if eventPlayer.adaptive_shield_amount > 0:
+            eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.adaptive_shield_amount, false, false)
+            eventPlayer._adaptive_shield_hp_id = getLastCreatedHealthPool()
+
+        if eventPlayer.best_defense_shields > 0:
+            eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.best_defense_shields, false, false)
+            eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
+
+        if eventPlayer.grasp_amount > 0:
+            eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.grasp_amount, false, false)
+            eventPlayer._grasp_pool_id = getLastCreatedHealthPool()
 
         eventPlayer.sound_barrier_target.sound_barrier_amount = OW1_LUCIO_SOUND_BARRIER
         eventPlayer.sound_barrier_target.addHealthPool(Health.SHIELDS, OW1_LUCIO_SOUND_BARRIER, false, false)
@@ -62,7 +84,7 @@ rule "[lucio/soundbarrier.opy]: Decay shields":
     eventPlayer.sound_barrier_decay_gen = eventPlayer.sound_barrier_gen
 
     while eventPlayer.sound_barrier_amount > 0 and eventPlayer.sound_barrier_decay_gen == eventPlayer.sound_barrier_gen:
-        eventPlayer.sound_barrier_amount = min(eventPlayer.sound_barrier_amount, max(0, eventPlayer.getHealthOfType(Health.SHIELDS)))
+        #eventPlayer.sound_barrier_amount = min(eventPlayer.sound_barrier_amount, max(0, eventPlayer.getHealthOfType(Health.SHIELDS)))
         eventPlayer.sound_barrier_amount = max(0, eventPlayer.sound_barrier_amount - OW1_LUCIO_SOUND_BARRIER_DECAY_RATE * OW1_LUCIO_SOUND_BARRIER_TICK)
         removeHealthPool(eventPlayer.sound_barrier_pool_id)
         if eventPlayer.sound_barrier_amount > 0:
@@ -74,9 +96,3 @@ rule "[lucio/soundbarrier.opy]: Decay shields":
         eventPlayer.sound_barrier_pool_id = null
         eventPlayer.sound_barrier_amount = 0
 
-
-rule "[lucio/soundbarrier.opy]: Track event damage dealt to beat":
-    @Event playerTookDamage
-    @Condition eventPlayer.sound_barrier_amount > 0
-
-    eventPlayer.sound_barrier_amount -= eventDamage
