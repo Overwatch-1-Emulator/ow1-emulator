@@ -98,7 +98,7 @@ rule "[utilities/debug.opy]: player debug (Top Right)":
     # hudSubheader(eventPlayer, "getHealthOfType(ARMOR) = {}".format(eventPlayer.getHealthOfType(Health.ARMOR)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getHealthOfType(SHIELDS) = {}".format(eventPlayer.getHealthOfType(Health.SHIELDS)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getNaturalArmor() = {}".format(getNaturalArmor()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
-    # hudSubheader(eventPlayer, "getExtraArmor() = {}".format(getExtraArmor()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
+    # hudSubheader(eventPlayer, "getTempArmor() = {}".format(getTempArmor()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "orisa_ammo = {}".format(eventPlayer.orisa_ammo), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "isReloading() = {}".format(eventPlayer.isReloading()), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)
     # hudSubheader(eventPlayer, "getAmmo(0) = {}".format(eventPlayer.getAmmo(0)), HudPosition.RIGHT, 1, Color.WHITE, HudReeval.STRING)

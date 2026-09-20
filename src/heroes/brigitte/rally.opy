@@ -2,7 +2,6 @@
 
 playervar rally_pvar
 #!defineMember _rally_armor_added   rally_pvar[0]
-#!defineMember _rally_pool_id       rally_pvar[1]
 #!defineMember rally_ally_ref       rally_pvar[2]
 #!defineMember rally_team_cache     rally_pvar[3]
 #!defineMember rally_armor_amount   rally_pvar[4]
@@ -17,16 +16,10 @@ playervar rally_pvar
 #!defineMember repair_pack_charges  rally_pvar[13]
 #!defineMember repair_pack_cd       rally_pvar[14]
 #!defineMember brig_hp              rally_pvar[15]
+#!defineMember rally_true_armor    rally_pvar[16]
 playervar rally_i
 playervar rally_ally_i
 playervar rally_timer
-
-macro getMissingHp():
-    (eventPlayer.getMaxHealth() - eventPlayer.getHealth())
-macro getNaturalArmor():
-    ((eventPlayer.getMaxHealthOfType(Health.NORMAL) + eventPlayer.getMaxHealthOfType(Health.ARMOR)) - eventPlayer.getHealthOfType(Health.NORMAL) - getMissingHp())
-macro getExtraArmor():
-    max(0, eventPlayer.getHealthOfType(Health.ARMOR) - getNaturalArmor())
 
 macro hideRallyProgressbar():
     destroyProgressBarHud(eventPlayer.rally_bar_id)
@@ -161,10 +154,10 @@ rule "[brigitte/rally.opy]: Recreate OW1 Rally Armor for self":
     @Event eachPlayer
     @Hero brigitte
     @Condition eventPlayer.start_rally == true
-    @Condition getExtraArmor() < OW1_BRIGITTE_RALLY_ARMOR_MAX
+    @Condition getTempArmor(eventPlayer) < OW1_BRIGITTE_RALLY_ARMOR_MAX
 
     while RULE_CONDITION:
-        eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getExtraArmor())), false, false)
+        eventPlayer.addHealthPool(Health.ARMOR, min(OW1_BRIGITTE_RALLY_ARMOR, (OW1_BRIGITTE_RALLY_ARMOR_MAX - getTempArmor(eventPlayer))), false, false)
         eventPlayer.rally_armor_ids.append(getLastCreatedHealthPool())
         wait(1/OW1_BRIGITTE_RALLY_POLLING_FREQ, Wait.ABORT_WHEN_FALSE)
 
@@ -179,7 +172,7 @@ rule "[brigitte/rally.opy]: Remove ally armor after Rally ended":
     if eventPlayer._rally_armor_added > 0:
         removeHealthPool(eventPlayer._rally_pool_id)
     eventPlayer._rally_armor_added = 0
-    eventPlayer._rally_pool_id = 0
+    eventPlayer._rally_pool_id = null
 
 
 rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
@@ -199,8 +192,10 @@ rule "[brigitte/rally.opy]: OW1 Rally Armor for allies":
             if eventPlayer.rally_ally_ref._rally_armor_added > 0:
                 removeHealthPool(eventPlayer.rally_ally_ref._rally_pool_id)
 
-            if eventPlayer.rally_ally_ref._rally_armor_added < OW1_BRIGITTE_RALLY_ARMOR_MAX:
-                eventPlayer.rally_armor_amount = min(OW1_BRIGITTE_RALLY_ARMOR, OW1_BRIGITTE_RALLY_ARMOR_MAX - eventPlayer.rally_ally_ref._rally_armor_added)
+            eventPlayer.rally_ally_ref.rally_true_armor = max(0, OW1_BRIGITTE_RALLY_ARMOR_MAX - eventPlayer.rally_ally_ref._rally_armor_added - eventPlayer.rally_ally_ref.overload_amount)
+
+            if eventPlayer.rally_ally_ref.rally_true_armor > 0:
+                eventPlayer.rally_armor_amount = min(OW1_BRIGITTE_RALLY_ARMOR, eventPlayer.rally_ally_ref.rally_true_armor)
                 eventPlayer.rally_ally_ref._rally_armor_added += eventPlayer.rally_armor_amount
 
             eventPlayer.rally_ally_ref.addHealthPool(Health.ARMOR, eventPlayer.rally_ally_ref._rally_armor_added, false, false)

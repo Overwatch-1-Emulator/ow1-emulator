@@ -1,6 +1,9 @@
 #!mainFile "../../main.opy"
 
 #!include "crossfade.opy"
+#!include "barrier.opy"
+
+
 
 def initLucio():
     @Name "[lucio/init.opy]: initLucio()"
@@ -11,7 +14,11 @@ def initLucio():
     setBaseDamage(eventPlayer, OW1_LUCIO_SOUNDWAVE_DAMAGE/OW2_LUCIO_SOUNDWAVE_DAMAGE)
     setBaseHealing(eventPlayer, OW1_LUCIO_ALLY_HEALING/OW2_LUCIO_ALLY_HEALING) #IDK if this has the penalty healing i like dont know how to track it
     eventPlayer.setKnockbackDealt(percent(OW1_LUCIO_SOUNDWAVE_KNOCKBACK/OW2_LUCIO_SOUNDWAVE_KNOCKBACK))
-
+    eventPlayer.addHealthPool(Health.ARMOR, 100, false, false)
+    print(getNaturalArmor(eventPlayer))
+    print(getNaturalShields(eventPlayer))
+    print(getNaturalNormalHealth(eventPlayer))
+    print(eventPlayer.armor_pvar)
 
 rule "[lucio/init.opy]: OW1 Lucio gun damage":
     @Event playerDealtDamage
@@ -19,7 +26,6 @@ rule "[lucio/init.opy]: OW1 Lucio gun damage":
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_LUCIO_SOUND_GUN_DAMAGE/OW2_LUCIO_SOUND_GUN_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
-
 
 #rule "[lucio/init.opy]: OW1 Soundwave Damage":
 #    @Event playerDealtDamage
