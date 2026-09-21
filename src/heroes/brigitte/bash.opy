@@ -20,12 +20,9 @@ rule "[brigitte/bash.opy]: Reduce shield bash distance":
     @Condition eventPlayer.isFiringPrimaryFire()
     # @Condition not eventPlayer.isUsingUltimate()
 
-    eventPlayer.setMoveSpeed(77.8) # arbitrarily decided based on trial and error
+    setMoveModifier(eventPlayer, MoveMod.SHIELD_BASH, 0.778) # arbitrarily decided based on trial and error
     waitUntil(eventPlayer.getAbilityCooldown(Button.PRIMARY_FIRE) > 0, Math.INFINITY)
-    if eventPlayer.isUsingUltimate():
-        eventPlayer.setMoveSpeed(130)
-    else:
-        eventPlayer.setMoveSpeed(100)
+    clearMoveModifier(eventPlayer, MoveMod.SHIELD_BASH) # Rally speed has its own slot, so it stays active
 
 #rule "[brigitte/bash.opy]: Reduce shield bash damage to OW1":
 #    @Event playerDealtDamage

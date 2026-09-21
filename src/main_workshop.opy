@@ -1,10 +1,8 @@
 ###############################################################################
 # Compile Workshop Code.
 ###############################################################################
-#!include "common/env.opy"
-#!include "common/constants/ow1_constants.opy"
-#!include "common/constants/ow2_constants.opy"
-#!include "common/macro_functions.opy"
+# common/env.opy, both constants files and common/macro_functions.opy are
+# included by main_lobby.opy, which main.opy includes first
 
 rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulator/ow1-emulator for license to use this code.":
     disableInspector()
@@ -14,6 +12,7 @@ rule "Copyright (c) 2026 Overwatch 1 Emulator. See github.com/Overwatch-1-Emulat
 #!include "heroes/init.opy"
 #!include "utilities/reset.opy"
 #!include "utilities/custom_hp.opy"
+#!include "utilities/Internal_Tracking.opy"
 #!include "utilities/hero_switch.opy"
 #!include "utilities/hero_roster.opy"
 #!include "utilities/role_lock.opy"

@@ -46,60 +46,49 @@ rule "[pharah/hover_jets.opy]: Disable jet dash":
     eventPlayer.setAbilityCooldown(eventPlayer._jet_dash_button, Math.INFINITY)
 
 
-rule "[pharah/hover_jets.opy]: Consume fuel when using hover jets":
+# One rule for hovering, recharging and roof gliding (replaces three rules).
+# jet_fuel is chased, so every fuel-based transition is watched with waitUntil
+# here instead of in rule conditions, which may not fire on OW2.
+# OW1 behavior kept: no hover without fuel (isUsingHoverJets() needs fuel > 0), fuel
+# recharges in the air after a short delay whenever not hovering, and gliding on a
+# roof does not recharge.
+rule "[pharah/hover_jets.opy]: Hover jets fuel":
     @Event eachPlayer
     @Hero pharah
-    @Condition isUsingHoverJets()
-
-    eventPlayer.setMoveSpeed(percent(OW1_PHARAH_HOVER_JETS_SPEED_BOOST/OW2_PHARAH_HOVER_JETS_SPEED_BOOST))
-    chase(eventPlayer.jet_fuel, 0, rate=OW1_PHARAH_HOVER_JETS_FUEL_CONSUMPTION_RATE, ChaseReeval.NONE)
-
-
-rule "[pharah/hover_jets.opy]: Stop fuel consumption when not using hover jets":
-    @Event eachPlayer
-    @Hero pharah
-    @Condition not isUsingHoverJets()
-
-    eventPlayer.setMoveSpeed(100)
-    stopChasingVariable(eventPlayer.jet_fuel)
-
-
-rule "[pharah/hover_jets.opy]: Recharge hover jets":
-    @Event eachPlayer
-    @Hero pharah
-    @Condition not isUsingHoverJets()
-    @Condition not isGlidingOnRoof()
-
-    wait(OW1_PHARAH_HOVER_JETS_RECOVERY_TIME, Wait.ABORT_WHEN_FALSE)
-    chase(eventPlayer.jet_fuel, OW1_PHARAH_HOVER_JETS_MAX_FUEL, rate=OW1_PHARAH_HOVER_JETS_FUEL_RECHARGE_RATE, ChaseReeval.NONE)
-
-
-rule "[pharah/hover_jets.opy]: Stop fuel recharge when gliding on roof":
-    @Event eachPlayer
-    @Hero pharah
-    @Condition not isUsingHoverJets()
-    @Condition isGlidingOnRoof()
-
-    eventPlayer.setMoveSpeed(100)
-    stopChasingVariable(eventPlayer.jet_fuel)
-
-
-rule "[pharah/hover_jets.opy]: Disable hover jets when out of fuel":
-    @Event eachPlayer
-    @Hero pharah
-    @Condition eventPlayer.jet_fuel <= 0
     @Condition eventPlayer._hover_jet_button != null
 
-    eventPlayer.disallowButton(eventPlayer._hover_jet_button)
+    do:
+        if isUsingHoverJets():
+            # Hovering: burn fuel until hover stops (released, landed, CC'd or out of fuel)
+            setMoveModifier(eventPlayer, MoveMod.HOVER_JETS, OW1_PHARAH_HOVER_JETS_SPEED_BOOST/OW2_PHARAH_HOVER_JETS_SPEED_BOOST)
+            chase(eventPlayer.jet_fuel, 0, rate=OW1_PHARAH_HOVER_JETS_FUEL_CONSUMPTION_RATE, ChaseReeval.NONE)
+            waitUntil(not isUsingHoverJets(), Math.INFINITY)
+            clearMoveModifier(eventPlayer, MoveMod.HOVER_JETS)
+            stopChasingVariable(eventPlayer.jet_fuel)
+        elif isGlidingOnRoof():
+            # Gliding on a roof: no recharge until hovering again or off the roof
+            waitUntil(isUsingHoverJets() or not isGlidingOnRoof(), Math.INFINITY)
+        else:
+            # Recharge after the delay, unless hovering or roof gliding starts first
+            waitUntil(isUsingHoverJets() or isGlidingOnRoof(), OW1_PHARAH_HOVER_JETS_RECOVERY_TIME)
+            if not isUsingHoverJets() and not isGlidingOnRoof():
+                chase(eventPlayer.jet_fuel, OW1_PHARAH_HOVER_JETS_MAX_FUEL, rate=OW1_PHARAH_HOVER_JETS_FUEL_RECHARGE_RATE, ChaseReeval.NONE)
+                waitUntil(isUsingHoverJets() or isGlidingOnRoof(), Math.INFINITY)
+                stopChasingVariable(eventPlayer.jet_fuel)
+    while RULE_CONDITION
 
 
-rule "[pharah/hover_jets.opy]: Enable hover jets when fuel available":
+rule "[pharah/hover_jets.opy]: Gate hover jets on fuel":
     @Event eachPlayer
     @Hero pharah
-    @Condition eventPlayer.jet_fuel > 0
     @Condition eventPlayer._hover_jet_button != null
 
+    # Same reason as above: fuel thresholds checked in waitUntil, not conditions
     eventPlayer.allowButton(eventPlayer._hover_jet_button)
+    waitUntil(eventPlayer.jet_fuel <= 0, Math.INFINITY)
+    eventPlayer.disallowButton(eventPlayer._hover_jet_button)
+    waitUntil(eventPlayer.jet_fuel > 0, Math.INFINITY)
+    if RULE_CONDITION: goto RULE_START
 
 
 def showFuelGui():

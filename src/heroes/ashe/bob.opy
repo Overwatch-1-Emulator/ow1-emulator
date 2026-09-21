@@ -1,7 +1,8 @@
 #!mainFile "../../main.opy"
 
-playervar ult_point_while_ult_active
-playervar start_time_ult
+playervar ashe_bob_pvar
+#!defineMember ult_point_while_ult_active ashe_bob_pvar[0]
+#!defineMember start_time_ult ashe_bob_pvar[1]
 
 
 rule "[ashe/bob.opy]: Add ultimate charge while using BOB":

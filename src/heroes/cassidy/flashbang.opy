@@ -1,16 +1,16 @@
 #!mainFile "../../main.opy"
 
-playervar flashbang_pvar
-#!defineMember _is_using_flashbang flashbang_pvar[0]
 
 
 rule "[cassidy/flashbang.opy]: OW1 flashbang":
-    @Event playerDealtDamage
-    @Hero cassidy
+    # playerTookDamage, not playerDealtDamage: this rule waits, and a rule can only run
+    # once at a time per event player. Keyed on the attacker, a flash that hits two enemies
+    # would only affect one of them; keyed on the victim, each one gets its own instance.
+    @Event playerTookDamage
+    @Condition attacker.getCurrentHero() == Hero.CASSIDY
     @Condition eventAbility == Button.ABILITY_2
 
-    eventPlayer._is_using_flashbang = false
-    victim.setStatusEffect(eventPlayer, Status.STUNNED, OW1_CASSIDY_FLASHBANG_STUN_DURATION)
-    victim.setMoveSpeed(percent(1/OW2_CASSIDY_FLASHBANG_SPEED_REDUCTION))
+    eventPlayer.setStatusEffect(attacker, Status.STUNNED, OW1_CASSIDY_FLASHBANG_STUN_DURATION)
+    setMoveModifier(eventPlayer, MoveMod.FLASHBANG, 1/OW2_CASSIDY_FLASHBANG_SPEED_REDUCTION)
     wait(OW2_CASSIDY_FLASHBANG_HINDER_DURATION)
-    victim.setMoveSpeed(100)
+    clearMoveModifier(eventPlayer, MoveMod.FLASHBANG)

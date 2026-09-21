@@ -7,9 +7,10 @@
 def initEcho():
     @Name "[echo/init.opy]: initEcho()"
 
-    setCustomHp(OW1_ECHO_HEALTH-1, 0, 0) # Need to subtract 1 because of extra 1 shield health
+    setCustomHp(OW1_ECHO_HEALTH-0.75, 0, 0) # Need to subtract 1 because of extra 1 shield health
     setUltCost(OW1_ECHO_ULT_COST)
-    setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
+    setBaseDamage(eventPlayer, OW1_ECHO_BASE_BEAM_DMG/OW2_ECHO_BASE_BEAM_DMG)
+    eventPlayer._hp_shields = 0.75 #She has a unremoveable 0.75 shield health and we need it for tracking
 
 
 rule "[echo/init.opy]: Compensate Echo global damage reduction":

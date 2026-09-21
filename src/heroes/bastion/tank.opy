@@ -8,7 +8,7 @@ rule "[bastion/tank.opy]: Initialize tank mode":
 
     eventPlayer.current_configuration = Configuration.TANK
 
-    eventPlayer.setMoveSpeed(percent(OW1_BASTION_TANK_CONFIG_MOVE_SPEED)) # move faster in tank mode
+    setMoveModifier(eventPlayer, MoveMod.BASTION_CONFIG, OW1_BASTION_TANK_CONFIG_MOVE_SPEED) # move faster in tank mode
     setBaseDamage(eventPlayer, OW1_BASTION_TANK_CONFIG_DAMAGE/OW2_BASTION_TACTICAL_GRENADE_DAMAGE) # deal more damage in tank mode
     eventPlayer.setProjectileSpeed(percent(OW1_BASTION_TANK_CONFIG_PROJECTILE_SPEED/OW2_BASTION_TACTICAL_GRENADE_PROJECTILE_SPEED)) # increase grenade travel speed (to mimic tank shells)
     eventPlayer.setProjectileGravity(5)

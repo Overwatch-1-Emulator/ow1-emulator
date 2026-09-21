@@ -1,10 +1,11 @@
 #!mainFile "../../main.opy"
 
-playervar scoped_shot_distance
-playervar scoped_damage_base
-playervar ow2_scoped_damage_falloff_scalar
-playervar ow1_scoped_damage_falloff_scalar
-playervar expected_scoped_damage
+playervar widow_pvar
+#!defineMember scoped_shot_distance widow_pvar[0]
+#!defineMember scoped_damage_base widow_pvar[1]
+#!defineMember ow2_scoped_damage_falloff_scalar widow_pvar[2]
+#!defineMember ow1_scoped_damage_falloff_scalar widow_pvar[3]
+#!defineMember expected_scoped_damage widow_pvar[4]
 
 
 # Damage falloff derived from Marblr's "How Damage Falloff is Calculated" video: https://youtu.be/VL2VnkNJPpE

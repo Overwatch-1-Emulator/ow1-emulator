@@ -1,8 +1,5 @@
 #!mainFile "../../main.opy"
 
-playervar is_using_stealth
-playervar stealth_hud_id
-playervar hack_damage_modifier
 
 subroutine enterStealth
 subroutine exitStealth
@@ -25,15 +22,6 @@ subroutine hideStealthHud
 #        # damage must be applied in a way that never synchronizes with passive stealth activation
 #    while ruleCondition:
 
-rule "[sombra.opy]: Remove hack bonus damage":
-    @Event eachPlayer
-    @Condition eventPlayer.hasStatusEffect(Status.HACKED)
-
-    startDamageModification(eventPlayer, eventPlayer.enemy_sombra_player, percent(1/OW2_SOMBRA_HACK_DAMAGE_MULTIPLIER), DamageReeval.NONE)
-    eventPlayer.hack_damage_modifier = getLastDamageModification()
-    waitUntil(eventPlayer.hasStatusEffect(Status.HACKED) == false, Math.INFINITY)
-    stopDamageModification(eventPlayer.hack_damage_modifier)
-
 rule "[sombra/stealth.opy]: Bind Ability 1 to stealth":
     @Event eachPlayer
     @Hero sombra
@@ -52,7 +40,7 @@ def enterStealth():
     showStealthHud()
     wait(OW1_SOMBRA_STEALTH_CAST_TIME)
     eventPlayer.setInvisibility(Invis.ENEMIES)
-    eventPlayer.setMoveSpeed(percent(OW1_SOMBRA_STEALTH_MOVEMENT_BONUS))
+    setMoveModifier(eventPlayer, MoveMod.STEALTH, OW1_SOMBRA_STEALTH_MOVEMENT_BONUS)
     eventPlayer.is_using_stealth = true
     #damage(eventPlayer, null, 0.01)
     #heal(eventPlayer, null, 0.01)
@@ -61,7 +49,7 @@ def enterStealth():
     waitUntil(eventPlayer.isHoldingButton(Button.ABILITY_1))
     hideStealthHud()
     eventPlayer.setInvisibility(Invis.NONE)
-    eventPlayer.setMoveSpeed(percent(OW1_SOMBRA_STEALTH_MOVEMENT_BONUS/OW2_SOMBRA_STEALTH_MOVEMENT_BONUS))
+    setMoveModifier(eventPlayer, MoveMod.STEALTH, OW1_SOMBRA_STEALTH_MOVEMENT_BONUS/OW2_SOMBRA_STEALTH_MOVEMENT_BONUS)
 
 
 rule "[sombra/stealth.opy]: Exit Stealth when shooting":
@@ -102,7 +90,7 @@ def exitStealth():
     #heal(eventPlayer, null, 0.01)
     eventPlayer.setSecondaryFireEnabled(true) # Enable hacking after exiting invis
     eventPlayer.setInvisibility(Invis.NONE)
-    eventPlayer.setMoveSpeed(100)
+    clearMoveModifier(eventPlayer, MoveMod.STEALTH)
     hideStealthHud()
     wait(OW1_SOMBRA_STEALTH_RECOVERY_TIME)
     eventPlayer.setAbility1Enabled(true)

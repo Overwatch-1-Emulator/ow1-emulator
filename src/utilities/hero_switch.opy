@@ -26,6 +26,15 @@ rule "[utilities/hero_setup.opy]: Reset and initialize hero on hero switch":
 
     waitUntil(eventPlayer.hasSpawned(), Math.INFINITY)
     waitUntil(not switchedHero(eventPlayer), Math.INFINITY)
+    wait(eventPlayer.getSlot() * TICK_DURATION) # spread reset+init across ticks instead of all 12 at once
     eventPlayer._hero_setup = eventPlayer.getCurrentHero()
     resetHero()
     initHero()
+
+    # A swap during reset/init (resetUltCharge alone can wait up to 1s) can't
+    # re-trigger this rule while it's still running, so that hero would never be
+    # initialized. Re-run for the hero the player actually ended up on. This also
+    # coalesces rapid swaps into one reset cycle instead of restarting the reset
+    # subroutines on every swap.
+    if eventPlayer.getCurrentHero() != eventPlayer._hero_setup and not eventPlayer.isDuplicatingAHero():
+        goto RULE_START

@@ -41,11 +41,14 @@ macro isResetComplete(player):
 def resetHero():
     @Name "[utilities/reset.opy]: resetHero()"
 
-    async(clearCustomHp, AsyncBehavior.RESTART)
+    # clearCustomHp and resetUltCharge contain waits, and restarting a waiting subroutine
+    # can crash the server. If one is already running (back-to-back resets), let it finish:
+    # resetHero() waits for every reset flag below either way.
+    async(clearCustomHp, AsyncBehavior.NOOP)
     async(resetStats, AsyncBehavior.RESTART)
     async(resetStatuses, AsyncBehavior.RESTART)
     async(resetFrenemies, AsyncBehavior.RESTART)
-    async(resetUltCharge, AsyncBehavior.RESTART)
+    async(resetUltCharge, AsyncBehavior.NOOP)
     async(resetPerkCost, AsyncBehavior.RESTART)
     async(resetSelfHealing, AsyncBehavior.RESTART)
     async(enableAllAbilities, AsyncBehavior.RESTART)
@@ -126,6 +129,7 @@ def resetStats():
     eventPlayer.setKnockbackReceived(100)
     eventPlayer.setKnockbackDealt(100)
     eventPlayer.setGravity(100)
+    eventPlayer.move_mods = [] # clear every speed modifier from the previous hero
     setBaseMovement(eventPlayer, 1)
 
     eventPlayer._stat_reset = true

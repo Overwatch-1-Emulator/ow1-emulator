@@ -1,10 +1,13 @@
 #!mainFile "../../main.opy"
 
 
-rule "[lucio/crossfade.opy]: OW1 Ally Healing":
+rule "[lucio/crossfade.opy]: OW1 Self Healing":
     @Event playerDealtHealing
     @Hero lucio
     @Condition eventAbility == Button.ABILITY_1
+    # Only Lucio's own heal ticks: Crossfade fires one healing event per healed player,
+    # so without this Lucio got the self-heal correction once per ally in range
+    @Condition healee == healer
 
     heal(healer, healer, eventHealing/eventPlayer._base_healing_scalar*(OW1_LUCIO_SELF_HEALING/OW2_LUCIO_SELF_HEALING)-eventHealing)
 

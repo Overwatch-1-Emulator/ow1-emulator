@@ -1,6 +1,6 @@
 #!mainFile "../../main.opy"
 
-playervar meteor_strike_slow_time
+playervar meteor_slow_end_time # getTotalTimeElapsed() when OW2 meteor slow ends (0 = not slowed)
 
 # Calculate OW1 meteor strike outer ring damage from OW2 meteor strike outer ring damage
 macro getMeteorStrikeDamage(d):
@@ -25,17 +25,17 @@ rule "[doomfist/meteor.opy]: Compensate Meteor Strike slow effect":
     @Hero doomfist
     @Condition eventAbility == Button.ULTIMATE
 
-    victim.setMoveSpeed(percent(1/OW2_DOOMFIST_METEOR_STRIKE_SLOW))
-    victim.meteor_strike_slow_time = OW2_DOOMFIST_METEOR_STRIKE_SLOW_DURATION
-    chase(victim.meteor_strike_slow_time, 0, rate=1, ChaseReeval.NONE)
+    setMoveModifier(victim, MoveMod.METEOR, 1/OW2_DOOMFIST_METEOR_STRIKE_SLOW)
+    victim.meteor_slow_end_time = getTotalTimeElapsed() + OW2_DOOMFIST_METEOR_STRIKE_SLOW_DURATION
 
 
 rule "[doomfist/meteor.opy]: Reset Meteor Strike slow effect compensation":
     @Event eachPlayer
-    @Condition eventPlayer.meteor_strike_slow_time <= 0
+    @Condition eventPlayer.meteor_slow_end_time != 0 # cheap gate: only players currently compensated
+    @Condition getTotalTimeElapsed() >= eventPlayer.meteor_slow_end_time
 
-    stopChasingVariable(eventPlayer.meteor_strike_slow_time)
-    eventPlayer.setMoveSpeed(100)
+    eventPlayer.meteor_slow_end_time = 0
+    clearMoveModifier(eventPlayer, MoveMod.METEOR)
 
 
 rule "[doomfist/meteor.opy]: OW1 Meteor Strike knockback":

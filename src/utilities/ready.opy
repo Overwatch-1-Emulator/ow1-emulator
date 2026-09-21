@@ -22,7 +22,7 @@ rule "[utilities/ready.opy]: Create ready HUD":
                 GAMEMODE_NAME" ""("GAMEMODE_CODE")",
                 HudPosition.TOP,
                 Math.INFINITY,
-                ready_color if eventPlayer.ready else Color.RED,
+                ready_color if eventPlayer.ready else Color.LIGHT_RED,
                 Color.WHITE,
                 Color.WHITE,
                 HudReeval.STRING_AND_COLOR)

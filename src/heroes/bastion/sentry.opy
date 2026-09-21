@@ -18,7 +18,7 @@ rule "[bastion/sentry.opy]: Initialize sentry mode":
 
     waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
     if eventPlayer.current_configuration == Configuration.SENTRY:
-        eventPlayer.setMoveSpeed(0)
+        setMoveModifier(eventPlayer, MoveMod.BASTION_CONFIG, 0) # sentry is rooted: x0 overrides every other modifier
 
 
 rule "[bastion/sentry.opy]: Extend sentry mode": # thanks to Wadetata for this wonderful piece of code that Ciach795 rewrote to OverPy: https://workshop.codes/AMSG8
@@ -39,5 +39,5 @@ rule "[bastion/sentry.opy]: Extend sentry mode": # thanks to Wadetata for this w
             eventPlayer.setKnockbackReceived(0)
             eventPlayer.setStatusEffect(null, Status.ROOTED, Math.INFINITY)
             waitUntil(eventPlayer.isOnGround(), Math.INFINITY)
-            eventPlayer.setMoveSpeed(0)
+            setMoveModifier(eventPlayer, MoveMod.BASTION_CONFIG, 0) # sentry is rooted: x0 overrides every other modifier
     while RULE_CONDITION

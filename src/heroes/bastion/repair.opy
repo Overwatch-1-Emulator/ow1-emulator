@@ -1,5 +1,7 @@
 #!mainFile "../../main.opy"
 
+subroutine showSelfRepairGui
+
 playervar self_repair_time_left
 
 playervar repair_pvar
@@ -36,14 +38,46 @@ macro hideSelfRepairRing():
     eventPlayer._self_repair_ring_gui = null
 
 
-rule "[bastion/repair.opy]: Activate self-repair":
+# One rule for activating, stopping and recharging self-repair (replaces three rules).
+# self_repair_time_left is chased, so running out and refilling are watched with
+# waitUntil here instead of in rule conditions, which may not fire on OW2.
+rule "[bastion/repair.opy]: Self-repair":
     @Event eachPlayer
     @Hero bastion
-    @Condition isUsingSelfRepair(eventPlayer)
+    @Condition eventPlayer.isAlive()
 
-    stopChasingVariable(eventPlayer.self_repair_time_left) # Stop resource recharging
+    do:
+        if isUsingSelfRepair(eventPlayer):
+            stopChasingVariable(eventPlayer.self_repair_time_left) # Stop resource recharging
 
-    wait(OW1_BASTION_SELF_REPAIR_CAST_TIME, Wait.ABORT_WHEN_FALSE)
+            # Cast time; cancelled if the player stops self-repairing
+            waitUntil(not isUsingSelfRepair(eventPlayer), OW1_BASTION_SELF_REPAIR_CAST_TIME)
+            if isUsingSelfRepair(eventPlayer):
+                showSelfRepairGui()
+                waitUntil(not isUsingSelfRepair(eventPlayer), Math.INFINITY) # released, CC'd or resource empty
+
+            # Deactivate
+            stopHoT(eventPlayer.self_repair_instance) # Stop healing
+            eventPlayer.self_repair_instance = null
+            hideSelfRepairRing()
+            stopChasingVariable(eventPlayer.self_repair_time_left) # Stop resource depletion
+        else:
+            # 1 second cooldown before recharging, unless self-repair starts again
+            waitUntil(isUsingSelfRepair(eventPlayer), OW1_BASTION_SELF_REPAIR_COOLDOWN_TIME)
+            if not isUsingSelfRepair(eventPlayer):
+                chase(eventPlayer.self_repair_time_left, \
+                      OW1_BASTION_MAX_SELF_REPAIR_DURATION, \
+                      rate=OW1_BASTION_MAX_SELF_REPAIR_DURATION/OW1_BASTION_SELF_REPAIR_RECHARGE_DURATION, \
+                      ChaseReeval.DESTINATION_AND_RATE) # Start recharging
+                waitUntil(isUsingSelfRepair(eventPlayer) or eventPlayer.self_repair_time_left >= OW1_BASTION_MAX_SELF_REPAIR_DURATION, Math.INFINITY)
+                if eventPlayer.self_repair_time_left >= OW1_BASTION_MAX_SELF_REPAIR_DURATION:
+                    hideSelfRepairResource() # full: hide the resource bar
+                    waitUntil(isUsingSelfRepair(eventPlayer), Math.INFINITY)
+    while RULE_CONDITION
+
+
+def showSelfRepairGui():
+    @Name "[bastion/repair.opy]: showSelfRepairGui()"
 
     # repair sparks and ring vfx
     if eventPlayer._self_repair_sparkles_upper_gui == null:
@@ -52,7 +86,7 @@ rule "[bastion/repair.opy]: Activate self-repair":
                      Color.YELLOW,
                      updateEveryTick(eventPlayer.getEyePosition()),
                      1.5,
-                     EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+                     EffectReeval.POSITION_AND_RADIUS)
         eventPlayer._self_repair_sparkles_upper_gui = getLastCreatedEntity()
 
     if eventPlayer._self_repair_sparkles_lower_gui == null:
@@ -61,7 +95,7 @@ rule "[bastion/repair.opy]: Activate self-repair":
                      Color.YELLOW,
                      updateEveryTick((eventPlayer.getEyePosition()+eventPlayer.getPosition())/2),
                      1.5,
-                     EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+                     EffectReeval.POSITION_AND_RADIUS)
         eventPlayer._self_repair_sparkles_lower_gui = getLastCreatedEntity()
 
     if eventPlayer._self_repair_ring_gui == null:
@@ -70,7 +104,7 @@ rule "[bastion/repair.opy]: Activate self-repair":
                      Color.YELLOW,
                      updateEveryTick(eventPlayer.getPosition()),
                      1.5,
-                     EffectReeval.VISIBILITY_POSITION_AND_RADIUS)
+                     EffectReeval.POSITION_AND_RADIUS)
         eventPlayer._self_repair_ring_gui = getLastCreatedEntity()
 
     # resource bar vfx
@@ -90,33 +124,6 @@ rule "[bastion/repair.opy]: Activate self-repair":
         eventPlayer.startHoT(eventPlayer, eventPlayer.self_repair_time_left, OW1_BASTION_SELF_REPAIR_HEALING_RATE)
         eventPlayer.self_repair_instance = getLastHoT()
     chase(eventPlayer.self_repair_time_left, 0, rate=1, ChaseReeval.DESTINATION_AND_RATE) # Start resource depletion
-
-
-rule "[bastion/repair.opy]: Deactivate self-repair":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition not isUsingSelfRepair(eventPlayer)
-
-    stopHoT(eventPlayer.self_repair_instance) # Stop healing
-    eventPlayer.self_repair_instance = null
-
-    hideSelfRepairRing()
-
-    stopChasingVariable(eventPlayer.self_repair_time_left) # Stop resource depletion
-    wait(OW1_BASTION_SELF_REPAIR_COOLDOWN_TIME, Wait.ABORT_WHEN_FALSE) # Wait 1 second cooldown before recharging heal resource
-
-    chase(eventPlayer.self_repair_time_left, \
-          OW1_BASTION_MAX_SELF_REPAIR_DURATION, \
-          rate=OW1_BASTION_MAX_SELF_REPAIR_DURATION/OW1_BASTION_SELF_REPAIR_RECHARGE_DURATION, \
-          ChaseReeval.DESTINATION_AND_RATE) # Start recharging
-
-
-rule "[bastion/repair.opy]: Hide self repair resource GUI":
-    @Event eachPlayer
-    @Hero bastion
-    @Condition eventPlayer.self_repair_time_left >= OW1_BASTION_MAX_SELF_REPAIR_DURATION
-
-    hideSelfRepairResource()
 
 
 rule "[bastion/repair.opy]: Give ult charge for self repair":

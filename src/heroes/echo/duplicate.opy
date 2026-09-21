@@ -40,8 +40,9 @@ rule "[echo/duplicate.opy]: Disallow Copy Teammates":
     @Hero echo
     @Condition eventPlayer.getUltCharge() == 100
     @Condition not eventPlayer.isDuplicatingAHero()
-    @Condition not (eventPlayer.getRealPlayerClosestToReticle(Team.ALL) in getPlayers(getOppositeTeam(eventPlayer.getTeam())))
+    # Team check instead of building the enemy player list every tick while ult is full
+    @Condition eventPlayer.getRealPlayerClosestToReticle(Team.ALL).getTeam() != getOppositeTeam(eventPlayer.getTeam())
 
     eventPlayer.disallowButton(Button.ULTIMATE)
-    waitUntil(eventPlayer.getRealPlayerClosestToReticle(Team.ALL) in getPlayers(getOppositeTeam(eventPlayer.getTeam())), Math.INFINITY)
+    waitUntil(eventPlayer.getRealPlayerClosestToReticle(Team.ALL).getTeam() == getOppositeTeam(eventPlayer.getTeam()), Math.INFINITY)
     eventPlayer.allowButton(Button.ULTIMATE)

@@ -15,14 +15,16 @@ rule "[reinhardt/shatter.opy]: OW1 one shot earthshatter":
             / (OW2_REINHARDT_EARTHSHATTER_BASE_DAMAGE + OW2_REINHARDT_EARTHSHATTER_BONUS_DAMAGE))
             - eventDamage)/eventPlayer._base_damage_scalar)
 
-
+# playerTookDamage, not playerDealtDamage: this rule waits, and a rule can only run once
+# at a time per event player. Keyed on Reinhardt, only one of the knocked down players
+# would get their knockdown shortened; keyed on the victim, every one of them does.
 rule "[reinhardt/shatter.opy]: OW1 earthshatter knock down duration":
-    @Event playerDealtDamage
-    @Hero reinhardt
-    @Condition victim.hasStatusEffect(Status.KNOCKED_DOWN)
+    @Event playerTookDamage
+    @Condition attacker.getCurrentHero() == Hero.REINHARDT
+    @Condition eventPlayer.hasStatusEffect(Status.KNOCKED_DOWN)
 
     wait(OW1_REINHARDT_EARTHSHATTER_KNOCK_DOWN_DURATION)
-    victim.clearStatusEffect(Status.KNOCKED_DOWN)
+    eventPlayer.clearStatusEffect(Status.KNOCKED_DOWN)
 
 rule "[reinhardt/shatter.opy]: Get Ow1 earthshatter distance":
     @Event eachPlayer

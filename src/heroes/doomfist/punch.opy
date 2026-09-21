@@ -8,8 +8,6 @@ globalvar OW1_DOOM_PUNCH_KNOCKBACK_MAX = createWorkshopSettingFloat('Doomfist', 
 globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MIN = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Wall Slam Min Damage', OW1_DOOM_PUNCH_WALL_DAMAGE_MIN_DEFAULT, 0, 500)
 globalvar OW1_DOOM_PUNCH_WALL_DAMAGE_MAX = createWorkshopSettingFloat('Doomfist', 'Rocket Punch Wall Slam Max Damage', OW1_DOOM_PUNCH_WALL_DAMAGE_MAX_DEFAULT, 0, 1500)
 
-playervar punched_victims
-playervar wall_impacted_victims
 playervar punch_charge_time
 
 subroutine initRocketPunch
@@ -71,7 +69,11 @@ rule "[doomfist/punch.opy]: Find wall impacted victims":
 
 # DO NOT switch the order of this rule with the previous rule
 # The order is functionally significant
+# The knockback deliberately uses the legacy CANCEL_CONTRARY_MOTION (horizontal and
+# vertical velocity cancelled separately); _XYZ handles them together and would change
+# how the punch feels, so the legacy-option warning is suppressed for this rule only.
 rule "[doomfist/punch.opy]: Find punched victims":
+    @SuppressWarnings w_cancel_contrary_motion
     @Event playerDealtDamage
     @Hero doomfist
     @Condition eventAbility == Button.SECONDARY_FIRE

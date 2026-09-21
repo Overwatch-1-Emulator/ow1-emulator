@@ -15,6 +15,7 @@ playervar custom_hp_pvar
 #!define HP_ROUNDING_ERROR_MARGIN 0.01
 
 subroutine applyCustomHp
+subroutine resetPoolTrackers
 
 macro setCustomHp(health, armor, shields):
     eventPlayer._hp_health = health
@@ -29,6 +30,9 @@ def clearCustomHp():
     eventPlayer._hp_reset = false
 
     eventPlayer.removeAllHealthPools()
+    # removeAllHealthPools() also wiped every tracked temp pool, so clear their trackers
+    # too (defined in utilities/Internal_Tracking.opy, which is included after this file)
+    resetPoolTrackers()
     wait()
     eventPlayer.setMaxHealth(100)
     wait()

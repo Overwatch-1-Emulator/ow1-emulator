@@ -1,5 +1,9 @@
 #!mainFile "../../main.opy"
 
+# Written every tick while slamming, so it stays a standalone variable: writing any index
+# of an array rechecks every rule condition that reads that array
+playervar slam_velocity_correction
+
 globalvar slam_i
 # Slamming on flat ground should deal 49 damage
 # Frame by frame analysis of Youtube videos indicate that slam damage increases at a rate of 100 damage/second
@@ -10,15 +14,10 @@ globalvar OW1_DOOMFIST_SLAM_INDIC_PITCH  = createWorkshopSettingFloat('Doomfist'
 globalvar OW1_DOOMFIST_SLAM_INDIC_RANGE  = createWorkshopSettingFloat('Doomfist', 'Seismic Slam Indicator Range', OW1_DOOMFIST_SLAM_INDIC_RANGE_DEFAULT, 0, 30)
 globalvar OW1_DOOM_SLAM_INDIC_RING_COUNT = createWorkshopSettingInt('Doomfist', 'Seismic Slam Indicator GUI Ring Count', OW1_DOOM_SLAM_INDIC_RING_COUNT_DEFAULT, 0, 12)
 
-playervar slam_to_use
 playervar proto_indicator_slam_position
 playervar indicator_slam_position
 playervar slam_damage
-playervar slam_damage_text_entity
-playervar ow1_slam_victims
 
-playervar slam_velocity_correction
-playervar stop_slam
 
 playervar slam_indicator_beam_id
 playervar slam_indicator_ring_id
@@ -70,11 +69,12 @@ and (not eventPlayer.isUsingAbility1()) \
 and (not eventPlayer.isUsingUltimate()))
 
 #Conditions for when to stop an indicator slam and drop the player
+# Cheap state checks first; distance last (conditions stop at first false)
 macro impulseTrainActive():
-   ((distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_position) > 2) \
-and (eventPlayer.isUsingAbility1()) \
+   ((eventPlayer.isUsingAbility1()) \
+and not eventPlayer.stop_slam \
 and (eventPlayer.getSpeed() > 2) \
-and not eventPlayer.stop_slam)
+and (distance(eventPlayer.getPosition(), eventPlayer.indicator_slam_position) > 2))
 
 def initSlam():
     @Name "[doomfist/slam.opy]: initSlam()"
@@ -136,11 +136,19 @@ rule "[doomfist/slam.opy]: Execute slam":
 rule "[doomfist/slam.opy]: Check for LOS during indicator":
     @Event eachPlayer
     @Hero doomfist
-    @Condition impulseTrainActive()
-    @Condition not isInLoS(eventPlayer.getEyePosition(), eventPlayer.indicator_slam_position, BarrierLos.PASS_THROUGH_BARRIERS)
+    @Condition eventPlayer.isUsingAbility1()
+    @Condition not eventPlayer.stop_slam
 
-    wait(0.5, Wait.ABORT_WHEN_FALSE)
-    eventPlayer.stop_slam = true
+    # indicator_slam_position is chased, so the "lost LOS for 0.5s" check is done with
+    # waitUntil instead of rule conditions (which may not fire on OW2)
+    do:
+        waitUntil((impulseTrainActive() and not isInLoS(eventPlayer.getEyePosition(), eventPlayer.indicator_slam_position, BarrierLos.PASS_THROUGH_BARRIERS)) \
+                  or not (eventPlayer.isUsingAbility1() and not eventPlayer.stop_slam), Math.INFINITY)
+        if impulseTrainActive() and not isInLoS(eventPlayer.getEyePosition(), eventPlayer.indicator_slam_position, BarrierLos.PASS_THROUGH_BARRIERS):
+            waitUntil(not (impulseTrainActive() and not isInLoS(eventPlayer.getEyePosition(), eventPlayer.indicator_slam_position, BarrierLos.PASS_THROUGH_BARRIERS)), 0.5)
+            if impulseTrainActive() and not isInLoS(eventPlayer.getEyePosition(), eventPlayer.indicator_slam_position, BarrierLos.PASS_THROUGH_BARRIERS):
+                eventPlayer.stop_slam = true # no LOS to the landing spot for 0.5s
+    while RULE_CONDITION
 
 
 def startSlamAnimation():
@@ -238,7 +246,7 @@ def showSlamDamageGui():
             verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),
             2,
             Clip.NONE,
-            WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+            WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
             Color.WHITE,
             SpecVisibility.DEFAULT)
     eventPlayer.slam_damage_text_entity = getLastCreatedText()

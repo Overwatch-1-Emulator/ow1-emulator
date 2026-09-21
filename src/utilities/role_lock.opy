@@ -5,6 +5,10 @@ globalvar role_lock_gvar
 #!defineMember MAX_TANK_COUNT role_lock_gvar[1]
 #!defineMember MAX_DAMAGE_COUNT role_lock_gvar[2]
 #!defineMember MAX_SUPPORT_COUNT role_lock_gvar[3]
+# Per-team role headcount, flattened: [team 1 roles..., team 2 roles...]
+# Recomputed only when a role or team changes, so the lock/unlock conditions
+# below are array reads instead of per-tick filtered arrays.
+#!defineMember _role_counts role_lock_gvar[4]
 
 rule "[utilities/role_lock.opy]: Initialize global variables":
     MAX_TANK_COUNT = createWorkshopSetting(int[0:12], "Role limit", "Tank", 2, 0)
@@ -14,12 +18,36 @@ rule "[utilities/role_lock.opy]: Initialize global variables":
 playervar role_lock_pvar
 #!defineMember role role_lock_pvar[0]
 #!defineMember allowed_heroes role_lock_pvar[1]
+#!defineMember _role_team role_lock_pvar[2]
 
 enum Role:
     MISSING, # role has not been picked
     TANK,
     DAMAGE,
     SUPPORT
+
+# Number of Role enum entries; stride between team 1 and team 2 in _role_counts
+#!define ROLE_TEAM_STRIDE 4
+
+subroutine recountRoles
+
+# Teammates (excluding player) currently on role r
+macro teammateRoleCount(player, r):
+    (_role_counts[(r) + ROLE_TEAM_STRIDE*(player.getTeam() == Team.2)] - (player.role == (r)))
+
+
+def recountRoles():
+    @Name "[utilities/role_lock.opy]: recountRoles()"
+
+    _role_counts = [
+        len([player for player in getPlayers(Team.1) if player.role == Role.MISSING]),
+        len([player for player in getPlayers(Team.1) if player.role == Role.TANK]),
+        len([player for player in getPlayers(Team.1) if player.role == Role.DAMAGE]),
+        len([player for player in getPlayers(Team.1) if player.role == Role.SUPPORT]),
+        len([player for player in getPlayers(Team.2) if player.role == Role.MISSING]),
+        len([player for player in getPlayers(Team.2) if player.role == Role.TANK]),
+        len([player for player in getPlayers(Team.2) if player.role == Role.DAMAGE]),
+        len([player for player in getPlayers(Team.2) if player.role == Role.SUPPORT])]
 
 
 rule "[utilities/role_lock.opy]: Find player's role":
@@ -35,6 +63,22 @@ rule "[utilities/role_lock.opy]: Find player's role":
     else:
         eventPlayer.role = Role.MISSING
 
+    recountRoles()
+
+
+rule "[utilities/role_lock.opy]: Recount roles when player joins or changes team":
+    @Event eachPlayer
+    @Condition eventPlayer._role_team != eventPlayer.getTeam()
+
+    eventPlayer._role_team = eventPlayer.getTeam()
+    recountRoles()
+
+
+rule "[utilities/role_lock.opy]: Recount roles when player leaves":
+    @Event playerLeft
+
+    recountRoles()
+
 
 rule "[utilities/role_lock.opy]: Override allowed heroes list when player joins lobby":
     @Event eachPlayer
@@ -48,6 +92,7 @@ rule "[utilities/role_lock.opy]: Skip hero assembly":
     @Condition isAssemblingHeroes()
 
     getAllPlayers().role = Role.MISSING # Reset every player's role
+    recountRoles()
     _hero_select_time = getMatchTime() # Save assemble hero time
     wait()
     setMatchTime(0) # Go to the end of the assembling heroes
@@ -55,55 +100,46 @@ rule "[utilities/role_lock.opy]: Skip hero assembly":
     setMatchTime(getMatchTime() + _hero_select_time/3) # Give back assemble hero time
 
 
-rule "[utilities/role_lock.opy]: Lock tanks above role limit":
+rule "[utilities/role_lock.opy]: Lock/unlock tank at role limit":
     @Event eachPlayer
-    @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) >= MAX_TANK_COUNT
+    @Condition teammateRoleCount(eventPlayer, Role.TANK) >= MAX_TANK_COUNT
     @Condition not isAssemblingHeroes()
 
     eventPlayer.allowed_heroes.remove(getOW1TankHeroes())
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
+    # Unlock again once the team drops back below the limit (one rule instead of a
+    # separate unlock rule, so this check runs once per player per tick, not twice)
+    waitUntil(not ruleCondition, Math.INFINITY)
+    eventPlayer.allowed_heroes.append(_available_tanks)
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
-rule "[utilities/role_lock.opy]: Lock damage above role limit":
+
+rule "[utilities/role_lock.opy]: Lock/unlock damage at role limit":
     @Event eachPlayer
-    @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) >= MAX_DAMAGE_COUNT
+    @Condition teammateRoleCount(eventPlayer, Role.DAMAGE) >= MAX_DAMAGE_COUNT
     @Condition not isAssemblingHeroes()
 
     eventPlayer.allowed_heroes.remove(getOW1DamageHeroes())
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
+    # Unlock again once the team drops back below the limit (one rule instead of a
+    # separate unlock rule, so this check runs once per player per tick, not twice)
+    waitUntil(not ruleCondition, Math.INFINITY)
+    eventPlayer.allowed_heroes.append(_available_dps)
+    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
-rule "[utilities/role_lock.opy]: Lock supports above role limit":
+
+rule "[utilities/role_lock.opy]: Lock/unlock support at role limit":
     @Event eachPlayer
-    @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) >= MAX_SUPPORT_COUNT
+    @Condition teammateRoleCount(eventPlayer, Role.SUPPORT) >= MAX_SUPPORT_COUNT
     @Condition not isAssemblingHeroes()
 
     eventPlayer.allowed_heroes.remove(getOW1SupportHeroes())
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
 
-
-rule "[utilities/role_lock.opy]: Unlock tanks below role limit":
-    @Event eachPlayer
-    @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.TANK))]) < MAX_TANK_COUNT
-    @Condition not isAssemblingHeroes()
-
-    eventPlayer.allowed_heroes.append(_available_tanks)
-    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
-
-
-rule "[utilities/role_lock.opy]: Unlock damage below role limit":
-    @Event eachPlayer
-    @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.DAMAGE))]) < MAX_DAMAGE_COUNT
-    @Condition not isAssemblingHeroes()
-
-    eventPlayer.allowed_heroes.append(_available_dps)
-    eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)
-
-
-rule "[utilities/role_lock.opy]: Unlock supports below role limit":
-    @Event eachPlayer
-    @Condition len([player for player in getPlayers(eventPlayer.getTeam()) if ((player != eventPlayer) and (player.role == Role.SUPPORT))]) < MAX_SUPPORT_COUNT
-    @Condition not isAssemblingHeroes()
-
+    # Unlock again once the team drops back below the limit (one rule instead of a
+    # separate unlock rule, so this check runs once per player per tick, not twice)
+    waitUntil(not ruleCondition, Math.INFINITY)
     eventPlayer.allowed_heroes.append(_available_supports)
     eventPlayer.setAllowedHeroes(eventPlayer.allowed_heroes)

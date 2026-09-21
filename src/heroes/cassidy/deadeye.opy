@@ -8,11 +8,11 @@ rule "[cassidy/deadeye.opy]: OW1 deadeye damage + remove OW2 damage reduction du
     @Hero cassidy
     @Condition eventPlayer.isUsingUltimate()
 
-    async(startOW1Deadeye, AsyncBehavior.RESTART)
+    async(startOW1Deadeye, AsyncBehavior.NOOP) # once per ult; never overlaps
     waitUntil(not eventPlayer.isUsingUltimate(), Math.INFINITY)
     eventPlayer.setDamageDealt(percent(eventPlayer._base_damage_scalar))
     eventPlayer.setDamageReceived(100)
-    eventPlayer.setMoveSpeed(100)
+    clearMoveModifier(eventPlayer, MoveMod.DEADEYE)
 
 
 def startOW1Deadeye():
@@ -23,4 +23,4 @@ def startOW1Deadeye():
     wait(OW2_CASSIDY_DEADEYE_PENALTY_DURATION)
     if not eventPlayer.isUsingUltimate(): return
     eventPlayer.setDamageReceived(percent(100/(100-OW2_CASSIDY_DEADEYE_DAMAGE_REDUCTION_MIN)))
-    eventPlayer.setMoveSpeed(percent(OW2_CASSIDY_DEADEYE_MOVE_SPEED_MIN/OW2_CASSIDY_DEADEYE_MOVE_SPEED_MAX))
+    setMoveModifier(eventPlayer, MoveMod.DEADEYE, OW2_CASSIDY_DEADEYE_MOVE_SPEED_MIN/OW2_CASSIDY_DEADEYE_MOVE_SPEED_MAX)

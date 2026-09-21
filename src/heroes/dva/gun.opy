@@ -7,7 +7,7 @@ rule "[dva/gun.opy]: OW1 DVa movement penalty when shooting":
     @Condition eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
     @Condition not eventPlayer.isUsingAbility1()
 
-    eventPlayer.setMoveSpeed(percent((1-OW1_DVA_MOVE_PENALTY)/(1-OW2_DVA_MOVE_PENALTY)))
+    setMoveModifier(eventPlayer, MoveMod.DVA_GUN, (1-OW1_DVA_MOVE_PENALTY)/(1-OW2_DVA_MOVE_PENALTY))
 
 
 rule "[dva/gun.opy]: Remove movement penalty when not shooting":
@@ -15,7 +15,7 @@ rule "[dva/gun.opy]: Remove movement penalty when not shooting":
     @Hero dva
     @Condition not eventPlayer.isHoldingButton(Button.PRIMARY_FIRE)
 
-    eventPlayer.setMoveSpeed(100)
+    clearMoveModifier(eventPlayer, MoveMod.DVA_GUN)
 
 
 rule "[dva/gun.opy]: Remove movement penalty when flying":
@@ -23,4 +23,4 @@ rule "[dva/gun.opy]: Remove movement penalty when flying":
     @Hero dva
     @Condition eventPlayer.isUsingAbility1()
 
-    eventPlayer.setMoveSpeed(100)
+    clearMoveModifier(eventPlayer, MoveMod.DVA_GUN)

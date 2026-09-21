@@ -8,7 +8,7 @@ rule "[bastion/recon.opy]: Initialize recon mode":
 
     eventPlayer.current_configuration = Configuration.RECON
 
-    eventPlayer.setMoveSpeed(100)
+    clearMoveModifier(eventPlayer, MoveMod.BASTION_CONFIG)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     eventPlayer.setProjectileSpeed(100)
     eventPlayer.setProjectileGravity(100)

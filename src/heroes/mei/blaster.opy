@@ -1,10 +1,12 @@
 #!mainFile "../../main.opy"
 
 playervar freeze_progress
-playervar freeze_slow_linger_time
-playervar freeze_move_penalty
+playervar mei_pvar
+# getTotalTimeElapsed() when freeze progress expires
+#!defineMember freeze_linger_end_time mei_pvar[0]
+#!defineMember freeze_move_penalty mei_pvar[1]
 
-playervar blaster_damage_range
+#!defineMember blaster_damage_range mei_pvar[2]
 
 subroutine clearFreezeEffect
 
@@ -16,8 +18,6 @@ rule "[mei/blaster.opy]: Track freezing on enemy":
     @Condition not eventPlayer.blaster_damage_range > OW1_MEI_ENDOTHERMIC_BLASTER_RANGE # Account for Endothermic Blaster range
     @Condition victim.freeze_progress < 100
 
-    stopChasingVariable(victim.freeze_slow_linger_time)
-
     if victim.freeze_progress == 0: # victims started taking freeze damage
         victim.freeze_progress = OW1_MEI_MINIMUM_FREEZE
     else:
@@ -26,8 +26,7 @@ rule "[mei/blaster.opy]: Track freezing on enemy":
     victim.freeze_move_penalty = victim.freeze_progress if victim.freeze_progress < OW1_MEI_FREEZE_MAX_SLOW else OW1_MEI_FREEZE_MAX_SLOW
     # victim.setMoveSpeed(100-victim.freeze_move_penalty)
 
-    victim.freeze_slow_linger_time = 0
-    chase(victim.freeze_slow_linger_time, OW1_MEI_FREEZE_SLOW_LINGER_DURATION, rate=1, ChaseReeval.NONE)
+    victim.freeze_linger_end_time = getTotalTimeElapsed() + OW1_MEI_FREEZE_SLOW_LINGER_DURATION
 
 
 rule "[mei/blaster.opy]: Freeze enemy":
@@ -43,7 +42,8 @@ rule "[mei/blaster.opy]: Freeze enemy":
 rule "[mei/blaster.opy]: clear freeze after exceeding linger time":
     @Event eachPlayer
     @Hero all
-    @Condition eventPlayer.freeze_slow_linger_time >= OW1_MEI_FREEZE_SLOW_LINGER_DURATION
+    @Condition eventPlayer.freeze_progress > 0 # cheap gate: only players with freeze buildup
+    @Condition getTotalTimeElapsed() >= eventPlayer.freeze_linger_end_time
 
     clearFreezeEffect()
 
@@ -51,8 +51,6 @@ rule "[mei/blaster.opy]: clear freeze after exceeding linger time":
 def clearFreezeEffect():
     @Name "[mei/blaster.opy]: clearFreezeEffect()"
 
-    stopChasingVariable(eventPlayer.freeze_slow_linger_time)
-    eventPlayer.setMoveSpeed(100)
     eventPlayer.freeze_progress = 0
 
 

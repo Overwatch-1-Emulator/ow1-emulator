@@ -1,8 +1,9 @@
 #!mainFile "../../main.opy"
 
-playervar orisa_ammo
-playervar orisa_ammo_hud
-playervar is_orisa_reloading
+playervar fusion_pvar
+#!defineMember orisa_ammo fusion_pvar[0]
+#!defineMember orisa_ammo_hud fusion_pvar[1]
+#!defineMember is_orisa_reloading fusion_pvar[2]
 
 subroutine resetFusionDriver
 subroutine reloadFusionDriver
@@ -99,7 +100,7 @@ def showOrisaAmmoHud():
                         verticalAngleOfDirection(eventPlayer.getFacingDirection()) - 90))) + 3 * eventPlayer.getFacingDirection()))),
                         2,
                         Clip.NONE,
-                        WorldTextReeval.VISIBILITY_POSITION_STRING_AND_COLOR,
+                        WorldTextReeval.VISIBILITY_POSITION_AND_STRING,
                         Color.WHITE,
                         SpecVisibility.DEFAULT)
         eventPlayer.orisa_ammo_hud = getLastCreatedText()
