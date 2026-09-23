@@ -6,6 +6,7 @@ playervar widow_pvar
 #!defineMember ow2_scoped_damage_falloff_scalar widow_pvar[2]
 #!defineMember ow1_scoped_damage_falloff_scalar widow_pvar[3]
 #!defineMember expected_scoped_damage widow_pvar[4]
+#!defineMember widow_armored widow_pvar[5]
 
 
 # Damage falloff derived from Marblr's "How Damage Falloff is Calculated" video: https://youtu.be/VL2VnkNJPpE
@@ -31,24 +32,20 @@ rule "[widowmaker.opy]: Revert sniper damage falloff":
     @Condition eventAbility == Button.PRIMARY_FIRE
 
     eventPlayer.scoped_shot_distance = distance(attacker.getEyePosition(), victim)
-    eventPlayer.ow2_scoped_damage_falloff_scalar = OW2WidowmakerFalloff(eventPlayer.scoped_shot_distance)
-    # Cap min/max scalar
-    if eventPlayer.ow2_scoped_damage_falloff_scalar > 1: # Max damage scalar
-        eventPlayer.ow2_scoped_damage_falloff_scalar = 1
-    elif eventPlayer.ow2_scoped_damage_falloff_scalar < OW2_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR: # Min damage scalar
-        eventPlayer.ow2_scoped_damage_falloff_scalar = OW2_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR
+    eventPlayer.widow_armored = victim.getHealthOfType(Health.ARMOR) > 0 and getTempShields(victim) == 0
 
-    eventPlayer.scoped_damage_base = eventDamage/eventPlayer.ow2_scoped_damage_falloff_scalar
+    eventPlayer.ow2_scoped_damage_falloff_scalar = max(OW2_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR, min(1, OW2WidowmakerFalloff(eventPlayer.scoped_shot_distance)))
+    eventPlayer.ow1_scoped_damage_falloff_scalar = max(OW1_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR, min(1, OW1WidowmakerFalloff(eventPlayer.scoped_shot_distance)))
 
-    eventPlayer.ow1_scoped_damage_falloff_scalar = OW1WidowmakerFalloff(eventPlayer.scoped_shot_distance)
-    # Cap min/max scalar
-    if eventPlayer.ow1_scoped_damage_falloff_scalar > 1: # Max damage scalar
-        eventPlayer.ow1_scoped_damage_falloff_scalar = 1
-    elif eventPlayer.ow1_scoped_damage_falloff_scalar < OW1_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR: # Min damage scalar
-        eventPlayer.ow1_scoped_damage_falloff_scalar = OW1_WIDOWMAKER_DAMAGE_FALLOFF_SCALAR
-
+    # Raw damage of this shot before armor, falloff and the global scalar
+    eventPlayer.scoped_damage_base = (ow2ArmorRawFor(eventDamage) if eventPlayer.widow_armored else eventDamage) \
+                                     / (eventPlayer.ow2_scoped_damage_falloff_scalar * eventPlayer._base_damage_scalar)
     eventPlayer.expected_scoped_damage = eventPlayer.scoped_damage_base * eventPlayer.ow1_scoped_damage_falloff_scalar
-    damage(victim, attacker, eventPlayer.expected_scoped_damage - eventDamage)
+
+    if eventPlayer.widow_armored:
+        damage(victim, attacker, ow2ArmorRawFor(ow1ArmorApplied(eventPlayer.expected_scoped_damage) - eventDamage)/eventPlayer._base_damage_scalar)
+    else:
+        damage(victim, attacker, (eventPlayer.expected_scoped_damage - eventDamage)/eventPlayer._base_damage_scalar)
 
 rule "[widowmaker.opy]: Compensate Widow global damage reduction":
     @Event playerDealtDamage
@@ -56,3 +53,12 @@ rule "[widowmaker.opy]: Compensate Widow global damage reduction":
     @Condition eventAbility in [Button.ABILITY_2, Button.PRIMARY_FIRE]
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+rule "[widowmaker/init.opy]: Compensate Ana global armor reduction":
+    @Event playerDealtDamage
+    @Hero widowmaker
+    @Condition eventAbility in [Button.ABILITY_2, Button.PRIMARY_FIRE]
+    @Condition victim.getHealthOfType(Health.ARMOR) > 0
+    @Condition getTempShields(victim) == 0
+
+    damage(victim, attacker, ((eventDamage + OW2_ARMOR_DAMAGE_REDUCTION) / eventPlayer._base_damage_scalar - OW1_ARMOR_DAMAGE_REDUCTION + OW2_ARMOR_DAMAGE_REDUCTION - eventDamage) / eventPlayer._base_damage_scalar)

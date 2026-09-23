@@ -9,7 +9,8 @@ rule "[doomfist/defense.opy]: OW1 Best Defense":
     @Condition (eventAbility == Button.SECONDARY_FIRE and not (victim in attacker.wall_impacted_victims)) \
             or (eventAbility == Button.ABILITY_1 and victim in attacker.ow1_slam_victims) \
             or eventAbility == Button.ULTIMATE \
-            or eventPlayer.is_using_uppercut
+            or victim.is_hit_by_uppercut
+    @Condition not eventAbility == Button.PRIMARY_FIRE
 
     if eventPlayer.best_defense_pool_id != null:
         removeHealthPool(eventPlayer.best_defense_pool_id)
@@ -21,8 +22,8 @@ rule "[doomfist/defense.opy]: OW1 Best Defense":
         eventPlayer.best_defense_shields = min(eventPlayer.best_defense_shields + OW1_DOOMFIST_BEST_DEFENSE, OW1_DOOMFIST_BEST_DEFENSE_MAX)
 
     
-    if getOverhealth(eventPlayer) > 0:
-        eventPlayer.setHealth(eventPlayer.getHealth() - getOverhealth(eventPlayer))
+    if getCurrentOverhealth(eventPlayer) > 0:
+        eventPlayer.setHealth(eventPlayer.getHealth() - getCurrentOverhealth(eventPlayer))
     eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.best_defense_shields, false, false)
     eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
     eventPlayer.best_defense_linger_end_time = getTotalTimeElapsed() + OW1_DOOMFIST_BEST_DEFENSE_LINGER
@@ -45,4 +46,3 @@ rule "[doomfist/bestdefense.opy]: Decay Best Defense shields":
     if eventPlayer.best_defense_pool_id != null:
         removeHealthPool(eventPlayer.best_defense_pool_id)
     eventPlayer.best_defense_pool_id = null
-    eventPlayer.best_defense_shields = 0

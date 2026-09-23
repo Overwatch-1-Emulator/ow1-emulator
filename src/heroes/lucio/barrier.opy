@@ -20,20 +20,32 @@ subroutine applyOw1SoundBarrier
 
 # Workshop pools on the recipient get wiped by setHealth(), so they are
 # removed and re-added from their tracked amounts.
-macro restoreTrackedPools(player):
+# Wipes every tracked temp pool. Their IDs are cleared, so nothing points at a pool
+# that no longer exists; re-add them with addTrackedPools().
+macro removeTrackedPools(player):
     if player.sound_barrier_pool_id != null:
         removeHealthPool(player.sound_barrier_pool_id)
+        player.sound_barrier_pool_id = null
     if player._torbjorn_overload_id != null:
         removeHealthPool(player._torbjorn_overload_id)
+        player._torbjorn_overload_id = null
     if player._rally_pool_id != null:
         removeHealthPool(player._rally_pool_id)
+        player._rally_pool_id = null
     if player._adaptive_shield_hp_id != null:
         removeHealthPool(player._adaptive_shield_hp_id)
+        player._adaptive_shield_hp_id = null
     if player.best_defense_pool_id != null:
         removeHealthPool(player.best_defense_pool_id)
+        player.best_defense_pool_id = null
     if player._grasp_pool_id != null:
         removeHealthPool(player._grasp_pool_id)
+        player._grasp_pool_id = null
 
+
+# Re-adds each tracked temp pool from its tracked amount. Sound Barrier is added last so
+# it stays the newest pool, which is the order the damage trackers assume.
+macro addTrackedPools(player):
     if player.overload_amount > 0:
         player.addHealthPool(Health.ARMOR, player.overload_amount, false, false)
         player._torbjorn_overload_id = getLastCreatedHealthPool()
@@ -58,21 +70,31 @@ rule "[lucio/soundbarrier.opy]: OW1 Sound Barrier":
 
     # Snapshot each teammate's overhealth before the beat lands
     eventPlayer.sound_barrier_recipients = getPlayers(eventPlayer.getTeam())
-    for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
-        eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i].pre_beat_overhealth = getOverhealth(eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i])
 
-    # Timeout: if the ult never lands (Lucio killed/stunned mid-leap), an infinite
-    # wait would keep this instance alive and block every future Sound Barrier
-    waitUntil(getOverhealth(eventPlayer) - eventPlayer.pre_beat_overhealth > OW2_LUCIO_SOUND_BARRIER_MIN_DETECT_GAIN, OW1_LUCIO_SOUND_BARRIER_DURATION)
-    if getOverhealth(eventPlayer) - eventPlayer.pre_beat_overhealth <= OW2_LUCIO_SOUND_BARRIER_MIN_DETECT_GAIN:
-        return
-    wait() # let the OW2 beat reach every recipient before reading them
+    # Keep snapshotting natural health until the beat lands. Once a player has overhealth,
+    # their natural health can't be read any more (it's hidden inside NORMAL), so the
+    # snapshot is only updated on ticks where they have none: damage taken during the
+    # leap is captured, and the stored value is at most one tick old when the beat hits.
+    while (getCurrentOverhealth(eventPlayer) <= OW2_LUCIO_SOUND_BARRIER_MIN_DETECT_GAIN):
+        for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
+            if getCurrentOverhealth(eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]) <= OW2_LUCIO_SOUND_BARRIER_MIN_DETECT_GAIN:
+                eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i].pre_beat_health = getNaturalHealth(eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i])
+                eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i].pre_beat_armor_health = getNaturalArmor(eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i])
+                eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i].pre_beat_shield_health = getNaturalShields(eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i])
+        wait()
+
+    if getCurrentOverhealth(eventPlayer) <= OW2_LUCIO_SOUND_BARRIER_MIN_DETECT_GAIN:
+        return # ult never landed (killed or stunned mid-leap)
+    #wait() # let the beat reach every recipient
 
     # Only players the game actually gave the OW2 beat to (range + LOS decided by the engine)
-    eventPlayer.sound_barrier_recipients = [player for player in getPlayers(eventPlayer.getTeam()) if getOverhealth(player) - player.pre_beat_overhealth > OW2_LUCIO_SOUND_BARRIER_MIN_DETECT_GAIN]
+    eventPlayer.sound_barrier_recipients = [player for player in getPlayers(eventPlayer.getTeam()) if getCurrentOverhealth(player) - player.pre_beat_overhealth > OW2_LUCIO_SOUND_BARRIER_MIN_DETECT_GAIN]
 
     for eventPlayer.sound_barrier_i in range(len(eventPlayer.sound_barrier_recipients)):
         eventPlayer.sound_barrier_target = eventPlayer.sound_barrier_recipients[eventPlayer.sound_barrier_i]
+        #eventPlayer.sound_barrier_target.pre_beat_health = eventPlayer.sound_barrier_target.getHealthOfType(Health.NORMAL) - OW2_LUCIO_SOUND_BARRIER_HEALTH * 0.89 + 2.47
+        #eventPlayer.sound_barrier_target.pre_beat_shield_health = getNaturalShields(eventPlayer.sound_barrier_target)
+        #eventPlayer.sound_barrier_target.pre_beat_armor_health = getNaturalArmor(eventPlayer.sound_barrier_target)
         applyOw1SoundBarrier()
 
 
@@ -81,7 +103,7 @@ def applyOw1SoundBarrier():
 
     # Snapshot after the beat landed: damage taken during the cast is kept,
     # and OW2 overhealth is excluded because natural health is capped at _hp_*
-    eventPlayer.sound_barrier_target.pre_beat_health = getNaturalHealth(eventPlayer.sound_barrier_target)
+
     # Rally armor actually left (not the total ever granted), so the rebuild
     # below doesn't refill armor the player already lost
     eventPlayer.sound_barrier_target._rally_armor_added = max(0, min(eventPlayer.sound_barrier_target._rally_armor_added,
@@ -94,12 +116,19 @@ def applyOw1SoundBarrier():
                                            if len(eventPlayer.sound_barrier_target.rally_armor_ids) > 0 else 0
 
     # Strip OW2 overhealth, then restore natural health (heal refills health, armor, shields)
+    removeTrackedPools(eventPlayer.sound_barrier_target)
     eventPlayer.sound_barrier_target.setStatusEffect(null, Status.UNKILLABLE, Math.INFINITY)
     eventPlayer.sound_barrier_target.setHealth(1)
-    heal(eventPlayer.sound_barrier_target, null, eventPlayer.sound_barrier_target.pre_beat_health - 1)
+    eventPlayer.sound_barrier_target.setHealth((eventPlayer.sound_barrier_target.pre_beat_health-1) + eventPlayer.sound_barrier_target.pre_beat_armor_health + eventPlayer.sound_barrier_target.pre_beat_shield_health)
+    #eventPlayer.sound_barrier_target.setHealth(eventPlayer.sound_barrier_target.getHealth() - OW2_LUCIO_SOUND_BARRIER_HEALTH * 0.89)
+    #damage(eventPlayer.sound_barrier_target, null, eventPlayer.sound_barrier_target.getHealth() - OW2_LUCIO_SOUND_BARRIER_HEALTH * 0.89)
+    #heal(eventPlayer.sound_barrier_target, null, eventPlayer.sound_barrier_target.pre_beat_health - 1)
+    #heal(eventPlayer.sound_barrier_target, null, eventPlayer.sound_barrier_target.pre_beat_armor_health)
+    #heal(eventPlayer.sound_barrier_target, null, eventPlayer.sound_barrier_target.pre_beat_shield_health)
     eventPlayer.sound_barrier_target.clearStatusEffect(Status.UNKILLABLE)
 
-    restoreTrackedPools(eventPlayer.sound_barrier_target)
+    
+    addTrackedPools(eventPlayer.sound_barrier_target)
 
     # Give Brigitte her remaining self Rally armor back as one pool. The emptied
     # pools stay in rally_armor_ids and are removed by Rally's 30s cleanup as before.
@@ -126,9 +155,8 @@ rule "[lucio/soundbarrier.opy]: Decay shields":
         if eventPlayer.sound_barrier_amount > 0:
             eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.sound_barrier_amount, false, false)
             eventPlayer.sound_barrier_pool_id = getLastCreatedHealthPool()
-        wait(OW1_LUCIO_SOUND_BARRIER_TICK, Wait.ABORT_WHEN_FALSE)
+        wait(OW1_LUCIO_SOUND_BARRIER_TICK)
 
     if eventPlayer.sound_barrier_decay_gen == eventPlayer.sound_barrier_gen:
         eventPlayer.sound_barrier_pool_id = null
-        eventPlayer.sound_barrier_amount = 0
 

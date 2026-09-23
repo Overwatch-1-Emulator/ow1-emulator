@@ -25,3 +25,12 @@ rule "[baptiste/init.opy]: Compensate Bap global damage reduction":
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
 
+rule "[pharah/init.opy]: Compensate Bap Armor damage reduction":
+    @Event playerDealtDamage
+    @Hero baptiste
+    @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition victim.getHealthOfType(Health.ARMOR) > 0
+    @Condition getTempShields(victim) == 0
+
+    damage(victim, attacker, ((eventDamage + OW2_ARMOR_DAMAGE_REDUCTION) / eventPlayer._base_damage_scalar - OW1_ARMOR_DAMAGE_REDUCTION + OW2_ARMOR_DAMAGE_REDUCTION - eventDamage) / eventPlayer._base_damage_scalar)
+

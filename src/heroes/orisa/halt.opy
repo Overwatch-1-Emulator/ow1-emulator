@@ -116,8 +116,8 @@ def snareVictim():
     eventPlayer.setEnvironmentalKillCreditor(eventPlayer)
     eventPlayer.halt_victim_position = eventPlayer.getPosition()
     eventPlayer.startForcingPosition(eventPlayer.halt_victim_position, true)
-    chase(eventPlayer.halt_victim_position, eventPlayer.enemy_orisa_player.halt_position, rate=OW1_ORISA_HALT_PULL_SPEED, ChaseReeval.DESTINATION_AND_RATE)
-    waitUntil(eventPlayer.halt_victim_position == eventPlayer.enemy_orisa_player.halt_position, Math.INFINITY)
+    waitUntil(distance(eventPlayer.halt_victim_position, eventPlayer.enemy_orisa_player.halt_position) < 0.1
+              or not eventPlayer.enemy_orisa_player.halt_active, OW1_ORISA_HALT_SNARE_DURATION)
     stopChasingVariable(eventPlayer.halt_victim_position)
     eventPlayer.stopForcingPosition()
     cancelMomentum(eventPlayer)

@@ -1,4 +1,4 @@
-#!mainFile "../main.opy"
+ #!mainFile "../main.opy"
 
 # indexing variable
 globalvar hero_roster_i

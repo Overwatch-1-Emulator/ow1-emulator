@@ -173,7 +173,12 @@ rule "[utilities/debug.opy]: do something on interact":
     #unlockAllPerks()
     eventPlayer.setUltCharge(100)
 
+rule "test":
+    @Event eachPlayer
+    @Condition DEBUG_MODE
+    @Condition eventPlayer.isHoldingButton(Button.CROUCH)
 
+    eventPlayer.addHealthPool(Health.ARMOR, 100, false, false)
 rule "[utilities/debug.opy]: spawn bots on interact, despawn on interact + primary":
     @Event eachPlayer
     @Condition DEBUG_MODE

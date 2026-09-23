@@ -17,8 +17,19 @@ rule "[ana/init.opy]: OW1 Ana rifle damage":
     @Event playerDealtDamage
     @Hero ana
     @Condition eventAbility == Button.PRIMARY_FIRE
+    @Condition victim.getHealthOfType(Health.ARMOR) == 0
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar*(OW1_ANA_BIOTIC_RIFLE_DAMAGE/OW2_ANA_BIOTIC_RIFLE_DAMAGE) - eventDamage)/eventPlayer._base_damage_scalar)
+
+rule "[genji/init.opy]: Deal OW1 rifle armor damage":
+    @Event playerDealtDamage
+    @Hero ana
+    @Condition eventAbility in Button.PRIMARY_FIRE
+    @Condition victim.getHealthOfType(Health.ARMOR) > 0
+    @Condition getTempShields(victim) == 0
+
+    damage(victim, attacker, ow2ArmorRawFor(ow1ArmorApplied(OW1_ANA_BIOTIC_RIFLE_DAMAGE * ow2ArmorRawFor(eventDamage)/(OW2_ANA_BIOTIC_RIFLE_DAMAGE*eventPlayer._base_damage_scalar)) - eventDamage) / eventPlayer._base_damage_scalar)
+
 
 rule "[ana/init.opy]: Compensate Ana global heal reduction":
     @Event playerDealtHealing
@@ -31,5 +42,16 @@ rule "[ana/init.opy]: Compensate Damage Reduction":
     @Event playerDealtDamage
     @Hero ana
     @Condition eventAbility == Button.ABILITY_1
+    @Condition victim.getHealthOfType(Health.ARMOR) == 0
 
     damage(victim, attacker, (eventDamage/eventPlayer._base_damage_scalar - eventDamage)/eventPlayer._base_damage_scalar)
+
+
+rule "[ana/init.opy]: Compensate Ana global armor reduction":
+    @Event playerDealtDamage
+    @Hero pharah
+    @Condition eventAbility == Button.ABILITY_1
+    @Condition victim.getHealthOfType(Health.ARMOR) > 0
+    @Condition getTempShields(victim) == 0
+
+    damage(victim, attacker, ow2ArmorRawFor(ow1ArmorApplied(ow2ArmorRawFor(eventDamage)/eventPlayer._base_damage_scalar) - eventDamage)/eventPlayer._base_damage_scalar)

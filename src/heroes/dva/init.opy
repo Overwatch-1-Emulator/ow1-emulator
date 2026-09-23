@@ -16,7 +16,6 @@ def initDva():
 
     setBaseDamage(eventPlayer, OW1_DVA_BOOSTERS_DAMAGE/OW2_DVA_BOOSTERS_DAMAGE)
 
-
 rule "[dva/init.opy]: Compensate DVa global damage reduction":
     @Event playerDealtDamage
     @Hero dva

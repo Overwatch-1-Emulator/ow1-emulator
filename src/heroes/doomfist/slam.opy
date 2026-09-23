@@ -271,7 +271,13 @@ rule "[doomfist/slam.opy]: Find slammed victims":
         #damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar)
     else: # Handle OW2 slam victims
         # Remove OW2 slam damage
-        heal(victim, null, eventDamage)
+        #heal(victim, null, eventDamage)
+        if eventPlayer.best_defense_pool_id != null:
+            removeHealthPool(eventPlayer.best_defense_pool_id)
+                if getCurrentOverhealth(eventPlayer) > 0:
+                    eventPlayer.setHealth(eventPlayer.getHealth() - getCurrentOverhealth(eventPlayer))
+        eventPlayer.addHealthPool(Health.SHIELDS, eventPlayer.best_defense_shields, false, false)
+        eventPlayer.best_defense_pool_id = getLastCreatedHealthPool()
         # Transfer shield gained from uppercut to shield gained from OW2 slam victims
         #damage(attacker, null, OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar)
         #attacker.uppercut_shields -= min(OW2_DOOMFIST_BEST_DEFENSE*eventPlayer._hp_scalar, attacker.uppercut_shields)
@@ -285,8 +291,7 @@ rule "[doomfist/slam.opy]: Slammed victims damage + bounce effect":
 
     # Custom slam damage.
     if (attacker.slam_damage < eventDamage):
-        heal(victim, null, eventDamage)
-        damage(victim, attacker, attacker.slam_damage)
+        heal(victim, null, eventDamage - attacker.slam_damage)
     else:
         damage(victim, attacker, floor(attacker.slam_damage-eventDamage)/eventPlayer._base_damage_scalar) # Apply additional damage based on air time
 
@@ -359,3 +364,12 @@ def destroySlamIndicatorGui():
     # Sphere for debugging indicator slam
     # destroyEffect(eventPlayer.slam_indicator_id[0])
     # eventPlayer.slam_indicator_id[0] = null
+
+
+rule "[doomfist/slam.opy]: Heal Players not in OW1 Slam":
+    @Event playerTookDamage
+    @Condition attacker.getCurrentHero() == Hero.DOOMFIST
+    @Condition eventAbility == Button.ABILITY_1
+    @Condition not eventPlayer in attacker.ow1_slam_victims
+
+    heal(eventPlayer, null, OW2_DOOMFIST_SEISMIC_SLAM_DAMAGE * attacker._base_damage_scalar)
