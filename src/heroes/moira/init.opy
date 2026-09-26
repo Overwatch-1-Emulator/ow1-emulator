@@ -2,7 +2,7 @@
 
 #!include "biotic_grasp.opy"
 #!include "coalescence.opy"
-#!include "biotic_orb.opy"
+# !include "biotic_orb.opy" #shouldnt of been released but I was working on it?? idk how its here
 
 
 def initMoira():
