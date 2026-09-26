@@ -4,8 +4,8 @@
 #!define PHI (Math.PI * (sqrt(5)-1))
 globalvar los_i
 globalvar los_j
-globalvar barrier_i # crack loop only: that loop never waits, so it can't be interrupted
-playervar barrier_deploy_i # deploy loop waits between batches, so it needs a per-player index
+globalvar barrier_i
+playervar barrier_deploy_i
 globalvar OW1_ORISA_BARRIER_LOS_FREQ = createWorkshopSetting(float[0.001:60], "Orisa", "Barrier LOS Polling Frequency (Hz)", OW1_ORISA_BARRIER_LOS_FREQ_DEFAULT)
 globalvar OW1_ORISA_BARRIER_ORB_SIZE = createWorkshopSetting(float[0.1:3], 'Orisa', 'Barrier Orb Radius', OW1_ORISA_BARRIER_ORB_SIZE_DEFAULT)
 globalvar OW1_ORISA_BARRIER_ORB_COUNT = createWorkshopSetting(int[100:200], 'Orisa', 'Barrier Orb Count', OW1_ORISA_BARRIER_ORB_COUNT_DEFAULT)
@@ -27,11 +27,10 @@ playervar barrier_seed_position
 #!defineMember barrier_sample_radius barrier_pvar[7]
 #!defineMember barrier_sample_coordinate barrier_pvar[8]
 playervar barrier_entity_positions
-playervar barrier_crack_thresholds # per-orb hp ratio below which that orb turns white
+playervar barrier_crack_thresholds
 playervar barrier_entity_ids
 
 playervar barrier_active
-# getTotalTimeElapsed() when barrier times out
 #!defineMember barrier_expiry_time barrier_pvar[9]
 playervar barrier_hp
 #!defineMember barrier_hp_hud_id barrier_pvar[10]
@@ -68,8 +67,7 @@ subroutine updateBarrierVisual
 # Angle of reflection formula from https://math.stackexchange.com/q/13261
 #!define reflection(d, n) (d - 2 * (dotProduct(d, n)) * n)
 
-# barrier_active is checked first: workshop stops evaluating conditions at the
-# first false one, so players with no active enemy barrier skip the vector math
+
 #!define isAimingAtOrisaBarrier() \
     ((eventPlayer.enemy_orisa_player.barrier_active) \
  and (angleBetweenVectors(eventPlayer.getFacingDirection(), directionTowards(eventPlayer.getEyePosition(), eventPlayer.enemy_orisa_player._barrier_origin)) < 90) \
@@ -174,8 +172,6 @@ def deployBarrier(): # Create shield visual object
 
     fibonacciSphere()
 
-    # Draw each barrier sample. No reevaluation: orbs are static, and cracking
-    # recreates only the orbs that change (see updateBarrierVisual)
     for eventPlayer.barrier_deploy_i in range(len(eventPlayer.barrier_entity_positions)):
         eventPlayer.barrier_crack_thresholds[eventPlayer.barrier_deploy_i] = random.uniform(0, 1)
         createEffect(getAllPlayers(),
@@ -186,7 +182,7 @@ def deployBarrier(): # Create shield visual object
                      EffectReeval.NONE)
         eventPlayer.barrier_entity_ids.append(getLastCreatedEntity())
         if eventPlayer.barrier_deploy_i % OW1_ORISA_BARRIER_ORBS_PER_TICK == 0:
-            wait() # batch the orb creation so the whole barrier isn't built in one tick
+            wait() 
 
     # Play barrier deploying sound
     playEffect(getAllPlayers(), DynamicEffect.BUFF_IMPACT_SOUND, Color.LIME_GREEN, eventPlayer.barrier_seed_position, 100)
@@ -348,9 +344,6 @@ def destroyBarrierHud():
 def updateBarrierVisual():
     @Name "[orisa/barrier.opy]: updateBarrierVisual()"
 
-    # Each orb cracks once, when hp ratio drops below its random threshold.
-    # Runs in a single tick (no wait) so the half/quarter rules can't interleave
-    # on the shared barrier_i index or double-create an orb.
     for barrier_i in range(len(eventPlayer.barrier_entity_positions)):
         if (eventPlayer.barrier_hp/OW1_ORISA_PROJECTILE_BARRIER_HEALTH) < eventPlayer.barrier_crack_thresholds[barrier_i]:
             eventPlayer.barrier_crack_thresholds[barrier_i] = BARRIER_ORB_CRACKED

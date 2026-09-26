@@ -137,7 +137,7 @@ def throwTranslocator():
                                  null, \
                                  false).getHitPosition()) \
                          < 0.5) or not eventPlayer._is_using_translocator, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
-    if not eventPlayer._is_using_translocator: return # destroyed mid-flight (teleported, shot, hero swap)
+    if not eventPlayer._is_using_translocator: return 
 
     # Freeze translocator projectile
     stopChasingVariable(eventPlayer.transloc_time)
@@ -181,7 +181,7 @@ rule "[sombra/translocator.opy]: Show using translocator GUI":
 
 rule "[sombra/translocator.opy]: Break translocator when shot":
     @Event eachPlayer
-    @Condition eventPlayer.enemy_sombra_player._is_using_translocator # cheap gate: skip everything while no enemy translocator exists
+    @Condition eventPlayer.enemy_sombra_player._is_using_translocator
     @Condition eventPlayer.getTeam() == getOppositeTeam(eventPlayer.enemy_sombra_player.getTeam())
     @Condition eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire()
 

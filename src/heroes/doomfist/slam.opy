@@ -1,7 +1,5 @@
 #!mainFile "../../main.opy"
 
-# Written every tick while slamming, so it stays a standalone variable: writing any index
-# of an array rechecks every rule condition that reads that array
 playervar slam_velocity_correction
 
 globalvar slam_i
@@ -68,8 +66,7 @@ and (not eventPlayer.isFiringSecondaryFire()) \
 and (not eventPlayer.isUsingAbility1()) \
 and (not eventPlayer.isUsingUltimate()))
 
-#Conditions for when to stop an indicator slam and drop the player
-# Cheap state checks first; distance last (conditions stop at first false)
+
 macro impulseTrainActive():
    ((eventPlayer.isUsingAbility1()) \
 and not eventPlayer.stop_slam \
@@ -139,8 +136,6 @@ rule "[doomfist/slam.opy]: Check for LOS during indicator":
     @Condition eventPlayer.isUsingAbility1()
     @Condition not eventPlayer.stop_slam
 
-    # indicator_slam_position is chased, so the "lost LOS for 0.5s" check is done with
-    # waitUntil instead of rule conditions (which may not fire on OW2)
     do:
         waitUntil((impulseTrainActive() and not isInLoS(eventPlayer.getEyePosition(), eventPlayer.indicator_slam_position, BarrierLos.PASS_THROUGH_BARRIERS)) \
                   or not (eventPlayer.isUsingAbility1() and not eventPlayer.stop_slam), Math.INFINITY)

@@ -103,7 +103,7 @@ rule "[orisa/halt.opy]: Slow down halted victims":
     wait(OW1_ORISA_HALT_ACTIVATION_TIME)
 
     if isInHaltAOE(eventPlayer):
-        async(snareVictim, AsyncBehavior.NOOP) # a snare already pulling this player finishes first
+        async(snareVictim, AsyncBehavior.NOOP) 
 
     wait(OW1_ORISA_HALT_SNARE_DURATION)
     eventPlayer.setMoveSpeed(100)
@@ -127,8 +127,6 @@ rule "[orisa/halt.opy]: Halt snare line VFX":
     @Condition eventPlayer.enemy_orisa_player.is_using_halt
     @Condition eventPlayer.isAlive()
 
-    # halt_position is chased while the orb flies, so entering/leaving the AOE is watched
-    # with waitUntil instead of a rule condition (which may not fire on OW2)
     do:
         waitUntil(isInHaltAOE(eventPlayer) or not (eventPlayer.enemy_orisa_player.is_using_halt and eventPlayer.isAlive()), Math.INFINITY)
         if snareVisible(eventPlayer):
@@ -145,8 +143,6 @@ def showSnareLine():
     @Name "[orisa/halt.opy]: showSnareLine()"
 
     if (eventPlayer.halt_snare_line_id == null):
-        # No visibility reeval: the calling rule already destroys this beam
-        # via hideSnareLine() as soon as snareVisible() goes false
         createBeam(getAllPlayers(),
                    Beam.GOOD,
                    eventPlayer.enemy_orisa_player.halt_position,
@@ -163,8 +159,6 @@ def hideSnareLine():
     eventPlayer.halt_snare_line_id = null
 
 
-# One rule for both halt start and halt end (was two rules with opposite conditions,
-# both checked on every player every tick)
 rule "[orisa/halt.opy]: Destroy Halt pull line vfx when halt starts and ends":
     @Event eachPlayer
     @Condition eventPlayer.enemy_orisa_player.is_using_halt

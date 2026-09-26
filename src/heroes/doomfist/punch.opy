@@ -69,9 +69,6 @@ rule "[doomfist/punch.opy]: Find wall impacted victims":
 
 # DO NOT switch the order of this rule with the previous rule
 # The order is functionally significant
-# The knockback deliberately uses the legacy CANCEL_CONTRARY_MOTION (horizontal and
-# vertical velocity cancelled separately); _XYZ handles them together and would change
-# how the punch feels, so the legacy-option warning is suppressed for this rule only.
 rule "[doomfist/punch.opy]: Find punched victims":
     @SuppressWarnings w_cancel_contrary_motion
     @Event playerDealtDamage
