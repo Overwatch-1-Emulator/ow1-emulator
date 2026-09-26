@@ -15,25 +15,32 @@ macro removeBestDefence(player):
 
 # Semi-public scoped variables
 playervar is_using_uppercut
-playervar is_ultimate_locked
+playervar doom_pvar
+#!defineMember is_ultimate_locked doom_pvar[0]
+#!defineMember slam_to_use doom_pvar[1]
+#!defineMember slam_damage_text_entity doom_pvar[2]
+#!defineMember ow1_slam_victims doom_pvar[3]
+#!defineMember stop_slam doom_pvar[5]
+#!defineMember punched_victims doom_pvar[6]
+#!defineMember wall_impacted_victims doom_pvar[7]
 
 #!include "uppercut.opy"
 #!include "slam.opy"
 #!include "punch.opy"
 #!include "meteor.opy"
 #!include "cannon.opy"
-#!include "defense.opy"
+# !include "defense.opy"
 
 
 def initDoomfist():
     @Name "[doomfist/init.opy]: initDoomfist()"
 
-    removeBestDefence(eventPlayer)
+    setCustomHp(OW1_DOOMFIST_HEALTH, 0, 0)
     setUltCost(OW1_DOOMFIST_ULT_COST)
     setBaseDamage(eventPlayer, OW1_MELEE_DAMAGE/OW2_MELEE_DAMAGE)
     initRocketPunch()
     initSlam()
-    eventPlayer.best_defense_shields = 0
+    #eventPlayer.best_defense_shields = 0
     #eventPlayer.uppercut_shields = 0
 
 

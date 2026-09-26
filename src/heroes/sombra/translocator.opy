@@ -11,8 +11,8 @@ playervar translocator_pvar
 
 playervar transloc_position
 playervar trasnloc_velocity
-playervar transloc_p0
-playervar transloc_v0
+#!defineMember transloc_p0 translocator_pvar[6]
+#!defineMember transloc_v0 translocator_pvar[7]
 playervar transloc_time
 
 subroutine throwTranslocator
@@ -57,7 +57,7 @@ rule "[sombra/translocator.opy]: Bind Ability 2 to translocator":
 
     eventPlayer.setAbilityCooldown(Button.ABILITY_2, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
     destroyTranslocator(eventPlayer)
-    async(throwTranslocator(), AsyncBehavior.RESTART)
+    async(throwTranslocator(), AsyncBehavior.NOOP) # a previous throw already exited when its translocator was destroyed
     waitUntil(not eventPlayer.isHoldingButton(Button.ABILITY_2), Math.INFINITY)
     waitUntil((eventPlayer.isHoldingButton(Button.ABILITY_2) \
             or eventPlayer.isHoldingButton(Button.INTERACT) \
@@ -102,7 +102,8 @@ def throwTranslocator():
                                  null, \
                                  null, \
                                  false).getHitPosition()) \
-                         < 0.5), OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
+                         < 0.5) or not eventPlayer._is_using_translocator, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
+    if not eventPlayer._is_using_translocator: return # destroyed mid-flight (teleported, shot, hero swap)
 
     # Freeze translocator projectile
     stopChasingVariable(eventPlayer.transloc_time)
@@ -135,7 +136,8 @@ def throwTranslocator():
                                  null, \
                                  null, \
                                  false).getHitPosition()) \
-                         < 0.5), OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
+                         < 0.5) or not eventPlayer._is_using_translocator, OW1_SOMBRA_TRANSLOCATOR_COOLDOWN_TIME)
+    if not eventPlayer._is_using_translocator: return 
 
     # Freeze translocator projectile
     stopChasingVariable(eventPlayer.transloc_time)
@@ -179,9 +181,14 @@ rule "[sombra/translocator.opy]: Show using translocator GUI":
 
 rule "[sombra/translocator.opy]: Break translocator when shot":
     @Event eachPlayer
+    @Condition eventPlayer.enemy_sombra_player._is_using_translocator
     @Condition eventPlayer.getTeam() == getOppositeTeam(eventPlayer.enemy_sombra_player.getTeam())
     @Condition eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire()
-    @Condition isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_sombra_player.transloc_position, 0.1)
-    @Condition isInLoS(eventPlayer.getEyePosition(), eventPlayer.enemy_sombra_player.transloc_position, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)
 
+    waitUntil((isAimingAtSphere(eventPlayer.getEyePosition(), eventPlayer.getFacingDirection(), eventPlayer.enemy_sombra_player.transloc_position, 0.1) \
+               and isInLoS(eventPlayer.getEyePosition(), eventPlayer.enemy_sombra_player.transloc_position, BarrierLos.BLOCKED_BY_ENEMY_BARRIERS)) \
+              or not (eventPlayer.enemy_sombra_player._is_using_translocator \
+                      and (eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire())), Math.INFINITY)
+    if not eventPlayer.enemy_sombra_player._is_using_translocator: return
+    if not (eventPlayer.isFiringPrimaryFire() or eventPlayer.isFiringSecondaryFire()): return
     destroyTranslocator(eventPlayer.enemy_sombra_player)

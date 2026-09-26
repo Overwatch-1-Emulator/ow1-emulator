@@ -5,6 +5,7 @@ rule "[lucio/crossfade.opy]: OW1 Ally Healing":
     @Event playerDealtHealing
     @Hero lucio
     @Condition eventAbility == Button.ABILITY_1
+    @Condition healee == healer
 
     heal(healer, healer, eventHealing/eventPlayer._base_healing_scalar*(OW1_LUCIO_SELF_HEALING/OW2_LUCIO_SELF_HEALING)-eventHealing)
 

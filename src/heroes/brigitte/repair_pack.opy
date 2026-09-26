@@ -1,6 +1,6 @@
 #!mainFile "../../main.opy"
 
-playervar repair_pack_duration
+playervar repair_pack_end_time
 playervar repair_pack
 #!defineMember repair_pack_target      repair_pack[0]
 #!defineMember repair_pack_travel_time repair_pack[1]
@@ -15,20 +15,18 @@ rule "[brigitte/repair.opy] OW1 Repair Pack":
     eventPlayer.repair_pack_target = eventPlayer.getRealPlayerClosestToReticle(eventPlayer.getTeam())
     eventPlayer.repair_pack_travel_time = distance(eventPlayer.getPosition(), eventPlayer.repair_pack_target)
     wait(eventPlayer.repair_pack_travel_time/OW1_BRIGITTE_REPAIR_PACK_SPEED)
-    eventPlayer.repair_pack_target.repair_pack_duration += OW1_BRIGITTE_REPAIR_PACK_DURATION
     if eventPlayer.repair_pack_target.repair_pack_id == null:
         eventPlayer.repair_pack_target.startHealingOverTime(eventPlayer, Math.INFINITY, OW1_BRIGITTE_REPAIR_PACK_HEALING)
         eventPlayer.repair_pack_target.repair_pack_id = getLastHealingOverTimeId()
+    eventPlayer.repair_pack_target.repair_pack_end_time = max(eventPlayer.repair_pack_target.repair_pack_end_time, getTotalTimeElapsed()) + OW1_BRIGITTE_REPAIR_PACK_DURATION
 
 
 
-rule "[brigitte/repair.opy]: Chase Repair pack duration":
+rule "[brigitte/repair.opy]: End Repair pack healing":
     @Event eachPlayer
-    @Condition eventPlayer.repair_pack_duration > 0
+    @Condition eventPlayer.repair_pack_id != null
+    @Condition getTotalTimeElapsed() < eventPlayer.repair_pack_end_time
 
-    chase(eventPlayer.repair_pack_duration, 0, rate=1, ChaseReeval.NONE)
-    waitUntil(eventPlayer.repair_pack_duration <= 0)
-    eventPlayer.setHealth(eventPlayer.getHealth() - 0.88) # Interal rounding error, Don't remove this!
-    stopChasingVariable(eventPlayer.repair_pack_duration)
+    waitUntil(getTotalTimeElapsed() >= eventPlayer.repair_pack_end_time, Math.INFINITY)
     stopHealingOverTime(eventPlayer.repair_pack_id)
     eventPlayer.repair_pack_id = null
